@@ -1,6 +1,7 @@
 {
   "name": "dot",
   "dependencies": {
+    "axios": "^0.21.1",
     "commander": "^6.2.1",
     "typescript": "^4.1.3"
   },

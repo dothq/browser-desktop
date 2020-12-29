@@ -1,18 +1,15 @@
 #!/bin/sh
 
-run() {
-    node .dotbuild
-}
-
 build() {
     tsc
 }
 
 if test -f ".dotbuild/index.js";
 then
-    run
+    echo $@
+    node .dotbuild $@
     build
 else
     build
-    run
+    node .dotbuild $@
 fi
