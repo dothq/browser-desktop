@@ -1,0 +1,7 @@
+firefox
+*.env
+dist
+.dotbuild
+node_modules
+*.lock
+package-lock.json
