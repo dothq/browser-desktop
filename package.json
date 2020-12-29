@@ -1,8 +1,5 @@
 {
   "name": "dot",
-  "scripts": {
-    "build": "tsc --rootDir=$PWD"
-  },
   "dependencies": {
     "commander": "^6.2.1",
     "typescript": "^4.1.3"
