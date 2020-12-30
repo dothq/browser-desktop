@@ -29,6 +29,11 @@ class Log {
         console.info(chalk.yellowBright.bold(" WARNING"), ...args)
     }
 
+    success(...args: any[]) {
+        console.log(`\n   ${chalk.greenBright.bold("SUCCESS")}`, ...args)
+    }
+
+
     error(...args: any[]) {
         throw new Error(...args);
     }

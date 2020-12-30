@@ -7,10 +7,15 @@ import execa from 'execa';
 const unpack = async (name: string, version: string) => {
     await execa("mkdir", ["-p", "firefox"]);
 
+    log.info(`Unpacking Firefox...`)
+
     await execa("tar", ["-xvf", name, "-C", "firefox"]);
 
     await execa(`./${bin_name}`, ["fix-workspaces"]);
     await execa(`./${bin_name}`, ["init", version.split("b")[0]]);
+
+    log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To learn about what to do next, head to https://example.com.`)
+    console.log()
 }
 
 export const download = async (version: string) => {
@@ -64,7 +69,6 @@ export const download = async (version: string) => {
         data.pipe(writer)
 
         data.on("end", () => {
-            log.info(`Unpacking Firefox...`)
             unpack(filename, version)
         })
     } else {

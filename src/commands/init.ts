@@ -4,6 +4,8 @@ import { resolve } from "path"
 import { log, bin_name } from ".."
 
 export const init = async (directory: string) => {
+    log.info(`Initialising through Git...`)
+    
     const dir = resolve(process.cwd(), directory);
 
     if(!existsSync(dir)) {
