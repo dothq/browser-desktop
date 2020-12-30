@@ -4,7 +4,8 @@ import Log from './log';
 
 import { 
     download, 
-    init 
+    init,
+    build
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -41,12 +42,17 @@ program
     .description("Initialise the Firefox directory.")
     .action(init)
 
+program
+    .command("build <os>")
+    .description("Build Dot Browser.")
+    .action(build)
+
 process.on('uncaughtException', (err) => {
     let cc = readFileSync(resolve(__dirname, "command"), "utf-8")
     cc = cc.replace(/(\r\n|\n|\r)/gm, "");
 
     console.log(`\n   ${chalk.redBright.bold("ERROR")} An error occurred while running command ["${cc.split(" ").join('", "')}"]:`)
-    console.log(`\n\t`, err.message.replace(/\n/, "\n\t "))
+    console.log(`\n\t`, err.message.replace(/\n/g, "\n\t "))
     if(err.stack) {
         const stack = err.stack.split("\n");
         stack.shift();
