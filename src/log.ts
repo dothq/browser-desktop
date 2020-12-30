@@ -8,7 +8,7 @@ class Log {
     }
 
     private withLeading(num: number) {
-        return (num < 10 ? '0' : '') + num
+        return num.toString().padStart(2, '0')
     }
 
     private getDiff() {
@@ -18,7 +18,7 @@ class Log {
         const mins = d.getMinutes() - this.startTime.getMinutes()
         const secs = d.getSeconds() - this.startTime.getSeconds()
 
-        return `${this.withLeading(hours)}:${this.withLeading(mins)}:${this.withLeading(secs)}`
+        return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     }
 
     info(...args: any[]) {
@@ -26,7 +26,6 @@ class Log {
     }
 
     error(...args: any[]) {
-        console.error(chalk.blueBright.bold(this.getDiff()), ...args)
         throw new Error(...args);
     }
 }

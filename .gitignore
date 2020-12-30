@@ -5,3 +5,4 @@ dist
 node_modules
 *.lock
 package-lock.json
+*.tar.xz

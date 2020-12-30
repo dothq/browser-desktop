@@ -4,16 +4,29 @@ build() {
     tsc
 }
 
+fix_workspaces() {
+    cd firefox
+    for file in *; do mv "${file}" "${file/firefox-/}"; done
+}
+
 if command -v "node" > /dev/null;
 then
-    echo "$@" >> .dotbuild/history
     rm .dotbuild/command >/dev/null 2>&1
     echo "$@" >> .dotbuild/command
 
-    if [[ $@ == "rebuild" ]];
-    then
+    case $@ in
+
+    rebuild)
+        echo Rebuilding...
         build
-    else
+    ;;
+
+    fix-workspaces)
+        fix_workspaces >/dev/null 2>&1
+        echo Updated the workspaces.
+    ;;
+
+    *)
         if test -f ".dotbuild/index.js";
         then
             node .dotbuild $@
@@ -22,7 +35,8 @@ then
             build
             node .dotbuild $@
         fi
-    fi
+    ;;
+    esac
 else
     echo "This dot command requires node, which wasn't found on the system!"
     exit 1
