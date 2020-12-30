@@ -1,7 +1,5 @@
 import execa from "execa"
-import { existsSync } from "fs"
-import { resolve } from "path"
-import { log, bin_name } from ".."
+import { log } from ".."
 import { BUILD_TARGETS } from "../constants"
 
 export const build = async (os: string) => {
