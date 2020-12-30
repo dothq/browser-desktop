@@ -11,7 +11,15 @@ export const download = async (version: string) => {
 
     if(SEMVER_REGEX.test(version)) {
         log.info(`Downloading Firefox release ${version}...`)
+
+        const res = await axios.head(`https://archive.mozilla.org/pub/firefox/releases/${version}`)
+
+        if(res.status == 200) {
+            log.info(`Downloading Firefox release ${version}...`)
+        } else {
+            log.error(`Could not locate that version of Firefox!`)
+        }
     } else {
-        log.error("Version must be in the SemVer format!")
+        log.error("Version argument must be in the SemVer format!")
     }
 }

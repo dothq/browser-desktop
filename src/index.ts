@@ -29,12 +29,13 @@ process.on('uncaughtException', (err) => {
     console.log(`\n\t An error occurred while running command ["${cc.split(" ").join('", "')}"]`)
     console.log(`\n\t`, err.message)
     if(err.stack) {
-        const stack = err.stack.split("\n")
+        const stack = err.stack.split("\n");
         stack.shift();
         stack.shift();
-        console.log(`\t`, stack.join("\n").replace(/(\r\n|\n|\r)/gm, "").replace(/    at /g, "\n\t  - "))
+        console.log(`\t`, stack.join("\n").replace(/(\r\n|\n|\r)/gm, "").replace(/    at /g, "\n\t • "))
     }
 
+    console.log()
     log.info("Exiting due to error.")
 });
       
