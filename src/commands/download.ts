@@ -4,11 +4,13 @@ import fs from 'fs';
 import { resolve } from 'path';
 import execa from 'execa';
 
-const unpack = async (name: string) => {
-    await execa("mkdir", ["-p", "firefox"])
+const unpack = async (name: string, version: string) => {
+    await execa("mkdir", ["-p", "firefox"]);
+
     await execa("tar", ["-xvf", name, "-C", "firefox"]);
-    await execa(bin_name, ["fix-workspaces"]);
-    await execa(bin_name, ["init", name.split("b")[0]]);
+
+    await execa(`./${bin_name}`, ["fix-workspaces"]);
+    await execa(`./${bin_name}`, ["init", version.split("b")[0]]);
 }
 
 export const download = async (version: string) => {
@@ -28,6 +30,13 @@ export const download = async (version: string) => {
     const res = await axios.head(url)
 
     if(res.status == 200) {
+        if(version.includes("b")) log.warning("Version includes non-numeric characters. This is probably a beta.")
+
+        if(
+            fs.existsSync(resolve(process.cwd(), "firefox", version.split("b")[0])) ||
+            fs.existsSync(resolve(process.cwd(), "firefox", "firefox-" + version.split("b")[0]))
+        ) log.error(`Workspace with version "${version.split("b")[0]}" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`)
+
         log.info(`Downloading Firefox release ${version}...`)
 
         const { data, headers } = await axios.get(url, { 
@@ -56,7 +65,7 @@ export const download = async (version: string) => {
 
         data.on("end", () => {
             log.info(`Unpacking Firefox...`)
-            unpack(filename)
+            unpack(filename, version)
         })
     } else {
         log.error(`Could not locate that version of Firefox!`)

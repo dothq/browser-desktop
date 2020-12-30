@@ -25,6 +25,10 @@ class Log {
         console.info(chalk.blueBright.bold(this.getDiff()), ...args)
     }
 
+    warning(...args: any[]) {
+        console.info(chalk.yellowBright.bold(" WARNING"), ...args)
+    }
+
     error(...args: any[]) {
         throw new Error(...args);
     }
