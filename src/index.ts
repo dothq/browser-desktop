@@ -1,31 +1,42 @@
 import { Command } from 'commander';
-import axios from 'axios';
-import { SEMVER_REGEX } from './constants';
+
+import Log from './log';
+
+import { download } from './commands';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
 const program = new Command();
+
+export let log = new Log();
 
 program
   .storeOptionsAsProperties(false)
   .passCommandToAction(false);
 
 program.version(require("../package.json").version);
-program.name("dot")
+program.name("dot");
 
 program
     .command("download [version]")
     .description("Download a release of Firefox.")
-    .action(async (version) => {
-        if(!version) {
-            const res = await axios.head(`https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US`)
-   
-            version = res.request.path.replace("/pub/firefox/releases/", "").split("/")[0]
-        }
+    .action(download)
 
-        if(SEMVER_REGEX.test(version)) {
-            console.log(version)
-        } else {
-            console.error("Version must be in the SemVer format!")
-        }
-    })
+process.on('uncaughtException', (err) => {
+    let cc = readFileSync(resolve(__dirname, "command"), "utf-8")
+    cc = cc.replace(/(\r\n|\n|\r)/gm, "");
+
+    console.log(`\n\t An error occurred while running command ["${cc.split(" ").join('", "')}"]`)
+    console.log(`\n\t`, err.message)
+    if(err.stack) {
+        const stack = err.stack.split("\n")
+        stack.shift();
+        stack.shift();
+        console.log(`\t`, stack.join("\n").replace(/(\r\n|\n|\r)/gm, "").replace(/    at /g, "\n\t  - "))
+    }
+
+    log.info("Exiting due to error.")
+});
+      
 
 program.parse(process.argv);

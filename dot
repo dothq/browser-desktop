@@ -4,12 +4,26 @@ build() {
     tsc
 }
 
-if test -f ".dotbuild/index.js";
+if command -v "node" > /dev/null;
 then
-    echo $@
-    node .dotbuild $@
-    build
+    echo "$@" >> .dotbuild/history
+    rm .dotbuild/command >/dev/null 2>&1
+    echo "$@" >> .dotbuild/command
+
+    if [[ $@ == "rebuild" ]];
+    then
+        build
+    else
+        if test -f ".dotbuild/index.js";
+        then
+            node .dotbuild $@
+        else
+            yarn
+            build
+            node .dotbuild $@
+        fi
+    fi
 else
-    build
-    node .dotbuild $@
+    echo "This dot command requires node, which wasn't found on the system!"
+    exit 1
 fi
