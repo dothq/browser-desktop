@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { bin_name, log } from '..';
-import fs from 'fs';
+import fs, { existsSync, symlinkSync } from 'fs';
 import { resolve } from 'path';
 import execa from 'execa';
 
 const unpack = async (name: string, version: string) => {
-    await execa("mkdir", ["-p", "firefox"]);
+    log.info(`Cleaning up symlinks...`)
+    await execa("rm", ["-rf", resolve(process.cwd(), `firefox`)]);
 
-    log.info(`Unpacking Firefox...`)
+    log.info(`Unpacking Firefox...`);
+    await execa("tar", ["-xvf", name, "-C", ".dotbuild"]);
 
-    await execa("tar", ["-xvf", name, "-C", "firefox"]);
+    await fs.promises.symlink(resolve(process.cwd(), ".dotbuild", `firefox-${version.split("b")[0]}`), "firefox")
+    log.info(`./firefox -> ./firefox-${version.split("b")[0]}`);
 
-    await execa(`./${bin_name}`, ["fix-workspaces"]);
-    await execa(`./${bin_name}`, ["init", version.split("b")[0]]);
+    await execa(`./${bin_name}`, ["init", "firefox"]);
 
     log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To learn about what to do next, head to https://example.com.`)
     console.log()
@@ -31,6 +33,10 @@ export const download = async (version: string) => {
     const url = `${base}${filename}`;
 
     log.info(`Locating Firefox release ${version}...`)
+
+    if(existsSync(resolve(process.cwd(), filename))) {
+        return unpack(filename, version)
+    }
 
     const res = await axios.head(url)
 
