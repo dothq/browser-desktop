@@ -1,15 +1,25 @@
 FROM archlinux:latest
+ENV SHELL=/bin/sh
+ENV MACH_USE_SYSTEM_PYTHON=true
 
-COPY firefox /browser
+RUN mkdir /worker
+WORKDIR /worker/build
+VOLUME /worker/build
 
-WORKDIR "/browser"
+RUN useradd -m worker
+RUN usermod --append --groups wheel worker
+RUN echo 'worker ALL=(ALL) NOPASSWD: ALL' >> \
+/etc/sudoers
 
 RUN pacman -Sy
-RUN pacman -S --noconfirm git mercurial python2 python3 make wget tar zip yasm
+RUN pacman -S --noconfirm base-devel git mercurial python2 python3 make wget tar zip yasm libpulse rustup python-pip
+RUN rustup install stable && rustup default stable 
+RUN cargo install cbindgen
 
-RUN git --version && \
-    hg --version && \
-    python2 --version && \
-    python3 --version
+USER worker
 
-RUN ls
+CMD sudo usermod -aG wheel worker && \
+    sudo chown -R worker:worker /worker && \
+    rustup install stable && rustup default stable  && \
+    ./mach bootstrap --application-choice browser --no-interactive && \
+    ./mach build

@@ -1,30 +1,41 @@
 import axios from 'axios';
 import { bin_name, log } from '..';
-import fs, { existsSync, symlinkSync } from 'fs';
+import fs, { existsSync, symlinkSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import execa from 'execa';
+import { dispatch } from '../dispatch';
+
+const pjson = require("../../package.json");
 
 const unpack = async (name: string, version: string) => {
     log.info(`Cleaning up symlinks...`)
     await execa("rm", ["-rf", resolve(process.cwd(), `firefox`)]);
 
     log.info(`Unpacking Firefox...`);
-    await execa("tar", ["-xvf", name, "-C", ".dotbuild"]);
+    await execa("tar", ["-xvf", name, "-C", process.cwd()]);
 
-    await fs.promises.symlink(resolve(process.cwd(), ".dotbuild", `firefox-${version.split("b")[0]}`), "firefox")
-    log.info(`./firefox -> ./firefox-${version.split("b")[0]}`);
+    await execa("mv", [`firefox-${version.split("b")[0]}`, `firefox`])
 
-    await execa(`./${bin_name}`, ["init", "firefox"]);
+    await dispatch(`./${bin_name}`, ["init", "firefox"]);
 
     log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To learn about what to do next, head to https://example.com.`)
     console.log()
+
+    pjson.versions["firefox-display"] = version;
+    pjson.versions["firefox"] = version.split("b")[0];
+
+    writeFileSync(resolve(process.cwd(), "package.json"), JSON.stringify(pjson, null, 2))
 }
 
 export const download = async (version: string) => {
+    const firefoxVersion = pjson.versions["firefox-display"];
+
     if(!version) {
         const res = await axios.head(`https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US`)
 
         version = res.request.path.replace("/pub/firefox/releases/", "").split("/")[0]
+
+        if(firefoxVersion) version = firefoxVersion;
     }
 
     const base = `https://archive.mozilla.org/pub/firefox/releases/${version}/source/`
@@ -34,13 +45,14 @@ export const download = async (version: string) => {
 
     log.info(`Locating Firefox release ${version}...`)
 
-    if(existsSync(resolve(process.cwd(), filename))) {
-        return unpack(filename, version)
+    if(existsSync(resolve(process.cwd(), ".dotbuild", `firefox-${version.split("b")[0]}`))) {
+        log.error(`Cannot download version ${version.split("b")[0]} as it already exists at "${resolve(process.cwd(), ".dotbuild", `firefox-${version.split("b")[0]}`)}"`)
     }
 
     const res = await axios.head(url)
 
     if(res.status == 200) {
+        if(version == firefoxVersion) log.info(`Version is frozen at ${firefoxVersion}!`)
         if(version.includes("b")) log.warning("Version includes non-numeric characters. This is probably a beta.")
 
         if(
