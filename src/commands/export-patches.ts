@@ -23,7 +23,7 @@ const exportModified = async (patchesDir: string, cwd: string) => {
 
     await Promise.all(files.split("\n").map(async (file, i) => {
         if(file !== "") {
-            const { stdout: diff } = await execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", file], { cwd });
+            const { stdout: diff } = await execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", "-w", file], { cwd, stripFinalNewline: false });
             const name = fileNames[i];
     
             writeFileSync(resolve(patchesDir, name), diff);
