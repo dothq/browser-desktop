@@ -19,8 +19,8 @@
     <a href="https://docs.dothq.co">Documentation</a>
     <br />
     <br />
-    <a href="https://github.com/dothq/browser-ff/actions?query=workflow%3ABuild">
-      <img src="https://github.com/dothq/browser-ff/workflows/Build/badge.svg"></img>
+    <a href="https://github.com/dothq/browser-ff/actions?query=workflow%3ABuild%20Dot%20Browser">
+      <img src="https://github.com/dothq/browser-ff/workflows/Build%20Dot%20Browser/badge.svg"></img>
     </a>
   </p>
 </p>
