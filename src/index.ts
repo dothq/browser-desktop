@@ -5,7 +5,9 @@ import Log from './log';
 import { 
     download, 
     init,
-    build
+    build,
+    exportPatches,
+    importPatches
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -46,6 +48,18 @@ program
     .command("build <os>")
     .description("Build Dot Browser.")
     .action(build)
+
+program
+    .command("export")
+    .alias("export-patches")
+    .description("Export the changed files as patches.")
+    .action(exportPatches)
+
+program
+    .command("import")
+    .alias("import-patches")
+    .description("Import patches into the browser.")
+    .action(importPatches)
 
 process.on('uncaughtException', (err) => {
     let cc = readFileSync(resolve(__dirname, "command"), "utf-8")

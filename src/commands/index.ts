@@ -1,3 +1,5 @@
 export * from './download'
 export * from './init'
 export * from './build'
+export * from './export-patches'
+export * from './import-patches'
