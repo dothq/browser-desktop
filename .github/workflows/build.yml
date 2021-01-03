@@ -1,0 +1,29 @@
+name: Build Dot Browser
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download workspace
+        run: ./melon download
+
+      - name: Import patches
+        run: ./melon import
+      
+      - name: Build inside Docker
+        run: ./melon build linux
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: obj-?/dist/bin
