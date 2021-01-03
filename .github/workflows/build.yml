@@ -16,6 +16,9 @@ jobs:
       - name: Download workspace
         run: ./melon download
 
+      - name: Check status
+        run: cd firefox && git status
+
       - name: Import patches
         run: ./melon import
       
