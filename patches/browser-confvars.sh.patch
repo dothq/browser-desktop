@@ -1,0 +1,13 @@
+diff --git a/browser/confvars.sh b/browser/confvars.sh
+index 2837c75c62e7e12be38a44960c10fb14d4e6c587..2811a15145c5889818904bce398ab4c1467e00c4 100755
+--- a/browser/confvars.sh
++++ b/browser/confvars.sh
+@@ -35,7 +35,7 @@ BROWSER_CHROME_URL=chrome://browser/content/browser.xhtml
+ # "unofficial" branding.
+ # For the mozilla-aurora repository, use "aurora".
+ MOZ_BRANDING_DIRECTORY=browser/branding/dot
+-MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/official
++MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/dot
+ MOZ_APP_ID={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+ 
+ MOZ_PROFILE_MIGRATOR=1
