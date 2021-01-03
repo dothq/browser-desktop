@@ -1,0 +1,23 @@
+diff --git a/browser/branding/unofficial/locales/en-US/brand.properties b/browser/branding/unofficial/locales/en-US/brand.properties
+index 7c86db3f43f580b4a11bb261cec365eadb56439c..92825b6a26be21ad44e6712f4f4c24c07b9f1fb5 100644
+--- a/browser/branding/unofficial/locales/en-US/brand.properties
++++ b/browser/branding/unofficial/locales/en-US/brand.properties
+@@ -2,13 +2,13 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-brandShorterName=Nightly
+-brandShortName=Nightly
+-brandFullName=Nightly
++brandShorterName=Dot
++brandShortName="Dot Browser"
++brandFullName="Dot Browser"
+ # LOCALIZATION NOTE(brandProductName):
+ # This brand name can be used in messages where the product name needs to
+ # remain unchanged across different versions (Nightly, Beta, etc.).
+-brandProductName=Firefox
+-vendorShortName=Mozilla
++brandProductName=Dot
++vendorShortName="Dot HQ"
+ 
+ syncBrandShortName=Sync

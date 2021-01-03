@@ -1,13 +1,24 @@
 diff --git a/browser/confvars.sh b/browser/confvars.sh
-index 2837c75c62e7e12be38a44960c10fb14d4e6c587..2811a15145c5889818904bce398ab4c1467e00c4 100755
+index 2837c75c62e7e12be38a44960c10fb14d4e6c587..1bb53ecf0a37476be700a20b33fb9ca4b50a6e4d 100755
 --- a/browser/confvars.sh
 +++ b/browser/confvars.sh
-@@ -35,7 +35,7 @@ BROWSER_CHROME_URL=chrome://browser/content/browser.xhtml
+@@ -3,7 +3,7 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-MOZ_APP_VENDOR=Mozilla
++MOZ_APP_VENDOR="Dot HQ"
+ MOZ_UPDATER=1
+ 
+ if test "$OS_ARCH" = "WINNT"; then
+@@ -34,8 +34,8 @@ BROWSER_CHROME_URL=chrome://browser/content/browser.xhtml
+ # For mozilla-beta, mozilla-release, or mozilla-central repositories, use
  # "unofficial" branding.
  # For the mozilla-aurora repository, use "aurora".
- MOZ_BRANDING_DIRECTORY=browser/branding/dot
+-MOZ_BRANDING_DIRECTORY=browser/branding/dot
 -MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/official
-+MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/dot
++MOZ_BRANDING_DIRECTORY=browser/branding/unofficial
++MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/unofficial
  MOZ_APP_ID={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
  
  MOZ_PROFILE_MIGRATOR=1
