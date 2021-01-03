@@ -20,7 +20,11 @@ class Log {
         const mins = d.getMinutes() - this.startTime[1]
         const secs = d.getSeconds() - this.startTime[2]
 
-        return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+        const format = (r: number) => {
+            return r.toString().length == 1 ? "0" + r : r
+        }
+
+        return `${format(hours)}:${format(mins)}:${format(secs)}`
     }
 
     info(...args: any[]) {

@@ -16,15 +16,33 @@ const unpack = async (name: string, version: string) => {
 
     await execa("mv", [`firefox-${version.split("b")[0]}`, `firefox`])
 
-    await dispatch(`./${bin_name}`, ["init", "firefox"]);
+    const proc = execa(`./${bin_name}`, ["init", "firefox"]);
 
-    log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To learn about what to do next, head to https://example.com.`)
-    console.log()
+    (proc.stdout as any).on('data', (data: any) => {
+        const d = data.toString();
 
-    pjson.versions["firefox-display"] = version;
-    pjson.versions["firefox"] = version.split("b")[0];
+        d.split("\n").forEach((line: any) => {
+            if(line.length !== 0) log.info(line)
+        });
+    });
 
-    writeFileSync(resolve(process.cwd(), "package.json"), JSON.stringify(pjson, null, 2))
+    (proc.stdout as any).on('error', (data: any) => {
+        const d = data.toString();
+
+        d.split("\n").forEach((line: any) => {
+            if(line.length !== 0) log.info(line)
+        });
+    });
+
+    proc.on('exit', () => {
+        log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To learn about what to do next, head to https://example.com.`)
+        console.log()
+    
+        pjson.versions["firefox-display"] = version;
+        pjson.versions["firefox"] = version.split("b")[0];
+    
+        writeFileSync(resolve(process.cwd(), "package.json"), JSON.stringify(pjson, null, 2))
+    })
 }
 
 export const download = async (version: string) => {
