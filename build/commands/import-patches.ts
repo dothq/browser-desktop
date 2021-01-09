@@ -27,7 +27,7 @@ export const importPatches = async () => {
         const actions = JSON.parse(readFileSync(actionsLoc, "utf-8"));
 
         actions.map((action: any) => {
-            if(action.action == "delete") {
+            if(action.action == "delete" && action.target[0] !== "") {
                 action.target.map(async (f: string) => {
                     log.info(`Applying ${f} patch-action...`)
 

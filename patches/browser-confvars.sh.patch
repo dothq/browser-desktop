@@ -1,5 +1,5 @@
 diff --git a/browser/confvars.sh b/browser/confvars.sh
-index 2837c75c62e7e12be38a44960c10fb14d4e6c587..1bb53ecf0a37476be700a20b33fb9ca4b50a6e4d 100755
+index 92871c9516f98e065c5240a4a1cc7ead1de8ef9d..21879bcf1404d38da4419bb0faba105ca712fd83 100755
 --- a/browser/confvars.sh
 +++ b/browser/confvars.sh
 @@ -3,7 +3,7 @@
@@ -15,10 +15,10 @@ index 2837c75c62e7e12be38a44960c10fb14d4e6c587..1bb53ecf0a37476be700a20b33fb9ca4
  # For mozilla-beta, mozilla-release, or mozilla-central repositories, use
  # "unofficial" branding.
  # For the mozilla-aurora repository, use "aurora".
--MOZ_BRANDING_DIRECTORY=browser/branding/dot
+-MOZ_BRANDING_DIRECTORY=browser/branding/unofficial
 -MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/official
-+MOZ_BRANDING_DIRECTORY=browser/branding/unofficial
-+MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/unofficial
++MOZ_BRANDING_DIRECTORY=browser/branding/dot
++MOZ_OFFICIAL_BRANDING_DIRECTORY=browser/branding/dot
  MOZ_APP_ID={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
  
  MOZ_PROFILE_MIGRATOR=1

@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import execa from "execa";
-import { existsSync, mkdirSync, rmdirSync, writeFileSync } from "fs";
+import { createWriteStream, mkdirSync, rmdirSync, writeFileSync } from "fs";
 import { log } from "..";
 
 const flags: {
@@ -23,10 +23,10 @@ const exportModified = async (patchesDir: string, cwd: string) => {
 
     await Promise.all(files.split("\n").map(async (file, i) => {
         if(file !== "") {
-            const { stdout: diff } = await execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", "-w", file], { cwd, stripFinalNewline: false });
+            const proc = execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", "-w", file], { cwd, stripFinalNewline: false });
             const name = fileNames[i];
     
-            writeFileSync(resolve(patchesDir, name), diff);
+            proc.stdout?.pipe(createWriteStream(resolve(patchesDir, name)))
             log.info(`Wrote "${name}" to patches directory.`)
         }
     }))
