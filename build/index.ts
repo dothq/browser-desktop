@@ -34,8 +34,8 @@ program.version(`
 program.name(bin_name);
 
 program
-    .command("download [version]")
-    .description("Download a release of Firefox.")
+    .command("download")
+    .description("Download Firefox.")
     .action(download)
 
 program
