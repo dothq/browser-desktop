@@ -1,0 +1,8 @@
+# Browser branding
+mk_add_options MOZ_APP_VENDOR="Dot HQ"
+mk_add_options MOZ_APP_BASENAME=Dot
+mk_add_options MOZ_APP_PROFILE=dot
+mk_add_options MOZ_APP_DISPLAYNAME="Dot Browser"
+mk_add_options MOZ_MACBUNDLE_ID=co.dothq.browser
+mk_add_options MOZ_DISTRIBUTION_ID=co.dothq.browser
+ac_add_options --enable-update-channel=release
