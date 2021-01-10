@@ -35,7 +35,7 @@ const unpack = async (name: string, version: string) => {
     });
 
     proc.on('exit', () => {
-        log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To learn about what to do next, head to https://example.com.`)
+        log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To begin building Dot, run |${bin_name} build|.`)
         console.log()
     
         pjson.versions["firefox-display"] = version;
