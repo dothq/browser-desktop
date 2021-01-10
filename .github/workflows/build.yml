@@ -16,17 +16,16 @@ jobs:
       - name: Download workspace
         run: ./melon download
 
-      - name: Check status
-        run: cd firefox && git status
-
       - name: Import patches
         run: ./melon import
       
       - name: Build inside Docker
-        run: ./melon build linux
+        run: |
+          chmod +x configs/linux/build_linux.sh
+          ./melon build linux
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: obj-?/dist/bin
+          path: obj-?/dist
