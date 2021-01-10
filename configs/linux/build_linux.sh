@@ -28,7 +28,7 @@ echo ""
 echo "━━━━━━━━━  Building...  ━━━━━━━━━"
 echo ""
 
-./mach build
+MOZCONFIG=/worker/configs/linux/mozconfig ./mach build
 
 echo "━━━━━━━━━  Packaging...  ━━━━━━━━━"
 echo ""
