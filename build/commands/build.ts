@@ -25,7 +25,7 @@ export const build = async (os: string) => {
         },
         HostConfig: {
             Binds: [
-                `${resolve(process.cwd(), "firefox")}:/worker/build`,
+                `${resolve(process.cwd(), "src")}:/worker/build`,
                 `${resolve(process.cwd())}:/worker`
             ],
         }
