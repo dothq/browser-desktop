@@ -7,3 +7,4 @@ package-lock.json
 *.tar.xz
 firefox
 firefox-*
+src
