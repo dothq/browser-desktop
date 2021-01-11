@@ -7,7 +7,7 @@ import rimraf from 'rimraf';
 export const importPatches = async () => {
     const patchesDir = resolve(process.cwd(), "patches");
     const actionsLoc = resolve(process.cwd(), "actions.json");
-    const cwd = resolve(process.cwd(), "firefox");
+    const cwd = resolve(process.cwd(), "src");
 
     const patches = readdirSync(patchesDir);
 

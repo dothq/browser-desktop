@@ -12,8 +12,11 @@ const flags: {
 }
 
 const getFiles = async (flags: string, cwd: string) => {
-    const { stdout: files } = await execa("git", ["diff", `--diff-filter=${flags}`, "--name-only", "--ignore-space-at-eol"], { cwd })
-    const fileNames = files.split("\n").map(f => f.replace(/\//g, "-") + ".patch")
+    const { stdout: files } = await execa("git", ["diff", `--diff-filter=${flags}`, "--name-only", "--ignore-space-at-eol", "--patch", "--staged"], { cwd })
+    const fileNames: any = files.split("\n").map(f => {
+        if(f.length !== 0) return f.replace(/\//g, "-") + ".patch"
+        else return
+    })
 
     return { files, fileNames };
 }
@@ -22,7 +25,7 @@ const exportModified = async (patchesDir: string, cwd: string) => {
     const { files, fileNames } = await getFiles("M", cwd);
 
     await Promise.all(files.split("\n").map(async (file, i) => {
-        if(file !== "") {
+        if(file) {
             const proc = execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", "-w", file], { cwd, stripFinalNewline: false });
             const name = fileNames[i];
     
@@ -45,7 +48,7 @@ const exportFlag = async (flag: string, cwd: string, actions: any[]) => {
 
 export const exportPatches = async () => {
     const patchesDir = resolve(process.cwd(), "patches");
-    const cwd = resolve(process.cwd(), "firefox");
+    const cwd = resolve(process.cwd(), "src");
 
     let actions: any[] = []
 

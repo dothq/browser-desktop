@@ -8,15 +8,12 @@ import { dispatch } from '../dispatch';
 const pjson = require("../../package.json");
 
 const unpack = async (name: string, version: string) => {
-    log.info(`Cleaning up symlinks...`)
-    await execa("rm", ["-rf", resolve(process.cwd(), `firefox`)]);
-
     log.info(`Unpacking Firefox...`);
     await execa("tar", ["-xvf", name, "-C", process.cwd()]);
 
-    await execa("mv", [`firefox-${version.split("b")[0]}`, `firefox`])
+    await execa("mv", ["-n", `firefox-${version.split("b")[0]}/*`, `src`])
 
-    const proc = execa(`./${bin_name}`, ["init", "firefox"]);
+    const proc = execa(`./${bin_name}`, ["init", "src"]);
 
     (proc.stdout as any).on('data', (data: any) => {
         const d = data.toString();

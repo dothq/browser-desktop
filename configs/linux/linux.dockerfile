@@ -10,6 +10,9 @@ RUN mkdir /worker
 WORKDIR /worker/build
 VOLUME /worker/build
 
+# Make build script executable
+RUN chmod +x $BUILD_SCRIPT
+
 # Remove password prompt for worker
 RUN useradd -m worker
 RUN usermod --append --groups wheel worker
@@ -25,4 +28,4 @@ RUN cargo install cbindgen
 # Switch to worker user for build
 USER worker
 
-CMD chmod +x $BUILD_SCRIPT && $BUILD_SCRIPT
+CMD $BUILD_SCRIPT
