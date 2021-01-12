@@ -1,4 +1,4 @@
-echo "Building Dot Browser for Linux"
+echo "Building Dot Browser for macOS"
 echo ""
 echo "This will take 10 to 60 minutes to complete."
 echo ""
