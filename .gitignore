@@ -8,3 +8,4 @@ package-lock.json
 firefox
 firefox-*
 src
+.DS_Store
