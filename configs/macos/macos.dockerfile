@@ -13,4 +13,7 @@ VOLUME /worker/build
 # Make build script executable
 RUN chmod +x $BUILD_SCRIPT
 
-CMD ls
+# Switch to worker user for build
+USER worker
+
+CMD $BUILD_SCRIPT
