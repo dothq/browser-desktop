@@ -4,6 +4,7 @@ import fs, { existsSync, symlinkSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import execa from 'execa';
 import { dispatch } from '../dispatch';
+import { moveSync } from 'fs-extra';
 
 const pjson = require("../../package.json");
 
@@ -11,7 +12,11 @@ const unpack = async (name: string, version: string) => {
     log.info(`Unpacking Firefox...`);
     await execa("tar", ["-xvf", name, "-C", process.cwd()]);
 
-    await execa("mv", ["-n", `firefox-${version.split("b")[0]}/*`, `src`])
+    moveSync(
+        resolve(process.cwd(), `firefox-${version.split("b")[0]}`),
+        resolve(process.cwd(), "src"),
+        { overwrite: true }
+    )
 
     const proc = execa(`./${bin_name}`, ["init", "src"]);
 
@@ -19,7 +24,11 @@ const unpack = async (name: string, version: string) => {
         const d = data.toString();
 
         d.split("\n").forEach((line: any) => {
-            if(line.length !== 0) log.info(line)
+            if(line.length !== 0) {
+                let t = line.split(" ");
+                t.shift();
+                log.info(t.join(" "))
+            }
         });
     });
 
@@ -27,12 +36,16 @@ const unpack = async (name: string, version: string) => {
         const d = data.toString();
 
         d.split("\n").forEach((line: any) => {
-            if(line.length !== 0) log.info(line)
+            if(line.length !== 0) {
+                let t = line.split(" ");
+                t.shift();
+                log.info(t.join(" "))
+            }
         });
     });
 
     proc.on('exit', () => {
-        log.success(`You should be ready to make changes to Dot Browser.\n\n\t   To begin building Dot, run |${bin_name} build|.`)
+        log.success(`You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`)
         console.log()
     
         pjson.versions["firefox-display"] = version;
@@ -61,8 +74,8 @@ export const download = async () => {
 
     log.info(`Locating Firefox release ${version}...`)
 
-    if(existsSync(resolve(process.cwd(), ".dotbuild", `firefox-${version.split("b")[0]}`))) {
-        log.error(`Cannot download version ${version.split("b")[0]} as it already exists at "${resolve(process.cwd(), ".dotbuild", `firefox-${version.split("b")[0]}`)}"`)
+    if(existsSync(resolve(process.cwd(), `firefox-${version.split("b")[0]}`))) {
+        log.error(`Cannot download version ${version.split("b")[0]} as it already exists at "${resolve(process.cwd(), `firefox-${version.split("b")[0]}`)}"`)
     }
 
     if(version == firefoxVersion) log.info(`Version is frozen at ${firefoxVersion}!`)

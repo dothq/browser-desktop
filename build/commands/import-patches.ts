@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from "fs";
 import execa from "execa";
 import { log } from "..";
 import rimraf from 'rimraf';
+import { copySync } from "fs-extra";
 
 export const importPatches = async () => {
     const patchesDir = resolve(process.cwd(), "patches");
@@ -38,5 +39,11 @@ export const importPatches = async () => {
         })
     }
 
-    log.info(`Successfully applied ${patches.length + totalActions} patches.`)
+    log.info("Applying branding patch...")
+    copySync(
+        resolve(process.cwd(), "common", "browser", "branding", "dot"),
+        resolve(cwd, "browser", "branding", "dot")
+    )
+
+    log.info(`Successfully applied ${patches.length + totalActions + 1} patches.`)
 }
