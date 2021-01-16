@@ -12,9 +12,9 @@ const flags: {
 }
 
 const getFiles = async (flags: string, cwd: string) => {
-    const { stdout: files } = await execa("git", ["diff", `--diff-filter=${flags}`, "--name-only", "--ignore-space-at-eol", "--patch", "--staged"], { cwd })
+    const { stdout: files } = await execa("git", ["diff", `--diff-filter=${flags}`, "--name-only", "--ignore-space-at-eol"], { cwd })
     const fileNames: any = files.split("\n").map(f => {
-        if(f.length !== 0) return f.replace(/\//g, "-") + ".patch"
+        if(f.length !== 0) return f.replace(/\//g, "-").replace(/\./g, "-") + ".patch"
         else return
     })
 

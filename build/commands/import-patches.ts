@@ -45,5 +45,11 @@ export const importPatches = async () => {
         resolve(cwd, "browser", "branding", "dot")
     )
 
-    log.info(`Successfully applied ${patches.length + totalActions + 1} patches.`)
+    log.info("Applying dot.js patch...")
+    copySync(
+        resolve(process.cwd(), "common", "browser", "app", "profile", "dot.js"),
+        resolve(cwd, "browser", "app", "profile", "dot.js")
+    )
+
+    log.info(`Successfully applied ${patches.length + totalActions + 2} patches.`)
 }
