@@ -1,5 +1,3 @@
-. ../common/mozconfig
-
 # Optimise builds
 ac_add_options --enable-application=browser
 ac_add_options --enable-hardening
