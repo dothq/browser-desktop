@@ -7,7 +7,8 @@ import {
     init,
     build,
     exportPatches,
-    importPatches
+    importPatches,
+    run
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -60,6 +61,11 @@ program
     .alias("import-patches")
     .description("Import patches into the browser.")
     .action(importPatches)
+
+program
+    .command("run")
+    .description("Run the browser.")
+    .action(run)
 
 process.on('uncaughtException', (err) => {
     let cc = readFileSync(resolve(__dirname, "command"), "utf-8")
