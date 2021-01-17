@@ -15,8 +15,6 @@ export const importPatches = async () => {
 
     
     await Promise.all(patches.map(async patch => {
-        log.info(`Preparing ${patch}...`)
-
         await execa("git", [
             "apply",
             "-R",
