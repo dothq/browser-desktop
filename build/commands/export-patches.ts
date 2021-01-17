@@ -65,10 +65,10 @@ export const exportPatches = async () => {
     await exportFlag("D", cwd, actions);
     console.log();
 
-    log.info("Exporting added files...");
-    await exportFlag("A", cwd, actions);
-    console.log();
+    // log.info("Exporting added files...");
+    // await exportFlag("A", cwd, actions);
+    // console.log();
 
-    log.info("Writing actions...");
-    writeFileSync(resolve(process.cwd(), "actions.json"), JSON.stringify(actions, null, 2))
+    // log.info("Writing actions...");
+    // writeFileSync(resolve(process.cwd(), "actions.json"), JSON.stringify(actions, null, 2))
 }
