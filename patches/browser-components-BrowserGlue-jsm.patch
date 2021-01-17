@@ -1,8 +1,8 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 869a90ef40f99846fa570f53b094e9bb688c8c34..d018bffe46ea05718ed8a08d41fc00c1d448582f 100644
+index 869a90ef40f99846fa570f53b094e9bb688c8c34..1c286fff06ef50da9695a133124bb59ae2b2411f 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -1408,9 +1408,9 @@ BrowserGlue.prototype = {
+@@ -1408,16 +1408,16 @@ BrowserGlue.prototype = {
        "resource://builtin-themes/dark/"
      );
      AddonManager.maybeInstallBuiltinAddon(
@@ -15,3 +15,11 @@ index 869a90ef40f99846fa570f53b094e9bb688c8c34..d018bffe46ea05718ed8a08d41fc00c1
      );
  
      if (AppConstants.MOZ_NORMANDY) {
+       Normandy.init();
+     }
+ 
+-    SaveToPocket.init();
++    // SaveToPocket.init();
+ 
+     AboutHomeStartupCache.init();
+ 
