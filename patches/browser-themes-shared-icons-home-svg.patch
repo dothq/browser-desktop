@@ -1,0 +1,13 @@
+diff --git a/browser/themes/shared/icons/home.svg b/browser/themes/shared/icons/home.svg
+index a605303c2d5eac86f1ecbd4a1f0490234332b87c..4bcd9efee490d0d91ce40d6c1a36173a32707e96 100644
+--- a/browser/themes/shared/icons/home.svg
++++ b/browser/themes/shared/icons/home.svg
+@@ -1,6 +1,3 @@
+-<!-- This Source Code Form is subject to the terms of the Mozilla Public
+-   - License, v. 2.0. If a copy of the MPL was not distributed with this
+-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+-  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M15.707,7.293l-7-7a1,1,0,0,0-1.414,0l-7,7A1,1,0,0,0,1.707,8.707L2,8.414V14a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V8.414l.293.293a1,1,0,0,0,1.414-1.414ZM8,11.5a.5.5,0,1,1,.5.5A.5.5,0,0,1,8,11.5ZM12,13a1,1,0,0,1-1,1H10V9A1,1,0,0,0,9,8H7A1,1,0,0,0,6,9v5H5a1,1,0,0,1-1-1V6.414l4-4,4,4Z"/>
++<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
++<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M1.00076 13.9574V5.81416C1.00076 5.79622 1.00007 5.77856 1 5.76062C0.999636 5.65445 1.02374 5.25306 1.38903 4.96505L7.43383 0.199092C7.77051 -0.066364 8.22949 -0.066364 8.56617 0.199092L14.611 4.96505C14.9763 5.25306 15.0004 5.65445 15 5.76062C14.9999 5.77856 14.9992 5.79622 14.9992 5.81416V13.9574C14.9992 15.0855 14.2158 16 13.2494 16H2.75057C1.78418 16 1.00076 15.0855 1.00076 13.9574ZM2.99662 6.44703C2.84139 6.576 2.75057 6.7745 2.75057 6.98479V13.2766C2.75057 13.6526 3.03545 13.9574 3.38687 13.9574H12.6131C12.9645 13.9574 13.2494 13.6526 13.2494 13.2766V6.98479C13.2494 6.7745 13.1586 6.576 13.0034 6.44703L8.39025 2.6141C8.16063 2.42332 7.83937 2.42332 7.60975 2.6141L2.99662 6.44703Z" />
+ </svg>

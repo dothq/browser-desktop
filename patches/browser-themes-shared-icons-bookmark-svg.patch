@@ -1,0 +1,20 @@
+diff --git a/browser/themes/shared/icons/bookmark.svg b/browser/themes/shared/icons/bookmark.svg
+index 7a33d7461b0975c70ce2d44768151faa114376e2..b2b362e139873599265442ce8a750339ead5d120 100644
+--- a/browser/themes/shared/icons/bookmark.svg
++++ b/browser/themes/shared/icons/bookmark.svg
+@@ -1,6 +1,10 @@
+-<!-- This Source Code Form is subject to the terms of the Mozilla Public
+-   - License, v. 2.0. If a copy of the MPL was not distributed with this
+-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+-  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M15.845 6.064A1.1 1.1 0 0 0 15 5.331L10.911 4.6 8.985.735a1.1 1.1 0 0 0-1.969 0L5.089 4.6l-4.081.729a1.1 1.1 0 0 0-.615 1.834L3.32 10.31l-.609 4.36a1.1 1.1 0 0 0 1.6 1.127L8 13.873l3.69 1.927a1.1 1.1 0 0 0 1.6-1.127l-.61-4.363 2.926-3.146a1.1 1.1 0 0 0 .239-1.1z"/>
++<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
++<g clip-path="url(#clip0)">
++<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M8.00002 0C8.39521 0 8.75333 0.232734 8.91383 0.593862L10.7036 4.62092L15.1961 5.51942C15.5461 5.58941 15.8322 5.84059 15.9469 6.17853C16.0617 6.51646 15.9876 6.88993 15.7526 7.1585L12.578 10.7867L13.3877 14.8023C13.4619 15.1704 13.3237 15.549 13.0299 15.7826C12.7361 16.0163 12.3361 16.0658 11.9942 15.9106L8.02724 14.1105L4.56848 15.8893C4.24024 16.0581 3.8457 16.0324 3.54216 15.8224C3.23862 15.6123 3.07545 15.2522 3.1177 14.8855L3.5843 10.8361L0.259459 7.17199C0.0174705 6.90531 -0.0624448 6.52911 0.0502359 6.18709C0.162917 5.84507 0.450789 5.59004 0.803903 5.51942L5.2964 4.62092L7.08621 0.593862C7.24671 0.232734 7.60483 0 8.00002 0Z" />
++</g>
++<defs>
++<clipPath id="clip0">
++<rect width="16" height="16" fill="white"/>
++</clipPath>
++</defs>
+ </svg>
