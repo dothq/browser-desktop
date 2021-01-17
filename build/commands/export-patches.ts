@@ -26,7 +26,7 @@ const exportModified = async (patchesDir: string, cwd: string) => {
 
     await Promise.all(files.split("\n").map(async (file, i) => {
         if(file) {
-            const proc = execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", "-w", file], { cwd, stripFinalNewline: false });
+            const proc = execa("git", ["diff", "--src-prefix=a/", "--dst-prefix=b/", "--full-index", file], { cwd, stripFinalNewline: false });
             const name = fileNames[i];
     
             proc.stdout?.pipe(createWriteStream(resolve(patchesDir, name)))

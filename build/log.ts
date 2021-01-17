@@ -36,7 +36,7 @@ class Log {
     }
 
     success(...args: any[]) {
-        console.log(`\n   ${chalk.greenBright.bold("SUCCESS")}`, ...args)
+        console.log(`\n${chalk.greenBright.bold("SUCCESS")}`, ...args)
     }
 
 

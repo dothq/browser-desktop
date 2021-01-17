@@ -12,14 +12,26 @@ export const importPatches = async () => {
 
     const patches = readdirSync(patchesDir);
 
+
+    
     await Promise.all(patches.map(async patch => {
-        log.info(`Applying ${patch}...`)
+        log.info(`Preparing ${patch}...`)
 
         await execa("git", [
-            "apply", 
-            "--3way", 
+            "apply",
+            "-R",
             `../patches/${patch}`
-        ], { cwd, stripFinalNewline: false });
+        ], { cwd }).then(async _ => {
+            log.info(`Applying ${patch}...`)
+
+            await execa("git", [
+                "apply", 
+                "--ignore-space-change",
+                "--ignore-whitespace", 
+                "--verbose",
+                `../patches/${patch}`
+            ], { cwd, stripFinalNewline: false });
+        })
     }))
 
     let totalActions = 0;
@@ -51,5 +63,5 @@ export const importPatches = async () => {
         resolve(cwd, "browser", "app", "profile", "dot.js")
     )
 
-    log.info(`Successfully applied ${patches.length + totalActions + 2} patches.`)
+    log.success(`Successfully applied ${patches.length + totalActions + 2} patches.`)
 }
