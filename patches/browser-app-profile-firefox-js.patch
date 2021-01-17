@@ -1,8 +1,8 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index 2588a53cf233433e27cfda5c2f10db0aa286d7c8..50c05e355d0e73763d2e8b4c154be03225f7bd3a 100644
+index 2588a53cf233433e27cfda5c2f10db0aa286d7c8..45f9965bc787e4ee2a4e876b9d3bf691c4be4a66 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
-@@ -2500,3 +2500,86 @@ pref("first-startup.timeout", 30000);
+@@ -2500,3 +2500,88 @@ pref("first-startup.timeout", 30000);
  #ifdef XP_WIN
    pref("default-browser-agent.enabled", true);
  #endif
@@ -76,6 +76,8 @@ index 2588a53cf233433e27cfda5c2f10db0aa286d7c8..50c05e355d0e73763d2e8b4c154be032
 +
 +// Security
 +pref("security.insecure_connection_text.enabled", true);
++pref("privacy.donottrackheader.enabled", true);
++pref("browser.contentblocking.category", "strict");
 +
 +// Pocket
 +pref("extensions.pocket.api", "");
