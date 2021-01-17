@@ -30,9 +30,14 @@ echo ""
 echo "━━━━━━━━━  Building...  ━━━━━━━━━"
 echo ""
 
-MOZCONFIG=/worker/configs/linux/mozconfig ./mach build
+MOZCONFIG=/worker/build/mozconfig ./mach build
 
 echo "━━━━━━━━━  Packaging...  ━━━━━━━━━"
 echo ""
 
 ./mach package
+
+echo ""
+echo "Dot Browser was successfully built!"
+echo "To take your build for a test drive, run: |melon run|"
+echo ""

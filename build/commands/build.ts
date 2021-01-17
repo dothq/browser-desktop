@@ -1,6 +1,6 @@
 import execa from "execa"
 import { resolve } from "path"
-import { log } from ".."
+import { bin_name, log } from ".."
 import { BUILD_TARGETS } from "../constants"
 import { dispatch } from "../dispatch"
 import Docker from 'dockerode';
@@ -53,4 +53,5 @@ export const build = async (os: string) => {
     })
 
     await container.start()
+    await container.wait()
 }

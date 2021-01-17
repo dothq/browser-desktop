@@ -13,14 +13,14 @@ export const run = async () => {
     const objDir = resolve(cwd, objDirname);
 
     if(existsSync(objDir)) {
-        const artifactPath = resolve(objDir, "dist", "bin", "dot");
+        const artifactPath = resolve(objDir, "dist", "dot", "dot");
 
         if(existsSync(artifactPath)) {
             log.info("Starting `dot`...")
 
             execa(artifactPath).stdout?.pipe(process.stdout);
         } else {
-            log.error(`Cannot binary with name \`dot\` in ${resolve(objDir, "dist", "bin")}`)
+            log.error(`Cannot binary with name \`dot\` in ${resolve(objDir, "dist", "dot")}`)
         }
     } else {
         log.error(`Unable to locate any built binaries.\nRun |${bin_name} build| to initiate a build.`)
