@@ -1,0 +1,47 @@
+diff --git a/browser/themes/addons/light/manifest.json b/browser/themes/addons/light/manifest.json
+index 24ffe228d2363935663a3f78acc3a857160ffdd3..dddafdd49c4b878edaa7488c93a8839f9f5d33c6 100644
+--- a/browser/themes/addons/light/manifest.json
++++ b/browser/themes/addons/light/manifest.json
+@@ -10,7 +10,7 @@
+   "name": "Light",
+   "description": "A theme with a light color scheme.",
+   "author": "Mozilla",
+-  "version": "1.1",
++  "version": "1.0",
+ 
+   "icons": {"32": "icon.svg"},
+ 
+@@ -18,16 +18,25 @@
+     "colors": {
+       "tab_background_text": "rgb(24, 25, 26)",
+       "icons": "rgb(24, 25, 26, 0.7)",
+-      "frame": "#E3E4E6",
+-      "popup": "#fff",
++      "frame": "#ECECEC",
++      "popup": "#ffffff",
+       "popup_text": "#0c0c0d",
+-      "popup_border": "#ccc",
+-      "tab_line": "#0a84ff",
+-      "toolbar": "#f5f6f7",
+-      "toolbar_bottom_separator": "#ccc",
+-      "toolbar_field": "#fff",
++      "popup_border": "#E5E5E5",
++      "tab_line": "#E0E1E7",
++      "toolbar": "#ffffff",
++      "toolbar_top_separator": "#E5E5E5",
++      "toolbar_bottom_separator": "#F4F4F4",
++      "toolbar_vertical_separator": "#E5E5E5",
++      "toolbar_field": "#F7F8F9",
+       "toolbar_field_text": "rgb(24, 25, 26)",
+-      "toolbar_field_border": "#ccc"
++      "toolbar_field_border": "#fff",
++      "toolbar_field_focus": "#ffffff",
++      "toolbar_field_separator": "#E5E5E5",
++      "button_background_hover": "#00000012",
++      "button_background_active": "#00000024",
++      "popup_highlight": "#256EF5",
++      "ntp_background": "#ffffff",
++      "sidebar": "#FBFBFB"
+     }
+   },
+ 

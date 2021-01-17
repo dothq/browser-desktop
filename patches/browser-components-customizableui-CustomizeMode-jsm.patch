@@ -1,0 +1,18 @@
+diff --git a/browser/components/customizableui/CustomizeMode.jsm b/browser/components/customizableui/CustomizeMode.jsm
+index 9ce362d45d5fb95ec373448103b338f4f37d9022..f8b01845224bb0bc654bfa1209f4fca6ad4ba977 100644
+--- a/browser/components/customizableui/CustomizeMode.jsm
++++ b/browser/components/customizableui/CustomizeMode.jsm
+@@ -92,13 +92,11 @@ XPCOMUtils.defineLazyGetter(this, "log", () => {
+ const DEFAULT_THEME_ID = "default-theme@mozilla.org";
+ const LIGHT_THEME_ID = "firefox-compact-light@mozilla.org";
+ const DARK_THEME_ID = "firefox-compact-dark@mozilla.org";
+-const ALPENGLOW_THEME_ID = "firefox-alpenglow@mozilla.org";
+ 
+ const _defaultImportantThemes = [
+   DEFAULT_THEME_ID,
+   LIGHT_THEME_ID,
+   DARK_THEME_ID,
+-  ALPENGLOW_THEME_ID,
+ ];
+ 
+ var gDraggingInToolbars;
