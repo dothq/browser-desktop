@@ -1,16 +1,17 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 869a90ef40f99846fa570f53b094e9bb688c8c34..d73b2895aaaab35525498b5086787357c431e3d2 100644
+index 869a90ef40f99846fa570f53b094e9bb688c8c34..d018bffe46ea05718ed8a08d41fc00c1d448582f 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -1407,11 +1407,6 @@ BrowserGlue.prototype = {
-       "1.1",
+@@ -1408,9 +1408,9 @@ BrowserGlue.prototype = {
        "resource://builtin-themes/dark/"
      );
--    AddonManager.maybeInstallBuiltinAddon(
+     AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-alpenglow@mozilla.org",
 -      "1.2",
 -      "resource://builtin-themes/alpenglow/"
--    );
++      "dot-fusion@dothq.co",
++      "0.1",
++      "resource://builtin-themes/fusion/"
+     );
  
      if (AppConstants.MOZ_NORMANDY) {
-       Normandy.init();
