@@ -3,7 +3,18 @@ import { existsSync, readdirSync, readFileSync } from "fs";
 import execa from "execa";
 import { log } from "..";
 import rimraf from 'rimraf';
-import { copySync } from "fs-extra";
+import { copySync, ensureDirSync } from "fs-extra";
+import manualPatches from "../manual-patches";
+
+interface IPatch {
+    name: string;
+    action: string;
+    src: string | string[];
+}
+
+const getChunked = (location: string) => {
+    return location.replace(/\\/g, "/").split("/")
+}
 
 export const importPatches = async () => {
     const patchesDir = resolve(process.cwd(), "patches");
@@ -12,8 +23,6 @@ export const importPatches = async () => {
 
     const patches = readdirSync(patchesDir);
 
-
-    
     await Promise.all(patches.map(async patch => {
         await execa("git", [
             "apply",
@@ -34,32 +43,32 @@ export const importPatches = async () => {
 
     let totalActions = 0;
 
-    if(existsSync(actionsLoc)) {
-        const actions = JSON.parse(readFileSync(actionsLoc, "utf-8"));
+    manualPatches.forEach((patch: IPatch) => {
+        log.info(`Applying ${patch.name} patch...`)
 
-        actions.map((action: any) => {
-            if(action.action == "delete" && action.target[0] !== "") {
-                action.target.map(async (f: string) => {
-                    log.info(`Applying ${f} patch-action...`)
-
-                    rimraf.sync(f);
+        switch (patch.action) {
+            case "copy":
+                if(typeof(patch.src) == "string") {
+                    copySync(
+                        resolve(process.cwd(), "common", ...getChunked(patch.src)),
+                        resolve(cwd, ...getChunked(patch.src))
+                    )
+    
                     ++totalActions;
-                })
-            }
-        })
-    }
+                } else if(Array.isArray(patch.src)) {
+                    patch.src.forEach(i => {
+                        ensureDirSync(i);
 
-    log.info("Applying branding patch...")
-    copySync(
-        resolve(process.cwd(), "common", "browser", "branding", "dot"),
-        resolve(cwd, "browser", "branding", "dot")
-    )
+                        copySync(
+                            resolve(process.cwd(), "common", ...getChunked(i)),
+                            resolve(cwd, ...getChunked(i))
+                        )
+        
+                        ++totalActions;
+                    })
+                }
+        }
+    })
 
-    log.info("Applying dot.js patch...")
-    copySync(
-        resolve(process.cwd(), "common", "browser", "app", "profile", "dot.js"),
-        resolve(cwd, "browser", "app", "profile", "dot.js")
-    )
-
-    log.success(`Successfully applied ${patches.length + totalActions + 2} patches.`)
+    log.success(`Successfully applied ${patches.length + totalActions} patches.`)
 }
