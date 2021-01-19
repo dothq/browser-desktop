@@ -24,7 +24,7 @@ jobs:
           cd src
           git init
           git checkout --orphan base
-          git add -f *
+          git add -f .
           git checkout -b dot
 
       - name: Import patches
