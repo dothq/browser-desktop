@@ -25,4 +25,4 @@ RUN cargo install cbindgen
 # Switch to worker user for build
 USER worker
 
-CMD chmod +x $BUILD_SCRIPT && $BUILD_SCRIPT
+CMD sudo chmod +x $BUILD_SCRIPT && $BUILD_SCRIPT
