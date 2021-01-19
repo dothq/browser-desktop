@@ -1,0 +1,23 @@
+{
+    "channels": [
+        {
+            "channel": "nightly",
+            "branch": "main",
+            "default": true
+        },
+        {
+            "channel": "beta",
+            "branch": "beta",
+            "merge-frequency": "4w"
+        },
+        {
+            "channel": "stable",
+            "branch": "stable",
+            "merge-frequency": "4w"
+        }
+    ],
+    "next_merge": {
+        "beta": "2021-02-01T00:00:00.000Z",
+        "stable": "2021-02-22T00:00:00.000Z"
+    }
+}
