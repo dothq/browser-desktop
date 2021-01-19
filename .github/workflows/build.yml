@@ -19,7 +19,13 @@ jobs:
           git config user.name dothq-robot --global
 
       - name: Download workspace
-        run: ./melon download
+        run: |
+          ./melon download
+          cd src
+          git init
+          git checkout --orphan base
+          git add -f * .*
+          git checkout -b dot
 
       - name: Import patches
         run: ./melon import
