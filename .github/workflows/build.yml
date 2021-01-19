@@ -21,7 +21,8 @@ jobs:
       
       - name: Build inside Docker
         run: |
-          chmod +x configs/linux/build_linux.sh
+          ls -l ./configs/linux
+          sudo chmod +x ./configs/linux/build_linux.sh
           ./melon build linux
         
       - name: Upload artifacts
