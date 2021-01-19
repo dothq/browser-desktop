@@ -24,21 +24,23 @@ export const importPatches = async () => {
     const patches = readdirSync(patchesDir);
 
     await Promise.all(patches.map(async patch => {
-        await execa("git", [
-            "apply",
-            "-R",
-            `../patches/${patch}`
-        ], { cwd }).then(async _ => {
+        const apply = async () => {
             log.info(`Applying ${patch}...`)
 
             await execa("git", [
                 "apply", 
-                "--reject",
-                "--whitespace=fix",
+                "--ignore-space-change",
+                "--ignore-whitespace", 
                 "--verbose",
                 `../patches/${patch}`
             ], { cwd, stripFinalNewline: false });
-        })
+        }
+
+        await execa("git", [
+            "apply",
+            "-R",
+            `../patches/${patch}`
+        ], { cwd }).then(async _ => apply()).catch(async _ => apply())
     }))
 
     let totalActions = 0;
