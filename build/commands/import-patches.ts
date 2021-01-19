@@ -33,8 +33,8 @@ export const importPatches = async () => {
 
             await execa("git", [
                 "apply", 
-                "--ignore-space-change",
-                "--ignore-whitespace", 
+                "--reject",
+                "--whitespace=fix",
                 "--verbose",
                 `../patches/${patch}`
             ], { cwd, stripFinalNewline: false });
