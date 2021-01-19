@@ -13,10 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Download workspace
+      - name: Set up Git User
         run: |
-          ./melon download
-          ./melon init src
+          git config user.email 72629236+dothq-robot@users.noreply.github.com --global
+          git config user.name dothq-robot --global
+
+      - name: Download workspace
+        run: ./melon download
 
       - name: Import patches
         run: ./melon import
