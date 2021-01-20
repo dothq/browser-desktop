@@ -43,7 +43,7 @@ You can create issues [here](https://github.com/dothq/browser/issues/new) or get
 
 ## 🗺 Roadmap
 
-You can find the Dot Browser roadmap at [dothq/browser#353](https://github.com/dothq/browser/discussions/353).
+You can find the Dot Browser roadmap [here](https://www.notion.so/dotbrowser/414c67d823404d8cbd5122010b350903).
 
 ## ❤️ Acknowledgements
 - Dot Browser wouldn't be possible without the amazing [Firefox open-source project](https://hg.mozilla.org/mozilla-central/), developed by [Mozilla](https://mozilla.org).
