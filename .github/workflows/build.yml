@@ -25,7 +25,7 @@ jobs:
           git init
           git checkout --orphan base
           git add -f .
-          git commit -am "Firefox" > /dev/null
+          git commit -am "Firefox"
           git checkout -b dot
 
       - name: Import patches
