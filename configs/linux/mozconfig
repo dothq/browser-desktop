@@ -8,6 +8,8 @@ ac_add_options --with-ccache=sccache
 ac_add_options --disable-debug
 ac_add_options --enable-updater
 
+mk_add_options MOZ_USER_DIR="Dot Browser"
+
 # Disable telemetry and tracking
 mk_add_options MOZ_TELEMETRY_REPORTING=
 mk_add_options MOZ_DATA_REPORTING=
