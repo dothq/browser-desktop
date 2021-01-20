@@ -1,0 +1,13 @@
+diff --git a/toolkit/themes/shared/menu-scrolling.inc.css b/toolkit/themes/shared/menu-scrolling.inc.css
+index 9c1050b9e6115939396fa31cc555273f0f0e6f98..d9562acc85bd35cc058e489351b9594467d3e445 100644
+--- a/toolkit/themes/shared/menu-scrolling.inc.css
++++ b/toolkit/themes/shared/menu-scrolling.inc.css
+@@ -2,6 +2,8 @@
+ % License, v. 2.0. If a copy of the MPL was not distributed with this
+ % file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
++%include ../../../browser/themes/shared/dotui/panelui.inc.css
++
+ /* Scroll buttons */
+ 
+ /* Hide arrow buttons when there's nothing to scroll in that direction */

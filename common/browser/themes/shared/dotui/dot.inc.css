@@ -1,0 +1,214 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+%include panelui.inc.css
+
+:root {
+    --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
+    --tab-min-width: 104px !important;
+}
+
+#urlbar {
+    --urlbar-height: 30px !important;
+}
+
+.tabbrowser-tab .tab-stack .tab-background,
+.tabbrowser-tab {
+    border-radius: 8px 8px 0 0;
+    transition: 0.2s background cubic-bezier(.19,1,.22,1), 0.2s background-color cubic-bezier(.19,1,.22,1);
+}
+
+.tabbrowser-tab .tab-stack .tab-background .tab-line {
+    height: 0px !important;
+}
+
+.tabbrowser-tab .tab-stack {
+    margin-top: 2px;
+}
+
+.tab-background[multiselected="true"], .tab-background[selected="true"] {
+    border: 0px solid transparent;
+}
+
+.tabbrowser-tab::after {
+    transition: 0.2s opacity, visibility 0ms 25ms !important;
+}
+
+.tabbrowser-tab[selected="true"]::after {
+    opacity: 0 !important;
+}
+
+.tabbrowser-tab:hover::after {
+    opacity: 0 !important;
+}
+
+.tabbrowser-tab::after {
+    margin-top: 8px !important;
+    margin-bottom: 6px !important;
+}
+
+.titlebar-spacer[type="pre-tabs"] {
+    border-inline-color: transparent !important;
+}
+
+#nav-bar {
+    box-shadow: none !important;
+}
+
+#tabs-newtab-button {
+    padding-top: 2px !important;
+}
+
+#urlbar[breakout][breakout-extend] > #urlbar-background {
+    box-shadow: 0 25.6px 57.6px 0 rgba(0,0,0,.22),0 4.8px 14.4px 0 rgba(0,0,0,.18) !important;
+}
+
+#urlbar > #urlbar-background {
+    border-color: var(--lwt-toolbar-field-background-color) !important;
+}
+
+#urlbar:not([focused="true"]) > #urlbar-background {
+    box-shadow: none !important;
+}
+
+#statuspanel-label {
+    background-color: var(--toolbar-bgcolor) !important;
+    border-color: var(--chrome-content-separator-color) !important;
+    color: var(--toolbar-color) !important;
+    box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
+}
+
+.panel-arrowcontent {
+    border-radius: 6px;
+}
+
+.subviewbutton[shortcut]::after {
+	opacity: 0.7;
+}
+
+#urlbar > #urlbar-input-container > #identity-box {
+    padding-inline: 8px !important;
+}
+
+#urlbar[focused="true"] > #urlbar-input-container > #identity-box, 
+#urlbar[focused="true"] > #urlbar-input-container > #tracking-protection-icon-container {
+    border-radius: 4px;
+}
+
+#urlbar[focused="true"] > #urlbar-input-container > #page-action-buttons > .urlbar-icon-wrapper, 
+#urlbar[focused="true"] > #urlbar-input-container > #page-action-buttons > .urlbar-icon,
+#urlbar[focused="true"] .urlbar-icon {
+    border-radius: 4px;
+}
+
+#urlbar .searchbar-engine-one-off-item {
+	border-radius: 4px;
+}
+
+#identity-icon-label {
+	padding-inline-start: 8px !important;
+}
+
+#identity-icon {
+	margin-inline-start: 2px !important;
+}
+
+#tracking-protection-icon-container {
+	padding-inline: 8px !important;
+}
+
+notification[type], notification {
+    background-color: var(--toolbar-bgcolor) !important;
+    border-color: var(--chrome-content-separator-color) !important;
+    padding: 6px 0 6px !important;
+    padding-inline-start: 14px !important;
+}
+
+tabmodalprompt {
+	height: calc(100% + 20px);
+    margin-top: -20px;
+    background-color: transparent !important;
+}
+
+tabmodalprompt:not([hidden]) {
+    grid-template-rows: 0fr [dialog-start] auto [dialog-end] 2fr !important;
+}
+
+.paymentDialogContainerFrame, .tabmodalprompt-mainContainer {
+	color: -moz-fieldText;
+	border-radius: 6px;
+	background-color: var(--arrowpanel-background);
+    box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
+    border: none !important;
+}
+
+#back-button {
+    padding-inline-start: 5px !important;
+}
+
+#back-button > .toolbarbutton-icon {
+    width: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+    height: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+    padding: var(--toolbarbutton-inner-padding) !important;
+    border-radius: var(--toolbarbutton-border-radius) !important;
+}
+
+:root:not([uidensity="compact"]) #back-button > .toolbarbutton-icon,
+#back-button[disabled] > .toolbarbutton-icon,
+#back-button[open] > .toolbarbutton-icon {
+    background-color: transparent !important;
+}
+
+#back-button {
+    --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
+}
+
+#back-button > menupopup {
+    margin-top: unset !important;
+}
+
+.tab-icon-image[src="chrome://branding/content/icon32.png"] {
+    display: none !important;
+}
+
+#identity-box.readerIdentity > #identity-icon {
+    list-style-image: url(chrome://browser/skin/readerMode.svg);
+    fill: unset;
+}
+
+#fxa-toolbar-menu-button > .toolbarbutton-badge-stack {
+    padding: 0 !important;
+    width: calc(var(--toolbarbutton-inner-padding) * 4.66666667) !important;
+    height: calc(var(--toolbarbutton-inner-padding) * 4.66666667) !important;
+}
+
+#fxa-toolbar-menu-button > .toolbarbutton-badge-stack > vbox > #fxa-avatar-image {
+    width: calc(var(--toolbarbutton-inner-padding) * 3.33335) !important;
+    height: calc(var(--toolbarbutton-inner-padding) * 3.33335) !important;
+    min-width: calc(var(--toolbarbutton-inner-padding) * 3.33335) !important;
+    min-height: calc(var(--toolbarbutton-inner-padding) * 3.33335) !important;
+    margin-top: calc(var(--toolbarbutton-inner-padding) / 1.5) !important;
+}
+
+.tabbrowser-tab > .tab-stack > .tab-background > .tab-bottom-line {
+	margin-bottom: 28px !important;
+	height: 2px !important;
+	background-color: var(--identity-tab-color) !important;
+    opacity: 1;
+    margin: 0 32px;
+}
+
+#context-pocket,
+#context-savelinktopocket,
+#appMenu-library-pocket-button {
+  display: none !important;
+}
+
+.tabbrowser-tab::after,
+.tabbrowser-tab::before {
+    opacity: 0.3 !important;
+}

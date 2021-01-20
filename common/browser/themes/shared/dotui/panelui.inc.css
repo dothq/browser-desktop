@@ -1,0 +1,111 @@
+panel::part(arrowcontent) {
+	border: none !important;
+	border-radius: 8px !important;
+}
+
+toolbarseparator {
+    margin: 2px 0 !important;
+}
+
+toolbarbutton {
+    transition: 0.2s background-color;
+}
+
+.panel-subview-body > .subviewbutton,
+.panel-subview-body > toolbaritem > toolbarbutton {
+    padding: 4px 16px !important;
+    min-height: 30px !important;
+}
+
+.panel-header > .subviewbutton-back {
+    border-radius: 6px;
+}
+
+.subviewbutton[shortcut]::after {
+	opacity: 0.7;
+}
+
+menupopup {
+    box-shadow: 0 6.4px 14.4px 0 #0002,0 1.2px 3.6px 0 #0000001c !important;
+    padding: 28px !important;
+    margin: -28px !important;
+    background-color: transparent !important;
+    border-radius: 6px !important;
+    appearance: none !important;
+}
+
+.menupopup-arrowscrollbox {
+    border-radius: 6px !important;
+    box-shadow: 0 6.4px 14.4px 0 #0002,0 1.2px 3.6px 0 #0000001c;
+    padding: 6px 0 !important;
+    background-color: var(--arrowpanel-background) !important;
+}
+
+menupopup > menu, menuitem, menucaption {
+    min-height: 30px !important;
+    appearance: none;
+    transition: 0.1s background-color;
+    padding: 0 16px;
+    color: var(--arrowpanel-color);
+}
+
+menuseparator {
+    margin: 2px 0px;
+    appearance: none !important;
+    width: 100%;
+    height: 1px;
+    background-color: var(--arrowpanel-border-color);
+}
+
+menu[_moz-menuactive="true"], menuitem[_moz-menuactive="true"] {
+    background-color: var(--arrowpanel-dimmed) !important;
+    color: var(--arrowpanel-color);
+}
+
+menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
+    background-color: transparent !important;
+    color: var(--arrowpanel-dimmed-even-further) !important;
+}
+
+#context-navigation {
+    margin: 0px 6px;
+    padding-bottom: 4px;
+}
+
+#context-navigation > * {
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    min-width: 42px;
+    min-height: 42px !important;
+    appearance: none;
+}
+
+.menu-right {
+	width: 16px !important;
+	height: 16px !important;
+	appearance: none !important;
+}
+
+.menu-right > image {
+	-moz-context-properties: fill, fill-opacity !important;
+	background-image: url(chrome://browser/skin/customizableui/menu-arrow.svg) !important;
+	fill: currentColor !important;
+	fill-opacity: 0.6 !important;
+	float: inline-end !important;
+	width: 12px !important;
+	height: 12px !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+}
+
+menuitem[type="checkbox"] {
+    appearance: none !important;
+}
+
+#screenshots_mozilla_org-menuitem-_create-screenshot > .menu-iconic-left {
+    color: --arrowpanel-color !important;
+    -moz-context-properties: fill, fill-opacity;
+    fill: var(--lwt-toolbarbutton-icon-fill, currentColor);
+    fill-opacity: var(--toolbarbutton-icon-fill-opacity);
+}
