@@ -2,8 +2,8 @@
   "name": "dot",
   "versions": {
     "dot": "0.0.0",
-    "firefox-display": "84.0.1",
-    "firefox": "84.0.1",
+    "firefox-display": "84.0.2",
+    "firefox": "84.0.2",
     "melon": "0.0.1"
   },
   "dependencies": {
