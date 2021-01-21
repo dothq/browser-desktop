@@ -7,6 +7,7 @@
 pref("startup.homepage_override_url", "");
 pref("startup.homepage_welcome_url", "about:welcome");
 pref("startup.homepage_welcome_url.additional", "");
+pref("datareporting.policy.firstRunURL", "");
 // Interval: Time between checks for a new version (in seconds)
 pref("app.update.interval", 43200); // 12 hours
 // Give the user x seconds to react before showing the big UI. default=192 hours
@@ -17,13 +18,15 @@ pref("app.update.promptWaitTime", 691200);
 // update" link supplied in the "An update is available" page of the update
 // wizard.
 #if MOZ_UPDATE_CHANNEL == beta
-  pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/beta");
-  pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/beta/notes");
-  pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%beta/releasenotes/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=whatsnew");
+  pref("app.update.url.manual", "https://dothq.co/browser/desktop/beta");
+  pref("app.update.url.details", "https://dothq.co/browser/desktop/beta/notes");
+  pref("app.releaseNotesURL", "https://dothq.co/browser/desktop/%VERSION%/beta/releasenotes");
+  pref("app.releaseNotesURL.aboutDialog", "https://dothq.co/browser/desktop/%VERSION%/beta/releasenotes");
 #else
-  pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/");
-  pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/notes");
-  pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=whatsnew");
+  pref("app.update.url.manual", "https://dothq.co/browser/desktop");
+  pref("app.update.url.details", "https://dothq.co/browser/desktop/notes");
+  pref("app.releaseNotesURL", "https://dothq.co/browser/desktop/%VERSION%/releasenotes");
+  pref("app.releaseNotesURL.aboutDialog", "https://dothq.co/browser/desktop/%VERSION%/releasenotes");
 #endif
 
 // The number of days a binary is permitted to be old
