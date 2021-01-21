@@ -8,5 +8,10 @@ export default [
         name: "fusion",
         action: "copy",
         src: "browser/themes/addons/fusion"
+    },
+    {
+        name: "dotui",
+        action: "copy",
+        src: "browser/themes/shared/dotui"
     }
 ]
