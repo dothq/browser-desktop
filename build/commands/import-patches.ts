@@ -27,18 +27,19 @@ export const importPatches = async () => {
         const apply = async () => {
             log.info(`Applying ${patch}...`)
 
-            await execa("git", [
-                "apply", 
-                "--ignore-space-change",
-                "--ignore-whitespace", 
-                "--verbose",
+            await execa("patch", [
+                "-p1",
+                "--binary",
+                "-i",
                 `../patches/${patch}`
             ], { cwd, stripFinalNewline: false });
         }
 
-        await execa("git", [
-            "apply",
+        await execa("patch", [
+            "-p1",
             "-R",
+            "--binary",
+            "-i",
             `../patches/${patch}`
         ], { cwd }).then(async _ => apply()).catch(async _ => apply())
     }))
