@@ -1,0 +1,30 @@
+# Browser branding
+mk_add_options MOZ_APP_VENDOR="Dot HQ"
+mk_add_options MOZ_APP_BASENAME=Dot
+mk_add_options MOZ_APP_PROFILE=dot
+mk_add_options MOZ_APP_DISPLAYNAME="Dot Browser"
+mk_add_options MOZ_MACBUNDLE_ID=co.dothq.browser
+mk_add_options MOZ_DISTRIBUTION_ID=co.dothq.browser
+ac_add_options --enable-update-channel=release
+ac_add_options --with-branding=browser/branding/dot
+ac_add_options --with-app-name=dot
+
+# Uncomment if builds are too resource hungry
+# mk_add_options MOZ_MAKE_FLAGS="-j4"
+# ac_add_options --enable-linker=gold
+
+# Optimise builds
+ac_add_options --enable-application=browser
+ac_add_options --enable-hardening
+ac_add_options --enable-rust-simd
+ac_add_options --enable-release
+ac_add_options --enable-optimize
+ac_add_options --with-ccache=sccache
+ac_add_options --disable-debug
+ac_add_options --enable-updater
+
+mk_add_options MOZ_USER_DIR="Dot Browser"
+
+# Disable telemetry and tracking
+mk_add_options MOZ_TELEMETRY_REPORTING=
+mk_add_options MOZ_DATA_REPORTING=

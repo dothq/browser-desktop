@@ -6,6 +6,6 @@ node_modules
 package-lock.json
 *.tar.xz
 firefox
-firefox-*
 src/**/*
 .DS_Store
+*.tar
