@@ -1,0 +1,1 @@
+about-history-page-title = History
