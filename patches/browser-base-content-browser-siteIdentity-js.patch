@@ -1,0 +1,13 @@
+diff --git a/browser/base/content/browser-siteIdentity.js b/browser/base/content/browser-siteIdentity.js
+index abdb814995332f5f3543acfc908b0c38ee8bd7c3..b107a2f246c161787f82181413f7957bcb20d574 100644
+--- a/browser/base/content/browser-siteIdentity.js
++++ b/browser/base/content/browser-siteIdentity.js
+@@ -57,7 +57,7 @@ var gIdentityHandler = {
+    * RegExp used to decide if an about url should be shown as being part of
+    * the browser UI.
+    */
+-  _secureInternalPages: /^(?:accounts|addons|cache|certificate|config|crashes|downloads|license|logins|preferences|protections|rights|sessionrestore|support|welcomeback|ion)(?:[?#]|$)/i,
++  _secureInternalPages: /^(?:accounts|addons|cache|certificate|config|crashes|downloads|license|logins|preferences|protections|rights|sessionrestore|support|welcomeback|ion|history)(?:[?#]|$)/i,
+ 
+   /**
+    * Whether the established HTTPS connection is considered "broken".
