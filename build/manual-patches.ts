@@ -13,5 +13,10 @@ export default [
         name: "dotui",
         action: "copy",
         src: "browser/themes/shared/dotui"
+    },
+    {
+        name: "about:history",
+        action: "copy",
+        src: "browser/components/abouthistory"
     }
 ]

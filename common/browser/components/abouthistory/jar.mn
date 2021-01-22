@@ -1,0 +1,15 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+browser.jar:
+    content/browser/abouthistory/aboutHistory.css              (content/aboutHistory.css)
+    content/browser/abouthistory/aboutHistory.html             (content/aboutHistory.html)
+    content/browser/abouthistory/aboutHistory.js               (content/aboutHistory.js)
+
+    content/browser/abouthistory/icons/all.svg                 (content/icons/all.svg)
+    content/browser/abouthistory/icons/today.svg               (content/icons/today.svg)
+    content/browser/abouthistory/icons/yesterday.svg           (content/icons/yesterday.svg)
+    content/browser/abouthistory/icons/last-week.svg           (content/icons/last-week.svg)
+    content/browser/abouthistory/icons/last-month.svg          (content/icons/last-month.svg)
+    content/browser/abouthistory/icons/older.svg               (content/icons/older.svg)
