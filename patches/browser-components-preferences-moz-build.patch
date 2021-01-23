@@ -1,0 +1,13 @@
+diff --git a/browser/components/preferences/moz.build b/browser/components/preferences/moz.build
+index 67163934c72fdc23dbc6e8c7101765ad35dcb532..aa37abde6f16f3b140044c02402b5f27f0884eb2 100644
+--- a/browser/components/preferences/moz.build
++++ b/browser/components/preferences/moz.build
+@@ -4,7 +4,7 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-DIRS += ["dialogs"]
++DIRS += ["dialogs", "new"]
+ 
+ BROWSER_CHROME_MANIFESTS += ["tests/browser.ini", "tests/siteData/browser.ini"]
+ 
