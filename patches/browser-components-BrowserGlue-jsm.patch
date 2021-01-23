@@ -1,16 +1,17 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 869a90ef40f99846fa570f53b094e9bb688c8c34..6b64b2490b02855b35fdc284ef7351315d04a144 100644
+index 869a90ef40f99846fa570f53b094e9bb688c8c34..23481c0e352aaf7b115ec771f551867e1cdf97aa 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -463,6 +463,7 @@ let JSWINDOWACTORS = {
+@@ -463,6 +463,8 @@ let JSWINDOWACTORS = {
        "about:home",
        "about:newtab",
        "about:welcome",
 +      "about:history",
++      "about:newpreferences",
        "chrome://browser/content/syncedtabs/sidebar.xhtml",
        "chrome://browser/content/places/historySidebar.xhtml",
        "chrome://browser/content/places/bookmarksSidebar.xhtml",
-@@ -1408,16 +1409,16 @@ BrowserGlue.prototype = {
+@@ -1408,16 +1410,16 @@ BrowserGlue.prototype = {
        "resource://builtin-themes/dark/"
      );
      AddonManager.maybeInstallBuiltinAddon(

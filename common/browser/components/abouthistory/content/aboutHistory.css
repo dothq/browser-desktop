@@ -7,7 +7,11 @@ html, body {
   color: var(--newtab-text-primary-color);
   margin: 0;
   padding: 0;
-  font-family: message-box;
+  font-family: inherit;
+}
+
+h1 {
+  color: var(--newtab-text-primary-color) !important;
 }
 
 .divide {
@@ -15,7 +19,7 @@ html, body {
   flex-direction: row;
 }
 
-.history-sidebar {
+.sidebar {
   display: flex;
   max-width: calc(418px - 42px - 42px);
   width: 100%;
@@ -23,9 +27,10 @@ html, body {
   background-color: var(--newtab-background-color);
   padding: 0 42px;
   flex-direction: column;
+  border-right: 1px solid rgba(137, 137, 137, 0.1);
 }
 
-.history-sidebar > h1 {
+.sidebar > h1 {
   height: 102px;
   font-weight: 600;
   font-size: 26px;
@@ -34,15 +39,28 @@ html, body {
   margin: 0;
 }
 
-.history-sidebar > .search-box {
+.sidebar > .search-box {
   display: flex;
-  width: 100%;
+  width: calc(100% - 4px);
   height: 48px;
   background-color: rgba(137, 137, 137, 0.15);
   border-radius: 10px;
+  transition: 0.2s all ease;
+  box-shadow: 0px 0px 0px 0px transparent;
+  border: 2px solid transparent;
 }
 
-.history-sidebar > .search-box > input {
+.sidebar > .search-box:hover {
+  background-color: rgba(137, 137, 137, 0.1);
+}
+
+.sidebar > .search-box:focus-within {
+  box-shadow: 0px 0px 0px 4px rgb(37 110 245 / 50%);
+  border: 2px solid rgba(37,110,245,1);
+  background-color: var(--newtab-background-color);
+}
+
+.sidebar > .search-box > input {
   background-color: transparent;
   border: none;
   outline: none;
@@ -51,9 +69,16 @@ html, body {
   color: var(--newtab-text-primary-color);
   font-size: 15px;
   font-weight: 500;
+  padding: 0;
+  margin: 0;
 }
 
-.history-sidebar > .search-box > .search-box-icon {
+.sidebar > .search-box > input:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.sidebar > .search-box > .search-box-icon {
   width: 60px;
   height: 48px;
   background-image: url(chrome://browser/skin/search-glass.svg);
@@ -62,4 +87,91 @@ html, body {
   background-position-y: center;
   background-repeat: no-repeat;
   filter: invert(1) brightness(0.5);
+}
+
+.sidebar-categories {
+  padding: 0;
+}
+
+.sidebar-category {
+  display: flex;
+  height: 48px;
+  border-radius: 10px;
+  color: var(--newtab-text-primary-color);
+  transition: 0.2s all ease;
+  padding: 0 18px;
+  line-height: 48px;
+  margin: 6px 0;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  align-items: center;
+}
+
+.sidebar-category::before {
+  content: "";
+  position: relative;
+  left: -18px;
+  height: 24px;
+  width: 4px;
+  background-color: rgba(37,110,245,1);
+  margin-right: -4px;
+  border-radius: 12px;
+  opacity: 0;
+  transition: 0.2s all;
+}
+
+.sidebar-category-selected::before {
+  opacity: 1;
+}
+
+li::marker {
+  content: close-quote;
+}
+
+.sidebar-category-selected,
+.sidebar-category-selected:hover {
+  text-decoration: none;
+  color: rgba(37,110,245,1) !important;
+  background-color: rgba(137, 137, 137, 0.08);
+}
+
+.sidebar-category:not(.sidebar-category-selected):hover {
+  color: var(--newtab-text-primary-color);
+  text-decoration: none;
+  background-color: rgba(137, 137, 137, 0.1);
+}
+
+.sidebar-category > i {
+  fill: currentColor;
+  -moz-context-properties: fill, fill-opacity;
+  width: 24px;
+  height: 24px;
+  margin-right: 18px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sidebar-category > .all-icon {
+  background-image: url(chrome://browser/content/abouthistory/icons/all.svg);
+}
+
+.sidebar-category > .today-icon {
+  background-image: url(chrome://browser/content/abouthistory/icons/today.svg);
+}
+
+.sidebar-category > .yesterday-icon {
+  background-image: url(chrome://browser/content/abouthistory/icons/yesterday.svg);
+}
+
+.sidebar-category > .last-week-icon {
+  background-image: url(chrome://browser/content/abouthistory/icons/last-week.svg);
+}
+
+.sidebar-category > .last-month-icon {
+  background-image: url(chrome://browser/content/abouthistory/icons/last-month.svg);
+}
+
+.sidebar-category > .older-icon {
+  background-image: url(chrome://browser/content/abouthistory/icons/older.svg);
 }

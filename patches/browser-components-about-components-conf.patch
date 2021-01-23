@@ -1,5 +1,5 @@
 diff --git a/browser/components/about/components.conf b/browser/components/about/components.conf
-index 42011d5094813d8360f3c4e6a8436efb14758a3c..d4aa194a761cd0748aff55261b4902ac60aef4a9 100644
+index 42011d5094813d8360f3c4e6a8436efb14758a3c..9515980adcfa069e5fb44d455e817fe9c439aada 100644
 --- a/browser/components/about/components.conf
 +++ b/browser/components/about/components.conf
 @@ -10,6 +10,7 @@ pages = [
@@ -10,3 +10,11 @@ index 42011d5094813d8360f3c4e6a8436efb14758a3c..d4aa194a761cd0748aff55261b4902ac
      'home',
      'logins',
      'newinstall',
+@@ -18,6 +19,7 @@ pages = [
+     'pocket-saved',
+     'pocket-signup',
+     'policies',
++    'newpreferences',
+     'preferences',
+     'privatebrowsing',
+     'protections',

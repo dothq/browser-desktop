@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<!DOCTYPE html [
+  <!ENTITY % htmlDTD PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+  %htmlDTD;
+]>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <head>
+    <title data-l10n-id="about-history-page-title"></title>
+    <meta http-equiv="Content-Security-Policy" content="default-src chrome: blob:; object-src 'none'"/>
+    <link rel="icon" href="chrome://browser/skin/history.svg"/>
+    <link rel="stylesheet" href="chrome://browser/content/abouthistory/aboutHistory.css" media="all"/>
+    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
+    <link rel="localization" href="branding/brand.ftl"/>
+    <link rel="localization" href="browser/branding/brandings.ftl"/>
+    <link rel="localization" href="browser/aboutHistory.ftl"/>
+    <script src="chrome://browser/content/abouthistory/aboutHistory.js"></script>
+    <script src="chrome://browser/content/contentTheme.js"></script>
+  </head>
+
+  <body>
+    <div class="divide">
+      <aside class="history-sidebar">
+        <h1 data-l10n-id="about-history-page-title"></h1>
+        <div class="search-box">
+          <i class="search-box-icon"></i>
+          <input data-l10n-id="history-filter" type="text" />
+        </div>
+        <ul class="sidebar-categories">
+
+          <li>
+            <a class="sidebar-category" href="#all" id="tab-all">
+              <i class="all-icon"></i>
+              <span data-l10n-id="history-category-all"></span>
+            </a>
+          </li>
+
+          <li>
+            <a class="sidebar-category" href="#today" id="tab-today">
+              <i class="today-icon"></i>
+              <span data-l10n-id="history-category-today"></span>
+            </a>
+          </li>
+
+          <li>
+            <a class="sidebar-category" href="#yesterday" id="tab-yesterday">
+              <i class="yesterday-icon"></i>
+              <span data-l10n-id="history-category-yesterday"></span>
+            </a>
+          </li>
+
+          <li>
+            <a class="sidebar-category" href="#last-week" id="tab-last-week">
+              <i class="last-week-icon"></i>
+              <span data-l10n-id="history-category-last-week"></span>
+            </a>
+          </li>
+
+          <li>
+            <a class="sidebar-category" href="#last-month" id="tab-last-month">
+              <i class="last-month-icon"></i>
+              <span data-l10n-id="history-category-last-month"></span>
+            </a>
+          </li>
+
+          <li>
+            <a class="sidebar-category" href="#older" id="tab-older">
+              <i class="older-icon"></i>
+              <span data-l10n-id="history-category-older"></span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <main id="history-content">
+        
+      </main>
+    </div>
+  </body>
+</html>
