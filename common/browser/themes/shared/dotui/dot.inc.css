@@ -57,7 +57,11 @@
 }
 
 #tabs-newtab-button {
-    padding-top: 2px !important;
+    padding-top: 6px !important;
+}
+
+.titlebar-spacer[type="pre-tabs"] {
+    display: none !important;
 }
 
 #urlbar[breakout][breakout-extend] > #urlbar-background {
@@ -84,7 +88,7 @@
 }
 
 .subviewbutton[shortcut]::after {
-	opacity: 0.7;
+    opacity: 0.7;
 }
 
 #urlbar > #urlbar-input-container > #identity-box {
@@ -103,19 +107,19 @@
 }
 
 #urlbar .searchbar-engine-one-off-item {
-	border-radius: 4px;
+    border-radius: 4px;
 }
 
 #identity-icon-label {
-	padding-inline-start: 8px !important;
+    padding-inline-start: 8px !important;
 }
 
 #identity-icon {
-	margin-inline-start: 2px !important;
+    margin-inline-start: 2px !important;
 }
 
 #tracking-protection-icon-container {
-	padding-inline: 8px !important;
+    padding-inline: 8px !important;
 }
 
 notification[type], notification {
@@ -126,7 +130,7 @@ notification[type], notification {
 }
 
 tabmodalprompt {
-	height: calc(100% + 20px);
+    height: calc(100% + 20px);
     margin-top: -20px;
     background-color: transparent !important;
 }
@@ -136,9 +140,9 @@ tabmodalprompt:not([hidden]) {
 }
 
 .paymentDialogContainerFrame, .tabmodalprompt-mainContainer {
-	color: -moz-fieldText;
-	border-radius: 6px;
-	background-color: var(--arrowpanel-background);
+    color: -moz-fieldText;
+    border-radius: 6px;
+    background-color: var(--arrowpanel-background);
     box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
     border: none !important;
 }
@@ -195,9 +199,9 @@ tabmodalprompt:not([hidden]) {
 }
 
 .tabbrowser-tab > .tab-stack > .tab-background > .tab-bottom-line {
-	margin-bottom: 28px !important;
-	height: 2px !important;
-	background-color: var(--identity-tab-color) !important;
+    margin-bottom: 28px !important;
+    height: 2px !important;
+    background-color: var(--identity-tab-color) !important;
     opacity: 1;
     margin: 0 32px;
 }
@@ -205,10 +209,37 @@ tabmodalprompt:not([hidden]) {
 #context-pocket,
 #context-savelinktopocket,
 #appMenu-library-pocket-button {
-  display: none !important;
+display: none !important;
 }
 
 .tabbrowser-tab::after,
 .tabbrowser-tab::before {
     opacity: 0.3 !important;
 }
+
+:root {
+    --tab-min-height: 40px !important;
+}
+
+#tabs-newtab-button {
+    padding-left: 4px;
+}
+
+.tabbrowser-tab::after {
+    margin-top: 12px !important;
+    margin-bottom: 6px !important;
+}
+
+.tabbrowser-tab {
+    margin: 0 1px !important;
+}
+
+.tabbrowser-tab .tab-stack {
+    margin-top: 6px;
+}
+
+#tabbrowser-tabs {
+    padding-left: 6px;
+}
+   
+    
