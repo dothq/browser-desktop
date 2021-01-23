@@ -1,5 +1,5 @@
 const { Octokit } = require("@octokit/rest");
-const { readFileSync } = require("fs");
+const { readFileSync, writeFileSync } = require("fs");
 const { resolve } = require("path");
 
 const gh = new Octokit({
