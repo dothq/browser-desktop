@@ -1,28 +1,15 @@
 {
-    // See http://go.microsoft.com/fwlink/?LinkId=827846
-    // for the documentation about the extensions.json format
     "recommendations": [
-        // Trim only touched lines.
         "NathanRidley.autotrim",
-        // ESLint support.
         "dbaeumer.vscode-eslint",
-        // Prettier support.
         "esbenp.prettier-vscode",
-        // C/C++ language support with clangd
         "llvm-vs-code-extensions.vscode-clangd",
-        // Rust language support.
         "rust-lang.rust",
-        // Provides support for rust-analyzer: novel LSP server for the Rust programming language.
         "matklad.rust-analyzer",
-        // CSS support for HTML documents.
         "ecmel.vscode-html-css",
-        // Web app and extension debugging.
         "firefox-devtools.vscode-firefox-debug",
-        // IDL language support
         "mythmon.idl",
-        // Gitmoji for commits
         "vtrois.gitmoji-vscode",
-        // SVG preview support
         "jock.svg"
     ]
 }
