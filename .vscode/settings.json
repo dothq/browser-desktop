@@ -1,0 +1,28 @@
+{
+    "files.associations": {
+        "*.jsm": "javascript"
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "*.tar.xz": true
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "files.exclude": {
+        "**/node_modules": true
+    },
+    "gitmoji.showEmojiCode": true,
+    "gitmoji.additionalEmojis": [
+        {
+            "emoji": "🎭",
+            "code": ":performing_arts:",
+            "description": "Add or update a browser actor",
+        },
+        {
+            "emoji": "🧱",
+            "code": ":bricks:",
+            "description": "Make changes to build system",
+        },
+    ]
+}
