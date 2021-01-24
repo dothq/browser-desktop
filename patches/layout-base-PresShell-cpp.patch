@@ -1,0 +1,13 @@
+diff --git a/layout/base/PresShell.cpp b/layout/base/PresShell.cpp
+index 34e090feff00cd1ae087cf9e4a91dd57457b37a4..8cd6bb7b64c734cfff039b4f48660eac6a007b80 100644
+--- a/layout/base/PresShell.cpp
++++ b/layout/base/PresShell.cpp
+@@ -5259,7 +5259,7 @@ nscolor PresShell::GetDefaultBackgroundColorToDraw() {
+       doc->PrefersColorScheme(Document::IgnoreRFP::Yes) ==
+           StylePrefersColorScheme::Dark) {
+     // Use --in-content-page-background for prefers-color-scheme: dark.
+-    return NS_RGB(0x2A, 0x2A, 0x2E);
++    return NS_RGB(0x1C, 0x1C, 0x1C);
+   }
+ 
+   return backgroundColor;

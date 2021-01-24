@@ -1,0 +1,19 @@
+diff --git a/browser/themes/shared/error-pages.css b/browser/themes/shared/error-pages.css
+index 77f97def9f819b4f7aab821f7d63d588e099db93..96c66bbd2b7ba5145b1eb5eeeb59991720206f0b 100644
+--- a/browser/themes/shared/error-pages.css
++++ b/browser/themes/shared/error-pages.css
+@@ -13,6 +13,9 @@ body {
+    * gets clipped in iframes with small width. We don't accomodate
+    * any padding to prioritize real estate in the small viewport. */
+   min-width: 13em;
++
++  background-color: var(--newtab-background-color);
++  color: var(--newtab-text-primary-color);
+ }
+ 
+ .button-container {
+@@ -124,3 +127,4 @@ body {
+     padding-bottom: 38px;
+   }
+ }
++
