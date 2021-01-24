@@ -1,8 +1,8 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index 2588a53cf233433e27cfda5c2f10db0aa286d7c8..cf1b0927a42f264643f027455cd62418a65a1278 100644
+index 2588a53cf233433e27cfda5c2f10db0aa286d7c8..8c8a832c9fe0abc6f958b77bfd7da2b2e6fd1dd0 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
-@@ -2500,3 +2500,89 @@ pref("first-startup.timeout", 30000);
+@@ -2500,3 +2500,90 @@ pref("first-startup.timeout", 30000);
  #ifdef XP_WIN
    pref("default-browser-agent.enabled", true);
  #endif
@@ -92,4 +92,5 @@ index 2588a53cf233433e27cfda5c2f10db0aa286d7c8..cf1b0927a42f264643f027455cd62418
 +pref("layout.css.backdrop-filter.enabled", true);
 +pref("gfx.webrender.all", true);
 +pref("browser.tabs.drawInTitlebar", true);
++pref("browser.tabs.tabMinWidth", 245);
 \ No newline at end of file
