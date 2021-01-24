@@ -1,17 +1,51 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 869a90ef40f99846fa570f53b094e9bb688c8c34..23481c0e352aaf7b115ec771f551867e1cdf97aa 100644
+index 869a90ef40f99846fa570f53b094e9bb688c8c34..e496974a9cf4c662d5a8c0a85509092806a29263 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -463,6 +463,8 @@ let JSWINDOWACTORS = {
-       "about:home",
-       "about:newtab",
-       "about:welcome",
-+      "about:history",
-+      "about:newpreferences",
+@@ -137,6 +137,21 @@ let JSPROCESSACTORS = {
+  * available at https://firefox-source-docs.mozilla.org/dom/Fission.html#jswindowactor
+  */
+ let JSWINDOWACTORS = {
++  AboutHistory: {
++    parent: {
++      moduleURI: "resource:///actors/AboutHistoryParent.jsm",
++    },
++    child: {
++      moduleURI: "resource:///actors/AboutHistoryChild.jsm",
++
++      events: {
++        DOMWindowCreated: { capture: true },
++      },
++    },
++
++    matches: ["about:history"],
++  },
++
+   AboutLogins: {
+     parent: {
+       moduleURI: "resource:///actors/AboutLoginsParent.jsm",
+@@ -455,14 +470,17 @@ let JSWINDOWACTORS = {
+       moduleURI: "resource:///actors/LightweightThemeChild.jsm",
+       events: {
+         pageshow: { mozSystemGroup: true },
++        DOMWindowCreated: {},
++        click: {},
+       },
+     },
+     includeChrome: true,
+     allFrames: true,
++    remoteTypes: ["privilegedabout"],
+     matches: [
+-      "about:home",
+-      "about:newtab",
+-      "about:welcome",
++      "about:*",
++      "about:certerror?*", 
++      "about:neterror?*",
        "chrome://browser/content/syncedtabs/sidebar.xhtml",
        "chrome://browser/content/places/historySidebar.xhtml",
        "chrome://browser/content/places/bookmarksSidebar.xhtml",
-@@ -1408,16 +1410,16 @@ BrowserGlue.prototype = {
+@@ -1408,16 +1426,16 @@ BrowserGlue.prototype = {
        "resource://builtin-themes/dark/"
      );
      AddonManager.maybeInstallBuiltinAddon(
