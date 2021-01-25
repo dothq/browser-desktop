@@ -64,5 +64,7 @@ project pages with documentation, [click here](https://firefox-source-docs.mozil
 
 - If you have a question about developing Firefox, and can't find the solution on https://firefox-source-docs.mozilla.org/, you can try asking your question on our [Discord server](https://invite.gg/dot).
 
+- We have a GitLab mirror of this project at [dothq/browser-ff](https://gitlab.com/dothq/browser-ff).
+
 ## 📜 License
 **Dot Browser** is licensed under the [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0) license.
