@@ -5,15 +5,15 @@ import { log, bin_name } from ".."
 import { dispatch } from "../dispatch"
 
 export const init = async (directory: string) => {
+    log.info(`Initialising through Git...`)
+  
     if(process.platform == "win32") {
-        log.info("Init does not currently work on Windows filesystems, falling back to bash script. See issue: https://github.com/dothq/browser/issues/514");
+        // Because Windows cannot handle paths correctly, we're just calling a script as the workaround.
         await dispatch("windows-init.sh");
         process.exit(-1);
     } 
 
     const cwd = process.cwd();
-
-    log.info(`Initialising through Git...`)
     
     const dir = resolve(cwd, directory);
 
