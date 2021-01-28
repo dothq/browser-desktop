@@ -12,7 +12,6 @@ const unpack = async (name: string, version: string) => {
     const cwd = process.cwd().split(sep).join(posix.sep)
 
     log.info(`Unpacking Firefox...`);
-    log.info(cwd)
     await execa("tar", ["-xvf", name, "-C", cwd]);
 
     moveSync(
@@ -118,4 +117,4 @@ export const download = async () => {
     data.on("end", () => {
         unpack(filename, version)
     })
-}A
+}
