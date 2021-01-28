@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { bin_name, log } from '..';
 import fs, { existsSync, symlinkSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { posix, resolve, sep } from 'path';
 import execa from 'execa';
 import { dispatch } from '../dispatch';
 import { moveSync } from 'fs-extra';
@@ -9,12 +9,14 @@ import { moveSync } from 'fs-extra';
 const pjson = require("../../package.json");
 
 const unpack = async (name: string, version: string) => {
+    const cwd = process.cwd().split(sep).join(posix.sep)
+
     log.info(`Unpacking Firefox...`);
-    await execa("tar", ["-xvf", name, "-C", process.cwd()]);
+    await execa("tar", ["-xvf", name, "-C", cwd]);
 
     moveSync(
-        resolve(process.cwd(), `firefox-${version.split("b")[0]}`),
-        resolve(process.cwd(), "src"),
+        resolve(cwd, `firefox-${version.split("b")[0]}`),
+        resolve(cwd, "src"),
         { overwrite: true }
     )
 
