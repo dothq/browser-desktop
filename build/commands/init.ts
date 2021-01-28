@@ -19,7 +19,7 @@ export const init = async (directory: string) => {
 
     await dispatch("git", ["init"], dir);
     await dispatch("git", ["checkout", "--orphan", version], dir);
-    await dispatch("git", ["add", "-f", "*", ".*"], dir);
+    await dispatch("git", ["add", "-f", "*"], dir);
     await dispatch("git", ["commit", "-am", `"Firefox ${version}"`], dir);
     await dispatch("git", ["checkout", "-b", "dot"], dir);
 }
