@@ -19,7 +19,16 @@ export default [
         action: "copy",
         src: [
             "browser/components/abouthistory",
-            "browser/locales/en-US/browser/aboutHistory.ftl"
+            "browser/locales/en-US/browser/aboutHistory.ftl",
+            "browser/actors/AboutHistoryChild.jsm",
+            "browser/actors/AboutHistoryParent.jsm"
+        ]
+    },
+    {
+        name: "preferences",
+        action: "copy",
+        src: [
+            "browser/components/preferences/new"
         ]
     }
 ]
