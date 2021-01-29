@@ -32,10 +32,10 @@ export const importPatches = async () => {
         ]
 
         if(process.platform == "win32") {
-            args.push("--dry-run")
             args.push("--ignore-whitespace")
         }
 
+        args.push("--binary")
         args.push("-i")
         args.push(`../patches/${patch}`)
 
