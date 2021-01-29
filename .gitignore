@@ -7,5 +7,6 @@ package-lock.json
 *.tar.xz
 firefox
 src/**/*
+src/
 .DS_Store
 *.tar
