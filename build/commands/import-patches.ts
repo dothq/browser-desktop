@@ -1,10 +1,11 @@
 import { resolve } from "path";
 import { existsSync, readdirSync, readFileSync } from "fs";
 import execa from "execa";
-import { log } from "..";
+import { log, bin_name } from "..";
 import rimraf from 'rimraf';
 import { copySync, ensureDirSync } from "fs-extra";
 import manualPatches from "../manual-patches";
+import { dispatch } from "../dispatch";
 
 interface IPatch {
     name: string;
@@ -17,6 +18,8 @@ const getChunked = (location: string) => {
 }
 
 export const importPatches = async () => {
+    if(process.platform == "win32") log.warning(`If you get any line ending errors, you should try running |${bin_name} fix-le|.`);
+
     const patchesDir = resolve(process.cwd(), "patches");
     const actionsLoc = resolve(process.cwd(), "actions.json");
     const cwd = resolve(process.cwd(), "src");
@@ -24,23 +27,27 @@ export const importPatches = async () => {
     const patches = readdirSync(patchesDir);
 
     await Promise.all(patches.map(async patch => {
+        const args = [
+            "-p1",
+        ]
+
+        if(process.platform == "win32") {
+            args.push("--dry-run")
+            args.push("--ignore-whitespace")
+        }
+
+        args.push("-i")
+        args.push(`../patches/${patch}`)
+
         const apply = async () => {
             log.info(`Applying ${patch}...`)
-
-            await execa("patch", [
-                "-p1",
-                "--binary",
-                "-i",
-                `../patches/${patch}`
-            ], { cwd, stripFinalNewline: false });
+            
+            await execa("patch", args, { cwd, stripFinalNewline: false });
         }
 
         await execa("patch", [
-            "-p1",
             "-R",
-            "--binary",
-            "-i",
-            `../patches/${patch}`
+            ...args
         ], { cwd }).then(async _ => apply()).catch(async _ => apply())
     }))
 

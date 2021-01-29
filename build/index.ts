@@ -8,7 +8,8 @@ import {
     build,
     exportPatches,
     importPatches,
-    run
+    run,
+    fixLineEndings
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -66,6 +67,13 @@ program
     .command("run")
     .description("Run the browser.")
     .action(run)
+
+if(process.platform == "win32") {
+    program
+        .command("fix-le")
+        .description("Convert CRLF line endings to Unix LF line endings.")
+        .action(fixLineEndings)
+}
 
 process.on('uncaughtException', (err) => {
     let cc = readFileSync(resolve(__dirname, "command"), "utf-8")
