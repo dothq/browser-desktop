@@ -41,7 +41,7 @@ export const importPatches = async () => {
 
         const apply = async () => {
             log.info(`Applying ${patch}...`)
-            
+
             await execa("patch", args, { cwd, stripFinalNewline: false });
         }
 
@@ -63,7 +63,7 @@ export const importPatches = async () => {
                         resolve(process.cwd(), "common", ...getChunked(patch.src)),
                         resolve(cwd, ...getChunked(patch.src))
                     )
-    
+
                     ++totalActions;
                 } else if(Array.isArray(patch.src)) {
                     patch.src.forEach(i => {
@@ -73,7 +73,7 @@ export const importPatches = async () => {
                             resolve(process.cwd(), "common", ...getChunked(i)),
                             resolve(cwd, ...getChunked(i))
                         )
-        
+
                         ++totalActions;
                     })
                 }
