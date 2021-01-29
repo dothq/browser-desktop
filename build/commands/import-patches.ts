@@ -32,16 +32,16 @@ export const importPatches = async () => {
         ]
 
         if(process.platform == "win32") {
-            args.push("--dry-run")
             args.push("--ignore-whitespace")
         }
 
+        args.push("--binary") 
         args.push("-i")
         args.push(`../patches/${patch}`)
 
         const apply = async () => {
             log.info(`Applying ${patch}...`)
-            
+
             await execa("patch", args, { cwd, stripFinalNewline: false });
         }
 
@@ -63,8 +63,8 @@ export const importPatches = async () => {
                         resolve(process.cwd(), "common", ...getChunked(patch.src)),
                         resolve(cwd, ...getChunked(patch.src))
                     )
-    
-                    ++totalActions;
+
+                        ++totalActions;
                 } else if(Array.isArray(patch.src)) {
                     patch.src.forEach(i => {
                         ensureDirSync(i);
@@ -73,8 +73,8 @@ export const importPatches = async () => {
                             resolve(process.cwd(), "common", ...getChunked(i)),
                             resolve(cwd, ...getChunked(i))
                         )
-        
-                        ++totalActions;
+
+                            ++totalActions;
                     })
                 }
         }
