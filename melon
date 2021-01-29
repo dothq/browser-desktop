@@ -1,7 +1,12 @@
 #!/bin/sh
 
 build() {
-    yarn tsc
+	if ! command -v tsc &> /dev/null
+	then
+    	echo "Typescript is not installed. Please run |npm i -g typescript| to continue."
+    	exit
+	fi
+    tsc
 }
 
 fix_workspaces() {
