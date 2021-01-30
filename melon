@@ -28,6 +28,8 @@ then
     ;;
 
     fix-workspaces)
+        echo Deprecated.
+        exit
         fix_workspaces >/dev/null 2>&1
         echo Updated the workspaces.
     ;;
@@ -37,6 +39,12 @@ then
         then
             node .dotbuild $@
         else
+        	if ! command -v yarn &> /dev/null
+            then
+                echo "Yarn is not installed. Please run |npm i -g yarn| to continue."
+                exit
+            fi
+
             yarn
             build
             node .dotbuild $@
