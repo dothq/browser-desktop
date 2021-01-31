@@ -40,11 +40,9 @@ jobs:
       - name: Import patches
         run: ./melon import
       
-      - name: Build inside Docker
+      - name: Build
         run: |
-          ls -l ./configs/linux
-          sudo chmod +x ./configs/linux/build_linux.sh
-          ./melon build linux
+          ./melon build
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
