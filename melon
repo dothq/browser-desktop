@@ -41,13 +41,15 @@ then
         else
         	if ! command -v yarn &> /dev/null
             then
-                echo "Yarn is not installed. Please run |npm i -g yarn| to continue."
-                exit
+                npm i
+                build
+                node .dotbuild $@
+            else
+                yarn
+                build
+                node .dotbuild $@
             fi
 
-            yarn
-            build
-            node .dotbuild $@
         fi
     ;;
     esac
