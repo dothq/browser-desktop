@@ -33,6 +33,12 @@ There are a plethora of Chromium based browsers available and introducing compet
 
 We chose Gecko due to its position as the best competitor to Chromium, and because it’s developed by Mozilla, who are best known for their privacy efforts in the community.
 
+## 🏗 Build guides
+
+* [🏁 Windows](https://docs.dothq.co/cloning-dot/windows)
+* [🍎 macOS](https://docs.dothq.co/cloning-dot/macos)
+* [🐧 Linux](https://docs.dothq.co/cloning-dot/linux)
+
 ## ❗ Issues / Support
 
 You can create issues [here](https://github.com/dothq/browser/issues/new) or get support from our discord server, which you can join by clicking the banner below.
