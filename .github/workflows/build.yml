@@ -42,6 +42,9 @@ jobs:
       
       - name: Build
         run: |
+          cd src
+          ./mach bootstrap --application-choice browser --no-interactive
+          cd ..
           ./melon build
         
       - name: Upload artifacts
