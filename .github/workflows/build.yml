@@ -24,7 +24,7 @@ jobs:
 
       - name: Download workspace
         run: |
-          CI_SKIP_TSC_CHECK=true ./melon download
+          CI_SKIP_INIT=true ./melon download
           cd src
           git init
           echo Init
