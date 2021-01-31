@@ -6,9 +6,13 @@ import { dispatch } from "../dispatch"
 import Docker from 'dockerode';
 import { readFileSync, writeFileSync } from "fs"
 
-export const build = async (os: string) => {
-    if(!BUILD_TARGETS.includes(os)) return log.error(`Unrecognised build target "${os}".\nWe only currently support ${JSON.stringify(BUILD_TARGETS)}.`)
+const platform: any = {
+    win32: "windows",
+    darwin: "macos",
+    linux: "linux"
+}
 
+const applyConfig = (os: string) => {
     log.info("Applying mozconfig...")
     const commonConfig = readFileSync(resolve(process.cwd(), "configs", "common", "mozconfig"), "utf-8");
     const osConfig = readFileSync(resolve(process.cwd(), "configs", os, "mozconfig"), "utf-8");
@@ -24,7 +28,9 @@ export const build = async (os: string) => {
     mergedConfig.split("\n").map(ln => {
         if(ln.startsWith("mk") || ln.startsWith("ac")) log.info(`\t${ln.split("add_options ")[1]}`)
     })
+}
 
+const dockerBuild = async (os: string) => {
     const dockerfile = `configs/${os}/${os}.dockerfile`
     const image_name = `db-${os}-build`
 
@@ -54,4 +60,52 @@ export const build = async (os: string) => {
 
     await container.start()
     await container.wait()
+}
+
+const genericBuild = async (os: string) => {
+    const cwd = resolve(process.cwd(), "src");
+
+    log.info(`Building for "${os}"...`)
+
+    await dispatch(`./mach`, [
+        "bootstrap", 
+        "--application-choice",
+        "browser", 
+        "--no-interactive"
+    ], cwd)
+
+    await dispatch(`./mach`, ["build"], cwd)
+}
+
+export const build = async (os: string) => {
+    if(os) {
+        // Docker build
+
+        if(!BUILD_TARGETS.includes(os)) return log.error(`We do not support "${os}" builds right now.\nWe only currently support ${JSON.stringify(BUILD_TARGETS)}.`)
+
+        applyConfig(os);
+
+        setTimeout(async () => {
+            await dockerBuild(os);
+        }, 2500);
+    } else {
+        // Host build
+
+        const prettyHost = platform[(process.platform as any)];
+
+        if(BUILD_TARGETS.includes(prettyHost)) {
+            applyConfig(prettyHost);
+
+            setTimeout(async () => {
+                await genericBuild(prettyHost);
+            }, 2500);
+        } else {
+            return log.error(`We do not support "${prettyHost}" builds right now.\nWe only currently support ${JSON.stringify(BUILD_TARGETS)}.`)
+        }
+    }
+
+
+    
+
+    
 }

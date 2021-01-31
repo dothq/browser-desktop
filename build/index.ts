@@ -47,8 +47,8 @@ program
     .action(init)
 
 program
-    .command("build <os>")
-    .description("Build Dot Browser.")
+    .command("build [os]")
+    .description("Build Dot Browser. Specify the OS param for cross-platform builds.")
     .action(build)
 
 program
