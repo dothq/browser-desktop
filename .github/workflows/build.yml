@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    env:
+      CI_SKIP_INIT: true
+      SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
 
@@ -24,7 +27,7 @@ jobs:
 
       - name: Download workspace
         run: |
-          CI_SKIP_INIT=true ./melon download
+          ./melon download
           cd src
           git init
           echo Init
