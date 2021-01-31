@@ -3,7 +3,8 @@
 build() {
 	if ! command -v tsc &> /dev/null
 	then
-        if [[ -z "${CI_SKIP_TSC_CHECK}"] ]; then
+        if [[ -z "${CI_SKIP_TSC_CHECK}"] ]
+        then
             tsc
         else
             echo "Typescript is not installed. Please run |npm i -g typescript| to continue."
