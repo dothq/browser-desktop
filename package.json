@@ -22,5 +22,8 @@
     "@types/fs-extra": "^9.0.6",
     "@types/node": "^14.14.16",
     "@types/rimraf": "^3.0.0"
+  },
+  "scripts": {
+    "ci-build": "tsc"
   }
 }

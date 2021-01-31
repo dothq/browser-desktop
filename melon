@@ -1,17 +1,9 @@
 #!/bin/sh
 
+NODE_HELPER="yarn"
+
 build() {
-	if ! command -v tsc &> /dev/null
-	then
-        if [[ -z "${CI_SKIP_TSC_CHECK}"] ]
-        then
-            tsc
-        else
-            echo "Typescript is not installed. Please run |npm i -g typescript| to continue."
-            exit
-        fi
-	fi
-    tsc
+	$NODE_HELPER run ci-build
 }
 
 fix_workspaces() {
@@ -46,6 +38,7 @@ then
         else
         	if ! command -v yarn &> /dev/null
             then
+                NODE_HELPER="npm"
                 npm i
                 build
                 node .dotbuild $@
