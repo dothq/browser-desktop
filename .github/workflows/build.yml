@@ -20,7 +20,7 @@ jobs:
 
       - name: Download workspace
         run: |
-          npm i -g yarn
+          sudo npm i -g yarn
           ./melon download
           cd src
           git init
