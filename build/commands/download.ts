@@ -20,6 +20,8 @@ const unpack = async (name: string, version: string) => {
         { overwrite: true }
     )
 
+    if(process.env.CI_SKIP_INIT) return log.info("Skipping initialisation.")
+
     const proc = execa(`./${bin_name}`, ["init", "src"]);
 
     (proc.stdout as any).on('data', (data: any) => {
