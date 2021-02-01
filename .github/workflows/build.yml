@@ -43,15 +43,33 @@ jobs:
       - name: Import patches
         run: ./melon import
       
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/cache
+          key: ${{ runner.os }}-cache
+
       - name: Build
         run: |
           cd src
           ./mach bootstrap --application-choice browser --no-interactive
           cd ..
           ./melon build
+          cd src
+          ./mach package
+          cd ..
         
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        run: |
+          ARTIFACT_NAME="$(find . -name 'dot-*.tar.bz2')"
+          node upload-artifacts.js linux $ARTIFACT_NAME
+
+      - name: Build success webhook
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          name: build
-          path: obj-?/dist
+            severity: info
+            username: Build
+            color: '#36393F'
+            avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+            description: '**✅ Build on ${{ runner.os }} was successful**'
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
