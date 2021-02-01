@@ -62,7 +62,7 @@ jobs:
       - name: Upload artifacts
         run: |
           ARTIFACT_NAME="$(find . -name 'dot-*.tar.bz2')"
-          node upload-artifacts.js linux $ARTIFACT_NAME
+          AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js linux $ARTIFACT_NAME
 
       - name: Build success webhook
         uses: rjstone/discord-webhook-notify@v1
