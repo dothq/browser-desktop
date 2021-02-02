@@ -42,12 +42,6 @@ jobs:
 
       - name: Import patches
         run: ./melon import
-      
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/cache
-          key: ${{ runner.os }}-cache
 
       - name: Build
         run: |
