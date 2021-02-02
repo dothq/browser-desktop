@@ -14,12 +14,14 @@ const main = async () => {
     if(currentTime > rc.next_merge.beta) {
         console.log("Beta branch is due a merge!");
 
-        const { data } = gh.repos.compareCommits({
+        const data = await gh.repos.compareCommits({
             owner: "dothq",
             repo: "browser-ff",
-            head: "main",
-            base: "beta"
+            head: "beta",
+            base: "main"
         });
+        
+        console.log(data)
 
         gh.pulls.create({
             owner: "dothq",
