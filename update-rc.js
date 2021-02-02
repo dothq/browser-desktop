@@ -9,7 +9,7 @@ const gh = new Octokit({
 const main = async () => {
     const rc = JSON.parse(readFileSync(resolve(__dirname, "release-channels.json"), "utf-8"));
 
-    const currentTime = new Date().getTime();
+    const currentTime = new Date().toISOString();
 
     if(currentTime > rc.next_merge.beta) {
         console.log("Beta branch is due a merge!");
