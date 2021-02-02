@@ -17,8 +17,8 @@ const main = async () => {
         const data = await gh.repos.compareCommits({
             owner: "dothq",
             repo: "browser-ff",
-            head: "main",
-            base: "beta"
+            head: "beta",
+            base: "main"
         });
         
         console.log(data)
