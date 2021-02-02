@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Disable sscache
+        run: |
+          sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/linux/mozconfig
+          cat configs/linux/mozconfig
+
       - name: Set up Git User
         run: |
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
