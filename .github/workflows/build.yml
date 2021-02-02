@@ -68,7 +68,7 @@ jobs:
         with:
             severity: info
             username: Build
-            color: '#36393F'
-            avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+            color: '#2f3136'
+            avatarUrl: https://github.com/dothq.png
             description: '**✅ Build on ${{ runner.os }} was successful**'
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
