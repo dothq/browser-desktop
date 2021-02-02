@@ -20,6 +20,8 @@ const main = async () => {
             head: "main",
             base: "beta"
         });
+        
+        console.log(data)
 
         gh.pulls.create({
             owner: "dothq",
