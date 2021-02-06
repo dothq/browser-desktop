@@ -14,7 +14,7 @@ async function main() {
 
     const data = readFileSync(resolve(process.cwd(), file), "utf-8");
 
-    const blobName = `${os}/${file.split("/")[file.split("/").length - 1]}`;
+    const blobName = `browser/${os}/${file.split("/")[file.split("/").length - 1]}`;
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const uploadBlobResponse = await blockBlobClient.upload(data, data.length);
     console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
