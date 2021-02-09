@@ -1,5 +1,6 @@
 import execa from "execa";
 import { existsSync, readdirSync } from "fs";
+import { ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 
@@ -19,6 +20,8 @@ export const run = async () => {
             const args = ["-no-remote", "-profile"]
 
             args.push(resolve(objDir, "tmp", "profile-default"))
+
+            ensureDirSync(resolve(objDir, "tmp", "profile-default"));
 
             log.info(`Starting \`dot\` with args ${JSON.stringify(args)}...`)
 
