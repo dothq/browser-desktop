@@ -6,6 +6,8 @@ import execa from 'execa';
 import { moveSync } from 'fs-extra';
 
 export const downloadArtifacts = async () => {
+  if(process.platform !== "win32") log.error("This is not a Windows machine, will not download artifacts.")
+
   const filename = "mozbuild.tar.bz2"
   const url = `https://github.com/dothq/windows-artifacts/releases/latest/download/mozbuild.tar.bz2`;
 
