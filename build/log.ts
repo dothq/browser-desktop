@@ -1,12 +1,12 @@
 import chalk from 'chalk';
 
 class Log {
-    private startTime: number[];
+    private startTime: number;
 
     constructor() {
         const d = new Date();
 
-        this.startTime = [d.getHours(), d.getMinutes(), d.getSeconds()]
+        this.startTime = d.getTime()
     }
 
     private withLeading(num: number) {
@@ -16,9 +16,13 @@ class Log {
     private getDiff() {
         const d = new Date();
 
-        const hours = d.getHours() - this.startTime[0]
-        const mins = d.getMinutes() - this.startTime[1]
-        const secs = d.getSeconds() - this.startTime[2]
+        const currentTime = d.getTime()
+
+        const elapsedTime = currentTime - this.startTime
+
+        var secs = Math.floor((elapsedTime / 1000) % 60)
+        var mins = Math.floor((elapsedTime / (60 * 1000)) % 60)
+        var hours = Math.floor((elapsedTime / (60 * 60 * 1000)) % 24)
 
         const format = (r: number) => {
             return r.toString().length == 1 ? "0" + r : r
