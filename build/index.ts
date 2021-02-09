@@ -3,7 +3,8 @@ import { Command } from 'commander';
 import Log from './log';
 
 import { 
-    download, 
+    download,
+    downloadArtifacts,
     init,
     build,
     exportPatches,
@@ -73,6 +74,11 @@ if(process.platform == "win32") {
         .command("fix-le")
         .description("Convert CRLF line endings to Unix LF line endings.")
         .action(fixLineEndings)
+
+    program
+        .command("download-artifacts")
+        .description("Download Windows artifacts from GitHub.")
+        .action(downloadArtifacts)
 }
 
 process.on('uncaughtException', (err) => {

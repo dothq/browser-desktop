@@ -10,3 +10,4 @@ src/**/*
 src/
 .DS_Store
 *.tar
+*.tar.bz2
