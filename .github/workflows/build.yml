@@ -105,13 +105,11 @@ jobs:
           ./melon download
           ./windows-init.sh
 
-      - name: Download Windows build artifacts
-        shell: bash
-        run: ./melon download-artifacts
-
       - name: Import patches
         shell: bash
-        run: ./melon import
+        run: |
+          ./melon fix-le
+          ./melon import
 
       - name: Build
         shell: cmd
