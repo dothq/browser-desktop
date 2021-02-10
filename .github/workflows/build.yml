@@ -109,36 +109,13 @@ jobs:
         shell: bash
         run: |
           ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
-          ./melon fix-le
           ./melon import
 
       - name: Build
         shell: cmd
         run: |
           type nul > C:\script
+          echo cd /d/a/browser-ff/browser-ff > C:\script
           echo ./melon build >> C:\script
           echo cd src >> C:\script
           echo ./mach package >> C:\script
