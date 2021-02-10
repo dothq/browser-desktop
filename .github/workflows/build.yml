@@ -109,16 +109,40 @@ jobs:
         shell: bash
         run: |
           ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
+          ./melon fix-le
           ./melon import
 
       - name: Build
         shell: cmd
         run: |
-          type nul > build.sh
-          echo ./melon build >> build.sh
+          type nul > C:\script
+          echo ./melon build >> C:\script
           echo cd src >> C:\script
-          echo ./mach package >> build.sh
-          C:\mozilla-build\start-shell.bat "./build.sh"
+          echo ./mach package >> C:\script
+          C:\mozilla-build\start-shell.bat "C:\script"
         
       - name: Upload artifacts
         run: |
