@@ -83,36 +83,44 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Disable sscache
+        shell: bash
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
           cat configs/windows/mozconfig
 
       - name: Set up Git User
+        shell: bash
         run: |
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
           git config --global user.name "dothq-robot"
 
       - name: Install dependencies
+        shell: bash
         run: |
           npm i typescript
 
       - name: Download workspace
+        shell: bash
         run: |
           ./melon download
           ./windows-init.sh
 
       - name: Download Windows build artifacts
+        shell: bash
         run: ./melon download-artifacts
 
       - name: Import patches
+        shell: bash
         run: ./melon import
 
       - name: Build
+        shell: cmd
         run: |
-          ./melon build
-          cd src
-          ./mach package
-          cd ..
+          type nul > build.sh
+          echo ./melon build >> build.sh
+          echo cd src >> C:\script
+          echo ./mach package >> build.sh
+          C:\mozilla-build\start-shell.bat "./build.sh"
         
       - name: Upload artifacts
         run: |
