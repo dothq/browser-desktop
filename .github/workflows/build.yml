@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-20.04
     env:
       CI_SKIP_INIT: true
@@ -62,6 +62,62 @@ jobs:
         run: |
           ARTIFACT_NAME="$(find . -name 'dot-*.tar.bz2')"
           AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js linux $ARTIFACT_NAME
+
+      - name: Build success webhook
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            severity: info
+            username: Build
+            color: '#2f3136'
+            avatarUrl: https://github.com/dothq.png
+            description: '**✅ Build on ${{ runner.os }} was successful**'
+            text: <@&805943648067780648>
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+  build-windows:
+    runs-on: windows-2019
+    env:
+      CI_SKIP_INIT: true
+      SHELL: /bin/sh
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Disable sscache
+        run: |
+          sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
+          cat configs/windows/mozconfig
+
+      - name: Set up Git User
+        run: |
+          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+          git config --global user.name "dothq-robot"
+
+      - name: Install dependencies
+        run: |
+          npm i typescript
+
+      - name: Download workspace
+        run: |
+          ./melon download
+          ./windows-init.sh
+
+      - name: Download Windows build artifacts
+        run: ./melon download-artifacts
+
+      - name: Import patches
+        run: ./melon import
+
+      - name: Build
+        run: |
+          ./melon build
+          cd src
+          ./mach package
+          cd ..
+        
+      - name: Upload artifacts
+        run: |
+          ARTIFACT_NAME="$(find . -name 'dot-*.exe')"
+          AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js windows $ARTIFACT_NAME
 
       - name: Build success webhook
         uses: rjstone/discord-webhook-notify@v1
