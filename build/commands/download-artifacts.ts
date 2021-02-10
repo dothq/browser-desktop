@@ -10,12 +10,7 @@ export const downloadArtifacts = async () => {
 
   const filename = "mozbuild.tar.bz2"
   const url = `https://github.com/dothq/windows-artifacts/releases/latest/download/mozbuild.tar.bz2`;
-
-  log.info(`Locating Windows artifacts...`)
-
   const home = require("os").homedir()
-
-  if(existsSync(resolve(home, `.mozbuild`))) return log.info(`Not donwloading mozbuild as it already exists at "${resolve(home, `.mozbuild`)}"`)
 
   log.info(`Downloading Windows artifacts...`)
 
