@@ -46,10 +46,12 @@ export const importPatches = async () => {
 
         }
 
-        const patchContents = readFileSync(resolve(patchesDir, patch), "utf-8");
-        const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
+        if(process.platform == "win32") {
+            const patchContents = readFileSync(resolve(patchesDir, patch), "utf-8");
+            const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
 
-        await execa("dos2unix", [originalPath], { cwd, stripFinalNewline: false })
+            await execa("dos2unix", [originalPath], { cwd, stripFinalNewline: false })
+        }
 
         await execa("patch", [
             "-R",
