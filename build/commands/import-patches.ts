@@ -43,7 +43,13 @@ export const importPatches = async () => {
             log.info(`Applying ${patch}...`)
 
             await execa("patch", args, { cwd, stripFinalNewline: false });
+
         }
+
+        const patchContents = readFileSync(resolve(patchesDir, patch), "utf-8");
+        const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
+
+        await execa("dos2unix", [originalPath], { cwd, stripFinalNewline: false })
 
         await execa("patch", [
             "-R",
