@@ -31,9 +31,9 @@ export const importPatches = async () => {
             "-p1",
         ]
 
-        if(process.platform == "win32") {
-            args.push("--ignore-whitespace")
-        }
+//         if(process.platform == "win32") {
+//             args.push("--ignore-whitespace")
+//         }
 
         args.push("--binary")
         args.push("-i")
