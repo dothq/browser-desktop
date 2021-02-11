@@ -124,7 +124,7 @@ jobs:
 
       - name: Update path
         shell: bash
-        run: echo '::set-output name=NPATH::$PATH'
+        run: echo ::set-output name=NPATH::$(echo $PATH)
         id: path
 
       - name: Build
