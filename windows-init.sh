@@ -5,7 +5,7 @@ git init
 git config core.autocrlf false
 git checkout --orphan ff
 echo "Adding source files to Git repo. This may take a while..."
-git add . -v
+git add . -v > /dev/null
 git commit -am "Firefox"
 git checkout -b dot
 
