@@ -6,6 +6,7 @@ import execa from 'execa';
 import { dispatch } from '../dispatch';
 import { moveSync } from 'fs-extra';
 import { downloadArtifacts } from './download-artifacts';
+import { homedir } from 'os';
 
 const pjson = require("../../package.json");
 
@@ -121,7 +122,7 @@ export const download = async () => {
         await unpack(filename, version)
         
         if(process.platform === "win32") {
-            if(existsSync(resolve(require("os").homedir(), ".mozbuild"))) {
+            if(existsSync(resolve(homedir(), ".mozbuild"))) {
                 log.info("Mozbuild directory already exists, not redownloading")
             } else {
                 log.info("Mozbuild not found, downloading artifacts.")

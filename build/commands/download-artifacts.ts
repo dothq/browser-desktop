@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { log } from '..';
-import fs, { existsSync } from 'fs';
-import { resolve } from 'path';
+import fs from 'fs';
+import { posix, resolve, sep } from 'path';
 import execa from 'execa';
-import { moveSync } from 'fs-extra';
+import { homedir } from 'os';
 
 export const downloadArtifacts = async () => {
   if(process.platform !== "win32") log.error("This is not a Windows machine, will not download artifacts.")
 
   const filename = "mozbuild.tar.bz2"
   const url = `https://github.com/dothq/windows-artifacts/releases/latest/download/mozbuild.tar.bz2`;
-  const home = require("os").homedir()
+  const home = homedir().split(sep).join(posix.sep)
 
   log.info(`Downloading Windows artifacts...`)
 
