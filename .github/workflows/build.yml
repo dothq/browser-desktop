@@ -88,11 +88,12 @@ jobs:
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
           cat configs/windows/mozconfig
 
-      - name: Set up Git User
+      - name: Set up Git
         shell: bash
         run: |
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
           git config --global user.name "dothq-robot"
+          git config --global core.autocrlf false
 
       - name: Install dependencies
         shell: bash
