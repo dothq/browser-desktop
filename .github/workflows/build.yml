@@ -122,11 +122,16 @@ jobs:
           ./melon fix-le
           ./melon import
 
+      - name: Update path
+        shell: bash
+        run: echo '::set-output name=NPATH::$PATH'
+        id: path
+
       - name: Build
         shell: cmd
         run: |
           type nul > C:\script
-          echo PATH=$PATH:$(where node) >> C:\script
+          echo PATH=$PATH:${{ steps.path.outputs.NPATH }} >> C:\script
           echo echo $PATH >> C:\script
           echo cd /d/a/browser-ff/browser-ff >> C:\script
           echo ./melon build >> C:\script
@@ -135,6 +140,7 @@ jobs:
           C:\mozilla-build\start-shell.bat "C:\script"
         
       - name: Upload artifacts
+        shell: bash
         run: |
           ARTIFACT_NAME="$(find . -name 'dot-*.exe')"
           AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js windows $ARTIFACT_NAME
