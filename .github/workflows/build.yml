@@ -126,6 +126,8 @@ jobs:
         shell: cmd
         run: |
           type nul > C:\script
+          echo PATH=$PATH:$(where node) > C:\script
+          echo echo $PATH > C:\script
           echo cd /d/a/browser-ff/browser-ff > C:\script
           echo ./melon build >> C:\script
           echo cd src >> C:\script
