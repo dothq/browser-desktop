@@ -80,6 +80,11 @@ jobs:
       CI_SKIP_INIT: true
       SHELL: /bin/sh
     steps:
+      - name: Disable autocrlf
+        shell: bash
+        run: |
+          git config --global core.autocrlf false
+
       - uses: actions/checkout@v2
 
       - name: Disable sscache
