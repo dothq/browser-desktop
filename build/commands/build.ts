@@ -67,12 +67,14 @@ const genericBuild = async (os: string) => {
 
     log.info(`Building for "${os}"...`)
 
-    await dispatch(`./mach`, [
-        "bootstrap", 
-        "--application-choice",
-        "browser", 
-        "--no-interactive"
-    ], cwd)
+    if(process.platform !== "win32") {
+        await dispatch(`./mach`, [
+            "bootstrap", 
+            "--application-choice",
+            "browser", 
+            "--no-interactive"
+        ], cwd)
+    }
 
     await dispatch(`./mach`, ["build"], cwd)
 }

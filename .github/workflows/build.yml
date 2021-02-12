@@ -87,10 +87,13 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Disable sscache
+      - name: Disable sscache and add memory thing
         shell: bash
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
+          sed -i '/mk_add_options MOZ_MAKE_FLAGS="-j4"/s/^# //g' configs/common/mozconfig
+          sed -i '/ac_add_options --enable-linker=gold/s/^# //g' configs/common/mozconfig
+          cat configs/common/mozconfig
           cat configs/windows/mozconfig
 
       - name: Set up Git
