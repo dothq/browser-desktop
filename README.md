@@ -56,6 +56,7 @@ You can find the Dot Browser roadmap [here](https://www.notion.so/dotbrowser/414
 
 ## 🤝 Contributors
 - [EnderDev](https://github.com/EnderDev) - ***Main Developer***
+- [Andy Browser](https://github.com/bigspeedfpv) - ***Main Developer***
 - [AwesomeTech10](https://github.com/AwesomeTech10) - ***Main Developer***
 
 ## 💸 Donations
