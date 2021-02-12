@@ -92,7 +92,7 @@ jobs:
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
           sed -i '/mk_add_options MOZ_MAKE_FLAGS="-j4"/s/^# //g' configs/common/mozconfig
-          sed -i '/ac_add_options --enable-linker=gold/s/^# //g' configs/common/mozconfig
+          echo "ac_add_options RUSTC_OPT_LEVEL=1" >> configs/windows/mozconfig
           cat configs/common/mozconfig
           cat configs/windows/mozconfig
 
