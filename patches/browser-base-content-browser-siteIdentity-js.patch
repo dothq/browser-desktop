@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-siteIdentity.js b/browser/base/content/browser-siteIdentity.js
-index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..3a833fc106c96e97ed745eb69f298b5bb093090b 100644
+index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..045f0b634fa2ead8851f7bc2a91f9e760d340530 100644
 --- a/browser/base/content/browser-siteIdentity.js
 +++ b/browser/base/content/browser-siteIdentity.js
 @@ -57,7 +57,7 @@ var gIdentityHandler = {
@@ -11,3 +11,59 @@ index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..3a833fc106c96e97ed745eb69f298b5b
  
    /**
     * Whether the established HTTPS connection is considered "broken".
+@@ -844,6 +844,15 @@ var gIdentityHandler = {
+     return "unknownIdentity";
+   },
+ 
++  /**
++   * Returns the reader mode button element.
++  */
++  get _readerModeButton() {
++    return (this._readerModeButton = document.getElementById(
++      "reader-mode-button"
++    ));
++  },
++
+   /**
+    * Returns whether the issuer of the current certificate chain is
+    * built-in (returns false) or imported (returns true).
+@@ -885,12 +894,20 @@ var gIdentityHandler = {
+       icon_label = brandBundle.getString("brandShorterName");
+     } else if (this._pageExtensionPolicy) {
+       // This is a WebExtension page.
+-      this._identityBox.className = "extensionPage";
+-      let extensionName = this._pageExtensionPolicy.name;
+-      icon_label = gNavigatorBundle.getFormattedString(
+-        "identity.extension.label",
+-        [extensionName]
+-      );
++      let displayUri = this._uri.displaySpec || null;
++
++      if (BROWSER_NEW_TAB_URL == displayUri) {
++        this._identityIconLabel.setAttribute("hidden", "true");
++        this._identityBox.setAttribute("pageproxystate", "invalid");
++        gProtectionsHandler._trackingProtectionIconContainer.setAttribute("hidden", true);
++      } else {
++        this._identityBox.className = "extensionPage";
++        let extensionName = this._pageExtensionPolicy.name;
++        icon_label = gNavigatorBundle.getFormattedString(
++          "identity.extension.label",
++          [extensionName]
++        );
++      }
+     } else if (this._uriHasHost && this._isSecureConnection) {
+       // This is a secure connection.
+       this._identityBox.className = "verifiedDomain";
+@@ -931,6 +948,12 @@ var gIdentityHandler = {
+     } else if (this._isPotentiallyTrustworthy) {
+       // This is a local resource (and shouldn't be marked insecure).
+       this._identityBox.className = "localResource";
++
++      let readerActive = this._readerModeButton.getAttribute("readeractive");
++
++      if (readerActive == "true") {
++        this._identityBox.className = "readerIdentity";
++      }
+     } else {
+       // This is an insecure connection.
+       let warnOnInsecure =
