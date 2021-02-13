@@ -109,3 +109,29 @@ menuitem[type="checkbox"] {
     fill: var(--lwt-toolbarbutton-icon-fill, currentColor);
     fill-opacity: var(--toolbarbutton-icon-fill-opacity);
 }
+
+.panel-subview-body {
+    padding: 8px 0;
+}
+  
+.subviewbutton > .toolbarbutton-text {
+    padding-inline-start: 28px;
+}
+  
+.subviewbutton[shortcut]::after, .subviewbutton[shortcut]::after, .PanelUI-subView .subviewbutton-nav::after {
+    margin-inline-start: -18px;
+}
+  
+.addon-banner-item > .toolbarbutton-text, .subviewbutton-iconic > .toolbarbutton-text, .subviewbutton[image] > .toolbarbutton-text, .subviewbutton[targetURI] > .toolbarbutton-text, .subviewbutton.restoreallitem > .toolbarbutton-text, .subviewbutton.bookmark-item > .toolbarbutton-text, .subviewbutton[checked="true"] > .toolbarbutton-text {
+    padding-inline-start: 12px;
+}
+  
+.panel-subview-body > .subviewbutton, .panel-subview-body > toolbaritem > toolbarbutton {
+    padding: 6px 18px !important;
+    min-height: 28px !important;
+    margin: 2px 0;
+}
+  
+toolbarseparator {
+    margin: 4px 0 !important;
+}

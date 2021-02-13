@@ -1,0 +1,123 @@
+diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
+index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961f8a04bb8 100644
+--- a/browser/base/content/browser.xhtml
++++ b/browser/base/content/browser.xhtml
+@@ -762,7 +762,7 @@
+                         oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
+         </toolbaritem>
+         <toolbarseparator class="sync-ui-item"/>
+-        <toolbaritem>
++        <toolbaritem hidden="true">
+           <toolbarbutton id="appMenu-protection-report-button"
+                class="subviewbutton subviewbutton-iconic"
+                oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
+@@ -773,7 +773,12 @@
+             </label>
+           </toolbarbutton>
+         </toolbaritem>
+-        <toolbarseparator id="appMenu-tp-separator"/>
++        <toolbarseparator id="appMenu-tp-separator" hidden="true"/>
++        <toolbarbutton id="appMenu-new-tab-button"
++                       class="subviewbutton subviewbutton-iconic"
++                       label="&newTabCmd.label;"
++                       key="key_newNavigatorTab"
++                       oncommand="BrowserOpenTab()"/>
+         <toolbarbutton id="appMenu-new-window-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        label="&newNavigatorCmd.label;"
+@@ -799,9 +804,10 @@
+         <toolbarbutton id="appMenuRestoreLastSession"
+                        label="&appMenuHistory.restoreSession.label;"
+                        class="subviewbutton subviewbutton-iconic"
+-                       command="Browser:RestoreLastSession"/>
+-        <toolbarseparator/>
+-        <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none">
++                       command="Browser:RestoreLastSession"
++                       hidden="true"/>
++        <toolbarseparator hidden="true"/>
++        <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none" hidden="true">
+           <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
+           <spacer class="before-label"/>
+           <label value="&fullZoom.label;"/>
+@@ -831,8 +837,8 @@
+                          onclick="if (event.button == 0) this.closest('panel').hidePopup();"
+                          tooltip="dynamic-shortcut-tooltip"/>
+         </toolbaritem>
+-        <toolbarseparator/>
+-        <toolbaritem id="appMenu-edit-controls" class="toolbaritem-combined-buttons" closemenu="none">
++        <toolbarseparator hidden="true"/>
++        <toolbaritem id="appMenu-edit-controls" class="toolbaritem-combined-buttons" closemenu="none" hidden="true">
+           <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
+           <spacer class="before-label"/>
+           <label value="&editMenu.label;"/>
+@@ -856,24 +862,41 @@
+                        class="subviewbutton subviewbutton-iconic subviewbutton-nav"
+                        label="&places.library.title;"
+                        closemenu="none"
+-                       oncommand="PanelUI.showSubView('appMenu-libraryView', this)"/>
++                       oncommand="PanelUI.showSubView('appMenu-libraryView', this)"
++                       hidden="true"/>
+         <toolbarbutton id="appMenu-logins-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        label="&logins.label;"
+                        oncommand="LoginHelper.openPasswordManager(window, { entryPoint: 'mainmenu' })"
+-                       />
++                       hidden="true"/>
+         <toolbarbutton id="appMenu-addons-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        label="&addons.label;"
+                        key="key_openAddons"
+                        command="Tools:Addons"
+-                       />
++                       hidden="true"/>
+         <toolbarbutton id="appMenu-ssb-button"
+                        class="subviewbutton subviewbutton-iconic subviewbutton-nav"
+                        label="Sites in App Mode"
+                        closemenu="none"
+                        oncommand="PanelUI.showSubView('appMenu-SSBView', this)"
+                        hidden="true" persist="hidden"/>
++
++        <toolbarbutton id="appMenu-library-history-button"
++                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
++                       label="&historyMenu.label;"
++                       closemenu="none"
++                       oncommand="PanelUI.showSubView('PanelUI-history', this)"/>
++        <toolbarbutton id="appMenu-library-bookmarks-button"
++                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
++                       label="&bookmarksSubview.label;"
++                       closemenu="none"
++                       oncommand="BookmarkingUI.showSubView(this);"/>
++        <toolbarbutton id="appMenu-library-downloads-button"
++                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
++                       label="&libraryDownloads.label;"
++                       closemenu="none"
++                       oncommand="DownloadsSubview.show(this);"/>
+         <toolbarbutton id="appMenu-preferences-button"
+                        class="subviewbutton subviewbutton-iconic"
+ #ifdef XP_WIN
+@@ -884,8 +907,7 @@
+                        key="key_preferencesCmdMac"
+ #endif
+ #endif
+-                       oncommand="openPreferences()"
+-                       />
++                       oncommand="openPreferences()"/>
+         <toolbarbutton id="appMenu-customize-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        data-l10n-id="appmenuitem-customize-mode"
+@@ -914,12 +936,13 @@
+                        command="cmd_printPreview"
+ #endif
+                        />
+-        <toolbarseparator/>
+         <toolbarbutton id="appMenu-find-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        label="&findOnCmd.label;"
+                        key="key_find"
+-                       command="cmd_find"/>
++                       command="cmd_find"
++                       />
++        <toolbarseparator/>
+         <toolbarbutton id="appMenu-more-button"
+                        class="subviewbutton subviewbutton-nav"
+                        label="&moreMenu.label;"

@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/chrome/browser/browser.dtd b/browser/locales/en-US/chrome/browser/browser.dtd
+index 4431fddf9715e3cbc26994c81b8196bd6cac15a5..201c8e93268a78fcd8b7ecb2eeb92daaa3302ce5 100644
+--- a/browser/locales/en-US/chrome/browser/browser.dtd
++++ b/browser/locales/en-US/chrome/browser/browser.dtd
+@@ -95,6 +95,7 @@ this container is a toolbar. This avoids double-speaking. -->
+ 
+ <!ENTITY webDeveloperMenu.label       "Web Developer">
+ 
++<!ENTITY newTabCmd.label        "New Tab">
+ <!ENTITY newNavigatorCmd.label        "New Window">
+ <!ENTITY newPrivateWindow.label     "New Private Window">
+ 

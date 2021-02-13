@@ -1,0 +1,15 @@
+diff --git a/browser/themes/shared/menupanel.inc.css b/browser/themes/shared/menupanel.inc.css
+index c919f32a14547d2ceb06c353070eea7a4fda75aa..a77f17e487f6ca8f38eb6b5e838c9b98360c3c28 100644
+--- a/browser/themes/shared/menupanel.inc.css
++++ b/browser/themes/shared/menupanel.inc.css
+@@ -4,6 +4,10 @@
+ 
+ /* Menu panel and palette styles */
+ 
++#appMenu-new-tab-button {
++  list-style-image: url(chrome://browser/skin/new-tab.svg);
++}
++
+ #appMenu-new-window-button {
+   list-style-image: url(chrome://browser/skin/new-window.svg);
+ }
