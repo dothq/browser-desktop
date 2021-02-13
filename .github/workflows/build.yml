@@ -136,10 +136,9 @@ jobs:
           type nul > C:\script
           echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> C:\script
           echo echo $PATH >> C:\script
-          echo cd /d/a/browser-ff/browser-ff >> C:\script
-          echo ./melon build >> C:\script
-          echo cd src >> C:\script
-          echo ./mach package >> C:\script
+          echo cd /d/a/browser-ff/browser-ff/src >> C:\script
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> C:\script
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\script
           C:\mozilla-build\start-shell.bat "C:\script"
         
       - name: Upload artifacts
