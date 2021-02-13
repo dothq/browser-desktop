@@ -63,6 +63,8 @@ const exportManual = async (cwd: string) => {
                         inSrc,
                         outsideSrc
                     );
+
+                    log.info(`Updated manual patch "${patch.src}".`)
                 } else if(Array.isArray(patch.src)) {
                     patch.src.forEach(p => {
                         const inSrc = resolve(cwd, p);
@@ -75,6 +77,8 @@ const exportManual = async (cwd: string) => {
                             inSrc,
                             outsideSrc
                         );
+
+                        log.info(`Updated manual patch "${p}".`)
                     })
                 }
             }
