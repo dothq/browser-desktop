@@ -1,7 +1,9 @@
 import { resolve } from "path";
 import execa from "execa";
-import { createWriteStream, mkdirSync, rmdirSync, writeFileSync } from "fs";
+import { createWriteStream, existsSync, mkdirSync, rmdirSync, writeFileSync } from "fs";
 import { log } from "..";
+import manualPatches from "../manual-patches";
+import { copySync, ensureDirSync } from "fs-extra";
 
 const flags: {
     [key: string]: string
@@ -46,6 +48,40 @@ const exportFlag = async (flag: string, cwd: string, actions: any[]) => {
     return actions;
 }
 
+const exportManual = async (cwd: string) => {
+    return new Promise(async (resol) => {
+        manualPatches.forEach(patch => {
+            if(patch.action == "copy") {
+                if(typeof(patch.src) == "string") {
+                    const inSrc = resolve(cwd, patch.src);
+                    const outsideSrc = resolve(process.cwd(), "common", patch.src);
+
+                    if(!existsSync(inSrc)) return log.error(`Cannot find "${patch.src}" from manual patches.`);
+                    if(!existsSync(outsideSrc)) ensureDirSync(outsideSrc); // make sure target dir exists before copying
+
+                    copySync(
+                        inSrc,
+                        outsideSrc
+                    );
+                } else if(Array.isArray(patch.src)) {
+                    patch.src.forEach(p => {
+                        const inSrc = resolve(cwd, p);
+                        const outsideSrc = resolve(process.cwd(), "common", p);
+
+                        if(!existsSync(inSrc)) return log.error(`Cannot find "${p}" from manual patches.`);
+                        if(!existsSync(outsideSrc)) ensureDirSync(outsideSrc); // make sure target dir exists before copying
+
+                        copySync(
+                            inSrc,
+                            outsideSrc
+                        );
+                    })
+                }
+            }
+        })
+    })
+}
+
 export const exportPatches = async () => {
     const patchesDir = resolve(process.cwd(), "patches");
     const cwd = resolve(process.cwd(), "src");
@@ -63,6 +99,10 @@ export const exportPatches = async () => {
 
     log.info("Exporting deleted files...");
     await exportFlag("D", cwd, actions);
+    console.log();
+
+    log.info("Exporting manual patches...");
+    await exportManual(cwd);
     console.log();
 
     // log.info("Exporting added files...");
