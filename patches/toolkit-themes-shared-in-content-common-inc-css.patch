@@ -1,5 +1,5 @@
 diff --git a/toolkit/themes/shared/in-content/common.inc.css b/toolkit/themes/shared/in-content/common.inc.css
-index 955b8daa96d11ade0d1ac43b2f4cbff800d6e68c..4d1826c56c962b1f6eb05a9891c481301d81afa8 100644
+index 7710a701084937e1f1c0776eb3989a455462db8b..ab2ff95743e481b627a43ad0c297472c88485af8 100644
 --- a/toolkit/themes/shared/in-content/common.inc.css
 +++ b/toolkit/themes/shared/in-content/common.inc.css
 @@ -7,16 +7,16 @@
@@ -25,7 +25,7 @@ index 955b8daa96d11ade0d1ac43b2f4cbff800d6e68c..4d1826c56c962b1f6eb05a9891c48130
    --in-content-box-info-background: var(--grey-20);
    --in-content-item-hover: rgba(69, 161, 255, 0.2); /* blue 40 a20 */
    --in-content-item-selected: #0a84ff;
-@@ -103,7 +103,7 @@
+@@ -102,7 +102,7 @@
  @media (prefers-color-scheme: dark) {
    :root {
      /* Keep this in sync with layout/base/PresShell.cpp! */

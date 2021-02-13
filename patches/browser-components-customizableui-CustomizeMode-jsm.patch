@@ -1,5 +1,5 @@
 diff --git a/browser/components/customizableui/CustomizeMode.jsm b/browser/components/customizableui/CustomizeMode.jsm
-index 9ce362d45d5fb95ec373448103b338f4f37d9022..f8b01845224bb0bc654bfa1209f4fca6ad4ba977 100644
+index 16b33ae73bf5e52f64a4b77a52e3e41e2b204150..5f5402053117eeaaf5e0093e30377ba44dbf8bba 100644
 --- a/browser/components/customizableui/CustomizeMode.jsm
 +++ b/browser/components/customizableui/CustomizeMode.jsm
 @@ -92,13 +92,11 @@ XPCOMUtils.defineLazyGetter(this, "log", () => {

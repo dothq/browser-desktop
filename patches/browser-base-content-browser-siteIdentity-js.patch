@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-siteIdentity.js b/browser/base/content/browser-siteIdentity.js
-index abdb814995332f5f3543acfc908b0c38ee8bd7c3..571d8b3edeb1ad5f1f95507dd350965aa0a7c539 100644
+index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..3a833fc106c96e97ed745eb69f298b5bb093090b 100644
 --- a/browser/base/content/browser-siteIdentity.js
 +++ b/browser/base/content/browser-siteIdentity.js
 @@ -57,7 +57,7 @@ var gIdentityHandler = {

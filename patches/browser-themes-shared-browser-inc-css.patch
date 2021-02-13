@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/browser.inc.css b/browser/themes/shared/browser.inc.css
-index 69c1de75cce809d303f8639d6f992dd37f381140..dcdeefdf5d84ec724228f432ef2c2353d77ec5bb 100644
+index c2332ab9c0e3a7c854605b608a382d56b5696f7a..d93671e629da8349ab3ded5143208a41798a82de 100644
 --- a/browser/themes/shared/browser.inc.css
 +++ b/browser/themes/shared/browser.inc.css
 @@ -2,6 +2,8 @@
