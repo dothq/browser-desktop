@@ -79,7 +79,27 @@ const genericBuild = async (os: string) => {
     await dispatch(`./mach`, ["build"], cwd)
 }
 
+const parseDate = (d: number) => {
+    d = d/1000;
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay + sDisplay;
+}
+
+const success = (date: number) => { 
+    // mach handles the success messages
+    console.log();
+    log.info(`Total build time: ${parseDate(Date.now() - date)}.`);
+}
+
 export const build = async (os: string) => {
+    let d = Date.now();
+
     if(os) {
         // Docker build
 
@@ -88,7 +108,7 @@ export const build = async (os: string) => {
         applyConfig(os);
 
         setTimeout(async () => {
-            await dockerBuild(os);
+            await dockerBuild(os).then(_ => success(d))
         }, 2500);
     } else {
         // Host build
@@ -99,7 +119,7 @@ export const build = async (os: string) => {
             applyConfig(prettyHost);
 
             setTimeout(async () => {
-                await genericBuild(prettyHost);
+                await genericBuild(prettyHost).then(_ => success(d))
             }, 2500);
         } else {
             return log.error(`We do not support "${prettyHost}" builds right now.\nWe only currently support ${JSON.stringify(BUILD_TARGETS)}.`)
@@ -107,7 +127,4 @@ export const build = async (os: string) => {
     }
 
 
-    
-
-    
 }
