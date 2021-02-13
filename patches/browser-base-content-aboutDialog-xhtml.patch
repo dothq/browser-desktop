@@ -1,0 +1,38 @@
+diff --git a/browser/base/content/aboutDialog.xhtml b/browser/base/content/aboutDialog.xhtml
+index 5323aed9b1c1968afdd4495bb53a119c4c6764f5..d559ba1da259dae3d1ec8759b470b904a1e6724f 100644
+--- a/browser/base/content/aboutDialog.xhtml
++++ b/browser/base/content/aboutDialog.xhtml
+@@ -125,6 +125,7 @@
+             <label id="currentChannel" data-l10n-name="current-channel"></label>
+           </description>
+ #endif
++          <br />
+           <vbox id="experimental" hidden="true">
+             <description class="text-blurb" id="warningDesc" data-l10n-id="warningDesc-version"></description>
+             <description class="text-blurb" id="communityExperimentalDesc" data-l10n-id="community-exp">
+@@ -133,12 +134,13 @@
+             </description>
+           </vbox>
+           <description class="text-blurb" id="communityDesc" data-l10n-id="community-2">
+-            <label is="text-link" href="https://www.mozilla.org/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="community-mozillaLink"></label>
+-            <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-creditsLink"></label>
++            <label is="text-link" href="https://hg.mozilla.org/mozilla-central" data-l10n-name="community-firefoxLink"></label>
++            <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-contributorsLink"></label>
+           </description>
++          <br />
+           <description class="text-blurb" id="contributeDesc" data-l10n-id="helpus">
+             <label is="text-link" href="https://donate.mozilla.org/?utm_source=firefox&#38;utm_medium=referral&#38;utm_campaign=firefox_about&#38;utm_content=firefox_about" data-l10n-name="helpus-donateLink"></label>
+-            <label is="text-link" href="https://www.mozilla.org/contribute/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="helpus-getInvolvedLink"></label>
++            <label is="text-link" href="https://github.com/dothq/browser-ff" data-l10n-name="helpus-getInvolvedLink"></label>
+           </description>
+         </vbox>
+       </vbox>
+@@ -147,7 +149,7 @@
+       <hbox pack="center">
+         <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:license" data-l10n-id="bottomLinks-license"></label>
+         <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:rights" data-l10n-id="bottomLinks-rights"></label>
+-        <label is="text-link" class="bottom-link" href="https://www.mozilla.org/privacy/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-id="bottomLinks-privacy"></label>
++        <label is="text-link" class="bottom-link" href="https://dothq.co/about/privacy" data-l10n-id="bottomLinks-privacy"></label>
+       </hbox>
+       <description id="trademark" data-l10n-id="trademarkInfo"></description>
+     </vbox>
