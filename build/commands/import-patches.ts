@@ -26,6 +26,8 @@ export const importPatches = async () => {
 
     const patches = readdirSync(patchesDir);
 
+    await execa("git", ["checkout", "."], { cwd })
+
     await Promise.all(patches.map(async patch => {
         const args = [
             "-p1",
@@ -39,6 +41,9 @@ export const importPatches = async () => {
         args.push("-i")
         args.push(`../patches/${patch}`)
 
+        const patchContents = readFileSync(resolve(patchesDir, patch), "utf-8");
+        const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
+
         const apply = async () => {
             log.info(`Applying ${patch}...`)
 
@@ -47,9 +52,6 @@ export const importPatches = async () => {
         }
 
         if(process.platform == "win32") {
-            const patchContents = readFileSync(resolve(patchesDir, patch), "utf-8");
-            const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
-
             await execa("dos2unix", [originalPath], { cwd, stripFinalNewline: false })
         }
 
