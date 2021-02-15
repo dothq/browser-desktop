@@ -80,10 +80,6 @@ jobs:
       CI_SKIP_INIT: true
       SHELL: /bin/sh
     steps:
-      - name: Disable Windows Search Index
-        shell: cmd
-        run: sc stop "wsearch" && sc config "wsearch" start=disabled
-
       - name: Disable autocrlf
         shell: bash
         run: |
