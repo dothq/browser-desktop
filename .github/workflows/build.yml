@@ -80,6 +80,10 @@ jobs:
       CI_SKIP_INIT: true
       SHELL: /bin/sh
     steps:
+      - name: Disable Windows Search Index
+        shell: cmd
+        run: sc stop "wsearch" && sc config "wsearch" start=disabled
+
       - name: Disable autocrlf
         shell: bash
         run: |
@@ -91,7 +95,7 @@ jobs:
         shell: bash
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
-          cat configs/common/mozconfig
+          echo "mk_add_options MOZ_MAKE_FLAGS="-j2" >> configs/windows/mozconfig
           cat configs/windows/mozconfig
 
       - name: Set up Git
