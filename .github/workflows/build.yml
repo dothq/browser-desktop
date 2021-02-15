@@ -107,7 +107,8 @@ jobs:
         run: |
           curl https://cdn.dothq.co/artifacts/tools/mozilla-build.zip -o mozilla-build.zip
           ls
-          7z x mozilla-build.zip -aoa -oC:\mozilla-build 
+          7z x mozilla-build.zip -aoa -oC:\mozilla-build
+          del /f mozilla-build.zip
 
       - name: Install dependencies
         shell: bash
@@ -119,6 +120,8 @@ jobs:
         run: |
           ./melon download
           ./windows-init.sh
+          rm -rf mozbuild.tar.bz2
+          rm -rf firefox-*.tar.xz
 
       - name: Import patches
         shell: bash
