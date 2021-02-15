@@ -82,6 +82,9 @@ jobs:
     steps:
       - name: Increase pagefile size
         uses: al-cheb/configure-pagefile-action@v1.2
+        with:
+          minimum-size: 4
+          disk-root: "C:"
 
       - name: Disable autocrlf
         shell: bash
