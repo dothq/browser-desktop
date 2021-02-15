@@ -107,6 +107,7 @@ jobs:
           git config --global user.name "dothq-robot"
 
       - name: Clone mozillabuild
+        shell: cmd
         run: |
           curl https://cdn.dothq.co/artifacts/tools/mozilla-build.zip -o mozilla-build.zip
           ls
