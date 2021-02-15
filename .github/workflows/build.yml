@@ -91,7 +91,7 @@ jobs:
         shell: bash
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
-          echo "mk_add_options MOZ_MAKE_FLAGS="-j2" >> configs/windows/mozconfig
+          echo "mk_add_options MOZ_MAKE_FLAGS="-j2"" >> configs/windows/mozconfig
           cat configs/windows/mozconfig
 
       - name: Set up Git
