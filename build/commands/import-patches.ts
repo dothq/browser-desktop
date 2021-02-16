@@ -21,7 +21,6 @@ export const importPatches = async () => {
     if(process.platform == "win32") log.warning(`If you get any line ending errors, you should try running |${bin_name} fix-le|.`);
 
     const patchesDir = resolve(process.cwd(), "patches");
-    const actionsLoc = resolve(process.cwd(), "actions.json");
     const cwd = resolve(process.cwd(), "src");
 
     const patches = readdirSync(patchesDir);

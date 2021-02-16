@@ -112,7 +112,4 @@ export const exportPatches = async () => {
     // log.info("Exporting added files...");
     // await exportFlag("A", cwd, actions);
     // console.log();
-
-    // log.info("Writing actions...");
-    // writeFileSync(resolve(process.cwd(), "actions.json"), JSON.stringify(actions, null, 2))
 }
