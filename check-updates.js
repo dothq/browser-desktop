@@ -14,7 +14,10 @@ const main = async () => {
     const version = res.request.path.replace("/pub/firefox/releases/", "").split("/")[0];
 
     if(!version || !versions || !versions["firefox-display"]) throw new Error("Bad version");
-    if(!semver.lt(versions["firefox-display"], version)) return;
+    if(!semver.lt(versions["firefox-display"], version)) {
+        console.log("awesome, you are not behind");
+        return;
+    }
 
     const { data } = await gh.issues.listForRepo({
         owner: "dothq",
