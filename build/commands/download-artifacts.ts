@@ -12,8 +12,8 @@ export const downloadArtifacts = async () => {
   const url = `https://github.com/dothq/windows-artifacts/releases/latest/download/mozbuild.tar.bz2`;
   let home = homedir().split(sep).join(posix.sep)
 
-  if(process.env.MSYSTEM && process.env.MSYSTEM == "MINGW64") {
-    home = "/" + home.replace(/:/, "").replace(/\\/g, "/").toLowerCase();
+  if(process.platform == "win32") {
+    home = "/" + home.replace(/\:/, "").replace(/\\/g, "/").toLowerCase();
   }
 
   log.info(`Downloading Windows artifacts...`)

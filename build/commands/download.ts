@@ -13,7 +13,7 @@ const pjson = require("../../package.json");
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
 
-    if(process.env.MSYSTEM && process.env.MSYSTEM == "MINGW64") {
+    if(process.platform == "win32") {
         cwd = "/" + cwd.replace(/\:/, "").replace(/\\/g, "/").toLowerCase();
     }
 
