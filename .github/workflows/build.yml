@@ -82,9 +82,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Add path
-        shell: cmd
-        run: setx /M path "%path%;C:\Program Files\Git\usr\bin"
+      # - name: Add path
+      #   shell: cmd
+      #   run: setx /M path "%path%;C:\Program Files\Git\usr\bin"
 
       - name: Disable autocrlf
         shell: bash
