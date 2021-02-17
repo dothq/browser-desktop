@@ -114,8 +114,6 @@ jobs:
         run: |
           ./melon download
           ./windows-init.sh
-          rm -rf mozbuild.tar.bz2
-          rm -rf firefox-*.tar.xz
 
       - name: Import patches
         shell: bash --noprofile --norc -eo pipefail {0}
