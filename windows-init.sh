@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 cd src
 git init
 git config core.autocrlf false
