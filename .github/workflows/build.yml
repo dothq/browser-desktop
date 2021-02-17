@@ -104,14 +104,6 @@ jobs:
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
           git config --global user.name "dothq-robot"
 
-      - name: Clone mozillabuild
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          curl https://cdn.dothq.co/artifacts/tools/mozilla-build.zip -o mozilla-build.zip
-          ls
-          7z x mozilla-build.zip -aoa -oC:\mozilla-build
-          del /f mozilla-build.zip
-
       - name: Install dependencies
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
@@ -139,13 +131,13 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          type nul > C:\script
-          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> C:\script
-          echo echo $PATH >> C:\script
-          echo cd /d/a/browser-ff/browser-ff/src >> C:\script
-          echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> C:\script
-          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\script
-          C:\mozilla-build\start-shell.bat "C:\script"
+          type nul > ./build-script
+          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> ./build-script
+          echo echo $PATH >> ./build-script
+          echo cd /d/a/browser-ff/browser-ff/src >> ./build-script
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> ./build-script
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> ./build-script
+          C:\mozilla-build\start-shell.bat "./build-script"
         
       - name: Upload artifacts
         shell: bash --noprofile --norc -eo pipefail {0}
