@@ -14,7 +14,7 @@ const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
 
     if(process.env.MSYSTEM && process.env.MSYSTEM == "MINGW64") {
-        cwd = cwd.replace(/:/, "").replace(/\\/g, "/").toLowerCase();
+        cwd = "/" + cwd.replace(/\:/, "").replace(/\\/g, "/").toLowerCase();
     }
 
     log.info(`Unpacking Firefox...`);

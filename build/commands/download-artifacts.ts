@@ -13,7 +13,7 @@ export const downloadArtifacts = async () => {
   let home = homedir().split(sep).join(posix.sep)
 
   if(process.env.MSYSTEM && process.env.MSYSTEM == "MINGW64") {
-    home = home.replace(/:/, "").replace(/\\/g, "/").toLowerCase();
+    home = "/" + home.replace(/:/, "").replace(/\\/g, "/").toLowerCase();
   }
 
   log.info(`Downloading Windows artifacts...`)
