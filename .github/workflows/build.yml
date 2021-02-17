@@ -82,7 +82,9 @@ jobs:
 
       - name: Add path
         shell: powershell
-        run: echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        run: |
+          echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "C:\Users\Administrator\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Disable autocrlf
         shell: bash --noprofile --norc -eo pipefail {0}
