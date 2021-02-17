@@ -84,7 +84,7 @@ jobs:
 
       - name: Add path
         shell: cmd
-        run: echo ::add-path::C:\Program Files\Git\usr\bin
+        run: setx /M path "%path%;C:\Program Files\Git\usr\bin"
 
       - name: Disable autocrlf
         shell: bash
