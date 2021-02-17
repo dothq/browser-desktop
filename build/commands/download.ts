@@ -11,7 +11,11 @@ import { homedir } from 'os';
 const pjson = require("../../package.json");
 
 const unpack = async (name: string, version: string) => {
-    const cwd = process.cwd().split(sep).join(posix.sep)
+    let cwd = process.cwd().split(sep).join(posix.sep)
+
+    if(process.env.MSYSTEM && process.env.MSYSTEM == "MINGW64") {
+        cwd = cwd.replace(/:/, "").replace(/\\/g, "/").toLowerCase();
+    }
 
     log.info(`Unpacking Firefox...`);
     await execa("tar", ["-xvf", name, "-C", cwd]);
