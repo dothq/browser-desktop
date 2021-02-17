@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ nightly ]
   pull_request:
-    branches: [ main ]
+    branches: [ nightly ]
   workflow_dispatch:
   
 jobs:
