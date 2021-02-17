@@ -75,29 +75,23 @@ jobs:
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   windows:
-    runs-on: windows-2019
+    runs-on: [self-hosted, Windows, X64]
     env:
       CI_SKIP_INIT: true
       SHELL: /bin/sh
     steps:
-      - name: Increase pagefile size
-        uses: al-cheb/configure-pagefile-action@v1.2
-        with:
-          minimum-size: 4
-          disk-root: "C:"
+      - uses: actions/checkout@v2
 
       - name: Disable autocrlf
         shell: bash
         run: |
-          git config --global core.autocrlf false
-
-      - uses: actions/checkout@v2
+          git config core.autocrlf false
 
       - name: Disable sscache
         shell: bash
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
-          echo 'mk_add_options MOZ_MAKE_FLAGS="-j2"' >> configs/windows/mozconfig
+          echo 'mk_add_options MOZ_MAKE_FLAGS="-j4"' >> configs/windows/mozconfig
           cat configs/windows/mozconfig
 
       - name: Set up Git
