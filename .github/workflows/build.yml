@@ -87,25 +87,25 @@ jobs:
       #   run: setx /M path "%path%;C:\Program Files\Git\usr\bin"
 
       - name: Disable autocrlf
-        shell: bash
+        shell: bash.exe
         run: |
           git config core.autocrlf false
 
       - name: Disable sscache
-        shell: bash
+        shell: bash.exe
         run: |
           sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
           echo 'mk_add_options MOZ_MAKE_FLAGS="-j4"' >> configs/windows/mozconfig
           cat configs/windows/mozconfig
 
       - name: Set up Git
-        shell: bash
+        shell: bash.exe
         run: |
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
           git config --global user.name "dothq-robot"
 
       - name: Clone mozillabuild
-        shell: bash
+        shell: bash.exe
         run: |
           curl https://cdn.dothq.co/artifacts/tools/mozilla-build.zip -o mozilla-build.zip
           ls
@@ -113,12 +113,12 @@ jobs:
           del /f mozilla-build.zip
 
       - name: Install dependencies
-        shell: bash
+        shell: bash.exe
         run: |
           npm i typescript
 
       - name: Download workspace
-        shell: bash
+        shell: bash.exe
         run: |
           ./melon download
           ./windows-init.sh
@@ -126,13 +126,13 @@ jobs:
           rm -rf firefox-*.tar.xz
 
       - name: Import patches
-        shell: bash
+        shell: bash.exe
         run: |
           ./melon fix-le
           ./melon import
 
       - name: Update path
-        shell: bash
+        shell: bash.exe
         run: echo ::set-output name=NPATH::$(echo $PATH)
         id: path
 
@@ -148,7 +148,7 @@ jobs:
           C:\mozilla-build\start-shell.bat "C:\script"
         
       - name: Upload artifacts
-        shell: bash
+        shell: bash.exe
         run: |
           ARTIFACT_NAME="$(find . -name 'dot-*.exe')"
           AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js windows $ARTIFACT_NAME
