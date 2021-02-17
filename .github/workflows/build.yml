@@ -3,8 +3,6 @@ name: Build
 on:
   push:
     branches: [ nightly ]
-  pull_request:
-    branches: [ nightly ]
   workflow_dispatch:
   
 jobs:
