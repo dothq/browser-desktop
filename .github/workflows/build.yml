@@ -110,12 +110,11 @@ jobs:
           npm i typescript
 
       - name: Download workspace
-        shell: cmd
-        run: ./melon download
-
-      - name: Initialise src
         shell: bash --noprofile --norc -eo pipefail {0}
-        run: ./windows-init.sh
+        run: |
+          echo $PWD
+          ./melon download
+          ./windows-init.sh
 
       - name: Import patches
         shell: bash --noprofile --norc -eo pipefail {0}
