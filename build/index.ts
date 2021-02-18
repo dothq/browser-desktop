@@ -10,7 +10,8 @@ import {
     exportPatches,
     importPatches,
     run,
-    fixLineEndings
+    fixLineEndings,
+    reset
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -68,6 +69,11 @@ program
     .command("run")
     .description("Run the browser.")
     .action(run)
+
+program
+    .command("reset")
+    .description("Reset the source directory to stock Firefox.")
+    .action(reset)
 
 if(process.platform == "win32") {
     program

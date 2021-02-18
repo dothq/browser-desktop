@@ -90,4 +90,5 @@ export const importPatches = async () => {
     })
 
     log.success(`Successfully applied ${patches.length + totalActions} patches.`)
+    log.info("Next time you build, it may need to recompile parts of the program because the cache was invalidated.")
 }
