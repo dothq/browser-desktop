@@ -104,10 +104,16 @@ jobs:
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
           git config --global user.name "dothq-robot"
 
-      - name: Install dependencies
+      - name: Install Typescript
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           npm i typescript
+
+      - name: Install xz-utils
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+          iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
           scoop install xz
 
       - name: Download workspace
