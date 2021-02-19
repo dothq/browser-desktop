@@ -108,7 +108,7 @@ jobs:
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           npm i typescript
-          choco install xz-utils
+          scoop install xz
 
       - name: Download workspace
         shell: bash --noprofile --norc -eo pipefail {0}
