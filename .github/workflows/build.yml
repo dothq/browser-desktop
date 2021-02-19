@@ -109,11 +109,15 @@ jobs:
         run: |
           npm i typescript
 
-      - name: Install xz-utils
+      - name: Install Scoop
         shell: powershell
         run: |
           Set-ExecutionPolicy RemoteSigned -scope CurrentUser
           iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+
+      - name: Install xz-utils
+        shell: bash --noprofile --norc -eo pipefail {0}
+        run: |
           scoop install xz
 
       - name: Download workspace
