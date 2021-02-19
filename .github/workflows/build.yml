@@ -110,7 +110,7 @@ jobs:
           npm i typescript
 
       - name: Install xz-utils
-        shell: bash --noprofile --norc -eo pipefail {0}
+        shell: powershell
         run: |
           scoop install xz
 
