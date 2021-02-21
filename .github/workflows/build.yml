@@ -79,7 +79,7 @@ jobs:
       SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
-      - uses: MinoruSekine/setup-scoop
+      - uses: MinoruSekine/setup-scoop@v1
 
       - name: Add path
         shell: powershell
