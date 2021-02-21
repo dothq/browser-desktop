@@ -109,13 +109,6 @@ jobs:
         run: |
           npm i typescript
 
-      - name: Add alias for xz
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          alias xz=xz.exe
-          which xz
-          xz --version
-
       - name: Download workspace
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
