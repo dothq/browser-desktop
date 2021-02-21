@@ -114,7 +114,7 @@ jobs:
         run: |
           Set-ExecutionPolicy RemoteSigned -scope CurrentUser
           iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
-        if: (Get-Command "pandoc.exe" -ErrorAction SilentlyContinue) -eq $null
+        if: ${{ (Get-Command "pandoc.exe" -ErrorAction SilentlyContinue) -eq $null }}
 
       - name: Install xz-utils
         shell: powershell
