@@ -113,6 +113,7 @@ jobs:
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           alias xz=xz.exe
+          which xz
 
       - name: Download workspace
         shell: bash --noprofile --norc -eo pipefail {0}
