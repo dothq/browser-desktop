@@ -79,6 +79,7 @@ jobs:
       SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
+      - uses: MinoruSekine/setup-scoop
 
       - name: Add path
         shell: powershell
@@ -109,10 +110,10 @@ jobs:
         run: |
           npm i typescript
 
-      - name: Check for xz
-        shell: bash --noprofile --norc -eo pipefail {0}
+      - name: Install xz-utils
+        shell: powershell
         run: |
-          xz --version
+          scoop install xz
 
       - name: Download workspace
         shell: bash --noprofile --norc -eo pipefail {0}
