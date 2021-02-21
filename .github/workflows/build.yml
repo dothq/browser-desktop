@@ -114,11 +114,10 @@ jobs:
         run: |
           Set-ExecutionPolicy RemoteSigned -scope CurrentUser
           iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
-          which scoop
         continue-on-error: true
 
       - name: Install xz-utils
-        shell: powershell
+        shell: cmd
         run: |
           scoop install xz
           which xz
