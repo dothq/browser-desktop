@@ -109,10 +109,10 @@ jobs:
         run: |
           npm i typescript
 
-      - name: Install xz-utils
-        shell: powershell
+      - name: Check for xz
+        shell: bash --noprofile --norc -eo pipefail {0}
         run: |
-          scoop install xz
+          xz --version
 
       - name: Download workspace
         shell: bash --noprofile --norc -eo pipefail {0}
