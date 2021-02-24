@@ -110,12 +110,11 @@ jobs:
           npm i typescript
 
       - name: Download workspace
-        shell: bash --noprofile --norc -eo pipefail {0}
+        shell: bash -eo pipefail {0}
         run: |
           echo $PWD
           ls
           shopt -s expand_aliases
-          alias xz="/c/Program\ Files/Git/mingw64/bin/xz.exe"
           xz --version
           ./melon download
           ./melon download-artifacts
