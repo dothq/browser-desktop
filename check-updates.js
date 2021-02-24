@@ -14,7 +14,11 @@ const main = async () => {
     const version = res.request.path.replace("/pub/firefox/releases/", "").split("/")[0];
 
     if(!version || !versions || !versions["firefox-display"]) throw new Error("Bad version");
-    if(!semver.lt(versions["firefox-display"], version)) {
+
+    const curr = versions["firefox-display"].split(".")[0];
+    const newv = version.split(".")[0];
+
+    if(curr >= newv) {
         console.log("awesome, you are not behind");
         return;
     }
