@@ -110,7 +110,7 @@ jobs:
           npm i typescript
 
       - name: Download workspace
-        shell: bash -eo pipefail {0}
+        shell: bash -leo pipefail {0}
         run: |
           echo $PWD
           ls
