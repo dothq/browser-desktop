@@ -39,7 +39,7 @@ const main = async () => {
         await gh.issues.create({
             owner: "dothq",
             repo: "browser",
-            title: "⚠ Dot Browser Desktop is not matching upstream version!",
+            title: "❗ Desktop is out of date",
             labels: ["behind-upstream"],
             assignees: ["dothq-robot", "EnderDev"],
             body: `## Version comparison
@@ -49,7 +49,7 @@ const main = async () => {
 
 ---
 
-###### This issue was automatically generated because Dot Browser for Desktop's version is behind from upstream's.`
+###### This issue was automatically generated because Dot Browser for Desktop's version is behind from upstream.`
         })
     } else {
         console.log("notif exists, aborting...")
