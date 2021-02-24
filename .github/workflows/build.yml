@@ -113,7 +113,7 @@ jobs:
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           shopt -s expand_aliases
-          alias xz=xz.exe
+          alias xz="/c/Users/Administrator/scoop/shims/xz.exe"
           xz --version
 
       - name: Download workspace
