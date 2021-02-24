@@ -40,8 +40,8 @@ const main = async () => {
             owner: "dothq",
             repo: "browser",
             title: "⚠ Dot Browser Desktop is not matching upstream version!",
-            labels: "behind-upstream",
-            assignees: "dothq-robot,EnderDev",
+            labels: ["behind-upstream"],
+            assignees: ["dothq-robot", "EnderDev"],
             body: `## Version comparison
     
 * **Dot Browser Version** - \`${versions["firefox-display"]}\`
