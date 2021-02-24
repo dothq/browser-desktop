@@ -114,6 +114,9 @@ jobs:
         run: |
           echo $PWD
           ./melon download
+          tar -xvf firefox-*.source.tar.xz -C /c/_work/browser-ff/browser-ff
+          mv ./firefox-* src
+          ./melon download-artifacts
           ./windows-init.sh
 
       - name: Import patches
