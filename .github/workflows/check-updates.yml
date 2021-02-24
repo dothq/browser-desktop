@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # manually run sync
   
 jobs:
-  sync:
+  check:
 
     runs-on: ubuntu-latest
 
@@ -18,5 +18,4 @@ jobs:
           ROBOT_TOKEN: ${{ secrets.ROBOT_TOKEN }}
         run: |
           yarn
-          yarn add semver
           node check-updates.js

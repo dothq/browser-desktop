@@ -14,7 +14,11 @@ const main = async () => {
     const version = res.request.path.replace("/pub/firefox/releases/", "").split("/")[0];
 
     if(!version || !versions || !versions["firefox-display"]) throw new Error("Bad version");
-    if(!semver.lt(versions["firefox-display"], version)) {
+
+    const curr = versions["firefox-display"].split(".")[0];
+    const newv = version.split(".")[0];
+
+    if(curr >= newv) {
         console.log("awesome, you are not behind");
         return;
     }
@@ -35,9 +39,9 @@ const main = async () => {
         await gh.issues.create({
             owner: "dothq",
             repo: "browser",
-            title: "⚠ Dot Browser Desktop is not matching upstream version!",
-            labels: "behind-upstream",
-            assignees: "dothq-robot,EnderDev",
+            title: "❗ Desktop is out of date",
+            labels: ["behind-upstream"],
+            assignees: ["dothq-robot", "EnderDev"],
             body: `## Version comparison
     
 * **Dot Browser Version** - \`${versions["firefox-display"]}\`
@@ -45,7 +49,7 @@ const main = async () => {
 
 ---
 
-###### This issue was automatically generated because Dot Browser for Desktop's version is behind from upstream's.`
+###### This issue was automatically generated because Dot Browser for Desktop's version is behind from upstream.`
         })
     } else {
         console.log("notif exists, aborting...")
