@@ -113,7 +113,7 @@ jobs:
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           shopt -s expand_aliases
-          alias xz="/c/Program Files/Git/mingw64/bin/xz.exe"
+          alias xz="/c/Program\ Files/Git/mingw64/bin/xz.exe"
           xz --version
 
       - name: Download workspace
