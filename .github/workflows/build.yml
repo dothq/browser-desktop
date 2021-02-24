@@ -109,6 +109,13 @@ jobs:
         run: |
           npm i typescript
 
+      - name: Alias xz
+        shell: bash --noprofile --norc -eo pipefail {0}
+        run: |
+          shopt -s expand_aliases
+          alias xz=xz.exe
+          xz --version
+
       - name: Download workspace
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
