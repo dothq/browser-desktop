@@ -13,6 +13,7 @@ const pjson = require("../../package.json");
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
 
+    console.log(process.platform)
     if(process.platform == "win32") {
         cwd = "/" + cwd.replace(/\:/, "").replace(/\\/g, "/").replace('/c', 'c:').toLowerCase();
     }
