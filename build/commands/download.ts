@@ -19,6 +19,7 @@ const unpack = async (name: string, version: string) => {
 
     log.info(`Unpacking Firefox...`);
     console.log(cwd, existsSync(cwd))
+    console.log(cwd, existsSync(cwd.replace('/c', 'c:')))
     console.log(name, existsSync(name))
     await execa("tar", ["-xvf", name, "-C", cwd]);
 
