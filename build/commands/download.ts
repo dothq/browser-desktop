@@ -13,6 +13,10 @@ const pjson = require("../../package.json");
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
 
+    if(process.platform == "win32") {
+        cwd = cwd.substr(2)
+    }
+    
     log.info(`Unpacking Firefox...`);
     console.log(cwd, existsSync(cwd))
     console.log(name, existsSync(name))
