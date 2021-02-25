@@ -137,7 +137,7 @@ jobs:
           type nul > C:\build-script.sh
           echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> C:\build-script.sh
           echo echo $PATH >> C:\build-script.sh
-          echo cd /d/a/browser-ff/browser-ff/src >> C:\build-script.sh
+          echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> C:\build-script.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
           C:\mozilla-build\start-shell.bat "C:\build-script.sh"
