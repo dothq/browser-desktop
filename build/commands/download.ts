@@ -21,7 +21,7 @@ const unpack = async (name: string, version: string) => {
     console.log(cwd, existsSync(cwd))
     console.log(name, existsSync(name))
     
-    await execa("tar", ["-xvf", "'"+name+"'", "-C", cwd]);
+    await execa("tar", ["-xvf", "./"+name, "-C", cwd]);
 
     moveSync(
         resolve(cwd, `firefox-${version.split("b")[0]}`),
