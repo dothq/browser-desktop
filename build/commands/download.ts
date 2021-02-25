@@ -14,8 +14,6 @@ const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
 
     if(process.platform == "win32") {
-        renameSync(name, 'firefox_tar')
-        name = 'firefox_tar'
         cwd = './'
     }
     
