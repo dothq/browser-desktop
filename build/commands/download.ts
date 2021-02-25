@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { bin_name, log } from '..';
-import fs, { existsSync, symlinkSync, writeFileSync } from 'fs';
+import fs, { existsSync, symlinkSync, writeFileSync, renameSync } from 'fs';
 import { posix, resolve, sep } from 'path';
 import execa from 'execa';
 import { dispatch } from '../dispatch';
@@ -14,14 +14,14 @@ const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
 
     if(process.platform == "win32") {
+        renameSync(name, 'firefox_tar')
+        name = 'firefox_tar'
         cwd = './'
     }
     
     log.info(`Unpacking Firefox...`);
-    console.log(cwd, existsSync(cwd))
-    console.log(name, existsSync(name))
     
-    await execa("tar", ["-xvf", "./"+name, "-C", cwd]);
+    await execa("tar", ["-xvf", name, "-C", cwd]);
 
     moveSync(
         resolve(cwd, `firefox-${version.split("b")[0]}`),
