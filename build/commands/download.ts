@@ -65,8 +65,13 @@ const unpack = async (name: string, version: string) => {
     })
 }
 
-export const download = async () => {
-    const firefoxVersion = pjson.versions["firefox-display"];
+export const download = async (firefoxVersion?: string) => {
+    if (firefoxVersion === "") {
+        firefoxVersion = pjson.versions["firefox-display"];
+    }
+    if (firefoxVersion != pjson.versions["firefox-display"]) {
+        log.warning(`A custom Firefox version is being used. Some features of Dot may not work as expected.`)
+    }
 
     const res = await axios.head(`https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US`)
 
