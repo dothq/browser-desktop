@@ -7,22 +7,17 @@ import { dispatch } from '../dispatch';
 import { moveSync } from 'fs-extra';
 import { downloadArtifacts } from './download-artifacts';
 import { homedir } from 'os';
+import { join } from 'path';
 
 const pjson = require("../../package.json");
 
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep)
-    /*console.log(cwd, existsSync(cwd))
-    if(process.platform == "win32") {
-        console.log(process.platform)
-        //cwd = "/" + cwd.replace(/\:/, "").replace(/\\/g, "/").toLowerCase().replace('/c', 'c:');
-        cwd = cwd.substr(2)
-    }*/
 
     log.info(`Unpacking Firefox...`);
     console.log(cwd, existsSync(cwd))
     console.log(name, existsSync(name))
-    await execa("tar", ["-xvf", './'+name, "-C", cwd]);
+    await execa("tar", ["-xvf", join(cwd, name), "-C", cwd]);
 
     moveSync(
         resolve(cwd, `firefox-${version.split("b")[0]}`),
