@@ -15,7 +15,7 @@ const unpack = async (name: string, version: string) => {
 
     if(process.platform == "win32") {
         console.log(process.platform)
-        cwd = "/" + cwd.replace(/\:/, "").replace(/\\/g, "/").replace('/c', 'c:').toLowerCase();
+        cwd = "/" + cwd.replace(/\:/, "").replace(/\\/g, "/").toLowerCase().replace('/c', 'c:');
     }
 
     log.info(`Unpacking Firefox...`);
