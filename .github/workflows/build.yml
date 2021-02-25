@@ -134,13 +134,13 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          type nul > ./build-script
-          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> ./build-script
-          echo echo $PATH >> ./build-script
-          echo cd /d/a/browser-ff/browser-ff/src >> ./build-script
-          echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> ./build-script
-          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> ./build-script
-          C:\mozilla-build\start-shell.bat "./build-script"
+          type nul > C:\build-script.sh
+          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> C:\build-script.sh
+          echo echo $PATH >> C:\build-script.sh
+          echo cd /d/a/browser-ff/browser-ff/src >> C:\build-script.sh
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> C:\build-script.sh
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
+          C:\mozilla-build\start-shell.bat "C:\build-script.sh"
         
       - name: Upload artifacts
         shell: bash --noprofile --norc -eo pipefail {0}
