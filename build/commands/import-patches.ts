@@ -46,7 +46,9 @@ export const importPatches = async () => {
         const apply = async () => {
             log.info(`Applying ${patch}...`)
 
-            await execa("patch", args, { cwd, stripFinalNewline: false });
+            await execa("patch", args, { cwd, stripFinalNewline: false }).catch(e => {
+                throw e;
+            })
 
         }
 
