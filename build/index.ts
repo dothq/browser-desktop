@@ -11,7 +11,8 @@ import {
     importPatches,
     run,
     fixLineEndings,
-    reset
+    reset,
+    melonPackage // Apparently 'package' is a reserved keyword
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -69,6 +70,11 @@ program
     .command("run")
     .description("Run the browser.")
     .action(run)
+
+program
+    .command("package")
+    .description("Package the browser for distribution.")
+    .action(melonPackage)
 
 program
     .command("reset")
