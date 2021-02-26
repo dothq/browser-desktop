@@ -85,7 +85,6 @@ jobs:
         run: |
           echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\Users\Administrator\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo "C:\Users\Administrator\.cargo\bin\" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Disable autocrlf
         shell: bash --noprofile --norc -eo pipefail {0}
@@ -136,7 +135,7 @@ jobs:
         shell: cmd
         run: |
           type nul > C:\build-script.sh
-          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}" >> C:\build-script.sh
+          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/users\administrator/.cargo/bin" >> C:\build-script.sh
           echo echo $PATH >> C:\build-script.sh
           echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach build >> C:\build-script.sh
