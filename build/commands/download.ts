@@ -66,6 +66,8 @@ const unpack = async (name: string, version: string) => {
 }
 
 export const download = async (firefoxVersion?: string) => {
+    if(firefoxVersion) log.warning(`A custom Firefox version is being used. Some features of Dot may not work as expected.`) 
+
     if (!firefoxVersion) {
         firefoxVersion = pjson.versions["firefox-display"];
     }
@@ -75,7 +77,6 @@ export const download = async (firefoxVersion?: string) => {
     let version = res.request.path.replace("/pub/firefox/releases/", "").split("/")[0]
 
     if(firefoxVersion) {
-        log.warning(`A custom Firefox version is being used. Some features of Dot may not work as expected.`)
         if(version !== firefoxVersion) log.warning(`Latest version of Firefox (${version}) does not match frozen version (${firefoxVersion}).`)
         version = firefoxVersion;
     }
