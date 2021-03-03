@@ -147,7 +147,7 @@ jobs:
       - name: Upload artifacts
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
-          ARTIFACT_NAME="$(find . -name 'dot-*.exe')"
+          ARTIFACT_NAME="$(find . -name 'firefox-*.exe')"
           AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js windows $ARTIFACT_NAME
 
       - name: Build success webhook
