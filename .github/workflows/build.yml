@@ -142,8 +142,8 @@ jobs:
           echo rustc --version >> C:\build-script.sh
           echo cd /c/_work/browser-ff/browser-ff >> C:\build-script.sh
           echo ./melon build >> C:\build-script.sh
-	        echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
-	        echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
+          echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
+          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
           C:\mozilla-build\start-shell.bat "C:\build-script.sh"
         
       - name: Upload artifacts
