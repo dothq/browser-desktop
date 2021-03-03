@@ -38,7 +38,7 @@ export const importPatches = async () => {
 
         args.push("--binary")
         args.push("-i")
-        args.push(`../patches/${patch}`)
+        args.push(resolve(process.cwd(), "patches", patch))
 
         const patchContents = readFileSync(resolve(patchesDir, patch), "utf-8");
         const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
