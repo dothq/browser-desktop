@@ -142,12 +142,14 @@ jobs:
           echo rustc --version >> C:\build-script.sh
           echo cd /c/_work/browser-ff/browser-ff >> C:\build-script.sh
           echo ./melon build >> C:\build-script.sh
+	  echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
+	  echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
           C:\mozilla-build\start-shell.bat "C:\build-script.sh"
         
       - name: Upload artifacts
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
-          ARTIFACT_NAME="$(find . -name 'firefox-*.exe')"
+          ARTIFACT_NAME="$(find . -name 'dot-*.installer.exe')"
           AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js windows $ARTIFACT_NAME
 
       - name: Build success webhook
