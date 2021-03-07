@@ -13,7 +13,8 @@ import {
     fixLineEndings,
     reset,
     melonPackage, // Apparently 'package' is a reserved keyword
-    status
+    status,
+    execute
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -86,6 +87,11 @@ program
     .command("status")
     .description("Status and files changed for src directory.")
     .action(status)
+
+program
+    .command("execute")
+    .description("Execute a command inside the src directory.")
+    .action(execute)
 
 if(process.platform == "win32") {
     program
