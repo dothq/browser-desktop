@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { bin_name, log } from '..';
-import fs, { existsSync, symlinkSync, writeFileSync, renameSync } from 'fs';
+import fs, { existsSync, symlinkSync, writeFileSync, renameSync, appendFileSync } from 'fs';
 import { posix, resolve, sep } from 'path';
 import execa from 'execa';
 import { dispatch } from '../dispatch';
@@ -24,6 +24,11 @@ const unpack = async (name: string, version: string) => {
         resolve(cwd, `firefox-${version.split("b")[0]}`),
         resolve(cwd, "src"),
         { overwrite: true }
+    )
+
+    appendFileSync(
+        resolve(cwd, "src", ".gitignore"),
+        "*.rej"
     )
 
     if(process.env.CI_SKIP_INIT) return log.info("Skipping initialisation.")
