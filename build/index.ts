@@ -12,7 +12,8 @@ import {
     run,
     fixLineEndings,
     reset,
-    melonPackage // Apparently 'package' is a reserved keyword
+    melonPackage, // Apparently 'package' is a reserved keyword
+    status
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -80,6 +81,11 @@ program
     .command("reset")
     .description("Reset the source directory to stock Firefox.")
     .action(reset)
+
+program
+    .command("status")
+    .description("Status and files changed for src directory.")
+    .action(status)
 
 if(process.platform == "win32") {
     program
