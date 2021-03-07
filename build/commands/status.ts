@@ -9,7 +9,7 @@ export const status = async () => {
     const cwd = resolve(process.cwd(), "src");
 
     if(existsSync(cwd)) {
-        dispatch("git", ["status"], cwd);
+        dispatch("git", ["status"], cwd, true);
     } else {
         log.error(`Unable to locate src directory.`)
     }

@@ -1,9 +1,9 @@
 import execa from "execa"
 import { log } from "."
 
-export const dispatch = (cmd: string, args?: any[], cwd?: string) => {
+export const dispatch = (cmd: string, args?: any[], cwd?: string, noLog?: boolean) => {
     return new Promise((resolve, reject) => {
-        log.info(`Starting child "${cmd} ${args?.join(" ")}".`)
+        if(!noLog) log.info(`Starting child "${cmd} ${args?.join(" ")}".`)
 
         const proc = execa(cmd, args, { cwd: cwd ? cwd : process.cwd() });
 
@@ -24,7 +24,7 @@ export const dispatch = (cmd: string, args?: any[], cwd?: string) => {
         });
 
         proc.on('exit', () => {
-            log.info(`Done with "${cmd} ${args?.join(" ")}".`)
+            if(!noLog) log.info(`Done with "${cmd} ${args?.join(" ")}".`)
             resolve(true);
         })
     })
