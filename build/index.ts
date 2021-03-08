@@ -14,7 +14,8 @@ import {
     reset,
     melonPackage, // Apparently 'package' is a reserved keyword
     status,
-    execute
+    execute,
+    exportFile
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -61,6 +62,11 @@ program
     .alias("export-patches")
     .description("Export the changed files as patches.")
     .action(exportPatches)
+
+program
+    .command("export-file <file>")
+    .description("Export a changed file as a patch.")
+    .action(exportFile)
 
 program
     .command("import")

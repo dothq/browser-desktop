@@ -21,9 +21,11 @@ export const init = async (directory: string) => {
         log.error(`Directory "${directory}" not found.\nCheck the directory exists and run |${bin_name} init| again.`)
     }
 
-    const version = readFileSync(resolve(cwd, directory, "browser", "config", "version_display.txt"), "utf-8");
+    let version = readFileSync(resolve(cwd, directory, "browser", "config", "version_display.txt"), "utf-8");
 
     if(!version) log.error(`Directory "${directory}" not found.\nCheck the directory exists and run |${bin_name} init| again.`);
+
+    version = version.trim().replace(/\\n/g, "");
 
     await dispatch("git", ["init"], dir);
     await dispatch("git", ["checkout", "--orphan", version], dir);

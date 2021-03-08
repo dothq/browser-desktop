@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961f8a04bb8 100644
+index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e8163b60e 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -762,7 +762,7 @@
@@ -34,8 +34,8 @@ index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961
 -        <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none">
 +                       command="Browser:RestoreLastSession"
 +                       hidden="true"/>
-+        <toolbarseparator hidden="true"/>
-+        <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none" hidden="true">
++          <toolbarseparator hidden="true"/>
++          <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none" hidden="true">
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&fullZoom.label;"/>
@@ -50,7 +50,7 @@ index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -856,24 +862,41 @@
+@@ -856,18 +862,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -70,13 +70,6 @@ index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961
                         command="Tools:Addons"
 -                       />
 +                       hidden="true"/>
-         <toolbarbutton id="appMenu-ssb-button"
-                        class="subviewbutton subviewbutton-iconic subviewbutton-nav"
-                        label="Sites in App Mode"
-                        closemenu="none"
-                        oncommand="PanelUI.showSubView('appMenu-SSBView', this)"
-                        hidden="true" persist="hidden"/>
-+
 +        <toolbarbutton id="appMenu-library-history-button"
 +                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
 +                       label="&historyMenu.label;"
@@ -84,7 +77,7 @@ index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961
 +                       oncommand="PanelUI.showSubView('PanelUI-history', this)"/>
 +        <toolbarbutton id="appMenu-library-bookmarks-button"
 +                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
-+                       label="&bookmarksSubview.label;"
++                       data-l10n-id="library-bookmarks-menu"
 +                       closemenu="none"
 +                       oncommand="BookmarkingUI.showSubView(this);"/>
 +        <toolbarbutton id="appMenu-library-downloads-button"
@@ -95,7 +88,7 @@ index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -884,8 +907,7 @@
+@@ -878,8 +900,7 @@
                         key="key_preferencesCmdMac"
  #endif
  #endif
@@ -105,18 +98,17 @@ index 8f591d9a0c6b92bf1508bb1e4b974cf0f96d8161..3edc14544aa7287b7fe63b10fdbc3961
          <toolbarbutton id="appMenu-customize-button"
                         class="subviewbutton subviewbutton-iconic"
                         data-l10n-id="appmenuitem-customize-mode"
-@@ -914,12 +936,13 @@
+@@ -908,12 +929,13 @@
                         command="cmd_printPreview"
  #endif
                         />
 -        <toolbarseparator/>
++                       
          <toolbarbutton id="appMenu-find-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&findOnCmd.label;"
                         key="key_find"
--                       command="cmd_find"/>
-+                       command="cmd_find"
-+                       />
+                        command="cmd_find"/>
 +        <toolbarseparator/>
          <toolbarbutton id="appMenu-more-button"
                         class="subviewbutton subviewbutton-nav"

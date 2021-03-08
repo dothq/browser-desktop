@@ -24,5 +24,6 @@
             "code": ":bricks:",
             "description": "Make changes to build system",
         },
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }
