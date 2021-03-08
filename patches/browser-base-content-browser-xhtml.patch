@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index da7d002aba433c837f77c7b1f47b74e57dca13ff..d2bb716a9c0781e0068e8ab10713b49e8563841c 100644
+index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e8163b60e 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -762,7 +762,7 @@
@@ -77,7 +77,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..d2bb716a9c0781e0068e8ab10713b49e
 +                       oncommand="PanelUI.showSubView('PanelUI-history', this)"/>
 +        <toolbarbutton id="appMenu-library-bookmarks-button"
 +                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
-+                       label="&bookmarksSubview.label;"
++                       data-l10n-id="library-bookmarks-menu"
 +                       closemenu="none"
 +                       oncommand="BookmarkingUI.showSubView(this);"/>
 +        <toolbarbutton id="appMenu-library-downloads-button"
@@ -98,7 +98,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..d2bb716a9c0781e0068e8ab10713b49e
          <toolbarbutton id="appMenu-customize-button"
                         class="subviewbutton subviewbutton-iconic"
                         data-l10n-id="appmenuitem-customize-mode"
-@@ -908,12 +929,14 @@
+@@ -908,12 +929,13 @@
                         command="cmd_printPreview"
  #endif
                         />
@@ -109,7 +109,6 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..d2bb716a9c0781e0068e8ab10713b49e
                         label="&findOnCmd.label;"
                         key="key_find"
                         command="cmd_find"/>
-+        <toolbarseparator/>
 +        <toolbarseparator/>
          <toolbarbutton id="appMenu-more-button"
                         class="subviewbutton subviewbutton-nav"
