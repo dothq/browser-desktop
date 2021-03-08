@@ -67,16 +67,7 @@ const genericBuild = async (os: string) => {
 
     log.info(`Building for "${os}"...`)
 
-    if(process.platform !== "win32") {
-        if(process.env.NO_BOOTSTRAP) return;
-
-        await dispatch(`./mach`, [
-            "bootstrap", 
-            "--application-choice",
-            "browser", 
-            "--no-interactive"
-        ], cwd)
-    }
+    log.warning(`If you get any dependency errors, try running |${bin_name} bootstrap|.`)
 
     await dispatch(`./mach`, ["build"], cwd)
 }
