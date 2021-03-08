@@ -17,6 +17,12 @@ const getChunked = (location: string) => {
     return location.replace(/\\/g, "/").split("/")
 }
 
+const delay = (delay: number) => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(true), delay);
+    });
+  }
+
 export const importPatches = async () => {
     if(process.platform == "win32") log.warning(`If you get any line ending errors, you should try running |${bin_name} fix-le|.`);
 
@@ -44,10 +50,17 @@ export const importPatches = async () => {
         const originalPath = patchContents.split("diff --git a/")[1].split(" b/")[0];
 
         const apply = async () => {
-            log.info(`Applying ${patch}...`)
+            return new Promise(async res => {
+                log.info(`Applying ${patch}...`)
 
-            await execa("patch", args, { cwd, stripFinalNewline: false }).catch(e => {
-                throw e;
+                if(existsSync(resolve(cwd, originalPath))) {
+                    execa("patch", args, { cwd, stripFinalNewline: false }).catch(e => {
+                        throw e;
+                    }).then(_ => res(true))
+                } else {
+                    log.warning(`Skipping ${patch} as it no longer exists in tree...`);
+                    delay(1500).then(_ => res(true))
+                }
             })
 
         }
@@ -59,7 +72,7 @@ export const importPatches = async () => {
         await execa("patch", [
             "-R",
             ...args
-        ], { cwd }).then(async _ => apply()).catch(async _ => apply())
+        ], { cwd }).then(async _ => await apply()).catch(async _ => await apply())
     }))
 
     let totalActions = 0;
