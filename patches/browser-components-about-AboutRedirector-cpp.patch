@@ -1,8 +1,8 @@
 diff --git a/browser/components/about/AboutRedirector.cpp b/browser/components/about/AboutRedirector.cpp
-index 4e17a115072a0aa50ab3bc69f138ec282ca64c02..25a8acc815d956064ad0fff184b6e3621e680cd5 100644
+index 9fb93eddaab2817ba09aba68ca51255626c96b3d..ad14cc03fc6cdb1eef7a6395630424916bae66c2 100644
 --- a/browser/components/about/AboutRedirector.cpp
 +++ b/browser/components/about/AboutRedirector.cpp
-@@ -120,6 +120,16 @@ static const RedirEntry kRedirMap[] = {
+@@ -121,6 +121,16 @@ static const RedirEntry kRedirMap[] = {
           nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
      {"ion", "chrome://browser/content/ion.html",
       nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::HIDE_FROM_ABOUTABOUT},

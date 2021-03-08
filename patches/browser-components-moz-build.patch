@@ -1,5 +1,5 @@
 diff --git a/browser/components/moz.build b/browser/components/moz.build
-index ba617de9d82f2e165b50411c31acd90c71243636..994d1fedd655c8e47b477257f1b74d63ef14113b 100644
+index 78fce1bfb4641d1b0fe6857fe593db12f4ee8e60..b46baf48d9e1d1d0a87cc6060fac88daf9dce634 100644
 --- a/browser/components/moz.build
 +++ b/browser/components/moz.build
 @@ -29,6 +29,7 @@ with Files("controlcenter/**"):

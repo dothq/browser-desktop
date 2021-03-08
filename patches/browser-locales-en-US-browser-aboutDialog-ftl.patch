@@ -1,8 +1,8 @@
 diff --git a/browser/locales/en-US/browser/aboutDialog.ftl b/browser/locales/en-US/browser/aboutDialog.ftl
-index 157ab9470b3f9d8b7be59f7c4a5de1de2eead5bb..cfc336e4847c8993c7fc6bdb22adc9bb2c6c5279 100644
+index 5679b48eda1b77804d78a243f591376892d45e3f..137ed50a8f3a97d305dbeeac7e7ae3fd818c080f 100644
 --- a/browser/locales/en-US/browser/aboutDialog.ftl
 +++ b/browser/locales/en-US/browser/aboutDialog.ftl
-@@ -24,7 +24,7 @@ update-failed-main =
+@@ -25,7 +25,7 @@ update-failed-main =
      Update failed. <a data-l10n-name="failed-link-main">Download the latest version</a>
  
  update-adminDisabled = Updates disabled by your system administrator
@@ -11,7 +11,7 @@ index 157ab9470b3f9d8b7be59f7c4a5de1de2eead5bb..cfc336e4847c8993c7fc6bdb22adc9bb
  update-otherInstanceHandlingUpdates = { -brand-short-name } is being updated by another instance
  
  update-manual = Updates available at <label data-l10n-name="manual-link"/>
-@@ -39,9 +39,9 @@ warningDesc-version = { -brand-short-name } is experimental and may be unstable.
+@@ -43,9 +43,9 @@ aboutdialog-submit-feedback = Submit Feedback
  
  community-exp = <label data-l10n-name="community-exp-mozillaLink">{ -vendor-short-name }</label> is a <label data-l10n-name="community-exp-creditsLink">global community</label> working together to keep the Web open, public and accessible to all.
  

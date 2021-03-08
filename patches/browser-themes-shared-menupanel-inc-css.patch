@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/menupanel.inc.css b/browser/themes/shared/menupanel.inc.css
-index c919f32a14547d2ceb06c353070eea7a4fda75aa..a77f17e487f6ca8f38eb6b5e838c9b98360c3c28 100644
+index 5c16ad076fda7fab381af9a698a7150e0a2052fc..4016e8d4d8430ad5a3cd10879a774a0d8fc738b2 100644
 --- a/browser/themes/shared/menupanel.inc.css
 +++ b/browser/themes/shared/menupanel.inc.css
 @@ -4,6 +4,10 @@

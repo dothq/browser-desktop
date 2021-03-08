@@ -1,8 +1,8 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index 3156c49e142c9c0ff756b6adb5ef3d7ff0274554..a215837bb07e062163db22facf3c4d9b6d3e3efe 100644
+index d598c3786467637be7db3e575e21374fd1327333..f04400d07ecf8112b6e26e95d897c44305ad822b 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
-@@ -8222,7 +8222,7 @@
+@@ -8223,7 +8223,7 @@
  
  - name: network.cookie.sameSite.laxByDefault
    type: bool
@@ -11,7 +11,7 @@ index 3156c49e142c9c0ff756b6adb5ef3d7ff0274554..a215837bb07e062163db22facf3c4d9b
    mirror: always
  
  # lax-by-default 2 minutes tollerance for unsafe methods. The value is in seconds.
-@@ -8233,12 +8233,12 @@
+@@ -8234,12 +8234,12 @@
  
  - name: network.cookie.sameSite.noneRequiresSecure
    type: bool
