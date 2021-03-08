@@ -24,6 +24,11 @@
             "code": ":bricks:",
             "description": "Make changes to build system",
         },
+        {
+            "emoji": "🍉",
+            "code": ":melon:",
+            "description": "Improve melon build tool",
+        },
     ],
     "git.ignoreLimitWarning": true
 }
