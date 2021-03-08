@@ -15,7 +15,8 @@ import {
     melonPackage, // Apparently 'package' is a reserved keyword
     status,
     execute,
-    exportFile
+    exportFile,
+    bootstrap
 } from './commands';
 
 import { readFileSync } from 'fs';
@@ -98,6 +99,11 @@ program
     .command("execute")
     .description("Execute a command inside the src directory.")
     .action(execute)
+
+program
+    .command("bootstrap")
+    .description("Bootstrap Dot Browser.")
+    .action(bootstrap)
 
 if(process.platform == "win32") {
     program
