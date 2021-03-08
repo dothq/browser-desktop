@@ -1,10 +1,10 @@
 diff --git a/browser/base/content/aboutNetError.xhtml b/browser/base/content/aboutNetError.xhtml
-index bffb6bea4e29307532eb0071d6570f73b2a763c2..8f26d3a6bdc37694759b0929e55b2cc78f4b0fb0 100644
+index f612d4df4c0edac5218a69eb50d0d2ce79a16b54..a9cb6c1615f736f248368d1bc5473267ab6f2715 100644
 --- a/browser/base/content/aboutNetError.xhtml
 +++ b/browser/base/content/aboutNetError.xhtml
-@@ -217,4 +217,5 @@
-   </body>
-   <script src="chrome://browser/content/aboutNetErrorCodes.js"/>
-   <script src="chrome://browser/content/aboutNetError.js"/>
+@@ -213,4 +213,5 @@
+   <script src="chrome://global/content/certviewer/asn1js_bundle.js"></script>
+   <script src="chrome://global/content/certviewer/pkijs_bundle.js"></script>
+   <script type="module" src="chrome://browser/content/aboutNetError.js"/>
 +  <script src="chrome://browser/content/contentTheme.js"/>
  </html>
