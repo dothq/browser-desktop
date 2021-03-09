@@ -1,8 +1,8 @@
 name: Build
 
 on:
-  push:
-    branches: [ nightly ]
+  schedule:
+    - cron: '0 20 * * *' # every day at 10pm so the build can be pushed at around midnight
   workflow_dispatch:
   
 jobs:
@@ -56,21 +56,29 @@ jobs:
           ./mach package
           cd ..
         
-      - name: Upload artifacts
+      - name: Make artifact available
         run: |
-          ARTIFACT_NAME="$(find . -name 'dot-*.tar.bz2')"
-          AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js linux $ARTIFACT_NAME
+          cp ./src/obj-*/dist/dot-*.tar.bz2 .
+          mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}.tar.bz2"
 
-      - name: Build success webhook
-        uses: rjstone/discord-webhook-notify@v1
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
         with:
-            severity: info
-            username: Build
-            color: '#2f3136'
-            avatarUrl: https://github.com/dothq.png
-            description: '**✅ Build on ${{ runner.os }} was successful**'
-            text: <@&805943648067780648>
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          github-token: ${{ secrets.ROBOT_TOKEN }}
+          version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
+          name: "Nightly v${{ env.DOT_VERSION }}"
+          assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
+          body_path: ".github/RELEASE_TEMPLATE.md"
+          overwrite: true
+
+      - name: Build webhook 
+        uses: dothq/actions-status-discord@master
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          content: <@&805943648067780648>
+          username: Build
+          avatar_url: "https://github.com/dothq.png"
 
   windows:
     runs-on: [self-hosted, Windows, X64]
@@ -128,7 +136,10 @@ jobs:
 
       - name: Update path
         shell: bash --noprofile --norc -eo pipefail {0}
-        run: echo ::set-output name=NPATH::$(echo $PATH)
+        run: |
+          echo ::set-output name=NPATH::$(echo $PATH)
+          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         id: path
 
       - name: Build
@@ -145,20 +156,30 @@ jobs:
           echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
           C:\mozilla-build\start-shell.bat "C:\build-script.sh"
-        
-      - name: Upload artifacts
+
+      - name: Make artifact available
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
-          ARTIFACT_NAME="$(find . -name 'dot-*.installer.exe')"
-          AZURE_CONNECTION_STRING="${{ secrets.AZURE_CONNECTION_STRING }}" node upload-artifacts.js windows $ARTIFACT_NAME
+          cd /c/_work/browser-ff/browser-ff/src/obj-*/dist/install/sea
+          cp dot-*.installer.exe /c/_work/browser-ff/browser-ff
+          cd /c/_work/browser-ff/browser-ff
+          mv dot-*.installer.exe "Install Dot Browser ${{ env.DOT_VERSION }}.exe"
 
-      - name: Build success webhook
-        uses: rjstone/discord-webhook-notify@v1
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
         with:
-            severity: info
-            username: Build
-            color: '#2f3136'
-            avatarUrl: https://github.com/dothq.png
-            description: '**✅ Build on ${{ runner.os }} was successful**'
-            text: <@&805943648067780648>
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          github-token: ${{ secrets.ROBOT_TOKEN }}
+          version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
+          name: "Nightly v${{ env.DOT_VERSION }}"
+          assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
+          body_path: ".github/RELEASE_TEMPLATE.md"
+          overwrite: true
+
+      - name: Build webhook 
+        uses: dothq/actions-status-discord@master
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          content: <@&805943648067780648>
+          username: Build
+          avatar_url: "https://github.com/dothq.png"
