@@ -16,4 +16,4 @@ jobs:
       - name: Check for merge
         run: |
           yarn
-          node update-rc.js
+          node scripts/update-rc.js

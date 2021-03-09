@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure/identity": "^1.2.2",
     "@azure/storage-blob": "^12.4.0",
-    "@octokit/rest": "^18.0.12",
+    "@octokit/rest": "^18.3.5",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",

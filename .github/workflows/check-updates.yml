@@ -18,4 +18,4 @@ jobs:
           ROBOT_TOKEN: ${{ secrets.ROBOT_TOKEN }}
         run: |
           yarn
-          node check-updates.js
+          node scripts/check-updates.js
