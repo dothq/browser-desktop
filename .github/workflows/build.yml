@@ -125,7 +125,6 @@ jobs:
           shopt -s expand_aliases
           xz --version
           ./melon download
-          ./melon download-artifacts
           ./windows-init.sh
 
       - name: Import patches
