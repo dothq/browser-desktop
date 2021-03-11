@@ -171,7 +171,7 @@ jobs:
           version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
           name: "Nightly v${{ env.DOT_VERSION }}"
           assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
-          body_path: ".github/RELEASE_TEMPLATE.md"
+          body_path: "C:\\_work\\browser-ff\\browser-ff\\.github\\RELEASE_TEMPLATE.md"
           overwrite: true
 
       - name: Build webhook 
