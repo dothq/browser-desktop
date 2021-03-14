@@ -6,8 +6,9 @@ import execa from 'execa';
 import { homedir } from 'os';
 
 export const downloadArtifacts = async () => {
-  if(process.platform !== "win32") log.error("This is not a Windows machine, will not download artifacts.")
-
+  if(process.platform !== "win32") return log.error("This is not a Windows machine, will not download artifacts.")
+  if(process.env.MOZILLABUILD) return log.error("Run this command in Git Bash, it does not work in Mozilla Build.")
+  
   const filename = "mozbuild.tar.bz2"
   const url = `https://github.com/dothq/windows-artifacts/releases/latest/download/mozbuild.tar.bz2`;
   let home = homedir().split(sep).join(posix.sep)
