@@ -65,6 +65,12 @@ jobs:
           ./mach package
           cd ..
         
+      - name: Export release data
+        shell: bash
+        run: |
+          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        
       - name: Make artifact available
         run: |
           cp ./src/obj-*/dist/dot-*.tar.bz2 .
