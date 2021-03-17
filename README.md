@@ -9,7 +9,7 @@
   <p align="center">
     Dot Browser is a privacy-conscious web browser, developed for Windows, macOS, and Linux.
     <br />
-    <a href="https://github.com/dothq/browser-pr-builds/releases/latest"><strong>Download Alpha</strong></a>
+    <a href="https://github.com/dothq/browser-desktop/releases"><strong>Download</strong></a>
     <br />
     <br />
     <a href="https://github.com/dothq/browser/issues/new?assignees=&labels=%F0%9F%90%9C+bug&template=bug_report.md&title=">Report Bug</a>
