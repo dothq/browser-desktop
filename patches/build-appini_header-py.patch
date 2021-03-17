@@ -1,0 +1,14 @@
+diff --git a/build/appini_header.py b/build/appini_header.py
+index 08bd22721df92e83334748649fcf348310ff84ae..cb6d0f259d8424e9b2c71dd9f9d09b97a4a7b129 100644
+--- a/build/appini_header.py
++++ b/build/appini_header.py
+@@ -32,6 +32,9 @@ def main(output, file):
+     appdata["App:profile"] = (
+         '"%s"' % appdata["App:profile"] if "App:profile" in appdata else "NULL"
+     )
++    print("--------------------------------")
++    print(appdata)
++    print("--------------------------------")
+     expected = (
+         "App:vendor",
+         "App:name",
