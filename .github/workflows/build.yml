@@ -13,6 +13,13 @@ jobs:
       SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Free up space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Disable sscache
         run: |
@@ -42,6 +49,8 @@ jobs:
           echo Commit
           git checkout -b dot
           echo Checkout 2
+          cd ..
+          sudo rm -rf firefox-*.source.tar.xz
 
       - name: Import patches
         run: ./melon import
@@ -55,6 +64,12 @@ jobs:
           cd src
           ./mach package
           cd ..
+        
+      - name: Export release data
+        shell: bash
+        run: |
+          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         
       - name: Make artifact available
         run: |
