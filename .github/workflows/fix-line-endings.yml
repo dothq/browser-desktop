@@ -24,6 +24,8 @@ jobs:
           python3 ./scripts/ci-fix-le.py
 
       - name: Push to GitHub
-        run: |
-          git status
-          git push origin nightly
+        uses: EndBug/add-and-commit@v6.2.0
+        with:
+          author_name: dothq-robot
+          author_email: 72629236+dothq-robot@users.noreply.github.com
+          token: ${{ secrets.ROBOT_TOKEN }}
