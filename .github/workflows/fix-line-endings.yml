@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'patches/**'
+  workflow_dispatch:
   
 jobs:
   fix:
@@ -14,6 +15,7 @@ jobs:
 
       - name: Fix line endings
         run: |
+          sudo apt-get install -y dos2unix
           python3 ./scripts/ci-fix-le.py
 
       - name: Push to GitHub
