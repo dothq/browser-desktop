@@ -1,0 +1,27 @@
+name: Convert to LF line endings
+
+on:
+  push:
+    paths:
+      - 'patches/**/*'
+  
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fix line endings
+        run: |
+          python3 ./scripts/ci-fix-le.py
+
+      - name: Push to GitHub
+        run: |
+          git config --global user.name "dothq-robot"
+          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+          git status
+          cd patches
+          git add .
+          cd ..
+          git push
