@@ -23,15 +23,14 @@ jobs:
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
 
       - name: Install dependencies
-        run: yarn
+        run: cd browser-desktop && yarn
 
       - name: Format
-        run: yarn prettier
+        run: cd browser-desktop && yarn prettier
 
       - name: Push to GitHub
         run: |
-          git config --global user.name "dothq-robot"
-          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+          cd browser-desktop
           git status
           git add .
           git commit -m "🎨 Enforce code style"
