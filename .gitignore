@@ -11,3 +11,4 @@ src/
 .DS_Store
 *.tar
 *.tar.bz2
+yarn-error.log
