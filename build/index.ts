@@ -127,14 +127,14 @@ program
     .description("Bootstrap Dot Browser.")
     .action(bootstrap);
 
-if (process.platform == "win32") {
-    program
-        .command("fix-le")
-        .description(
-            "Convert CRLF line endings to Unix LF line endings."
-        )
-        .action(fixLineEndings);
+program
+    .command("fix-le")
+    .description(
+        "Convert CRLF line endings to Unix LF line endings."
+    )
+    .action(fixLineEndings);
 
+if (process.platform == "win32") {
     program
         .command("download-artifacts")
         .description(
