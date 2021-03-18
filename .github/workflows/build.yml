@@ -165,18 +165,18 @@ jobs:
           echo rustup install stable >> C:\build-script.sh
           echo rustup default stable >> C:\build-script.sh
           echo rustc --version >> C:\build-script.sh
-          echo cd /c/_work/browser-ff/browser-ff >> C:\build-script.sh
+          echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script.sh
           echo ./melon build >> C:\build-script.sh
-          echo cd /c/_work/browser-ff/browser-ff/src >> C:\build-script.sh
+          echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\build-script.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
           C:\mozilla-build\start-shell.bat "C:\build-script.sh"
 
       - name: Make artifact available
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
-          cd /c/_work/browser-ff/browser-ff/src/obj-*/dist/install/sea
-          cp dot-*.installer.exe /c/_work/browser-ff/browser-ff
-          cd /c/_work/browser-ff/browser-ff
+          cd /c/_work/browser-desktop/browser-desktop/src/obj-*/dist/install/sea
+          cp dot-*.installer.exe /c/_work/browser-desktop/browser-desktop
+          cd /c/_work/browser-desktop/browser-desktop
           mv dot-*.installer.exe "Install Dot Browser ${{ env.DOT_VERSION }}.exe"
 
       - name: Release
@@ -186,7 +186,7 @@ jobs:
           version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
           name: "Nightly v${{ env.DOT_VERSION }}"
           assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
-          body_path: "C:\\_work\\browser-ff\\browser-ff\\.github\\RELEASE_TEMPLATE.md"
+          body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
           overwrite: true
 
       - name: Build webhook 

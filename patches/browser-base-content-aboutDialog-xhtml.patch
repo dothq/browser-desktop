@@ -15,7 +15,7 @@ index fc6c38217124dfe3854926df986330f77b80929e..c8d188adb1da1c028e5927ae6ec88d73
            <description class="text-blurb" id="contributeDesc" data-l10n-id="helpus">
              <label is="text-link" href="https://donate.mozilla.org/?utm_source=firefox&#38;utm_medium=referral&#38;utm_campaign=firefox_about&#38;utm_content=firefox_about" data-l10n-name="helpus-donateLink"/>
 -            <label is="text-link" href="https://www.mozilla.org/contribute/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="helpus-getInvolvedLink"/>
-+            <label is="text-link" href="https://github.com/dothq/browser-ff" data-l10n-name="helpus-getInvolvedLink"></label>
++            <label is="text-link" href="https://github.com/dothq/browser-desktop" data-l10n-name="helpus-getInvolvedLink"></label>
            </description>
          </vbox>
        </vbox>

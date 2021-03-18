@@ -1,7 +1,7 @@
 <br />
 <p align="center">
-  <a href="https://github.com/dothq/browser-ff">
-    <img src="https://raw.githubusercontent.com/dothq/browser-ff/main/common/browser/branding/dot/default256.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/dothq/browser-desktop">
+    <img src="https://raw.githubusercontent.com/dothq/browser-desktop/main/common/browser/branding/dot/default256.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Dot Browser</h3>
@@ -19,8 +19,8 @@
     <a href="https://docs.dothq.co">Documentation</a>
     <br />
     <br />
-    <a href="https://github.com/dothq/browser-ff/actions?query=workflow%3ABuild">
-      <img src="https://github.com/dothq/browser-ff/workflows/Build/badge.svg"></img>
+    <a href="https://github.com/dothq/browser-desktop/actions?query=workflow%3ABuild">
+      <img src="https://github.com/dothq/browser-desktop/workflows/Build/badge.svg"></img>
     </a>
   </p>
 </p>
@@ -71,7 +71,7 @@ project pages with documentation, [click here](https://firefox-source-docs.mozil
 
 - If you have a question about developing Firefox, and can't find the solution on https://firefox-source-docs.mozilla.org/, you can try asking your question on our [Discord server](https://invite.gg/dot).
 
-- We have a GitLab mirror of this project at [dothq/browser-ff](https://gitlab.com/dothq/browser-ff).
+- We have a GitLab mirror of this project at [dothq/browser-desktop](https://gitlab.com/dothq/browser-desktop).
 
 ## 📜 License
 **Dot Browser** is licensed under the [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0) license.

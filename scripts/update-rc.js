@@ -16,7 +16,7 @@ const main = async () => {
 
         const data = await gh.repos.compareCommits({
             owner: "dothq",
-            repo: "browser-ff",
+            repo: "browser-desktop",
             head: "beta",
             base: "main"
         });
@@ -25,7 +25,7 @@ const main = async () => {
 
         gh.pulls.create({
             owner: "dothq",
-            repo: "browser-ff",
+            repo: "browser-desktop",
             title: "🔀 Beta merge day",
             head: "main",
             base: "beta",
@@ -44,14 +44,14 @@ const main = async () => {
 
         const { data } = gh.repos.compareCommits({
             owner: "dothq",
-            repo: "browser-ff",
+            repo: "browser-desktop",
             head: "main",
             base: "stable"
         });
 
         gh.pulls.create({
             owner: "dothq",
-            repo: "browser-ff",
+            repo: "browser-desktop",
             title: "🔀 Stable merge day",
             head: "main",
             base: "stable",
