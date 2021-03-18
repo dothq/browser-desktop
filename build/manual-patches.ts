@@ -31,4 +31,4 @@ export default [
             "browser/components/preferences/new"
         ]
     }
-]
+];

@@ -27,17 +27,17 @@
 
 ## 🚀 Foreword
 
-Dot Browser is proud to be powered by Firefox and Gecko. 
+Dot Browser is proud to be powered by Firefox and Gecko.
 
-There are a plethora of Chromium based browsers available and introducing competition is unique, healthy, and necessary in the browser space. 
+There are a plethora of Chromium based browsers available and introducing competition is unique, healthy, and necessary in the browser space.
 
 We chose Gecko due to its position as the best competitor to Chromium, and because it’s developed by Mozilla, who are best known for their privacy efforts in the community.
 
 ## 🏗 Build guides
 
-* [🏁 Windows](https://docs.dothq.co/cloning-dot/windows)
-* [🍎 macOS](https://docs.dothq.co/cloning-dot/macos)
-* [🐧 Linux](https://docs.dothq.co/cloning-dot/linux)
+-   [🏁 Windows](https://docs.dothq.co/cloning-dot/windows)
+-   [🍎 macOS](https://docs.dothq.co/cloning-dot/macos)
+-   [🐧 Linux](https://docs.dothq.co/cloning-dot/linux)
 
 ## ❗ Issues / Support
 
@@ -52,26 +52,30 @@ You can create issues [here](https://github.com/dothq/browser/issues/new) or get
 You can find the Dot Browser roadmap [here](https://github.com/orgs/dothq/projects/1).
 
 ## ❤️ Acknowledgements
-- Dot Browser wouldn't be possible without the amazing [Firefox open-source project](https://hg.mozilla.org/mozilla-central/), developed by [Mozilla](https://mozilla.org).
+
+-   Dot Browser wouldn't be possible without the amazing [Firefox open-source project](https://hg.mozilla.org/mozilla-central/), developed by [Mozilla](https://mozilla.org).
 
 ## 🤝 Contributors
-- [EnderDev](https://github.com/EnderDev) - ***Main Developer***
-- [Andy Browser](https://github.com/bigspeedfpv) - ***Main Developer***
-- [AwesomeTech10](https://github.com/AwesomeTech10) - ***Main Developer***
+
+-   [EnderDev](https://github.com/EnderDev) - **_Main Developer_**
+-   [Andy Browser](https://github.com/bigspeedfpv) - **_Main Developer_**
+-   [AwesomeTech10](https://github.com/AwesomeTech10) - **_Main Developer_**
 
 ## 💸 Donations
+
 We accept donations on [Patreon](https://patreon.com/dothq) to keep our servers running.
 
 ## 🔗 Useful Information
 
-- For an explanation of the Firefox Source Code Directory Structure and links to
-project pages with documentation, [click here](https://firefox-source-docs.mozilla.org/contributing/directory_structure.html)
+-   For an explanation of the Firefox Source Code Directory Structure and links to
+    project pages with documentation, [click here](https://firefox-source-docs.mozilla.org/contributing/directory_structure.html)
 
-- For information on how to build Firefox from the source code and create the patch, [click here](https://firefox-source-docs.mozilla.org/contributing/contribution_quickref.html)
+-   For information on how to build Firefox from the source code and create the patch, [click here](https://firefox-source-docs.mozilla.org/contributing/contribution_quickref.html)
 
-- If you have a question about developing Firefox, and can't find the solution on https://firefox-source-docs.mozilla.org/, you can try asking your question on our [Discord server](https://invite.gg/dot).
+-   If you have a question about developing Firefox, and can't find the solution on https://firefox-source-docs.mozilla.org/, you can try asking your question on our [Discord server](https://invite.gg/dot).
 
 - We have a GitLab mirror of this project at [dothq/browser-desktop](https://gitlab.com/dothq/browser-desktop).
 
 ## 📜 License
+
 **Dot Browser** is licensed under the [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0) license.

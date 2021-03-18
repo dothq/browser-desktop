@@ -1,19 +1,18 @@
 name: Check for merge
 
 on:
-  schedule:
-    - cron: '*/1 * * * *' # every minute
-  workflow_dispatch: # manually run sync
-  
+    schedule:
+        - cron: "*/1 * * * *" # every minute
+    workflow_dispatch: # manually run sync
+
 jobs:
-  sync:
+    sync:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
 
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Check for merge
-        run: |
-          yarn
-          node scripts/update-rc.js
+            - name: Check for merge
+              run: |
+                  yarn
+                  node scripts/update-rc.js

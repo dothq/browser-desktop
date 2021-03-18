@@ -1,10 +1,10 @@
 name: Build
 
 on:
-  schedule:
-    - cron: '0 20 * * *' # every day at 10pm so the build can be pushed at around midnight
-  workflow_dispatch:
-  
+    schedule:
+        - cron: "0 20 * * *" # every day at 10pm so the build can be pushed at around midnight
+    workflow_dispatch:
+
 jobs:
   linux:
     runs-on: ubuntu-20.04
