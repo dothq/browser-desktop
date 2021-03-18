@@ -27,14 +27,16 @@ const main = async () => {
             "Beta branch is due a merge!"
         );
 
-        const data = await gh.repos.compareCommits({
-            owner: "dothq",
-            repo: "browser-desktop",
-            head: "beta",
-            base: "main"
-        });
-        
-        console.log(data)
+        const data = await gh.repos.compareCommits(
+            {
+                owner: "dothq",
+                repo: "browser-desktop",
+                head: "beta",
+                base: "main"
+            }
+        );
+
+        console.log(data);
 
         gh.pulls.create({
             owner: "dothq",

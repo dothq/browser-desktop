@@ -74,7 +74,7 @@ We accept donations on [Patreon](https://patreon.com/dothq) to keep our servers 
 
 -   If you have a question about developing Firefox, and can't find the solution on https://firefox-source-docs.mozilla.org/, you can try asking your question on our [Discord server](https://invite.gg/dot).
 
-- We have a GitLab mirror of this project at [dothq/browser-desktop](https://gitlab.com/dothq/browser-desktop).
+-   We have a GitLab mirror of this project at [dothq/browser-desktop](https://gitlab.com/dothq/browser-desktop).
 
 ## 📜 License
 

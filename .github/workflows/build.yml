@@ -6,194 +6,194 @@ on:
     workflow_dispatch:
 
 jobs:
-  linux:
-    runs-on: ubuntu-20.04
-    env:
-      CI_SKIP_INIT: true
-      SHELL: /bin/sh
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Free up space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+    linux:
+        runs-on: ubuntu-20.04
+        env:
+            CI_SKIP_INIT: true
+            SHELL: /bin/sh
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Disable sscache
-        run: |
-          sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/linux/mozconfig
-          cat configs/linux/mozconfig
+            - name: Free up space
+              run: |
+                  sudo rm -rf /usr/share/dotnet
+                  sudo rm -rf /opt/ghc
+                  sudo rm -rf "/usr/local/share/boost"
+                  sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - name: Set up Git User
-        run: |
-          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
-          git config --global user.name "dothq-robot"
+            - name: Disable sscache
+              run: |
+                  sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/linux/mozconfig
+                  cat configs/linux/mozconfig
 
-      - name: Install dependencies
-        run: |
-          npm i typescript
+            - name: Set up Git User
+              run: |
+                  git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+                  git config --global user.name "dothq-robot"
 
-      - name: Download workspace
-        run: |
-          ./melon download
-          cd src
-          git init
-          echo Init
-          git checkout --orphan base
-          echo Checkout
-          git add -f .
-          echo Add
-          git commit -am "Firefox"
-          echo Commit
-          git checkout -b dot
-          echo Checkout 2
-          cd ..
-          sudo rm -rf firefox-*.source.tar.xz
+            - name: Install dependencies
+              run: |
+                  npm i typescript
 
-      - name: Import patches
-        run: ./melon import
+            - name: Download workspace
+              run: |
+                  ./melon download
+                  cd src
+                  git init
+                  echo Init
+                  git checkout --orphan base
+                  echo Checkout
+                  git add -f .
+                  echo Add
+                  git commit -am "Firefox"
+                  echo Commit
+                  git checkout -b dot
+                  echo Checkout 2
+                  cd ..
+                  sudo rm -rf firefox-*.source.tar.xz
 
-      - name: Build
-        run: |
-          cd src
-          ./mach bootstrap --application-choice browser --no-interactive
-          cd ..
-          ./melon build
-          cd src
-          ./mach package
-          cd ..
-        
-      - name: Export release data
-        shell: bash
-        run: |
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-        
-      - name: Make artifact available
-        run: |
-          cp ./src/obj-*/dist/dot-*.tar.bz2 .
-          mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}.tar.bz2"
+            - name: Import patches
+              run: ./melon import
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
-          body_path: ".github/RELEASE_TEMPLATE.md"
-          overwrite: true
+            - name: Build
+              run: |
+                  cd src
+                  ./mach bootstrap --application-choice browser --no-interactive
+                  cd ..
+                  ./melon build
+                  cd src
+                  ./mach package
+                  cd ..
 
-      - name: Build webhook 
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          content: <@&805943648067780648>
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+            - name: Export release data
+              shell: bash
+              run: |
+                  echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+                  echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-  windows:
-    runs-on: [self-hosted, Windows, X64]
-    env:
-      CI_SKIP_INIT: true
-      SHELL: /bin/sh
-    steps:
-      - uses: actions/checkout@v2
+            - name: Make artifact available
+              run: |
+                  cp ./src/obj-*/dist/dot-*.tar.bz2 .
+                  mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}.tar.bz2"
 
-      - name: Add path
-        shell: powershell
-        run: |
-          echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo "C:\Users\Administrator\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+            - name: Release
+              uses: dothq/tag-and-release-and-upload@master
+              with:
+                  github-token: ${{ secrets.ROBOT_TOKEN }}
+                  version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
+                  name: "Nightly v${{ env.DOT_VERSION }}"
+                  assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
+                  body_path: ".github/RELEASE_TEMPLATE.md"
+                  overwrite: true
 
-      - name: Disable autocrlf
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          git config core.autocrlf false
+            - name: Build webhook
+              uses: dothq/actions-status-discord@master
+              if: always()
+              with:
+                  webhook: ${{ secrets.DISCORD_WEBHOOK }}
+                  content: <@&805943648067780648>
+                  username: Build
+                  avatar_url: "https://github.com/dothq.png"
 
-      - name: Disable sscache
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
-          echo 'mk_add_options MOZ_MAKE_FLAGS="-j4"' >> configs/windows/mozconfig
-          cat configs/windows/mozconfig
+    windows:
+        runs-on: [self-hosted, Windows, X64]
+        env:
+            CI_SKIP_INIT: true
+            SHELL: /bin/sh
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Set up Git
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
-          git config --global user.name "dothq-robot"
+            - name: Add path
+              shell: powershell
+              run: |
+                  echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+                  echo "C:\Users\Administrator\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Install Typescript
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          npm i typescript
+            - name: Disable autocrlf
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  git config core.autocrlf false
 
-      - name: Download workspace
-        shell: bash -leo pipefail {0}
-        run: |
-          echo $PWD
-          ls
-          shopt -s expand_aliases
-          xz --version
-          ./melon download
-          ./windows-init.sh
+            - name: Disable sscache
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  sed -i '/ac_add_options --with-ccache=sccache/s/^/#/g' configs/windows/mozconfig
+                  echo 'mk_add_options MOZ_MAKE_FLAGS="-j4"' >> configs/windows/mozconfig
+                  cat configs/windows/mozconfig
 
-      - name: Import patches
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          ./melon fix-le
-          ./melon import
+            - name: Set up Git
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+                  git config --global user.name "dothq-robot"
 
-      - name: Update path
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          echo ::set-output name=NPATH::$(echo $PATH)
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-        id: path
+            - name: Install Typescript
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  npm i typescript
 
-      - name: Build
-        shell: cmd
-        run: |
-          type nul > C:\build-script.sh
-          echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script.sh
-          echo echo $PATH >> C:\build-script.sh
-          echo rustup install stable >> C:\build-script.sh
-          echo rustup default stable >> C:\build-script.sh
-          echo rustc --version >> C:\build-script.sh
-          echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script.sh
-          echo ./melon build >> C:\build-script.sh
-          echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\build-script.sh
-          echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
-          C:\mozilla-build\start-shell.bat "C:\build-script.sh"
+            - name: Download workspace
+              shell: bash -leo pipefail {0}
+              run: |
+                  echo $PWD
+                  ls
+                  shopt -s expand_aliases
+                  xz --version
+                  ./melon download
+                  ./windows-init.sh
 
-      - name: Make artifact available
-        shell: bash --noprofile --norc -eo pipefail {0}
-        run: |
-          cd /c/_work/browser-desktop/browser-desktop/src/obj-*/dist/install/sea
-          cp dot-*.installer.exe /c/_work/browser-desktop/browser-desktop
-          cd /c/_work/browser-desktop/browser-desktop
-          mv dot-*.installer.exe "Install Dot Browser ${{ env.DOT_VERSION }}.exe"
+            - name: Import patches
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  ./melon fix-le
+                  ./melon import
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
-          body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
-          overwrite: true
+            - name: Update path
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  echo ::set-output name=NPATH::$(echo $PATH)
+                  echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+                  echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+              id: path
 
-      - name: Build webhook 
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          content: <@&805943648067780648>
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+            - name: Build
+              shell: cmd
+              run: |
+                  type nul > C:\build-script.sh
+                  echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script.sh
+                  echo echo $PATH >> C:\build-script.sh
+                  echo rustup install stable >> C:\build-script.sh
+                  echo rustup default stable >> C:\build-script.sh
+                  echo rustc --version >> C:\build-script.sh
+                  echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script.sh
+                  echo ./melon build >> C:\build-script.sh
+                  echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\build-script.sh
+                  echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
+                  C:\mozilla-build\start-shell.bat "C:\build-script.sh"
+
+            - name: Make artifact available
+              shell: bash --noprofile --norc -eo pipefail {0}
+              run: |
+                  cd /c/_work/browser-desktop/browser-desktop/src/obj-*/dist/install/sea
+                  cp dot-*.installer.exe /c/_work/browser-desktop/browser-desktop
+                  cd /c/_work/browser-desktop/browser-desktop
+                  mv dot-*.installer.exe "Install Dot Browser ${{ env.DOT_VERSION }}.exe"
+
+            - name: Release
+              uses: dothq/tag-and-release-and-upload@master
+              with:
+                  github-token: ${{ secrets.ROBOT_TOKEN }}
+                  version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
+                  name: "Nightly v${{ env.DOT_VERSION }}"
+                  assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
+                  body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
+                  overwrite: true
+
+            - name: Build webhook
+              uses: dothq/actions-status-discord@master
+              if: always()
+              with:
+                  webhook: ${{ secrets.DISCORD_WEBHOOK }}
+                  content: <@&805943648067780648>
+                  username: Build
+                  avatar_url: "https://github.com/dothq.png"
