@@ -11,8 +11,11 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        run: |
+          git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop.git
+          cd browser-desktop
+          git status
 
       - name: Setup Git
         run: |
@@ -26,9 +29,10 @@ jobs:
         run: yarn prettier
 
       - name: Push to GitHub
-        uses: EndBug/add-and-commit@v6.2.0
-        with:
-          message: '🎨 Enforce code style'
-          author_name: dothq-robot
-          author_email: 72629236+dothq-robot@users.noreply.github.com
-          token: ${{ secrets.ROBOT_TOKEN }}
+        run: |
+          git config --global user.name "dothq-robot"
+          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+          git status
+          git add .
+          git commit -m "🎨 Enforce code style"
+          git push origin main
