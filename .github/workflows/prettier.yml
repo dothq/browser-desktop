@@ -35,4 +35,4 @@ jobs:
           git status
           git add .
           git commit -m "🎨 Enforce code style"
-          git push origin main
+          git push origin nightly
