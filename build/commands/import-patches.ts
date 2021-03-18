@@ -93,13 +93,10 @@ export const importPatches = async () => {
                                 )
                             )
                         ) {
-                            execa(
+                            dispatch(
                                 "patch",
                                 args,
-                                {
-                                    cwd,
-                                    stripFinalNewline: false
-                                }
+                                cwd
                             )
                                 .catch((e) => {
                                     throw e;
