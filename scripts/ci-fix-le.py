@@ -4,7 +4,7 @@ for patch in os.listdir(os.path.join(os.getcwd(), "patches")):
     path = os.path.join(os.getcwd(), "patches", patch)
 
     fin = open(path, "rb")
-    data = data.read().replace(b"\r\n",b"\n")
+    data = fin.read().replace(b"\r\n",b"\n")
     fin.close()
 
     fin = open(path, "wb")
