@@ -40,7 +40,7 @@ export const fixLineEndings = async () => {
                         process.cwd(),
                         "src"
                     )
-                ).then(async _ => {
+                ).then(async (_) => {
                     await dispatch(
                         "dos2unix",
                         [patch],
@@ -49,12 +49,12 @@ export const fixLineEndings = async () => {
                             "patches"
                         )
                     );
-                })
+                });
             } else {
                 log.warning(
                     `Skipping ${patch} as it no longer exists in tree...`
                 );
             }
         })
-    )
+    );
 };
