@@ -1,0 +1,31 @@
+name: Enforce code style
+
+on:
+  push:
+    paths:
+      - 'build/**'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Format
+        run: yarn prettier
+
+      - name: Upload changes...
+        uses: EndBug/add-and-commit@v7
+        with:
+          message: '🎨 Enforce code style'
+          author_name: dothq-robot
+          author_email: 72629236+dothq-robot@users.noreply.github.com
+          token: ${{ secrets.ROBOT_TOKEN }}
