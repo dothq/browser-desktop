@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalk from "chalk";
 
 class Log {
     private startTime: number;
@@ -6,43 +6,67 @@ class Log {
     constructor() {
         const d = new Date();
 
-        this.startTime = d.getTime()
+        this.startTime = d.getTime();
     }
 
     private withLeading(num: number) {
-        return num.toString().padStart(2, '0')
+        return num.toString().padStart(2, "0");
     }
 
     private getDiff() {
         const d = new Date();
 
-        const currentTime = d.getTime()
+        const currentTime = d.getTime();
 
-        const elapsedTime = currentTime - this.startTime
+        const elapsedTime =
+            currentTime - this.startTime;
 
-        var secs = Math.floor((elapsedTime / 1000) % 60)
-        var mins = Math.floor((elapsedTime / (60 * 1000)) % 60)
-        var hours = Math.floor((elapsedTime / (60 * 60 * 1000)) % 24)
+        var secs = Math.floor(
+            (elapsedTime / 1000) % 60
+        );
+        var mins = Math.floor(
+            (elapsedTime / (60 * 1000)) % 60
+        );
+        var hours = Math.floor(
+            (elapsedTime / (60 * 60 * 1000)) %
+                24
+        );
 
         const format = (r: number) => {
-            return r.toString().length == 1 ? "0" + r : r
-        }
+            return r.toString().length == 1
+                ? "0" + r
+                : r;
+        };
 
-        return `${format(hours)}:${format(mins)}:${format(secs)}`
+        return `${format(hours)}:${format(
+            mins
+        )}:${format(secs)}`;
     }
 
     info(...args: any[]) {
-        console.info(chalk.blueBright.bold(this.getDiff()), ...args)
+        console.info(
+            chalk.blueBright.bold(
+                this.getDiff()
+            ),
+            ...args
+        );
     }
 
     warning(...args: any[]) {
-        console.info(chalk.yellowBright.bold(" WARNING"), ...args)
+        console.info(
+            chalk.yellowBright.bold(" WARNING"),
+            ...args
+        );
     }
 
     success(...args: any[]) {
-        console.log(`\n${chalk.greenBright.bold("SUCCESS")}`, ...args)
+        console.log(
+            `\n${chalk.greenBright.bold(
+                "SUCCESS"
+            )}`,
+            ...args
+        );
     }
-
 
     error(...args: any[]) {
         throw new Error(...args);

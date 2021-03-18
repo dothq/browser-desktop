@@ -1,31 +1,31 @@
 name: Convert to LF line endings
 
 on:
-  push:
-    paths:
-      - 'patches/**'
-  workflow_dispatch:
-  
+    push:
+        paths:
+            - "patches/**"
+    workflow_dispatch:
+
 jobs:
-  fix:
-    runs-on: ubuntu-latest
+    fix:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Setup Git
-        run: |
-          git config --global user.name "dothq-robot"
-          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+            - name: Setup Git
+              run: |
+                  git config --global user.name "dothq-robot"
+                  git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
 
-      - name: Fix line endings
-        run: |
-          sudo apt-get install -y dos2unix
-          python3 ./scripts/ci-fix-le.py
+            - name: Fix line endings
+              run: |
+                  sudo apt-get install -y dos2unix
+                  python3 ./scripts/ci-fix-le.py
 
-      - name: Push to GitHub
-        uses: EndBug/add-and-commit@v6.2.0
-        with:
-          author_name: dothq-robot
-          author_email: 72629236+dothq-robot@users.noreply.github.com
-          token: ${{ secrets.ROBOT_TOKEN }}
+            - name: Push to GitHub
+              uses: EndBug/add-and-commit@v6.2.0
+              with:
+                  author_name: dothq-robot
+                  author_email: 72629236+dothq-robot@users.noreply.github.com
+                  token: ${{ secrets.ROBOT_TOKEN }}

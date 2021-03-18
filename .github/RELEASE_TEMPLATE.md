@@ -12,13 +12,14 @@ Run the `Install.Dot.Browser.*.exe` to start installing Dot Browser onto your co
 
 #### Requirements
 
-* **GTK+** - 3.14 or higher
-* **X.Org** - 1.0 or higher
-* **libstdc++** - 4.8.1 or higher
-* **glibc** - 2.17 or higher
+-   **GTK+** - 3.14 or higher
+-   **X.Org** - 1.0 or higher
+-   **libstdc++** - 4.8.1 or higher
+-   **glibc** - 2.17 or higher
 
 #### Steps
+
 1. Download `dot-*.tar.bz2`
 2. Go to your home directory and run `tar xjf dot-*.tar.bz2`
 3. You can now start Dot Browser by typing `~/dot/dot`
-    * You can also add `~/dot` to your PATH if you want to type `dot` to launch Dot Browser instead.
+    - You can also add `~/dot` to your PATH if you want to type `dot` to launch Dot Browser instead.

@@ -17,18 +17,18 @@
         {
             "emoji": "🎭",
             "code": ":performing_arts:",
-            "description": "Add or update a browser actor",
+            "description": "Add or update a browser actor"
         },
         {
             "emoji": "🧱",
             "code": ":bricks:",
-            "description": "Make changes to build system",
+            "description": "Make changes to build system"
         },
         {
             "emoji": "🍉",
             "code": ":melon:",
-            "description": "Improve melon build tool",
-        },
+            "description": "Improve melon build tool"
+        }
     ],
     "git.ignoreLimitWarning": true
 }
