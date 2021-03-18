@@ -54,9 +54,7 @@ export const importPatches = async () => {
         patches.map(async (patch) => {
             const args = ["-p1"];
 
-            args.push(
-                "--ignore-whitespace"
-            );
+            args.push("--ignore-whitespace");
             args.push("--binary");
             args.push("-i");
             args.push(
