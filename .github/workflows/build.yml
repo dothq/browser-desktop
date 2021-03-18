@@ -53,7 +53,9 @@ jobs:
           sudo rm -rf firefox-*.source.tar.xz
 
       - name: Import patches
-        run: ./melon import
+        run: |
+          ./melon fix-le
+          ./melon import
 
       - name: Build
         run: |
