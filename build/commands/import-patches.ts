@@ -54,12 +54,9 @@ export const importPatches = async () => {
         patches.map(async (patch) => {
             const args = ["-p1"];
 
-            if (process.platform == "win32") {
-                args.push(
-                    "--ignore-whitespace"
-                );
-            }
-
+            args.push(
+                "--ignore-whitespace"
+            );
             args.push("--binary");
             args.push("-i");
             args.push(
@@ -93,10 +90,13 @@ export const importPatches = async () => {
                                 )
                             )
                         ) {
-                            dispatch(
+                            execa(
                                 "patch",
                                 args,
-                                cwd
+                                {
+                                    cwd,
+                                    stripFinalNewline: false
+                                }
                             )
                                 .catch((e) => {
                                     throw e;
