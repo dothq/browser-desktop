@@ -53,10 +53,11 @@ jobs:
                   cd ..
                   sudo rm -rf firefox-*.source.tar.xz
 
+            - name: Fix line-endings
+              run: ./melon fix-le
+
             - name: Import patches
-              run: |
-                  ./melon fix-le
-                  ./melon import
+              run: ./melon import
 
             - name: Build
               run: |
