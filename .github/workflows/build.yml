@@ -34,6 +34,7 @@ jobs:
             - name: Install dependencies
               run: |
                   npm i typescript
+                  sudo apt-get install dos2unix
 
             - name: Download workspace
               run: |
