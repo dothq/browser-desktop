@@ -13,8 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "dothq-robot"
+          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
 
       - name: Install dependencies
         run: yarn
@@ -22,8 +25,8 @@ jobs:
       - name: Format
         run: yarn prettier
 
-      - name: Upload changes...
-        uses: EndBug/add-and-commit@v7
+      - name: Push to GitHub
+        uses: EndBug/add-and-commit@v6.2.0
         with:
           message: '🎨 Enforce code style'
           author_name: dothq-robot
