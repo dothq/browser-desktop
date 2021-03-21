@@ -1,9 +1,9 @@
 import axios from "axios";
-import { log } from "..";
-import fs from "fs";
-import { posix, resolve, sep } from "path";
 import execa from "execa";
+import fs from "fs";
 import { homedir } from "os";
+import { posix, resolve, sep } from "path";
+import { log } from "..";
 
 export const downloadArtifacts = async () => {
     if (process.platform !== "win32")
@@ -60,7 +60,7 @@ export const downloadArtifacts = async () => {
             let percentCompleted = parseInt(
                 Math.round(
                     (receivedBytes * 100) /
-                        length
+                    length
                 ).toFixed(0)
             );
             if (

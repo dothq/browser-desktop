@@ -1,18 +1,18 @@
-import manualPatches from "../manual-patches";
-import { IPatch } from "../interfaces/patch";
-
-import { log } from "..";
-
-import { resolve } from "path";
 import {
     copySync,
     ensureDirSync
 } from "fs-extra";
+import { resolve } from "path";
+import { log } from "..";
 import {
     COMMON_DIR,
     SRC_DIR
 } from "../constants";
+import { IPatch } from "../interfaces/patch";
+import manualPatches from "../manual-patches";
 import { delay } from "./delay";
+
+
 
 const getChunked = (location: string) => {
     return location
@@ -28,7 +28,7 @@ const copy = (name: string) => {
                 ...getChunked(name)
             )
         );
-    } catch (e) {}
+    } catch (e) { }
 
     copySync(
         resolve(

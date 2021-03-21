@@ -1,8 +1,8 @@
 import { existsSync } from "fs";
 import { log } from "..";
-
 import { SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
+
 
 export const execute = async (
     _: any,
@@ -19,8 +19,7 @@ export const execute = async (
         args.shift();
 
         log.info(
-            `Executing \`${bin}${
-                args.length !== 0 ? ` ` : ``
+            `Executing \`${bin}${args.length !== 0 ? ` ` : ``
             }${args.join(" ")}\` in \`src\`...`
         );
         dispatch(bin, args, SRC_DIR, true);

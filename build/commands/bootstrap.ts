@@ -1,9 +1,9 @@
-import { log } from "../";
 import { bin_name } from "..";
-
+import { log } from "../";
+import { SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
 
-import { SRC_DIR } from "../constants";
+
 
 export const bootstrap = async () => {
     if (process.platform == "win32")

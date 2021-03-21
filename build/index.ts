@@ -1,27 +1,39 @@
+import chalk from "chalk";
 import { Command } from "commander";
-
-import Log from "./log";
-
-import {
-    download,
-    downloadArtifacts,
-    init,
-    build,
-    exportPatches,
-    importPatches,
-    run,
-    fixLineEndings,
-    reset,
-    melonPackage, // Apparently 'package' is a reserved keyword
-    status,
-    execute,
-    exportFile,
-    bootstrap
-} from "./commands";
-
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import chalk from "chalk";
+import {
+    bootstrap, build, download,
+    downloadArtifacts,
+
+
+
+
+
+
+
+
+
+    execute,
+    exportFile, exportPatches,
+
+
+    fixLineEndings, importPatches, init,
+
+
+
+
+
+
+    melonPackage, reset, run,
+
+
+    status
+} from "./commands";
+import Log from "./log";
+
+
+
 
 const program = new Command();
 

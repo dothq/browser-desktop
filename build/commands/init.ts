@@ -1,7 +1,6 @@
-import execa from "execa";
 import { existsSync, readFileSync } from "fs";
-import { posix, resolve, sep } from "path";
-import { log, bin_name } from "..";
+import { resolve } from "path";
+import { bin_name, log } from "..";
 import { dispatch } from "../utils";
 
 export const init = async (

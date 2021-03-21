@@ -1,18 +1,14 @@
 import axios from "axios";
-import { bin_name, log } from "..";
-import fs, {
-    existsSync,
-    symlinkSync,
-    writeFileSync,
-    renameSync,
-    appendFileSync
-} from "fs";
-import { posix, resolve, sep } from "path";
 import execa from "execa";
-import { dispatch } from "../utils";
+import fs, {
+    appendFileSync, existsSync,
+    writeFileSync
+} from "fs";
 import { moveSync } from "fs-extra";
-import { downloadArtifacts } from "./download-artifacts";
 import { homedir } from "os";
+import { posix, resolve, sep } from "path";
+import { bin_name, log } from "..";
+import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
 
@@ -160,19 +156,16 @@ export const download = async (
         existsSync(
             resolve(
                 process.cwd(),
-                `firefox-${
-                    version.split("b")[0]
+                `firefox-${version.split("b")[0]
                 }`
             )
         )
     ) {
         log.error(
-            `Cannot download version ${
-                version.split("b")[0]
+            `Cannot download version ${version.split("b")[0]
             } as it already exists at "${resolve(
                 process.cwd(),
-                `firefox-${
-                    version.split("b")[0]
+                `firefox-${version.split("b")[0]
                 }`
             )}"`
         );
@@ -200,13 +193,12 @@ export const download = async (
                 process.cwd(),
                 "firefox",
                 "firefox-" +
-                    version.split("b")[0]
+                version.split("b")[0]
             )
         )
     )
         log.error(
-            `Workspace with version "${
-                version.split("b")[0]
+            `Workspace with version "${version.split("b")[0]
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
@@ -240,7 +232,7 @@ export const download = async (
             let percentCompleted = parseInt(
                 Math.round(
                     (receivedBytes * 100) /
-                        length
+                    length
                 ).toFixed(0)
             );
             if (

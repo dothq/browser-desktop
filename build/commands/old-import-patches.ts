@@ -1,23 +1,22 @@
-import { resolve } from "path";
+import execa from "execa";
 import {
     existsSync,
     readdirSync,
     readFileSync
 } from "fs";
-import execa from "execa";
-import { log, bin_name } from "..";
-import rimraf from "rimraf";
 import {
     copySync,
     ensureDirSync
 } from "fs-extra";
-import manualPatches from "../manual-patches";
-import { delay, dispatch } from "../utils";
+import { resolve } from "path";
+import { bin_name, log } from "..";
 import {
     COMMON_DIR,
     PATCHES_DIR,
     SRC_DIR
 } from "../constants";
+import manualPatches from "../manual-patches";
+import { delay } from "../utils";
 
 interface IPatch {
     name: string;
@@ -184,8 +183,7 @@ export const importPatches = async () => {
     });
 
     log.success(
-        `Successfully applied ${
-            patches.length + totalActions
+        `Successfully applied ${patches.length + totalActions
         } patches.`
     );
     log.info(

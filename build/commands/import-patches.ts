@@ -1,6 +1,4 @@
-import commander from "commander";
-import { platform } from "os";
-import { log, bin_name } from "..";
+import { bin_name, log } from "..";
 import { importManual } from "../utils";
 
 class ImportPatchesController {

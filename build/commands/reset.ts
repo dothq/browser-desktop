@@ -1,5 +1,5 @@
 import execa from "execa";
-import { exists, existsSync } from "fs-extra";
+import { existsSync } from "fs-extra";
 import { resolve } from "path";
 import { confirm } from "promptly";
 import rimraf from "rimraf";
@@ -165,5 +165,5 @@ export const reset = async () => {
                 }
             })
             .catch((e) => e);
-    } catch (e) {}
+    } catch (e) { }
 };

@@ -1,23 +1,22 @@
-import { resolve } from "path";
 import execa from "execa";
 import {
     createWriteStream,
     existsSync,
     mkdirSync,
-    rmdirSync,
-    writeFileSync
+    rmdirSync
 } from "fs";
-import { log } from "..";
-import manualPatches from "../manual-patches";
 import {
     copySync,
     ensureDirSync
 } from "fs-extra";
+import { resolve } from "path";
+import { log } from "..";
 import {
     COMMON_DIR,
     PATCHES_DIR,
     SRC_DIR
 } from "../constants";
+import manualPatches from "../manual-patches";
 
 const flags: {
     [key: string]: string;
