@@ -9,7 +9,7 @@ class Patch {
     public name: string;
     public action: string;
     public src: string | string[];
-    public type: 'file' | 'manual';
+    public type: "file" | "manual";
     private _done: boolean = false;
 
     private error: Error | unknown;
@@ -40,11 +40,11 @@ class Patch {
             } catch (e) {
                 rej(e);
             }
-        })
+        });
     }
 
     public async apply() {
-        log.info(`Applying ${this.name}...`)
+        log.info(`Applying ${this.name}...`);
 
         if (this.type == "manual") {
             try {
@@ -75,7 +75,17 @@ class Patch {
         }
     }
 
-    constructor({ name, action, src, type }: { name: string, action?: string, src?: string | string[]; type: 'file' | 'manual' }) {
+    constructor({
+        name,
+        action,
+        src,
+        type
+    }: {
+        name: string;
+        action?: string;
+        src?: string | string[];
+        type: "file" | "manual";
+    }) {
         this.name = name;
         this.action = action || "";
         this.src = src || resolve(PATCHES_DIR, name);
