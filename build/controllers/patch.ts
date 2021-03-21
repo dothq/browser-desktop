@@ -9,14 +9,15 @@ class Patch {
     public name: string;
     public action: string;
     public src: string | string[];
-    public type: 'file' | 'manual';
+    public type: "file" | "manual";
     private _done: boolean = false;
 
     private async applyAsManual() {
         return new Promise(async (res) => {
             switch (this.action) {
                 case "copy":
-                    if (typeof this.src == "string") copyManual(this.src);
+                    if (typeof this.src == "string")
+                        copyManual(this.src);
 
                     if (Array.isArray(this.src)) {
                         this.src.forEach((i) => {
@@ -32,13 +33,14 @@ class Patch {
 
                     res(true);
             }
-        })
+        });
     }
 
     public async apply() {
-        log.info(`Applying ${this.name}...`)
+        log.info(`Applying ${this.name}...`);
 
-        this.type == "manual" && await this.applyAsManual()
+        this.type == "manual" &&
+            (await this.applyAsManual());
 
         this.done = true;
     }
@@ -53,10 +55,24 @@ class Patch {
         process.stdout.moveCursor(0, -1);
         process.stdout.clearLine(1);
 
-        log.info(`Applying ${this.name}... ${chalk.green.bold('Done ✔')}`);
+        log.info(
+            `Applying ${this.name}... ${chalk.green.bold(
+                "Done ✔"
+            )}`
+        );
     }
 
-    constructor({ name, action, src, type }: { name: string, action?: string, src?: string | string[]; type: 'file' | 'manual' }) {
+    constructor({
+        name,
+        action,
+        src,
+        type
+    }: {
+        name: string;
+        action?: string;
+        src?: string | string[];
+        type: "file" | "manual";
+    }) {
         this.name = name;
         this.action = action || "";
         this.src = src || resolve(PATCHES_DIR, name);
