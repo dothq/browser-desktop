@@ -3,7 +3,11 @@ import execa from "execa";
 import { ensureDirSync, statSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { PATCHES_DIR, PATCH_ARGS, SRC_DIR } from "../constants";
+import {
+    PATCHES_DIR,
+    PATCH_ARGS,
+    SRC_DIR
+} from "../constants";
 import { copyManual } from "../utils";
 
 class Patch {
@@ -49,13 +53,32 @@ class Patch {
     private async applyAsPatch() {
         return new Promise(async (res, rej) => {
             try {
-                await execa("git", ["apply", "-R", ...PATCH_ARGS, (this.src as any)], { cwd: SRC_DIR });
+                await execa(
+                    "git",
+                    [
+                        "apply",
+                        "-R",
+                        ...PATCH_ARGS,
+                        this.src as any
+                    ],
+                    { cwd: SRC_DIR }
+                );
 
-                const { stdout, exitCode } = await execa("git", ["apply", ...PATCH_ARGS, (this.src as any)], { cwd: SRC_DIR });
+                const {
+                    stdout,
+                    exitCode
+                } = await execa(
+                    "git",
+                    [
+                        "apply",
+                        ...PATCH_ARGS,
+                        this.src as any
+                    ],
+                    { cwd: SRC_DIR }
+                );
 
                 if (exitCode == 0) res(true);
                 else throw stdout;
-
             } catch (e) {
                 rej(e);
             }
@@ -66,8 +89,10 @@ class Patch {
         log.info(`Applying ${this.name}...`);
 
         try {
-            if (this.type == "manual") await this.applyAsManual()
-            if (this.type == "file") await this.applyAsPatch()
+            if (this.type == "manual")
+                await this.applyAsManual();
+            if (this.type == "file")
+                await this.applyAsPatch();
 
             this.done = true;
         } catch (e) {
