@@ -1,4 +1,6 @@
-export default [
+import { IPatch } from "./interfaces/patch";
+
+const manualPatches: IPatch[] = [
     {
         name: "branding",
         action: "copy",
@@ -30,3 +32,5 @@ export default [
         src: ["browser/components/preferences/new"]
     }
 ];
+
+export default manualPatches;
