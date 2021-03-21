@@ -6,10 +6,7 @@ import { SRC_DIR } from "../constants";
 
 export const melonPackage = async () => {
     if (existsSync(SRC_DIR)) {
-        const artifactPath = resolve(
-            SRC_DIR,
-            "mach"
-        );
+        const artifactPath = resolve(SRC_DIR, "mach");
 
         if (existsSync(artifactPath)) {
             const args = ["package"];
@@ -20,10 +17,9 @@ export const melonPackage = async () => {
                 )}...`
             );
 
-            execa(
-                artifactPath,
-                args
-            ).stdout?.pipe(process.stdout);
+            execa(artifactPath, args).stdout?.pipe(
+                process.stdout
+            );
         } else {
             log.error(
                 `Cannot binary with name \`mach\` in ${resolve(

@@ -3,10 +3,7 @@ import { log } from "..";
 import { SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
 
-export const execute = async (
-    _: any,
-    cmd: any[]
-) => {
+export const execute = async (_: any, cmd: any[]) => {
     if (existsSync(SRC_DIR)) {
         if (!cmd || cmd.length == 0)
             log.error(
@@ -24,8 +21,6 @@ export const execute = async (
         );
         dispatch(bin, args, SRC_DIR, true);
     } else {
-        log.error(
-            `Unable to locate src directory.`
-        );
+        log.error(`Unable to locate src directory.`);
     }
 };

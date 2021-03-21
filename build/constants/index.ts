@@ -7,10 +7,7 @@ export const BUILD_TARGETS = [
     "macos"
 ];
 
-export const SRC_DIR = resolve(
-    process.cwd(),
-    "src"
-);
+export const SRC_DIR = resolve(process.cwd(), "src");
 export const PATCHES_DIR = resolve(
     process.cwd(),
     "patches"

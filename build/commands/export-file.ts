@@ -2,14 +2,9 @@ import execa from "execa";
 import { createWriteStream } from "fs";
 import { resolve } from "path";
 import { log } from "..";
-import {
-    PATCHES_DIR,
-    SRC_DIR
-} from "../constants";
+import { PATCHES_DIR, SRC_DIR } from "../constants";
 
-export const exportFile = async (
-    file: string
-) => {
+export const exportFile = async (file: string) => {
     log.info(`Exporting ${file}...`);
 
     const proc = execa(
@@ -27,17 +22,12 @@ export const exportFile = async (
         }
     );
     const name =
-        file
-            .replace(/\//g, "-")
-            .replace(/\./g, "-") + ".patch";
+        file.replace(/\//g, "-").replace(/\./g, "-") +
+        ".patch";
 
     proc.stdout?.pipe(
-        createWriteStream(
-            resolve(PATCHES_DIR, name)
-        )
+        createWriteStream(resolve(PATCHES_DIR, name))
     );
-    log.info(
-        `Wrote "${name}" to patches directory.`
-    );
+    log.info(`Wrote "${name}" to patches directory.`);
     console.log();
 };

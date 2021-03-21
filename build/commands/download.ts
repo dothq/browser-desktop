@@ -13,32 +13,18 @@ import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
 
-const unpack = async (
-    name: string,
-    version: string
-) => {
-    let cwd = process
-        .cwd()
-        .split(sep)
-        .join(posix.sep);
+const unpack = async (name: string, version: string) => {
+    let cwd = process.cwd().split(sep).join(posix.sep);
 
     if (process.platform == "win32") {
         cwd = "./";
     }
 
     log.info(`Unpacking Firefox...`);
-    await execa("tar", [
-        "-xvf",
-        name,
-        "-C",
-        cwd
-    ]);
+    await execa("tar", ["-xvf", name, "-C", cwd]);
 
     moveSync(
-        resolve(
-            cwd,
-            `firefox-${version.split("b")[0]}`
-        ),
+        resolve(cwd, `firefox-${version.split("b")[0]}`),
         resolve(cwd, "src"),
         { overwrite: true }
     );
@@ -49,48 +35,33 @@ const unpack = async (
     );
 
     if (process.env.CI_SKIP_INIT)
-        return log.info(
-            "Skipping initialisation."
-        );
+        return log.info("Skipping initialisation.");
 
-    const proc = execa(`./${bin_name}`, [
-        "init",
-        "src"
-    ]);
+    const proc = execa(`./${bin_name}`, ["init", "src"]);
 
-    (proc.stdout as any).on(
-        "data",
-        (data: any) => {
-            const d = data.toString();
+    (proc.stdout as any).on("data", (data: any) => {
+        const d = data.toString();
 
-            d.split("\n").forEach(
-                (line: any) => {
-                    if (line.length !== 0) {
-                        let t = line.split(" ");
-                        t.shift();
-                        log.info(t.join(" "));
-                    }
-                }
-            );
-        }
-    );
+        d.split("\n").forEach((line: any) => {
+            if (line.length !== 0) {
+                let t = line.split(" ");
+                t.shift();
+                log.info(t.join(" "));
+            }
+        });
+    });
 
-    (proc.stdout as any).on(
-        "error",
-        (data: any) => {
-            const d = data.toString();
+    (proc.stdout as any).on("error", (data: any) => {
+        const d = data.toString();
 
-            d.split("\n").forEach(
-                (line: any) => {
-                    if (line.length !== 0) {
-                        let t = line.split(" ");
-                        t.shift();
-                        log.info(t.join(" "));
-                    }
-                }
-            );
-        }
-    );
+        d.split("\n").forEach((line: any) => {
+            if (line.length !== 0) {
+                let t = line.split(" ");
+                t.shift();
+                log.info(t.join(" "));
+            }
+        });
+    });
 
     proc.on("exit", () => {
         log.success(
@@ -98,18 +69,11 @@ const unpack = async (
         );
         console.log();
 
-        pjson.versions[
-            "firefox-display"
-        ] = version;
-        pjson.versions[
-            "firefox"
-        ] = version.split("b")[0];
+        pjson.versions["firefox-display"] = version;
+        pjson.versions["firefox"] = version.split("b")[0];
 
         writeFileSync(
-            resolve(
-                process.cwd(),
-                "package.json"
-            ),
+            resolve(process.cwd(), "package.json"),
             JSON.stringify(pjson, null, 2)
         );
     });
@@ -149,17 +113,13 @@ export const download = async (
 
     const url = `${base}${filename}`;
 
-    log.info(
-        `Locating Firefox release ${version}...`
-    );
+    log.info(`Locating Firefox release ${version}...`);
 
     if (
         existsSync(
             resolve(
                 process.cwd(),
-                `firefox-${
-                    version.split("b")[0]
-                }`
+                `firefox-${version.split("b")[0]}`
             )
         )
     ) {
@@ -168,9 +128,7 @@ export const download = async (
                 version.split("b")[0]
             } as it already exists at "${resolve(
                 process.cwd(),
-                `firefox-${
-                    version.split("b")[0]
-                }`
+                `firefox-${version.split("b")[0]}`
             )}"`
         );
     }
@@ -196,8 +154,7 @@ export const download = async (
             resolve(
                 process.cwd(),
                 "firefox",
-                "firefox-" +
-                    version.split("b")[0]
+                "firefox-" + version.split("b")[0]
             )
         )
     )
@@ -207,16 +164,11 @@ export const download = async (
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
-    log.info(
-        `Downloading Firefox release ${version}...`
-    );
+    log.info(`Downloading Firefox release ${version}...`);
 
-    const { data, headers } = await axios.get(
-        url,
-        {
-            responseType: "stream"
-        }
-    );
+    const { data, headers } = await axios.get(url, {
+        responseType: "stream"
+    });
 
     const length = headers["content-length"];
 
@@ -229,15 +181,12 @@ export const download = async (
     data.on("data", (chunk: any) => {
         receivedBytes += chunk.length;
 
-        let rand = Math.floor(
-            Math.random() * 1000 + 1
-        );
+        let rand = Math.floor(Math.random() * 1000 + 1);
 
         if (rand > 999.5) {
             let percentCompleted = parseInt(
                 Math.round(
-                    (receivedBytes * 100) /
-                        length
+                    (receivedBytes * 100) / length
                 ).toFixed(0)
             );
             if (
@@ -259,10 +208,7 @@ export const download = async (
         if (process.platform === "win32") {
             if (
                 existsSync(
-                    resolve(
-                        homedir(),
-                        ".mozbuild"
-                    )
+                    resolve(homedir(), ".mozbuild")
                 )
             ) {
                 log.info(

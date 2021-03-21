@@ -4,10 +4,7 @@ import {
     readdirSync,
     readFileSync
 } from "fs";
-import {
-    copySync,
-    ensureDirSync
-} from "fs-extra";
+import { copySync, ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 import {
@@ -25,9 +22,7 @@ interface IPatch {
 }
 
 const getChunked = (location: string) => {
-    return location
-        .replace(/\\/g, "/")
-        .split("/");
+    return location.replace(/\\/g, "/").split("/");
 };
 
 export const importPatches = async () => {
@@ -48,9 +43,7 @@ export const importPatches = async () => {
 
             args.push("--ignore-space-change");
             args.push("--ignore-whitespace");
-            args.push(
-                resolve(PATCHES_DIR, patch)
-            );
+            args.push(resolve(PATCHES_DIR, patch));
 
             const patchContents = readFileSync(
                 resolve(PATCHES_DIR, patch),
@@ -61,107 +54,69 @@ export const importPatches = async () => {
                 .split(" b/")[0];
 
             const apply = async () => {
-                return new Promise(
-                    async (res) => {
-                        log.info(
-                            `Applying ${patch}...`
-                        );
+                return new Promise(async (res) => {
+                    log.info(`Applying ${patch}...`);
 
-                        if (
-                            existsSync(
-                                resolve(
-                                    SRC_DIR,
-                                    originalPath
-                                )
-                            )
-                        ) {
-                            execa(
-                                "git",
-                                [
-                                    "apply",
-                                    ...args
-                                ],
-                                {
-                                    cwd: SRC_DIR,
-                                    stripFinalNewline: false
-                                }
-                            )
-                                .catch((e) => {
-                                    throw e;
-                                })
-                                .then((_) =>
-                                    res(true)
-                                );
-                        } else {
-                            log.warning(
-                                `Skipping ${patch} as it no longer exists in tree...`
-                            );
-                            delay(
-                                1500
-                            ).then((_) =>
-                                res(true)
-                            );
-                        }
+                    if (
+                        existsSync(
+                            resolve(SRC_DIR, originalPath)
+                        )
+                    ) {
+                        execa("git", ["apply", ...args], {
+                            cwd: SRC_DIR,
+                            stripFinalNewline: false
+                        })
+                            .catch((e) => {
+                                throw e;
+                            })
+                            .then((_) => res(true));
+                    } else {
+                        log.warning(
+                            `Skipping ${patch} as it no longer exists in tree...`
+                        );
+                        delay(1500).then((_) =>
+                            res(true)
+                        );
                     }
-                );
+                });
             };
 
             if (process.platform == "win32") {
-                await execa(
-                    "dos2unix",
-                    [originalPath],
-                    {
-                        cwd: SRC_DIR,
-                        stripFinalNewline: false
-                    }
-                );
+                await execa("dos2unix", [originalPath], {
+                    cwd: SRC_DIR,
+                    stripFinalNewline: false
+                });
             }
 
-            await execa(
-                "git",
-                ["apply", "-R", ...args],
-                { cwd: SRC_DIR }
-            )
-                .then(
-                    async (_) => await apply()
-                )
-                .catch(
-                    async (_) => await apply()
-                );
+            await execa("git", ["apply", "-R", ...args], {
+                cwd: SRC_DIR
+            })
+                .then(async (_) => await apply())
+                .catch(async (_) => await apply());
         })
     );
 
     let totalActions = 0;
 
     manualPatches.forEach((patch: IPatch) => {
-        log.info(
-            `Applying ${patch.name} patch...`
-        );
+        log.info(`Applying ${patch.name} patch...`);
 
         switch (patch.action) {
             case "copy":
-                if (
-                    typeof patch.src == "string"
-                ) {
+                if (typeof patch.src == "string") {
                     copySync(
                         resolve(
                             COMMON_DIR,
-                            ...getChunked(
-                                patch.src
-                            )
+                            ...getChunked(patch.src)
                         ),
                         resolve(
                             SRC_DIR,
-                            ...getChunked(
-                                patch.src
-                            )
+                            ...getChunked(patch.src)
                         )
                     );
 
                     ++totalActions;
-                } else if (
-                    Array.isArray(patch.src)
-                ) {
+                } else if (Array.isArray(patch.src)) {
                     patch.src.forEach((i) => {
                         ensureDirSync(i);
 

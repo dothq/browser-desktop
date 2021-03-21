@@ -27,8 +27,6 @@ export default [
     {
         name: "preferences",
         action: "copy",
-        src: [
-            "browser/components/preferences/new"
-        ]
+        src: ["browser/components/preferences/new"]
     }
 ];

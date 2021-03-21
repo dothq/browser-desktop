@@ -18,36 +18,28 @@ class Log {
 
         const currentTime = d.getTime();
 
-        const elapsedTime =
-            currentTime - this.startTime;
+        const elapsedTime = currentTime - this.startTime;
 
-        var secs = Math.floor(
-            (elapsedTime / 1000) % 60
-        );
+        var secs = Math.floor((elapsedTime / 1000) % 60);
         var mins = Math.floor(
             (elapsedTime / (60 * 1000)) % 60
         );
         var hours = Math.floor(
-            (elapsedTime / (60 * 60 * 1000)) %
-                24
+            (elapsedTime / (60 * 60 * 1000)) % 24
         );
 
         const format = (r: number) => {
-            return r.toString().length == 1
-                ? "0" + r
-                : r;
+            return r.toString().length == 1 ? "0" + r : r;
         };
 
-        return `${format(hours)}:${format(
-            mins
-        )}:${format(secs)}`;
+        return `${format(hours)}:${format(mins)}:${format(
+            secs
+        )}`;
     }
 
     info(...args: any[]) {
         console.info(
-            chalk.blueBright.bold(
-                this.getDiff()
-            ),
+            chalk.blueBright.bold(this.getDiff()),
             ...args
         );
     }
@@ -61,9 +53,7 @@ class Log {
 
     success(...args: any[]) {
         console.log(
-            `\n${chalk.greenBright.bold(
-                "SUCCESS"
-            )}`,
+            `\n${chalk.greenBright.bold("SUCCESS")}`,
             ...args
         );
     }

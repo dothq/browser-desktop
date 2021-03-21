@@ -22,25 +22,14 @@ export const run = async () => {
         );
 
         if (existsSync(artifactPath)) {
-            const args = [
-                "-no-remote",
-                "-profile"
-            ];
+            const args = ["-no-remote", "-profile"];
 
             args.push(
-                resolve(
-                    objDir,
-                    "tmp",
-                    "profile-default"
-                )
+                resolve(objDir, "tmp", "profile-default")
             );
 
             ensureDirSync(
-                resolve(
-                    objDir,
-                    "tmp",
-                    "profile-default"
-                )
+                resolve(objDir, "tmp", "profile-default")
             );
 
             log.info(
@@ -49,10 +38,9 @@ export const run = async () => {
                 )}...`
             );
 
-            execa(
-                artifactPath,
-                args
-            ).stdout?.pipe(process.stdout);
+            execa(artifactPath, args).stdout?.pipe(
+                process.stdout
+            );
         } else {
             log.error(
                 `Cannot binary with name \`dot\` in ${resolve(

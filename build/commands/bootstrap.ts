@@ -9,14 +9,9 @@ export const bootstrap = async () => {
             `You do not need to bootstrap on Windows. As long as you ran |${bin_name} download-artifacts| everything should work fine.`
         );
 
-    log.info(
-        `Bootstrapping Dot Browser for Desktop...`
-    );
+    log.info(`Bootstrapping Dot Browser for Desktop...`);
 
-    const args = [
-        "--application-choice",
-        "browser"
-    ];
+    const args = ["--application-choice", "browser"];
 
     await dispatch(
         `./mach`,

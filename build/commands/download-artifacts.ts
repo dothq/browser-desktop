@@ -17,9 +17,7 @@ export const downloadArtifacts = async () => {
 
     const filename = "mozbuild.tar.bz2";
     const url = `https://github.com/dothq/windows-artifacts/releases/latest/download/mozbuild.tar.bz2`;
-    let home = homedir()
-        .split(sep)
-        .join(posix.sep);
+    let home = homedir().split(sep).join(posix.sep);
 
     if (process.platform == "win32") {
         home =
@@ -30,16 +28,11 @@ export const downloadArtifacts = async () => {
                 .toLowerCase();
     }
 
-    log.info(
-        `Downloading Windows artifacts...`
-    );
+    log.info(`Downloading Windows artifacts...`);
 
-    const { data, headers } = await axios.get(
-        url,
-        {
-            responseType: "stream"
-        }
-    );
+    const { data, headers } = await axios.get(url, {
+        responseType: "stream"
+    });
 
     const length = headers["content-length"];
 
@@ -52,15 +45,12 @@ export const downloadArtifacts = async () => {
     data.on("data", (chunk: any) => {
         receivedBytes += chunk.length;
 
-        let rand = Math.floor(
-            Math.random() * 1000 + 1
-        );
+        let rand = Math.floor(Math.random() * 1000 + 1);
 
         if (rand > 999.5) {
             let percentCompleted = parseInt(
                 Math.round(
-                    (receivedBytes * 100) /
-                        length
+                    (receivedBytes * 100) / length
                 ).toFixed(0)
             );
             if (
@@ -86,8 +76,6 @@ export const downloadArtifacts = async () => {
             home
         ]);
 
-        log.info(
-            "Done extracting mozbuild artifacts."
-        );
+        log.info("Done extracting mozbuild artifacts.");
     });
 };

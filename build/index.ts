@@ -51,9 +51,7 @@ program
 program
     .command("init <directory>")
     .alias("initialise")
-    .description(
-        "Initialise the Firefox directory."
-    )
+    .description("Initialise the Firefox directory.")
     .action(init);
 
 program
@@ -66,33 +64,25 @@ program
 program
     .command("export")
     .alias("export-patches")
-    .description(
-        "Export the changed files as patches."
-    )
+    .description("Export the changed files as patches.")
     .action(exportPatches);
 
 program
     .command("export-file <file>")
-    .description(
-        "Export a changed file as a patch."
-    )
+    .description("Export a changed file as a patch.")
     .action(exportFile);
 
 program
     .command("import-old")
     .alias("import-patches-old")
-    .description(
-        "Import patches into the browser."
-    );
+    .description("Import patches into the browser.");
 // .action(oldImportPatches);
 
 program
     .command("import")
     .alias("import-patches")
     .alias("i")
-    .description(
-        "Import patches into the browser."
-    )
+    .description("Import patches into the browser.")
     .action((args) => {
         new importPatches(args);
     });
@@ -104,9 +94,7 @@ program
 
 program
     .command("package")
-    .description(
-        "Package the browser for distribution."
-    )
+    .description("Package the browser for distribution.")
     .action(melonPackage);
 
 program

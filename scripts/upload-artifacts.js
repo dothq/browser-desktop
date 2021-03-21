@@ -24,9 +24,7 @@ async function main() {
     );
 
     const blobName = `browser/${os}/${
-        file.split("/")[
-            file.split("/").length - 1
-        ]
+        file.split("/")[file.split("/").length - 1]
     }`;
     const blockBlobClient = containerClient.getBlockBlobClient(
         blobName

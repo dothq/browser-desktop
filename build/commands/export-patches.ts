@@ -5,10 +5,7 @@ import {
     mkdirSync,
     rmdirSync
 } from "fs";
-import {
-    copySync,
-    ensureDirSync
-} from "fs-extra";
+import { copySync, ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
 import {
@@ -26,10 +23,7 @@ const flags: {
     A: "add"
 };
 
-const getFiles = async (
-    flags: string,
-    cwd: string
-) => {
+const getFiles = async (flags: string, cwd: string) => {
     const { stdout: files } = await execa(
         "git",
         [
@@ -40,18 +34,15 @@ const getFiles = async (
         ],
         { cwd }
     );
-    const fileNames: any = files
-        .split("\n")
-        .map((f) => {
-            if (f.length !== 0)
-                return (
-                    f
-                        .replace(/\//g, "-")
-                        .replace(/\./g, "-") +
-                    ".patch"
-                );
-            else return;
-        });
+    const fileNames: any = files.split("\n").map((f) => {
+        if (f.length !== 0)
+            return (
+                f
+                    .replace(/\//g, "-")
+                    .replace(/\./g, "-") + ".patch"
+            );
+        else return;
+    });
 
     return { files, fileNames };
 };
@@ -60,45 +51,37 @@ const exportModified = async (
     patchesDir: string,
     cwd: string
 ) => {
-    const { files, fileNames } = await getFiles(
-        "M",
-        cwd
-    );
+    const { files, fileNames } = await getFiles("M", cwd);
 
     await Promise.all(
-        files
-            .split("\n")
-            .map(async (file, i) => {
-                if (file) {
-                    const proc = execa(
-                        "git",
-                        [
-                            "diff",
-                            "--src-prefix=a/",
-                            "--dst-prefix=b/",
-                            "--full-index",
-                            file
-                        ],
-                        {
-                            cwd,
-                            stripFinalNewline: false
-                        }
-                    );
-                    const name = fileNames[i];
+        files.split("\n").map(async (file, i) => {
+            if (file) {
+                const proc = execa(
+                    "git",
+                    [
+                        "diff",
+                        "--src-prefix=a/",
+                        "--dst-prefix=b/",
+                        "--full-index",
+                        file
+                    ],
+                    {
+                        cwd,
+                        stripFinalNewline: false
+                    }
+                );
+                const name = fileNames[i];
 
-                    proc.stdout?.pipe(
-                        createWriteStream(
-                            resolve(
-                                patchesDir,
-                                name
-                            )
-                        )
-                    );
-                    log.info(
-                        `Wrote "${name}" to patches directory.`
-                    );
-                }
-            })
+                proc.stdout?.pipe(
+                    createWriteStream(
+                        resolve(patchesDir, name)
+                    )
+                );
+                log.info(
+                    `Wrote "${name}" to patches directory.`
+                );
+            }
+        })
     );
 };
 
@@ -121,13 +104,8 @@ const exportManual = async (cwd: string) => {
     return new Promise(async (resol) => {
         manualPatches.forEach((patch) => {
             if (patch.action == "copy") {
-                if (
-                    typeof patch.src == "string"
-                ) {
-                    const inSrc = resolve(
-                        cwd,
-                        patch.src
-                    );
+                if (typeof patch.src == "string") {
+                    const inSrc = resolve(cwd, patch.src);
                     const outsideSrc = resolve(
                         COMMON_DIR,
                         patch.src
@@ -138,23 +116,16 @@ const exportManual = async (cwd: string) => {
                             `Cannot find "${patch.src}" from manual patches.`
                         );
                     if (!existsSync(outsideSrc))
-                        ensureDirSync(
-                            outsideSrc
-                        ); // make sure target dir exists before copying
+                        ensureDirSync(outsideSrc); // make sure target dir exists before copying
 
                     copySync(inSrc, outsideSrc);
 
                     log.info(
                         `Updated manual patch "${patch.src}".`
                     );
-                } else if (
-                    Array.isArray(patch.src)
-                ) {
+                } else if (Array.isArray(patch.src)) {
                     patch.src.forEach((p) => {
-                        const inSrc = resolve(
-                            cwd,
-                            p
-                        );
+                        const inSrc = resolve(cwd, p);
                         const outsideSrc = resolve(
                             COMMON_DIR,
                             p
@@ -164,19 +135,10 @@ const exportManual = async (cwd: string) => {
                             return log.error(
                                 `Cannot find "${p}" from manual patches.`
                             );
-                        if (
-                            !existsSync(
-                                outsideSrc
-                            )
-                        )
-                            ensureDirSync(
-                                outsideSrc
-                            ); // make sure target dir exists before copying
+                        if (!existsSync(outsideSrc))
+                            ensureDirSync(outsideSrc); // make sure target dir exists before copying
 
-                        copySync(
-                            inSrc,
-                            outsideSrc
-                        );
+                        copySync(inSrc, outsideSrc);
 
                         log.info(
                             `Updated manual patch "${p}".`
