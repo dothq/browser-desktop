@@ -1,20 +1,29 @@
 import {
     copySync,
-    ensureDirSync,
-    statSync
+
+    readdirSync
 } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { COMMON_DIR, SRC_DIR } from "../constants";
-import { IPatch } from "../interfaces/patch";
+import { COMMON_DIR, PATCHES_DIR, SRC_DIR } from "../constants";
+import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay } from "./delay";
+
+
+
+const checkOff = async (data: string) => {
+    await delay(100);
+    process.stdout.moveCursor(0, -1)
+    process.stdout.clearLine(1)
+    log.info(`${data} ✔`);
+}
 
 const getChunked = (location: string) => {
     return location.replace(/\\/g, "/").split("/");
 };
 
-const copy = (name: string) => {
+export const copyManual = (name: string) => {
     copySync(
         resolve(COMMON_DIR, ...getChunked(name)),
         resolve(SRC_DIR, ...getChunked(name))
@@ -26,37 +35,51 @@ export const importManual = async () => {
         `Applying ${manualPatches.length} manual patches...`
     );
 
+    console.log();
+
     await delay(500);
 
-    return new Promise((res, rej) => {
+    return new Promise(async (res, rej) => {
         var total = 0;
 
-        manualPatches.forEach((patch: IPatch) => {
-            const { name, src } = patch;
+        for await (const { name, action, src } of manualPatches) {
+            const p = new Patch({
+                name,
+                action,
+                src,
+                type: "manual"
+            })
 
-            log.info(`Applying ${name} manual patch...`);
+            await p.apply()
+        }
 
-            switch (patch.action) {
-                case "copy":
-                    if (typeof src == "string") copy(src);
-                    ++total;
+        log.success(`Successfully imported ${manualPatches.length} manual patches!`);
+        console.log();
 
-                    if (Array.isArray(src)) {
-                        src.forEach((i) => {
-                            if (
-                                statSync(i).isDirectory()
-                            ) {
-                                ensureDirSync(i);
-                            }
-
-                            copy(i);
-
-                            ++total;
-                        });
-                    }
-            }
-        });
+        await delay(1000);
 
         res(total);
     });
 };
+
+export const importPatchFiles = async () => {
+    const patches = readdirSync(PATCHES_DIR);
+
+    log.info(
+        `Applying ${patches.length} patch files...`
+    );
+
+    console.log();
+
+    await delay(500);
+
+    for await (const patch of patches) {
+        const path = resolve(PATCHES_DIR, patch);
+
+        log.info(`Applying ${patch}...`);
+
+        await delay(250);
+    }
+
+    log.success(`Successfully imported ${patches.length} patch files!`)
+}
