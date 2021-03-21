@@ -13,7 +13,7 @@ jobs:
         steps:
             - name: Checkout repository
               run: |
-                  git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop.git -b ${GITHUB_REF##*/}
+                  git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop.git -b ${GITHUB_REF#refs/heads/}
                   cd browser-desktop
                   git status
 
@@ -34,4 +34,4 @@ jobs:
                   git status
                   git add .
                   git commit -m "🎨 Enforce code style"
-                  git push origin ${GITHUB_REF##*/}
+                  git push origin ${GITHUB_REF#refs/heads/}
