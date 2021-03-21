@@ -82,8 +82,17 @@ program
     .action(exportFile);
 
 program
+    .command("import-old")
+    .alias("import-patches-old")
+    .description(
+        "Import patches into the browser."
+    )
+    .action(importPatches);
+
+program
     .command("import")
     .alias("import-patches")
+    .alias("i")
     .description(
         "Import patches into the browser."
     )
