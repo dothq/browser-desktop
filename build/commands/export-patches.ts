@@ -13,6 +13,7 @@ import {
     copySync,
     ensureDirSync
 } from "fs-extra";
+import { COMMON_DIR, PATCHES_DIR, SRC_DIR } from "../constants";
 
 const flags: {
     [key: string]: string;
@@ -125,8 +126,7 @@ const exportManual = async (cwd: string) => {
                         patch.src
                     );
                     const outsideSrc = resolve(
-                        process.cwd(),
-                        "common",
+                        COMMON_DIR,
                         patch.src
                     );
 
@@ -153,8 +153,7 @@ const exportManual = async (cwd: string) => {
                             p
                         );
                         const outsideSrc = resolve(
-                            process.cwd(),
-                            "common",
+                            COMMON_DIR,
                             p
                         );
 
@@ -187,29 +186,23 @@ const exportManual = async (cwd: string) => {
 };
 
 export const exportPatches = async () => {
-    const patchesDir = resolve(
-        process.cwd(),
-        "patches"
-    );
-    const cwd = resolve(process.cwd(), "src");
-
     let actions: any[] = [];
 
     log.info(`Wiping patches directory...`);
     console.log();
-    rmdirSync(patchesDir, { recursive: true });
-    mkdirSync(patchesDir);
+    rmdirSync(PATCHES_DIR, { recursive: true });
+    mkdirSync(PATCHES_DIR);
 
     log.info("Exporting modified files...");
-    await exportModified(patchesDir, cwd);
+    await exportModified(PATCHES_DIR, SRC_DIR);
     console.log();
 
     log.info("Exporting deleted files...");
-    await exportFlag("D", cwd, actions);
+    await exportFlag("D", SRC_DIR, actions);
     console.log();
 
     log.info("Exporting manual patches...");
-    await exportManual(cwd);
+    await exportManual(SRC_DIR);
     console.log();
 
     // log.info("Exporting added files...");
