@@ -60,7 +60,7 @@ export const downloadArtifacts = async () => {
             let percentCompleted = parseInt(
                 Math.round(
                     (receivedBytes * 100) /
-                    length
+                        length
                 ).toFixed(0)
             );
             if (

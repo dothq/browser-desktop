@@ -31,7 +31,7 @@ try {
         "./build/autoconf/config.guess",
         { cwd: SRC_DIR }
     ).stdout;
-} catch (e) { }
+} catch (e) {}
 
 export const OBJ_DIR = resolve(
     SRC_DIR,

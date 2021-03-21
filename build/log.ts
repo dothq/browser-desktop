@@ -29,7 +29,7 @@ class Log {
         );
         var hours = Math.floor(
             (elapsedTime / (60 * 60 * 1000)) %
-            24
+                24
         );
 
         const format = (r: number) => {

@@ -13,8 +13,6 @@ import { IPatch } from "../interfaces/patch";
 import manualPatches from "../manual-patches";
 import { delay } from "./delay";
 
-
-
 const getChunked = (location: string) => {
     return location
         .replace(/\\/g, "/")
