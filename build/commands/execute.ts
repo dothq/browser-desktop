@@ -1,17 +1,14 @@
-import execa from "execa";
-import { existsSync, readdirSync } from "fs";
-import { ensureDirSync } from "fs-extra";
-import { resolve } from "path";
-import { bin_name, log } from "..";
+import { existsSync } from "fs";
+import { log } from "..";
+
+import { SRC_DIR } from "../constants";
 import { dispatch } from "../dispatch";
 
 export const execute = async (
     _: any,
     cmd: any[]
 ) => {
-    const cwd = resolve(process.cwd(), "src");
-
-    if (existsSync(cwd)) {
+    if (existsSync(SRC_DIR)) {
         if (!cmd || cmd.length == 0)
             log.error(
                 "You need to specify a command to run."
@@ -26,7 +23,7 @@ export const execute = async (
                 args.length !== 0 ? ` ` : ``
             }${args.join(" ")}\` in \`src\`...`
         );
-        dispatch(bin, args, cwd, true);
+        dispatch(bin, args, SRC_DIR, true);
     } else {
         log.error(
             `Unable to locate src directory.`
