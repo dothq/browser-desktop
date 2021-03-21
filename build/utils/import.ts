@@ -60,7 +60,11 @@ export const importManual = async () => {
                             Array.isArray(src)
                         ) {
                             src.forEach((i) => {
-                                if (statSync(i).isDirectory()) {
+                                if (
+                                    statSync(
+                                        i
+                                    ).isDirectory()
+                                ) {
                                     ensureDirSync(
                                         i
                                     );
