@@ -87,7 +87,7 @@ program
     .description(
         "Import patches into the browser."
     )
-    .action(importPatches);
+    // .action(oldImportPatches);
 
 program
     .command("import")
@@ -96,7 +96,7 @@ program
     .description(
         "Import patches into the browser."
     )
-    .action(importPatches);
+    .action((args) => { new importPatches(args) });
 
 program
     .command("run")
