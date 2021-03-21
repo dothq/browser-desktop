@@ -34,4 +34,4 @@ jobs:
                   git status
                   git add .
                   git commit -m "🎨 Enforce code style"
-                  git push origin nightly
+                  git push origin ${GITHUB_REF##*/}
