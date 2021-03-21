@@ -2,16 +2,11 @@ import execa from "execa";
 import { createWriteStream } from "fs";
 import { resolve } from "path";
 import { log } from "..";
+import { PATCHES_DIR, SRC_DIR } from "../constants";
 
 export const exportFile = async (
     file: string
 ) => {
-    const patchesDir = resolve(
-        process.cwd(),
-        "patches"
-    );
-    const cwd = resolve(process.cwd(), "src");
-
     log.info(`Exporting ${file}...`);
 
     const proc = execa(
@@ -21,9 +16,9 @@ export const exportFile = async (
             "--src-prefix=a/",
             "--dst-prefix=b/",
             "--full-index",
-            resolve(cwd, file)
+            resolve(SRC_DIR, file)
         ],
-        { cwd, stripFinalNewline: false }
+        { cwd: SRC_DIR, stripFinalNewline: false }
     );
     const name =
         file
@@ -32,7 +27,7 @@ export const exportFile = async (
 
     proc.stdout?.pipe(
         createWriteStream(
-            resolve(patchesDir, name)
+            resolve(PATCHES_DIR, name)
         )
     );
     log.info(
