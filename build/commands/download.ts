@@ -9,7 +9,7 @@ import fs, {
 } from "fs";
 import { posix, resolve, sep } from "path";
 import execa from "execa";
-import { dispatch } from "../dispatch";
+import { dispatch } from "../utils";
 import { moveSync } from "fs-extra";
 import { downloadArtifacts } from "./download-artifacts";
 import { homedir } from "os";

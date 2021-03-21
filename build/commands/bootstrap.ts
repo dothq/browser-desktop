@@ -1,7 +1,7 @@
 import { log } from "../";
 import { bin_name } from "..";
 
-import { dispatch } from "../dispatch";
+import { dispatch } from "../utils";
 
 import { SRC_DIR } from "../constants";
 

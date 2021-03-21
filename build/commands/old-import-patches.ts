@@ -12,7 +12,7 @@ import {
     ensureDirSync
 } from "fs-extra";
 import manualPatches from "../manual-patches";
-import { dispatch } from "../dispatch";
+import { delay, dispatch } from "../utils";
 import { COMMON_DIR, PATCHES_DIR, SRC_DIR } from "../constants";
 
 interface IPatch {
@@ -25,12 +25,6 @@ const getChunked = (location: string) => {
     return location
         .replace(/\\/g, "/")
         .split("/");
-};
-
-const delay = (delay: number) => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(true), delay);
-    });
 };
 
 export const importPatches = async () => {

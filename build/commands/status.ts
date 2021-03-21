@@ -1,7 +1,7 @@
 import { existsSync } from "fs";
 import { log } from "..";
 import { SRC_DIR } from "../constants";
-import { dispatch } from "../dispatch";
+import { dispatch } from "../utils";
 
 export const status = async () => {
     if (existsSync(SRC_DIR)) {

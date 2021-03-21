@@ -2,7 +2,7 @@ import execa from "execa";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 import { BUILD_TARGETS, CONFIGS_DIR, SRC_DIR } from "../constants";
-import { dispatch } from "../dispatch";
+import { dispatch } from "../utils";
 import Docker from "dockerode";
 import {
     readFileSync,

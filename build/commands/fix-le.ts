@@ -6,7 +6,7 @@ import {
 import { resolve } from "path";
 import { log } from "..";
 import { PATCHES_DIR, SRC_DIR } from "../constants";
-import { dispatch } from "../dispatch";
+import { dispatch } from "../utils";
 
 export const fixLineEndings = async () => {
     const patches = readdirSync(PATCHES_DIR);
