@@ -52,11 +52,10 @@ export const importPatches = async () => {
 
     await Promise.all(
         patches.map(async (patch) => {
-            const args = ["-p1"];
+            const args: string[] = [];
 
+            args.push("--ignore-space-change");
             args.push("--ignore-whitespace");
-            args.push("--binary");
-            args.push("-i");
             args.push(
                 resolve(
                     process.cwd(),
@@ -89,8 +88,8 @@ export const importPatches = async () => {
                             )
                         ) {
                             execa(
-                                "patch",
-                                args,
+                                "git",
+                                ["apply", ...args],
                                 {
                                     cwd,
                                     stripFinalNewline: false
@@ -128,8 +127,8 @@ export const importPatches = async () => {
             }
 
             await execa(
-                "patch",
-                ["-R", ...args],
+                "git",
+                ["apply", "-R", ...args],
                 { cwd }
             )
                 .then(
