@@ -2,6 +2,7 @@ import execa from "execa";
 import { resolve } from "path";
 import { confirm } from "promptly";
 import { bin_name, log } from "..";
+import { SRC_DIR } from "../constants";
 
 export const reset = async () => {
     try {
@@ -17,15 +18,10 @@ export const reset = async () => {
         )
             .then(async (answer) => {
                 if (answer) {
-                    const cwd = resolve(
-                        process.cwd(),
-                        "src"
-                    );
-
                     await execa(
                         "git",
                         ["checkout", "."],
-                        { cwd }
+                        { cwd: SRC_DIR }
                     );
 
                     log.success(
