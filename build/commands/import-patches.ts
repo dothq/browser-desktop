@@ -58,11 +58,11 @@ const importPatchFiles = async () => {
         const p = new Patch({
             name: patch,
             type: "file"
-        })
+        });
 
         await delay(100);
 
-        await p.apply()
+        await p.apply();
     }
 
     log.success(
