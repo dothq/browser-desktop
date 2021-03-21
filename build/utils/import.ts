@@ -1,6 +1,7 @@
 import {
     copySync,
-    ensureDirSync
+    ensureDirSync,
+    statSync
 } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
@@ -21,15 +22,6 @@ const getChunked = (location: string) => {
 };
 
 const copy = (name: string) => {
-    try {
-        ensureDirSync(
-            resolve(
-                SRC_DIR,
-                ...getChunked(name)
-            )
-        );
-    } catch (e) { }
-
     copySync(
         resolve(
             COMMON_DIR,
@@ -70,9 +62,11 @@ export const importManual = async () => {
                             Array.isArray(src)
                         ) {
                             src.forEach((i) => {
-                                ensureDirSync(
-                                    i
-                                );
+                                if (statSync(i).isDirectory()) {
+                                    ensureDirSync(
+                                        i
+                                    );
+                                }
 
                                 copy(i);
 
