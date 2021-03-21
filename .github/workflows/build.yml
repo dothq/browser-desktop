@@ -84,7 +84,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
+                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_NUMBER }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
                   body_path: ".github/RELEASE_TEMPLATE.md"
@@ -187,7 +187,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.SHORT_SHA }}"
+                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_NUMBER }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
                   body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
