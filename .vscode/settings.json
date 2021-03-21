@@ -28,6 +28,11 @@
             "emoji": "🍉",
             "code": ":melon:",
             "description": "Improve melon build tool"
+        },
+        {
+            "emoji": "😈",
+            "code": ":smiling_imp:",
+            "description": "Update imports"
         }
     ],
     "git.ignoreLimitWarning": true
