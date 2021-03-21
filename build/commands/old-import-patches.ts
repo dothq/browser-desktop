@@ -183,7 +183,8 @@ export const importPatches = async () => {
     });
 
     log.success(
-        `Successfully applied ${patches.length + totalActions
+        `Successfully applied ${
+            patches.length + totalActions
         } patches.`
     );
     log.info(

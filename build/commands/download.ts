@@ -1,7 +1,8 @@
 import axios from "axios";
 import execa from "execa";
 import fs, {
-    appendFileSync, existsSync,
+    appendFileSync,
+    existsSync,
     writeFileSync
 } from "fs";
 import { moveSync } from "fs-extra";
@@ -156,16 +157,19 @@ export const download = async (
         existsSync(
             resolve(
                 process.cwd(),
-                `firefox-${version.split("b")[0]
+                `firefox-${
+                    version.split("b")[0]
                 }`
             )
         )
     ) {
         log.error(
-            `Cannot download version ${version.split("b")[0]
+            `Cannot download version ${
+                version.split("b")[0]
             } as it already exists at "${resolve(
                 process.cwd(),
-                `firefox-${version.split("b")[0]
+                `firefox-${
+                    version.split("b")[0]
                 }`
             )}"`
         );
@@ -193,12 +197,13 @@ export const download = async (
                 process.cwd(),
                 "firefox",
                 "firefox-" +
-                version.split("b")[0]
+                    version.split("b")[0]
             )
         )
     )
         log.error(
-            `Workspace with version "${version.split("b")[0]
+            `Workspace with version "${
+                version.split("b")[0]
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
@@ -232,7 +237,7 @@ export const download = async (
             let percentCompleted = parseInt(
                 Math.round(
                     (receivedBytes * 100) /
-                    length
+                        length
                 ).toFixed(0)
             );
             if (

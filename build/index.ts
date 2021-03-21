@@ -3,37 +3,22 @@ import { Command } from "commander";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import {
-    bootstrap, build, download,
+    bootstrap,
+    build,
+    download,
     downloadArtifacts,
-
-
-
-
-
-
-
-
-
     execute,
-    exportFile, exportPatches,
-
-
-    fixLineEndings, importPatches, init,
-
-
-
-
-
-
-    melonPackage, reset, run,
-
-
+    exportFile,
+    exportPatches,
+    fixLineEndings,
+    importPatches,
+    init,
+    melonPackage,
+    reset,
+    run,
     status
 } from "./commands";
 import Log from "./log";
-
-
-
 
 const program = new Command();
 

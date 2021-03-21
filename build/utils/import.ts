@@ -12,8 +12,6 @@ import { IPatch } from "../interfaces/patch";
 import manualPatches from "../manual-patches";
 import { delay } from "./delay";
 
-
-
 const getChunked = (location: string) => {
     return location
         .replace(/\\/g, "/")
@@ -28,7 +26,7 @@ const copy = (name: string) => {
                 ...getChunked(name)
             )
         );
-    } catch (e) { }
+    } catch (e) {}
 
     copySync(
         resolve(

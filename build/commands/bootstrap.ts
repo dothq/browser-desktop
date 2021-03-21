@@ -3,8 +3,6 @@ import { log } from "../";
 import { SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
 
-
-
 export const bootstrap = async () => {
     if (process.platform == "win32")
         log.error(

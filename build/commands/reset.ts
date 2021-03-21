@@ -165,5 +165,5 @@ export const reset = async () => {
                 }
             })
             .catch((e) => e);
-    } catch (e) { }
+    } catch (e) {}
 };
