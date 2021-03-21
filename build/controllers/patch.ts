@@ -1,6 +1,10 @@
 import chalk from "chalk";
 import execa from "execa";
-import { ensureDirSync, existsSync, statSync } from "fs-extra";
+import {
+    ensureDirSync,
+    existsSync,
+    statSync
+} from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
 import {
@@ -26,14 +30,34 @@ class Patch {
                 switch (this.action) {
                     case "copy":
                         if (typeof this.src == "string") {
-                            if (!existsSync(resolve(COMMON_DIR, this.src))) return log.error(`We were unable to process the file or directory \`${this.src}\` as it doesn't exist in the common directory.`)
+                            if (
+                                !existsSync(
+                                    resolve(
+                                        COMMON_DIR,
+                                        this.src
+                                    )
+                                )
+                            )
+                                return log.error(
+                                    `We were unable to process the file or directory \`${this.src}\` as it doesn't exist in the common directory.`
+                                );
 
                             copyManual(this.src);
                         }
 
                         if (Array.isArray(this.src)) {
                             this.src.forEach((i) => {
-                                if (!existsSync(resolve(COMMON_DIR, i))) return log.error(`We were unable to process the file or directory \`${i}\` as it doesn't exist in the common directory.`)
+                                if (
+                                    !existsSync(
+                                        resolve(
+                                            COMMON_DIR,
+                                            i
+                                        )
+                                    )
+                                )
+                                    return log.error(
+                                        `We were unable to process the file or directory \`${i}\` as it doesn't exist in the common directory.`
+                                    );
 
                                 if (
                                     statSync(
