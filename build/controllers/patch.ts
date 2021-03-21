@@ -88,19 +88,27 @@ class Patch {
                                     `We were unable to delete the file or directory \`${this.src}\` as it doesn't exist in the src directory.`
                                 );
 
-                            if (statSync(resolve(
-                                SRC_DIR,
-                                this.src
-                            )).isDirectory()) {
-                                rmdirSync(resolve(
-                                    SRC_DIR,
-                                    this.src
-                                ))
+                            if (
+                                statSync(
+                                    resolve(
+                                        SRC_DIR,
+                                        this.src
+                                    )
+                                ).isDirectory()
+                            ) {
+                                rmdirSync(
+                                    resolve(
+                                        SRC_DIR,
+                                        this.src
+                                    )
+                                );
                             } else {
-                                rmSync(resolve(
-                                    SRC_DIR,
-                                    this.src
-                                ))
+                                rmSync(
+                                    resolve(
+                                        SRC_DIR,
+                                        this.src
+                                    )
+                                );
                             }
                         }
 
@@ -118,19 +126,28 @@ class Patch {
                                         `We were unable to delete the file or directory \`${i}\` as it doesn't exist in the src directory.`
                                     );
 
-                                if (statSync(resolve(
-                                    SRC_DIR,
-                                    i
-                                )).isDirectory()) {
-                                    rmdirSync(resolve(
-                                        SRC_DIR,
-                                        i
-                                    ))
+                                if (
+                                    statSync(
+                                        resolve(
+                                            SRC_DIR,
+                                            i
+                                        )
+                                    ).isDirectory()
+                                ) {
+                                    rmdirSync(
+                                        resolve(
+                                            SRC_DIR,
+                                            i
+                                        )
+                                    );
                                 } else {
-                                    rmSync(resolve(
-                                        SRC_DIR,
-                                        i
-                                    ), { force: true })
+                                    rmSync(
+                                        resolve(
+                                            SRC_DIR,
+                                            i
+                                        ),
+                                        { force: true }
+                                    );
                                 }
                             });
                         }
