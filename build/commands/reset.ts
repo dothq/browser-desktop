@@ -35,15 +35,43 @@ export const reset = async () => {
                             if(typeof(src) == "string") {
                                 const path = resolve(SRC_DIR, src);
 
+                                log.info(`Deleting ${src}...`)
+
                                 if(existsSync(path)) rimraf.sync(path)
                             } else if(Array.isArray(src)) {
                                 src.forEach(i => {
                                     const path = resolve(SRC_DIR, i);
 
+                                    log.info(`Deleting ${i}...`)
+
                                     if(existsSync(path)) rimraf.sync(path)
                                 })
                             }
                         }
+                    })
+
+                    let leftovers = new Set();
+
+                    const { stdout: origFiles } = await execa(
+                        "git",
+                        ["clean", "-e", "'!*.orig'", "--dry-run"],
+                        { cwd: SRC_DIR }
+                    )
+
+                    const { stdout: rejFiles } = await execa(
+                        "git",
+                        ["clean", "-e", "'!*.rej'", "--dry-run"],
+                        { cwd: SRC_DIR }
+                    )
+
+                    origFiles.split("\n").map(f => leftovers.add(f.replace(/Would remove /, "")))
+                    rejFiles.split("\n").map(f => leftovers.add(f.replace(/Would remove /, "")))
+
+                    console.log(Array.from(leftovers))
+
+                    Array.from(leftovers).forEach((f: any) => {
+                        log.info(`Deleting ${f}...`)
+                        rimraf.sync(resolve(SRC_DIR, f))
                     })
 
                     log.success(
