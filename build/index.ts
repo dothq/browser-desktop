@@ -176,6 +176,7 @@ process.on("uncaughtException", (err) => {
 
     console.log();
     log.info("Exiting due to error.");
+    process.exit(-1);
 });
 
 program.parse(process.argv);
