@@ -5,7 +5,12 @@ import { dispatch } from "../utils";
 
 export const status = async () => {
     if (existsSync(SRC_DIR)) {
-        dispatch("git", ["status"], SRC_DIR, true);
+        dispatch(
+            "git",
+            ["status"],
+            SRC_DIR,
+            true
+        );
     } else {
         log.error(
             `Unable to locate src directory.`

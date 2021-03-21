@@ -13,7 +13,11 @@ import {
 } from "fs-extra";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
-import { COMMON_DIR, PATCHES_DIR, SRC_DIR } from "../constants";
+import {
+    COMMON_DIR,
+    PATCHES_DIR,
+    SRC_DIR
+} from "../constants";
 
 interface IPatch {
     name: string;
@@ -46,10 +50,7 @@ export const importPatches = async () => {
             args.push("--ignore-space-change");
             args.push("--ignore-whitespace");
             args.push(
-                resolve(
-                    PATCHES_DIR,
-                    patch
-                )
+                resolve(PATCHES_DIR, patch)
             );
 
             const patchContents = readFileSync(

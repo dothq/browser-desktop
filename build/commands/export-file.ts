@@ -2,7 +2,10 @@ import execa from "execa";
 import { createWriteStream } from "fs";
 import { resolve } from "path";
 import { log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import {
+    PATCHES_DIR,
+    SRC_DIR
+} from "../constants";
 
 export const exportFile = async (
     file: string
@@ -18,7 +21,10 @@ export const exportFile = async (
             "--full-index",
             resolve(SRC_DIR, file)
         ],
-        { cwd: SRC_DIR, stripFinalNewline: false }
+        {
+            cwd: SRC_DIR,
+            stripFinalNewline: false
+        }
     );
     const name =
         file

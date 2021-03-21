@@ -11,7 +11,10 @@ class ImportPatchesController {
     }
 
     constructor(args?: any) {
-        if(process.platform == "win32") log.warning(`If you encounter any errors about line endings, try running |${bin_name} fix-le|.`)
+        if (process.platform == "win32")
+            log.warning(
+                `If you encounter any errors about line endings, try running |${bin_name} fix-le|.`
+            );
 
         this.run();
     }

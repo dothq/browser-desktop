@@ -13,7 +13,11 @@ import {
     copySync,
     ensureDirSync
 } from "fs-extra";
-import { COMMON_DIR, PATCHES_DIR, SRC_DIR } from "../constants";
+import {
+    COMMON_DIR,
+    PATCHES_DIR,
+    SRC_DIR
+} from "../constants";
 
 const flags: {
     [key: string]: string;

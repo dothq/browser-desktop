@@ -5,7 +5,10 @@ import {
 } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import {
+    PATCHES_DIR,
+    SRC_DIR
+} from "../constants";
 import { dispatch } from "../utils";
 
 export const fixLineEndings = async () => {
