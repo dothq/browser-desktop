@@ -1,7 +1,7 @@
 import execa from "execa";
 import { resolve } from "path";
 import { bin_name, log } from "..";
-import { BUILD_TARGETS } from "../constants";
+import { BUILD_TARGETS, CONFIGS_DIR, SRC_DIR } from "../constants";
 import { dispatch } from "../dispatch";
 import Docker from "dockerode";
 import {
@@ -19,8 +19,7 @@ const applyConfig = (os: string) => {
     log.info("Applying mozconfig...");
     const commonConfig = readFileSync(
         resolve(
-            process.cwd(),
-            "configs",
+            CONFIGS_DIR,
             "common",
             "mozconfig"
         ),
@@ -28,8 +27,7 @@ const applyConfig = (os: string) => {
     );
     const osConfig = readFileSync(
         resolve(
-            process.cwd(),
-            "configs",
+            CONFIGS_DIR,
             os,
             "mozconfig"
         ),
@@ -39,8 +37,7 @@ const applyConfig = (os: string) => {
 
     writeFileSync(
         resolve(
-            process.cwd(),
-            "src",
+            SRC_DIR,
             "mozconfig"
         ),
         mergedConfig
@@ -91,10 +88,7 @@ const dockerBuild = async (os: string) => {
             },
             HostConfig: {
                 Binds: [
-                    `${resolve(
-                        process.cwd(),
-                        "src"
-                    )}:/worker/build`,
+                    `${SRC_DIR}:/worker/build`,
                     `${resolve(
                         process.cwd()
                     )}:/worker`
@@ -120,15 +114,13 @@ const dockerBuild = async (os: string) => {
 };
 
 const genericBuild = async (os: string) => {
-    const cwd = resolve(process.cwd(), "src");
-
     log.info(`Building for "${os}"...`);
 
     log.warning(
         `If you get any dependency errors, try running |${bin_name} bootstrap|.`
     );
 
-    await dispatch(`./mach`, ["build"], cwd);
+    await dispatch(`./mach`, ["build"], SRC_DIR);
 };
 
 const parseDate = (d: number) => {
