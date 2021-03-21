@@ -33,6 +33,11 @@
             "emoji": "😈",
             "code": ":smiling_imp:",
             "description": "Update imports"
+        },
+        {
+            "emoji": "🧹",
+            "code": ":broom:",
+            "description": "Clean up code"
         }
     ],
     "git.ignoreLimitWarning": true
