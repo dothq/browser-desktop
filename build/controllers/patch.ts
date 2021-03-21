@@ -3,6 +3,8 @@ import execa from "execa";
 import {
     ensureDirSync,
     existsSync,
+    rmdirSync,
+    rmSync,
     statSync
 } from "fs-extra";
 import { resolve } from "path";
@@ -39,7 +41,7 @@ class Patch {
                                 )
                             )
                                 return log.error(
-                                    `We were unable to process the file or directory \`${this.src}\` as it doesn't exist in the common directory.`
+                                    `We were unable to copy the file or directory \`${this.src}\` as it doesn't exist in the common directory.`
                                 );
 
                             copyManual(this.src);
@@ -56,7 +58,7 @@ class Patch {
                                     )
                                 )
                                     return log.error(
-                                        `We were unable to process the file or directory \`${i}\` as it doesn't exist in the common directory.`
+                                        `We were unable to copy the file or directory \`${i}\` as it doesn't exist in the common directory.`
                                     );
 
                                 if (
@@ -70,6 +72,70 @@ class Patch {
                                 copyManual(i);
                             });
                         }
+
+                        break;
+                    case "delete":
+                        if (typeof this.src == "string") {
+                            if (
+                                !existsSync(
+                                    resolve(
+                                        SRC_DIR,
+                                        this.src
+                                    )
+                                )
+                            )
+                                return log.error(
+                                    `We were unable to delete the file or directory \`${this.src}\` as it doesn't exist in the src directory.`
+                                );
+
+                            if (statSync(resolve(
+                                SRC_DIR,
+                                this.src
+                            )).isDirectory()) {
+                                rmdirSync(resolve(
+                                    SRC_DIR,
+                                    this.src
+                                ))
+                            } else {
+                                rmSync(resolve(
+                                    SRC_DIR,
+                                    this.src
+                                ))
+                            }
+                        }
+
+                        if (Array.isArray(this.src)) {
+                            this.src.forEach((i) => {
+                                if (
+                                    !existsSync(
+                                        resolve(
+                                            SRC_DIR,
+                                            i
+                                        )
+                                    )
+                                )
+                                    return log.error(
+                                        `We were unable to delete the file or directory \`${i}\` as it doesn't exist in the src directory.`
+                                    );
+
+                                if (statSync(resolve(
+                                    SRC_DIR,
+                                    i
+                                )).isDirectory()) {
+                                    rmdirSync(resolve(
+                                        SRC_DIR,
+                                        i
+                                    ))
+                                } else {
+                                    rmSync(resolve(
+                                        SRC_DIR,
+                                        i
+                                    ), { force: true })
+                                }
+                            });
+                        }
+
+                        break;
                 }
 
                 res(true);
