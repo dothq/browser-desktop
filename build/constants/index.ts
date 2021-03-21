@@ -7,6 +7,8 @@ export const BUILD_TARGETS = [
     "macos"
 ];
 
+export const PATCH_ARGS = ["--ignore-space-change", "--ignore-whitespace", "--verbose"]
+
 export const SRC_DIR = resolve(process.cwd(), "src");
 export const PATCHES_DIR = resolve(
     process.cwd(),
@@ -28,7 +30,7 @@ try {
         "./build/autoconf/config.guess",
         { cwd: SRC_DIR }
     ).stdout;
-} catch (e) {}
+} catch (e) { }
 
 export const OBJ_DIR = resolve(
     SRC_DIR,

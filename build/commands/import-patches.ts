@@ -1,5 +1,4 @@
 import { readdirSync } from "fs-extra";
-import { resolve } from "path";
 import { log } from "..";
 import { PATCHES_DIR } from "../constants";
 import Patch from "../controllers/patch";
@@ -52,11 +51,14 @@ const importPatchFiles = async () => {
     await delay(500);
 
     for await (const patch of patches) {
-        const path = resolve(PATCHES_DIR, patch);
+        const p = new Patch({
+            name: patch,
+            type: "file"
+        })
 
-        log.info(`Applying ${patch}...`);
+        await delay(100);
 
-        await delay(250);
+        await p.apply()
     }
 
     log.success(`Successfully imported ${patches.length} patch files!`)
