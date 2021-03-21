@@ -6,6 +6,7 @@ import { log } from "..";
 import { resolve } from "path";
 import { copySync, ensureDirSync } from "fs-extra";
 import { COMMON_DIR, SRC_DIR } from "../constants";
+import { delay } from "./delay";
 
 const getChunked = (location: string) => {
     return location
@@ -13,57 +14,65 @@ const getChunked = (location: string) => {
         .split("/");
 };
 
-export const importManual = () => {
-    var total = 0;
+const copy = (name: string) => {
+    try {
+        ensureDirSync(resolve(
+            SRC_DIR,
+            ...getChunked(
+                name
+            )
+        ));
+    } catch(e) {}
 
-    manualPatches.forEach((patch: IPatch) => {
-        log.info(
-            `Applying ${patch.name} patch...`
-        );
+    copySync(
+        resolve(
+            COMMON_DIR,
+            ...getChunked(
+                name
+            )
+        ),
+        resolve(
+            SRC_DIR,
+            ...getChunked(
+                name
+            )
+        )
+    );
+}
 
-        switch (patch.action) {
-            case "copy":
-                if (
-                    typeof patch.src == "string"
-                ) {
-                    copySync(
-                        resolve(
-                            COMMON_DIR,
-                            ...getChunked(
-                                patch.src
-                            )
-                        ),
-                        resolve(
-                            SRC_DIR,
-                            ...getChunked(
-                                patch.src
-                            )
-                        )
-                    );
+export const importManual = async () => {
+    log.info(`Applying ${manualPatches.length} manual patches...`)
 
-                    ++total;
-                } else if (
-                    Array.isArray(patch.src)
-                ) {
-                    patch.src.forEach((i) => {
-                        ensureDirSync(i);
+    await delay(500);
+        
+    return new Promise((res, rej) => {
+        var total = 0;
 
-                        copySync(
-                            resolve(
-                                COMMON_DIR,
-                                ...getChunked(i)
-                            ),
-                            resolve(
-                                SRC_DIR,
-                                ...getChunked(i)
-                            )
-                        );
+        manualPatches.forEach((patch: IPatch) => {
+            const { name, src } = patch;
 
-                        ++total;
-                    });
-                }
-        }
-    });
+            log.info(
+                `Applying ${name} manual patch...`
+            );
 
-    return total;
+            switch (patch.action) {
+                case "copy":
+                    if(typeof src == "string") copy(src); ++total;
+
+                    if (
+                        Array.isArray(src)
+                    ) {
+                        src.forEach((i) => {
+                            ensureDirSync(i);
+
+                            copy(i);
+
+                            ++total;
+                        });
+                    }
+            }
+        });
+
+        res(total);
+    })
 }
