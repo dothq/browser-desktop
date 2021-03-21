@@ -40,12 +40,16 @@ export const reset = async () => {
                                         src
                                     );
 
-                                    log.info(
-                                        `Deleting ${src}...`
-                                    );
+                                    if (path !== SRC_DIR) {
+                                        log.info(
+                                            `Deleting ${src}...`
+                                        );
 
-                                    if (existsSync(path))
-                                        rimraf.sync(path);
+                                        if (existsSync(path))
+                                            rimraf.sync(path);
+                                    }
+
+
                                 } else if (
                                     Array.isArray(src)
                                 ) {
@@ -55,20 +59,26 @@ export const reset = async () => {
                                             i
                                         );
 
-                                        log.info(
-                                            `Deleting ${i}...`
-                                        );
-
-                                        if (
-                                            existsSync(
-                                                path
-                                            )
-                                        )
-                                            rimraf.sync(
-                                                path
+                                        if (path !== SRC_DIR) {
+                                            log.info(
+                                                `Deleting ${i}...`
                                             );
+
+                                            if (
+                                                existsSync(
+                                                    path
+                                                )
+                                            )
+                                                rimraf.sync(
+                                                    path
+                                                );
+                                        }
+
+
                                     });
                                 }
+                            } else {
+                                log.warning("Resetting does not work on manual patches that have a `delete` action, skipping...")
                             }
                         }
                     );
@@ -122,14 +132,17 @@ export const reset = async () => {
                             )
                         );
 
-                    console.log(Array.from(leftovers));
-
                     Array.from(leftovers).forEach(
                         (f: any) => {
-                            log.info(`Deleting ${f}...`);
-                            rimraf.sync(
-                                resolve(SRC_DIR, f)
-                            );
+                            const path = resolve(SRC_DIR, f);
+
+                            if (path !== SRC_DIR) {
+                                log.info(`Deleting ${f}...`);
+
+                                rimraf.sync(
+                                    resolve(SRC_DIR, f)
+                                );
+                            }
                         }
                     );
 
@@ -140,5 +153,5 @@ export const reset = async () => {
                 }
             })
             .catch((e) => e);
-    } catch (e) {}
+    } catch (e) { }
 };
