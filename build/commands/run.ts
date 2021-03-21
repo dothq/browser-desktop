@@ -3,15 +3,15 @@ import { existsSync, readdirSync } from "fs";
 import { ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
+import { SRC_DIR } from "../constants";
 
 export const run = async () => {
-    const cwd = resolve(process.cwd(), "src");
-    const dirs = readdirSync(cwd);
+    const dirs = readdirSync(SRC_DIR);
     const objDirname: any = dirs.find((dir) => {
         return dir.startsWith("obj-");
     });
 
-    const objDir = resolve(cwd, objDirname);
+    const objDir = resolve(SRC_DIR, objDirname);
 
     if (existsSync(objDir)) {
         const artifactPath = resolve(
