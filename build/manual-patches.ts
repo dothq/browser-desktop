@@ -30,7 +30,7 @@ const manualPatches: IPatch[] = [
         name: "preferences",
         action: "copy",
         src: "browser/components/preferences/new"
-    },
+    }
 ];
 
 export default manualPatches;
