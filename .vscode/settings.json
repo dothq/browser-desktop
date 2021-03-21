@@ -28,7 +28,21 @@
             "emoji": "🍉",
             "code": ":melon:",
             "description": "Improve melon build tool"
+        },
+        {
+            "emoji": "😈",
+            "code": ":smiling_imp:",
+            "description": "Update imports"
+        },
+        {
+            "emoji": "🧹",
+            "code": ":broom:",
+            "description": "Clean up code"
         }
     ],
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    }
 }

@@ -5,19 +5,16 @@ import {
 } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { dispatch } from "../dispatch";
+import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { dispatch } from "../utils";
 
 export const fixLineEndings = async () => {
-    const patchesDir = resolve(
-        process.cwd(),
-        "patches"
-    );
-    const patches = readdirSync(patchesDir);
+    const patches = readdirSync(PATCHES_DIR);
 
     await Promise.all(
         patches.map(async (patch) => {
             const patchContents = readFileSync(
-                resolve(patchesDir, patch),
+                resolve(PATCHES_DIR, patch),
                 "utf-8"
             );
             const originalPath = patchContents
@@ -25,29 +22,17 @@ export const fixLineEndings = async () => {
                 .split(" b/")[0];
 
             if (
-                existsSync(
-                    resolve(
-                        process.cwd(),
-                        "src",
-                        originalPath
-                    )
-                )
+                existsSync(resolve(SRC_DIR, originalPath))
             ) {
                 dispatch(
                     "dos2unix",
                     [originalPath],
-                    resolve(
-                        process.cwd(),
-                        "src"
-                    )
+                    SRC_DIR
                 ).then(async (_) => {
                     await dispatch(
                         "dos2unix",
                         [patch],
-                        resolve(
-                            process.cwd(),
-                            "patches"
-                        )
+                        PATCHES_DIR
                     );
                 });
             } else {

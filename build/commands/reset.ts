@@ -1,7 +1,12 @@
 import execa from "execa";
+import { existsSync } from "fs-extra";
 import { resolve } from "path";
 import { confirm } from "promptly";
+import rimraf from "rimraf";
 import { bin_name, log } from "..";
+import { SRC_DIR } from "../constants";
+import { IPatch } from "../interfaces/patch";
+import manualPatches from "../manual-patches";
 
 export const reset = async () => {
     try {
@@ -11,26 +16,151 @@ export const reset = async () => {
         log.warning(
             `You can export your changes by running |${bin_name} export|.`
         );
-        confirm(
-            `Are you sure you want to continue?`,
-            { default: "false" }
-        )
+        confirm(`Are you sure you want to continue?`, {
+            default: "false"
+        })
             .then(async (answer) => {
                 if (answer) {
-                    const cwd = resolve(
-                        process.cwd(),
-                        "src"
-                    );
-
                     await execa(
                         "git",
                         ["checkout", "."],
-                        { cwd }
+                        { cwd: SRC_DIR }
                     );
 
-                    log.success(
-                        "Reset successfully."
+                    manualPatches.forEach(
+                        async (patch: IPatch) => {
+                            const { src, action } = patch;
+
+                            if (action == "copy") {
+                                if (
+                                    typeof src == "string"
+                                ) {
+                                    const path = resolve(
+                                        SRC_DIR,
+                                        src
+                                    );
+
+                                    if (
+                                        path !== SRC_DIR
+                                    ) {
+                                        log.info(
+                                            `Deleting ${src}...`
+                                        );
+
+                                        if (
+                                            existsSync(
+                                                path
+                                            )
+                                        )
+                                            rimraf.sync(
+                                                path
+                                            );
+                                    }
+                                } else if (
+                                    Array.isArray(src)
+                                ) {
+                                    src.forEach((i) => {
+                                        const path = resolve(
+                                            SRC_DIR,
+                                            i
+                                        );
+
+                                        if (
+                                            path !==
+                                            SRC_DIR
+                                        ) {
+                                            log.info(
+                                                `Deleting ${i}...`
+                                            );
+
+                                            if (
+                                                existsSync(
+                                                    path
+                                                )
+                                            )
+                                                rimraf.sync(
+                                                    path
+                                                );
+                                        }
+                                    });
+                                }
+                            } else {
+                                log.warning(
+                                    "Resetting does not work on manual patches that have a `delete` action, skipping..."
+                                );
+                            }
+                        }
                     );
+
+                    let leftovers = new Set();
+
+                    const {
+                        stdout: origFiles
+                    } = await execa(
+                        "git",
+                        [
+                            "clean",
+                            "-e",
+                            "'!*.orig'",
+                            "--dry-run"
+                        ],
+                        { cwd: SRC_DIR }
+                    );
+
+                    const {
+                        stdout: rejFiles
+                    } = await execa(
+                        "git",
+                        [
+                            "clean",
+                            "-e",
+                            "'!*.rej'",
+                            "--dry-run"
+                        ],
+                        { cwd: SRC_DIR }
+                    );
+
+                    origFiles
+                        .split("\n")
+                        .map((f) =>
+                            leftovers.add(
+                                f.replace(
+                                    /Would remove /,
+                                    ""
+                                )
+                            )
+                        );
+                    rejFiles
+                        .split("\n")
+                        .map((f) =>
+                            leftovers.add(
+                                f.replace(
+                                    /Would remove /,
+                                    ""
+                                )
+                            )
+                        );
+
+                    Array.from(leftovers).forEach(
+                        (f: any) => {
+                            const path = resolve(
+                                SRC_DIR,
+                                f
+                            );
+
+                            if (path !== SRC_DIR) {
+                                log.info(
+                                    `Deleting ${f}...`
+                                );
+
+                                rimraf.sync(
+                                    resolve(SRC_DIR, f)
+                                );
+                            }
+                        }
+                    );
+
+                    log.success("Reset successfully.");
                     log.info(
                         "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
                     );

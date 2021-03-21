@@ -7,9 +7,7 @@ const gh = new Octokit({
 });
 
 const main = async () => {
-    const {
-        versions
-    } = require("../package.json");
+    const { versions } = require("../package.json");
 
     const res = await axios.get(
         `https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US`
@@ -26,21 +24,17 @@ const main = async () => {
     )
         throw new Error("Bad version");
 
-    const curr = versions[
-        "firefox-display"
-    ].split(".")[0];
+    const curr = versions["firefox-display"].split(
+        "."
+    )[0];
     const newv = version.split(".")[0];
 
     if (curr >= newv) {
-        console.log(
-            "awesome, you are not behind"
-        );
+        console.log("awesome, you are not behind");
         return;
     }
 
-    const {
-        data
-    } = await gh.issues.listForRepo({
+    const { data } = await gh.issues.listForRepo({
         owner: "dothq",
         repo: "browser",
         state: "open",
@@ -58,10 +52,7 @@ const main = async () => {
             repo: "browser",
             title: "❗ Desktop is out of date",
             labels: ["behind-upstream"],
-            assignees: [
-                "dothq-robot",
-                "EnderDev"
-            ],
+            assignees: ["dothq-robot", "EnderDev"],
             body: `## Version comparison
     
 * **Dot Browser Version** - \`${versions["firefox-display"]}\`
@@ -72,9 +63,7 @@ const main = async () => {
 ###### This issue was automatically generated because Dot Browser for Desktop's version is behind from upstream.`
         });
     } else {
-        console.log(
-            "notif exists, aborting..."
-        );
+        console.log("notif exists, aborting...");
     }
 };
 

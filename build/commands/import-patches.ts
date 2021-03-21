@@ -1,207 +1,76 @@
-import { resolve } from "path";
-import {
-    existsSync,
-    readdirSync,
-    readFileSync
-} from "fs";
-import execa from "execa";
-import { log, bin_name } from "..";
-import rimraf from "rimraf";
-import {
-    copySync,
-    ensureDirSync
-} from "fs-extra";
+import { readdirSync } from "fs-extra";
+import { log } from "..";
+import { PATCHES_DIR } from "../constants";
+import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
-import { dispatch } from "../dispatch";
+import { delay } from "../utils";
 
-interface IPatch {
-    name: string;
-    action: string;
-    src: string | string[];
-}
+const importManual = async () => {
+    log.info(
+        `Applying ${manualPatches.length} manual patches...`
+    );
 
-const getChunked = (location: string) => {
-    return location
-        .replace(/\\/g, "/")
-        .split("/");
+    console.log();
+
+    await delay(500);
+
+    return new Promise(async (res, rej) => {
+        var total = 0;
+
+        for await (const {
+            name,
+            action,
+            src
+        } of manualPatches) {
+            const p = new Patch({
+                name,
+                action,
+                src,
+                type: "manual"
+            });
+
+            await delay(100);
+
+            await p.apply();
+        }
+
+        log.success(
+            `Successfully imported ${manualPatches.length} manual patches!`
+        );
+        console.log();
+
+        await delay(1000);
+
+        res(total);
+    });
 };
 
-const delay = (delay: number) => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(true), delay);
-    });
+const importPatchFiles = async () => {
+    const patches = readdirSync(PATCHES_DIR);
+
+    log.info(`Applying ${patches.length} patch files...`);
+
+    console.log();
+
+    await delay(500);
+
+    for await (const patch of patches) {
+        const p = new Patch({
+            name: patch,
+            type: "file"
+        });
+
+        await delay(100);
+
+        await p.apply();
+    }
+
+    log.success(
+        `Successfully imported ${patches.length} patch files!`
+    );
 };
 
 export const importPatches = async () => {
-    if (process.platform == "win32")
-        log.warning(
-            `If you get any line ending errors, you should try running |${bin_name} fix-le|.`
-        );
-
-    const patchesDir = resolve(
-        process.cwd(),
-        "patches"
-    );
-    const cwd = resolve(process.cwd(), "src");
-
-    const patches = readdirSync(patchesDir);
-
-    await execa("git", ["checkout", "."], {
-        cwd
-    });
-
-    await Promise.all(
-        patches.map(async (patch) => {
-            const args: string[] = [];
-
-            args.push("--ignore-space-change");
-            args.push("--ignore-whitespace");
-            args.push(
-                resolve(
-                    process.cwd(),
-                    "patches",
-                    patch
-                )
-            );
-
-            const patchContents = readFileSync(
-                resolve(patchesDir, patch),
-                "utf-8"
-            );
-            const originalPath = patchContents
-                .split("diff --git a/")[1]
-                .split(" b/")[0];
-
-            const apply = async () => {
-                return new Promise(
-                    async (res) => {
-                        log.info(
-                            `Applying ${patch}...`
-                        );
-
-                        if (
-                            existsSync(
-                                resolve(
-                                    cwd,
-                                    originalPath
-                                )
-                            )
-                        ) {
-                            execa(
-                                "git",
-                                [
-                                    "apply",
-                                    ...args
-                                ],
-                                {
-                                    cwd,
-                                    stripFinalNewline: false
-                                }
-                            )
-                                .catch((e) => {
-                                    throw e;
-                                })
-                                .then((_) =>
-                                    res(true)
-                                );
-                        } else {
-                            log.warning(
-                                `Skipping ${patch} as it no longer exists in tree...`
-                            );
-                            delay(
-                                1500
-                            ).then((_) =>
-                                res(true)
-                            );
-                        }
-                    }
-                );
-            };
-
-            if (process.platform == "win32") {
-                await execa(
-                    "dos2unix",
-                    [originalPath],
-                    {
-                        cwd,
-                        stripFinalNewline: false
-                    }
-                );
-            }
-
-            await execa(
-                "git",
-                ["apply", "-R", ...args],
-                { cwd }
-            )
-                .then(
-                    async (_) => await apply()
-                )
-                .catch(
-                    async (_) => await apply()
-                );
-        })
-    );
-
-    let totalActions = 0;
-
-    manualPatches.forEach((patch: IPatch) => {
-        log.info(
-            `Applying ${patch.name} patch...`
-        );
-
-        switch (patch.action) {
-            case "copy":
-                if (
-                    typeof patch.src == "string"
-                ) {
-                    copySync(
-                        resolve(
-                            process.cwd(),
-                            "common",
-                            ...getChunked(
-                                patch.src
-                            )
-                        ),
-                        resolve(
-                            cwd,
-                            ...getChunked(
-                                patch.src
-                            )
-                        )
-                    );
-
-                    ++totalActions;
-                } else if (
-                    Array.isArray(patch.src)
-                ) {
-                    patch.src.forEach((i) => {
-                        ensureDirSync(i);
-
-                        copySync(
-                            resolve(
-                                process.cwd(),
-                                "common",
-                                ...getChunked(i)
-                            ),
-                            resolve(
-                                cwd,
-                                ...getChunked(i)
-                            )
-                        );
-
-                        ++totalActions;
-                    });
-                }
-        }
-    });
-
-    log.success(
-        `Successfully applied ${
-            patches.length + totalActions
-        } patches.`
-    );
-    log.info(
-        "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
-    );
+    await importManual();
+    await importPatchFiles();
 };

@@ -1,18 +1,12 @@
-import execa from "execa";
-import { existsSync, readdirSync } from "fs";
-import { ensureDirSync } from "fs-extra";
-import { resolve } from "path";
-import { bin_name, log } from "..";
-import { dispatch } from "../dispatch";
+import { existsSync } from "fs";
+import { log } from "..";
+import { SRC_DIR } from "../constants";
+import { dispatch } from "../utils";
 
 export const status = async () => {
-    const cwd = resolve(process.cwd(), "src");
-
-    if (existsSync(cwd)) {
-        dispatch("git", ["status"], cwd, true);
+    if (existsSync(SRC_DIR)) {
+        dispatch("git", ["status"], SRC_DIR, true);
     } else {
-        log.error(
-            `Unable to locate src directory.`
-        );
+        log.error(`Unable to locate src directory.`);
     }
 };

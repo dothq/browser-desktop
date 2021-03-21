@@ -1,27 +1,24 @@
+import chalk from "chalk";
 import { Command } from "commander";
-
-import Log from "./log";
-
-import {
-    download,
-    downloadArtifacts,
-    init,
-    build,
-    exportPatches,
-    importPatches,
-    run,
-    fixLineEndings,
-    reset,
-    melonPackage, // Apparently 'package' is a reserved keyword
-    status,
-    execute,
-    exportFile,
-    bootstrap
-} from "./commands";
-
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import chalk from "chalk";
+import {
+    bootstrap,
+    build,
+    download,
+    downloadArtifacts,
+    execute,
+    exportFile,
+    exportPatches,
+    fixLineEndings,
+    importPatches,
+    init,
+    melonPackage,
+    reset,
+    run,
+    status
+} from "./commands";
+import Log from "./log";
 
 const program = new Command();
 
@@ -54,9 +51,7 @@ program
 program
     .command("init <directory>")
     .alias("initialise")
-    .description(
-        "Initialise the Firefox directory."
-    )
+    .description("Initialise the Firefox directory.")
     .action(init);
 
 program
@@ -69,24 +64,25 @@ program
 program
     .command("export")
     .alias("export-patches")
-    .description(
-        "Export the changed files as patches."
-    )
+    .description("Export the changed files as patches.")
     .action(exportPatches);
 
 program
     .command("export-file <file>")
-    .description(
-        "Export a changed file as a patch."
-    )
+    .description("Export a changed file as a patch.")
     .action(exportFile);
+
+program
+    .command("import-old")
+    .alias("import-patches-old")
+    .description("Import patches into the browser.");
+// .action(oldImportPatches);
 
 program
     .command("import")
     .alias("import-patches")
-    .description(
-        "Import patches into the browser."
-    )
+    .alias("i")
+    .description("Import patches into the browser.")
     .action(importPatches);
 
 program
@@ -96,9 +92,7 @@ program
 
 program
     .command("package")
-    .description(
-        "Package the browser for distribution."
-    )
+    .description("Package the browser for distribution.")
     .action(melonPackage);
 
 program
@@ -176,7 +170,7 @@ process.on("uncaughtException", (err) => {
 
     console.log();
     log.info("Exiting due to error.");
-    process.exit(-1);
+    process.exit(1);
 });
 
 program.parse(process.argv);

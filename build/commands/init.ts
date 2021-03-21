@@ -1,18 +1,15 @@
-import execa from "execa";
 import { existsSync, readFileSync } from "fs";
-import { posix, resolve, sep } from "path";
-import { log, bin_name } from "..";
-import { dispatch } from "../dispatch";
+import { resolve } from "path";
+import { bin_name, log } from "..";
+import { dispatch } from "../utils";
 
-export const init = async (
-    directory: string
-) => {
+export const init = async (directory: string) => {
     if (process.platform == "win32") {
         // Because Windows cannot handle paths correctly, we're just calling a script as the workaround.
         log.info(
             "Successfully downloaded browser source. Please run |./windows-init.sh| to finish up."
         );
-        process.exit(-1);
+        process.exit(0);
     }
 
     log.info(`Initialising through Git...`);
@@ -43,9 +40,7 @@ export const init = async (
             `Directory "${directory}" not found.\nCheck the directory exists and run |${bin_name} init| again.`
         );
 
-    version = version
-        .trim()
-        .replace(/\\n/g, "");
+    version = version.trim().replace(/\\n/g, "");
 
     await dispatch("git", ["init"], dir);
     await dispatch(
@@ -53,23 +48,11 @@ export const init = async (
         ["checkout", "--orphan", version],
         dir
     );
+    await dispatch("git", ["add", "-f", "."], dir);
     await dispatch(
         "git",
-        ["add", "-f", "."],
+        ["commit", "-am", `"Firefox ${version}"`],
         dir
     );
-    await dispatch(
-        "git",
-        [
-            "commit",
-            "-am",
-            `"Firefox ${version}"`
-        ],
-        dir
-    );
-    await dispatch(
-        "git",
-        ["checkout", "-b", "dot"],
-        dir
-    );
+    await dispatch("git", ["checkout", "-b", "dot"], dir);
 };

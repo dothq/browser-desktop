@@ -30,6 +30,6 @@
     },
     "scripts": {
         "ci-build": "tsc",
-        "prettier": "prettier --loglevel debug --write ."
+        "prettier": "npx prettier --loglevel debug --write ."
     }
 }

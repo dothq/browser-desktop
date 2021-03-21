@@ -3,15 +3,15 @@ import { existsSync, readdirSync } from "fs";
 import { ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
+import { SRC_DIR } from "../constants";
 
 export const run = async () => {
-    const cwd = resolve(process.cwd(), "src");
-    const dirs = readdirSync(cwd);
+    const dirs = readdirSync(SRC_DIR);
     const objDirname: any = dirs.find((dir) => {
         return dir.startsWith("obj-");
     });
 
-    const objDir = resolve(cwd, objDirname);
+    const objDir = resolve(SRC_DIR, objDirname);
 
     if (existsSync(objDir)) {
         const artifactPath = resolve(
@@ -22,25 +22,14 @@ export const run = async () => {
         );
 
         if (existsSync(artifactPath)) {
-            const args = [
-                "-no-remote",
-                "-profile"
-            ];
+            const args = ["-no-remote", "-profile"];
 
             args.push(
-                resolve(
-                    objDir,
-                    "tmp",
-                    "profile-default"
-                )
+                resolve(objDir, "tmp", "profile-default")
             );
 
             ensureDirSync(
-                resolve(
-                    objDir,
-                    "tmp",
-                    "profile-default"
-                )
+                resolve(objDir, "tmp", "profile-default")
             );
 
             log.info(
@@ -49,10 +38,9 @@ export const run = async () => {
                 )}...`
             );
 
-            execa(
-                artifactPath,
-                args
-            ).stdout?.pipe(process.stdout);
+            execa(artifactPath, args).stdout?.pipe(
+                process.stdout
+            );
         } else {
             log.error(
                 `Cannot binary with name \`dot\` in ${resolve(

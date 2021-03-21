@@ -1,10 +1,7 @@
 import execa from "execa";
-import { log } from ".";
+import { log } from "..";
 
-const handle = (
-    data: any,
-    killOnError?: boolean
-) => {
+const handle = (data: any, killOnError?: boolean) => {
     const d = data.toString();
 
     d.split("\n").forEach((line: any) => {
@@ -12,10 +9,8 @@ const handle = (
     });
 
     if (killOnError) {
-        log.error(
-            "Command failed. See error above."
-        );
-        process.exit(-1);
+        log.error("Command failed. See error above.");
+        process.exit(1);
     }
 };
 
@@ -38,12 +33,8 @@ export const dispatch = (
             cwd: cwd ? cwd : process.cwd()
         });
 
-        proc.stdout?.on("data", (d) =>
-            handle(d)
-        );
-        proc.stderr?.on("data", (d) =>
-            handle(d)
-        );
+        proc.stdout?.on("data", (d) => handle(d));
+        proc.stderr?.on("data", (d) => handle(d));
 
         proc.stdout?.on("error", (d) =>
             handle(d, killOnError)
