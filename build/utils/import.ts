@@ -1,6 +1,4 @@
-import {
-    copySync
-} from "fs-extra";
+import { copySync } from "fs-extra";
 import { resolve } from "path";
 import { COMMON_DIR, SRC_DIR } from "../constants";
 
@@ -20,4 +18,3 @@ export const copyManual = (name: string) => {
         return e;
     }
 };
-

@@ -17,20 +17,26 @@ const importManual = async () => {
     return new Promise(async (res, rej) => {
         var total = 0;
 
-        for await (const { name, action, src } of manualPatches) {
+        for await (const {
+            name,
+            action,
+            src
+        } of manualPatches) {
             const p = new Patch({
                 name,
                 action,
                 src,
                 type: "manual"
-            })
+            });
 
             await delay(100);
 
-            await p.apply()
+            await p.apply();
         }
 
-        log.success(`Successfully imported ${manualPatches.length} manual patches!`);
+        log.success(
+            `Successfully imported ${manualPatches.length} manual patches!`
+        );
         console.log();
 
         await delay(1000);
@@ -42,9 +48,7 @@ const importManual = async () => {
 const importPatchFiles = async () => {
     const patches = readdirSync(PATCHES_DIR);
 
-    log.info(
-        `Applying ${patches.length} patch files...`
-    );
+    log.info(`Applying ${patches.length} patch files...`);
 
     console.log();
 
@@ -61,10 +65,12 @@ const importPatchFiles = async () => {
         await p.apply()
     }
 
-    log.success(`Successfully imported ${patches.length} patch files!`)
-}
+    log.success(
+        `Successfully imported ${patches.length} patch files!`
+    );
+};
 
 export const importPatches = async () => {
     await importManual();
     await importPatchFiles();
-}
+};

@@ -27,7 +27,9 @@ class Patch {
                         if (Array.isArray(this.src)) {
                             this.src.forEach((i) => {
                                 if (
-                                    statSync(i).isDirectory()
+                                    statSync(
+                                        i
+                                    ).isDirectory()
                                 ) {
                                     ensureDirSync(i);
                                 }
@@ -37,7 +39,7 @@ class Patch {
                         }
                 }
 
-                res(true)
+                res(true);
             } catch (e) {
                 rej(e);
             }
@@ -84,7 +86,11 @@ class Patch {
         process.stdout.moveCursor(0, -1);
         process.stdout.clearLine(1);
 
-        log.info(`Applying ${this.name}... ${chalk[this._done ? "green" : "red"].bold(this._done ? 'Done ✔' : 'Error ❗')}`);
+        log.info(
+            `Applying ${this.name}... ${chalk[
+                this._done ? "green" : "red"
+            ].bold(this._done ? "Done ✔" : "Error ❗")}`
+        );
 
         if (this.error) {
             throw this.error;
