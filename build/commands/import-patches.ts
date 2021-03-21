@@ -89,7 +89,10 @@ export const importPatches = async () => {
                         ) {
                             execa(
                                 "git",
-                                ["apply", ...args],
+                                [
+                                    "apply",
+                                    ...args
+                                ],
                                 {
                                     cwd,
                                     stripFinalNewline: false
