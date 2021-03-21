@@ -1,5 +1,5 @@
 import execa from "execa";
-import { log } from ".";
+import { log } from "..";
 
 const handle = (
     data: any,
