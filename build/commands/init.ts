@@ -9,7 +9,7 @@ export const init = async (directory: string) => {
         log.info(
             "Successfully downloaded browser source. Please run |./windows-init.sh| to finish up."
         );
-        process.exit(-1);
+        process.exit(0);
     }
 
     log.info(`Initialising through Git...`);

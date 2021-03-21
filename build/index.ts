@@ -83,9 +83,7 @@ program
     .alias("import-patches")
     .alias("i")
     .description("Import patches into the browser.")
-    .action((args) => {
-        new importPatches(args);
-    });
+    .action(importPatches);
 
 program
     .command("run")
@@ -172,7 +170,7 @@ process.on("uncaughtException", (err) => {
 
     console.log();
     log.info("Exiting due to error.");
-    process.exit(-1);
+    process.exit(1);
 });
 
 program.parse(process.argv);

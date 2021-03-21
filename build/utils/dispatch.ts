@@ -10,7 +10,7 @@ const handle = (data: any, killOnError?: boolean) => {
 
     if (killOnError) {
         log.error("Command failed. See error above.");
-        process.exit(-1);
+        process.exit(1);
     }
 };
 

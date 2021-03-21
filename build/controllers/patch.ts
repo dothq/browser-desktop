@@ -12,25 +12,33 @@ class Patch {
     public type: 'file' | 'manual';
     private _done: boolean = false;
 
+    private error: Error | unknown;
+
     private async applyAsManual() {
-        return new Promise(async (res) => {
-            switch (this.action) {
-                case "copy":
-                    if (typeof this.src == "string") copyManual(this.src);
+        return new Promise(async (res, rej) => {
+            try {
+                switch (this.action) {
+                    case "copy":
+                        if (typeof this.src == "string") {
+                            copyManual(this.src);
+                        }
 
-                    if (Array.isArray(this.src)) {
-                        this.src.forEach((i) => {
-                            if (
-                                statSync(i).isDirectory()
-                            ) {
-                                ensureDirSync(i);
-                            }
+                        if (Array.isArray(this.src)) {
+                            this.src.forEach((i) => {
+                                if (
+                                    statSync(i).isDirectory()
+                                ) {
+                                    ensureDirSync(i);
+                                }
 
-                            copyManual(i);
-                        });
-                    }
+                                copyManual(i);
+                            });
+                        }
+                }
 
-                    res(true);
+                res(true)
+            } catch (e) {
+                rej(e);
             }
         })
     }
@@ -38,9 +46,16 @@ class Patch {
     public async apply() {
         log.info(`Applying ${this.name}...`)
 
-        this.type == "manual" && await this.applyAsManual()
+        if (this.type == "manual") {
+            try {
+                await this.applyAsManual()
 
-        this.done = true;
+                this.done = true;
+            } catch (e) {
+                this.error = e;
+                this.done = false;
+            }
+        }
     }
 
     public get done() {
@@ -48,12 +63,16 @@ class Patch {
     }
 
     public set done(_: any) {
-        this._done = true;
+        this._done = _;
 
         process.stdout.moveCursor(0, -1);
         process.stdout.clearLine(1);
 
-        log.info(`Applying ${this.name}... ${chalk.green.bold('Done ✔')}`);
+        log.info(`Applying ${this.name}... ${chalk[this._done ? "green" : "red"].bold(this._done ? 'Done ✔' : 'Error ❗')}`);
+
+        if (this.error) {
+            throw this.error;
+        }
     }
 
     constructor({ name, action, src, type }: { name: string, action?: string, src?: string | string[]; type: 'file' | 'manual' }) {
