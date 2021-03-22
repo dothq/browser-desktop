@@ -38,6 +38,21 @@
             "emoji": "🧹",
             "code": ":broom:",
             "description": "Clean up code"
+        },
+        {
+            "emoji": "🏁",
+            "code": ":checkered_flag:",
+            "description": "Fix something on/for Windows"
+        },
+        {
+            "emoji": "🐧",
+            "code": ":penguin:",
+            "description": "Fix something on/for Linux"
+        },
+        {
+            "emoji": "🍏",
+            "code": ":green_apple:",
+            "description": "Fix something on/for macOS"
         }
     ],
     "git.ignoreLimitWarning": true,
