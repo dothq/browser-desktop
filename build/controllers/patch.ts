@@ -8,6 +8,7 @@ import {
     statSync
 } from "fs-extra";
 import { resolve } from "path";
+import readline from 'readline';
 import { log } from "..";
 import {
     COMMON_DIR,
@@ -220,8 +221,8 @@ class Patch {
     public set done(_: any) {
         this._done = _;
 
-        process.stdout.moveCursor(0, -1);
-        process.stdout.clearLine(1);
+        readline.moveCursor(process.stdout, 0, -1);
+        readline.clearLine(process.stdout, 1);
 
         log.info(
             `Applying ${this.name}... ${chalk[
