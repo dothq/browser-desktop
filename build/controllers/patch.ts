@@ -8,7 +8,7 @@ import {
     statSync
 } from "fs-extra";
 import { resolve } from "path";
-import readline from 'readline';
+import readline from "readline";
 import { log } from "..";
 import {
     COMMON_DIR,
