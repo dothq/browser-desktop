@@ -200,7 +200,11 @@ class Patch {
     }
 
     public async apply() {
-        log.info(`${chalk.gray(`(${this.status[0]}/${this.status[1]})`)} Applying ${this.name}...`);
+        log.info(
+            `${chalk.gray(
+                `(${this.status[0]}/${this.status[1]})`
+            )} Applying ${this.name}...`
+        );
 
         try {
             if (this.type == "manual")
@@ -226,7 +230,9 @@ class Patch {
         readline.clearLine(process.stdout, 1);
 
         log.info(
-            `${chalk.gray(`(${this.status[0]}/${this.status[1]})`)} Applying ${this.name}... ${chalk[
+            `${chalk.gray(
+                `(${this.status[0]}/${this.status[1]})`
+            )} Applying ${this.name}... ${chalk[
                 this._done ? "green" : "red"
             ].bold(this._done ? "Done ✔" : "Error ❗")}`
         );
@@ -241,7 +247,7 @@ class Patch {
         action,
         src,
         type,
-        status,
+        status
     }: {
         name: string;
         action?: string;

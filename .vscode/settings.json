@@ -59,7 +59,7 @@
     "git.ignoreLimitWarning": true,
     "editor.formatOnSave": true,
     "[plaintext]": {
-        "editor.formatOnSave": false,
+        "editor.formatOnSave": false
     },
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
