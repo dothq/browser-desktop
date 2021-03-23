@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/icons/restore-session.svg b/browser/themes/shared/icons/restore-session.svg
-index 3852101fcbbec93f002f1c5cdae3c018f9172d57..6b5ad3d5f933b0680fdf7758bf38119ff6f32b15 100644
+index 3852101fcbbec93f002f1c5cdae3c018f9172d57..4e28eadb30686f0d13d15273e3fe782a44d61333 100644
 --- a/browser/themes/shared/icons/restore-session.svg
 +++ b/browser/themes/shared/icons/restore-session.svg
 @@ -1,6 +1,10 @@
@@ -19,3 +19,4 @@ index 3852101fcbbec93f002f1c5cdae3c018f9172d57..6b5ad3d5f933b0680fdf7758bf38119f
 +</clipPath>
 +</defs>
 +</svg>
+\ No newline at end of file

@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/icons/whatsnew.svg b/browser/themes/shared/icons/whatsnew.svg
-index b77d0165a60612c13ccbb5c6638c0da0c6662496..667555685b89bf984fd931f5fc142656b94b139b 100644
+index b77d0165a60612c13ccbb5c6638c0da0c6662496..bebd293bab1427524534c318593f88829c38f697 100644
 --- a/browser/themes/shared/icons/whatsnew.svg
 +++ b/browser/themes/shared/icons/whatsnew.svg
 @@ -1,10 +1,12 @@
@@ -12,6 +12,7 @@ index b77d0165a60612c13ccbb5c6638c0da0c6662496..667555685b89bf984fd931f5fc142656
 -  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M1 5v3h6V4H2a1 1 0 0 0-1 1z"/>
 -  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M14 4H9v4h6V5a1 1 0 0 0-1-1z"/>
 -  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M10.05.41A1.34 1.34 0 0 0 8 1a1.35 1.35 0 0 0-2-.59C5.2 1.08 4.91 2.48 8 4c3.09-1.52 2.8-2.92 2.05-3.59z"/>
+-</svg>
 +<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 +<g clip-path="url(#clip0)">
 +<path fill="context-fill" fill-opacity="context-fill-opacity" d="M3.94654 1.72844L3.48753 0.35139C3.33135 -0.11713 2.66865 -0.11713 2.51247 0.35139L2.05346 1.72844C2.00231 1.88189 1.88189 2.00231 1.72844 2.05346L0.35139 2.51247C-0.11713 2.66865 -0.11713 3.33135 0.35139 3.48753L1.72844 3.94654C1.88189 3.99769 2.00231 4.11811 2.05346 4.27156L2.51247 5.64861C2.66865 6.11713 3.33135 6.11713 3.48753 5.64861L3.94654 4.27156C3.99769 4.11811 4.11811 3.99769 4.27156 3.94654L5.64861 3.48753C6.11713 3.33135 6.11713 2.66865 5.64861 2.51247L4.27156 2.05346C4.11811 2.00231 3.99769 1.88189 3.94654 1.72844Z" />
@@ -23,4 +24,5 @@ index b77d0165a60612c13ccbb5c6638c0da0c6662496..667555685b89bf984fd931f5fc142656
 +<rect width="16" height="16" fill="white"/>
 +</clipPath>
 +</defs>
- </svg>
++ </svg>
+\ No newline at end of file

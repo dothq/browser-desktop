@@ -17,16 +17,21 @@ const importManual = async () => {
     return new Promise(async (res, rej) => {
         var total = 0;
 
+        var i = 0;
+
         for await (const {
             name,
             action,
             src
         } of manualPatches) {
+            ++i;
+
             const p = new Patch({
                 name,
                 action,
                 src,
-                type: "manual"
+                type: "manual",
+                status: [i, manualPatches.length]
             });
 
             await delay(100);
@@ -54,10 +59,15 @@ const importPatchFiles = async () => {
 
     await delay(500);
 
+    var i = 0;
+
     for await (const patch of patches) {
+        ++i;
+
         const p = new Patch({
             name: patch,
-            type: "file"
+            type: "file",
+            status: [i, patches.length]
         });
 
         await delay(100);

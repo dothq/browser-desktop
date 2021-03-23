@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e8163b60e 100644
+index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a5ce3d8ba 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
-@@ -762,7 +762,7 @@
+@@ -763,7 +763,7 @@
                          oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
          </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
@@ -11,7 +11,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
                 oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -773,7 +773,12 @@
+@@ -774,7 +774,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -25,7 +25,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -799,9 +804,10 @@
+@@ -800,9 +805,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -39,7 +39,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&fullZoom.label;"/>
-@@ -831,8 +837,8 @@
+@@ -832,8 +838,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -50,7 +50,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -856,18 +862,34 @@
+@@ -857,18 +863,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -88,7 +88,7 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -878,8 +900,7 @@
+@@ -879,8 +901,7 @@
                         key="key_preferencesCmdMac"
  #endif
  #endif
@@ -97,13 +97,12 @@ index da7d002aba433c837f77c7b1f47b74e57dca13ff..90efc1d04e6cb9aacff3073f4783c55e
 +                       oncommand="openPreferences()"/>
          <toolbarbutton id="appMenu-customize-button"
                         class="subviewbutton subviewbutton-iconic"
-                        data-l10n-id="appmenuitem-customize-mode"
-@@ -908,12 +929,13 @@
-                        command="cmd_printPreview"
+                        data-l10n-id="appmenu-customizetoolbar"
+@@ -910,11 +931,13 @@
  #endif
                         />
--        <toolbarseparator/>
-+                       
+         <toolbarseparator/>
++
          <toolbarbutton id="appMenu-find-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&findOnCmd.label;"

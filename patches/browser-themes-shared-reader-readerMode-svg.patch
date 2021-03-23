@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/reader/readerMode.svg b/browser/themes/shared/reader/readerMode.svg
-index 0eb317a1b63eb5ec86f6b0b9f574f9ce98a35ae4..9c68e2bdb6cc415b08cf76c96b30121cda6e7ae4 100644
+index 0eb317a1b63eb5ec86f6b0b9f574f9ce98a35ae4..b64051a3dab6f8ded1bd853a39bf9bddfc1bd516 100644
 --- a/browser/themes/shared/reader/readerMode.svg
 +++ b/browser/themes/shared/reader/readerMode.svg
 @@ -1,6 +1,6 @@
@@ -15,3 +15,4 @@ index 0eb317a1b63eb5ec86f6b0b9f574f9ce98a35ae4..9c68e2bdb6cc415b08cf76c96b30121c
 +<path fill="context-fill" fill-opacity="context-fill-opacity" d="M5 8C5 7.44772 5.44772 7 6 7H9C9.55228 7 10 7.44772 10 8C10 8.55228 9.55228 9 9 9H6C5.44772 9 5 8.55228 5 8Z" />
 +<path fill="context-fill" fill-opacity="context-fill-opacity" d="M5 5C5 4.44772 5.44772 4 6 4H10C10.5523 4 11 4.44772 11 5C11 5.55228 10.5523 6 10 6H6C5.44772 6 5 5.55228 5 5Z" />
 +</svg>
+\ No newline at end of file

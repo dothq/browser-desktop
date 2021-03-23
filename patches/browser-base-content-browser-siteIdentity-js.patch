@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-siteIdentity.js b/browser/base/content/browser-siteIdentity.js
-index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..045f0b634fa2ead8851f7bc2a91f9e760d340530 100644
+index 01d47f0907e6b77423ae4ad00150d71e31eb8ea8..fa442e59c4787b31c210d4e6c4c44b2ff67f0f1a 100644
 --- a/browser/base/content/browser-siteIdentity.js
 +++ b/browser/base/content/browser-siteIdentity.js
 @@ -57,7 +57,7 @@ var gIdentityHandler = {
@@ -11,7 +11,7 @@ index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..045f0b634fa2ead8851f7bc2a91f9e76
  
    /**
     * Whether the established HTTPS connection is considered "broken".
-@@ -844,6 +844,15 @@ var gIdentityHandler = {
+@@ -729,6 +729,15 @@ var gIdentityHandler = {
      return "unknownIdentity";
    },
  
@@ -27,7 +27,7 @@ index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..045f0b634fa2ead8851f7bc2a91f9e76
    /**
     * Returns whether the issuer of the current certificate chain is
     * built-in (returns false) or imported (returns true).
-@@ -885,12 +894,20 @@ var gIdentityHandler = {
+@@ -770,12 +779,20 @@ var gIdentityHandler = {
        icon_label = brandBundle.getString("brandShorterName");
      } else if (this._pageExtensionPolicy) {
        // This is a WebExtension page.
@@ -54,7 +54,7 @@ index 5850d7ceb4c2a83cc450e5f2e92c8ac8ac23d3d9..045f0b634fa2ead8851f7bc2a91f9e76
      } else if (this._uriHasHost && this._isSecureConnection) {
        // This is a secure connection.
        this._identityBox.className = "verifiedDomain";
-@@ -931,6 +948,12 @@ var gIdentityHandler = {
+@@ -816,6 +833,12 @@ var gIdentityHandler = {
      } else if (this._isPotentiallyTrustworthy) {
        // This is a local resource (and shouldn't be marked insecure).
        this._identityBox.className = "localResource";

@@ -1,16 +1,7 @@
 diff --git a/browser/themes/addons/light/manifest.json b/browser/themes/addons/light/manifest.json
-index 24ffe228d2363935663a3f78acc3a857160ffdd3..dddafdd49c4b878edaa7488c93a8839f9f5d33c6 100644
+index 24ffe228d2363935663a3f78acc3a857160ffdd3..603f2a0094cda3cc6abb46f13f7139459d40bcd9 100644
 --- a/browser/themes/addons/light/manifest.json
 +++ b/browser/themes/addons/light/manifest.json
-@@ -10,7 +10,7 @@
-   "name": "Light",
-   "description": "A theme with a light color scheme.",
-   "author": "Mozilla",
--  "version": "1.1",
-+  "version": "1.0",
- 
-   "icons": {"32": "icon.svg"},
- 
 @@ -18,16 +18,25 @@
      "colors": {
        "tab_background_text": "rgb(24, 25, 26)",

@@ -1,15 +1,15 @@
 diff --git a/browser/components/about/components.conf b/browser/components/about/components.conf
-index 42011d5094813d8360f3c4e6a8436efb14758a3c..9515980adcfa069e5fb44d455e817fe9c439aada 100644
+index 274eee9c384ee5aaf3b6e23fb266ba4908c4c0d6..2caa2e09d64ff755893857f97f8f10f41182c2cb 100644
 --- a/browser/components/about/components.conf
 +++ b/browser/components/about/components.conf
-@@ -10,6 +10,7 @@ pages = [
-     'config',
+@@ -9,6 +9,7 @@ pages = [
+     'certerror',
      'downloads',
      'framecrashed',
 +    'history',
      'home',
      'logins',
-     'newinstall',
+     'loginsimportreport',
 @@ -18,6 +19,7 @@ pages = [
      'pocket-saved',
      'pocket-signup',

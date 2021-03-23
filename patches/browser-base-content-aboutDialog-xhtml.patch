@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/aboutDialog.xhtml b/browser/base/content/aboutDialog.xhtml
-index fc6c38217124dfe3854926df986330f77b80929e..c8d188adb1da1c028e5927ae6ec88d73fc4fea57 100644
+index 278ba71d7fcc99d18adc69f35b435a3afe5c9b5d..97dced2849e18eb1ee98e6db9720d51725dba6fe 100644
 --- a/browser/base/content/aboutDialog.xhtml
 +++ b/browser/base/content/aboutDialog.xhtml
 @@ -147,12 +147,13 @@
