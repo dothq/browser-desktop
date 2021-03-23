@@ -1,5 +1,5 @@
 diff --git a/browser/actors/moz.build b/browser/actors/moz.build
-index 3952d5a95246b33581ba1cb88fe6a348d40a1649..a185306516433e863eed2fd5c40abc44e82252bc 100644
+index 5118f85caf541ad0466db65a2a3010e5abd65873..86e8b9360190cde49d206a9ab2879719a3d42a65 100644
 --- a/browser/actors/moz.build
 +++ b/browser/actors/moz.build
 @@ -29,6 +29,8 @@ with Files("WebRTCChild.jsm"):

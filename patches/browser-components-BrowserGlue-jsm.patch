@@ -1,8 +1,8 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 0c73eeef2ed6ee62a3526ec54566dcbc9357edc5..c46ba50146127614fec0c2c09860bae2209cc2d8 100644
+index 81de0fb201173b6661798ee21461eb3800059580..da29c16635cff532768f5bcee69979ae058de748 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -178,6 +178,21 @@ let JSPROCESSACTORS = {
+@@ -179,6 +179,21 @@ let JSPROCESSACTORS = {
   * available at https://firefox-source-docs.mozilla.org/dom/ipc/jsactors.html
   */
  let JSWINDOWACTORS = {
@@ -24,7 +24,7 @@ index 0c73eeef2ed6ee62a3526ec54566dcbc9357edc5..c46ba50146127614fec0c2c09860bae2
    AboutLogins: {
      parent: {
        moduleURI: "resource:///actors/AboutLoginsParent.jsm",
-@@ -502,14 +517,17 @@ let JSWINDOWACTORS = {
+@@ -519,14 +534,17 @@ let JSWINDOWACTORS = {
        moduleURI: "resource:///actors/LightweightThemeChild.jsm",
        events: {
          pageshow: { mozSystemGroup: true },
@@ -45,7 +45,7 @@ index 0c73eeef2ed6ee62a3526ec54566dcbc9357edc5..c46ba50146127614fec0c2c09860bae2
        "chrome://browser/content/syncedtabs/sidebar.xhtml",
        "chrome://browser/content/places/historySidebar.xhtml",
        "chrome://browser/content/places/bookmarksSidebar.xhtml",
-@@ -1349,16 +1367,16 @@ BrowserGlue.prototype = {
+@@ -1366,16 +1384,16 @@ BrowserGlue.prototype = {
        "resource://builtin-themes/dark/"
      );
      AddonManager.maybeInstallBuiltinAddon(

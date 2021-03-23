@@ -1,5 +1,5 @@
 diff --git a/browser/themes/addons/light/icon.svg b/browser/themes/addons/light/icon.svg
-index 6cddd29e19393cee7bb20522734f9eede77cbfb6..e3ac21abff074c12eed32500509a512d8e9f4943 100644
+index 6cddd29e19393cee7bb20522734f9eede77cbfb6..ebb3f7f76ab77d89560527dc617097f7efdb8f34 100644
 --- a/browser/themes/addons/light/icon.svg
 +++ b/browser/themes/addons/light/icon.svg
 @@ -1,14 +1,12 @@
@@ -16,8 +16,6 @@ index 6cddd29e19393cee7bb20522734f9eede77cbfb6..e3ac21abff074c12eed32500509a512d
 -  <path fill="#0a84ff" d="M16 2h14v1H16z"/>
 -  <path d="M26.354 8.646l-3.5-3.5a.5.5 0 0 0-.707 0l-3.5 3.5a.5.5 0 0 0 .707.707L20 8.707V11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V8.707l.646.646a.5.5 0 1 0 .707-.707zM24 11h-1V9h-1v2h-1V7.707l1.5-1.5 1.5 1.5z" fill="#0c0c0d" fill-opacity=".8"/>
 -  <path fill="#08091a" fill-opacity=".25" d="M15 2v12H2v1h14V2h-1z"/>
--</svg>
-\ No newline at end of file
 +<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 +<path d="M2 2H30V15H2V2Z" fill="#ECECEC"/>
 +<path d="M29 1H3C1.89543 1 1 1.89543 1 3V29C1 30.1046 1.89543 31 3 31H29C30.1046 31 31 30.1046 31 29V3C31 1.89543 30.1046 1 29 1Z" stroke="#D5D5D5" stroke-width="2"/>
@@ -29,4 +27,5 @@ index 6cddd29e19393cee7bb20522734f9eede77cbfb6..e3ac21abff074c12eed32500509a512d
 +<path d="M16 4C16 2.89543 16.8954 2 18 2H29C29.5523 2 30 2.44772 30 3V15H16V4Z" fill="white"/>
 +<path d="M21.3393 7.98963C21.3393 7.71278 21.5592 7.48834 21.8304 7.48834H23.7947C24.0659 7.48834 24.2857 7.71278 24.2857 7.98963V10.9974H23.3036V8.49093H22.3214V10.9974H21.3393V7.98963Z" fill="#3C3C3C"/>
 +<path fill-rule="evenodd" clip-rule="evenodd" d="M20.3571 7.26842V10.9974H25.2679V7.26842L22.8125 5.26325L20.3571 7.26842ZM19.5593 6.63605L22.5057 4.22984C22.6851 4.08338 22.9399 4.08338 23.1193 4.22984L26.0657 6.63605C26.1822 6.73118 26.25 6.87521 26.25 7.02749V11.4987C26.25 11.7756 26.0301 12 25.7589 12H19.8661C19.5949 12 19.375 11.7756 19.375 11.4987V7.02749C19.375 6.87521 19.4428 6.73118 19.5593 6.63605Z" fill="#3C3C3C"/>
-+</svg>
+ </svg>
+\ No newline at end of file

@@ -1,15 +1,8 @@
 diff --git a/browser/themes/addons/dark/manifest.json b/browser/themes/addons/dark/manifest.json
-index b246ec6a59cf1df2ccf31a271fc641d5be0f1564..d56d01c8bc070f3a4ecaea3d69b4fc92925168dc 100644
+index b246ec6a59cf1df2ccf31a271fc641d5be0f1564..e11a94bc1317cdfa9ec1c5f360739a53b0e8cfb6 100644
 --- a/browser/themes/addons/dark/manifest.json
 +++ b/browser/themes/addons/dark/manifest.json
-@@ -10,28 +10,32 @@
-   "name": "Dark",
-   "description": "A theme with a dark color scheme.",
-   "author": "Mozilla",
--  "version": "1.1",
-+  "version": "1.0",
- 
-   "icons": {"32": "icon.svg"},
+@@ -16,22 +16,26 @@
  
    "theme": {
      "colors": {
