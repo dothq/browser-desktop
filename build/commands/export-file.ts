@@ -7,7 +7,10 @@ import { PATCHES_DIR, SRC_DIR } from "../constants";
 export const exportFile = async (file: string) => {
     log.info(`Exporting ${file}...`);
 
-    if (!existsSync(resolve(SRC_DIR, file))) throw new Error(`File ${file} could not be found in src directory. Check the path for any mistakes and try again.`)
+    if (!existsSync(resolve(SRC_DIR, file)))
+        throw new Error(
+            `File ${file} could not be found in src directory. Check the path for any mistakes and try again.`
+        );
 
     const proc = execa(
         "git",
