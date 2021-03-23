@@ -23,6 +23,7 @@ class Patch {
     public action: string;
     public src: string | string[];
     public type: "file" | "manual";
+    public status: number[];
     private _done: boolean = false;
 
     private error: Error | unknown;
@@ -199,7 +200,7 @@ class Patch {
     }
 
     public async apply() {
-        log.info(`Applying ${this.name}...`);
+        log.info(`${chalk.gray(`(${this.status[0]}/${this.status[1]})`)} Applying ${this.name}...`);
 
         try {
             if (this.type == "manual")
@@ -225,7 +226,7 @@ class Patch {
         readline.clearLine(process.stdout, 1);
 
         log.info(
-            `Applying ${this.name}... ${chalk[
+            `${chalk.gray(`(${this.status[0]}/${this.status[1]})`)} Applying ${this.name}... ${chalk[
                 this._done ? "green" : "red"
             ].bold(this._done ? "Done ✔" : "Error ❗")}`
         );
@@ -239,17 +240,20 @@ class Patch {
         name,
         action,
         src,
-        type
+        type,
+        status,
     }: {
         name: string;
         action?: string;
         src?: string | string[];
         type: "file" | "manual";
+        status: number[];
     }) {
         this.name = name;
         this.action = action || "";
         this.src = src || resolve(PATCHES_DIR, name);
         this.type = type;
+        this.status = status;
     }
 }
 
