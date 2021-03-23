@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "*.jsm": "javascript"
+        "*.jsm": "javascript",
+        "**/src/**/*.*": "plaintext"
     },
     "files.watcherExclude": {
         "**/.git/objects/**": true,
@@ -57,6 +58,9 @@
     ],
     "git.ignoreLimitWarning": true,
     "editor.formatOnSave": true,
+    "[plaintext]": {
+        "editor.formatOnSave": false,
+    },
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
     }
