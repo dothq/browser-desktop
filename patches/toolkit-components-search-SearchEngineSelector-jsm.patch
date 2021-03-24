@@ -1,0 +1,90 @@
+diff --git a/toolkit/components/search/SearchEngineSelector.jsm b/toolkit/components/search/SearchEngineSelector.jsm
+index 9f614771820090f066b6191a3349d7b5add670cd..c60d25d43a929e76273266708dec5c3980407aa8 100644
+--- a/toolkit/components/search/SearchEngineSelector.jsm
++++ b/toolkit/components/search/SearchEngineSelector.jsm
+@@ -195,8 +195,84 @@ class SearchEngineSelector {
+     experiment,
+   }) {
+     if (!this._configuration) {
+-      await this.getEngineConfiguration();
++      this._configuration = [{
++      "appliesTo": [{
++        "default": "yes-if-no-other",
++        "included": {
++          "everywhere": true
++        },
++      }],
++      "extraParams": [
++        
++      ],
++      "webExtension": {
++        "id": "ddg@search.mozilla.org"
++      }
++    }, {
++      "appliesTo": [{
++        "included": {
++          "everywhere": true
++        },
++      }],
++      "extraParams": [
++        
++      ],
++      "webExtension": {
++        "id": "ecosia@search.mozilla.org"
++      }
++    }, {
++      "appliesTo": [{
++        "included": {
++          "everywhere": true
++        },
++      }],
++      "extraParams": [
++        
++      ],
++      "webExtension": {
++        "id": "ekoru@search.mozilla.org"
++      }
++    }, {
++      "appliesTo": [{
++        "included": {
++          "everywhere": true
++        }
++      }],
++      "extraParams": [
++        
++      ],
++      "webExtension": {
++        "id": "google@search.mozilla.org"
++      }
++    }, {
++      "appliesTo": [{
++        "included": {
++          "everywhere": true
++        }
++      }],
++      "extraParams": [
++        
++      ],
++      "webExtension": {
++        "id": "qwant@search.mozilla.org"
++      }
++    }, {
++      "appliesTo": [{
++          "included": {
++            "everywhere": true
++          }
++      }],
++      "extraParams": [
++        
++      ],
++      "webExtension": {
++        "id": "bing@search.mozilla.org"
++      }
++    }]
+     }
++
++    console.log(this._configuration)
++
+     let name = getAppInfo("name");
+     let version = getAppInfo("version");
+     logConsole.debug(

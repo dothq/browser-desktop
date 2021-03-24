@@ -1,0 +1,68 @@
+[
+    {
+        "webExtension": {
+            "id": "ddg@search.mozilla.org"
+        },
+        "appliesTo": [
+            {
+                "default": "yes-if-no-other",
+                "included": {
+                    "everywhere": true
+                }
+            }
+        ],
+        "extraParams": []
+    },
+    {
+        "webExtension": {
+            "id": "ecosia@search.mozilla.org"
+        },
+        "appliesTo": [
+            {
+                "included": {
+                    "everywhere": true
+                }
+            }
+        ],
+        "extraParams": []
+    },
+    {
+        "webExtension": {
+            "id": "google@search.mozilla.org"
+        },
+        "appliesTo": [
+            {
+                "included": {
+                    "everywhere": true
+                }
+            }
+        ],
+        "extraParams": []
+    },
+    {
+        "webExtension": {
+            "id": "qwant@search.mozilla.org"
+        },
+        "appliesTo": [
+            {
+                "included": {
+                    "everywhere": true
+                }
+            }
+        ],
+        "extraParams": []
+    },
+    {
+        "webExtension": {
+            "id": "bing@search.mozilla.org"
+        },
+        "appliesTo": [
+            {
+                "included": {
+                    "everywhere": true
+                }
+            }
+        ],
+        "extraParams": []
+    }
+]
