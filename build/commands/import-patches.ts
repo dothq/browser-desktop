@@ -22,7 +22,9 @@ const importManual = async () => {
         for await (const {
             name,
             action,
-            src
+            src,
+            markers,
+            indent
         } of manualPatches) {
             ++i;
 
@@ -31,7 +33,9 @@ const importManual = async () => {
                 action,
                 src,
                 type: "manual",
-                status: [i, manualPatches.length]
+                status: [i, manualPatches.length],
+                markers,
+                indent
             });
 
             await delay(100);

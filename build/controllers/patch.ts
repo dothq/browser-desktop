@@ -2,10 +2,13 @@ import chalk from "chalk";
 import execa from "execa";
 import {
     ensureDirSync,
+
     existsSync,
+    readFileSync,
     rmdirSync,
     rmSync,
-    statSync
+    statSync,
+    writeFileSync
 } from "fs-extra";
 import { resolve } from "path";
 import readline from "readline";
@@ -24,6 +27,13 @@ class Patch {
     public src: string | string[];
     public type: "file" | "manual";
     public status: number[];
+    public markers?: {
+        [key: string]: [
+            string,
+            string
+        ]
+    };
+    public indent?: number;
     private _done: boolean = false;
 
     private error: Error | unknown;
@@ -155,6 +165,30 @@ class Patch {
                         }
 
                         break;
+                    case "markers":
+                        if (!this.markers) return log.error(`Unable to parse markers.`)
+
+                        if (typeof (this.src) == "string") {
+                            const target = resolve(COMMON_DIR, this.src);
+                            const srcKey = Object.keys(this.markers)[0];
+                            const srcTarget = resolve(SRC_DIR, srcKey);
+
+                            if (!existsSync(target)) log.error(`We were unable to process the file \`${this.src}\` as it does not exist in the common directory.`)
+                            if (statSync(target).isDirectory()) log.error(`Src cannot be a directory.`)
+
+                            const content = readFileSync(target, "utf-8");
+                            let srcContent = readFileSync(srcTarget, "utf-8");
+
+                            const look = srcContent.split(this.markers[srcKey][0])[1].split(this.markers[srcKey][1])[0];
+
+                            srcContent = srcContent.replace(look, `\n${Array(this.indent ? this.indent : 0).join("\t")}${content.split("\n").join("\n" + Array(this.indent ? this.indent : 0).join("\t"))}\n${Array(this.indent ? this.indent : 0).join("\t")}`)
+
+                            writeFileSync(srcTarget, srcContent);
+                        } else {
+                            log.error(`Action "markers" cannot have src as an array.`)
+                        }
+
+                        break;
                 }
 
                 res(true);
@@ -247,19 +281,30 @@ class Patch {
         action,
         src,
         type,
-        status
+        status,
+        markers,
+        indent
     }: {
         name: string;
         action?: string;
         src?: string | string[];
         type: "file" | "manual";
         status: number[];
+        markers?: {
+            [key: string]: [
+                string,
+                string
+            ]
+        };
+        indent?: number
     }) {
         this.name = name;
         this.action = action || "";
         this.src = src || resolve(PATCHES_DIR, name);
         this.type = type;
         this.status = status;
+        this.markers = markers;
+        this.indent = indent;
     }
 }
 
