@@ -1,5 +1,5 @@
 diff --git a/browser/themes/addons/light/manifest.json b/browser/themes/addons/light/manifest.json
-index 24ffe228d2363935663a3f78acc3a857160ffdd3..603f2a0094cda3cc6abb46f13f7139459d40bcd9 100644
+index 24ffe228d2363935663a3f78acc3a857160ffdd3..fbe351ce32a57bfbf7142d438150f1dcb5858ddd 100644
 --- a/browser/themes/addons/light/manifest.json
 +++ b/browser/themes/addons/light/manifest.json
 @@ -18,16 +18,25 @@
@@ -8,7 +8,7 @@ index 24ffe228d2363935663a3f78acc3a857160ffdd3..603f2a0094cda3cc6abb46f13f713945
        "icons": "rgb(24, 25, 26, 0.7)",
 -      "frame": "#E3E4E6",
 -      "popup": "#fff",
-+      "frame": "#ECECEC",
++      "frame": "#F3F4F4",
 +      "popup": "#ffffff",
        "popup_text": "#0c0c0d",
 -      "popup_border": "#ccc",
@@ -28,8 +28,8 @@ index 24ffe228d2363935663a3f78acc3a857160ffdd3..603f2a0094cda3cc6abb46f13f713945
 +      "toolbar_field_border": "#fff",
 +      "toolbar_field_focus": "#ffffff",
 +      "toolbar_field_separator": "#E5E5E5",
-+      "button_background_hover": "#00000012",
-+      "button_background_active": "#00000024",
++      "button_background_hover": "rgba(0, 0, 0, 0.04)",
++      "button_background_active": "rgba(0, 0, 0, 0.1)",
 +      "popup_highlight": "#256EF5",
 +      "ntp_background": "#ffffff",
 +      "sidebar": "#FBFBFB"
