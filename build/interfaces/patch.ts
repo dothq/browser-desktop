@@ -3,10 +3,7 @@ export interface IPatch {
     action: string;
     src: string | string[];
     markers?: {
-        [key: string]: [
-            string,
-            string
-        ]
-    },
+        [key: string]: [string, string];
+    };
     indent?: number;
 }

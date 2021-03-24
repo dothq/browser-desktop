@@ -40,7 +40,8 @@ const manualPatches: IPatch[] = [
         name: "default-engine",
         action: "markers",
         markers: {
-            "toolkit/components/search/SearchEngineSelector.jsm": [ // <-- target file
+            "toolkit/components/search/SearchEngineSelector.jsm": [
+                // <-- target file
                 "// INJECT DEFAULT SEARCH ENGINES - START",
                 "// INJECT DEFAULT SEARCH ENGINES - END"
             ]
