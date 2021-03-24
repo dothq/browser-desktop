@@ -30,6 +30,11 @@ const manualPatches: IPatch[] = [
         name: "preferences",
         action: "copy",
         src: "browser/components/preferences/new"
+    },
+    {
+        name: "dotprotocol",
+        action: "copy",
+        src: "toolkit/components/dotprotocol"
     }
 ];
 
