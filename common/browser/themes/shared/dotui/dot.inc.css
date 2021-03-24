@@ -7,16 +7,60 @@
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
     --tab-min-width: 104px !important;
+    --urlbar-toolbar-height: 42px !important;
+    --inline-tab-padding: 12px !important;
+    --tab-min-height: 38px !important;
 }
 
 #urlbar {
-    --urlbar-height: 30px !important;
+    --urlbar-height: 32px !important;
 }
 
-.tabbrowser-tab .tab-stack .tab-background,
-.tabbrowser-tab {
-    border-radius: 8px 8px 0 0;
-    transition: 0.2s background cubic-bezier(.19,1,.22,1), 0.2s background-color cubic-bezier(.19,1,.22,1);
+#titlebar, #PersonalToolbar {
+    -moz-box-ordinal-group: 2 !important;
+}
+
+#nav-bar {
+    -moz-box-ordinal-group: 1 !important;
+    height: 42px !important;
+}
+
+.titlebar-buttonbox-container {
+    position: fixed;
+    top: 0;
+    display: flex;
+    right: 0;
+    z-index: 10000;
+    height: var(--urlbar-toolbar-height) !important;
+}
+
+#nav-bar {
+    padding-right: 138px;
+}
+
+.tabbrowser-tab .tab-stack .tab-background, .tabbrowser-tab {
+    border-radius: 0px !important;
+}
+
+.tab-icon-image {
+    margin-inline-end: 10px;
+}
+
+.tabbrowser-tab:hover > .tab-stack > .tab-background:not([selected="true"], [multiselected]) {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+
+.tabbrowser-tab .tab-stack {
+    margin-top: 0px !important;
+}
+
+.tabbrowser-tab .tab-stack {
+    margin-top: 0px !important;
+}
+
+#tabbrowser-tabs {
+    padding-left: 0px !important;
 }
 
 .tabbrowser-tab .tab-stack .tab-background .tab-line {
@@ -31,8 +75,8 @@
     border: 0px solid transparent;
 }
 
-.tabbrowser-tab::after {
-    transition: 0.2s opacity, visibility 0ms 25ms !important;
+.tabbrowser-tab[fadein="true"] {
+    max-width: 250px !important;
 }
 
 .tabbrowser-tab[selected="true"]::after {
@@ -54,10 +98,6 @@
 
 #nav-bar {
     box-shadow: none !important;
-}
-
-#tabs-newtab-button {
-    padding-top: 6px !important;
 }
 
 .titlebar-spacer[type="pre-tabs"] {
@@ -148,7 +188,7 @@ tabmodalprompt:not([hidden]) {
 }
 
 #back-button {
-    padding-inline-start: 5px !important;
+    padding-inline-start: 8px !important;
 }
 
 #back-button > .toolbarbutton-icon {
@@ -217,17 +257,49 @@ display: none !important;
     opacity: 0.3 !important;
 }
 
-:root {
-    --tab-min-height: 40px !important;
-}
-
 #tabs-newtab-button {
-    padding-left: 4px;
+    padding-left: 6px !important;
 }
 
 .tabbrowser-tab::after {
-    margin-top: 12px !important;
-    margin-bottom: 6px !important;
+    margin-top: 9px !important;
+    margin-bottom: 9px !important;
+}
+
+.tabbrowser-tab > .tab-stack > .tab-background::after,
+.tabbrowser-tab > .tab-stack > .tab-background::before {
+  content: "";
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' fill='none'%3E%3Cpath d='M0 8L0.000396729 4.63277e-05L8 0C3.58173 0 0 3.58173 0 8Z' fill='white'/%3E%3C/svg%3E");
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  display: block;
+  max-width: var(--size);
+  max-height: var(--size);
+  top: 0;
+  mask-size: cover;
+  --size: 8px;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.tabbrowser-tab[selected="true"] > .tab-stack > .tab-background::after,
+.tabbrowser-tab[selected="true"] > .tab-stack > .tab-background::before {
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
+#.tabbrowser-tab:hover:not([last-visible-tab="true"]) > .tab-stack > .tab-background::after,
+#.tabbrowser-tab:hover:not([last-visible-tab="true"]) > .tab-stack > .tab-background::before {
+#  background-color: rgba(0, 0, 0, 0.05);
+#}
+
+.tabbrowser-tab > .tab-stack > .tab-background::after {
+    right: calc(var(--size) - var(--size) - var(--size));
+}
+
+.tabbrowser-tab > .tab-stack > .tab-background::before {
+    left: calc(var(--size) - var(--size) - var(--size));
+    transform: scale(-1) rotate(-90deg);
 }
 
 .tabbrowser-tab {
@@ -242,4 +314,61 @@ display: none !important;
     padding-left: 6px;
 }
    
-    
+:root:not([uidensity=compact], [chromehidden~="toolbar"]) #PanelUI-button {
+  border-image: linear-gradient( transparent 12px, var(--lwt-toolbar-vertical-separator, rgba(0,0,0,.1)) 12px, var(--lwt-toolbar-vertical-separator, rgba(0,0,0,.1)) calc(100% - 12px), transparent calc(100% - 12px) ) !important;
+}
+
+.identity-box-button {
+    padding-inline: 10px;
+    margin: 1px;
+    border-radius: 4px;
+    margin-inline-end: 6px;
+}
+
+#identity-box[pageproxystate="valid"].notSecureText, #identity-box[pageproxystate="valid"].chromeUI, #identity-box[pageproxystate="valid"].extensionPage, #urlbar-label-box {
+    border-inline-end: none !important;
+}
+
+#identity-icon-box {
+  max-width: unset !important;
+}
+
+#identity-box.chromeUI > .identity-box-button {
+  padding-inline: 10px !important;
+  margin: 2px;
+  border-radius: 6px;
+  margin-inline-end: 10px;
+  background-color: var(--toolbar-bgcolor);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#urlbar > #urlbar-input-container > #identity-box {
+    padding-inline: 0px !important;
+}
+
+#tracking-protection-icon-container {
+  display: none !important;
+}
+
+#identity-box {
+  margin-inline-end: 0px !important;
+  width: 38px;
+}
+
+#urlbar-background,
+#searchbar {
+  border-radius: 8px !important;
+}
+
+#identity-box[pageproxystate="valid"].chromeUI #identity-icon-label,
+.urlbar-label {
+  opacity: 0.7 !important;
+}
+
+.urlbar-label {
+  font-weight: 500;
+}
+
+.identity-box-button:hover:not([open="true"]), #tracking-protection-icon-container:hover:not([open="true"]) {
+    box-shadow: none !important;
+}
