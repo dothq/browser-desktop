@@ -64,7 +64,7 @@ jobs:
                   cd src
                   ./mach bootstrap --application-choice browser --no-interactive
                   cd ..
-                  ./melon build
+                  MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build
                   cd src
                   ./mach package
                   cd ..
@@ -170,7 +170,7 @@ jobs:
                   echo rustup default stable >> C:\build-script.sh
                   echo rustc --version >> C:\build-script.sh
                   echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script.sh
-                  echo ./melon build >> C:\build-script.sh
+                  echo MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build >> C:\build-script.sh
                   echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\build-script.sh
                   echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\build-script.sh
                   C:\mozilla-build\start-shell.bat "C:\build-script.sh"

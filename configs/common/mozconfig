@@ -15,3 +15,5 @@ mk_add_options MOZ_USER_DIR="Dot Browser"
 # ac_add_options --enable-linker=gold
 
 export MOZ_STUB_INSTALLER=1
+export MOZ_INCLUDE_SOURCE_INFO=1
+export MOZ_SOURCE_REPO=https://github.com/dothq/browser-desktop
