@@ -3,7 +3,10 @@ import { readFileSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
 
-export const errorHandler = (err: Error, isUnhandledRej: boolean) => {
+export const errorHandler = (
+    err: Error,
+    isUnhandledRej: boolean
+) => {
     let cc = readFileSync(
         resolve(process.cwd(), ".dotbuild", "command"),
         "utf-8"
@@ -19,10 +22,12 @@ export const errorHandler = (err: Error, isUnhandledRej: boolean) => {
     );
     console.log(
         `\n\t`,
-        isUnhandledRej ? err.toString().replace(/\n/g, "\n\t ") : err.message.replace(/\n/g, "\n\t ")
+        isUnhandledRej
+            ? err.toString().replace(/\n/g, "\n\t ")
+            : err.message.replace(/\n/g, "\n\t ")
     );
     if (err.stack || isUnhandledRej) {
-        const stack: any = err.stack?.split("\n")
+        const stack: any = err.stack?.split("\n");
         stack.shift();
         stack.shift();
         console.log(
@@ -37,4 +42,4 @@ export const errorHandler = (err: Error, isUnhandledRej: boolean) => {
     console.log();
     log.info("Exiting due to error.");
     process.exit(1);
-}
+};

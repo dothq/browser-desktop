@@ -137,6 +137,8 @@ if (process.platform == "win32") {
 }
 
 process.on("uncaughtException", errorHandler);
-process.on("unhandledException", (err) => errorHandler(err, true));
+process.on("unhandledException", (err) =>
+    errorHandler(err, true)
+);
 
 program.parse(process.argv);
