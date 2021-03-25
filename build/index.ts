@@ -1,7 +1,5 @@
 import chalk from "chalk";
 import { Command } from "commander";
-import { readFileSync } from "fs";
-import { resolve } from "path";
 import {
     bootstrap,
     build,
@@ -19,6 +17,7 @@ import {
     status
 } from "./commands";
 import Log from "./log";
+import { errorHandler } from "./utils";
 
 const program = new Command();
 
@@ -137,40 +136,7 @@ if (process.platform == "win32") {
         .action(downloadArtifacts);
 }
 
-process.on("uncaughtException", (err) => {
-    let cc = readFileSync(
-        resolve(__dirname, "command"),
-        "utf-8"
-    );
-    cc = cc.replace(/(\r\n|\n|\r)/gm, "");
-
-    console.log(
-        `\n   ${chalk.redBright.bold(
-            "ERROR"
-        )} An error occurred while running command ["${cc
-            .split(" ")
-            .join('", "')}"]:`
-    );
-    console.log(
-        `\n\t`,
-        err.message.replace(/\n/g, "\n\t ")
-    );
-    if (err.stack) {
-        const stack = err.stack.split("\n");
-        stack.shift();
-        stack.shift();
-        console.log(
-            `\t`,
-            stack
-                .join("\n")
-                .replace(/(\r\n|\n|\r)/gm, "")
-                .replace(/    at /g, "\n\t • ")
-        );
-    }
-
-    console.log();
-    log.info("Exiting due to error.");
-    process.exit(1);
-});
+process.on("uncaughtException", errorHandler);
+process.on("unhandledException", (err) => errorHandler(err, true));
 
 program.parse(process.argv);
