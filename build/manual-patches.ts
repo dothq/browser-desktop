@@ -20,7 +20,7 @@ const manualPatches: IPatch[] = [
         name: "about:history",
         action: "copy",
         src: [
-            "browser/components/abouthistory1",
+            "browser/components/abouthistory",
             "browser/locales/en-US/browser/aboutHistory.ftl",
             "browser/actors/AboutHistoryChild.jsm",
             "browser/actors/AboutHistoryParent.jsm"
