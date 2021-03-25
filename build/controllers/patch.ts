@@ -77,10 +77,12 @@ class Patch {
                                         )
                                     ).isDirectory()
                                 ) {
-                                    ensureDirSync(resolve(
-                                        COMMON_DIR,
-                                        i
-                                    ));
+                                    ensureDirSync(
+                                        resolve(
+                                            COMMON_DIR,
+                                            i
+                                        )
+                                    );
                                 }
 
                                 copyManual(i);
@@ -211,12 +213,12 @@ class Patch {
                             const look = srcContent
                                 .split(
                                     this.markers[
-                                    srcKey
+                                        srcKey
                                     ][0]
                                 )[1]
                                 .split(
                                     this.markers[
-                                    srcKey
+                                        srcKey
                                     ][1]
                                 )[0];
 
@@ -232,18 +234,18 @@ class Patch {
                                     .split("\n")
                                     .join(
                                         "\n" +
-                                        Array(
-                                            this
-                                                .indent
-                                                ? this
+                                            Array(
+                                                this
                                                     .indent
-                                                : 0
-                                        ).join("\t")
+                                                    ? this
+                                                          .indent
+                                                    : 0
+                                            ).join("\t")
                                     )}\n${Array(
-                                        this.indent
-                                            ? this.indent
-                                            : 0
-                                    ).join("\t")}`
+                                    this.indent
+                                        ? this.indent
+                                        : 0
+                                ).join("\t")}`
                             );
 
                             writeFileSync(
