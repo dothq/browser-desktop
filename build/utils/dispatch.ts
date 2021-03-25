@@ -30,7 +30,8 @@ export const dispatch = (
             );
 
         const proc = execa(cmd, args, {
-            cwd: cwd ? cwd : process.cwd()
+            cwd: cwd ? cwd : process.cwd(),
+            env: process.env
         });
 
         proc.stdout?.on("data", (d) => handle(d));
