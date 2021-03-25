@@ -35,8 +35,8 @@ const applyConfig = (os: string) => {
     log.info(`Config for this \`${os}\` build:`);
 
     mergedConfig.split("\n").map((ln) => {
-        if (ln.startsWith("mk") || ln.startsWith("ac"))
-            log.info(`\t${ln.split("add_options ")[1]}`);
+        if (ln.startsWith("mk") || ln.startsWith("ac") || ln.startsWith("export"))
+            log.info(`\t${ln.replace(/mk_add_options /, "").replace(/ac_add_options /, "").replace(/export /, "")}`);
     });
 };
 
