@@ -35,6 +35,18 @@ const manualPatches: IPatch[] = [
         name: "dotprotocol",
         action: "copy",
         src: "toolkit/components/dotprotocol"
+    },
+    {
+        name: "engines",
+        action: "copy",
+        src: [
+            "browser/components/search/extensions/ddg",
+            "browser/components/search/extensions/ecosia",
+            "browser/components/search/extensions/bing",
+            "browser/components/search/extensions/google",
+            "browser/components/search/extensions/qwant",
+            "browser/components/search/extensions/startpage"
+        ]
     }
 ];
 
