@@ -1,95 +1,93 @@
 diff --git a/toolkit/components/search/SearchEngineSelector.jsm b/toolkit/components/search/SearchEngineSelector.jsm
-index 9f614771820090f066b6191a3349d7b5add670cd..d94a2c324a9893084e07cfaf309f10ae2554ec62 100644
+index 9f614771820090f066b6191a3349d7b5add670cd..ee128490f61fed028015a18ade7cb489a49298e7 100644
 --- a/toolkit/components/search/SearchEngineSelector.jsm
 +++ b/toolkit/components/search/SearchEngineSelector.jsm
-@@ -196,6 +196,90 @@ class SearchEngineSelector {
+@@ -195,7 +195,87 @@ class SearchEngineSelector {
+     experiment,
    }) {
      if (!this._configuration) {
-       await this.getEngineConfiguration();
-+
-+      if(!this._configuration) {
-+        this._configuration = [
-+          {
-+              "webExtension": {
-+                  "id": "ddg@search.dothq.co"
-+              },
-+              "appliesTo": [
-+                  {
-+                      "default": "yes-if-no-other",
-+                      "included": {
-+                          "everywhere": true
-+                      }
-+                  }
-+              ],
-+              "extraParams": []
-+          },
-+          {
-+              "webExtension": {
-+                  "id": "ecosia@search.dothq.co"
-+              },
-+              "appliesTo": [
-+                  {
-+                      "included": {
-+                          "everywhere": true
-+                      }
-+                  }
-+              ],
-+              "extraParams": []
-+          },
-+          {
-+              "webExtension": {
-+                  "id": "google@search.dothq.co"
-+              },
-+              "appliesTo": [
-+                  {
-+                      "included": {
-+                          "everywhere": true
-+                      }
-+                  }
-+              ],
-+              "extraParams": []
-+          },
-+          {
-+              "webExtension": {
-+                  "id": "qwant@search.dothq.co"
-+              },
-+              "appliesTo": [
-+                  {
-+                      "included": {
-+                          "everywhere": true
-+                      }
-+                  }
-+              ],
-+              "extraParams": []
-+          },
-+          {
-+              "webExtension": {
-+                  "id": "bing@search.dothq.co"
-+              },
-+              "appliesTo": [
-+                  {
-+                      "included": {
-+                          "everywhere": true
-+                      }
-+                  }
-+              ],
-+              "extraParams": []
-+          },
-+          {
-+              "webExtension": {
-+                  "id": "startpage@search.dothq.co"
-+              },
-+              "appliesTo": [
-+                  {
-+                      "included": {
-+                          "everywhere": true
-+                      }
-+                  }
-+              ],
-+              "extraParams": []
-+          }
-+        ]
-+      }
+-      await this.getEngineConfiguration();
++      this._configuration = [
++        {
++            "webExtension": {
++                "id": "ddg@search.dothq.co"
++            },
++            "appliesTo": [
++                {
++                    "default": "yes-if-no-other",
++                    "included": {
++                        "everywhere": true
++                    }
++                }
++            ],
++            "extraParams": []
++        },
++        {
++            "webExtension": {
++                "id": "ecosia@search.dothq.co"
++            },
++            "appliesTo": [
++                {
++                    "included": {
++                        "everywhere": true
++                    }
++                }
++            ],
++            "extraParams": []
++        },
++        {
++            "webExtension": {
++                "id": "google@search.dothq.co"
++            },
++            "appliesTo": [
++                {
++                    "included": {
++                        "everywhere": true
++                    }
++                }
++            ],
++            "extraParams": []
++        },
++        {
++            "webExtension": {
++                "id": "qwant@search.dothq.co"
++            },
++            "appliesTo": [
++                {
++                    "included": {
++                        "everywhere": true
++                    }
++                }
++            ],
++            "extraParams": []
++        },
++        {
++            "webExtension": {
++                "id": "bing@search.dothq.co"
++            },
++            "appliesTo": [
++                {
++                    "included": {
++                        "everywhere": true
++                    }
++                }
++            ],
++            "extraParams": []
++        },
++        {
++            "webExtension": {
++                "id": "startpage@search.dothq.co"
++            },
++            "appliesTo": [
++                {
++                    "included": {
++                        "everywhere": true
++                    }
++                }
++            ],
++            "extraParams": []
++        }
++      ]
      }
      let name = getAppInfo("name");
      let version = getAppInfo("version");
