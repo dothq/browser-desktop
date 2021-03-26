@@ -11,24 +11,25 @@ jobs:
         steps:
             - name: Checkout repository
               run: |
-                  git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop.git -b ${GITHUB_REF#refs/heads/}
-                  cd browser-desktop
-                  git status
+                git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop.git -b ${GITHUB_REF#refs/heads/}
+                cd browser-desktop
+                git status
 
             - name: Setup Git
               run: |
-                  git config --global user.name "dothq-robot"
-                  git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+                git config --global user.name "dothq-robot"
+                git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
 
             - name: Update changeset
               run: |
-                  yarn
-                  node scripts/ci-update-changeset.js
+                cd browser-desktop
+                yarn
+                node scripts/ci-update-changeset.js
 
             - name: Push to GitHub
               run: |
-                  cd browser-desktop
-                  git status
-                  git add .
-                  git commit -m "🔧 Update current build changeset"
-                  git push origin ${GITHUB_REF#refs/heads/}
+                cd browser-desktop
+                git status
+                git add .
+                git commit -m "🔧 Update current build changeset"
+                git push origin ${GITHUB_REF#refs/heads/}
