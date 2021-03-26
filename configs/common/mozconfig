@@ -18,4 +18,4 @@ export MOZ_DISTRIBUTION_ID=co.dothq.browser
 export MOZ_STUB_INSTALLER=1
 export MOZ_INCLUDE_SOURCE_INFO=1
 export MOZ_SOURCE_REPO=https://github.com/dothq/browser-desktop
-export MOZ_SOURCE_CHANGESET=55ad913283b008008bd9b6bbb599aba60133f6e3
+export MOZ_SOURCE_CHANGESET=839539785489c5aa319cf3722b4cd972853b17ad
