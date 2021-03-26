@@ -35,19 +35,6 @@ const manualPatches: IPatch[] = [
         name: "dotprotocol",
         action: "copy",
         src: "toolkit/components/dotprotocol"
-    },
-    {
-        name: "default-engine",
-        action: "markers",
-        markers: {
-            "toolkit/components/search/SearchEngineSelector.jsm": [
-                // <-- target file
-                "// INJECT DEFAULT SEARCH ENGINES - START",
-                "// INJECT DEFAULT SEARCH ENGINES - END"
-            ]
-        },
-        indent: 5, // indent everything by 5 tabs
-        src: "engines.json" // <-- content file
     }
 ];
 
