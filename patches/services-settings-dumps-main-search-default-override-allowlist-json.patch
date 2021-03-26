@@ -1,0 +1,13 @@
+diff --git a/services/settings/dumps/main/search-default-override-allowlist.json b/services/settings/dumps/main/search-default-override-allowlist.json
+index c14fe6378efc7b65f9e4585388274a4743dcd8ac..2207549db7f9a1532df19860c3eceab9a77f95db 100644
+--- a/services/settings/dumps/main/search-default-override-allowlist.json
++++ b/services/settings/dumps/main/search-default-override-allowlist.json
+@@ -7,7 +7,7 @@
+         }
+       ],
+       "schema": 1590435694495,
+-      "overridesId": "ddg@search.mozilla.org",
++      "overridesId": "ddg@search.dothq.co",
+       "thirdPartyId": "jid1-ZAdIEUB7XOzOJw@jetpack",
+       "id": "c5de2b3f-da15-4bc5-b36f-9555043b5ef3",
+       "last_modified": 1595254618540
