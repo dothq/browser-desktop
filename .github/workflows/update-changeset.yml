@@ -1,4 +1,4 @@
-name: Check for merge
+name: Update changeset
 
 on:
     schedule:
@@ -12,7 +12,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - name: Check for merge
+            - name: Update changeset
               run: |
                   yarn
-                  node scripts/update-rc.js
+                  node scripts/ci-update-changeset.js
