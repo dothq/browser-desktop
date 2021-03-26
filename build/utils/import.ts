@@ -1,4 +1,8 @@
-import { appendFileSync, copySync, readFileSync } from "fs-extra";
+import {
+    appendFileSync,
+    copySync,
+    readFileSync
+} from "fs-extra";
 import { resolve } from "path";
 import { COMMON_DIR, SRC_DIR } from "../constants";
 
@@ -13,9 +17,20 @@ export const copyManual = (name: string) => {
             resolve(SRC_DIR, ...getChunked(name))
         );
 
-        const gitignore = readFileSync(resolve(SRC_DIR, ".gitignore"), "utf-8");
+        const gitignore = readFileSync(
+            resolve(SRC_DIR, ".gitignore"),
+            "utf-8"
+        );
 
-        if (!gitignore.includes(getChunked(name).join("/"))) appendFileSync(resolve(SRC_DIR, ".gitignore"), `\n${getChunked(name).join("/")}`)
+        if (
+            !gitignore.includes(
+                getChunked(name).join("/")
+            )
+        )
+            appendFileSync(
+                resolve(SRC_DIR, ".gitignore"),
+                `\n${getChunked(name).join("/")}`
+            );
 
         return;
     } catch (e) {

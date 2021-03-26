@@ -33,7 +33,7 @@ const getFiles = async (flags: string, cwd: string) => {
             "--exclude-standard"
         ],
         { cwd }
-    )
+    );
 
     let { stdout: fls } = await execa(
         "git",
@@ -46,9 +46,15 @@ const getFiles = async (flags: string, cwd: string) => {
         { cwd }
     );
 
-    const files = fls.split("\n").filter((i: any) => !ignored.split("\n").includes(i)) // this filters out the manual patches
+    const files = fls
+        .split("\n")
+        .filter(
+            (i: any) => !ignored.split("\n").includes(i)
+        ); // this filters out the manual patches
 
-    log.info(`Ignoring ${ignored.split("\n").length} files...`)
+    log.info(
+        `Ignoring ${ignored.split("\n").length} files...`
+    );
 
     const fileNames: any = files.map((f: any) => {
         if (f.length !== 0) {
