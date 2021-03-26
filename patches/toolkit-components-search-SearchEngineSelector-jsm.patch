@@ -1,8 +1,8 @@
 diff --git a/toolkit/components/search/SearchEngineSelector.jsm b/toolkit/components/search/SearchEngineSelector.jsm
-index 9f614771820090f066b6191a3349d7b5add670cd..48aeb8e0d81f558f32dc068401ae62e04bc7c422 100644
+index 9f614771820090f066b6191a3349d7b5add670cd..d94a2c324a9893084e07cfaf309f10ae2554ec62 100644
 --- a/toolkit/components/search/SearchEngineSelector.jsm
 +++ b/toolkit/components/search/SearchEngineSelector.jsm
-@@ -196,6 +196,77 @@ class SearchEngineSelector {
+@@ -196,6 +196,90 @@ class SearchEngineSelector {
    }) {
      if (!this._configuration) {
        await this.getEngineConfiguration();
@@ -11,7 +11,7 @@ index 9f614771820090f066b6191a3349d7b5add670cd..48aeb8e0d81f558f32dc068401ae62e0
 +        this._configuration = [
 +          {
 +              "webExtension": {
-+                  "id": "ddg@search.mozilla.org"
++                  "id": "ddg@search.dothq.co"
 +              },
 +              "appliesTo": [
 +                  {
@@ -25,7 +25,7 @@ index 9f614771820090f066b6191a3349d7b5add670cd..48aeb8e0d81f558f32dc068401ae62e0
 +          },
 +          {
 +              "webExtension": {
-+                  "id": "ecosia@search.mozilla.org"
++                  "id": "ecosia@search.dothq.co"
 +              },
 +              "appliesTo": [
 +                  {
@@ -38,7 +38,7 @@ index 9f614771820090f066b6191a3349d7b5add670cd..48aeb8e0d81f558f32dc068401ae62e0
 +          },
 +          {
 +              "webExtension": {
-+                  "id": "google@search.mozilla.org"
++                  "id": "google@search.dothq.co"
 +              },
 +              "appliesTo": [
 +                  {
@@ -51,7 +51,7 @@ index 9f614771820090f066b6191a3349d7b5add670cd..48aeb8e0d81f558f32dc068401ae62e0
 +          },
 +          {
 +              "webExtension": {
-+                  "id": "qwant@search.mozilla.org"
++                  "id": "qwant@search.dothq.co"
 +              },
 +              "appliesTo": [
 +                  {
@@ -64,7 +64,20 @@ index 9f614771820090f066b6191a3349d7b5add670cd..48aeb8e0d81f558f32dc068401ae62e0
 +          },
 +          {
 +              "webExtension": {
-+                  "id": "bing@search.mozilla.org"
++                  "id": "bing@search.dothq.co"
++              },
++              "appliesTo": [
++                  {
++                      "included": {
++                          "everywhere": true
++                      }
++                  }
++              ],
++              "extraParams": []
++          },
++          {
++              "webExtension": {
++                  "id": "startpage@search.dothq.co"
 +              },
 +              "appliesTo": [
 +                  {
