@@ -3,7 +3,6 @@ import execa from "execa";
 import {
     ensureDirSync,
     existsSync,
-
     rmdirSync,
     rmSync,
     statSync
@@ -191,7 +190,9 @@ class Patch {
                         ],
                         { cwd: SRC_DIR }
                     );
-                } catch (e) { null }
+                } catch (e) {
+                    null;
+                }
 
                 const {
                     stdout,
