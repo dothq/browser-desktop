@@ -49,7 +49,9 @@ const getFiles = async (flags: string, cwd: string) => {
     const files = fls
         .split("\n")
         .filter(
-            (i: any) => !ignored.split("\n").includes(i)
+            (i: any) => {
+                return !(ignored.split("\n").includes(i) || i == '.gitignore')
+            }
         ); // this filters out the manual patches
 
     log.info(
