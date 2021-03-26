@@ -1,0 +1,27 @@
+diff --git a/.gitignore b/.gitignore
+index 067f685b3b4ebc927e3834e87ee1301cea1c2136..58a9241634e9d4249e0995c3469295e1cd11d433 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -168,4 +168,19 @@ testing/raptor/.raptor-venv
+ testing/raptor/raptor-venv
+ testing/raptor/raptor/tests/json/
+ testing/raptor/webext/raptor/auto_gen_test_config.js
+-*.rej
+\ No newline at end of file
++*.rej
++browser/branding/dot
++browser/themes/addons/fusion
++browser/themes/shared/dotui
++browser/components/abouthistory
++browser/locales/en-US/browser/aboutHistory.ftl
++browser/actors/AboutHistoryChild.jsm
++browser/actors/AboutHistoryParent.jsm
++browser/components/preferences/new
++toolkit/components/dotprotocol
++browser/components/search/extensions/ddg
++browser/components/search/extensions/ecosia
++browser/components/search/extensions/bing
++browser/components/search/extensions/google
++browser/components/search/extensions/qwant
++browser/components/search/extensions/startpage
+\ No newline at end of file

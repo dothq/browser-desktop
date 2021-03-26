@@ -24,7 +24,18 @@ const flags: {
 };
 
 const getFiles = async (flags: string, cwd: string) => {
-    const { stdout: files } = await execa(
+    let { stdout: ignored } = await execa(
+        "git",
+        [
+            "ls-files",
+            `-${flags.toLowerCase()}`,
+            "--ignored",
+            "--exclude-standard"
+        ],
+        { cwd }
+    )
+
+    let { stdout: fls } = await execa(
         "git",
         [
             "diff",
@@ -34,14 +45,19 @@ const getFiles = async (flags: string, cwd: string) => {
         ],
         { cwd }
     );
-    const fileNames: any = files.split("\n").map((f) => {
-        if (f.length !== 0)
+
+    const files = fls.split("\n").filter((i: any) => !ignored.split("\n").includes(i)) // this filters out the manual patches
+
+    log.info(`Ignoring ${ignored.split("\n").length} files...`)
+
+    const fileNames: any = files.map((f: any) => {
+        if (f.length !== 0) {
             return (
                 f
                     .replace(/\//g, "-")
                     .replace(/\./g, "-") + ".patch"
             );
-        else return;
+        }
     });
 
     return { files, fileNames };
@@ -54,7 +70,7 @@ const exportModified = async (
     const { files, fileNames } = await getFiles("M", cwd);
 
     await Promise.all(
-        files.split("\n").map(async (file, i) => {
+        files.map(async (file: any, i: any) => {
             if (file) {
                 const proc = execa(
                     "git",
@@ -94,7 +110,7 @@ const exportFlag = async (
 
     actions.push({
         action: flags[flag],
-        target: files.split("\n")
+        target: files
     });
 
     return actions;
