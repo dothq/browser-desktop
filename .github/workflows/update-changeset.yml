@@ -1,8 +1,7 @@
 name: Update changeset
 
 on:
-    schedule:
-        - cron: "*/1 * * * *" # every minute
+    push:
     workflow_dispatch: # manually run sync
 
 jobs:
