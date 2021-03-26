@@ -46,13 +46,12 @@ const getFiles = async (flags: string, cwd: string) => {
         { cwd }
     );
 
-    const files = fls
-        .split("\n")
-        .filter(
-            (i: any) => {
-                return !(ignored.split("\n").includes(i) || i == '.gitignore')
-            }
-        ); // this filters out the manual patches
+    const files = fls.split("\n").filter((i: any) => {
+        return !(
+            ignored.split("\n").includes(i) ||
+            i == ".gitignore"
+        );
+    }); // this filters out the manual patches
 
     log.info(
         `Ignoring ${ignored.split("\n").length} files...`

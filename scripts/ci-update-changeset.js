@@ -1,8 +1,5 @@
 const execa = require("execa");
-const {
-    readFileSync,
-    writeFileSync
-} = require("fs");
+const { readFileSync, writeFileSync } = require("fs");
 const { resolve } = require("path");
 
 const REGEX = /MOZ_SOURCE_CHANGESET=[a-zA-Z0-9]*$/;
