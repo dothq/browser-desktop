@@ -12,6 +12,11 @@ const manualPatches: IPatch[] = [
         src: "browser/themes/addons/fusion"
     },
     {
+        name: "automatic",
+        action: "copy",
+        src: "toolkit/mozapps/extensions/default-theme"
+    },
+    {
         name: "dotui",
         action: "copy",
         src: "browser/themes/shared/dotui"

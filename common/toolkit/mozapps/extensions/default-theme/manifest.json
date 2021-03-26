@@ -1,0 +1,69 @@
+{
+  "manifest_version": 2,
+
+  "applications": {
+    "gecko": {
+      "id": "default-theme@mozilla.org"
+    }
+  },
+
+  "name": "Automatic",
+  "description": "A theme with an automatic color scheme.",
+  "author": "Mozilla",
+  "version": "1.1",
+
+  "icons": {"32": "icon.svg"},
+
+  "theme": {
+    "colors": {
+      "tab_background_text": "rgb(24, 25, 26)",
+      "icons": "rgb(24, 25, 26, 0.7)",
+      "frame": "#F3F4F4",
+      "popup": "#ffffff",
+      "popup_text": "#0c0c0d",
+      "popup_border": "#E5E5E5",
+      "tab_line": "#E0E1E7",
+      "toolbar": "#ffffff",
+      "toolbar_top_separator": "#E5E5E5",
+      "toolbar_bottom_separator": "#F4F4F4",
+      "toolbar_vertical_separator": "#E5E5E5",
+      "toolbar_field": "#F7F8F9",
+      "toolbar_field_text": "rgb(24, 25, 26)",
+      "toolbar_field_border": "#fff",
+      "toolbar_field_focus": "#ffffff",
+      "toolbar_field_separator": "#E5E5E5",
+      "button_background_hover": "rgba(0, 0, 0, 0.04)",
+      "button_background_active": "rgba(0, 0, 0, 0.1)",
+      "popup_highlight": "#256EF5",
+      "ntp_background": "#ffffff",
+      "sidebar": "#FBFBFB"
+    }
+  },
+
+  "dark_theme": {
+    "colors": {
+      "tab_background_text": "white",
+      "icons": "rgb(255, 255, 255, 0.7)",
+      "frame": "rgb(38, 38, 38)",
+      "popup": "#242424",
+      "popup_text": "rgb(249, 249, 250)",
+      "popup_border": "#27272b",
+      "tab_line": "#0a84ff",
+      "toolbar": "#1A1A1A",
+      "toolbar_bottom_separator": "rgb(41, 41, 41)",
+      "toolbar_field": "#2B2B2B",
+      "toolbar_field_text": "#F3F3F3",
+      "toolbar_field_border": "#1A1A1A",
+      "toolbar_field_focus": "#2B2B2B",
+      "toolbar_field_separator": "rgba(255, 255, 255, 0.05)",
+      "button_background_hover": "#ffffff14",
+      "button_background_active": "#ffffff2e",
+      "popup_highlight": "#256EF5",
+      "ntp_background": "#1C1C1C",
+      "ntp_text": "rgb(249, 249, 250)",
+      "sidebar": "#121212",
+      "sidebar_text": "rgb(249, 249, 250)",
+      "sidebar_border": "rgba(255, 255, 255, 0.1)"
+    }
+  }
+}
