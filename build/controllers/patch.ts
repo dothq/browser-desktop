@@ -180,16 +180,18 @@ class Patch {
     private async applyAsPatch() {
         return new Promise(async (res, rej) => {
             try {
-                await execa(
-                    "git",
-                    [
-                        "apply",
-                        "-R",
-                        ...PATCH_ARGS,
-                        this.src as any
-                    ],
-                    { cwd: SRC_DIR }
-                );
+                try {
+                    await execa(
+                        "git",
+                        [
+                            "apply",
+                            "-R",
+                            ...PATCH_ARGS,
+                            this.src as any
+                        ],
+                        { cwd: SRC_DIR }
+                    );
+                } catch (e) { null }
 
                 const {
                     stdout,
