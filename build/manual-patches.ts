@@ -7,16 +7,6 @@ const manualPatches: IPatch[] = [
         src: "browser/branding/dot"
     },
     {
-        name: "fusion",
-        action: "copy",
-        src: "browser/themes/addons/fusion"
-    },
-    {
-        name: "automatic",
-        action: "copy",
-        src: "toolkit/mozapps/extensions/default-theme"
-    },
-    {
         name: "dotui",
         action: "copy",
         src: "browser/themes/shared/dotui"
@@ -54,12 +44,18 @@ const manualPatches: IPatch[] = [
         ]
     },
     {
-        name: "theme-assets",
+        name: "themes",
         action: "copy",
         src: [
+            "toolkit/mozapps/extensions/default-theme",
+            "browser/themes/addons/fusion",
+            "browser/themes/addons/light",
+            "browser/themes/addons/dark",
+
             "toolkit/mozapps/extensions/content/default-theme.svg",
             "toolkit/mozapps/extensions/content/firefox-compact-dark.svg",
-            "toolkit/mozapps/extensions/content/firefox-compact-light.svg"
+            "toolkit/mozapps/extensions/content/firefox-compact-light.svg",
+            "toolkit/mozapps/extensions/content/firefox-compact-fusion.svg",
         ]
     },
 ];
