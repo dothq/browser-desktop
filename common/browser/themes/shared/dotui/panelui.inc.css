@@ -168,3 +168,27 @@ menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
 .panel-subview-body > scrollbar[orient="vertical"] > slider > thumb:hover {
     background-color: #7d7d7d;
 }
+
+#context-sendpagetodevice::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-right: -18px;
+    mask-image: url(chrome://browser/skin/send-to-device.svg);
+    mask-size: cover;
+    mask-repeat: no-repeat;
+    background-color: currentColor;
+}
+
+#fill-login::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-right: -18px;
+    mask-image: url(chrome://browser/skin/login.svg);
+    mask-size: cover;
+    mask-repeat: no-repeat;
+    background-color: currentColor;
+}
