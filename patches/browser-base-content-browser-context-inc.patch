@@ -1,0 +1,22 @@
+diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
+index 8e44d005f45c13c4b712a9ab57be0524593f5761..365d2325bed563c014a2a3760661d0e58ca99df7 100644
+--- a/browser/base/content/browser-context.inc
++++ b/browser/base/content/browser-context.inc
+@@ -390,11 +390,15 @@
+       <menuitem id="context-inspect-a11y"
+                 hidden="true"
+                 data-l10n-id="main-context-menu-inspect-a11y-properties"
+-                oncommand="gContextMenu.inspectA11Y();"/>
++                oncommand="gContextMenu.inspectA11Y();"                
++                class="menuitem-iconic"
++                image="chrome://devtools/skin/images/command-pick-accessibility.svg"/>
+       <menuitem id="context-inspect"
+                 hidden="true"
+                 data-l10n-id="main-context-menu-inspect-element"
+-                oncommand="gContextMenu.inspectNode();"/>
++                oncommand="gContextMenu.inspectNode();"
++                class="menuitem-iconic"
++                image="chrome://devtools/skin/images/command-pick.svg"/>
+       <menuseparator id="context-media-eme-separator" hidden="true"/>
+       <menuitem id="context-media-eme-learnmore"
+                 class="menuitem-iconic"

@@ -135,3 +135,12 @@ menuitem[type="checkbox"] {
 toolbarseparator {
     margin: 4px 0 !important;
 }
+
+.menu-iconic-left {
+  padding-inline-end: 10px !important;
+}
+
+.menu-text {
+  margin-inline-start: 28px !important;
+}
+
