@@ -350,6 +350,5 @@ display: none !important;
 }
 
 #identity-box {
-  margin-inline: 0px !important;
-  margin-inline-end: 4px !important;
+    margin-inline-start: 0px !important;
 }
