@@ -1,0 +1,17 @@
+diff --git a/browser/extensions/screenshots/icons/icon-v2.svg b/browser/extensions/screenshots/icons/icon-v2.svg
+index 92b1473b61ec796a8b35d462ac5fe825bf9522ab..b96d14fede1576a7d3bc26f7cde6272c22b68b40 100644
+--- a/browser/extensions/screenshots/icons/icon-v2.svg
++++ b/browser/extensions/screenshots/icons/icon-v2.svg
+@@ -1,4 +1,7 @@
+-<!-- This Source Code Form is subject to the terms of the Mozilla Public
+-   - License, v. 2.0. If a copy of the MPL was not distributed with this
+-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg viewBox="0 0 32 32" width="32" height="32" xmlns="http://www.w3.org/2000/svg" fill="context-fill" fill-opacity="context-fill-opacity"><path d="M8 2a4 4 0 0 0-4 4h4V2zm12 0h-4v4h4V2zm8 0v4h4a4 4 0 0 0-4-4zM14 2h-4v4h4V2zm12 0h-4v4h4V2zm2 10h4V8h-4v4zm0 12a4 4 0 0 0 4-4h-4v4zm0-6h4v-4h-4v4zm-.882-4.334a4 4 0 0 0-5.57-.984l-7.67 5.662-3.936-2.76c.031-.193.05-.388.058-.584a4.976 4.976 0 0 0-2-3.978V8H4v2.1a5 5 0 1 0 3.916 8.948l2.484 1.738-2.8 1.964a4.988 4.988 0 1 0 2.3 3.266l17.218-12.35zM5 17.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 12a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm10.8-4.858l6.034 4.6a4 4 0 0 0 5.57-.984L19.28 22.2l-3.48 2.442z"/></svg>
++<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="context-fill"
++   fill-opacity="context-fill-opacity">
++   <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++      d="M17 14C17 16.7614 14.7614 19 12 19C9.23858 19 7 16.7614 7 14C7 11.2386 9.23858 9 12 9C14.7614 9 17 11.2386 17 14ZM14 14C14 15.1046 13.1046 16 12 16C10.8954 16 10 15.1046 10 14C10 12.8954 10.8954 12 12 12C13.1046 12 14 12.8954 14 14Z" />
++   <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++      d="M6.16437 3.01811C5.98368 3.54 5.55228 4 5 4L3 4C1.34315 4 0 5.34315 0 7V21C0 22.6569 1.34315 24 3 24H21C22.6569 24 24 22.6569 24 21V7C24 5.34315 22.6569 4 21 4H19C18.4477 4 18.0163 3.54 17.8356 3.01811C17.4289 1.84347 16.313 1 15 1H9C7.68703 1 6.57105 1.84347 6.16437 3.01811ZM13.5 4C14.3284 4 15 4.67157 15 5.5C15 6.32843 15.6716 7 16.5 7H20C20.5523 7 21 7.44772 21 8V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V8C3 7.44772 3.44772 7 4 7H7.5C8.32843 7 9 6.32843 9 5.5C9 4.67157 9.67157 4 10.5 4H13.5Z" />
++</svg>
+\ No newline at end of file
