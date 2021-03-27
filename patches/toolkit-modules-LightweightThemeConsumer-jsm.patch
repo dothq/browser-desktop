@@ -1,5 +1,5 @@
 diff --git a/toolkit/modules/LightweightThemeConsumer.jsm b/toolkit/modules/LightweightThemeConsumer.jsm
-index 52da2fe9a77e3a57f0cd1e0617a7ad7ff7bc626b..a8a8996d688c6f6b0e45be8a09266b518e096a14 100644
+index 52da2fe9a77e3a57f0cd1e0617a7ad7ff7bc626b..416cbfbfb19c77e05538b1b531c20d0cc80fb559 100644
 --- a/toolkit/modules/LightweightThemeConsumer.jsm
 +++ b/toolkit/modules/LightweightThemeConsumer.jsm
 @@ -6,7 +6,7 @@ var EXPORTED_SYMBOLS = ["LightweightThemeConsumer"];
@@ -11,3 +11,19 @@ index 52da2fe9a77e3a57f0cd1e0617a7ad7ff7bc626b..a8a8996d688c6f6b0e45be8a09266b51
  
  ChromeUtils.defineModuleGetter(
    this,
+@@ -217,12 +217,9 @@ function LightweightThemeConsumer(aDocument) {
+ 
+   Services.obs.addObserver(this, "lightweight-theme-styling-update");
+ 
+-  // In Linux, the default theme picks up the right colors from dark GTK themes.
+-  if (AppConstants.platform != "linux") {
+-    this.darkThemeMediaQuery = this._win.matchMedia("(-moz-system-dark-theme)");
+-    this.darkThemeMediaQuery.addListener(this);
+-  }
+-
++  this.darkThemeMediaQuery = this._win.matchMedia("(-moz-system-dark-theme)");
++  this.darkThemeMediaQuery.addListener(this);
++  
+   const { LightweightThemeManager } = ChromeUtils.import(
+     "resource://gre/modules/LightweightThemeManager.jsm"
+   );
