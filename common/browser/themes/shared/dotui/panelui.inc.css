@@ -7,10 +7,6 @@ toolbarseparator {
     margin: 2px 0 !important;
 }
 
-toolbarbutton {
-    transition: 0.2s background-color;
-}
-
 .panel-subview-body > .subviewbutton,
 .panel-subview-body > toolbaritem > toolbarbutton {
     padding: 4px 16px !important;
@@ -42,15 +38,14 @@ menupopup {
 }
 
 menupopup > menu, menuitem, menucaption {
-    min-height: 30px !important;
+    min-height: 36px !important;
     appearance: none;
-    transition: 0.1s background-color;
     padding: 0 16px;
     color: var(--arrowpanel-color);
 }
 
 menuseparator {
-    margin: 2px 0px;
+    margin: 4px 0px;
     appearance: none !important;
     width: 100%;
     height: 1px;
@@ -141,7 +136,7 @@ toolbarseparator {
 }
 
 .menu-text {
-  margin-inline-start: 28px !important;
+  margin-inline-start: 30px !important;
 }
 
 menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
@@ -152,4 +147,24 @@ menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
     -moz-context-properties: fill, fill-opacity;
     fill: currentColor;
     fill-opacity: context-fill-opacity;
+}
+
+.menu-iconic-text {
+    margin-inline-end: 4px !important;
+}
+
+.panel-subview-body > scrollbar[orient="vertical"], scrollbar[orient="vertical"] > slider {
+    background-color: var(--arrowpanel-background) !important;
+    appearance: none !important;
+}
+
+.panel-subview-body > scrollbar[orient="vertical"] > slider > thumb {
+    appearance: none !important;
+    border-radius: 100px !important;
+    border: 4px solid var(--arrowpanel-background) !important;
+    background-color: #7b7b7bc4;
+}
+
+.panel-subview-body > scrollbar[orient="vertical"] > slider > thumb:hover {
+    background-color: #7d7d7d;
 }
