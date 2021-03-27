@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..c25e858ff96a0a26fb0cf284dec4351e5383523e 100644
+index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..847d625788deda2be8fee590d1d89acd82dd9db8 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -140,7 +140,7 @@ pref("app.update.notifyDuringDownload", false);
@@ -999,7 +999,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..c25e858ff96a0a26fb0cf284dec4351e
  #endif
  
  // Map top-level await expressions in the console
-@@ -2527,12 +2527,100 @@ pref("first-startup.timeout", 30000);
+@@ -2527,12 +2527,101 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -1104,4 +1104,5 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..c25e858ff96a0a26fb0cf284dec4351e
 +pref("layout.css.backdrop-filter.enabled", true);
 +pref("gfx.webrender.all", true);
 +pref("browser.tabs.drawInTitlebar", true);
++pref("browser.toolbars.bookmarks.visibility", "never");
 \ No newline at end of file
