@@ -1,0 +1,43 @@
+diff --git a/browser/base/content/browser-menubar.inc b/browser/base/content/browser-menubar.inc
+index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..ac091babd42531a91ad97886e5fe82c42aa430db 100644
+--- a/browser/base/content/browser-menubar.inc
++++ b/browser/base/content/browser-menubar.inc
+@@ -92,23 +92,33 @@
+                          onpopuphidden="updateEditUIVisibility()">
+                 <menuitem id="menu_undo"
+                           key="key_undo"
+-                          command="cmd_undo" data-l10n-id="text-action-undo"/>
++                          command="cmd_undo" data-l10n-id="text-action-undo"
++                          class="menuitem-iconic"
++                          image="chrome://browser/skin/undo.svg"/>
+                 <menuitem id="menu_redo"
+                           key="key_redo"
+                           command="cmd_redo" data-l10n-id="text-action-redo"/>
+                 <menuseparator/>
+                 <menuitem id="menu_cut"
+                           key="key_cut"
+-                          command="cmd_cut" data-l10n-id="text-action-cut"/>
++                          command="cmd_cut" data-l10n-id="text-action-cut"
++                          class="menuitem-iconic"
++                          image="chrome://browser/skin/edit-cut.svg"/>
+                 <menuitem id="menu_copy"
+                           key="key_copy"
+-                          command="cmd_copy" data-l10n-id="text-action-copy"/>
++                          command="cmd_copy" data-l10n-id="text-action-copy"
++                          class="menuitem-iconic"
++                          image="chrome://browser/skin/edit-copy.svg"/>
+                 <menuitem id="menu_paste"
+                           key="key_paste"
+-                          command="cmd_paste" data-l10n-id="text-action-paste"/>
++                          command="cmd_paste" data-l10n-id="text-action-paste"
++                          class="menuitem-iconic"
++                          image="chrome://browser/skin/edit-paste.svg"/>
+                 <menuitem id="menu_delete"
+                           key="key_delete"
+-                          command="cmd_delete" data-l10n-id="text-action-delete"/>
++                          command="cmd_delete" data-l10n-id="text-action-delete"
++                          class="menuitem-iconic"
++                          image="chrome://browser/skin/icons/delete.svg"/>
+                 <menuseparator/>
+                 <menuitem id="menu_selectAll"
+                           key="key_selectAll"

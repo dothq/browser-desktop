@@ -1,8 +1,86 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a5ce3d8ba 100644
+index 0a1090292f54612dbf0f564c772f12ae0056dc67..27b0843c7bf76601f88a09a4a343abde4c47fea7 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
-@@ -763,7 +763,7 @@
+@@ -130,17 +130,20 @@
+     <menupopup id="tabContextMenu"
+                onpopupshowing="if (event.target == this) TabContextMenu.updateContextMenu(this);"
+                onpopuphidden="if (event.target == this) TabContextMenu.contextTab = null;">
+-      <menuitem id="context_reloadTab" data-lazy-l10n-id="reload-tab"
+-                oncommand="gBrowser.reloadTab(TabContextMenu.contextTab);"/>
++      <menuitem id="context_reloadTab" class="menuitem-iconic" data-lazy-l10n-id="reload-tab"
++                oncommand="gBrowser.reloadTab(TabContextMenu.contextTab);"
++                image="chrome://browser/skin/reload.svg"/>
+       <menuitem id="context_reloadSelectedTabs" data-lazy-l10n-id="reload-tabs" hidden="true"
+                 oncommand="gBrowser.reloadMultiSelectedTabs();"/>
+-      <menuitem id="context_toggleMuteTab" oncommand="TabContextMenu.contextTab.toggleMuteAudio();"/>
++      <menuitem id="context_toggleMuteTab" class="menuitem-iconic" oncommand="TabContextMenu.contextTab.toggleMuteAudio();" image="chrome://global/skin/pictureinpicture/audio-mute.svg"/>
+       <menuitem id="context_toggleMuteSelectedTabs" hidden="true"
+                 oncommand="gBrowser.toggleMuteAudioOnMultiSelectedTabs(TabContextMenu.contextTab);"/>
+-      <menuitem id="context_pinTab" data-lazy-l10n-id="pin-tab"
+-                oncommand="gBrowser.pinTab(TabContextMenu.contextTab);"/>
+-      <menuitem id="context_unpinTab" data-lazy-l10n-id="unpin-tab" hidden="true"
+-                oncommand="gBrowser.unpinTab(TabContextMenu.contextTab);"/>
++      <menuitem id="context_pinTab" class="menuitem-iconic" data-lazy-l10n-id="pin-tab"
++                oncommand="gBrowser.pinTab(TabContextMenu.contextTab);"
++                image="chrome://browser/skin/pin-tab.svg"/>
++      <menuitem id="context_unpinTab" class="menuitem-iconic" data-lazy-l10n-id="unpin-tab" hidden="true"
++                oncommand="gBrowser.unpinTab(TabContextMenu.contextTab);"
++                image="chrome://browser/skin/unpin-tab.svg"/>
+       <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" hidden="true"
+                 oncommand="gBrowser.pinMultiSelectedTabs();"/>
+       <menuitem id="context_unpinSelectedTabs" data-lazy-l10n-id="unpin-selected-tabs" hidden="true"
+@@ -158,7 +161,9 @@
+                 oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.uniqueSelectedPages);"/>
+       <menuitem id="context_bookmarkTab"
+                 data-lazy-l10n-id="bookmark-tab"
+-                oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.getUniquePages([TabContextMenu.contextTab]));"/>
++                class="menuitem-iconic"
++                oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.getUniquePages([TabContextMenu.contextTab]));"
++                image="chrome://browser/skin/bookmark.svg"/>
+       <menu id="context_reopenInContainer"
+             data-lazy-l10n-id="reopen-in-container"
+             hidden="true">
+@@ -200,11 +205,15 @@
+       <menuitem id="context_undoCloseTab"
+                 data-lazy-l10n-id="tab-context-undo-close-tabs"
+                 data-l10n-args='{"tabCount": 1}'
+-                observes="History:UndoCloseTab"/>
++                observes="History:UndoCloseTab"
++                class="menuitem-iconic"
++                image="chrome://global/skin/icons/undo.svg"/>
+       <menuitem id="context_closeTab"
+                 data-lazy-l10n-id="tab-context-close-tabs"
+                 data-l10n-args='{"tabCount": 1}'
+-                oncommand="TabContextMenu.closeContextTabs();"/>
++                oncommand="TabContextMenu.closeContextTabs();"
++                class="menuitem-iconic"
++                image="chrome://browser/skin/stop.svg"/>
+     </menupopup>
+ 
+     <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
+@@ -220,7 +229,7 @@
+ 
+     <menupopup id="new-tab-button-popup"
+                onpopupshowing="return CreateContainerTabMenu(event);"
+-               onclick="checkForMiddleClick(this, event);"/>
++               onclick="checkForMiddleClick(this, eventom);"/>
+     <!-- for search and content formfill/pw manager -->
+ 
+     <panel is="autocomplete-richlistbox-popup"
+@@ -489,8 +498,9 @@
+                     correctly. -->
+       <menuitem oncommand="gCustomizeMode.enter()"
+                 observes="cmd_CustomizeToolbars"
+-                class="viewCustomizeToolbar"
+-                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"/>
++                class="viewCustomizeToolbar menuitem-iconic"
++                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"
++                image="chrome://browser/skin/customize.svg"/>
+     </menupopup>
+ 
+     <menupopup id="blockedPopupOptions"
+@@ -763,7 +773,7 @@
                          oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
          </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
@@ -11,7 +89,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
                 oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -774,7 +774,12 @@
+@@ -774,7 +784,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -25,7 +103,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -800,9 +805,10 @@
+@@ -800,9 +815,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -39,7 +117,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&fullZoom.label;"/>
-@@ -832,8 +838,8 @@
+@@ -832,8 +848,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -50,7 +128,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -857,18 +863,34 @@
+@@ -857,18 +873,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -88,7 +166,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -879,8 +901,7 @@
+@@ -879,8 +911,7 @@
                         key="key_preferencesCmdMac"
  #endif
  #endif
@@ -98,7 +176,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..39b40215218e471290ba76ab8b984f7a
          <toolbarbutton id="appMenu-customize-button"
                         class="subviewbutton subviewbutton-iconic"
                         data-l10n-id="appmenu-customizetoolbar"
-@@ -910,11 +931,13 @@
+@@ -910,11 +941,13 @@
  #endif
                         />
          <toolbarseparator/>

@@ -1,0 +1,12 @@
+diff --git a/browser/themes/shared/jar.inc.mn b/browser/themes/shared/jar.inc.mn
+index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..b33b54d6fb568c54c47a9c96380547a965599f6d 100644
+--- a/browser/themes/shared/jar.inc.mn
++++ b/browser/themes/shared/jar.inc.mn
+@@ -218,6 +218,7 @@
+ #ifndef MOZ_WIDGET_GTK
+   skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
+ #endif
++  skin/classic/browser/spell-check.svg                (../shared/icons/spell-check.svg)
+   skin/classic/browser/stop.svg                       (../shared/icons/stop.svg)
+   skin/classic/browser/stop-to-reload.svg             (../shared/icons/stop-to-reload.svg)
+   skin/classic/browser/sync.svg                       (../shared/icons/sync.svg)

@@ -106,7 +106,7 @@ menuitem[type="checkbox"] {
 #screenshots_mozilla_org-menuitem-_create-screenshot > .menu-iconic-left {
     color: --arrowpanel-color !important;
     -moz-context-properties: fill, fill-opacity;
-    fill: var(--lwt-toolbarbutton-icon-fill, currentColor);
+    fill: currentColor;
     fill-opacity: var(--toolbarbutton-icon-fill-opacity);
 }
 
@@ -144,3 +144,12 @@ toolbarseparator {
   margin-inline-start: 28px !important;
 }
 
+menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
+    fill: var(--arrowpanel-dimmed-even-further) !important;
+}
+  
+.menu-iconic-icon {
+    -moz-context-properties: fill, fill-opacity;
+    fill: currentColor;
+    fill-opacity: context-fill-opacity;
+}

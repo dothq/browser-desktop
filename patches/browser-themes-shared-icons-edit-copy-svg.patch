@@ -1,3 +1,16 @@
 diff --git a/browser/themes/shared/icons/edit-copy.svg b/browser/themes/shared/icons/edit-copy.svg
-old mode 100644
-new mode 100755
+index 9be786fb30084e474d70e5618f4a2a3d279bd04b..de18dcc8334a84e2e35c1a859265cca01288c306 100644
+--- a/browser/themes/shared/icons/edit-copy.svg
++++ b/browser/themes/shared/icons/edit-copy.svg
+@@ -1,6 +1,4 @@
+-<!-- This Source Code Form is subject to the terms of the Mozilla Public
+-   - License, v. 2.0. If a copy of the MPL was not distributed with this
+-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+-  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M14.707 8.293l-3-3A1 1 0 0 0 11 5h-1V4a1 1 0 0 0-.293-.707l-3-3A1 1 0 0 0 6 0H3a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3v3a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2V9a1 1 0 0 0-.293-.707zM12.586 9H11V7.414zm-5-5H6V2.414zM6 7v2H3V2h2v2.5a.5.5 0 0 0 .5.5H8a2 2 0 0 0-2 2zm2 7V7h2v2.5a.5.5 0 0 0 .5.5H13v4z"/>
+-</svg>
++<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
++    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++        d="M13 0C14.6569 0 16 1.34315 16 3V6H21C22.6569 6 24 7.34315 24 9V21C24 22.6569 22.6569 24 21 24H11C9.34315 24 8 22.6569 8 21V18H3C1.34315 18 0 16.6569 0 15V3C0 1.34315 1.34315 0 3 0H13ZM13 6H11C9.34315 6 8 7.34315 8 9V14.9999C7.9945 15 7.98899 15 7.98346 15H4C3.44772 15 3 14.5523 3 14V4C3 3.44772 3.44772 3 4 3H12C12.5523 3 13 3.44772 13 4V6ZM12 9C11.4477 9 11 9.44772 11 10V20C11 20.5523 11.4477 21 12 21H20C20.5523 21 21 20.5523 21 20V10C21 9.44772 20.5523 9 20 9H12Z" />
++</svg>
+\ No newline at end of file

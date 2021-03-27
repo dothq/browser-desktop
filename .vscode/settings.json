@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "*.jsm": "javascript",
-        "**/src/**/*.*": "plaintext"
+        "**/src/**/*.*": "plaintext",
+        "**/src/**/*.svg": "svg"
     },
     "files.watcherExclude": {
         "**/.git/objects/**": true,

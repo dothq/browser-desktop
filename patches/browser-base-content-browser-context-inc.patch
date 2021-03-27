@@ -1,8 +1,66 @@
 diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
-index 8e44d005f45c13c4b712a9ab57be0524593f5761..365d2325bed563c014a2a3760661d0e58ca99df7 100644
+index 8e44d005f45c13c4b712a9ab57be0524593f5761..c35446adffa13f4ce94bd6e1b8ac44635222c899 100644
 --- a/browser/base/content/browser-context.inc
 +++ b/browser/base/content/browser-context.inc
-@@ -390,11 +390,15 @@
+@@ -269,20 +269,30 @@
+       <menuseparator id="fill-login-and-generated-password-separator"/>
+       <menuitem id="context-undo"
+                 data-l10n-id="text-action-undo"
+-                command="cmd_undo"/>
++                command="cmd_undo"                
++                class="menuitem-iconic"
++                image="chrome://global/skin/icons/undo.svg"/>
+       <menuseparator id="context-sep-undo"/>
+       <menuitem id="context-cut"
+                 data-l10n-id="text-action-cut"
+-                command="cmd_cut"/>
++                command="cmd_cut"                
++                class="menuitem-iconic"
++                image="chrome://browser/skin/edit-cut.svg"/>
+       <menuitem id="context-copy"
+                 data-l10n-id="text-action-copy"
+-                command="cmd_copy"/>
++                command="cmd_copy"                
++                class="menuitem-iconic"
++                image="chrome://browser/skin/edit-copy.svg"/>
+       <menuitem id="context-paste"
+                 data-l10n-id="text-action-paste"
+-                command="cmd_paste"/>
++                command="cmd_paste"
++                class="menuitem-iconic"
++                image="chrome://browser/skin/edit-paste.svg"/>
+       <menuitem id="context-delete"
+                 data-l10n-id="text-action-delete"
+-                command="cmd_delete"/>
++                command="cmd_delete"                
++                class="menuitem-iconic"
++                image="chrome://global/skin/icons/delete.svg"/>
+       <menuseparator id="context-sep-paste"/>
+       <menuitem id="context-selectall"
+                 data-l10n-id="text-action-select-all"
+@@ -292,7 +302,9 @@
+                 data-l10n-id="main-context-menu-keyword"
+                 oncommand="AddKeywordForSearchField();"/>
+       <menuitem id="context-searchselect"
+-                oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, this.usePrivate, this.principal, this.csp);"/>
++                oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, this.usePrivate, this.principal, this.csp);"
++                class="menuitem-iconic"
++                image="chrome://global/skin/icons/search-glass.svg"/>
+       <menuitem id="context-searchselect-private"
+                 oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp);"/>
+       <menuseparator id="context-sep-sendlinktodevice" class="sync-ui-item"
+@@ -363,7 +375,9 @@
+                 label="&spellCheckToggle.label;"
+                 type="checkbox"
+                 accesskey="&spellCheckToggle.accesskey;"
+-                oncommand="InlineSpellCheckerUI.toggleEnabled(window);"/>
++                oncommand="InlineSpellCheckerUI.toggleEnabled(window);"
++                class="menuitem-iconic"
++                image="chrome://browser/skin/spell-check.svg"/>
+       <menuitem id="spell-add-dictionaries-main"
+                 label="&spellAddDictionaries.label;"
+                 accesskey="&spellAddDictionaries.accesskey;"
+@@ -390,11 +404,15 @@
        <menuitem id="context-inspect-a11y"
                  hidden="true"
                  data-l10n-id="main-context-menu-inspect-a11y-properties"
