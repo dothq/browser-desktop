@@ -1,0 +1,24 @@
+diff --git a/browser/components/search/content/searchbar.js b/browser/components/search/content/searchbar.js
+index 74cc476997d2648f3ce6f9e0ba3656c221d462b9..283441ff8638ec4574ee070a1ba0a730a7c0d4d8 100644
+--- a/browser/components/search/content/searchbar.js
++++ b/browser/components/search/content/searchbar.js
+@@ -814,13 +814,13 @@
+ 
+     _buildContextMenu() {
+       const raw = `
+-        <menuitem data-l10n-id="text-action-undo" cmd="cmd_undo"/>
++        <menuitem class="menuitem-iconic" image="chrome://global/skin/icons/undo.svg" data-l10n-id="text-action-undo" cmd="cmd_undo"/>
+         <menuseparator/>
+-        <menuitem data-l10n-id="text-action-cut" cmd="cmd_cut"/>
+-        <menuitem data-l10n-id="text-action-copy" cmd="cmd_copy"/>
+-        <menuitem data-l10n-id="text-action-paste" cmd="cmd_paste"/>
+-        <menuitem class="searchbar-paste-and-search"/>
+-        <menuitem data-l10n-id="text-action-delete" cmd="cmd_delete"/>
++        <menuitem class="menuitem-iconic" image="chrome://browser/skin/edit-cut.svg" data-l10n-id="text-action-cut" cmd="cmd_cut"/>
++        <menuitem class="menuitem-iconic" image="chrome://browser/skin/edit-copy.svg" data-l10n-id="text-action-copy" cmd="cmd_copy"/>
++        <menuitem class="menuitem-iconic" image="chrome://browser/skin/edit-paste.svg" data-l10n-id="text-action-paste" cmd="cmd_paste"/>
++        <menuitem class="menuitem-iconic" image="chrome://global/skin/icons/search-glass.svg" class="searchbar-paste-and-search"/>
++        <menuitem class="menuitem-iconic" image="chrome://global/skin/icons/delete.svg" data-l10n-id="text-action-delete" cmd="cmd_delete"/>
+         <menuseparator/>
+         <menuitem data-l10n-id="text-action-select-all" cmd="cmd_selectAll"/>
+         <menuseparator/>

@@ -136,7 +136,7 @@ toolbarseparator {
 }
 
 .menu-text {
-  margin-inline-start: 30px !important;
+  margin-inline-start: 28px !important;
 }
 
 menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
@@ -191,4 +191,8 @@ menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
     mask-size: cover;
     mask-repeat: no-repeat;
     background-color: currentColor;
+}
+
+menupopup {
+    min-width: 325px !important;
 }
