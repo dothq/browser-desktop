@@ -42,10 +42,6 @@
     border-radius: 0px !important;
 }
 
-.tab-icon-image {
-    margin-inline-end: 10px;
-}
-
 .tabbrowser-tab:hover > .tab-stack > .tab-background:not([selected="true"], [multiselected]) {
     background-color: rgba(0, 0, 0, 0.05) !important;
 }
@@ -219,7 +215,7 @@ tabmodalprompt:not([hidden]) {
     display: none !important;
 }
 
-#identity-box.readerIdentity > #identity-icon {
+#identity-box.readerIdentity > #identity-icon-box > #identity-icon {
     list-style-image: url(chrome://browser/skin/readerMode.svg);
     fill: unset;
 }
@@ -243,7 +239,7 @@ tabmodalprompt:not([hidden]) {
     height: 2px !important;
     background-color: var(--identity-tab-color) !important;
     opacity: 1;
-    margin: 0 32px;
+    margin: 0 20px;
 }
 
 #context-pocket,
@@ -371,4 +367,8 @@ display: none !important;
 
 .identity-box-button:hover:not([open="true"]), #tracking-protection-icon-container:hover:not([open="true"]) {
     box-shadow: none !important;
+}
+
+.tab-label-container[pinned] {
+    display: none !important;
 }
