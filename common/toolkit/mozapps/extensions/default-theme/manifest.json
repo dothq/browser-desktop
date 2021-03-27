@@ -1,19 +1,17 @@
 {
   "manifest_version": 2,
-
   "applications": {
     "gecko": {
-      "id": "default-theme@mozilla.org"
+      "id": "dynamic-theme@dothq.co"
     }
   },
-
   "name": "Automatic",
   "description": "A theme with an automatic color scheme.",
-  "author": "Mozilla",
+  "author": "Dot HQ",
   "version": "1.1",
-
-  "icons": {"32": "icon.svg"},
-
+  "icons": {
+    "32": "icon.svg"
+  },
   "theme": {
     "colors": {
       "tab_background_text": "rgb(24, 25, 26)",
@@ -39,7 +37,6 @@
       "sidebar": "#FBFBFB"
     }
   },
-
   "dark_theme": {
     "colors": {
       "tab_background_text": "white",

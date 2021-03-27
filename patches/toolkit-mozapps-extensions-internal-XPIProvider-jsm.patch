@@ -1,0 +1,13 @@
+diff --git a/toolkit/mozapps/extensions/internal/XPIProvider.jsm b/toolkit/mozapps/extensions/internal/XPIProvider.jsm
+index ac5bdacb6de917005dd568b676bec7238a23e176..1a81fa2316f2f42a435f5c38a3e540bcf29ffe90 100644
+--- a/toolkit/mozapps/extensions/internal/XPIProvider.jsm
++++ b/toolkit/mozapps/extensions/internal/XPIProvider.jsm
+@@ -2469,7 +2469,7 @@ var XPIProvider = {
+       AddonManagerPrivate.markProviderSafe(this);
+ 
+       this.maybeInstallBuiltinAddon(
+-        "default-theme@mozilla.org",
++        "dynamic-theme@dothq.co",
+         "1.1",
+         "resource://default-theme/"
+       );

@@ -1,0 +1,13 @@
+diff --git a/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm b/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+index 4c78085da74e07829050ed8427648584ca56a025..32e9920b8b001d3c077679b489b7e8191db7a10a 100644
+--- a/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ b/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+@@ -50,7 +50,7 @@ const AWTerminate = {
+ const LIGHT_WEIGHT_THEMES = {
+   DARK: "firefox-compact-dark@mozilla.org",
+   LIGHT: "firefox-compact-light@mozilla.org",
+-  AUTOMATIC: "default-theme@mozilla.org",
++  AUTOMATIC: "dynamic-theme@dothq.co",
+   ALPENGLOW: "firefox-alpenglow@mozilla.org",
+ };
+ 

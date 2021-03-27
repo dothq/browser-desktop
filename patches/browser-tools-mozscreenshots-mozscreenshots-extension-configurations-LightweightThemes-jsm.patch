@@ -1,0 +1,13 @@
+diff --git a/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm b/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
+index bb01f0b444068fe1e4385259b308cedbf0b4eeab..8ebaa0eed21de9f7c0f7765c24a64ee583ecd50e 100644
+--- a/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
++++ b/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
+@@ -18,7 +18,7 @@ var LightweightThemes = {
+       selectors: [],
+       async applyConfig() {
+         let addon = await AddonManager.getAddonByID(
+-          "default-theme@mozilla.org"
++          "dynamic-theme@dothq.co"
+         );
+         await addon.enable();
+       },

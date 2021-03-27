@@ -1,0 +1,13 @@
+diff --git a/toolkit/mozapps/extensions/content/aboutaddons.js b/toolkit/mozapps/extensions/content/aboutaddons.js
+index abab57dcb4c68113083238ff130b4bbc6d29ba91..a2aa31a3971da73e4e225d43de8234bd3ef0e8fc 100644
+--- a/toolkit/mozapps/extensions/content/aboutaddons.js
++++ b/toolkit/mozapps/extensions/content/aboutaddons.js
+@@ -86,7 +86,7 @@ const EXTENSION_ICON_URL =
+   "chrome://mozapps/skin/extensions/extensionGeneric.svg";
+ const BUILTIN_THEME_PREVIEWS = new Map([
+   [
+-    "default-theme@mozilla.org",
++    "dynamic-theme@dothq.co",
+     "chrome://mozapps/content/extensions/default-theme.svg",
+   ],
+   [

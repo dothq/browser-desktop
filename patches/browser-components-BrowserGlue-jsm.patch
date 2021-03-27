@@ -1,5 +1,5 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 81de0fb201173b6661798ee21461eb3800059580..da29c16635cff532768f5bcee69979ae058de748 100644
+index 81de0fb201173b6661798ee21461eb3800059580..afb89bfb7e19ceb63bebbd0f782fb5c1cea68568 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
 @@ -179,6 +179,21 @@ let JSPROCESSACTORS = {
@@ -45,6 +45,17 @@ index 81de0fb201173b6661798ee21461eb3800059580..da29c16635cff532768f5bcee69979ae
        "chrome://browser/content/syncedtabs/sidebar.xhtml",
        "chrome://browser/content/places/historySidebar.xhtml",
        "chrome://browser/content/places/bookmarksSidebar.xhtml",
+@@ -763,8 +781,8 @@ let JSWINDOWACTORS = {
+   if (
+     Services.prefs.getCharPref(
+       "extensions.activeThemeID",
+-      "default-theme@mozilla.org"
+-    ) != "default-theme@mozilla.org"
++      "dynamic-theme@dothq.co"
++    ) != "dynamic-theme@dothq.co"
+   ) {
+     return;
+   }
 @@ -1366,16 +1384,16 @@ BrowserGlue.prototype = {
        "resource://builtin-themes/dark/"
      );
