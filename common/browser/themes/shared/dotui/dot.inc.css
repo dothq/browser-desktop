@@ -285,7 +285,7 @@ display: none !important;
 
 .tabbrowser-tab[selected="true"] > .tab-stack > .tab-background::after,
 .tabbrowser-tab[selected="true"] > .tab-stack > .tab-background::before {
-  background-color: var(--toolbar-bgcolor) !important;
+  background-color: var(--lwt-selected-tab-background-color, var(--toolbar-bgcolor)) !important;
 }
 
 #.tabbrowser-tab:hover:not([last-visible-tab="true"]) > .tab-stack > .tab-background::after,
