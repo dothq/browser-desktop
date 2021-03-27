@@ -52,7 +52,16 @@ const manualPatches: IPatch[] = [
             "browser/components/search/extensions/qwant",
             "browser/components/search/extensions/startpage"
         ]
-    }
+    },
+    {
+        name: "theme-assets",
+        action: "copy",
+        src: [
+            "toolkit/mozapps/extensions/content/default-theme.svg",
+            "toolkit/mozapps/extensions/content/firefox-compact-dark.svg",
+            "toolkit/mozapps/extensions/content/firefox-compact-light.svg"
+        ]
+    },
 ];
 
 export default manualPatches;
