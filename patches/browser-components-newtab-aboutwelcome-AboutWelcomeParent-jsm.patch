@@ -1,13 +1,17 @@
 diff --git a/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm b/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-index 4c78085da74e07829050ed8427648584ca56a025..32e9920b8b001d3c077679b489b7e8191db7a10a 100644
+index 4c78085da74e07829050ed8427648584ca56a025..6a03c4bd1ea92198ff645c150ed95ef0215235ce 100644
 --- a/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 +++ b/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-@@ -50,7 +50,7 @@ const AWTerminate = {
+@@ -48,9 +48,9 @@ const AWTerminate = {
+   ADDRESS_BAR_NAVIGATED: "address-bar-navigated",
+ };
  const LIGHT_WEIGHT_THEMES = {
-   DARK: "firefox-compact-dark@mozilla.org",
-   LIGHT: "firefox-compact-light@mozilla.org",
+-  DARK: "firefox-compact-dark@mozilla.org",
+-  LIGHT: "firefox-compact-light@mozilla.org",
 -  AUTOMATIC: "default-theme@mozilla.org",
-+  AUTOMATIC: "dynamic-theme@dothq.co",
++  DARK: "dark@themes.dothq.co",
++  LIGHT: "light@themes.dothq.co",
++  AUTOMATIC: "dynamic@themes.dothq.co",
    ALPENGLOW: "firefox-alpenglow@mozilla.org",
  };
  

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "applications": {
     "gecko": {
-      "id": "dynamic-theme@dothq.co"
+      "id": "dynamic@themes.dothq.co"
     }
   },
   "name": "Automatic",

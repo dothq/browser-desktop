@@ -1,5 +1,5 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 81de0fb201173b6661798ee21461eb3800059580..afb89bfb7e19ceb63bebbd0f782fb5c1cea68568 100644
+index 81de0fb201173b6661798ee21461eb3800059580..8da7ef55f864307806882cca4789d11cd46d6357 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
 @@ -179,6 +179,21 @@ let JSPROCESSACTORS = {
@@ -51,19 +51,31 @@ index 81de0fb201173b6661798ee21461eb3800059580..afb89bfb7e19ceb63bebbd0f782fb5c1
        "extensions.activeThemeID",
 -      "default-theme@mozilla.org"
 -    ) != "default-theme@mozilla.org"
-+      "dynamic-theme@dothq.co"
-+    ) != "dynamic-theme@dothq.co"
++      "dynamic@themes.dothq.co"
++    ) != "dynamic@themes.dothq.co"
    ) {
      return;
    }
-@@ -1366,16 +1384,16 @@ BrowserGlue.prototype = {
+@@ -1356,26 +1374,26 @@ BrowserGlue.prototype = {
+     SessionStore.init();
+ 
+     AddonManager.maybeInstallBuiltinAddon(
+-      "firefox-compact-light@mozilla.org",
++      "light@themes.dothq.co",
+       "1.1",
+       "resource://builtin-themes/light/"
+     );
+     AddonManager.maybeInstallBuiltinAddon(
+-      "firefox-compact-dark@mozilla.org",
++      "dark@themes.dothq.co",
+       "1.1",
        "resource://builtin-themes/dark/"
      );
      AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-alpenglow@mozilla.org",
 -      "1.2",
 -      "resource://builtin-themes/alpenglow/"
-+      "dot-fusion@dothq.co",
++      "fusion@themes.dothq.co",
 +      "0.1",
 +      "resource://builtin-themes/fusion/"
      );

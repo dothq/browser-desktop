@@ -1,8 +1,23 @@
 diff --git a/browser/themes/addons/dark/manifest.json b/browser/themes/addons/dark/manifest.json
-index b246ec6a59cf1df2ccf31a271fc641d5be0f1564..e11a94bc1317cdfa9ec1c5f360739a53b0e8cfb6 100644
+index b246ec6a59cf1df2ccf31a271fc641d5be0f1564..0c98ef838bccb671e03c2a6c334438bca8b22b71 100644
 --- a/browser/themes/addons/dark/manifest.json
 +++ b/browser/themes/addons/dark/manifest.json
-@@ -16,22 +16,26 @@
+@@ -3,35 +3,39 @@
+ 
+   "applications": {
+     "gecko": {
+-      "id": "firefox-compact-dark@mozilla.org"
++      "id": "dark@themes.dothq.co"
+     }
+   },
+ 
+   "name": "Dark",
+   "description": "A theme with a dark color scheme.",
+-  "author": "Mozilla",
++  "author": "Dot HQ",
+   "version": "1.1",
+ 
+   "icons": {"32": "icon.svg"},
  
    "theme": {
      "colors": {

@@ -1,5 +1,5 @@
 diff --git a/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm b/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
-index bb01f0b444068fe1e4385259b308cedbf0b4eeab..8ebaa0eed21de9f7c0f7765c24a64ee583ecd50e 100644
+index bb01f0b444068fe1e4385259b308cedbf0b4eeab..0fd42f5b0e85f0b6de931ea04725ffa5af6ef295 100644
 --- a/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
 +++ b/browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
 @@ -18,7 +18,7 @@ var LightweightThemes = {
@@ -7,7 +7,25 @@ index bb01f0b444068fe1e4385259b308cedbf0b4eeab..8ebaa0eed21de9f7c0f7765c24a64ee5
        async applyConfig() {
          let addon = await AddonManager.getAddonByID(
 -          "default-theme@mozilla.org"
-+          "dynamic-theme@dothq.co"
++          "dynamic@themes.dothq.co"
+         );
+         await addon.enable();
+       },
+@@ -28,7 +28,7 @@ var LightweightThemes = {
+       selectors: [],
+       async applyConfig() {
+         let addon = await AddonManager.getAddonByID(
+-          "firefox-compact-light@mozilla.org"
++          "light@themes.dothq.co"
+         );
+         await addon.enable();
+       },
+@@ -38,7 +38,7 @@ var LightweightThemes = {
+       selectors: [],
+       async applyConfig() {
+         let addon = await AddonManager.getAddonByID(
+-          "firefox-compact-dark@mozilla.org"
++          "dark@themes.dothq.co"
          );
          await addon.enable();
        },

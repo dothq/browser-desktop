@@ -1,7 +1,23 @@
 diff --git a/browser/themes/addons/light/manifest.json b/browser/themes/addons/light/manifest.json
-index 24ffe228d2363935663a3f78acc3a857160ffdd3..fbe351ce32a57bfbf7142d438150f1dcb5858ddd 100644
+index 24ffe228d2363935663a3f78acc3a857160ffdd3..55a8da164af1a99bb8170b5fdd57b5c39aa485f7 100644
 --- a/browser/themes/addons/light/manifest.json
 +++ b/browser/themes/addons/light/manifest.json
+@@ -3,13 +3,13 @@
+ 
+   "applications": {
+     "gecko": {
+-      "id": "firefox-compact-light@mozilla.org"
++      "id": "light@themes.dothq.co"
+     }
+   },
+ 
+   "name": "Light",
+   "description": "A theme with a light color scheme.",
+-  "author": "Mozilla",
++  "author": "Dot HQ",
+   "version": "1.1",
+ 
+   "icons": {"32": "icon.svg"},
 @@ -18,16 +18,25 @@
      "colors": {
        "tab_background_text": "rgb(24, 25, 26)",

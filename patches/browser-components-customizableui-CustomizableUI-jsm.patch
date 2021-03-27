@@ -1,5 +1,5 @@
 diff --git a/browser/components/customizableui/CustomizableUI.jsm b/browser/components/customizableui/CustomizableUI.jsm
-index 15fdf3e8a0960c89c6e54598ecd205714f61671a..3fb4384f354d0f722bea8541145f5d60a5fa9684 100644
+index 15fdf3e8a0960c89c6e54598ecd205714f61671a..1fa7f04705e88bd2d034461b668dd0a7d42f7f4e 100644
 --- a/browser/components/customizableui/CustomizableUI.jsm
 +++ b/browser/components/customizableui/CustomizableUI.jsm
 @@ -52,7 +52,7 @@ XPCOMUtils.defineLazyPreferenceGetter(
@@ -7,7 +7,7 @@ index 15fdf3e8a0960c89c6e54598ecd205714f61671a..3fb4384f354d0f722bea8541145f5d60
  );
  
 -const kDefaultThemeID = "default-theme@mozilla.org";
-+const kDefaultThemeID = "dynamic-theme@dothq.co";
++const kDefaultThemeID = "dynamic@themes.dothq.co";
  
  const kSpecialWidgetPfx = "customizableui-special-";
  
