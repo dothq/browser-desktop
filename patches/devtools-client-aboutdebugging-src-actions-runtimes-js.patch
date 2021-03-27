@@ -1,0 +1,15 @@
+diff --git a/devtools/client/aboutdebugging/src/actions/runtimes.js b/devtools/client/aboutdebugging/src/actions/runtimes.js
+index 3d9ce0490bf25e52f19ac4cd7a716635ec0a45cf..9af5556751847caed9466e69da0c11e5d4857eb3 100644
+--- a/devtools/client/aboutdebugging/src/actions/runtimes.js
++++ b/devtools/client/aboutdebugging/src/actions/runtimes.js
+@@ -71,9 +71,7 @@ async function getRuntimeIcon(runtime, channel) {
+     }
+   }
+ 
+-  return channel === "release" || channel === "beta" || channel === "aurora"
+-    ? `chrome://devtools/skin/images/aboutdebugging-firefox-${channel}.svg`
+-    : "chrome://devtools/skin/images/aboutdebugging-firefox-nightly.svg";
++  return `chrome://branding/content/icon128.png`
+ }
+ 
+ function onRemoteDevToolsClientClosed() {
