@@ -104,7 +104,6 @@ jobs:
               if: always()
               with:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                  content: <@&805943648067780648>
                   username: Build
                   avatar_url: "https://github.com/dothq.png"
 
@@ -223,7 +222,6 @@ jobs:
               if: always()
               with:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                  content: <@&805943648067780648>
                   username: Build
                   avatar_url: "https://github.com/dothq.png"
 
@@ -318,6 +316,5 @@ jobs:
               if: always()
               with:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                  content: <@&805943648067780648>
                   username: Build
                   avatar_url: "https://github.com/dothq.png"
