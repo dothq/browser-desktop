@@ -227,7 +227,7 @@ jobs:
                   username: Build
                   avatar_url: "https://github.com/dothq.png"
 
-      mac:
+    mac:
         runs-on: macos-latest
         env:
             CI_SKIP_INIT: true
