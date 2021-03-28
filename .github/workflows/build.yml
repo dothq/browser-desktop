@@ -226,3 +226,98 @@ jobs:
                   content: <@&805943648067780648>
                   username: Build
                   avatar_url: "https://github.com/dothq.png"
+
+      mac:
+        runs-on: macos-latest
+        env:
+            CI_SKIP_INIT: true
+            SHELL: /bin/sh
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache build cache
+              uses: actions/cache@v2
+              with:
+                path: |
+                  ~/cache/sccache
+                key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
+
+            - name: Verify mozconfig
+              run: |
+                  cat configs/macos/mozconfig
+
+            - name: Set up Git User
+              run: |
+                  git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+                  git config --global user.name "dothq-robot"
+
+            - name: Install dependencies
+              run: |
+                  npm i typescript
+                  brew install dos2unix
+
+            - name: Download workspace
+              run: |
+                  ./melon download
+                  cd src
+                  git init
+                  echo Init
+                  git checkout --orphan base
+                  echo Checkout
+                  git add -f .
+                  echo Add
+                  git commit -am "Firefox"
+                  echo Commit
+                  git checkout -b dot
+                  echo Checkout 2
+                  cd ..
+                  sudo rm -rf firefox-*.source.tar.xz
+
+            - name: Fix line-endings
+              run: ./melon fix-le
+
+            - name: Import patches
+              run: ./melon import
+
+            - name: Build
+              run: |
+                  cd src
+                  ./mach bootstrap --application-choice browser --no-interactive
+                  cd ..
+                  MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build
+
+            - name: Package
+              run: |
+                  cd src
+                  ./mach package
+                  cd ..
+
+            - name: Export release data
+              shell: bash
+              run: |
+                  echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+                  echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+            - name: Make artifact available
+              run: |
+                  cp ./src/obj-*/dist/dot-*.tar.bz2 .
+                  mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}.tar.bz2"
+
+            - name: Release
+              uses: dothq/tag-and-release-and-upload@master
+              with:
+                  github-token: ${{ secrets.ROBOT_TOKEN }}
+                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_NUMBER }}"
+                  name: "Nightly v${{ env.DOT_VERSION }}"
+                  assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
+                  body_path: ".github/RELEASE_TEMPLATE.md"
+                  overwrite: true
+
+            - name: Build webhook
+              uses: dothq/actions-status-discord@master
+              if: always()
+              with:
+                  webhook: ${{ secrets.DISCORD_WEBHOOK }}
+                  content: <@&805943648067780648>
+                  username: Build
+                  avatar_url: "https://github.com/dothq.png"
