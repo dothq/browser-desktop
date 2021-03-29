@@ -5,12 +5,12 @@ import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay } from "../utils";
 
-const importManual = async () => {
+const importManual = async (minimal?: boolean) => {
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );
 
-    console.log();
+    if (!minimal) console.log();
 
     await delay(500);
 
@@ -35,7 +35,10 @@ const importManual = async () => {
                 type: "manual",
                 status: [i, manualPatches.length],
                 markers,
-                indent
+                indent,
+                options: {
+                    minimal
+                }
             });
 
             await delay(100);
@@ -54,12 +57,12 @@ const importManual = async () => {
     });
 };
 
-const importPatchFiles = async () => {
+const importPatchFiles = async (minimal?: boolean) => {
     const patches = readdirSync(PATCHES_DIR);
 
     log.info(`Applying ${patches.length} patch files...`);
 
-    console.log();
+    if (!minimal) console.log();
 
     await delay(500);
 
@@ -71,7 +74,10 @@ const importPatchFiles = async () => {
         const p = new Patch({
             name: patch,
             type: "file",
-            status: [i, patches.length]
+            status: [i, patches.length],
+            options: {
+                minimal
+            }
         });
 
         await delay(100);
@@ -84,7 +90,11 @@ const importPatchFiles = async () => {
     );
 };
 
-export const importPatches = async () => {
-    await importManual();
-    await importPatchFiles();
+interface Args {
+    minimal?: boolean;
+}
+
+export const importPatches = async (args: Args) => {
+    await importManual(args.minimal);
+    await importPatchFiles(args.minimal);
 };

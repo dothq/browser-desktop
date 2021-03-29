@@ -75,6 +75,7 @@ program
     .command("import")
     .alias("import-patches")
     .alias("i")
+    .option('-m, --minimal', 'Import patches in minimal mode')
     .description("Import patches into the browser.")
     .action(importPatches);
 

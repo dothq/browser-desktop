@@ -28,6 +28,9 @@ class Patch {
         [key: string]: [string, string];
     };
     public indent?: number;
+    public options: {
+        minimal?: boolean
+    };
     private _done: boolean = false;
 
     private error: Error | unknown;
@@ -216,11 +219,13 @@ class Patch {
     }
 
     public async apply() {
-        log.info(
-            `${chalk.gray(
-                `(${this.status[0]}/${this.status[1]})`
-            )} Applying ${this.name}...`
-        );
+        if (!this.options.minimal) {
+            log.info(
+                `${chalk.gray(
+                    `(${this.status[0]}/${this.status[1]})`
+                )} Applying ${this.name}...`
+            );
+        }
 
         try {
             if (this.type == "manual")
@@ -242,16 +247,18 @@ class Patch {
     public set done(_: any) {
         this._done = _;
 
-        readline.moveCursor(process.stdout, 0, -1);
-        readline.clearLine(process.stdout, 1);
+        if (!this.options.minimal) {
+            readline.moveCursor(process.stdout, 0, -1);
+            readline.clearLine(process.stdout, 1);
 
-        log.info(
-            `${chalk.gray(
-                `(${this.status[0]}/${this.status[1]})`
-            )} Applying ${this.name}... ${chalk[
-                this._done ? "green" : "red"
-            ].bold(this._done ? "Done ✔" : "Error ❗")}`
-        );
+            log.info(
+                `${chalk.gray(
+                    `(${this.status[0]}/${this.status[1]})`
+                )} Applying ${this.name}... ${chalk[
+                    this._done ? "green" : "red"
+                ].bold(this._done ? "Done ✔" : "Error ❗")}`
+            );
+        }
 
         if (this.error) {
             throw this.error;
@@ -265,7 +272,8 @@ class Patch {
         type,
         status,
         markers,
-        indent
+        indent,
+        options
     }: {
         name: string;
         action?: string;
@@ -276,6 +284,9 @@ class Patch {
             [key: string]: [string, string];
         };
         indent?: number;
+        options: {
+            minimal?: boolean
+        }
     }) {
         this.name = name;
         this.action = action || "";
@@ -284,6 +295,7 @@ class Patch {
         this.status = status;
         this.markers = markers;
         this.indent = indent;
+        this.options = options;
     }
 }
 
