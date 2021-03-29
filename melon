@@ -45,6 +45,7 @@ run() {
 
             *)
                 start_node $@
+                exit $?
             ;;
         esac
     else
