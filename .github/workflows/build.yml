@@ -323,3 +323,18 @@ jobs:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
                   username: Build
                   avatar_url: "https://github.com/dothq.png"
+
+    autorestart:
+      name: Autorestart
+      runs-on: ubuntu-latest
+      if: github.event_name == 'schedule' && failure()
+      needs: [linux, windows, mac]
+      steps:
+        - name: Retry the workflow
+          run: |
+            curl -i \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.ROBOT_TOKEN }}" \
+            https://api.github.com/repos/dothq/browser-desktop/actions/workflows/4667739/dispatches \
+            -d '{"ref": "${{ github.ref }}" }'
