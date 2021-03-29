@@ -65,7 +65,7 @@ jobs:
               run: ./melon fix-le
 
             - name: Import patches
-              run: ./melon import
+              run: ./melon import --minimal
 
             - name: Build
               run: |
@@ -166,7 +166,7 @@ jobs:
               shell: bash --noprofile --norc -eo pipefail {0}
               run: |
                   ./melon fix-le
-                  ./melon import
+                  ./melon import --minimal
 
             - name: Update path
               shell: bash --noprofile --norc -eo pipefail {0}
@@ -280,7 +280,7 @@ jobs:
               run: ./melon fix-le
 
             - name: Import patches
-              run: ./melon import
+              run: ./melon import --minimal
 
             - name: Build
               run: |
