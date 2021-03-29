@@ -190,6 +190,7 @@ jobs:
                   C:\mozilla-build\start-shell.bat "C:\build-script.sh"
 
             - name: Package
+              shell: cmd
               run: |
                   type nul > C:\pack-script.sh
                   echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script.sh
