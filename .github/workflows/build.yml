@@ -41,6 +41,8 @@ jobs:
               run: |
                   npm i typescript
                   sudo apt-get install dos2unix
+                  rustup install nightly
+                  rustup default nightly
 
             - name: Download workspace
               run: |
@@ -180,8 +182,8 @@ jobs:
                   type nul > C:\build-script.sh
                   echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script.sh
                   echo echo $PATH >> C:\build-script.sh
-                  echo rustup install stable >> C:\build-script.sh
-                  echo rustup default stable >> C:\build-script.sh
+                  echo rustup install nightly >> C:\build-script.sh
+                  echo rustup default nightly >> C:\build-script.sh
                   echo rustc --version >> C:\build-script.sh
                   echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script.sh
                   echo MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build >> C:\build-script.sh
@@ -192,8 +194,8 @@ jobs:
                   type nul > C:\pack-script.sh
                   echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script.sh
                   echo echo $PATH >> C:\build-script.sh
-                  echo rustup install stable >> C:\build-script.sh
-                  echo rustup default stable >> C:\build-script.sh
+                  echo rustup install nightly >> C:\build-script.sh
+                  echo rustup default nightly >> C:\build-script.sh
                   echo rustc --version >> C:\build-script.sh
                   echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script.sh
                   echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\pack-script.sh
@@ -253,6 +255,8 @@ jobs:
               run: |
                   npm i typescript
                   brew install dos2unix
+                  rustup install nightly
+                  rustup default nightly
 
             - name: Download workspace
               run: |
