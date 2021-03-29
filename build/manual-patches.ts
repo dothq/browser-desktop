@@ -58,6 +58,13 @@ const manualPatches: IPatch[] = [
             "toolkit/mozapps/extensions/content/firefox-compact-fusion.svg",
         ]
     },
+    {
+        name: "icons",
+        action: "copy",
+        src: [
+            "browser/themes/shared/icons/spell-check.svg"
+        ]
+    }
 ];
 
 export default manualPatches;
