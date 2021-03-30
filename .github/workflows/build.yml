@@ -118,6 +118,7 @@ jobs:
             SHELL: /bin/sh
         steps:
             - run: echo ${{ github.run_id }}
+              shell: bash --noprofile --norc -eo pipefail {0}
 
             - uses: actions/checkout@v2
 
