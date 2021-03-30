@@ -12,6 +12,8 @@ jobs:
             CI_SKIP_INIT: true
             SHELL: /bin/sh
         steps:
+            - run: echo ${{ env.GITHUB_RUN_ID }}
+
             - uses: actions/checkout@v2
 
             - name: Cache build cache
@@ -115,6 +117,8 @@ jobs:
             CI_SKIP_INIT: true
             SHELL: /bin/sh
         steps:
+            - run: echo ${{ env.GITHUB_RUN_ID }}
+
             - uses: actions/checkout@v2
 
             - name: Add path
@@ -234,6 +238,8 @@ jobs:
             CI_SKIP_INIT: true
             SHELL: /bin/sh
         steps:
+            - run: echo ${{ env.GITHUB_RUN_ID }}
+
             - uses: actions/checkout@v2
 
             - name: Cache build cache
