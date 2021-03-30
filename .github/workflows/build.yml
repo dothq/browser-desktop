@@ -12,7 +12,7 @@ jobs:
             CI_SKIP_INIT: true
             SHELL: /bin/sh
         steps:
-            - run: echo ${{ env.GITHUB_RUN_ID }}
+            - run: echo ${{ github.run_id }}
 
             - uses: actions/checkout@v2
 
@@ -74,7 +74,7 @@ jobs:
                   cd src
                   ./mach bootstrap --application-choice browser --no-interactive
                   cd ..
-                  MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build
+                  MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
 
             - name: Package
               run: |
@@ -97,7 +97,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_ID }}"
+                  version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
                   body_path: ".github/RELEASE_TEMPLATE.md"
@@ -117,7 +117,7 @@ jobs:
             CI_SKIP_INIT: true
             SHELL: /bin/sh
         steps:
-            - run: echo ${{ env.GITHUB_RUN_ID }}
+            - run: echo ${{ github.run_id }}
 
             - uses: actions/checkout@v2
 
@@ -190,7 +190,7 @@ jobs:
                   echo rustup default nightly >> C:\build-script.sh
                   echo rustc --version >> C:\build-script.sh
                   echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script.sh
-                  echo MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build >> C:\build-script.sh
+                  echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build >> C:\build-script.sh
                   C:\mozilla-build\start-shell.bat "C:\build-script.sh"
 
             - name: Package
@@ -218,7 +218,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_ID }}"
+                  version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
                   body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
@@ -238,7 +238,7 @@ jobs:
             CI_SKIP_INIT: true
             SHELL: /bin/sh
         steps:
-            - run: echo ${{ env.GITHUB_RUN_ID }}
+            - run: echo ${{ github.run_id }}
 
             - uses: actions/checkout@v2
 
@@ -293,7 +293,7 @@ jobs:
                   cd src
                   ./mach bootstrap --application-choice browser --no-interactive
                   cd ..
-                  MOZ_SOURCE_CHANGESET=${{ env.GITHUB_SHA }} ./melon build
+                  MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
 
             - name: Package
               run: |
@@ -318,7 +318,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_ID }}"
+                  version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg", "dot-${{ env.DOT_VERSION }}.pkg"]'
                   body_path: ".github/RELEASE_TEMPLATE.md"
