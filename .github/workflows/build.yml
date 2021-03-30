@@ -95,7 +95,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_NUMBER }}"
+                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_ID }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
                   body_path: ".github/RELEASE_TEMPLATE.md"
@@ -214,7 +214,7 @@ jobs:
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_NUMBER }}"
+                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_ID }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
                   body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
@@ -303,16 +303,18 @@ jobs:
 
             - name: Make artifact available
               run: |
-                  cp ./src/obj-*/dist/dot-*.tar.bz2 .
-                  mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}.tar.bz2"
+                  cp ./src/obj-*/dist/dot-*.dmg .
+                  cp ./src/obj-*/dist/dot-*.pkg .
+                  mv dot-*.dmg "Dot Browser ${{ env.DOT_VERSION }}.dmg"
+                  mv dot-*.pkg "dot-${{ env.DOT_VERSION }}.pkg"
 
             - name: Release
               uses: dothq/tag-and-release-and-upload@master
               with:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
-                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_NUMBER }}"
+                  version: "${{ env.DOT_VERSION }}-${{ env.GITHUB_RUN_ID }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
-                  assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
+                  assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg", "dot-${{ env.DOT_VERSION }}.pkg"]'
                   body_path: ".github/RELEASE_TEMPLATE.md"
                   overwrite: true
 
