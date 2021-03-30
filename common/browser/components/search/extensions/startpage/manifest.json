@@ -25,7 +25,7 @@
       "search_url": "https://startpage.com/do/dsearch",
       "search_url_get_params": "q={searchTerms}",
       "params": [],
-      "suggest_url": "https://ac.duckduckgo.com/ac/", // we're using the duckduckgo suggestions url as startpage does not provide an opensearch endpoint
+      "suggest_url": "https://ac.duckduckgo.com/ac/",
       "suggest_url_get_params": "q={searchTerms}&type=list"
     }
   }
