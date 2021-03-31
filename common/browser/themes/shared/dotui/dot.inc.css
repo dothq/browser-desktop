@@ -25,18 +25,37 @@
     height: 42px !important;
 }
 
-.titlebar-buttonbox-container {
-    position: fixed;
-    top: 0;
-    display: flex;
-    right: 0;
-    z-index: 10000;
-    height: var(--urlbar-toolbar-height) !important;
-}
+#ifdef XP_WIN
+    
+#else
+    .titlebar-buttonbox-container {
+        position: fixed;
+        top: 0;
+        display: flex;
+        right: 0;
+        z-index: 10000;
+        height: var(--urlbar-toolbar-height) !important;
+    }
 
-#nav-bar {
-    padding-right: 138px;
-}
+    #nav-bar {
+        padding-right: 138px;
+    }
+#ifdef XP_MACOSX
+    .titlebar-buttonbox-container {
+        position: fixed;
+        top: 0;
+        display: flex;
+        left: 0;
+        z-index: 10000;
+        height: var(--urlbar-toolbar-height) !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #nav-bar {
+        padding-left: 72px;
+    }
+#endif
 
 .tabbrowser-tab .tab-stack .tab-background, .tabbrowser-tab {
     border-radius: 0px !important;
