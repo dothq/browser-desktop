@@ -311,9 +311,7 @@ jobs:
             - name: Make artifact available
               run: |
                   cp ./src/obj-*/dist/dot-*.dmg .
-                  cp ./src/obj-*/dist/dot-*.pkg .
                   mv dot-*.dmg "Dot Browser ${{ env.DOT_VERSION }}.dmg"
-                  mv dot-*.pkg "dot-${{ env.DOT_VERSION }}.pkg"
 
             - name: Release
               uses: dothq/tag-and-release-and-upload@master
@@ -321,7 +319,7 @@ jobs:
                   github-token: ${{ secrets.ROBOT_TOKEN }}
                   version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
-                  assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg", "dot-${{ env.DOT_VERSION }}.pkg"]'
+                  assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg"]'
                   body_path: ".github/RELEASE_TEMPLATE.md"
                   overwrite: true
 
