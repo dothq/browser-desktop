@@ -133,7 +133,7 @@ jobs:
               with:
                 path: |
                   C:\Users\Administrator\AppData\Local\Mozilla\sccache
-                key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
+                key: ${{ runner.os }}-${{ hashFiles('**\.github\workflows') }}
 
             - name: Disable autocrlf
               shell: bash --noprofile --norc -eo pipefail {0}
