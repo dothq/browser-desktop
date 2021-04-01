@@ -100,7 +100,7 @@ jobs:
                   version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
-                  body_path: ".github/RELEASE_TEMPLATE.md"
+                  body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
                   overwrite: true
 
             - name: Build webhook
@@ -133,7 +133,7 @@ jobs:
               with:
                 path: |
                   C:\Users\Administrator\AppData\Local\Mozilla\sccache
-                key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
+                key: ${{ runner.os }}-${{ hashFiles('**\.github\workflows') }}
 
             - name: Disable autocrlf
               shell: bash --noprofile --norc -eo pipefail {0}
@@ -320,7 +320,7 @@ jobs:
                   version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
                   name: "Nightly v${{ env.DOT_VERSION }}"
                   assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg"]'
-                  body_path: ".github/RELEASE_TEMPLATE.md"
+                  body_path: "/Users/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
                   overwrite: true
 
             - name: Build webhook
