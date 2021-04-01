@@ -25,9 +25,9 @@
     height: 42px !important;
 }
 
-#ifdef XP_WIN
+%ifdef XP_WIN
     
-#else
+%else
     .titlebar-buttonbox-container {
         position: fixed;
         top: 0;
@@ -40,7 +40,7 @@
     #nav-bar {
         padding-right: 138px;
     }
-#ifdef XP_MACOSX
+%ifdef XP_MACOSX
     .titlebar-buttonbox-container {
         position: fixed;
         top: 0;
@@ -50,12 +50,17 @@
         height: var(--urlbar-toolbar-height) !important;
         justify-content: center;
         align-items: center;
+        margin: 0 18px;
+    }
+
+    .titlebar-buttonbox-container > .titlebar-buttonbox {
+        margin: 0;
     }
 
     #nav-bar {
-        padding-left: 72px;
+        padding-left: 90px;
     }
-#endif
+%endif
 
 .tabbrowser-tab .tab-stack .tab-background, .tabbrowser-tab {
     border-radius: 0px !important;
