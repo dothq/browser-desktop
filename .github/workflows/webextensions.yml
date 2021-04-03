@@ -35,6 +35,8 @@ jobs:
       - name: Unpack
         run: |
           cd browser-desktop
+          ls
+          pwd
           echo "Unpacking shield..."
           rm -rf ./common/browser/extensions/shield
           unzip -d ./common/browser/extensions/shield shield.zip
