@@ -400,3 +400,7 @@ display: none !important;
 #identity-box {
     margin-inline-start: 0px !important;
 }
+
+#shield_privacy_dothq_co-browser-action {
+    list-style-image: url(chrome://browser/skin/tracking-protection.svg) !important;
+}

@@ -1,0 +1,13 @@
+diff --git a/build/moz.build b/build/moz.build
+index 59a5d56ce8f72c6370e81de25756c3d1a153466e..30e961d46b39cc49eb08a56513dbccd0c5dd6644 100644
+--- a/build/moz.build
++++ b/build/moz.build
+@@ -84,7 +84,7 @@ if CONFIG["MOZ_APP_BASENAME"]:
+         if CONFIG[var]:
+             appini_defines[var] = True
+ 
+-    appini_defines["MOZ_APPUPDATE_HOST"] = "aus5.mozilla.org"
++    appini_defines["MOZ_APPUPDATE_HOST"] = "push.dothq.co"
+     if CONFIG["MOZ_APPUPDATE_HOST"]:
+         appini_defines["MOZ_APPUPDATE_HOST"] = CONFIG["MOZ_APPUPDATE_HOST"]
+ 

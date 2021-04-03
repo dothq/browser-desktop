@@ -1,0 +1,61 @@
+diff --git a/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx b/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
+index d9503584b9ffceeb39690ef9ab0ba75ea000d0a9..ba2e83bc1bf5a279c7c6dbef8a740830e7978b8a 100644
+--- a/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
++++ b/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
+@@ -4,14 +4,14 @@
+ 
+ import React from "react";
+ import ReactDOM from "react-dom";
+-import { MultiStageAboutWelcome } from "./components/MultiStageAboutWelcome";
+-import { SimpleAboutWelcome } from "./components/SimpleAboutWelcome";
+-import { ReturnToAMO } from "./components/ReturnToAMO";
+-
+ import {
+   AboutWelcomeUtils,
+-  DEFAULT_WELCOME_CONTENT,
++  DEFAULT_WELCOME_CONTENT
+ } from "../lib/aboutwelcome-utils";
++import { MultiStageAboutWelcome } from "./components/MultiStageAboutWelcome";
++import { ReturnToAMO } from "./components/ReturnToAMO";
++import { SimpleAboutWelcome } from "./components/SimpleAboutWelcome";
++
+ 
+ class AboutWelcome extends React.PureComponent {
+   constructor(props) {
+@@ -30,21 +30,21 @@ class AboutWelcome extends React.PureComponent {
+ 
+     // Record impression with performance data after allowing the page to load
+     const recordImpression = domState => {
+-      const { domComplete, domInteractive } = performance
+-        .getEntriesByType("navigation")
+-        .pop();
+-      window.AWSendEventTelemetry({
+-        event: "IMPRESSION",
+-        event_context: {
+-          domComplete,
+-          domInteractive,
+-          mountStart: performance.getEntriesByName("mount").pop().startTime,
+-          domState,
+-          source: this.props.UTMTerm,
+-          page: "about:welcome",
+-        },
+-        message_id: this.props.messageId,
+-      });
++      // const { domComplete, domInteractive } = performance
++      //   .getEntriesByType("navigation")
++      //   .pop();
++      // window.AWSendEventTelemetry({
++      //   event: "IMPRESSION",
++      //   event_context: {
++      //     domComplete,
++      //     domInteractive,
++      //     mountStart: performance.getEntriesByName("mount").pop().startTime,
++      //     domState,
++      //     source: this.props.UTMTerm,
++      //     page: "about:welcome",
++      //   },
++      //   message_id: this.props.messageId,
++      // });
+     };
+     if (document.readyState === "complete") {
+       // Page might have already triggered a load event because it waited for async data,

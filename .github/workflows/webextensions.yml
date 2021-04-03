@@ -1,0 +1,53 @@
+name: Download WebExtensions
+
+on:
+  schedule:
+    - cron: "0 * * * *" # every hour check for updates
+  workflow_dispatch:
+
+jobs:
+  download-webextensions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        run: |
+          git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop.git -b nightly
+          cd browser-desktop
+          git status
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "dothq-robot"
+          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+
+      - id: dotshield
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: dothq-extensions
+          repo: adblock
+          excludes: draft
+
+      - name: Download WebExtensions
+        run: |
+          cd browser-desktop
+          curl -L https://github.com/dothq-extensions/adblock/releases/download/${{ steps.dotshield.outputs.release }}/addon.zip -o shield.zip
+
+      - name: Unpack
+        run: |
+          cd browser-desktop
+          ls
+          pwd
+          echo "Unpacking shield..."
+          mkdir -p common/browser/extensions
+          rm -rf ./common/browser/extensions/shield
+          unzip -d ./common/browser/extensions/shield shield.zip
+          cp ./common/shield.moz.build ./common/browser/extensions/shield/moz.build
+          rm -rf shield.zip
+          git add ./common/browser/extensions/shield && git commit -m "🛡 Dot Shield ${{ steps.dotshield.outputs.release }}"
+          echo "Unpacking shield... done!"
+
+      - name: Push to GitHub
+        run: |
+          cd browser-desktop
+          git status
+          git push origin nightly
