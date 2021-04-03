@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adblock Statistics</title>
+  </head>
+  <body>
+    <article>
+      <h1>Dot shield statistics</h1>
+
+      <div class="stats">
+        <p>Total files blocked: <span id="totalBlocked">--</span></p>
+        <p>Time saved: <span id="totalTime">--</span><sub>1</sub></p>
+        <p>Bandwidth saved: <span id="totalBandwidth">--</span><sub>1</sub></p>
+      </div>
+
+      <canvas id="blockedTime"></canvas>
+
+      <h2>Things to know</h2>
+      <ol>
+        <li>Time saved and bandwidth saved are approximations</li>
+      </ol>
+    </article>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: var(--background-color);
+        color: var(--color);
+      }
+
+      article {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .stats p span {
+        font-weight: bold;
+      }
+    </style>
+
+    <script src="./stats.js"></script>
+  </body>
+</html>

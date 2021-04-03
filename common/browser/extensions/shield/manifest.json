@@ -1,0 +1,50 @@
+{
+  "name": "Dot Shield",
+  "version": "0.1.0pre4",
+  "description": "Dot Shield: A blazingly-fast adblocker for Dot Browser.",
+  "developer": { "name": "Dot HQ", "url": "https://dothq.co/" },
+  "icons": { "48": "icons/shield.svg", "96": "icons/shield.svg" },
+  "homepage_url": "https://github.com/dothq-extensions/adblock",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "tabs",
+    "webNavigation",
+    "http://*/",
+    "https://*/",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "run_at": "document_end",
+      "matches": ["https://*.youtube.com/*"],
+      "js": ["yt.js"]
+    },
+    {
+      "all_frames": true,
+      "run_at": "document_end",
+      "matches": ["<all_urls>"],
+      "js": ["cosmetics.js"]
+    }
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/shield.svg",
+    "theme_icons": [
+      {
+        "light": "icons/shieldDark.svg",
+        "dark": "icons/shield.svg",
+        "size": 16
+      },
+      {
+        "light": "icons/shieldDark.svg",
+        "dark": "icons/shield.svg",
+        "size": 32
+      }
+    ],
+    "default_title": "Dot Shield"
+  },
+  "manifest_version": 2,
+  "background": { "scripts": ["background.js"] }
+}

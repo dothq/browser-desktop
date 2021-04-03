@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dot Shield</title>
+
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body,
+      html {
+        width: 376px;
+        /* height: 488px; */
+        overflow-x: hidden;
+      }
+
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+    This file is for the popup that appears when you press the shield icon in firefox
+    -->
+
+    <div id="root"></div>
+
+    <!-- 
+    This import is for when this file is copied to the public folder, hence
+    its path makes no sense 
+  -->
+    <script src="./popup.js"></script>
+  </body>
+</html>
