@@ -39,7 +39,18 @@
 
 
 %ifdef XP_WIN
-    
+    .titlebar-buttonbox-container {
+        position: fixed;
+        top: 0;
+        display: flex;
+        right: 0;
+        z-index: 10000;
+        height: var(--urlbar-toolbar-height) !important;
+    }
+
+    #nav-bar {
+        padding-right: 138px;
+    }
 %else
     .titlebar-buttonbox-container {
         position: fixed;
