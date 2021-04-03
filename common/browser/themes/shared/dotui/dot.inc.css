@@ -25,8 +25,32 @@
     height: 42px !important;
 }
 
+.tab-content > .tab-close-button {
+    border-radius: 4px !important;
+}
+
+.tab-content > .tab-close-button:hover {
+    background-color: var(--toolbarbutton-hover-background);
+}
+
+.tab-content > .tab-close-button:active {
+    background-color: var(--toolbarbutton-active-background) !important;
+}
+
+
 %ifdef XP_WIN
-    
+    .titlebar-buttonbox-container {
+        position: fixed;
+        top: 0;
+        display: flex;
+        right: 0;
+        z-index: 10000;
+        height: var(--urlbar-toolbar-height) !important;
+    }
+
+    #nav-bar {
+        padding-right: 138px;
+    }
 %else
     .titlebar-buttonbox-container {
         position: fixed;
