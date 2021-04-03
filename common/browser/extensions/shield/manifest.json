@@ -5,6 +5,11 @@
   "developer": { "name": "Dot HQ", "url": "https://dothq.co/" },
   "icons": { "48": "icons/shield.svg", "96": "icons/shield.svg" },
   "homepage_url": "https://github.com/dothq-extensions/adblock",
+  "applications": {
+    "gecko": {
+      "id": "shield@privacy.dothq.co"
+    }
+  },
   "permissions": [
     "webRequest",
     "webRequestBlocking",
