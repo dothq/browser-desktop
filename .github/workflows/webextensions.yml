@@ -47,8 +47,7 @@ jobs:
           echo "Unpacking shield... done!"
 
       - name: Push to GitHub
-        uses: EndBug/add-and-commit@v6.2.0
-        with:
-            author_name: dothq-robot
-            author_email: 72629236+dothq-robot@users.noreply.github.com
-            token: ${{ secrets.ROBOT_TOKEN }}
+        run: |
+          cd browser-desktop
+          git status
+          git push origin nightly
