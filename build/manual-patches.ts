@@ -64,6 +64,13 @@ const manualPatches: IPatch[] = [
         src: [
             "browser/themes/shared/icons/spell-check.svg"
         ]
+    },
+    {
+        name: "extensions",
+        action: "copy",
+        src: [
+            "browser/extensions/shield"
+        ]
     }
 ];
 
