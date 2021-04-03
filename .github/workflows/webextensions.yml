@@ -36,11 +36,11 @@ jobs:
         run: |
           cd browser-desktop
           echo "Unpacking shield..."
-          rm -rf common/browser/extensions/shield
-          unzip -d common/browser/extensions/shield shield.zip
-          cp common/shield.moz.build common/browser/extensions/shield/moz.build
+          rm -rf ./common/browser/extensions/shield
+          unzip -d ./common/browser/extensions/shield shield.zip
+          cp ./common/shield.moz.build ./common/browser/extensions/shield/moz.build
           rm -rf shield.zip
-          git add common/browser/extensions/shield && git commit -m "🛡 Dot Shield ${{ steps.dotshield.outputs.release }}"
+          git add ./common/browser/extensions/shield && git commit -m "🛡 Dot Shield ${{ steps.dotshield.outputs.release }}"
           echo "Unpacking shield... done!"
 
       - name: Push to GitHub
