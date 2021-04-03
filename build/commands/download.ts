@@ -5,7 +5,7 @@ import fs, {
     existsSync,
     writeFileSync
 } from "fs";
-import { moveSync } from "fs-extra";
+import { moveSync, removeSync } from "fs-extra";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
@@ -76,6 +76,8 @@ const unpack = async (name: string, version: string) => {
             resolve(process.cwd(), "package.json"),
             JSON.stringify(pjson, null, 2)
         );
+
+        removeSync(name)
     });
 };
 
