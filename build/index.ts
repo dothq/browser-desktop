@@ -55,6 +55,7 @@ program
 
 program
     .command("build [os]")
+    .option('--a, --arch <architecture>', 'Specify architecture for build')
     .description(
         "Build Dot Browser. Specify the OS param for cross-platform builds."
     )
