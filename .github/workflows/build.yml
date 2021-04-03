@@ -42,6 +42,8 @@ jobs:
             - name: Install dependencies
               run: |
                   npm i typescript
+                  sudo apt-get update --fix-missing
+                  sudo apt-get update
                   sudo apt-get install dos2unix
                   rustup install nightly
                   rustup default nightly
