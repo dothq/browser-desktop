@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..847d625788deda2be8fee590d1d89acd82dd9db8 100644
+index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..84ed5cf16de053de72eda928e136787448389703 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -140,7 +140,7 @@ pref("app.update.notifyDuringDownload", false);
@@ -999,7 +999,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..847d625788deda2be8fee590d1d89acd
  #endif
  
  // Map top-level await expressions in the console
-@@ -2527,12 +2527,101 @@ pref("first-startup.timeout", 30000);
+@@ -2527,12 +2527,103 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -1043,6 +1043,8 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..847d625788deda2be8fee590d1d89acd
 +pref("network.predictor.enabled", false);
 +pref("network.predictor.enable-prefetch", false);
 +pref("network.prefetch-next", false);
++
++pref("network.captive-portal-service.enabled", false);
 +
 +// Opt out of studies, experiments and telemetry
 +pref("app.shield.optoutstudies.enabled", false);
