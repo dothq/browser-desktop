@@ -25,6 +25,19 @@
     height: 42px !important;
 }
 
+.tab-content > .tab-close-button {
+    border-radius: 4px !important;
+}
+
+.tab-content > .tab-close-button:hover {
+    background-color: var(--toolbarbutton-hover-background);
+}
+
+.tab-content > .tab-close-button:active {
+    background-color: var(--toolbarbutton-active-background) !important;
+}
+
+
 %ifdef XP_WIN
     
 %else
