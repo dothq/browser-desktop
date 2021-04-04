@@ -8,6 +8,10 @@ This is a Nightly build meaning you will encounter bugs and things that don't se
 
 Run the `Install.Dot.Browser.*.exe` to start installing Dot Browser onto your computer.
 
+### macOS
+
+Run the `Dot.Browser.*.dmg` to start installing Dot Browser onto your computer.
+
 ### Linux
 
 #### Requirements
