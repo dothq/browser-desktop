@@ -8,14 +8,20 @@ DEFINES["MOZ_APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
 DEFINES["MOZ_APP_MAXVERSION"] = CONFIG["MOZ_APP_MAXVERSION"]
 
 FINAL_TARGET_FILES.features["shield@privacy.dothq.co"] += [
+    "93.js",
+    "702.js",
     "background.js",
     "cosmetics.js",
+    "font/Inter.var.woff2",
+    "icons/shieldDark.svg",
+    "icons/shield.svg",
     "manifest.json",
     "moz.build",
     "popup.html",
     "popup.js",
     "settings.html",
     "settings.js",
+    "src/frontend/ui/assets/defaultFavicon.svg",
     "stats.html",
     "stats.js",
     "yt.js",
