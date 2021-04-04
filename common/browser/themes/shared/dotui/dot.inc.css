@@ -85,6 +85,7 @@
 
     #nav-bar {
         padding-left: 90px;
+        padding-right: 0px !important;
     }
 %endif
 
