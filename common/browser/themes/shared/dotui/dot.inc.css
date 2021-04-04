@@ -87,6 +87,10 @@
         padding-left: 90px;
         padding-right: 0px !important;
     }
+
+    #nav-bar[context="autohide-context"] {
+      padding-left: 0px;
+    } 
 %endif
 
 .tabbrowser-tab .tab-stack .tab-background, .tabbrowser-tab {
