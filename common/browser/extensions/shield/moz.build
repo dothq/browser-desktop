@@ -8,7 +8,7 @@ DEFINES["MOZ_APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
 DEFINES["MOZ_APP_MAXVERSION"] = CONFIG["MOZ_APP_MAXVERSION"]
 
 FINAL_TARGET_FILES.features["shield@privacy.dothq.co"] += [
-    "93.js"
+    "93.js",
     "702.js",
     "background.js",
     "cosmetics.js",
