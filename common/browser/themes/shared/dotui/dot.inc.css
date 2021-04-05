@@ -39,58 +39,62 @@
 
 
 %ifdef XP_WIN
-    .titlebar-buttonbox-container {
-        position: fixed;
-        top: 0;
-        display: flex;
-        right: 0;
-        z-index: 10000;
-        height: var(--urlbar-toolbar-height) !important;
-    }
+.titlebar-buttonbox-container {
+    position: fixed;
+    top: 0;
+    display: flex;
+    right: 0;
+    z-index: 10000;
+    height: var(--urlbar-toolbar-height) !important;
+}
 
-    #nav-bar {
-        padding-right: 138px;
-    }
-%else
-    .titlebar-buttonbox-container {
-        position: fixed;
-        top: 0;
-        display: flex;
-        right: 0;
-        z-index: 10000;
-        height: var(--urlbar-toolbar-height) !important;
-    }
+#nav-bar {
+    padding-right: 138px;
+}
+%endif
 
-    #nav-bar {
-        padding-right: 138px;
-    }
+%ifdef XP_UNIX
+.titlebar-buttonbox-container {
+    position: fixed;
+    top: 0;
+    display: flex;
+    right: 0;
+    z-index: 10000;
+    height: var(--urlbar-toolbar-height) !important;
+}
+
+#nav-bar {
+    padding-right: 138px;
+}
+%endif
+
 %ifdef XP_MACOSX
-    .titlebar-buttonbox-container {
-        position: fixed;
-        top: 0;
-        display: flex;
-        left: 0;
-        z-index: 10000;
-        height: var(--urlbar-toolbar-height) !important;
-        justify-content: center;
-        align-items: center;
-        margin: 0 18px;
-        /* This stops the macos titlebar buttons from being centered */
-        width: 50px;
-    }
+.titlebar-buttonbox-container {
+    position: fixed;
+    top: 0;
+    display: flex;
+    left: 0;
+    z-index: 10000;
+    height: var(--urlbar-toolbar-height) !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 18px;
+    /* This stops the macos titlebar buttons from being centered */
+    width: 50px;
+}
 
-    .titlebar-buttonbox-container > .titlebar-buttonbox {
-        margin: 0;
-    }
+.titlebar-buttonbox-container > .titlebar-buttonbox {
+    margin: 0;
+}
 
-    #nav-bar {
-        padding-left: 90px;
-        padding-right: 0px !important;
-    }
+#nav-bar {
+    padding-left: 90px;
+    padding-right: 0px !important;
+}
 
-    #nav-bar[context="autohide-context"] {
-      padding-left: 0px;
-    } 
+#nav-bar[context="autohide-context"] {
+    padding-left: 0px;
+} 
 %endif
 
 .tabbrowser-tab .tab-stack .tab-background, .tabbrowser-tab {
