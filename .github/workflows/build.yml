@@ -7,7 +7,7 @@ on:
 
 jobs:
   linux-64:
-    name: Linux (64-bit)
+    name: 🐧 Linux (64-bit)
     runs-on: ubuntu-20.04
     env:
         CI_SKIP_INIT: true
@@ -115,7 +115,7 @@ jobs:
           avatar_url: "https://github.com/dothq.png"
 
   linux-32:
-    name: Linux (32-bit)
+    name: 🐧 Linux (32-bit)
     runs-on: ubuntu-20.04
     env:
         CI_SKIP_INIT: true
@@ -223,7 +223,7 @@ jobs:
           avatar_url: "https://github.com/dothq.png"
 
   windows-64:
-    name: Windows (64-bit)
+    name: 🏁 Windows (64-bit)
     runs-on: [self-hosted, Windows, X64]
     env:
         CI_SKIP_INIT: true
@@ -346,7 +346,7 @@ jobs:
           avatar_url: "https://github.com/dothq.png"
 
   windows-32:
-    name: Windows (32-bit)
+    name: 🏁 Windows (32-bit)
     runs-on: [self-hosted, Windows, X64]
     env:
         CI_SKIP_INIT: true
@@ -469,7 +469,7 @@ jobs:
           avatar_url: "https://github.com/dothq.png"
 
   mac:
-    name: macOS (64-bit)
+    name: 🍏 macOS (64-bit)
     runs-on: macos-latest
     env:
         CI_SKIP_INIT: true
