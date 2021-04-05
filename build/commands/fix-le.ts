@@ -9,7 +9,9 @@ import { PATCHES_DIR, SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
 
 export const fixLineEndings = async () => {
-    const patches = readdirSync(PATCHES_DIR);
+    let patches = readdirSync(PATCHES_DIR);
+
+    patches = patches.filter((p) => p !== ".index");
 
     await Promise.all(
         patches.map(async (patch) => {
