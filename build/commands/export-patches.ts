@@ -106,7 +106,10 @@ const exportModified = async (
                     `Wrote "${name}" to patches directory.`
                 );
 
-                appendFileSync(resolve(PATCHES_DIR, ".index"), `${name} - ${file}\n`)
+                appendFileSync(
+                    resolve(PATCHES_DIR, ".index"),
+                    `${name} - ${file}\n`
+                );
             }
         })
     );
