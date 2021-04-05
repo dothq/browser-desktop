@@ -58,7 +58,9 @@ const importManual = async (minimal?: boolean) => {
 };
 
 const importPatchFiles = async (minimal?: boolean) => {
-    const patches = readdirSync(PATCHES_DIR);
+    let patches = readdirSync(PATCHES_DIR);
+
+    patches = patches.filter(p => p == ".index")
 
     log.info(`Applying ${patches.length} patch files...`);
 
