@@ -8,6 +8,7 @@ export * from "./export-patches";
 export * from "./fix-le";
 export * from "./import-patches";
 export * from "./init";
+export * from "./license-check";
 export * from "./package";
 export * from "./reset";
 export * from "./run";
