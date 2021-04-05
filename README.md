@@ -22,6 +22,9 @@
     <a href="https://github.com/dothq/browser-desktop/actions?query=workflow%3ABuild">
       <img src="https://github.com/dothq/browser-desktop/workflows/Build/badge.svg"></img>
     </a>
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop">
+      <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop.svg?type=shield"></img>
+    </a>
   </p>
 </p>
 
@@ -79,3 +82,5 @@ We accept donations on [Patreon](https://patreon.com/dothq) to keep our servers 
 ## 📜 License
 
 **Dot Browser** is licensed under the [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0) license.
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop?ref=badge_large)
