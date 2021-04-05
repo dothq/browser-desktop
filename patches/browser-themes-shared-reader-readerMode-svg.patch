@@ -1,18 +1,22 @@
 diff --git a/browser/themes/shared/reader/readerMode.svg b/browser/themes/shared/reader/readerMode.svg
-index 0eb317a1b63eb5ec86f6b0b9f574f9ce98a35ae4..b64051a3dab6f8ded1bd853a39bf9bddfc1bd516 100644
+index 0eb317a1b63eb5ec86f6b0b9f574f9ce98a35ae4..2a7d169a15abdbf0173ade7934bf4ceb82e9e744 100644
 --- a/browser/themes/shared/reader/readerMode.svg
 +++ b/browser/themes/shared/reader/readerMode.svg
-@@ -1,6 +1,6 @@
--<!-- This Source Code Form is subject to the terms of the Mozilla Public
--   - License, v. 2.0. If a copy of the MPL was not distributed with this
--   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+@@ -1,6 +1,13 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 -<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 -  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M13 0H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zm-2.5-9h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2h-5a.5.5 0 0 0 0 1h5a.5.5 0 1 0 0-1zm0 2h-5a.5.5 0 0 0 0 1h5a.5.5 0 1 0 0-1zm-3 2h-2a.5.5 0 0 0 0 1h2a.5.5 0 1 0 0-1z"/>
 -</svg>
 +<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-+<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M12 2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V3C13 2.44772 12.5523 2 12 2ZM4 0C2.34315 0 1 1.34315 1 3V13C1 14.6569 2.34315 16 4 16H12C13.6569 16 15 14.6569 15 13V3C15 1.34315 13.6569 0 12 0H4Z" />
-+<path fill="context-fill" fill-opacity="context-fill-opacity" d="M5 11C5 10.4477 5.44772 10 6 10H7C7.55228 10 8 10.4477 8 11C8 11.5523 7.55228 12 7 12H6C5.44772 12 5 11.5523 5 11Z" />
-+<path fill="context-fill" fill-opacity="context-fill-opacity" d="M5 8C5 7.44772 5.44772 7 6 7H9C9.55228 7 10 7.44772 10 8C10 8.55228 9.55228 9 9 9H6C5.44772 9 5 8.55228 5 8Z" />
-+<path fill="context-fill" fill-opacity="context-fill-opacity" d="M5 5C5 4.44772 5.44772 4 6 4H10C10.5523 4 11 4.44772 11 5C11 5.55228 10.5523 6 10 6H6C5.44772 6 5 5.55228 5 5Z" />
++    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++        d="M12 2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V3C13 2.44772 12.5523 2 12 2ZM4 0C2.34315 0 1 1.34315 1 3V13C1 14.6569 2.34315 16 4 16H12C13.6569 16 15 14.6569 15 13V3C15 1.34315 13.6569 0 12 0H4Z" />
++    <path fill="context-fill" fill-opacity="context-fill-opacity"
++        d="M5 11C5 10.4477 5.44772 10 6 10H7C7.55228 10 8 10.4477 8 11C8 11.5523 7.55228 12 7 12H6C5.44772 12 5 11.5523 5 11Z" />
++    <path fill="context-fill" fill-opacity="context-fill-opacity"
++        d="M5 8C5 7.44772 5.44772 7 6 7H9C9.55228 7 10 7.44772 10 8C10 8.55228 9.55228 9 9 9H6C5.44772 9 5 8.55228 5 8Z" />
++    <path fill="context-fill" fill-opacity="context-fill-opacity"
++        d="M5 5C5 4.44772 5.44772 4 6 4H10C10.5523 4 11 4.44772 11 5C11 5.55228 10.5523 6 10 6H6C5.44772 6 5 5.55228 5 5Z" />
 +</svg>
 \ No newline at end of file

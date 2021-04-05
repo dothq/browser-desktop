@@ -1,6 +1,13 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M3 3V8H8V3H3ZM2 0C0.895431 0 0 0.895431 0 2V9C0 10.1046 0.895431 11 2 11H9C10.1046 11 11 10.1046 11 9V2C11 0.895431 10.1046 0 9 0H2Z" />
-<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M16 3V8H21V3H16ZM15 0C13.8954 0 13 0.895431 13 2V9C13 10.1046 13.8954 11 15 11H22C23.1046 11 24 10.1046 24 9V2C24 0.895431 23.1046 0 22 0H15Z" />
-<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M16 16V21H21V16H16ZM15 13C13.8954 13 13 13.8954 13 15V22C13 23.1046 13.8954 24 15 24H22C23.1046 24 24 23.1046 24 22V15C24 13.8954 23.1046 13 22 13H15Z" />
-<path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd" d="M3 16V21H8V16H3ZM2 13C0.895431 13 0 13.8954 0 15V22C0 23.1046 0.895431 24 2 24H9C10.1046 24 11 23.1046 11 22V15C11 13.8954 10.1046 13 9 13H2Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M3 3V8H8V3H3ZM2 0C0.895431 0 0 0.895431 0 2V9C0 10.1046 0.895431 11 2 11H9C10.1046 11 11 10.1046 11 9V2C11 0.895431 10.1046 0 9 0H2Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M16 3V8H21V3H16ZM15 0C13.8954 0 13 0.895431 13 2V9C13 10.1046 13.8954 11 15 11H22C23.1046 11 24 10.1046 24 9V2C24 0.895431 23.1046 0 22 0H15Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M16 16V21H21V16H16ZM15 13C13.8954 13 13 13.8954 13 15V22C13 23.1046 13.8954 24 15 24H22C23.1046 24 24 23.1046 24 22V15C24 13.8954 23.1046 13 22 13H15Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M3 16V21H8V16H3ZM2 13C0.895431 13 0 13.8954 0 15V22C0 23.1046 0.895431 24 2 24H9C10.1046 24 11 23.1046 11 22V15C11 13.8954 10.1046 13 9 13H2Z" />
 </svg>
