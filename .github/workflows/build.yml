@@ -154,6 +154,7 @@ jobs:
           sudo apt-get update --fix-missing
           sudo apt-get update
           sudo apt-get install dos2unix
+          sudo apt-get install libstdc++-8-dev
           rustup install nightly
           rustup default nightly
 
@@ -557,6 +558,77 @@ jobs:
           name: "Nightly v${{ env.DOT_VERSION }}"
           assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg"]'
           body_path: "/Users/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
+          overwrite: true
+
+      - name: Build webhook
+        uses: dothq/actions-status-discord@master
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: Build
+          avatar_url: "https://github.com/dothq.png"
+
+  source:
+    name: 📦 Source tarball
+    runs-on: ubuntu-20.04
+    env:
+        CI_SKIP_INIT: true
+        SHELL: /bin/sh
+    steps:
+      - run: echo ${{ github.run_id }}
+
+      - uses: actions/checkout@v2
+
+      - name: Set up Git User
+        run: |
+          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+          git config --global user.name "dothq-robot"
+
+      - name: Install dependencies
+        run: |
+          npm i typescript
+
+      - name: Download workspace
+        run: |
+          ./melon download
+          cd src
+          git init
+          echo Init
+          git checkout --orphan base
+          echo Checkout
+          git add -f .
+          echo Add
+          git commit -am "Firefox"
+          echo Commit
+          git checkout -b dot
+          echo Checkout 2
+          cd ..
+          sudo rm -rf firefox-*.source.tar.xz
+
+      - name: Fix line-endings
+        run: ./melon fix-le
+
+      - name: Import patches
+        run: ./melon import --minimal
+
+      - name: Export release data
+        shell: bash
+        run: |
+          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Compress
+        run: |
+          tar -cJvf dot-${{ env.DOT_VERSION }}.source.tar.xz src
+
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
+        with:
+          github-token: ${{ secrets.ROBOT_TOKEN }}
+          version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
+          name: "Nightly v${{ env.DOT_VERSION }}"
+          assets: '["dot-${{ env.DOT_VERSION }}.source.tar.xz"]'
+          body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 
       - name: Build webhook
