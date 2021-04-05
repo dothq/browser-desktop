@@ -620,7 +620,7 @@ jobs:
 
       - name: Compress
         run: |
-          tar -cJvf dot-${{ env.DOT_VERSION }}.source.tar.xz src
+          XZ_OPT=-9e tar -cJvf dot-${{ env.DOT_VERSION }}.source.tar.xz src
 
       - name: Release
         uses: dothq/tag-and-release-and-upload@master
