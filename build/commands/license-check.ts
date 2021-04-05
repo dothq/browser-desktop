@@ -4,49 +4,78 @@ import { resolve } from "path";
 import { log } from "..";
 import { PATCHES_DIR, SRC_DIR } from "../constants";
 
-const ignoredExt = [
-    ".json",
-    ".bundle.js"
-]
+const ignoredExt = [".json", ".bundle.js"];
 
 export const licenseCheck = async () => {
-    log.info("Checking project...")
+    log.info("Checking project...");
 
-    const patches = readdirSync(PATCHES_DIR).map(p => p);
+    const patches = readdirSync(PATCHES_DIR).map(
+        (p) => p
+    );
 
-    const originalPaths = patches.map(p => {
-        const data = readFileSync(resolve(PATCHES_DIR, p), "utf-8");
+    const originalPaths = patches.map((p) => {
+        const data = readFileSync(
+            resolve(PATCHES_DIR, p),
+            "utf-8"
+        );
 
-        return data.split("diff --git a/")[1].split(" b/")[0];
-    })
+        return data
+            .split("diff --git a/")[1]
+            .split(" b/")[0];
+    });
 
     let passed: string[] = [];
     let failed: string[] = [];
     let ignored: string[] = [];
 
-    originalPaths.forEach(p => {
-        const data = readFileSync(resolve(SRC_DIR, p), "utf-8");
-        const headerRegion = data.split("\n").slice(0, 32).join(" ");
+    originalPaths.forEach((p) => {
+        const data = readFileSync(
+            resolve(SRC_DIR, p),
+            "utf-8"
+        );
+        const headerRegion = data
+            .split("\n")
+            .slice(0, 32)
+            .join(" ");
 
-        const passes = headerRegion.includes("http://mozilla.org/MPL/2.0") && headerRegion.includes("This Source Code Form") && headerRegion.includes("copy of the MPL")
+        const passes =
+            headerRegion.includes(
+                "http://mozilla.org/MPL/2.0"
+            ) &&
+            headerRegion.includes(
+                "This Source Code Form"
+            ) &&
+            headerRegion.includes("copy of the MPL");
 
-        const isIgnored = ignoredExt.find(i => p.endsWith(i)) ? true : false;
+        const isIgnored = ignoredExt.find((i) =>
+            p.endsWith(i)
+        )
+            ? true
+            : false;
         isIgnored && ignored.push(p);
 
         if (!isIgnored) {
             if (passes) passed.push(p);
             else if (!passes) failed.push(p);
         }
-    })
+    });
 
     let maxPassed = 5;
     let i = 0;
 
     for (const p of passed) {
-        log.info(`${p}... ${chalk.green("✔ Pass - MPL-2.0")}`)
+        log.info(
+            `${p}... ${chalk.green("✔ Pass - MPL-2.0")}`
+        );
 
         if (i >= maxPassed) {
-            log.info(`${chalk.gray.italic(`${passed.length - maxPassed} other files...`)} ${chalk.green("✔ Pass - MPL-2.0")}`);
+            log.info(
+                `${chalk.gray.italic(
+                    `${
+                        passed.length - maxPassed
+                    } other files...`
+                )} ${chalk.green("✔ Pass - MPL-2.0")}`
+            );
             break;
         }
 
@@ -54,10 +83,10 @@ export const licenseCheck = async () => {
     }
 
     failed.forEach((p, i) => {
-        log.info(`${p}... ${chalk.red("❗ Failed")}`)
-    })
+        log.info(`${p}... ${chalk.red("❗ Failed")}`);
+    });
 
     ignored.forEach((p, i) => {
-        log.info(`${p}... ${chalk.gray("➖ Ignored")}`)
-    })
+        log.info(`${p}... ${chalk.gray("➖ Ignored")}`);
+    });
 };

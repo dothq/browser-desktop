@@ -29,7 +29,7 @@ class Patch {
     };
     public indent?: number;
     public options: {
-        minimal?: boolean
+        minimal?: boolean;
     };
     private _done: boolean = false;
 
@@ -256,7 +256,9 @@ class Patch {
                     `(${this.status[0]}/${this.status[1]})`
                 )} Applying ${this.name}... ${chalk[
                     this._done ? "green" : "red"
-                ].bold(this._done ? "Done ✔" : "Error ❗")}`
+                ].bold(
+                    this._done ? "Done ✔" : "Error ❗"
+                )}`
             );
         }
 
@@ -285,8 +287,8 @@ class Patch {
         };
         indent?: number;
         options: {
-            minimal?: boolean
-        }
+            minimal?: boolean;
+        };
     }) {
         this.name = name;
         this.action = action || "";

@@ -7,10 +7,7 @@ export const BUILD_TARGETS = [
     "macos"
 ];
 
-export const ARCHITECTURE = [
-    'i686',
-    'x86_64'
-]
+export const ARCHITECTURE = ["i686", "x86_64"];
 
 export const PATCH_ARGS = [
     "--ignore-space-change",

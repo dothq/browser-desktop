@@ -56,7 +56,10 @@ program
 
 program
     .command("build [os]")
-    .option('--a, --arch <architecture>', 'Specify architecture for build')
+    .option(
+        "--a, --arch <architecture>",
+        "Specify architecture for build"
+    )
     .description(
         "Build Dot Browser. Specify the OS param for cross-platform builds."
     )
@@ -77,7 +80,10 @@ program
     .command("import")
     .alias("import-patches")
     .alias("i")
-    .option('-m, --minimal', 'Import patches in minimal mode')
+    .option(
+        "-m, --minimal",
+        "Import patches in minimal mode"
+    )
     .description("Import patches into the browser.")
     .action(importPatches);
 

@@ -77,7 +77,7 @@ const unpack = async (name: string, version: string) => {
             JSON.stringify(pjson, null, 2)
         );
 
-        removeSync(name)
+        removeSync(name);
     });
 };
 
