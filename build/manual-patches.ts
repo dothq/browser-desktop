@@ -55,7 +55,7 @@ const manualPatches: IPatch[] = [
             "toolkit/mozapps/extensions/content/default-theme.svg",
             "toolkit/mozapps/extensions/content/firefox-compact-dark.svg",
             "toolkit/mozapps/extensions/content/firefox-compact-light.svg",
-            "toolkit/mozapps/extensions/content/firefox-compact-fusion.svg",
+            "toolkit/mozapps/extensions/content/firefox-compact-fusion.svg"
         ]
     },
     {
@@ -68,9 +68,7 @@ const manualPatches: IPatch[] = [
     {
         name: "extensions",
         action: "copy",
-        src: [
-            "browser/extensions/shield"
-        ]
+        src: ["browser/extensions/shield"]
     }
 ];
 
