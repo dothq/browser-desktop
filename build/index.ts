@@ -11,6 +11,7 @@ import {
     fixLineEndings,
     importPatches,
     init,
+    licenseCheck,
     melonPackage,
     reset,
     run,
@@ -122,6 +123,14 @@ program
         "Convert CRLF line endings to Unix LF line endings."
     )
     .action(fixLineEndings);
+
+program
+    .command("license-check")
+    .alias("lc")
+    .description(
+        "Check the src directory for the absence of MPL-2.0 header"
+    )
+    .action(licenseCheck);
 
 if (process.platform == "win32") {
     program
