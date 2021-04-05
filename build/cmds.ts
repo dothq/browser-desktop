@@ -25,11 +25,13 @@ export const commands = [
     {
         cmd: "build [os]",
         aliases: ["b"],
-        description: "Build Dot Browser. Specify the OS param for cross-platform builds.",
+        description:
+            "Build Dot Browser. Specify the OS param for cross-platform builds.",
         options: [
             {
                 arg: "--a, --arch <architecture>",
-                description: "Specify architecture for build"
+                description:
+                    "Specify architecture for build"
             }
         ],
         controller: build
@@ -41,17 +43,17 @@ export const commands = [
     },
     {
         cmd: "download-artifacts",
-        description: "Download Windows artifacts from GitHub.",
+        description:
+            "Download Windows artifacts from GitHub.",
         flags: {
-            platforms: [
-                "win32"
-            ]
+            platforms: ["win32"]
         },
         controller: downloadArtifacts
     },
     {
         cmd: "execute",
-        description: "Execute a command inside the src directory.",
+        description:
+            "Execute a command inside the src directory.",
         controller: execute
     },
     {
@@ -62,13 +64,15 @@ export const commands = [
     {
         cmd: "export",
         aliases: ["export-patches"],
-        description: "Export the changed files as patches.",
+        description:
+            "Export the changed files as patches.",
         controller: exportPatches
     },
     {
         cmd: "lfify",
         aliases: ["fix-le"],
-        description: "Convert CRLF line endings to Unix LF line endings.",
+        description:
+            "Convert CRLF line endings to Unix LF line endings.",
         controller: fixLineEndings
     },
     {
@@ -78,7 +82,8 @@ export const commands = [
         options: [
             {
                 arg: "-m, --minimal",
-                description: "Import patches in minimal mode"
+                description:
+                    "Import patches in minimal mode"
             }
         ],
         controller: importPatches
@@ -92,18 +97,21 @@ export const commands = [
     {
         cmd: "license-check",
         aliases: ["lc"],
-        description: "Check the src directory for the absence of MPL-2.0 header.",
+        description:
+            "Check the src directory for the absence of MPL-2.0 header.",
         controller: licenseCheck
     },
     {
         cmd: "package",
         aliases: ["pack"],
-        description: "Package the browser for distribution.",
+        description:
+            "Package the browser for distribution.",
         controller: melonPackage
     },
     {
         cmd: "reset",
-        description: "Reset the source directory to stock Firefox.",
+        description:
+            "Reset the source directory to stock Firefox.",
         controller: reset
     },
     {
@@ -113,7 +121,8 @@ export const commands = [
     },
     {
         cmd: "status",
-        description: "Status and files changed for src directory.",
+        description:
+            "Status and files changed for src directory.",
         controller: status
     }
-]
+];

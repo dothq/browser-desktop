@@ -27,19 +27,25 @@ program.version(`
 `);
 program.name(bin_name);
 
-commands.forEach(command => {
-    if (command.flags && !command.flags.platforms.includes(process.platform)) return;
+commands.forEach((command) => {
+    if (
+        command.flags &&
+        !command.flags.platforms.includes(
+            process.platform
+        )
+    )
+        return;
 
     const _cmd = commander.command(command.cmd);
 
     _cmd.description(command.description);
 
-    command?.aliases?.forEach(alias => {
+    command?.aliases?.forEach((alias) => {
         _cmd.alias(alias);
-    })
+    });
 
-    command?.options?.forEach(opt => {
-        _cmd.option(opt.arg, opt.description)
+    command?.options?.forEach((opt) => {
+        _cmd.option(opt.arg, opt.description);
     });
 
     _cmd.action(command.controller);
