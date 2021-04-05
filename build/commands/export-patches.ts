@@ -1,9 +1,11 @@
 import execa from "execa";
 import {
+    appendFileSync,
     createWriteStream,
     existsSync,
     mkdirSync,
-    rmdirSync
+    rmdirSync,
+    writeFileSync
 } from "fs";
 import { copySync, ensureDirSync } from "fs-extra";
 import { resolve } from "path";
@@ -103,6 +105,8 @@ const exportModified = async (
                 log.info(
                     `Wrote "${name}" to patches directory.`
                 );
+
+                appendFileSync(resolve(PATCHES_DIR, ".index"), `${name} - ${file}\n`)
             }
         })
     );
@@ -180,6 +184,7 @@ export const exportPatches = async () => {
     console.log();
     rmdirSync(PATCHES_DIR, { recursive: true });
     mkdirSync(PATCHES_DIR);
+    writeFileSync(resolve(PATCHES_DIR, ".index"), "");
 
     log.info("Exporting modified files...");
     await exportModified(PATCHES_DIR, SRC_DIR);
