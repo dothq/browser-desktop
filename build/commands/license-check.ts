@@ -9,9 +9,7 @@ const ignoredExt = [".json", ".bundle.js"];
 export const licenseCheck = async () => {
     log.info("Checking project...");
 
-    let patches = readdirSync(PATCHES_DIR).map(
-        (p) => p
-    );
+    let patches = readdirSync(PATCHES_DIR).map((p) => p);
 
     patches = patches.filter((p) => p !== ".index");
 
@@ -73,7 +71,8 @@ export const licenseCheck = async () => {
         if (i >= maxPassed) {
             log.info(
                 `${chalk.gray.italic(
-                    `${passed.length - maxPassed
+                    `${
+                        passed.length - maxPassed
                     } other files...`
                 )} ${chalk.green("✔ Pass - MPL-2.0")}`
             );
