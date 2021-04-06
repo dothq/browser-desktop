@@ -27,6 +27,8 @@ browser-locales-en-US-browser-aboutDialog-ftl.patch - browser/locales/en-US/brow
 browser-locales-en-US-chrome-browser-app-extension-fields-properties.patch - browser/locales/en-US/chrome/browser/app-extension-fields.properties
 browser-locales-en-US-chrome-browser-browser-dtd.patch - browser/locales/en-US/chrome/browser/browser.dtd
 browser-themes-addons-jar-mn.patch - browser/themes/addons/jar.mn
+browser-themes-linux-browser-css.patch - browser/themes/linux/browser.css
+browser-themes-osx-browser-css.patch - browser/themes/osx/browser.css
 browser-themes-shared-browser-inc-css.patch - browser/themes/shared/browser.inc.css
 browser-themes-shared-error-pages-css.patch - browser/themes/shared/error-pages.css
 browser-themes-shared-icons-back-svg.patch - browser/themes/shared/icons/back.svg
@@ -83,6 +85,7 @@ browser-themes-shared-identity-block-tracking-protection-svg.patch - browser/the
 browser-themes-shared-jar-inc-mn.patch - browser/themes/shared/jar.inc.mn
 browser-themes-shared-menupanel-inc-css.patch - browser/themes/shared/menupanel.inc.css
 browser-themes-shared-reader-readerMode-svg.patch - browser/themes/shared/reader/readerMode.svg
+browser-themes-windows-browser-css.patch - browser/themes/windows/browser.css
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-LightweightThemes-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
 build-appini_header-py.patch - build/appini_header.py
 build-moz-build.patch - build/moz.build

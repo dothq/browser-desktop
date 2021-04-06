@@ -1,0 +1,12 @@
+diff --git a/browser/themes/linux/browser.css b/browser/themes/linux/browser.css
+index cbe544287d2745928362f3e33bfb81deebd21e28..04727ac9b6d1fe580118a12a0091493826969e6d 100644
+--- a/browser/themes/linux/browser.css
++++ b/browser/themes/linux/browser.css
+@@ -7,6 +7,7 @@
+ @namespace html url("http://www.w3.org/1999/xhtml");
+ 
+ %include ../shared/browser.inc.css
++%include dotui/dot.linux.inc.css
+ 
+ :root {
+   --toolbar-non-lwt-bgcolor: -moz-dialog;

@@ -9,7 +9,12 @@ const manualPatches: IPatch[] = [
     {
         name: "dotui",
         action: "copy",
-        src: "browser/themes/shared/dotui"
+        src: [
+            "browser/themes/shared/dotui",
+            "browser/themes/windows/dotui",
+            "browser/themes/osx/dotui",
+            "browser/themes/linux/dotui"
+        ]
     },
     {
         name: "about:history",

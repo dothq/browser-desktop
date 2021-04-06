@@ -1,0 +1,30 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.titlebar-buttonbox-container {
+    position: fixed;
+    top: 0;
+    display: flex;
+    left: 0;
+    z-index: 10000;
+    height: var(--urlbar-toolbar-height) !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 18px;
+    /* This stops the macos titlebar buttons from being centered */
+    width: 50px;
+}
+
+.titlebar-buttonbox-container > .titlebar-buttonbox {
+    margin: 0;
+}
+
+#nav-bar {
+    padding-left: 90px;
+    padding-right: 0px !important;
+}
+
+#nav-bar[context="autohide-context"] {
+    padding-left: 0px;
+} 
