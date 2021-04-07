@@ -11,7 +11,8 @@
     height: var(--urlbar-toolbar-height) !important;
 }
 
-#nav-bar {
+
+:root[tabsintitlebar] #nav-bar {
     padding-right: 138px;
 }
 
