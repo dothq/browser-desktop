@@ -210,8 +210,6 @@ class Patch {
                     { cwd: SRC_DIR }
                 );
 
-                log.info(stdout);
-
                 if (exitCode == 0) res(true);
                 else throw stdout;
             } catch (e) {
