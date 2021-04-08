@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..34e4c01fbe43ce1bb671e8dc1b6c7e9f1722315e 100644
+index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..f8df2849d6f2d9bf6e1447cef349a5f0b6a92738 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -140,7 +140,7 @@ pref("app.update.notifyDuringDownload", false);
@@ -999,7 +999,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..34e4c01fbe43ce1bb671e8dc1b6c7e9f
  #endif
  
  // Map top-level await expressions in the console
-@@ -2527,12 +2527,118 @@ pref("first-startup.timeout", 30000);
+@@ -2527,12 +2527,105 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
