@@ -137,6 +137,7 @@ jobs:
       - name: Export release data
         shell: bash
         run: |
+          curl -L https://raw.githubusercontent.com/dothq/browser-desktop/nightly/package.json -o package.json
           echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
