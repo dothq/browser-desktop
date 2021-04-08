@@ -143,14 +143,14 @@ jobs:
 
       - name: Download binaries
         run: |
-          cd flatpak
+          cd packages/flatpak
           node download.js
           tar -xvf dot-87.0.tar.bz2
 
       - uses: bilelmoussaoui/flatpak-github-actions@v2
         with:
           bundle: 'dot-nightly.flatpak'
-          manifest-path: './flatpak/co.dothq.browser.nightly.yml'
+          manifest-path: './packages/flatpak/co.dothq.browser.nightly.yml'
 
       - name: Release
         uses: dothq/tag-and-release-and-upload@master
