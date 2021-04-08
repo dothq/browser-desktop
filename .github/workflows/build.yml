@@ -113,6 +113,47 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           username: Build
           avatar_url: "https://github.com/dothq.png"
+      
+  flatpak-64:
+    name: 📦 Flatpak (64 bit)
+    needs: linux-64
+  
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
+      options: --privileged
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Clone packaging scripts
+        run: git clone --recurse-submodules https://github.com/dothq/packages.git
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Download binaries
+        run: |
+          cd flatpak
+          node download.js
+          tar -xvf dot-87.0.tar.bz2
+
+      - uses: bilelmoussaoui/flatpak-github-actions@v2
+        with:
+          bundle: 'dot-nightly.flatpak'
+          manifest-path: './flatpak/co.dothq.browser.nightly.yml'
+
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version: '${{ env.DOT_VERSION }}-${{ github.run_id }}'
+          name: 'Nightly v${{ env.DOT_VERSION }}'
+          assets: '["dot-nightly.flatpak"]'
+          overwrite: true
+
 
   linux-32:
     name: 🐧 Linux (32-bit)
