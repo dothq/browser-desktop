@@ -133,6 +133,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+  
+      - name: Export release data
+        shell: bash
+        run: |
+          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Download binaries
         run: |
@@ -153,6 +159,14 @@ jobs:
           name: 'Nightly v${{ env.DOT_VERSION }}'
           assets: '["dot-nightly.flatpak"]'
           overwrite: true
+          
+      - name: Build webhook
+        uses: dothq/actions-status-discord@master
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: Build
+          avatar_url: "https://github.com/dothq.png"
 
 
   linux-32:
