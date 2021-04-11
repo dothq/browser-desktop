@@ -36,6 +36,24 @@ There are a plethora of Chromium based browsers available and introducing compet
 
 We chose Gecko due to its position as the best competitor to Chromium, and because it’s developed by Mozilla, who are best known for their privacy efforts in the community.
 
+## ⬇️ Installation
+
+### 🏁 Windows
+
+[Download latest for Windows](https://download.dothq.co/dot/releases/windows/x86/installer)
+
+### 🍎 macOS
+
+[Download latest for macOS](https://download.dothq.co/dot/releases/macos/x86/installer)
+
+### 🐧 Linux
+
+[Download latest for Linux](https://download.dothq.co/dot/releases/linux/x86/raw)
+
+#### Arch Linux
+
+You can get Dot on Arch Linux through the binary [`dot`](https://aur.archlinux.org/packages/dot) or the build-it-yourself [`dot-git`](https://aur.archlinux.org/packages/dot-git) package.
+
 ## 🏗 Build guides
 
 -   [🏁 Windows](https://docs.dothq.co/cloning-dot/windows)
