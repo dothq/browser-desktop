@@ -1,5 +1,5 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..572df01bb88e1806199dd2e8554bed25d4b8c6e4 100644
+index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5c966b6bbeda5d655b69201136c3791993995d58 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
 @@ -8213,7 +8213,7 @@
@@ -26,3 +26,16 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..572df01bb88e1806199dd2e8554bed25
    mirror: always
  
  - name: network.cookie.thirdparty.sessionOnly
+@@ -9356,6 +9356,12 @@
+   value: 480
+   mirror: always
+ 
++# Force the colour scheme to be light to avoid fingerprinting
++- name: privacy.resistFingerprinting.ignoreColorScheme
++  type: RelaxedAtomicBool
++  value: false
++  mirror: always
++
+ # Anti-tracking permission expiration.
+ - name: privacy.restrict3rdpartystorage.expiration
+   type: uint32_t
