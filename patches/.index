@@ -96,6 +96,7 @@ devtools-client-aboutdebugging-src-actions-runtimes-js.patch - devtools/client/a
 devtools-client-themes-images-command-pick-svg.patch - devtools/client/themes/images/command-pick.svg
 devtools-client-themes-images-debugging-addons-svg.patch - devtools/client/themes/images/debugging-addons.svg
 devtools-client-themes-images-debugging-tabs-svg.patch - devtools/client/themes/images/debugging-tabs.svg
+dom-base-Document-cpp.patch - dom/base/Document.cpp
 layout-base-PresShell-cpp.patch - layout/base/PresShell.cpp
 modules-libpref-init-StaticPrefList-yaml.patch - modules/libpref/init/StaticPrefList.yaml
 python-mozbuild-mozbuild-controller-building-py.patch - python/mozbuild/mozbuild/controller/building.py
