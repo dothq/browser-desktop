@@ -9,8 +9,6 @@
     "repository": "https://github.com/dothq/browser-desktop",
     "license": "MPL-2.0",
     "dependencies": {
-        "@azure/identity": "^1.2.2",
-        "@azure/storage-blob": "^12.4.0",
         "@octokit/rest": "^18.3.5",
         "axios": "^0.21.1",
         "chalk": "^4.1.0",
