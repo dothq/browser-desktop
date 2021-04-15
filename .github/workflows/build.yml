@@ -12,6 +12,7 @@ jobs:
     env:
         CI_SKIP_INIT: true
         SHELL: /bin/sh
+        RUST_VERSION: "1.51.0"
     steps:
       - run: echo ${{ github.run_id }}
 
@@ -46,8 +47,8 @@ jobs:
           sudo apt-get update --fix-missing
           sudo apt-get update
           sudo apt-get install dos2unix
-          rustup install nightly
-          rustup default nightly
+          rustup install ${{ env.RUST_VERSION }}
+          rustup default ${{ env.RUST_VERSION }}
 
       - name: Download workspace
         run: |
@@ -212,8 +213,8 @@ jobs:
           sudo apt-get install dos2unix
           sudo apt-get install gcc-multilib g++-multilib libdbus-glib-1-dev:i386 libgtk2.0-dev:i386 libgtk-3-dev:i386 libpango1.0-dev:i386 libxt-dev:i386 libx11-xcb-dev:i386 libpulse-dev:i386 libdrm-dev:i386
           rustup target install i686-unknown-linux-gnu
-          rustup install nightly
-          rustup default nightly
+          rustup install ${{ env.RUST_VERSION }}
+          rustup default ${{ env.RUST_VERSION }}
 
       - name: Download workspace
         run: |
@@ -357,8 +358,8 @@ jobs:
           type nul > C:\build-script-64.sh
           echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script-64.sh
           echo echo $PATH >> C:\build-script-64.sh
-          echo rustup install nightly >> C:\build-script-64.sh
-          echo rustup default nightly >> C:\build-script-64.sh
+          echo rustup install ${{ env.RUST_VERSION }} >> C:\build-script-64.sh
+          echo rustup default ${{ env.RUST_VERSION }} >> C:\build-script-64.sh
           echo rustc --version >> C:\build-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script-64.sh
           echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build >> C:\build-script-64.sh
@@ -370,8 +371,8 @@ jobs:
           type nul > C:\pack-script-64.sh
           echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\pack-script-64.sh
           echo echo $PATH >> C:\pack-script-64.sh
-          echo rustup install nightly >> C:\pack-script-64.sh
-          echo rustup default nightly >> C:\pack-script-64.sh
+          echo rustup install ${{ env.RUST_VERSION }} >> C:\pack-script-64.sh
+          echo rustup default ${{ env.RUST_VERSION }} >> C:\pack-script-64.sh
           echo rustc --version >> C:\pack-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script-64.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\pack-script-64.sh
@@ -480,8 +481,8 @@ jobs:
   #         type nul > C:\build-script-32.sh
   #         echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script-32.sh
   #         echo echo $PATH >> C:\build-script-32.sh
-  #         echo rustup install nightly >> C:\build-script-32.sh
-  #         echo rustup default nightly >> C:\build-script-32.sh
+  #         echo rustup install ${{ env.RUST_VERSION }} >> C:\build-script-32.sh
+  #         echo rustup default ${{ env.RUST_VERSION }} >> C:\build-script-32.sh
   #         echo rustc --version >> C:\build-script-32.sh
   #         echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script-32.sh
   #         echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build --arch i686 >> C:\build-script-32.sh
@@ -493,8 +494,8 @@ jobs:
   #         type nul > C:\pack-script-32.sh
   #         echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\pack-script-32.sh
   #         echo echo $PATH >> C:\pack-script-32.sh
-  #         echo rustup install nightly >> C:\pack-script-32.sh
-  #         echo rustup default nightly >> C:\pack-script-32.sh
+  #         echo rustup install ${{ env.RUST_VERSION }} >> C:\pack-script-32.sh
+  #         echo rustup default ${{ env.RUST_VERSION }} >> C:\pack-script-32.sh
   #         echo rustc --version >> C:\pack-script-32.sh
   #         echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script-32.sh
   #         echo MOZCONFIG=../configs/windows/mozconfig-i686 ./mach package >> C:\pack-script-32.sh
@@ -557,8 +558,8 @@ jobs:
         run: |
           npm i typescript
           brew install dos2unix
-          rustup install nightly
-          rustup default nightly
+          rustup install ${{ env.RUST_VERSION }}
+          rustup default ${{ env.RUST_VERSION }}
 
       - name: Download workspace
         run: |
