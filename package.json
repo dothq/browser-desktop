@@ -6,6 +6,8 @@
         "firefox": "87.0",
         "melon": "0.0.1"
     },
+    "repository": "https://github.com/dothq/browser-desktop",
+    "license": "MPL-2.0",
     "dependencies": {
         "@azure/identity": "^1.2.2",
         "@azure/storage-blob": "^12.4.0",
