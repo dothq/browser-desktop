@@ -177,6 +177,7 @@ jobs:
     env:
         CI_SKIP_INIT: true
         SHELL: /bin/sh
+        RUST_VERSION: "1.51.0"
     steps:
       - run: echo ${{ github.run_id }}
 
@@ -287,6 +288,7 @@ jobs:
     env:
         CI_SKIP_INIT: true
         SHELL: /bin/sh
+        RUST_VERSION: "1.51.0"
     steps:
       - run: echo ${{ github.run_id }}
         shell: bash --noprofile --norc -eo pipefail {0}
@@ -410,6 +412,7 @@ jobs:
   #   env:
   #       CI_SKIP_INIT: true
   #       SHELL: /bin/sh
+  #       RUST_VERSION: "1.51.0"
   #   steps:
   #     - run: echo ${{ github.run_id }}
   #       shell: bash --noprofile --norc -eo pipefail {0}
@@ -533,6 +536,7 @@ jobs:
     env:
         CI_SKIP_INIT: true
         SHELL: /bin/sh
+        RUST_VERSION: "1.51.0"
     steps:
       - run: echo ${{ github.run_id }}
 
@@ -632,6 +636,7 @@ jobs:
     env:
         CI_SKIP_INIT: true
         SHELL: /bin/sh
+        RUST_VERSION: "1.51.0"
     steps:
       - run: echo ${{ github.run_id }}
 
