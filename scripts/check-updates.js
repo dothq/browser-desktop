@@ -1,6 +1,5 @@
 const { Octokit } = require("@octokit/rest");
 const axios = require("axios");
-const semver = require("semver");
 
 const gh = new Octokit({
     auth: process.env.ROBOT_TOKEN
