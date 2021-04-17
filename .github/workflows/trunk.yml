@@ -32,7 +32,7 @@ jobs:
               id: cache
               with:
                 path: |
-                  ~/work/browser-desktop/browser-desktop
+                  ~/work/browser-desktop/browser-desktop/**/*
                 key: ${{ steps.week.outputs.weekno }}
         
             - uses: actions/checkout@v2
@@ -75,5 +75,6 @@ jobs:
                 rsync -av --progress src/* browser-desktop-trunk --exclude .git
                 cd browser-desktop-trunk
                 git add .
-                git commit -m "🆙 Update trunk (${{ github.sha }}"
+                git commit -m "🆙 Update trunk (${{ github.sha }})"
+                git tag ${{ github.sha }} 
                 git push
