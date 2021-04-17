@@ -18,6 +18,11 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install dos2unix
         
+            - name: Set up Git User
+              run: |
+                git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+                git config --global user.name "dothq-robot"
+        
             - name: Get week number
               id: week
               run: echo "::set-output name=weekno::$(date +%V)"
