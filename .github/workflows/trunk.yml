@@ -28,7 +28,7 @@ jobs:
               with:
                 path: |
                   ./browser-desktop
-                key: ${{ jobs.week.outputs.weekno }}
+                key: ${{ steps.week.outputs.weekno }}
         
             - uses: actions/checkout@v2
               if: steps.cache.outputs.cache-hit != 'true'
