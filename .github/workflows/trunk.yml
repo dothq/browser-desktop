@@ -27,7 +27,7 @@ jobs:
               id: cache
               with:
                 path: |
-                  ./browser-desktop
+                  ~/work/browser-desktop/browser-desktop
                 key: ${{ steps.week.outputs.weekno }}
         
             - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
               
             - name: Pull in changes
               run: |
-                  cd browser-desktop
+                  cd ~/work/browser-desktop/browser-desktop
                   git pull
                   
             - name: Download workspace
