@@ -72,7 +72,7 @@ jobs:
             - name: Push to trunk
               run: |
                 git clone https://${{ secrets.ROBOT_TOKEN }}@github.com/dothq/browser-desktop-trunk
-                rsync -av --progress src/* trunk --exclude .git
+                rsync -av --progress src/* browser-desktop-trunk --exclude .git
                 cd browser-desktop-trunk
                 git add .
                 git commit -m "🆙 Update trunk (${{ github.sha }}"
