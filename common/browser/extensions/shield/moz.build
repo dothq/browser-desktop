@@ -11,6 +11,7 @@ FINAL_TARGET_FILES.features["shield@privacy.dothq.co"] += [
     "702.js",
     "93.js",
     "background.js",
+    "blocked.html",
     "cosmetics.js",
     "font/Inter.var.woff2",
     "icons/shield.svg",
