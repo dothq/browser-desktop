@@ -1,9 +1,10 @@
+import { Command } from "commander";
 import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 import { dispatch } from "../utils";
 
-export const init = async (directory: string) => {
+export const init = async (directory: Command) => {
     if (process.platform == "win32") {
         // Because Windows cannot handle paths correctly, we're just calling a script as the workaround.
         log.info(
@@ -16,7 +17,7 @@ export const init = async (directory: string) => {
 
     const cwd = process.cwd();
 
-    const dir = resolve(cwd, directory);
+    const dir = resolve((cwd as string), directory.toString());
 
     if (!existsSync(dir)) {
         log.error(
@@ -27,7 +28,7 @@ export const init = async (directory: string) => {
     let version = readFileSync(
         resolve(
             cwd,
-            directory,
+            directory.toString(),
             "browser",
             "config",
             "version_display.txt"
@@ -42,17 +43,17 @@ export const init = async (directory: string) => {
 
     version = version.trim().replace(/\\n/g, "");
 
-    await dispatch("git", ["init"], dir);
+    await dispatch("git", ["init"], (dir as string));
     await dispatch(
         "git",
         ["checkout", "--orphan", version],
-        dir
+        (dir as string)
     );
-    await dispatch("git", ["add", "-f", "."], dir);
+    await dispatch("git", ["add", "-f", "."], (dir as string));
     await dispatch(
         "git",
         ["commit", "-am", `"Firefox ${version}"`],
-        dir
+        (dir as string)
     );
-    await dispatch("git", ["checkout", "-b", "dot"], dir);
+    await dispatch("git", ["checkout", "-b", "dot"], (dir as string));
 };

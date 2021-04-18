@@ -89,7 +89,7 @@ export const commands = [
         controller: importPatches
     },
     {
-        cmd: "init",
+        cmd: "init <source>",
         aliases: ["initialise", "initialize"],
         description: "Initialise the Firefox directory.",
         controller: init
