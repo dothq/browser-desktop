@@ -6,13 +6,29 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-data:
+    name: 🧬 Generate build data
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.data.outputs.dotversion }}
+      sha: ${{ steps.data.outputs.shortsha }}
+      rust_version: "1.51.0" # update this every so often to match latest stable rust release
+    steps:
+      - name: Export release data
+        id: data
+        shell: bash
+        run: |
+          curl -L https://raw.githubusercontent.com/dothq/browser-desktop/nightly/package.json -o package.json
+          echo "::set-output name=dotversion::$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')"
+          echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
+
   linux-64:
     name: 🐧 Linux (64-bit)
     runs-on: ubuntu-20.04
+    needs: [build-data]
     env:
-        CI_SKIP_INIT: true
-        SHELL: /bin/sh
-        RUST_VERSION: "1.51.0"
+      CI_SKIP_INIT: true
+      SHELL: /bin/sh
     steps:
       - run: echo ${{ github.run_id }}
 
@@ -47,8 +63,8 @@ jobs:
           sudo apt-get update --fix-missing
           sudo apt-get update
           sudo apt-get install dos2unix
-          rustup install ${{ env.RUST_VERSION }}
-          rustup default ${{ env.RUST_VERSION }}
+          rustup install ${{ needs.build-data.outputs.rust_version }}
+          rustup default ${{ needs.build-data.outputs.rust_version }}
 
       - name: Download workspace
         run: |
@@ -86,61 +102,32 @@ jobs:
           ./mach package
           cd ..
 
-      - name: Export release data
-        shell: bash
-        run: |
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
       - name: Make artifact available
         run: |
           cp ./src/obj-*/dist/dot-*.tar.bz2 .
-          mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}.tar.bz2"
+          mv dot-*.tar.bz2 "dot-${{ needs.build-data.outputs.version }}.tar.bz2"
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["dot-${{ env.DOT_VERSION }}.tar.bz2"]'
-          body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
-          overwrite: true
-
-      - name: Build webhook
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+      - name: Upload artifact 
+        uses: actions/upload-artifact@v2
+          with:
+            name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
+            path: ./dot-${{ needs.build-data.outputs.version }}.tar.bz2
       
   flatpak-64:
     name: 📦 Flatpak (64 bit)
-    needs: linux-64
-  
-    # The type of runner that the job will run on
+    needs: [build-data, linux-64]
     runs-on: ubuntu-latest
-
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
       options: --privileged
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Clone packaging scripts
         run: git clone --recurse-submodules https://github.com/dothq/packages.git
 
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-  
-      - name: Export release data
-        shell: bash
-        run: |
-          curl -L https://raw.githubusercontent.com/dothq/browser-desktop/nightly/package.json -o package.json
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Download binaries
         run: |
@@ -153,41 +140,19 @@ jobs:
           bundle: 'dot-nightly.flatpak'
           manifest-path: './packages/flatpak/co.dothq.browser.nightly.yml'
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: '${{ env.DOT_VERSION }}-${{ github.run_id }}'
-          name: 'Nightly v${{ env.DOT_VERSION }}'
-          assets: '["dot-nightly.flatpak"]'
-          overwrite: true
-          
-      - name: Build webhook
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+      - name: Upload artifact 
+        uses: actions/upload-artifact@v2
+          with:
+            name: dot-${{ needs.build-data.outputs.version }}.flatpak
+            path: ./dot-nightly.flatpak
   
   appimage-64:
     name: 📦 AppImage (64 bit)
-    needs: linux-64
-  
-    # The type of runner that the job will run on
+    needs: [build-data, linux-64]
     runs-on: ubuntu-latest
-
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Clone packaging scripts
         run: git clone --recurse-submodules https://github.com/dothq/packages.git
-  
-      - name: Export release data
-        shell: bash
-        run: |
-          curl -L https://raw.githubusercontent.com/dothq/browser-desktop/nightly/package.json -o package.json
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build
         run: |
@@ -196,142 +161,112 @@ jobs:
           cp ./appimage/Dot_Browser-x86-64.AppImage ../Dot_Browser-x86-64.AppImage
           cp ./appimage/Dot_Browser-x86-64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: '${{ env.DOT_VERSION }}-${{ github.run_id }}'
-          name: 'Nightly v${{ env.DOT_VERSION }}'
-          assets: '["Dot_Browser-x86-64.AppImage","Dot_Browser-x86-64.AppImage.zsync"]'
-          overwrite: true
-          
-      - name: Build webhook
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+          with:
+            name: dot-${{ needs.build-data.outputs.version }}.AppImage
+            path: ./Dot_Browser-x86-64.AppImage
 
+  # linux-32:
+  #   name: 🐧 Linux (32-bit)
+  #   runs-on: ubuntu-20.04
+  #   needs: [build-data]
+  #   env:
+  #     CI_SKIP_INIT: true
+  #     SHELL: /bin/sh
+  #   steps:
+  #     - run: echo ${{ github.run_id }}
 
-  linux-32:
-    name: 🐧 Linux (32-bit)
-    runs-on: ubuntu-20.04
-    env:
-        CI_SKIP_INIT: true
-        SHELL: /bin/sh
-        RUST_VERSION: "1.51.0"
-    steps:
-      - run: echo ${{ github.run_id }}
+  #     - uses: actions/checkout@v2
 
-      - uses: actions/checkout@v2
+  #     - name: Cache build cache
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/cache/sccache
+  #         key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
 
-      - name: Cache build cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/cache/sccache
-          key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
+  #     - name: Free up space
+  #       run: |
+  #         sudo rm -rf /usr/share/dotnet
+  #         sudo rm -rf /opt/ghc
+  #         sudo rm -rf "/usr/local/share/boost"
+  #         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - name: Free up space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+  #     - name: Verify mozconfig
+  #       run: |
+  #         cat configs/linux/mozconfig-i686
 
-      - name: Verify mozconfig
-        run: |
-          cat configs/linux/mozconfig-i686
+  #     - name: Set up Git User
+  #       run: |
+  #         git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
+  #         git config --global user.name "dothq-robot"
 
-      - name: Set up Git User
-        run: |
-          git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
-          git config --global user.name "dothq-robot"
+  #     - name: Install dependencies
+  #       run: |
+  #         npm i typescript
+  #         sudo apt-get update --fix-missing
+  #         sudo apt-get update
+  #         sudo apt-get install dos2unix
+  #         sudo apt-get install gcc-multilib g++-multilib libdbus-glib-1-dev:i386 libgtk2.0-dev:i386 libgtk-3-dev:i386 libpango1.0-dev:i386 libxt-dev:i386 libx11-xcb-dev:i386 libpulse-dev:i386 libdrm-dev:i386
+  #         rustup target install i686-unknown-linux-gnu
+  #         rustup install ${{ needs.build-data.outputs.rust_version }}
+  #         rustup default ${{ needs.build-data.outputs.rust_version }}
 
-      - name: Install dependencies
-        run: |
-          npm i typescript
-          sudo apt-get update --fix-missing
-          sudo apt-get update
-          sudo apt-get install dos2unix
-          sudo apt-get install gcc-multilib g++-multilib libdbus-glib-1-dev:i386 libgtk2.0-dev:i386 libgtk-3-dev:i386 libpango1.0-dev:i386 libxt-dev:i386 libx11-xcb-dev:i386 libpulse-dev:i386 libdrm-dev:i386
-          rustup target install i686-unknown-linux-gnu
-          rustup install ${{ env.RUST_VERSION }}
-          rustup default ${{ env.RUST_VERSION }}
+  #     - name: Download workspace
+  #       run: |
+  #         ./melon download
+  #         cd src
+  #         git init
+  #         echo Init
+  #         git checkout --orphan base
+  #         echo Checkout
+  #         git add -f .
+  #         echo Add
+  #         git commit -am "Firefox"
+  #         echo Commit
+  #         git checkout -b dot
+  #         echo Checkout 2
+  #         cd ..
+  #         sudo rm -rf firefox-*.source.tar.xz
 
-      - name: Download workspace
-        run: |
-          ./melon download
-          cd src
-          git init
-          echo Init
-          git checkout --orphan base
-          echo Checkout
-          git add -f .
-          echo Add
-          git commit -am "Firefox"
-          echo Commit
-          git checkout -b dot
-          echo Checkout 2
-          cd ..
-          sudo rm -rf firefox-*.source.tar.xz
+  #     - name: Fix line-endings
+  #       run: ./melon fix-le
 
-      - name: Fix line-endings
-        run: ./melon fix-le
+  #     - name: Import patches
+  #       run: ./melon import --minimal
 
-      - name: Import patches
-        run: ./melon import --minimal
+  #     - name: Build
+  #       run: |
+  #         cd src
+  #         ./mach bootstrap --application-choice browser --no-interactive
+  #         cd ..
+  #         MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build --arch i686
 
-      - name: Build
-        run: |
-          cd src
-          ./mach bootstrap --application-choice browser --no-interactive
-          cd ..
-          MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build --arch i686
+  #     - name: Package
+  #       run: |
+  #         cd src
+  #         ./mach package
+  #         cd ..
 
-      - name: Package
-        run: |
-          cd src
-          ./mach package
-          cd ..
+  #     - name: Make artifact available
+  #       run: |
+  #         cp ./src/obj-*/dist/dot-*.tar.bz2 .
+  #         mv dot-*.tar.bz2 "dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2"
 
-      - name: Export release data
-        shell: bash
-        run: |
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      - name: Make artifact available
-        run: |
-          cp ./src/obj-*/dist/dot-*.tar.bz2 .
-          mv dot-*.tar.bz2 "dot-${{ env.DOT_VERSION }}-i686.tar.bz2"
-
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["dot-${{ env.DOT_VERSION }}-i686.tar.bz2"]'
-          body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
-          overwrite: true
-
-      - name: Build webhook
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+  #     - name: Upload artifact 
+  #       uses: actions/upload-artifact@v2
+  #         with:
+  #           name: dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
+  #           path: ./dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
 
   windows-64:
     name: 🏁 Windows (64-bit)
     runs-on: [self-hosted, Windows, X64]
+    needs: [build-data]
     env:
-        CI_SKIP_INIT: true
-        SHELL: /bin/sh
-        RUST_VERSION: "1.51.0"
+      CI_SKIP_INIT: true
+      SHELL: /bin/sh
     steps:
       - run: echo ${{ github.run_id }}
         shell: bash --noprofile --norc -eo pipefail {0}
@@ -393,8 +328,6 @@ jobs:
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           echo ::set-output name=NPATH::$(echo $PATH)
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         id: path
 
       - name: Build
@@ -403,8 +336,8 @@ jobs:
           type nul > C:\build-script-64.sh
           echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script-64.sh
           echo echo $PATH >> C:\build-script-64.sh
-          echo rustup install ${{ env.RUST_VERSION }} >> C:\build-script-64.sh
-          echo rustup default ${{ env.RUST_VERSION }} >> C:\build-script-64.sh
+          echo rustup install ${{ needs.build-data.outputs.rust_version }} >> C:\build-script-64.sh
+          echo rustup default ${{ needs.build-data.outputs.rust_version }} >> C:\build-script-64.sh
           echo rustc --version >> C:\build-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script-64.sh
           echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build >> C:\build-script-64.sh
@@ -416,8 +349,8 @@ jobs:
           type nul > C:\pack-script-64.sh
           echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\pack-script-64.sh
           echo echo $PATH >> C:\pack-script-64.sh
-          echo rustup install ${{ env.RUST_VERSION }} >> C:\pack-script-64.sh
-          echo rustup default ${{ env.RUST_VERSION }} >> C:\pack-script-64.sh
+          echo rustup install ${{ needs.build-data.outputs.rust_version }} >> C:\pack-script-64.sh
+          echo rustup default ${{ needs.build-data.outputs.rust_version }} >> C:\pack-script-64.sh
           echo rustc --version >> C:\pack-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script-64.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\pack-script-64.sh
@@ -429,33 +362,21 @@ jobs:
           cd /c/_work/browser-desktop/browser-desktop/src/obj-*/dist/install/sea
           cp dot-*.installer.exe /c/_work/browser-desktop/browser-desktop
           cd /c/_work/browser-desktop/browser-desktop
-          mv dot-*.installer.exe "Install Dot Browser ${{ env.DOT_VERSION }}.exe"
+          mv dot-*.installer.exe "dot-${{ needs.build-data.outputs.version }}.exe"
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
-        with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["Install Dot Browser ${{ env.DOT_VERSION }}.exe"]'
-          body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
-          overwrite: true
-
-      - name: Build webhook
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+      - name: Upload artifact 
+        uses: actions/upload-artifact@v2
+          with:
+            name: dot-${{ needs.build-data.outputs.version }}.exe
+            path: ./dot-${{ needs.build-data.outputs.version }}.exe
 
   # windows-32:
   #   name: 🏁 Windows (32-bit)
   #   runs-on: [self-hosted, Windows, X64]
+  #   needs: [build-data]
   #   env:
-  #       CI_SKIP_INIT: true
-  #       SHELL: /bin/sh
-  #       RUST_VERSION: "1.51.0"
+  #     CI_SKIP_INIT: true
+  #     SHELL: /bin/sh
   #   steps:
   #     - run: echo ${{ github.run_id }}
   #       shell: bash --noprofile --norc -eo pipefail {0}
@@ -517,8 +438,6 @@ jobs:
   #       shell: bash --noprofile --norc -eo pipefail {0}
   #       run: |
   #         echo ::set-output name=NPATH::$(echo $PATH)
-  #         echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-  #         echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
   #       id: path
 
   #     - name: Build
@@ -527,8 +446,8 @@ jobs:
   #         type nul > C:\build-script-32.sh
   #         echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\build-script-32.sh
   #         echo echo $PATH >> C:\build-script-32.sh
-  #         echo rustup install ${{ env.RUST_VERSION }} >> C:\build-script-32.sh
-  #         echo rustup default ${{ env.RUST_VERSION }} >> C:\build-script-32.sh
+  #         echo rustup install ${{ needs.build-data.outputs.rust_version }} >> C:\build-script-32.sh
+  #         echo rustup default ${{ needs.build-data.outputs.rust_version }} >> C:\build-script-32.sh
   #         echo rustc --version >> C:\build-script-32.sh
   #         echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script-32.sh
   #         echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build --arch i686 >> C:\build-script-32.sh
@@ -540,8 +459,8 @@ jobs:
   #         type nul > C:\pack-script-32.sh
   #         echo PATH="$PATH:${{ steps.path.outputs.NPATH }}:/c/Users/Administrator/.cargo/bin" >> C:\pack-script-32.sh
   #         echo echo $PATH >> C:\pack-script-32.sh
-  #         echo rustup install ${{ env.RUST_VERSION }} >> C:\pack-script-32.sh
-  #         echo rustup default ${{ env.RUST_VERSION }} >> C:\pack-script-32.sh
+  #         echo rustup install ${{ needs.build-data.outputs.rust_version }} >> C:\pack-script-32.sh
+  #         echo rustup default ${{ needs.build-data.outputs.rust_version }} >> C:\pack-script-32.sh
   #         echo rustc --version >> C:\pack-script-32.sh
   #         echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script-32.sh
   #         echo MOZCONFIG=../configs/windows/mozconfig-i686 ./mach package >> C:\pack-script-32.sh
@@ -553,33 +472,21 @@ jobs:
   #         cd /c/_work/browser-desktop/browser-desktop/src/obj-*/dist/install/sea
   #         cp dot-*.installer.exe /c/_work/browser-desktop/browser-desktop
   #         cd /c/_work/browser-desktop/browser-desktop
-  #         mv dot-*.installer.exe "Install Dot Browser ${{ env.DOT_VERSION }} i386.exe"
+  #         mv dot-*.installer.exe "dot-${{ needs.build-data.outputs.version }}-i386.exe"
 
-  #     - name: Release
-  #       uses: dothq/tag-and-release-and-upload@master
+  #     - name: Upload artifact 
+  #       uses: actions/upload-artifact@v2
   #       with:
-  #         github-token: ${{ secrets.ROBOT_TOKEN }}
-  #         version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
-  #         name: "Nightly v${{ env.DOT_VERSION }}"
-  #         assets: '["Install Dot Browser ${{ env.DOT_VERSION }} i386.exe"]'
-  #         body_path: "C:\\_work\\browser-desktop\\browser-desktop\\.github\\RELEASE_TEMPLATE.md"
-  #         overwrite: true
-
-  #     - name: Build webhook
-  #       uses: dothq/actions-status-discord@master
-  #       if: always()
-  #       with:
-  #         webhook: ${{ secrets.DISCORD_WEBHOOK }}
-  #         username: Build
-  #         avatar_url: "https://github.com/dothq.png"
+  #         name: dot-${{ needs.build-data.outputs.version }}-i386.exe
+  #         path: ./dot-${{ needs.build-data.outputs.version }}-i386.exe
 
   mac:
     name: 🍏 macOS (64-bit)
     runs-on: macos-latest
+    needs: [build-data]
     env:
-        CI_SKIP_INIT: true
-        SHELL: /bin/sh
-        RUST_VERSION: "1.51.0"
+      CI_SKIP_INIT: true
+      SHELL: /bin/sh
     steps:
       - run: echo ${{ github.run_id }}
 
@@ -605,8 +512,8 @@ jobs:
         run: |
           npm i typescript
           brew install dos2unix
-          rustup install ${{ env.RUST_VERSION }}
-          rustup default ${{ env.RUST_VERSION }}
+          rustup install ${{ needs.build-data.outputs.rust_version }}
+          rustup default ${{ needs.build-data.outputs.rust_version }}
 
       - name: Download workspace
         run: |
@@ -644,42 +551,24 @@ jobs:
           ./mach package
           cd ..
 
-      - name: Export release data
-        shell: bash
-        run: |
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
       - name: Make artifact available
         run: |
           cp ./src/obj-*/dist/dot-*.dmg .
-          mv dot-*.dmg "Dot Browser ${{ env.DOT_VERSION }}.dmg"
+          mv dot-*.dmg "dot-${{ needs.build-data.outputs.version }}.dmg"
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
+      - name: Upload artifact 
+        uses: actions/upload-artifact@v2
         with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["Dot Browser ${{ env.DOT_VERSION }}.dmg"]'
-          body_path: "/Users/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
-          overwrite: true
-
-      - name: Build webhook
-        uses: dothq/actions-status-discord@master
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Build
-          avatar_url: "https://github.com/dothq.png"
+          name: dot-${{ needs.build-data.outputs.version }}.dmg
+          path: ./dot-${{ needs.build-data.outputs.version }}.dmg
 
   source:
     name: 📦 Source tarball
     runs-on: ubuntu-20.04
+    needs: [build-data]
     env:
-        CI_SKIP_INIT: true
-        SHELL: /bin/sh
-        RUST_VERSION: "1.51.0"
+      CI_SKIP_INIT: true
+      SHELL: /bin/sh
     steps:
       - run: echo ${{ github.run_id }}
 
@@ -717,25 +606,45 @@ jobs:
       - name: Import patches
         run: ./melon import --minimal
 
-      - name: Export release data
-        shell: bash
-        run: |
-          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
       - name: Compress
         run: |
-          XZ_OPT=-9e tar -cJvf dot-${{ env.DOT_VERSION }}.source.tar.xz src
+          XZ_OPT=-9e tar -cJvf dot-${{ needs.build-data.outputs.version }}.source.tar.xz src
 
-      - name: Release
-        uses: dothq/tag-and-release-and-upload@master
+      - name: Upload artifact 
+        uses: actions/upload-artifact@v2
         with:
-          github-token: ${{ secrets.ROBOT_TOKEN }}
-          version: "${{ env.DOT_VERSION }}-${{ github.run_id }}"
-          name: "Nightly v${{ env.DOT_VERSION }}"
-          assets: '["dot-${{ env.DOT_VERSION }}.source.tar.xz"]'
-          body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
-          overwrite: true
+          name: dot-${{ needs.build-data.outputs.version }}.source.tar.xz
+          path: ./dot-${{ needs.build-data.outputs.version }}.source.tar.xz
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [
+      build-data, 
+      mac, 
+      windows-64, 
+      appimage-64, 
+      flatpak-64, 
+      linux-64, 
+      source
+    ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v2
+
+      - echo: ls -R
+
+      # - name: Release
+      #   uses: dothq/tag-and-release-and-upload@master
+      #   with:
+      #     github-token: ${{ secrets.ROBOT_TOKEN }}
+      #     version: "${{ needs.build-data.outputs.version }}-${{ github.run_id }}"
+      #     name: "Nightly v${{ needs.build-data.outputs.version }}"
+      #     assets: '["dot-${{ needs.build-data.outputs.version }}.source.tar.xz"]'
+      #     body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
+      #     overwrite: true
 
       - name: Build webhook
         uses: dothq/actions-status-discord@master
@@ -744,18 +653,3 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           username: Build
           avatar_url: "https://github.com/dothq.png"
-
-  # autorestart:
-  #   name: Autorestart
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'schedule' && failure()
-  #   needs: [linux, windows, mac]
-  #   steps:
-  #     - name: Retry the workflow
-  #       run: |
-  #         curl -i \
-  #         -X POST \
-  #         -H "Accept: application/vnd.github.v3+json" \
-  #         -H "Authorization: token ${{ secrets.ROBOT_TOKEN }}" \
-  #         https://api.github.com/repos/dothq/browser-desktop/actions/workflows/4667739/dispatches \
-  #         -d '{"ref": "${{ github.ref }}" }'
