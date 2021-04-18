@@ -142,9 +142,9 @@ jobs:
 
       - name: Upload artifact 
         uses: actions/upload-artifact@v2
-          with:
-            name: dot-${{ needs.build-data.outputs.version }}.flatpak
-            path: ./dot-nightly.flatpak
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.flatpak
+          path: ./dot-nightly.flatpak
   
   appimage-64:
     name: 📦 AppImage (64 bit)
@@ -163,9 +163,9 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
-          with:
-            name: dot-${{ needs.build-data.outputs.version }}.AppImage
-            path: ./Dot_Browser-x86-64.AppImage
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.AppImage
+          path: ./Dot_Browser-x86-64.AppImage
 
   # linux-32:
   #   name: 🐧 Linux (32-bit)
@@ -256,9 +256,9 @@ jobs:
 
   #     - name: Upload artifact 
   #       uses: actions/upload-artifact@v2
-  #         with:
-  #           name: dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
-  #           path: ./dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
+  #       with:
+  #         name: dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
+  #         path: ./dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
 
   windows-64:
     name: 🏁 Windows (64-bit)
@@ -366,9 +366,9 @@ jobs:
 
       - name: Upload artifact 
         uses: actions/upload-artifact@v2
-          with:
-            name: dot-${{ needs.build-data.outputs.version }}.exe
-            path: ./dot-${{ needs.build-data.outputs.version }}.exe
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.exe
+          path: ./dot-${{ needs.build-data.outputs.version }}.exe
 
   # windows-32:
   #   name: 🏁 Windows (32-bit)
