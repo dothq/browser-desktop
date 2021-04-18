@@ -109,9 +109,9 @@ jobs:
 
       - name: Upload artifact 
         uses: actions/upload-artifact@v2
-          with:
-            name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
-            path: ./dot-${{ needs.build-data.outputs.version }}.tar.bz2
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
+          path: ./dot-${{ needs.build-data.outputs.version }}.tar.bz2
       
   flatpak-64:
     name: 📦 Flatpak (64 bit)
