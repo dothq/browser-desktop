@@ -17,7 +17,10 @@ export const init = async (directory: Command) => {
 
     const cwd = process.cwd();
 
-    const dir = resolve((cwd as string), directory.toString());
+    const dir = resolve(
+        cwd as string,
+        directory.toString()
+    );
 
     if (!existsSync(dir)) {
         log.error(
@@ -43,17 +46,25 @@ export const init = async (directory: Command) => {
 
     version = version.trim().replace(/\\n/g, "");
 
-    await dispatch("git", ["init"], (dir as string));
+    await dispatch("git", ["init"], dir as string);
     await dispatch(
         "git",
         ["checkout", "--orphan", version],
-        (dir as string)
+        dir as string
     );
-    await dispatch("git", ["add", "-f", "."], (dir as string));
+    await dispatch(
+        "git",
+        ["add", "-f", "."],
+        dir as string
+    );
     await dispatch(
         "git",
         ["commit", "-am", `"Firefox ${version}"`],
-        (dir as string)
+        dir as string
     );
-    await dispatch("git", ["checkout", "-b", "dot"], (dir as string));
+    await dispatch(
+        "git",
+        ["checkout", "-b", "dot"],
+        dir as string
+    );
 };
