@@ -634,7 +634,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v2
 
-      - echo: ls -R
+      - run: ls -R
 
       # - name: Release
       #   uses: dothq/tag-and-release-and-upload@master
