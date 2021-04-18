@@ -31,6 +31,11 @@ const unpack = async (name: string, version: string) => {
 
     appendFileSync(
         resolve(cwd, "src", ".gitignore"),
+        "\n\n# Imported files"
+    );
+
+    appendFileSync(
+        resolve(cwd, "src", ".gitignore"),
         "*.rej"
     );
 
