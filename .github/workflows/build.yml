@@ -617,7 +617,7 @@ jobs:
           path: ./dot-${{ needs.build-data.outputs.version }}.source.tar.xz
 
   release:
-    name: Release
+    name: 🚀 Release
     runs-on: ubuntu-latest
     needs: [
       build-data, 
