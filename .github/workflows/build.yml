@@ -14,11 +14,12 @@ jobs:
       sha: ${{ steps.data.outputs.shortsha }}
       rust_version: "1.51.0" # update this every so often to match latest stable rust release
     steps:
+      - uses: actions/checkout@v2
+
       - name: Export release data
         id: data
         shell: bash
         run: |
-          curl -L https://raw.githubusercontent.com/dothq/browser-desktop/nightly/package.json -o package.json
           echo "::set-output name=dotversion::$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')"
           echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
 
