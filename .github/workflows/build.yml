@@ -169,6 +169,49 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           username: Build
           avatar_url: "https://github.com/dothq.png"
+  
+  appimage-64:
+    name: 📦 AppImage (64 bit)
+    needs: linux-64
+  
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Clone packaging scripts
+        run: git clone --recurse-submodules https://github.com/dothq/packages.git
+  
+      - name: Export release data
+        shell: bash
+        run: |
+          curl -L https://raw.githubusercontent.com/dothq/browser-desktop/nightly/package.json -o package.json
+          echo "DOT_VERSION=$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build
+        run: |
+          cd packages/
+          ./appimage/build.sh
+          cp ./appimage/Dot_Browser-x86-64.AppImage ../Dot_Browser-x86-64.AppImage
+          cp ./appimage/Dot_Browser-x86-64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
+
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version: '${{ env.DOT_VERSION }}-${{ github.run_id }}'
+          name: 'Nightly v${{ env.DOT_VERSION }}'
+          assets: '["Dot_Browser-x86-64.AppImage","Dot_Browser-x86-64.AppImage.zsync"]'
+          overwrite: true
+          
+      - name: Build webhook
+        uses: dothq/actions-status-discord@master
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: Build
+          avatar_url: "https://github.com/dothq.png"
 
 
   linux-32:
