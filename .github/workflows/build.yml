@@ -563,7 +563,7 @@ jobs:
           path: ./dot-${{ needs.build-data.outputs.version }}.dmg
 
   source:
-    name: 📦 Source tarball
+    name: 📁 Source tarball
     runs-on: ubuntu-20.04
     needs: [build-data]
     env:
