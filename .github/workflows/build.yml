@@ -193,18 +193,17 @@ jobs:
         run: |
           cd packages/
           ./appimage/build.sh
-          tree .
-          # cp ./appimage/Dot_Browser-x86-64.AppImage ../Dot_Browser-x86-64.AppImage
-          # cp ./appimage/Dot_Browser-x86-64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
+          cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
+          cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
 
-#      - name: Release
-#        uses: dothq/tag-and-release-and-upload@master
-#        with:
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          version: '${{ env.DOT_VERSION }}-${{ github.run_id }}'
-#          name: 'Nightly v${{ env.DOT_VERSION }}'
-#          assets: '["Dot_Browser-x86-64.AppImage","Dot_Browser-x86-64.AppImage.zsync"]'
-#          overwrite: true
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version: '${{ env.DOT_VERSION }}-${{ github.run_id }}'
+          name: 'Nightly v${{ env.DOT_VERSION }}'
+          assets: '["Dot_Browser-x86-64.AppImage","Dot_Browser-x86-64.AppImage.zsync"]'
+          overwrite: true
           
       - name: Build webhook
         uses: dothq/actions-status-discord@master
