@@ -88,7 +88,7 @@ jobs:
         run: ./melon fix-le
 
       - name: Import patches
-        run: ./melon import --minimal
+        run: ./melon import --minimal && ./melon doctor patches
 
       - name: Build
         run: |
@@ -235,7 +235,7 @@ jobs:
   #       run: ./melon fix-le
 
   #     - name: Import patches
-  #       run: ./melon import --minimal
+  #       run: ./melon import --minimal && ./melon doctor patches
 
   #     - name: Build
   #       run: |
@@ -323,7 +323,8 @@ jobs:
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
           ./melon fix-le
-          ./melon import --minimal
+          ./melon import --minimal 
+          ./melon doctor patches
 
       - name: Update path
         shell: bash --noprofile --norc -eo pipefail {0}
@@ -434,6 +435,7 @@ jobs:
   #       run: |
   #         ./melon fix-le
   #         ./melon import --minimal
+  #         ./melon doctor patches
 
   #     - name: Update path
   #       shell: bash --noprofile --norc -eo pipefail {0}
@@ -537,7 +539,7 @@ jobs:
         run: ./melon fix-le
 
       - name: Import patches
-        run: ./melon import --minimal
+        run: ./melon import --minimal && ./melon doctor patches
 
       - name: Build
         run: |
@@ -605,7 +607,7 @@ jobs:
         run: ./melon fix-le
 
       - name: Import patches
-        run: ./melon import --minimal
+        run: ./melon import --minimal && ./melon doctor patches
 
       - name: Compress
         run: |
