@@ -30,6 +30,15 @@ start_node() {
     fi
 }
 
+run_doctor() {
+    if command -v "python3" > /dev/null;
+    then
+        python3 scripts/doctors/$@.py
+    else
+        echo "Melon requires python3 for this doctor command."
+    fi
+}
+
 run() {
     if command -v "node" > /dev/null;
     then
@@ -37,10 +46,18 @@ run() {
         rm .dotbuild/command >/dev/null 2>&1
         echo "$@" >> .dotbuild/command
 
-        case $@ in
+        case $1 in
             rebuild)
                 echo Rebuilding...
                 build
+            ;;
+
+            doctor)
+                if [ -z $2 ]; then 
+                    echo "You must specify the doctor name. See scripts/doctors for more information."; 
+                else 
+                    run_doctor $2
+                fi
             ;;
 
             *)
@@ -53,7 +70,7 @@ run() {
             PATH="$PATH:/c/Program Files/nodejs"
             run $@
         else
-            echo "This dot command requires node, which wasn't found on the system!"
+            echo "This melon command requires node, which wasn't found on the system!"
             exit 1
         fi
     fi
