@@ -118,7 +118,7 @@ jobs:
       
   flatpak-64:
     name: 📦 Flatpak (64 bit)
-    needs: [build-data, linux-64]
+    needs: [build-data]
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
@@ -151,7 +151,7 @@ jobs:
   
   appimage-64:
     name: 📦 AppImage (64 bit)
-    needs: [build-data, linux-64]
+    needs: [build-data]
     runs-on: ubuntu-latest
     steps:
       - name: Clone packaging scripts
