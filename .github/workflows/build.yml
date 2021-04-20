@@ -159,8 +159,8 @@ jobs:
         run: |
           cd packages/
           ./appimage/build.sh
-          cp ./appimage/Dot_Browser-x86-64.AppImage ../Dot_Browser-x86-64.AppImage
-          cp ./appimage/Dot_Browser-x86-64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
+          cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
+          cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2

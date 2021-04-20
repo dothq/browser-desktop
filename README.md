@@ -52,7 +52,7 @@ We chose Gecko due to its position as the best competitor to Chromium, and becau
 
 #### Arch Linux
 
-You can get Dot on Arch Linux through the binary [`dot`](https://aur.archlinux.org/packages/dot) or the build-it-yourself [`dot-git`](https://aur.archlinux.org/packages/dot-git) package.
+You can get Dot on Arch Linux through the binary [`dot-bin`](https://aur.archlinux.org/packages/dot-bin) or the build-it-yourself [`dot-git`](https://aur.archlinux.org/packages/dot-git) package.
 
 ## 🏗 Build guides
 
