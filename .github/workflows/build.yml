@@ -12,6 +12,7 @@ jobs:
     outputs:
       version: ${{ steps.data.outputs.dotversion }}
       sha: ${{ steps.data.outputs.shortsha }}
+      build_date: ${{ steps.data.outputs.builddate }}
       rust_version: "1.51.0" # update this every so often to match latest stable rust release
     steps:
       - uses: actions/checkout@v2
@@ -22,6 +23,7 @@ jobs:
         run: |
           echo "::set-output name=dotversion::$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')"
           echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
+          echo "::set-output name=builddate::$(date +"%Y%m%d")"
 
   linux-64:
     name: 🐧 Linux (64-bit)
@@ -637,17 +639,25 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v2
 
-      - run: ls -R
+      - name: List artifacts
+        run: ls | grep dot-${{ needs.build-data.outputs.version }}
 
-      # - name: Release
-      #   uses: dothq/tag-and-release-and-upload@master
-      #   with:
-      #     github-token: ${{ secrets.ROBOT_TOKEN }}
-      #     version: "${{ needs.build-data.outputs.version }}-${{ github.run_id }}"
-      #     name: "Nightly v${{ needs.build-data.outputs.version }}"
-      #     assets: '["dot-${{ needs.build-data.outputs.version }}.source.tar.xz"]'
-      #     body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
-      #     overwrite: true
+      - name: Release
+        uses: dothq/tag-and-release-and-upload@master
+        with:
+          github-token: ${{ secrets.ROBOT_TOKEN }}
+          version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
+          name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
+          assets: '[
+            "dot-87.0.AppImage",
+            "dot-87.0.dmg",
+            "dot-87.0.exe",
+            "dot-87.0.flatpak",
+            "dot-87.0.source.tar.xz",
+            "dot-87.0.tar.bz2",
+          ]'
+          body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
+          overwrite: true
 
       - name: Build webhook
         uses: dothq/actions-status-discord@master
