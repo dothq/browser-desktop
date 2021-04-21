@@ -98,6 +98,8 @@ const unpack = async (name: string, version: string) => {
         );
 
         removeSync(name);
+
+        process.exit(0);
     });
 };
 
