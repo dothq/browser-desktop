@@ -166,8 +166,14 @@ export const reset = async ({ hard }: { hard?: boolean }) => {
                         }
                     );
 
+                    if (hard) {
+                        rimraf.sync(
+                            resolve(SRC_DIR)
+                        );
+                    }
+
                     log.success("Reset successfully.");
-                    log.info(
+                    if (!hard) log.info(
                         "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
                     );
                 }
