@@ -640,14 +640,7 @@ jobs:
           github-token: ${{ secrets.ROBOT_TOKEN }}
           version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
           name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
-          assets: '[
-            "dot-87.0.AppImage",
-            "dot-87.0.dmg",
-            "dot-87.0.exe",
-            "dot-87.0.flatpak",
-            "dot-87.0.source.tar.xz",
-            "dot-87.0.tar.bz2"
-          ]'
+          assets: '["dot-87.0.AppImage", "dot-87.0.dmg", "dot-87.0.exe", "dot-87.0.flatpak", "dot-87.0.source.tar.xz", "dot-87.0.tar.bz2"]'
           body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 
