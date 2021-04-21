@@ -8,7 +8,11 @@ import { SRC_DIR } from "../constants";
 import { IPatch } from "../interfaces/patch";
 import manualPatches from "../manual-patches";
 
-export const reset = async ({ hard }: { hard?: boolean }) => {
+export const reset = async ({
+    hard
+}: {
+    hard?: boolean;
+}) => {
     try {
         if (hard) {
             log.hardWarning(
@@ -173,5 +177,5 @@ export const reset = async ({ hard }: { hard?: boolean }) => {
                 }
             })
             .catch((e) => e);
-    } catch (e) { }
+    } catch (e) {}
 };
