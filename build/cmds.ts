@@ -112,6 +112,13 @@ export const commands = [
         cmd: "reset",
         description:
             "Reset the source directory to stock Firefox.",
+        options: [
+            {
+                arg: "--hard",
+                description:
+                    "Should nuke the entire src directory."
+            }
+        ],
         controller: reset
     },
     {
