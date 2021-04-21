@@ -171,19 +171,16 @@ export const reset = async ({
                     );
 
                     if (hard) {
-                        log.info(
-                            `Deleting src...`
-                        );
+                        log.info(`Deleting src...`);
 
-                        rimraf.sync(
-                            resolve(SRC_DIR)
-                        );
+                        rimraf.sync(resolve(SRC_DIR));
                     }
 
                     log.success("Reset successfully.");
-                    if (!hard) log.info(
-                        "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
-                    );
+                    if (!hard)
+                        log.info(
+                            "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
+                        );
                 }
             })
             .catch((e) => e);
