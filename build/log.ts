@@ -51,6 +51,14 @@ class Log {
         );
     }
 
+    hardWarning(...args: any[]) {
+        console.info(
+            "",
+            chalk.bgRed.bold("WARNING"),
+            ...args
+        );
+    }
+
     success(...args: any[]) {
         console.log(
             `\n${chalk.greenBright.bold("SUCCESS")}`,
