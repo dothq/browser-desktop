@@ -167,6 +167,10 @@ export const reset = async ({ hard }: { hard?: boolean }) => {
                     );
 
                     if (hard) {
+                        log.info(
+                            `Deleting src...`
+                        );
+
                         rimraf.sync(
                             resolve(SRC_DIR)
                         );
