@@ -9,11 +9,7 @@ class Log {
         this.startTime = d.getTime();
     }
 
-    private withLeading(num: number) {
-        return num.toString().padStart(2, "0");
-    }
-
-    private getDiff() {
+    getDiff() {
         const d = new Date();
 
         const currentTime = d.getTime();
