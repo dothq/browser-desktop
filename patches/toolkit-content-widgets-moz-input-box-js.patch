@@ -1,12 +1,13 @@
 diff --git a/toolkit/content/widgets/moz-input-box.js b/toolkit/content/widgets/moz-input-box.js
-index 2e3379c45e03acfb16d4e635dc64fa6aa22c4546..bea79da95b19ab1f1fba0acccb3aea85d089e8d3 100644
+index 7ef1e453446063a0115e4e25bfbfbb20ecc8fc58..d45e0ad550b916f1c574ee1009db10c023411186 100644
 --- a/toolkit/content/widgets/moz-input-box.js
 +++ b/toolkit/content/widgets/moz-input-box.js
-@@ -13,12 +13,12 @@
+@@ -13,13 +13,12 @@
      },
      get editMenuItems() {
        return `
 -      <menuitem data-l10n-id="text-action-undo" cmd="cmd_undo"></menuitem>
+-      <menuitem data-l10n-id="text-action-redo" cmd="cmd_redo"></menuitem>
 -      <menuseparator></menuseparator>
 -      <menuitem data-l10n-id="text-action-cut" cmd="cmd_cut"></menuitem>
 -      <menuitem data-l10n-id="text-action-copy" cmd="cmd_copy"></menuitem>
@@ -18,6 +19,6 @@ index 2e3379c45e03acfb16d4e635dc64fa6aa22c4546..bea79da95b19ab1f1fba0acccb3aea85
 +      <menuitem class="menuitem-iconic" image="chrome://browser/skin/edit-copy.svg" data-l10n-id="text-action-copy" cmd="cmd_copy"/>
 +      <menuitem class="menuitem-iconic" image="chrome://browser/skin/edit-paste.svg" data-l10n-id="text-action-paste" cmd="cmd_paste"/>
 +      <menuitem class="menuitem-iconic" image="chrome://global/skin/icons/delete.svg" data-l10n-id="text-action-delete" cmd="cmd_delete"/>
-       <menuseparator></menuseparator>
        <menuitem data-l10n-id="text-action-select-all" cmd="cmd_selectAll"></menuitem>
      `;
+     },
