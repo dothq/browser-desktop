@@ -23,18 +23,6 @@ jobs:
                 git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
                 git config --global user.name "dothq-robot"
         
-            - name: Get week number
-              id: week
-              run: echo "::set-output name=weekno::$(date +%V)"
-        
-            - name: Cache repository
-              uses: actions/cache@v2
-              id: cache
-              with:
-                path: |
-                  ~/work/browser-desktop/browser-desktop/**/*
-                key: ${{ steps.week.outputs.weekno }}
-        
             - uses: actions/checkout@v2
               if: steps.cache.outputs.cache-hit != 'true'
               
