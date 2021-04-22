@@ -111,10 +111,6 @@ export const download = async (
         .split("/")[0];
 
     if (firefoxVersion) {
-        if (version !== firefoxVersion)
-            log.warning(
-                `Latest version of Firefox (${version}) does not match frozen version (${firefoxVersion}).`
-            );
         version = firefoxVersion;
     }
 
