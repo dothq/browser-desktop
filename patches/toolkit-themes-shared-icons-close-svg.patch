@@ -1,13 +1,12 @@
 diff --git a/toolkit/themes/shared/icons/close.svg b/toolkit/themes/shared/icons/close.svg
-index e5eaf5159be65df07eae807746d44a946707381e..34ead2f1be945aedbefdaef5ebdc65d4245261cc 100644
+index 08e3832568de4a9d595f7a8d00f05b1a27d8b293..a176b54f62d3ab0a4967b4f89e22fda8af8a1c4b 100644
 --- a/toolkit/themes/shared/icons/close.svg
 +++ b/toolkit/themes/shared/icons/close.svg
-@@ -2,6 +2,6 @@
+@@ -2,5 +2,6 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
--  <rect fill="context-fill" fill-opacity="context-fill-opacity" width="20" height="20" rx="2" ry="2"/>
--  <path fill="context-fill" fill-opacity="context-stroke-opacity" d="M11.06 10l3.47-3.47a.75.75 0 0 0-1.06-1.06L10 8.94 6.53 5.47a.75.75 0 1 0-1.06 1.06L8.94 10l-3.47 3.47a.75.75 0 1 0 1.06 1.06L10 11.06l3.47 3.47a.75.75 0 0 0 1.06-1.06z"/>
+ <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M9.06 8l3.47-3.47a.75.75 0 00-1.06-1.06L8 6.94 4.53 3.47a.75.75 0 10-1.06 1.06L6.94 8l-3.47 3.47a.75.75 0 101.06 1.06L8 9.06l3.47 3.47a.75.75 0 001.06-1.06z"/>
 -</svg>
 +  <path fill="context-fill" fill-opacity="context-stroke-opacity"
 +    d="M11.06 10l3.47-3.47a.75.75 0 0 0-1.06-1.06L10 8.94 6.53 5.47a.75.75 0 1 0-1.06 1.06L8.94 10l-3.47 3.47a.75.75 0 1 0 1.06 1.06L10 11.06l3.47 3.47a.75.75 0 0 0 1.06-1.06z" />
