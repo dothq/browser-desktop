@@ -1,8 +1,8 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 81de0fb201173b6661798ee21461eb3800059580..8da7ef55f864307806882cca4789d11cd46d6357 100644
+index 3ef1e1453591039f9c34edfe8b14af5d044d2266..089d87a986d6d61aa584a59c9bee8f460d7ed9eb 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -179,6 +179,21 @@ let JSPROCESSACTORS = {
+@@ -179,6 +179,20 @@ let JSPROCESSACTORS = {
   * available at https://firefox-source-docs.mozilla.org/dom/ipc/jsactors.html
   */
  let JSWINDOWACTORS = {
@@ -20,11 +20,10 @@ index 81de0fb201173b6661798ee21461eb3800059580..8da7ef55f864307806882cca4789d11c
 +
 +    matches: ["about:history"],
 +  },
-+
    AboutLogins: {
      parent: {
        moduleURI: "resource:///actors/AboutLoginsParent.jsm",
-@@ -519,14 +534,17 @@ let JSWINDOWACTORS = {
+@@ -520,14 +534,17 @@ let JSWINDOWACTORS = {
        moduleURI: "resource:///actors/LightweightThemeChild.jsm",
        events: {
          pageshow: { mozSystemGroup: true },
@@ -45,8 +44,8 @@ index 81de0fb201173b6661798ee21461eb3800059580..8da7ef55f864307806882cca4789d11c
        "chrome://browser/content/syncedtabs/sidebar.xhtml",
        "chrome://browser/content/places/historySidebar.xhtml",
        "chrome://browser/content/places/bookmarksSidebar.xhtml",
-@@ -763,8 +781,8 @@ let JSWINDOWACTORS = {
-   if (
+@@ -765,8 +782,8 @@ let JSWINDOWACTORS = {
+     !Services.startup.showedPreXULSkeletonUI &&
      Services.prefs.getCharPref(
        "extensions.activeThemeID",
 -      "default-theme@mozilla.org"
@@ -56,7 +55,7 @@ index 81de0fb201173b6661798ee21461eb3800059580..8da7ef55f864307806882cca4789d11c
    ) {
      return;
    }
-@@ -1356,26 +1374,26 @@ BrowserGlue.prototype = {
+@@ -1358,54 +1375,54 @@ BrowserGlue.prototype = {
      SessionStore.init();
  
      AddonManager.maybeInstallBuiltinAddon(
@@ -71,16 +70,85 @@ index 81de0fb201173b6661798ee21461eb3800059580..8da7ef55f864307806882cca4789d11c
        "1.1",
        "resource://builtin-themes/dark/"
      );
+ 
+-    if (
+-      AppConstants.NIGHTLY_BUILD &&
+-      Services.prefs.getBoolPref("browser.proton.enabled", false)
+-    ) {
+-      // Temporarily install a fork of the light & dark themes to do development on for
+-      // Proton. We only make this available if `browser.proton.enabled` is set
+-      // to true, and we make sure to uninstall it again during shutdown.
+-      const kProtonDarkThemeID = "firefox-compact-proton-dark@mozilla.org";
+-      AddonManager.maybeInstallBuiltinAddon(
+-        kProtonDarkThemeID,
+-        "1.0",
+-        "resource://builtin-themes/proton-dark/"
+-      );
+-
+-      const kProtonLightThemeID = "firefox-compact-proton-light@mozilla.org";
+-      AddonManager.maybeInstallBuiltinAddon(
+-        kProtonLightThemeID,
+-        "1.0",
+-        "resource://builtin-themes/proton-light/"
+-      );
+-      AsyncShutdown.profileChangeTeardown.addBlocker(
+-        "Uninstall Proton themes",
+-        async () => {
+-          for (let themeID of [kProtonDarkThemeID, kProtonLightThemeID]) {
+-            try {
+-              let addon = await AddonManager.getAddonByID(themeID);
+-              await addon.uninstall();
+-            } catch (e) {
+-              Cu.reportError(`Failed to uninstall ${themeID} on shutdown`);
+-            }
+-          }
+-        }
+-      );
+-    }
++//    if (
++//      AppConstants.NIGHTLY_BUILD &&
++//      Services.prefs.getBoolPref("browser.proton.enabled", false)
++//    ) {
++//      // Temporarily install a fork of the light & dark themes to do development on for
++//      // Proton. We only make this available if `browser.proton.enabled` is set
++//      // to true, and we make sure to uninstall it again during shutdown.
++//      const kProtonDarkThemeID = "firefox-compact-proton-dark@mozilla.org";
++//      AddonManager.maybeInstallBuiltinAddon(
++//        kProtonDarkThemeID,
++//        "1.0",
++//        "resource://builtin-themes/proton-dark/"
++//      );
++//
++//      const kProtonLightThemeID = "firefox-compact-proton-light@mozilla.org";
++//      AddonManager.maybeInstallBuiltinAddon(
++//        kProtonLightThemeID,
++//        "1.0",
++//        "resource://builtin-themes/proton-light/"
++//      );
++//      AsyncShutdown.profileChangeTeardown.addBlocker(
++//        "Uninstall Proton themes",
++//        async () => {
++//          for (let themeID of [kProtonDarkThemeID, kProtonLightThemeID]) {
++//            try {
++//              let addon = await AddonManager.getAddonByID(themeID);
++//              await addon.uninstall();
++//            } catch (e) {
++//              Cu.reportError(`Failed to uninstall ${themeID} on shutdown`);
++//            }
++//          }
++//        }
++//      );
++//    }
+ 
      AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-alpenglow@mozilla.org",
 -      "1.2",
--      "resource://builtin-themes/alpenglow/"
 +      "fusion@themes.dothq.co",
 +      "0.1",
-+      "resource://builtin-themes/fusion/"
+       "resource://builtin-themes/alpenglow/"
      );
  
-     if (AppConstants.MOZ_NORMANDY) {
+@@ -1413,7 +1430,7 @@ BrowserGlue.prototype = {
        Normandy.init();
      }
  
