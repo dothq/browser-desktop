@@ -54,7 +54,7 @@ commands.forEach((command) => {
     });
 
     _cmd.action(async (...args: any) => {
-        await shaCheck();
+        await shaCheck(command.cmd);
         await updateCheck();
 
         command.controller(...args);

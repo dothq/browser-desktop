@@ -13,6 +13,7 @@ import {
     melonPackage,
     reset,
     run,
+    setBranch,
     status
 } from "./commands";
 import { Cmd } from "./types";
@@ -126,6 +127,11 @@ export const commands: Cmd[] = [
         cmd: "run",
         description: "Run the browser.",
         controller: run
+    },
+    {
+        cmd: "set-branch <branch>",
+        description: "Change the default branch.",
+        controller: setBranch
     },
     {
         cmd: "status",
