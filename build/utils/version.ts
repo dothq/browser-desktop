@@ -8,4 +8,4 @@ export const getLatestFF = async () => {
     return Object.keys(data)[
         Object.keys(data).length - 1
     ];
-}
+};
