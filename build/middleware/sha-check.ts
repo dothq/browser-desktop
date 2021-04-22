@@ -25,8 +25,7 @@ export const shaCheck = async () => {
             log.warning(`The current branch \`${currentBranch}\` differs from the original branch \`${metadata.branch}\`.
             
 \t If you are changing the Firefox version, you will need to reset the tree
-\t with |${bin_name} reset --hard| and then |${bin_name} download|.
-`);
+\t with |${bin_name} reset --hard| and then |${bin_name} download|.`);
         }
     }
 };
