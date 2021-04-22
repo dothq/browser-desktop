@@ -44,7 +44,6 @@ run() {
     then
         mkdir .dotbuild >/dev/null 2>&1
         echo "$@" > .dotbuild/command
-        echo "$(git rev-parse HEAD) $(git branch --show-current)" > .dotbuild/metadata
 
         case $1 in
             rebuild)

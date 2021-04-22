@@ -2,6 +2,8 @@ import chalk from "chalk";
 import commander, { Command } from "commander";
 import { commands } from "./cmds";
 import Log from "./log";
+import { shaCheck } from "./middleware/sha-check";
+import { updateCheck } from "./middleware/update-check";
 import { errorHandler } from "./utils";
 
 const program = new Command();
@@ -28,13 +30,13 @@ program.version(`
 program.name(bin_name);
 
 commands.forEach((command) => {
-    if (
-        command.flags &&
-        !command.flags.platforms.includes(
+    if (command.flags) {
+        if (command.flags.platforms && !command.flags.platforms.includes(
             process.platform
-        )
-    )
-        return;
+        )) {
+            return;
+        }
+    }
 
     const _cmd = commander.command(command.cmd);
 
@@ -48,7 +50,12 @@ commands.forEach((command) => {
         _cmd.option(opt.arg, opt.description);
     });
 
-    _cmd.action(command.controller);
+    _cmd.action(async (...args: any) => {
+        await shaCheck();
+        await updateCheck();
+
+        command.controller(...args);
+    });
 
     program.addCommand(_cmd);
 });

@@ -9,6 +9,7 @@ import { moveSync, removeSync } from "fs-extra";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
+import { writeMetadata } from "../utils";
 import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
@@ -68,7 +69,7 @@ const unpack = async (name: string, version: string) => {
         });
     });
 
-    proc.on("exit", () => {
+    proc.on("exit", async () => {
         log.success(
             `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
         );
@@ -81,6 +82,8 @@ const unpack = async (name: string, version: string) => {
             resolve(process.cwd(), "package.json"),
             JSON.stringify(pjson, null, 2)
         );
+
+        await writeMetadata();
 
         removeSync(name);
     });
@@ -131,8 +134,7 @@ export const download = async (
         )
     ) {
         log.error(
-            `Cannot download version ${
-                version.split("b")[0]
+            `Cannot download version ${version.split("b")[0]
             } as it already exists at "${resolve(
                 process.cwd(),
                 `firefox-${version.split("b")[0]}`
@@ -166,8 +168,7 @@ export const download = async (
         )
     )
         log.error(
-            `Workspace with version "${
-                version.split("b")[0]
+            `Workspace with version "${version.split("b")[0]
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
