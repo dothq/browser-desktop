@@ -15,8 +15,9 @@ import {
     run,
     status
 } from "./commands";
+import { Cmd } from "./types";
 
-export const commands = [
+export const commands: Cmd[] = [
     {
         cmd: "bootstrap",
         description: "Bootstrap Dot Browser.",

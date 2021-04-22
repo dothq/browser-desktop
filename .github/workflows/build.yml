@@ -118,7 +118,7 @@ jobs:
       
   flatpak-64:
     name: 📦 Flatpak (64 bit)
-    needs: [build-data, linux-64]
+    needs: build-data
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
@@ -151,7 +151,7 @@ jobs:
   
   appimage-64:
     name: 📦 AppImage (64 bit)
-    needs: [build-data, linux-64]
+    needs: build-data
     runs-on: ubuntu-latest
     steps:
       - name: Clone packaging scripts
@@ -624,15 +624,7 @@ jobs:
   release:
     name: 🚀 Release
     runs-on: ubuntu-latest
-    needs: [
-      build-data, 
-      mac, 
-      windows-64, 
-      appimage-64, 
-      flatpak-64, 
-      linux-64, 
-      source
-    ]
+    needs: [build-data, mac, windows-64, appimage-64, flatpak-64, linux-64, source]
     steps:
       - uses: actions/checkout@v2
 
@@ -648,14 +640,7 @@ jobs:
           github-token: ${{ secrets.ROBOT_TOKEN }}
           version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
           name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
-          assets: '[
-            "dot-87.0.AppImage",
-            "dot-87.0.dmg",
-            "dot-87.0.exe",
-            "dot-87.0.flatpak",
-            "dot-87.0.source.tar.xz",
-            "dot-87.0.tar.bz2",
-          ]'
+          assets: '["dot-87.0.AppImage", "dot-87.0.dmg", "dot-87.0.exe", "dot-87.0.flatpak", "dot-87.0.source.tar.xz", "dot-87.0.tar.bz2"]'
           body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 

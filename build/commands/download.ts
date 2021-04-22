@@ -11,6 +11,7 @@ import ora from "ora";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
+import { getLatestFF, writeMetadata } from "../utils";
 import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
@@ -83,7 +84,7 @@ const unpack = async (name: string, version: string) => {
         });
     });
 
-    proc.on("exit", () => {
+    proc.on("exit", async () => {
         log.success(
             `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
         );
@@ -96,6 +97,8 @@ const unpack = async (name: string, version: string) => {
             resolve(process.cwd(), "package.json"),
             JSON.stringify(pjson, null, 2)
         );
+
+        await writeMetadata();
 
         removeSync(name);
 
@@ -116,19 +119,9 @@ export const download = async (
             pjson.versions["firefox-display"];
     }
 
-    const res = await axios.head(
-        `https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US`
-    );
-
-    let version = res.request.path
-        .replace("/pub/firefox/releases/", "")
-        .split("/")[0];
+    let version = await getLatestFF();
 
     if (firefoxVersion) {
-        if (version !== firefoxVersion)
-            log.warning(
-                `Latest version of Firefox (${version}) does not match frozen version (${firefoxVersion}).`
-            );
         version = firefoxVersion;
     }
 

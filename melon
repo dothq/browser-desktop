@@ -43,8 +43,7 @@ run() {
     if command -v "node" > /dev/null;
     then
         mkdir .dotbuild >/dev/null 2>&1
-        rm .dotbuild/command >/dev/null 2>&1
-        echo "$@" >> .dotbuild/command
+        echo "$@" > .dotbuild/command
 
         case $1 in
             rebuild)
