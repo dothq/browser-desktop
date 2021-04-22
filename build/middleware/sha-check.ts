@@ -14,11 +14,13 @@ export const shaCheck = async (command: string) => {
         blacklistedCommands.filter((c) =>
             command.startsWith(c)
         ).length !== 0 ||
-        !existsSync(resolve(
-            process.cwd(),
-            ".dotbuild",
-            "metadata"
-        ))
+        !existsSync(
+            resolve(
+                process.cwd(),
+                ".dotbuild",
+                "metadata"
+            )
+        )
     )
         return;
 
