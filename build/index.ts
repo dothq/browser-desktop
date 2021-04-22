@@ -31,9 +31,12 @@ program.name(bin_name);
 
 commands.forEach((command) => {
     if (command.flags) {
-        if (command.flags.platforms && !command.flags.platforms.includes(
-            process.platform
-        )) {
+        if (
+            command.flags.platforms &&
+            !command.flags.platforms.includes(
+                process.platform
+            )
+        ) {
             return;
         }
     }

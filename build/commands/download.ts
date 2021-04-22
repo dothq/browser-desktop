@@ -134,7 +134,8 @@ export const download = async (
         )
     ) {
         log.error(
-            `Cannot download version ${version.split("b")[0]
+            `Cannot download version ${
+                version.split("b")[0]
             } as it already exists at "${resolve(
                 process.cwd(),
                 `firefox-${version.split("b")[0]}`
@@ -168,7 +169,8 @@ export const download = async (
         )
     )
         log.error(
-            `Workspace with version "${version.split("b")[0]
+            `Workspace with version "${
+                version.split("b")[0]
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
