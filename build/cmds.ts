@@ -123,8 +123,7 @@ export const commands: Cmd[] = [
     },
     {
         cmd: "set-branch <branch>",
-        description:
-            "Change the default branch.",
+        description: "Change the default branch.",
         controller: setBranch
     },
     {

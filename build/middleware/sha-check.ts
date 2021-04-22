@@ -7,10 +7,15 @@ const blacklistedCommands = [
     "reset",
     "init",
     "set-branch"
-]
+];
 
 export const shaCheck = async (command: string) => {
-    if (blacklistedCommands.filter(c => command.startsWith(c)).length !== 0) return;
+    if (
+        blacklistedCommands.filter((c) =>
+            command.startsWith(c)
+        ).length !== 0
+    )
+        return;
 
     const metadata = JSON.parse(
         readFileSync(
