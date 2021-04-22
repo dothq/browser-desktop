@@ -56,6 +56,11 @@
             "emoji": "🍏",
             "code": ":green_apple:",
             "description": "Fix something on/for macOS"
+        },
+        {
+            "emoji": "🆙",
+            "code": ":up:",
+            "description": "Update a patch or the browser version"
         }
     ],
     "git.ignoreLimitWarning": true,
