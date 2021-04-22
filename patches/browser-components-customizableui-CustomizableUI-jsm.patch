@@ -1,5 +1,5 @@
 diff --git a/browser/components/customizableui/CustomizableUI.jsm b/browser/components/customizableui/CustomizableUI.jsm
-index 15fdf3e8a0960c89c6e54598ecd205714f61671a..cc2b7d7cb9aa740690786c2d502fcc0afa6f0fe8 100644
+index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..6810dd6c7c9165c6f0182b323b60ed74beebe0a7 100644
 --- a/browser/components/customizableui/CustomizableUI.jsm
 +++ b/browser/components/customizableui/CustomizableUI.jsm
 @@ -9,6 +9,9 @@ const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
@@ -12,11 +12,10 @@ index 15fdf3e8a0960c89c6e54598ecd205714f61671a..cc2b7d7cb9aa740690786c2d502fcc0a
  const { AppConstants } = ChromeUtils.import(
    "resource://gre/modules/AppConstants.jsm"
  );
-@@ -52,7 +55,10 @@ XPCOMUtils.defineLazyPreferenceGetter(
-   false
+@@ -53,6 +56,10 @@ XPCOMUtils.defineLazyPreferenceGetter(
  );
  
--const kDefaultThemeID = "default-theme@mozilla.org";
+ const kDefaultThemeID = "default-theme@mozilla.org";
 +const { makeWidgetId } = ExtensionCommon;
 +
 +const kDefaultThemeID = "dynamic@themes.dothq.co";
@@ -24,18 +23,9 @@ index 15fdf3e8a0960c89c6e54598ecd205714f61671a..cc2b7d7cb9aa740690786c2d502fcc0a
  
  const kSpecialWidgetPfx = "customizableui-special-";
  
-@@ -234,7 +240,7 @@ var CustomizableUIInternal = {
-       gDefaultTheme = addons.find(addon => addon.id == kDefaultThemeID);
-       gSelectedTheme = addons.find(addon => addon.isActive) || gDefaultTheme;
-     });
--
-+    
-     this.addListener(this);
-     this._defineBuiltInWidgets();
-     this.loadSavedState();
-@@ -258,6 +264,7 @@ var CustomizableUIInternal = {
-       "stop-reload-button",
-       gProtonToolbarEnabled ? null : "home-button",
+@@ -262,6 +269,7 @@ var CustomizableUIInternal = {
+         ? null
+         : "home-button",
        "spring",
 +      `${makeWidgetId(kShieldID)}-browser-action`,
        "urlbar-container",
