@@ -1,19 +1,19 @@
 export interface Cmd {
-    cmd: string,
-    description: string,
+    cmd: string;
+    description: string;
 
-    controller: (...args: any) => void
+    controller: (...args: any) => void;
 
-    options?: CmdOption[],
-    aliases?: string[],
+    options?: CmdOption[];
+    aliases?: string[];
     flags?: {
-        platforms?: CmdFlagPlatform[]
-    },
+        platforms?: CmdFlagPlatform[];
+    };
 }
 
 export interface CmdOption {
-    arg: string,
-    description: string
+    arg: string;
+    description: string;
 }
 
-export type CmdFlagPlatform = NodeJS.Platform
+export type CmdFlagPlatform = NodeJS.Platform;
