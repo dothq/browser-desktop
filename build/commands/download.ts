@@ -9,7 +9,7 @@ import { moveSync, removeSync } from "fs-extra";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
-import { writeMetadata } from "../utils";
+import { getLatestFF, writeMetadata } from "../utils";
 import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
@@ -102,13 +102,7 @@ export const download = async (
             pjson.versions["firefox-display"];
     }
 
-    const res = await axios.head(
-        `https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US`
-    );
-
-    let version = res.request.path
-        .replace("/pub/firefox/releases/", "")
-        .split("/")[0];
+    let version = await getLatestFF();
 
     if (firefoxVersion) {
         version = firefoxVersion;
@@ -130,8 +124,7 @@ export const download = async (
         )
     ) {
         log.error(
-            `Cannot download version ${
-                version.split("b")[0]
+            `Cannot download version ${version.split("b")[0]
             } as it already exists at "${resolve(
                 process.cwd(),
                 `firefox-${version.split("b")[0]}`
@@ -165,8 +158,7 @@ export const download = async (
         )
     )
         log.error(
-            `Workspace with version "${
-                version.split("b")[0]
+            `Workspace with version "${version.split("b")[0]
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
