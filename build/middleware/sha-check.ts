@@ -5,10 +5,13 @@ import { bin_name, log } from "..";
 
 const blacklistedCommands = [
     "reset",
-    "init"
+    "init",
+    "set-branch"
 ]
 
 export const shaCheck = async (command: string) => {
+    if (blacklistedCommands.filter(c => command.startsWith(c)).length !== 0) return;
+
     const metadata = JSON.parse(
         readFileSync(
             resolve(
@@ -25,7 +28,7 @@ export const shaCheck = async (command: string) => {
         "--show-current"
     ]);
 
-    if (!blacklistedCommands.filter(c => command.startsWith(c)) && metadata && metadata.branch) {
+    if (metadata && metadata.branch) {
         if (metadata.branch !== currentBranch) {
             log.warning(`The current branch \`${currentBranch}\` differs from the original branch \`${metadata.branch}\`.
             

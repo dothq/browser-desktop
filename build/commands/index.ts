@@ -12,4 +12,6 @@ export * from "./license-check";
 export * from "./package";
 export * from "./reset";
 export * from "./run";
+export * from "./set-branch";
 export * from "./status";
+
