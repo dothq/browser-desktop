@@ -3,7 +3,12 @@ import { readFileSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 
-export const shaCheck = async () => {
+const blacklistedCommands = [
+    "reset",
+    "init"
+]
+
+export const shaCheck = async (command: string) => {
     const metadata = JSON.parse(
         readFileSync(
             resolve(
@@ -20,12 +25,14 @@ export const shaCheck = async () => {
         "--show-current"
     ]);
 
-    if (metadata && metadata.branch) {
+    if (!blacklistedCommands.filter(c => command.startsWith(c)) && metadata && metadata.branch) {
         if (metadata.branch !== currentBranch) {
             log.warning(`The current branch \`${currentBranch}\` differs from the original branch \`${metadata.branch}\`.
             
 \t If you are changing the Firefox version, you will need to reset the tree
-\t with |${bin_name} reset --hard| and then |${bin_name} download|.`);
+\t with |${bin_name} reset --hard| and then |${bin_name} download|.
+
+\t Or you can change the default branch by typing |${bin_name} set-branch <branch>|.`);
         }
     }
 };
