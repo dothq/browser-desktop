@@ -1,5 +1,5 @@
 diff --git a/browser/components/customizableui/CustomizableUI.jsm b/browser/components/customizableui/CustomizableUI.jsm
-index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..6810dd6c7c9165c6f0182b323b60ed74beebe0a7 100644
+index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..e5a9cf4154b0cdf8ff0868701d8163c6237ae32a 100644
 --- a/browser/components/customizableui/CustomizableUI.jsm
 +++ b/browser/components/customizableui/CustomizableUI.jsm
 @@ -9,6 +9,9 @@ const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
@@ -12,10 +12,11 @@ index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..6810dd6c7c9165c6f0182b323b60ed74
  const { AppConstants } = ChromeUtils.import(
    "resource://gre/modules/AppConstants.jsm"
  );
-@@ -53,6 +56,10 @@ XPCOMUtils.defineLazyPreferenceGetter(
+@@ -52,7 +55,10 @@ XPCOMUtils.defineLazyPreferenceGetter(
+   false
  );
  
- const kDefaultThemeID = "default-theme@mozilla.org";
+-const kDefaultThemeID = "default-theme@mozilla.org";
 +const { makeWidgetId } = ExtensionCommon;
 +
 +const kDefaultThemeID = "dynamic@themes.dothq.co";
@@ -23,7 +24,7 @@ index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..6810dd6c7c9165c6f0182b323b60ed74
  
  const kSpecialWidgetPfx = "customizableui-special-";
  
-@@ -262,6 +269,7 @@ var CustomizableUIInternal = {
+@@ -262,6 +268,7 @@ var CustomizableUIInternal = {
          ? null
          : "home-button",
        "spring",
