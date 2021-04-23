@@ -1,5 +1,6 @@
 export * from "./bootstrap";
 export * from "./build";
+export * from "./discard";
 export * from "./download";
 export * from "./download-artifacts";
 export * from "./execute";
@@ -14,3 +15,4 @@ export * from "./reset";
 export * from "./run";
 export * from "./set-branch";
 export * from "./status";
+
