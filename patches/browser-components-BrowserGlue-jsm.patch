@@ -1,5 +1,5 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 3ef1e1453591039f9c34edfe8b14af5d044d2266..089d87a986d6d61aa584a59c9bee8f460d7ed9eb 100644
+index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fe58d26ce54edd1c6e29a3a4216b8de56cc82446 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
 @@ -179,6 +179,20 @@ let JSPROCESSACTORS = {
@@ -55,7 +55,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..089d87a986d6d61aa584a59c9bee8f46
    ) {
      return;
    }
-@@ -1358,54 +1375,54 @@ BrowserGlue.prototype = {
+@@ -1358,62 +1375,62 @@ BrowserGlue.prototype = {
      SessionStore.init();
  
      AddonManager.maybeInstallBuiltinAddon(
@@ -143,12 +143,13 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..089d87a986d6d61aa584a59c9bee8f46
      AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-alpenglow@mozilla.org",
 -      "1.2",
+-      "resource://builtin-themes/alpenglow/"
 +      "fusion@themes.dothq.co",
 +      "0.1",
-       "resource://builtin-themes/alpenglow/"
++      "resource://builtin-themes/fusion/"
      );
  
-@@ -1413,7 +1430,7 @@ BrowserGlue.prototype = {
+     if (AppConstants.MOZ_NORMANDY) {
        Normandy.init();
      }
  
