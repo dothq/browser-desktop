@@ -1,6 +1,7 @@
 import {
     bootstrap,
     build,
+    discard,
     download,
     downloadArtifacts,
     execute,
@@ -37,6 +38,18 @@ export const commands: Cmd[] = [
             }
         ],
         controller: build
+    },
+    {
+        cmd: "discard <file>",
+        description: "Discard a files changes.",
+        options: [
+            {
+                arg: "--keep, --keep-patch",
+                description:
+                    "Keep the patch file instead of removing it"
+            }
+        ],
+        controller: discard
     },
     {
         cmd: "download [ffVersion]",
