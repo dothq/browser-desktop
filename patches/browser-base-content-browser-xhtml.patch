@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..cea40617fa237c78f820b1566b484c0d027abce3 100644
+index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592f6248955 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -130,17 +130,20 @@
@@ -129,7 +129,7 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..cea40617fa237c78f820b1566b484c0d
                         closemenu="none"
 -                       oncommand="PanelUI.showSubView('appMenu-libraryView', this)"/>
 +                       oncommand="PanelUI.showSubView('appMenu-libraryView', this)"
-++                      hidden="true"/>
++                       hidden="true"/>
          <toolbarbutton id="appMenu-logins-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&logins.label;"
