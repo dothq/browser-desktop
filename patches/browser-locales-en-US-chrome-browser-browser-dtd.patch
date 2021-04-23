@@ -1,8 +1,8 @@
 diff --git a/browser/locales/en-US/chrome/browser/browser.dtd b/browser/locales/en-US/chrome/browser/browser.dtd
-index 855236ca3ed2eb6391da0804e5d50291b9a744e2..054ca6b7d165c0b95641a137309fb701d2893dff 100644
+index 097574c90253dee629440fd9eae2e5b59fb07fd2..8da949551245ae50733973cb34f1a714bcd4a493 100644
 --- a/browser/locales/en-US/chrome/browser/browser.dtd
 +++ b/browser/locales/en-US/chrome/browser/browser.dtd
-@@ -66,6 +66,7 @@ this container is a toolbar. This avoids double-speaking. -->
+@@ -63,6 +63,7 @@ this container is a toolbar. This avoids double-speaking. -->
  
  <!ENTITY webDeveloperMenu.label       "Web Developer">
  

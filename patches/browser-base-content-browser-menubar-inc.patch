@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser-menubar.inc b/browser/base/content/browser-menubar.inc
-index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..ac091babd42531a91ad97886e5fe82c42aa430db 100644
+index 27119ac8b1826d03828da6ae5b476a3266ed1207..1978048d6cf205c3247763311ecd4ac6e3e97e2f 100644
 --- a/browser/base/content/browser-menubar.inc
 +++ b/browser/base/content/browser-menubar.inc
-@@ -92,23 +92,33 @@
+@@ -96,23 +96,33 @@
                           onpopuphidden="updateEditUIVisibility()">
                  <menuitem id="menu_undo"
                            key="key_undo"

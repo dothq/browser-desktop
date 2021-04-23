@@ -1,5 +1,5 @@
 diff --git a/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm b/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-index 4c78085da74e07829050ed8427648584ca56a025..6a03c4bd1ea92198ff645c150ed95ef0215235ce 100644
+index e963272ca8ed9802240dfca680114384fd94c6fc..af3f5a052028bd3e651d9e30c5ec737a6732377f 100644
 --- a/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 +++ b/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 @@ -48,9 +48,9 @@ const AWTerminate = {

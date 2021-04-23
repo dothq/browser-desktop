@@ -70,5 +70,6 @@
     },
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
-    }
+    },
+    "svg.preview.background": "transparent"
 }

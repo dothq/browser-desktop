@@ -1,8 +1,8 @@
 diff --git a/python/mozbuild/mozbuild/controller/building.py b/python/mozbuild/mozbuild/controller/building.py
-index 59fc783f94059778af7daefc5d710ba4f7322e55..9ab9f4089b3c775d1b6fdc269793cad758b42e0f 100644
+index 1c6a7df418ce5e26549c9d930fc9ec9671e068e9..873ea046c71e49f1930c1b4154ffdb4ddbb6c400 100644
 --- a/python/mozbuild/mozbuild/controller/building.py
 +++ b/python/mozbuild/mozbuild/controller/building.py
-@@ -1440,7 +1440,7 @@ class BuildDriver(MozbuildObject):
+@@ -1441,7 +1441,7 @@ class BuildDriver(MozbuildObject):
              # if excessive:
              #    print(EXCESSIVE_SWAP_MESSAGE)
  
@@ -11,7 +11,7 @@ index 59fc783f94059778af7daefc5d710ba4f7322e55..9ab9f4089b3c775d1b6fdc269793cad7
  
          long_build = monitor.elapsed > 1200
  
-@@ -1456,7 +1456,7 @@ class BuildDriver(MozbuildObject):
+@@ -1457,7 +1457,7 @@ class BuildDriver(MozbuildObject):
                      "configuring_build_options.html#sccache"
                  )
          else:
@@ -20,7 +20,7 @@ index 59fc783f94059778af7daefc5d710ba4f7322e55..9ab9f4089b3c775d1b6fdc269793cad7
  
          # Only for full builds because incremental builders likely don't
          # need to be burdened with this.
-@@ -1465,13 +1465,13 @@ class BuildDriver(MozbuildObject):
+@@ -1466,13 +1466,13 @@ class BuildDriver(MozbuildObject):
                  # Fennec doesn't have useful output from just building. We should
                  # arguably make the build action useful for Fennec. Another day...
                  if self.substs["MOZ_BUILD_APP"] != "mobile/android":
