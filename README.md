@@ -17,6 +17,8 @@
     <a href="https://github.com/dothq/browser/discussions/new?category_id=32000754">Request Feature</a>
     ·
     <a href="https://docs.dothq.co">Documentation</a>
+      ·
+    <a href="https://github.com/dothq/browser-desktop-patched">Patched Edition</a>
     <br />
     <br />
     <a href="https://github.com/dothq/browser-desktop/actions?query=workflow%3ABuild">
