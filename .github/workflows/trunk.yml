@@ -57,7 +57,7 @@ jobs:
                 git checkout .
                 cd ..
                 ./melon import --minimal
-                python3 scripts/patches-applied.py
+                ./melon doctor patches
                 
             - name: Push to trunk
               run: |
