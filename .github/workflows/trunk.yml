@@ -40,9 +40,9 @@ jobs:
                 echo Init
                 git checkout --orphan base
                 echo Checkout
-                git add -f .
+                git add -f . > /dev/null
                 echo Add
-                git commit -am "Firefox"
+                git commit -am "Firefox" > /dev/null
                 echo Commit
                 git checkout -b dot
                 echo Checkout 2
