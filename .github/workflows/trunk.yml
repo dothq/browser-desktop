@@ -9,6 +9,8 @@ on:
 jobs:
     check:
         runs-on: ubuntu-latest
+        env:
+            CI_SKIP_INIT: true
 
         steps:
             - name: Install dependencies
