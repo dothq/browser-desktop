@@ -27,6 +27,9 @@
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop">
       <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop.svg?type=shield"></img>
     </a>
+    <a href="https://what-version-is-dot-on.vercel.app/">
+      <img src="https://what-version-is-dot-on.vercel.app/badge"></img>
+    </a>
   </p>
 </p>
 
