@@ -54,7 +54,8 @@
 }
 
 #tabbrowser-tabs {
-    padding-left: 0px !important;
+    /* IMPORTANT: Enabling this breaks pinned tabs when tabs start scrolling */
+    /* padding-left: 0px !important; */
 }
 
 .tabbrowser-tab .tab-stack .tab-background .tab-line {
@@ -303,10 +304,6 @@ display: none !important;
 
 .tabbrowser-tab .tab-stack {
     margin-top: 6px;
-}
-
-#tabbrowser-tabs {
-    padding-left: 6px;
 }
    
 :root:not([uidensity=compact], [chromehidden~="toolbar"]) #PanelUI-button {
