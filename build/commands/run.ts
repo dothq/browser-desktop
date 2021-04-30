@@ -11,7 +11,9 @@ export const run = async () => {
     });
 
     if (!objDirname) {
-        throw new Error("Dot Browser needs to be built before you can do this.")
+        throw new Error(
+            "Dot Browser needs to be built before you can do this."
+        );
     }
 
     const objDir = resolve(SRC_DIR, objDirname);
@@ -27,9 +29,7 @@ export const run = async () => {
         if (existsSync(artifactPath)) {
             dispatch(
                 "./mach",
-                [
-                    "run"
-                ],
+                ["run"],
                 SRC_DIR,
                 true,
                 true
