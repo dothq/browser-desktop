@@ -90,10 +90,7 @@ const importPatchFiles = async (minimal?: boolean) => {
     console.log();
     await dispatch(
         `./${bin_name}`,
-        [
-            "doctor",
-            "patches"
-        ],
+        ["doctor", "patches"],
         process.cwd(),
         true,
         true
