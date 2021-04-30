@@ -35,9 +35,7 @@ export const run = async () => {
                 true
             );
         } else {
-            log.error(
-                `Cannot find a built binary.`
-            );
+            log.error(`Cannot find a built binary.`);
         }
     } else {
         log.error(
