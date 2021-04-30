@@ -1,9 +1,9 @@
 import { readdirSync } from "fs-extra";
-import { log } from "..";
+import { bin_name, log } from "..";
 import { PATCHES_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
-import { delay } from "../utils";
+import { delay, dispatch } from "../utils";
 
 const importManual = async (minimal?: boolean) => {
     log.info(
@@ -86,6 +86,18 @@ const importPatchFiles = async (minimal?: boolean) => {
 
         await p.apply();
     }
+
+    console.log();
+    await dispatch(
+        `./${bin_name}`,
+        [
+            "doctor",
+            "patches"
+        ],
+        process.cwd(),
+        true,
+        true
+    );
 
     log.success(
         `Successfully imported ${patches.length} patch files!`
