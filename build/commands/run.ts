@@ -11,6 +11,10 @@ export const run = async () => {
         return dir.startsWith("obj-");
     });
 
+    if (!objDirname) {
+        throw new Error("Dot Browser needs to be built before you can do this.")
+    }
+
     const objDir = resolve(SRC_DIR, objDirname);
 
     if (existsSync(objDir)) {
