@@ -1,0 +1,23 @@
+diff --git a/browser/components/newtab/content-src/lib/aboutwelcome-utils.js b/browser/components/newtab/content-src/lib/aboutwelcome-utils.js
+index f7ed94b189d17b5ac598e7914952ce9bf597067d..11773bfc0c7d83bc19ccc3b75bece9df1ed8831d 100644
+--- a/browser/components/newtab/content-src/lib/aboutwelcome-utils.js
++++ b/browser/components/newtab/content-src/lib/aboutwelcome-utils.js
+@@ -205,18 +205,6 @@ export const DEFAULT_WELCOME_CONTENT = {
+                 string_id: "onboarding-multistage-theme-description-dark",
+               },
+             },
+-            {
+-              theme: "alpenglow",
+-              label: {
+-                string_id: "onboarding-multistage-theme-label-alpenglow",
+-              },
+-              tooltip: {
+-                string_id: "onboarding-multistage-theme-tooltip-alpenglow-2",
+-              },
+-              description: {
+-                string_id: "onboarding-multistage-theme-description-alpenglow",
+-              },
+-            },
+           ],
+         },
+         primary_button: {

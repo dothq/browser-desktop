@@ -16,6 +16,8 @@ browser-components-moz-build.patch - browser/components/moz.build
 browser-components-newtab-aboutwelcome-AboutWelcomeParent-jsm.patch - browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 browser-components-newtab-aboutwelcome-content-aboutwelcome-bundle-js.patch - browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 browser-components-newtab-content-src-aboutwelcome-aboutwelcome-jsx.patch - browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
+browser-components-newtab-content-src-aboutwelcome-components-MultiStageAboutWelcome-jsx.patch - browser/components/newtab/content-src/aboutwelcome/components/MultiStageAboutWelcome.jsx
+browser-components-newtab-content-src-lib-aboutwelcome-utils-js.patch - browser/components/newtab/content-src/lib/aboutwelcome-utils.js
 browser-components-preferences-moz-build.patch - browser/components/preferences/moz.build
 browser-components-search-content-searchbar-js.patch - browser/components/search/content/searchbar.js
 browser-components-sessionstore-content-aboutSessionRestore-xhtml.patch - browser/components/sessionstore/content/aboutSessionRestore.xhtml
