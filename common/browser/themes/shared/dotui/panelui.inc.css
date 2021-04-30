@@ -63,7 +63,8 @@ menu[_moz-menuactive="true"], menuitem[_moz-menuactive="true"] {
 
 menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
     background-color: transparent !important;
-    color: var(--arrowpanel-dimmed-even-further) !important;
+    color: var(--arrowpanel-color) !important;
+    opacity: 0.4;
 }
 
 #context-navigation {

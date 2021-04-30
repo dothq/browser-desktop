@@ -354,3 +354,7 @@ display: none !important;
 #shield_privacy_dothq_co-browser-action {
     list-style-image: url(chrome://browser/skin/tracking-protection.svg) !important;
 }
+
+.tab-close-button .close-icon {
+    padding: 4px;
+}
