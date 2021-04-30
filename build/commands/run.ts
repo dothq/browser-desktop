@@ -36,12 +36,7 @@ export const run = async () => {
             );
         } else {
             log.error(
-                `Cannot binary with name \`dot\` in ${resolve(
-                    objDir,
-                    "dist",
-                    "bin",
-                    "dot"
-                )}`
+                `Cannot find a built binary.`
             );
         }
     } else {
