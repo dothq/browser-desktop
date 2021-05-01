@@ -312,6 +312,10 @@ display: none !important;
   padding-inline: 10px !important;
 }
 
+.titlebar-spacer[type="post-tabs"] {
+    display: none !important;
+}
+
 #identity-box {
     margin-inline-start: 0px !important;
 }
