@@ -24,6 +24,6 @@
     padding-left: 90px;
 }
 
-#nav-bar[context="autohide-context"] {
-    padding-left: 0px;
+:root[tabsintitlebar] #nav-bar[context="autohide-context"] {
+    padding-left: 0px !important;
 } 
