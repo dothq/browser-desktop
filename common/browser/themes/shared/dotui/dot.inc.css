@@ -23,6 +23,7 @@
 #nav-bar {
     -moz-box-ordinal-group: 1 !important;
     height: 42px !important;
+    box-shadow: none !important;
 }
 
 .tab-content > .tab-close-button {
@@ -49,21 +50,8 @@
     margin-top: 0px !important;
 }
 
-.tabbrowser-tab .tab-stack {
-    margin-top: 0px !important;
-}
-
-#tabbrowser-tabs {
-    /* IMPORTANT: Enabling this breaks pinned tabs when tabs start scrolling */
-    /* padding-left: 0px !important; */
-}
-
 .tabbrowser-tab .tab-stack .tab-background .tab-line {
     height: 0px !important;
-}
-
-.tabbrowser-tab .tab-stack {
-    margin-top: 2px;
 }
 
 .tab-background[multiselected="true"], .tab-background[selected="true"] {
@@ -83,19 +71,17 @@
 }
 
 .tabbrowser-tab::after {
+    /* When checking for duplicates, both of these were found in separate lines */
+    /* I have grouped them together here to make bugs more obvious */
     margin-top: 8px !important;
     margin-bottom: 6px !important;
+
+    margin-top: 9px !important;
+    margin-bottom: 9px !important;
 }
 
 .titlebar-spacer[type="pre-tabs"] {
     border-inline-color: transparent !important;
-}
-
-#nav-bar {
-    box-shadow: none !important;
-}
-
-.titlebar-spacer[type="pre-tabs"] {
     display: none !important;
 }
 
@@ -126,10 +112,6 @@
     opacity: 0.7;
 }
 
-#urlbar > #urlbar-input-container > #identity-box {
-    padding-inline: 8px !important;
-}
-
 #urlbar[focused="true"] > #urlbar-input-container > #identity-box > #identity-icon-box,
 #urlbar[focused="true"] > #urlbar-input-container > #identity-box > #identity-permission-box, 
 #urlbar[focused="true"] > #urlbar-input-container > #tracking-protection-icon-container {
@@ -156,6 +138,7 @@
 
 #tracking-protection-icon-container {
     padding-inline: 8px !important;
+    display: none !important;
 }
 
 notification[type], notification {
@@ -185,6 +168,7 @@ tabmodalprompt:not([hidden]) {
 
 #back-button {
     padding-inline-start: 8px !important;
+    --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
 }
 
 #back-button > .toolbarbutton-icon {
@@ -201,10 +185,6 @@ tabmodalprompt:not([hidden]) {
 #back-button[disabled] > .toolbarbutton-icon,
 #back-button[open] > .toolbarbutton-icon {
     background-color: transparent !important;
-}
-
-#back-button {
-    --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
 }
 
 #back-button > menupopup {
@@ -257,11 +237,6 @@ display: none !important;
     padding-left: 6px !important;
 }
 
-.tabbrowser-tab::after {
-    margin-top: 9px !important;
-    margin-bottom: 9px !important;
-}
-
 .tabbrowser-tab > .tab-stack > .tab-background::after,
 .tabbrowser-tab > .tab-stack > .tab-background::before {
   content: "";
@@ -310,9 +285,6 @@ display: none !important;
   border-image: linear-gradient( transparent 12px, var(--lwt-toolbar-vertical-separator, rgba(0,0,0,.1)) 12px, var(--lwt-toolbar-vertical-separator, rgba(0,0,0,.1)) calc(100% - 12px), transparent calc(100% - 12px) ) !important;
 }
 
-#tracking-protection-icon-container {
-  display: none !important;
-}
 
 #urlbar-background,
 #searchbar {
@@ -338,10 +310,6 @@ display: none !important;
 
 .identity-box-button {
   padding-inline: 10px !important;
-}
-
-#urlbar > #urlbar-input-container > #identity-box {
-  padding-inline: 0px !important;
 }
 
 #identity-box {
