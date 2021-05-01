@@ -71,11 +71,6 @@
 }
 
 .tabbrowser-tab::after {
-    /* When checking for duplicates, both of these were found in separate lines */
-    /* I have grouped them together here to make bugs more obvious */
-    margin-top: 8px !important;
-    margin-bottom: 6px !important;
-
     margin-top: 9px !important;
     margin-bottom: 9px !important;
 }
