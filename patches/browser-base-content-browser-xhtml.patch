@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 0a1090292f54612dbf0f564c772f12ae0056dc67..27b0843c7bf76601f88a09a4a343abde4c47fea7 100644
+index 0a1090292f54612dbf0f564c772f12ae0056dc67..85311cd329e27bdb0f3d4015cc5be34d17745730 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -130,17 +130,20 @@
@@ -59,15 +59,6 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..27b0843c7bf76601f88a09a4a343abde
      </menupopup>
  
      <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
-@@ -220,7 +229,7 @@
- 
-     <menupopup id="new-tab-button-popup"
-                onpopupshowing="return CreateContainerTabMenu(event);"
--               onclick="checkForMiddleClick(this, event);"/>
-+               onclick="checkForMiddleClick(this, eventom);"/>
-     <!-- for search and content formfill/pw manager -->
- 
-     <panel is="autocomplete-richlistbox-popup"
 @@ -489,8 +498,9 @@
                      correctly. -->
        <menuitem oncommand="gCustomizeMode.enter()"
@@ -97,7 +88,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..27b0843c7bf76601f88a09a4a343abde
 +        <toolbarseparator id="appMenu-tp-separator" hidden="true"/>
 +        <toolbarbutton id="appMenu-new-tab-button"
 +                       class="subviewbutton subviewbutton-iconic"
-+                       label="&newTabCmd.label;"
++                       label="&tabCmd.label;"
 +                       key="key_newNavigatorTab"
 +                       oncommand="BrowserOpenTab()"/>
          <toolbarbutton id="appMenu-new-window-button"
