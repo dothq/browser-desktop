@@ -117,7 +117,7 @@ jobs:
           path: ./dot-${{ needs.build-data.outputs.version }}.tar.bz2
       
   flatpak-64:
-    name: 📦 Flatpak (64 bit)
+    name: 📦 Flatpak (64-bit)
     needs: build-data
     runs-on: ubuntu-latest
     container:
@@ -150,7 +150,7 @@ jobs:
           path: ./dot-nightly.flatpak
   
   appimage-64:
-    name: 📦 AppImage (64 bit)
+    name: 📦 AppImage (64-bit)
     needs: build-data
     runs-on: ubuntu-latest
     steps:
