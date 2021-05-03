@@ -105,6 +105,7 @@ python-mozbuild-mozbuild-controller-building-py.patch - python/mozbuild/mozbuild
 services-settings-dumps-main-moz-build.patch - services/settings/dumps/main/moz.build
 services-settings-dumps-main-search-config-json.patch - services/settings/dumps/main/search-config.json
 services-settings-dumps-main-search-default-override-allowlist-json.patch - services/settings/dumps/main/search-default-override-allowlist.json
+services-settings-dumps-main-top-sites-json.patch - services/settings/dumps/main/top-sites.json
 toolkit-components-moz-build.patch - toolkit/components/moz.build
 toolkit-components-search-SearchEngineSelector-jsm.patch - toolkit/components/search/SearchEngineSelector.jsm
 toolkit-content-widgets-moz-input-box-js.patch - toolkit/content/widgets/moz-input-box.js

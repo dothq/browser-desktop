@@ -1,0 +1,207 @@
+diff --git a/services/settings/dumps/main/top-sites.json b/services/settings/dumps/main/top-sites.json
+index 1d66f87355286648cf2c8b038827c7be6a5ad351..35574b881896fda1c07f22283512d2a423da02fe 100644
+--- a/services/settings/dumps/main/top-sites.json
++++ b/services/settings/dumps/main/top-sites.json
+@@ -150,91 +150,6 @@
+       "id": "61f01feb-8243-4fef-b360-733e8c5a150e",
+       "last_modified": 1611838808365
+     },
+-    {
+-      "url": "https://www.ebay.com.au/?mkevt=1&mkcid=2&mkrid=7051608169736203&keyword=conducive&crlp=318353405AU%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217349",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1611316042640,
+-      "include_regions": [
+-        "AU"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.com.au/?mkevt=1&mkcid=2&mkrid=7051608169736203&keyword=conducive&crlp=318353406AU%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217349",
+-      "send_attribution_request": true,
+-      "id": "998a610f-a1aa-4c89-b711-e642af665560",
+-      "last_modified": 1611677652023
+-    },
+-    {
+-      "url": "https://www.ebay.ca/?mkevt=1&mkcid=2&mkrid=7061608169858537&keyword=conducive&crlp=318370981CA%YYYYMMDDHH%&MT_ID=562786&geo_id=&device=Computers&cmpgn=217715",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1611173713861,
+-      "include_regions": [
+-        "CA"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.ca/?mkevt=1&mkcid=2&mkrid=7061608169858537&keyword=conducive&crlp=318370982CA%YYYYMMDDHH%&MT_ID=562786&geo_id=&device=Computers&cmpgn=217715",
+-      "send_attribution_request": true,
+-      "id": "cda45b34-704c-4cb5-9a9a-426d8dd6b745",
+-      "last_modified": 1611677652020
+-    },
+-    {
+-      "url": "https://www.ebay.com/?mkevt=1&mkcid=2&mkrid=7111608169546898&keyword=conducive&crlp=318353411US%YYYYMMDDHH%&MT_ID=562786&geo_id=10232&device=Computers&cmpgn=216223",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1610984980368,
+-      "include_regions": [
+-        "US"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.com/?mkevt=1&mkcid=2&mkrid=7111608169546898&keyword=conducive&crlp=318353412US%YYYYMMDDHH%&MT_ID=562786&geo_id=10232&device=Computers&cmpgn=216223",
+-      "send_attribution_request": true,
+-      "id": "0f88ad04-9af4-4a88-8211-aa02d5a0b288",
+-      "last_modified": 1611076538711
+-    },
+-    {
+-      "url": "https://www.ebay.co.uk/?mkevt=1&mkcid=2&mkrid=7101608169642080&keyword=conducive&crlp=318355819GB%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=216901",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1610985000385,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.co.uk/?mkevt=1&mkcid=2&mkrid=7101608169642080&keyword=conducive&crlp=318355820GB%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=216901",
+-      "send_attribution_request": true,
+-      "id": "63fab9a4-70d9-49d7-8b31-089867280316",
+-      "last_modified": 1611076538707
+-    },
+-    {
+-      "url": "https://www.ebay.de/?mkevt=1&mkcid=2&mkrid=7071608169806221&keyword=conducive&crlp=318367612DE%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217719",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1610826102114,
+-      "include_regions": [
+-        "DE"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.de/?mkevt=1&mkcid=2&mkrid=7071608169806221&keyword=conducive&crlp=318367613DE%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217719",
+-      "send_attribution_request": true,
+-      "id": "4efa52be-32c9-4ab9-807d-ca3cb3c8f340",
+-      "last_modified": 1611076538696
+-    },
+     {
+       "url": "https://www.ebay.co.uk/",
+       "order": 70,
+@@ -250,9 +165,9 @@
+       "last_modified": 1611076538693
+     },
+     {
+-      "url": "https://www.amazon.com.au/?tag=admarketdeskt-22&ref=pd_sl_a318408405AU%YYYYMMDDHH%",
++      "url": "https://dothq.co/",
+       "order": 0,
+-      "title": "Amazon",
++      "title": "DotHQ",
+       "schema": 1608030031997,
+       "include_regions": [
+         "AU"
+@@ -261,13 +176,11 @@
+       "include_experiments": [
+         "ebay-2020-1"
+       ],
+-      "url_urlbar_override": "https://www.amazon.com.au/?tag=admarketdeskt-22&ref=pd_sl_a318408406AU%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+       "id": "fa9b04d5-5917-421b-a8a0-963722ad8d7f",
+       "last_modified": 1608239138396
+     },
+     {
+-      "url": "https://www.amazon.ca/?tag=admpdesktopca-20&ref=pd_sl_a317866944CA%YYYYMMDDHH%",
++      "url": "https://dothq.co/",
+       "order": 0,
+       "title": "Amazon",
+       "schema": 1608030773662,
+@@ -278,15 +191,13 @@
+       "include_experiments": [
+         "ebay-2020-1"
+       ],
+-      "url_urlbar_override": "https://www.amazon.ca/?tag=admpdesktopca-20&ref=pd_sl_a317867036CA%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+       "id": "f2fc4f42-d930-4c0c-acdc-1d29b56234d3",
+       "last_modified": 1608239138392
+     },
+     {
+-      "url": "https://www.amazon.fr/?tag=admarketpla00-21&ref=pd_sl_a317866953FR%YYYYMMDDHH%",
++      "url": "https://dothq.co/",
+       "order": 0,
+-      "title": "Amazon",
++      "title": "DotHQ",
+       "schema": 1608031563878,
+       "include_regions": [
+         "FR"
+@@ -295,8 +206,6 @@
+       "include_experiments": [
+         "ebay-2020-1"
+       ],
+-      "url_urlbar_override": "https://www.amazon.fr/?tag=admarketpla00-21&ref=pd_sl_a317867039FR%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+       "id": "4b14dda7-4d66-4add-855c-19dfb5b84ede",
+       "last_modified": 1608239138388
+     },
+@@ -315,9 +224,9 @@
+       "last_modified": 1608239138349
+     },
+     {
+-      "url": "https://www.amazon.de/?tag=admpdesktopde-21&ref=pd_sl_a8E0DFDAEAADZZ12%YYYYMMDDHH%",
++      "url": "https://dothq.co/",
+       "order": 0,
+-      "title": "Amazon",
++      "title": "DotHQ",
+       "schema": 1605021228258,
+       "include_regions": [
+         "DE"
+@@ -326,15 +235,13 @@
+       "include_experiments": [
+         "ebay-2020-1"
+       ],
+-      "url_urlbar_override": "https://www.amazon.de/?tag=admpdesktopde-21&ref=pd_sl_aBB39B9165B5CF11%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+       "id": "306a3851-b9ff-4b3a-a4aa-8f408fea4b68",
+       "last_modified": 1605024212690
+     },
+     {
+-      "url": "https://www.amazon.co.uk/?tag=admpdesktopuk-21&ref=pd_sl_aF2E70068DAAZZ23%YYYYMMDDHH%",
++      "url": "https://dothq.co/",
+       "order": 0,
+-      "title": "Amazon",
++      "title": "DotHQ",
+       "schema": 1605021314971,
+       "include_regions": [
+         "GB"
+@@ -343,15 +250,13 @@
+       "include_experiments": [
+         "ebay-2020-1"
+       ],
+-      "url_urlbar_override": "https://www.amazon.co.uk/?tag=admpdesktopuk-21&ref=pd_sl_a03A81C10121DA11%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+       "id": "b841da27-9b4d-4660-813a-8ccbde98e022",
+       "last_modified": 1605024212686
+     },
+     {
+-      "url": "https://www.amazon.com/?tag=admarketus-20&ref=pd_sl_a77559ED8D65AA12%YYYYMMDDHH%",
++      "url": "https://dothq.co/",
+       "order": 0,
+-      "title": "Amazon",
++      "title": "DotHQ",
+       "schema": 1605021163110,
+       "include_regions": [
+         "US"
+@@ -360,8 +265,6 @@
+       "include_experiments": [
+         "ebay-2020-1"
+       ],
+-      "url_urlbar_override": "https://www.amazon.com/?tag=admarketus-20&ref=pd_sl_a3B05123160CA611%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+       "id": "e429f95f-42d5-4bdd-9109-726a8a2d055a",
+       "last_modified": 1605024212682
+     },
