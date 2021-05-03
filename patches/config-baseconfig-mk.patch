@@ -1,0 +1,13 @@
+diff --git a/config/baseconfig.mk b/config/baseconfig.mk
+index 685e6cdfd9bc307f8cd570aa2d76b93d8a2bbc6a..808147cd05922ac0c81ec3d76562d3ea5056cc6d 100644
+--- a/config/baseconfig.mk
++++ b/config/baseconfig.mk
+@@ -38,7 +38,7 @@ ifndef INCLUDED_AUTOCONF_MK
+ default::
+ else
+ # All possible tiers
+-ALL_TIERS := artifact win32-artifact android-fat-aar-artifact pre-export export pre-compile rust compile misc libs android-stage-package android-archive-geckoview tools check
++ALL_TIERS := artifact win32-artifact android-fat-aar-artifact pre-export export pre-compile rust compile build-scss misc libs android-stage-package android-archive-geckoview tools check
+ 
+ # All tiers that may be used manually via `mach build $tier`
+ RUNNABLE_TIERS := $(ALL_TIERS)

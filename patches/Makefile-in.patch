@@ -1,0 +1,14 @@
+diff --git a/Makefile.in b/Makefile.in
+index 9ceb4c20f75f99059ee3d8f9db442c3de052591c..f7a22bfafc193efb8d94c907283f70d15848c198 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -206,6 +206,9 @@ ifdef MOZ_CRASHREPORTER
+ 	$(PYTHON3) -u $(topsrcdir)/toolkit/crashreporter/tools/upload_symbols.py '$(DIST)/$(PKG_PATH)$(SYMBOL_FULL_ARCHIVE_BASENAME).tar.zst'
+ endif
+ 
++recurse_build-scss:
++	$(PYTHON3) -u $(topsrcdir)/python/melon/compile_scss.py
++
+ .PHONY: update-packaging
+ update-packaging:
+ 	$(MAKE) -C tools/update-packaging
