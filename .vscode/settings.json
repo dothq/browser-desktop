@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "*.jsm": "javascript",
-        "**/src/**/*.*": "plaintext",
+        // Is there a reason you don't want syntax highlighting?
+        //        "**/src/**/*.*": "plaintext",
         "**/src/**/*.svg": "svg"
     },
     "files.watcherExclude": {
