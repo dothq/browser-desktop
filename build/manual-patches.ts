@@ -74,6 +74,11 @@ const manualPatches: IPatch[] = [
         name: "extensions",
         action: "copy",
         src: ["browser/extensions/shield"]
+    },
+    {
+        name: "build-scss",
+        action: "copy",
+        src: "python/melon"
     }
 ];
 
