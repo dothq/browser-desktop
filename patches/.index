@@ -9,7 +9,6 @@ browser-base-content-browser-siteIdentity-js.patch - browser/base/content/browse
 browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
 browser-components-BrowserGlue-jsm.patch - browser/components/BrowserGlue.jsm
 browser-components-about-AboutRedirector-cpp.patch - browser/components/about/AboutRedirector.cpp
-browser-components-about-components-conf.patch - browser/components/about/components.conf
 browser-components-customizableui-CustomizableUI-jsm.patch - browser/components/customizableui/CustomizableUI.jsm
 browser-components-customizableui-CustomizeMode-jsm.patch - browser/components/customizableui/CustomizeMode.jsm
 browser-components-moz-build.patch - browser/components/moz.build
@@ -98,6 +97,8 @@ devtools-client-aboutdebugging-src-actions-runtimes-js.patch - devtools/client/a
 devtools-client-themes-images-command-pick-svg.patch - devtools/client/themes/images/command-pick.svg
 devtools-client-themes-images-debugging-addons-svg.patch - devtools/client/themes/images/debugging-addons.svg
 devtools-client-themes-images-debugging-tabs-svg.patch - devtools/client/themes/images/debugging-tabs.svg
+docshell-base-nsAboutRedirector-cpp.patch - docshell/base/nsAboutRedirector.cpp
+docshell-build-components-conf.patch - docshell/build/components.conf
 dom-base-Document-cpp.patch - dom/base/Document.cpp
 layout-base-PresShell-cpp.patch - layout/base/PresShell.cpp
 modules-libpref-init-StaticPrefList-yaml.patch - modules/libpref/init/StaticPrefList.yaml
