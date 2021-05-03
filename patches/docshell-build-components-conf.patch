@@ -1,0 +1,20 @@
+diff --git a/docshell/build/components.conf b/docshell/build/components.conf
+index 69151f083cffe37604549d17ad611045e5bac8b1..1c4658cc8a5fb3a7a21519d10bcc50a406f67d4a 100644
+--- a/docshell/build/components.conf
++++ b/docshell/build/components.conf
+@@ -14,6 +14,7 @@ about_pages = [
+     'crashcontent',
+     'crashparent',
+     'credits',
++    'history', # Dot Browser
+     'httpsonlyerror',
+     'license',
+     'logo',
+@@ -21,6 +22,7 @@ about_pages = [
+     'mozilla',
+     'neterror',
+     'networking',
++    'newpreferences', # Dot Browser
+     'performance',
+     'plugins',
+     'printpreview',
