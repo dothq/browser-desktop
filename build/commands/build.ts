@@ -6,6 +6,7 @@ import {
     ARCHITECTURE,
     BUILD_TARGETS,
     CONFIGS_DIR,
+
     SRC_DIR
 } from "../constants";
 import { dispatch } from "../utils";
@@ -158,34 +159,34 @@ export const build = async (
     let d = Date.now();
 
     if (os) {
-        // Docker build
+        return log.error("Cross-platform builds are deprecated.")
+        // // Docker build
 
-        let arch = "64bit";
+        // let arch = "64bit";
 
-        if (!BUILD_TARGETS.includes(os))
-            return log.error(
-                `We do not support "${os}" builds right now.\nWe only currently support ${JSON.stringify(
-                    BUILD_TARGETS
-                )}.`
-            );
+        // if (!BUILD_TARGETS.includes(os))
+        //     return log.error(
+        //         `We do not support "${os}" builds right now.\nWe only currently support ${JSON.stringify(
+        //             BUILD_TARGETS
+        //         )}.`
+        //     );
 
-        if (options.arch) {
-            if (!ARCHITECTURE.includes(options.arch))
-                return log.error(
-                    `We do not support "${
-                        options.arch
-                    }" build right now.\nWe only currently support ${JSON.stringify(
-                        ARCHITECTURE
-                    )}.`
-                );
-            else arch = options.arch;
-        }
+        // if (options.arch) {
+        //     if (!ARCHITECTURE.includes(options.arch))
+        //         return log.error(
+        //             `We do not support "${options.arch
+        //             }" build right now.\nWe only currently support ${JSON.stringify(
+        //                 ARCHITECTURE
+        //             )}.`
+        //         );
+        //     else arch = options.arch;
+        // }
 
-        applyConfig(os, options.arch);
+        // applyConfig(os, options.arch);
 
-        setTimeout(async () => {
-            await dockerBuild(os).then((_) => success(d));
-        }, 2500);
+        // setTimeout(async () => {
+        //     await dockerBuild(os).then((_) => success(d));
+        // }, 2500);
     } else {
         // Host build
 
@@ -198,8 +199,7 @@ export const build = async (
             if (options.arch) {
                 if (!ARCHITECTURE.includes(options.arch))
                     return log.error(
-                        `We do not support "${
-                            options.arch
+                        `We do not support "${options.arch
                         }" build right now.\nWe only currently support ${JSON.stringify(
                             ARCHITECTURE
                         )}.`
