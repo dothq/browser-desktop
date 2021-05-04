@@ -7,10 +7,10 @@ const config = {
     entry: resolve(process.cwd(), "ui", "ui.scss"),
     mode: "none",
     output: {
-        path: resolve(process.cwd(), "ui", "data"),
+        path: resolve(process.cwd(), "ui", "data")
     },
     resolve: {
-        extensions: ['.scss']
+        extensions: [".scss"]
     },
     module: {
         rules: [
@@ -19,23 +19,23 @@ const config = {
                 exclude: /\.js$/i,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: "file-loader",
                         options: {
-                            name: 'dotui.inc.css',
+                            name: "dotui.inc.css"
                         }
                     },
                     {
-                        loader: 'extract-loader'
+                        loader: "extract-loader"
                     },
                     {
-                        loader: 'css-loader?-url'
+                        loader: "css-loader?-url"
                     },
                     {
-                        loader: 'sass-loader'
+                        loader: "sass-loader"
                     }
-                ],
-            },
-        ],
+                ]
+            }
+        ]
     },
     plugins: [
         new webpack.BannerPlugin(`
@@ -43,14 +43,24 @@ const config = {
 # You should probably be modifying that instead.
         `)
     ]
-}
+};
 
 config.plugins.push({
     apply: (compiler) => {
-        compiler.hooks.done.tap('Compiled', (compilation) => {
-            rimraf.sync(resolve(process.cwd(), "ui", "data", "main.js"))
-        });
-    },
+        compiler.hooks.done.tap(
+            "Compiled",
+            (compilation) => {
+                rimraf.sync(
+                    resolve(
+                        process.cwd(),
+                        "ui",
+                        "data",
+                        "main.js"
+                    )
+                );
+            }
+        );
+    }
 });
 
 module.exports = config;

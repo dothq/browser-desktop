@@ -110,36 +110,33 @@ const dockerBuild = async (os: string) => {
 };
 
 const compileSass = async () => {
-    log.info(
-        `Compiling Dot UI...`
-    );
+    log.info(`Compiling Dot UI...`);
 
-    const {
-        css,
-        map
-    } = sass.renderSync(({
+    const { css, map } = sass.renderSync({
         file: resolve(process.cwd(), "ui", "ui.scss"),
         outFile: resolve(process.cwd(), "ui", "ui.css"),
         sourceComments: true,
         outputStyle: "expanded",
         importer: (url: string, prev: any, done: any) => {
             console.log(url);
-            return "bingus"
+            return "bingus";
         }
-    } as any));
+    } as any);
 
     writeFileSync(
         resolve(process.cwd(), "ui", "ui.css"),
         css.toString("utf-8")
-    )
+    );
 
     readline.moveCursor(process.stdout, 0, -1);
     readline.clearLine(process.stdout, 1);
 
     log.info(
-        `Compiling Dot UI... ${chalk.green.bold('Done ✔')}`
+        `Compiling Dot UI... ${chalk.green.bold(
+            "Done ✔"
+        )}`
     );
-}
+};
 
 const genericBuild = async (os: string) => {
     log.info(`Building for "${os}"...`);
