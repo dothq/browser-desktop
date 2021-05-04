@@ -6,7 +6,6 @@ import {
     ARCHITECTURE,
     BUILD_TARGETS,
     CONFIGS_DIR,
-
     SRC_DIR
 } from "../constants";
 import { dispatch } from "../utils";
@@ -159,7 +158,9 @@ export const build = async (
     let d = Date.now();
 
     if (os) {
-        return log.error("Cross-platform builds are deprecated.")
+        return log.error(
+            "Cross-platform builds are deprecated."
+        );
         // // Docker build
 
         // let arch = "64bit";
@@ -199,7 +200,8 @@ export const build = async (
             if (options.arch) {
                 if (!ARCHITECTURE.includes(options.arch))
                     return log.error(
-                        `We do not support "${options.arch
+                        `We do not support "${
+                            options.arch
                         }" build right now.\nWe only currently support ${JSON.stringify(
                             ARCHITECTURE
                         )}.`
