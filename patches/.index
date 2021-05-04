@@ -1,3 +1,4 @@
+Makefile-in.patch - Makefile.in
 browser-actors-moz-build.patch - browser/actors/moz.build
 browser-app-profile-firefox-js.patch - browser/app/profile/firefox.js
 browser-base-content-aboutDialog-xhtml.patch - browser/base/content/aboutDialog.xhtml
@@ -98,6 +99,8 @@ browser-tools-mozscreenshots-mozscreenshots-extension-configurations-Lightweight
 build-appini_header-py.patch - build/appini_header.py
 build-moz-build.patch - build/moz.build
 build-variables-py.patch - build/variables.py
+client-mk.patch - client.mk
+config-baseconfig-mk.patch - config/baseconfig.mk
 devtools-client-aboutdebugging-src-actions-runtimes-js.patch - devtools/client/aboutdebugging/src/actions/runtimes.js
 devtools-client-themes-images-command-pick-svg.patch - devtools/client/themes/images/command-pick.svg
 devtools-client-themes-images-debugging-addons-svg.patch - devtools/client/themes/images/debugging-addons.svg
@@ -141,4 +144,5 @@ toolkit-themes-shared-icons-settings-svg.patch - toolkit/themes/shared/icons/set
 toolkit-themes-shared-icons-update-icon-svg.patch - toolkit/themes/shared/icons/update-icon.svg
 toolkit-themes-shared-in-content-common-inc-css.patch - toolkit/themes/shared/in-content/common.inc.css
 toolkit-themes-shared-menu-scrolling-inc-css.patch - toolkit/themes/shared/menu-scrolling.inc.css
+toolkit-themes-shared-places-defaultFavicon-svg.patch - toolkit/themes/shared/places/defaultFavicon.svg
 toolkit-xre-nsAppRunner-cpp.patch - toolkit/xre/nsAppRunner.cpp

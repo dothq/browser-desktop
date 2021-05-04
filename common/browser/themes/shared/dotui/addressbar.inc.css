@@ -1,0 +1,132 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.urlbarView-row:not([type="tip"], [type="dynamic"])[selected] > .urlbarView-row-inner, .urlbarView-row-inner[selected] {
+    /* background: var(--autocomplete-popup-highlight-background); */
+    /* color: var(--autocomplete-popup-highlight-color); */
+    background: #0060df33;
+    color: #0060df;
+    background-color: var(--panelview-toolbarbutton-active-bgcolor);
+    color: currentColor;
+}
+  
+.urlbarView-row[pinned] > .urlbarView-row-inner > .urlbarView-no-wrap > .urlbarView-type-icon {
+    /* color: #b1b1b3; */
+    /* stroke: #fff; */
+    stroke: #d6ebff;
+}
+  
+.urlbarView-row-inner {
+    /* border-radius: 2px; */
+    /* padding-inline-start: 6px; */
+    border-radius: 6px;
+    padding-inline-start: 14px;
+    padding-inline-end: 12px;
+}
+  
+.urlbarView-tags, .urlbarView-url, .urlbarView-title:not(:empty) ~ .urlbarView-action {
+    /* height: calc\(100%; */
+    /* height: calc\(100% auto; */
+    /* height: calc\(100% - auto; */
+    /* height: calc\(100% - 2; */
+    /* height: calc\(100% - 2p; */
+    /* height: calc\(100% - 2px; */
+    /* max-width: calc\(100%; */
+    /* max-width: calc\(100% inherit; */
+    /* max-width: calc\(100% / inherit; */
+    /* max-width: calc\(100% / 2; */
+    height: calc(100% - 1px);
+    margin-left: auto;
+    align-items: center;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+    align-content: flex-end;
+    align-items: flex-end;
+    margin-left: auto;
+    margin-right: auto;
+    float: right;
+    position: absolute;
+    right: 0;
+    padding-inline-end: 12px;
+    text-align: right;
+    align-content: ;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    max-width: calc(45% - 2 * (16px + (6px + 2px)));
+    text-overflow: ellipsis;
+}
+  
+.urlbarView-favicon {
+    /* margin-inline-end: calc((6px + 3px)); */
+    margin-inline-end: calc((6px + 10px));
+    border-radius: 4px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2px;
+}
+  
+.urlbarView-title-separator::before {
+    opacity: 0;
+}
+  
+.urlbarView[actionoverride] .urlbarView-row[has-url] > .urlbarView-row-inner > .urlbarView-no-wrap, .urlbarView-row[has-url]:not([type$="tab"]) > .urlbarView-row-inner > .urlbarView-no-wrap, .urlbarView-row[has-url]:is([type="remotetab"], [sponsored]):is(:hover, [selected]) > .urlbarView-row-inner > .urlbarView-no-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.urlbarView-title {
+    font-size: 1rem;
+}
+  
+.urlbarView {
+    /* margin-inline: 7px; */
+    /* border-inline: 1px solid transparent; */
+    margin-inline: 6px;
+    border-inline: ;
+}
+  
+.urlbarView-row {
+    /* padding-block: 3px; */
+    padding-block: 4px;
+}
+  
+.urlbarView-results {
+    /* padding-block: 4px; */
+    padding-block: 3px;
+}
+  
+  /* Element | chrome://browser/content/browser.xhtml */
+  
+.search-one-offs {
+    display: none;
+}
+  
+  /* searchbar.css | chrome://browser/skin/searchbar.css */
+  
+.search-one-offs {
+    /* border-top: 1px solid var(--panel-separator-color); */
+}
+  
+  /* Element | chrome://browser/content/browser.xhtml */
+  
+#urlbar {
+    /* border-radius: 6px; */
+    background-color: white;
+    border-radius: 8px;
+    margin-top: 208px;
+}
+  
+  /* Element | chrome://browser/content/browser.xhtml */
+  
+.menupopup-arrowscrollbox {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+  
