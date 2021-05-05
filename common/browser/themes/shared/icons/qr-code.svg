@@ -1,0 +1,19 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M9 3C9 1.34315 10.3431 0 12 0H13C14.6569 0 16 1.34315 16 3V4C16 5.65685 14.6569 7 13 7H12C10.3431 7 9 5.65685 9 4V3ZM12 2H13C13.5523 2 14 2.44772 14 3V4C14 4.55228 13.5523 5 13 5H12C11.4477 5 11 4.55228 11 4V3C11 2.44772 11.4477 2 12 2Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M3 0C1.34315 0 0 1.34315 0 3V4C0 5.65685 1.34315 7 3 7H4C5.65685 7 7 5.65685 7 4V3C7 1.34315 5.65685 0 4 0H3ZM4 2H3C2.44771 2 2 2.44772 2 3V4C2 4.55228 2.44772 5 3 5H4C4.55228 5 5 4.55228 5 4V3C5 2.44772 4.55228 2 4 2Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M0 12C0 10.3431 1.34315 9 3 9H4C5.65685 9 7 10.3431 7 12V13C7 14.6569 5.65685 16 4 16H3C1.34315 16 0 14.6569 0 13V12ZM3 11H4C4.55228 11 5 11.4477 5 12V13C5 13.5523 4.55228 14 4 14H3C2.44772 14 2 13.5523 2 13V12C2 11.4477 2.44771 11 3 11Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity"
+        d="M13 10.5C13 9.67157 13.6716 9 14.5 9C15.3284 9 16 9.67157 16 10.5C16 11.3284 15.3284 12 14.5 12C13.6716 12 13 11.3284 13 10.5Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity"
+        d="M9 10.5C9 9.67157 9.67157 9 10.5 9C11.3284 9 12 9.67157 12 10.5C12 11.3284 11.3284 12 10.5 12C9.67157 12 9 11.3284 9 10.5Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity"
+        d="M13 14.5C13 13.6716 13.6716 13 14.5 13C15.3284 13 16 13.6716 16 14.5C16 15.3284 15.3284 16 14.5 16C13.6716 16 13 15.3284 13 14.5Z" />
+    <path fill="context-fill" fill-opacity="context-fill-opacity"
+        d="M10.5 13C9.67157 13 9 13.6716 9 14.5C9 15.3284 9.67157 16 10.5 16C11.3284 16 12 15.3284 12 14.5C12 13.6716 11.3284 13 10.5 13Z" />
+</svg>
