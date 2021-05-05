@@ -1,0 +1,40 @@
+diff --git a/browser/base/content/browser-pageActions.js b/browser/base/content/browser-pageActions.js
+index 8c896ba3b9f62d87c2cd623dfa36418fb3b20d1b..b2af46f5b1b94928741a48a6d80ec67f9fe9b968 100644
+--- a/browser/base/content/browser-pageActions.js
++++ b/browser/base/content/browser-pageActions.js
+@@ -1352,7 +1352,7 @@ BrowserPageActions.shareURL = {
+       PanelMultiView.hidePopup(BrowserPageActions.panelNode);
+     };
+ 
+-    shareProviders.forEach(function(share) {
++    shareProviders.forEach(function (share) {
+       let item = document.createXULElement("toolbarbutton");
+       item.setAttribute("label", share.menuItemTitle);
+       item.setAttribute("share-name", share.name);
+@@ -1380,6 +1380,26 @@ BrowserPageActions.shareURL = {
+   },
+ };
+ 
++// generate QR code for site
++BrowserPageActions.generateQrCode = {
++  get panel() {
++    return document.getElementById("qrCodePanel")
++  },
++
++  onShowingInPanel(buttonNode) {
++    console.log("showing in panel")
++  },
++
++  onCommand(event, buttonNode) {
++    PanelMultiView.hidePopup(BrowserPageActions.panelNode);
++    this.panel.openPopupAtScreen(
++      200,
++      100,
++      false
++    );
++  },
++};
++
+ // Attach sharingService here so tests can override the implementation
+ XPCOMUtils.defineLazyServiceGetters(BrowserPageActions.shareURL, {
+   _sharingService: [
