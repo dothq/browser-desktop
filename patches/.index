@@ -1,4 +1,3 @@
-Makefile-in.patch - Makefile.in
 browser-actors-moz-build.patch - browser/actors/moz.build
 browser-app-profile-firefox-js.patch - browser/app/profile/firefox.js
 browser-base-content-aboutDialog-xhtml.patch - browser/base/content/aboutDialog.xhtml
@@ -6,12 +5,15 @@ browser-base-content-aboutNetError-xhtml.patch - browser/base/content/aboutNetEr
 browser-base-content-browser-context-inc.patch - browser/base/content/browser-context.inc
 browser-base-content-browser-data-submission-info-bar-js.patch - browser/base/content/browser-data-submission-info-bar.js
 browser-base-content-browser-menubar-inc.patch - browser/base/content/browser-menubar.inc
+browser-base-content-browser-pageActions-js.patch - browser/base/content/browser-pageActions.js
 browser-base-content-browser-siteIdentity-js.patch - browser/base/content/browser-siteIdentity.js
 browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
+browser-base-content-nsContextMenu-js.patch - browser/base/content/nsContextMenu.js
 browser-components-BrowserGlue-jsm.patch - browser/components/BrowserGlue.jsm
 browser-components-about-AboutRedirector-cpp.patch - browser/components/about/AboutRedirector.cpp
 browser-components-customizableui-CustomizableUI-jsm.patch - browser/components/customizableui/CustomizableUI.jsm
 browser-components-customizableui-CustomizeMode-jsm.patch - browser/components/customizableui/CustomizeMode.jsm
+browser-components-extensions-ExtensionPopups-jsm.patch - browser/components/extensions/ExtensionPopups.jsm
 browser-components-moz-build.patch - browser/components/moz.build
 browser-components-newtab-aboutwelcome-AboutWelcomeParent-jsm.patch - browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 browser-components-newtab-aboutwelcome-content-aboutwelcome-bundle-js.patch - browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
@@ -26,8 +28,11 @@ browser-confvars-sh.patch - browser/confvars.sh
 browser-extensions-moz-build.patch - browser/extensions/moz.build
 browser-extensions-screenshots-icons-icon-v2-svg.patch - browser/extensions/screenshots/icons/icon-v2.svg
 browser-locales-en-US-browser-aboutDialog-ftl.patch - browser/locales/en-US/browser/aboutDialog.ftl
+browser-locales-en-US-browser-browser-ftl.patch - browser/locales/en-US/browser/browser.ftl
+browser-locales-en-US-browser-browserContext-ftl.patch - browser/locales/en-US/browser/browserContext.ftl
 browser-locales-en-US-chrome-browser-app-extension-fields-properties.patch - browser/locales/en-US/chrome/browser/app-extension-fields.properties
 browser-locales-en-US-chrome-browser-browser-dtd.patch - browser/locales/en-US/chrome/browser/browser.dtd
+browser-modules-PageActions-jsm.patch - browser/modules/PageActions.jsm
 browser-themes-addons-jar-mn.patch - browser/themes/addons/jar.mn
 browser-themes-linux-browser-css.patch - browser/themes/linux/browser.css
 browser-themes-osx-browser-css.patch - browser/themes/osx/browser.css
@@ -99,8 +104,6 @@ browser-tools-mozscreenshots-mozscreenshots-extension-configurations-Lightweight
 build-appini_header-py.patch - build/appini_header.py
 build-moz-build.patch - build/moz.build
 build-variables-py.patch - build/variables.py
-client-mk.patch - client.mk
-config-baseconfig-mk.patch - config/baseconfig.mk
 devtools-client-aboutdebugging-src-actions-runtimes-js.patch - devtools/client/aboutdebugging/src/actions/runtimes.js
 devtools-client-themes-images-command-pick-svg.patch - devtools/client/themes/images/command-pick.svg
 devtools-client-themes-images-debugging-addons-svg.patch - devtools/client/themes/images/debugging-addons.svg
