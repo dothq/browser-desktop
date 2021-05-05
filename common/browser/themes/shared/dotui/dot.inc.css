@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 %include panelui.inc.css
-%include addressbar.inc.css
+/* %include addressbar.inc.css */
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -318,4 +318,9 @@ display: none !important;
 
 #shield_privacy_dothq_co-browser-action {
     list-style-image: url(chrome://browser/skin/tracking-protection.svg) !important;
+}
+
+#pageAction-panel-qr_dothq_co > .toolbarbutton-icon, 
+#pageAction-urlbar-qr_dothq_co {
+    list-style-image: url("chrome://browser/skin/qr-code.svg") !important;
 }
