@@ -1,8 +1,16 @@
 diff --git a/browser/themes/shared/jar.inc.mn b/browser/themes/shared/jar.inc.mn
-index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..b33b54d6fb568c54c47a9c96380547a965599f6d 100644
+index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..e49d7dc2030e62f064346d6d141178bc61dc93f0 100644
 --- a/browser/themes/shared/jar.inc.mn
 +++ b/browser/themes/shared/jar.inc.mn
-@@ -218,6 +218,7 @@
+@@ -206,6 +206,7 @@
+   skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
+   skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
+   skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
++  skin/classic/browser/qr-code.svg                    (../shared/icons/qr-code.svg)
+   skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
+   skin/classic/browser/reload.svg                     (../shared/icons/reload.svg)
+   skin/classic/browser/reload-to-stop.svg             (../shared/icons/reload-to-stop.svg)
+@@ -218,6 +219,7 @@
  #ifndef MOZ_WIDGET_GTK
    skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
  #endif
