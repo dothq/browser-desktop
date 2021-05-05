@@ -5,6 +5,8 @@
 @import "mixins/vars.scss";
 @import "components/addressbar.scss";
 
-@include setvars((
-    lwt-accent-color: "red"
-));
+@include setvars(
+    (
+        lwt-accent-color: "red"
+    )
+);
