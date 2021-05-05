@@ -67,18 +67,14 @@ const manualPatches: IPatch[] = [
         name: "icons",
         action: "copy",
         src: [
-            "browser/themes/shared/icons/spell-check.svg"
+            "browser/themes/shared/icons/spell-check.svg",
+            "browser/themes/shared/icons/qr-code.svg"
         ]
     },
     {
         name: "extensions",
         action: "copy",
         src: ["browser/extensions/shield"]
-    },
-    {
-        name: "build-scss",
-        action: "copy",
-        src: "python/melon"
     }
 ];
 
