@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
-index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725a10be370 100644
+index 8e44d005f45c13c4b712a9ab57be0524593f5761..cdf5d503e5c973486410d44cab1080f94ee9a7f5 100644
 --- a/browser/base/content/browser-context.inc
 +++ b/browser/base/content/browser-context.inc
-@@ -223,16 +223,19 @@
+@@ -223,16 +223,24 @@
        <menuseparator id="context-sep-ctp"/>
        <menuitem id="context-savepage"
                  data-l10n-id="main-context-menu-page-save"
@@ -10,6 +10,11 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725
 +                oncommand="gContextMenu.savePageAs();"
 +                class="menuitem-iconic"
 +                image="chrome://browser/skin/save.svg"/>
++      <menuitem id="context-generateqrcode"
++                data-l10n-id="main-context-menu-page-qr-generate"
++                oncommand="gContextMenu.generateQrCode();"
++                class="menuitem-iconic"
++                image="chrome://browser/skin/qr-code.svg"/>
        <menuitem id="context-pocket"
                  data-l10n-id="main-context-menu-save-to-pocket"
                  oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>
@@ -25,7 +30,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725
          <menupopup id="context-sendpagetodevice-popup"
                     onpopupshowing="(() => { gSync.populateSendTabToDevicesMenu(event.target, gBrowser.currentURI.spec, gBrowser.contentTitle); })()"/>
        </menu>
-@@ -250,7 +253,9 @@
+@@ -250,7 +258,9 @@
              accesskey-login="&fillLoginMenu.accesskey;"
              accesskey-password="&fillPasswordMenu.accesskey;"
              accesskey-username="&fillUsernameMenu.accesskey;"
@@ -36,7 +41,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725
          <menupopup id="fill-login-popup">
            <menuitem id="fill-login-no-logins"
                      label="&noLoginSuggestions.label;"
-@@ -269,20 +274,30 @@
+@@ -269,20 +279,30 @@
        <menuseparator id="fill-login-and-generated-password-separator"/>
        <menuitem id="context-undo"
                  data-l10n-id="text-action-undo"
@@ -72,7 +77,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725
        <menuseparator id="context-sep-paste"/>
        <menuitem id="context-selectall"
                  data-l10n-id="text-action-select-all"
-@@ -292,7 +307,9 @@
+@@ -292,7 +312,9 @@
                  data-l10n-id="main-context-menu-keyword"
                  oncommand="AddKeywordForSearchField();"/>
        <menuitem id="context-searchselect"
@@ -83,7 +88,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725
        <menuitem id="context-searchselect-private"
                  oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp);"/>
        <menuseparator id="context-sep-sendlinktodevice" class="sync-ui-item"
-@@ -363,7 +380,9 @@
+@@ -363,7 +385,9 @@
                  label="&spellCheckToggle.label;"
                  type="checkbox"
                  accesskey="&spellCheckToggle.accesskey;"
@@ -94,7 +99,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..b6b928edc629942820c97a9837761725
        <menuitem id="spell-add-dictionaries-main"
                  label="&spellAddDictionaries.label;"
                  accesskey="&spellAddDictionaries.accesskey;"
-@@ -390,11 +409,15 @@
+@@ -390,11 +414,15 @@
        <menuitem id="context-inspect-a11y"
                  hidden="true"
                  data-l10n-id="main-context-menu-inspect-a11y-properties"
