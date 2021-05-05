@@ -1,0 +1,28 @@
+:root {
+    --background: white;
+    --color: rgb(26, 26, 26);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: rgb(36, 36, 36);
+        --color: rgba(249, 249, 250, 1);
+    }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+    color: var(--color);
+}
+
+.qr-codes-header {
+    height: 46px;
+    width: 30em;
+    border-bottom: 1px solid rgba(126, 126, 126, 0.349);
+}
+
+.qr-codes-header > h1 {
+    font-weight: 600;
+}
