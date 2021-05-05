@@ -1,10 +1,7 @@
-import chalk from "chalk";
 import Docker from "dockerode";
 import { readFileSync, writeFileSync } from "fs";
-import sass from "node-sass";
 import { resolve } from "path";
-import readline from "readline";
-import { log } from "..";
+import { bin_name, log } from "..";
 import {
     ARCHITECTURE,
     BUILD_TARGETS,
@@ -109,48 +106,14 @@ const dockerBuild = async (os: string) => {
     await container.wait();
 };
 
-const compileSass = async () => {
-    log.info(
-        `Compiling Dot UI...`
-    );
-
-    const {
-        css,
-        map
-    } = sass.renderSync(({
-        file: resolve(process.cwd(), "ui", "ui.scss"),
-        outFile: resolve(process.cwd(), "ui", "ui.css"),
-        sourceComments: true,
-        outputStyle: "expanded",
-        importer: (url: string, prev: any, done: any) => {
-            console.log(url);
-            return "bingus"
-        }
-    } as any));
-
-    writeFileSync(
-        resolve(process.cwd(), "ui", "ui.css"),
-        css.toString("utf-8")
-    )
-
-    readline.moveCursor(process.stdout, 0, -1);
-    readline.clearLine(process.stdout, 1);
-
-    log.info(
-        `Compiling Dot UI... ${chalk.green.bold('Done ✔')}`
-    );
-}
-
 const genericBuild = async (os: string) => {
     log.info(`Building for "${os}"...`);
 
-    await compileSass();
+    log.warning(
+        `If you get any dependency errors, try running |${bin_name} bootstrap|.`
+    );
 
-    // log.warning(
-    //     `If you get any dependency errors, try running |${bin_name} bootstrap|.`
-    // );
-
-    // await dispatch(`./mach`, ["build"], SRC_DIR);
+    await dispatch(`./mach`, ["build"], SRC_DIR);
 };
 
 const parseDate = (d: number) => {
@@ -195,36 +158,34 @@ export const build = async (
     let d = Date.now();
 
     if (os) {
-        return log.error(
-            "Cross-platform builds are deprecated."
-        );
-        // // Docker build
+        // Docker build
 
-        // let arch = "64bit";
+        let arch = "64bit";
 
-        // if (!BUILD_TARGETS.includes(os))
-        //     return log.error(
-        //         `We do not support "${os}" builds right now.\nWe only currently support ${JSON.stringify(
-        //             BUILD_TARGETS
-        //         )}.`
-        //     );
+        if (!BUILD_TARGETS.includes(os))
+            return log.error(
+                `We do not support "${os}" builds right now.\nWe only currently support ${JSON.stringify(
+                    BUILD_TARGETS
+                )}.`
+            );
 
-        // if (options.arch) {
-        //     if (!ARCHITECTURE.includes(options.arch))
-        //         return log.error(
-        //             `We do not support "${options.arch
-        //             }" build right now.\nWe only currently support ${JSON.stringify(
-        //                 ARCHITECTURE
-        //             )}.`
-        //         );
-        //     else arch = options.arch;
-        // }
+        if (options.arch) {
+            if (!ARCHITECTURE.includes(options.arch))
+                return log.error(
+                    `We do not support "${
+                        options.arch
+                    }" build right now.\nWe only currently support ${JSON.stringify(
+                        ARCHITECTURE
+                    )}.`
+                );
+            else arch = options.arch;
+        }
 
-        // applyConfig(os, options.arch);
+        applyConfig(os, options.arch);
 
-        // setTimeout(async () => {
-        //     await dockerBuild(os).then((_) => success(d));
-        // }, 2500);
+        setTimeout(async () => {
+            await dockerBuild(os).then((_) => success(d));
+        }, 2500);
     } else {
         // Host build
 
@@ -252,7 +213,7 @@ export const build = async (
                 await genericBuild(prettyHost).then((_) =>
                     success(d)
                 );
-            }, 1000);
+            }, 2500);
         } else {
             return log.error(
                 `We do not support "${prettyHost}" builds right now.\nWe only currently support ${JSON.stringify(
