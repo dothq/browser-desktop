@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code</title>
+    <script src="third_party/qrcode.js"></script>
     <script src="index.js"></script>
     <link href="styles.css" rel="stylesheet">
     <link rel="localization" href="browser/qr-codes.ftl" />
@@ -13,12 +14,16 @@
 
 <body>
     <header class="qr-codes-header">
-        <h1 data-l10n-id="qr-codes-title"></h1>
+        <h1 id="popup-title" data-l10n-id="qr-codes-title"></h1>
     </header>
 
-    <div id="theme">
+    <main class="qr-codes-body">
+        <figure id="qr-codes-canvas">
+            <span id="qr-codes-error"></span>
+        </figure>
 
-    </div>
+        <input id="qr-codes-input" placeholder="Enter URL or text for QR Code">
+    </main>
 </body>
 
 </html>
