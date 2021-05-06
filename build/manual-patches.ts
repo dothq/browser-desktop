@@ -78,6 +78,13 @@ const manualPatches: IPatch[] = [
             "browser/extensions/shield",
             "browser/extensions/qrcodes"
         ]
+    },
+    {
+        name: "l10n",
+        action: "copy",
+        src: [
+            "browser/locales/en-US/browser/qr-codes.ftl"
+        ]
     }
 ];
 
