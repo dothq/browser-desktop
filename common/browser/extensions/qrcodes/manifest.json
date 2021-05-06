@@ -15,6 +15,7 @@
     },
     "permissions": [
         "activeTab",
+        "tabs",
         "<all_urls>"
     ],
     "manifest_version": 2,
@@ -32,10 +33,5 @@
             "<all_urls>"
         ],
         "pinned": true
-    },
-    "background": {
-        "scripts": [
-            "background.js"
-        ]
     }
 }
