@@ -8,10 +8,14 @@ with Files("**"):
     BUG_COMPONENT = ("Dot Browser", "QR Codes")
 
 FINAL_TARGET_FILES.features["qr@dothq.co"] += [
-    "background.js",
     "icon.svg",
     "index.js",
     "manifest.json",
     "popup.html",
     "styles.css"
+]
+
+FINAL_TARGET_FILES.features["qr@dothq.co"]["third_party"] += [
+    "third_party/qrcode.js",
+    "third_party/qrcode.js.LICENSE.txt",
 ]
