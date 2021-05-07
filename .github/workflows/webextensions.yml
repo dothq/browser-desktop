@@ -61,6 +61,7 @@ jobs:
           cd browser-desktop
           ls
           pwd
+          ls ./common/
           echo "Unpacking ntp..."
           rm -rf ./common/browser/extensions/ntp
           unzip -d ./common/browser/extensions/ntp ntp.zip
