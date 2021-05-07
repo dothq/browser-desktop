@@ -5,7 +5,10 @@ import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
 
-const importManual = async (minimal?: boolean, noIgnore?: boolean) => {
+const importManual = async (
+    minimal?: boolean,
+    noIgnore?: boolean
+) => {
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );
@@ -58,7 +61,10 @@ const importManual = async (minimal?: boolean, noIgnore?: boolean) => {
     });
 };
 
-const importPatchFiles = async (minimal?: boolean, noIgnore?: boolean) => {
+const importPatchFiles = async (
+    minimal?: boolean,
+    noIgnore?: boolean
+) => {
     let patches = readdirSync(PATCHES_DIR);
 
     patches = patches.filter((p) => p !== ".index");
@@ -119,6 +125,9 @@ export const importPatches = async (
             await importPatchFiles(args.minimal);
     } else {
         await importManual(args.minimal, args.noignore);
-        await importPatchFiles(args.minimal, args.noignore);
+        await importPatchFiles(
+            args.minimal,
+            args.noignore
+        );
     }
 };

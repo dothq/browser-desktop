@@ -54,7 +54,10 @@ class Patch {
                                     `We were unable to copy the file or directory \`${this.src}\` as it doesn't exist in the common directory.`
                                 );
 
-                            copyManual(this.src, this.options.noIgnore);
+                            copyManual(
+                                this.src,
+                                this.options.noIgnore
+                            );
                         }
 
                         if (Array.isArray(this.src)) {
@@ -87,7 +90,10 @@ class Patch {
                                     );
                                 }
 
-                                copyManual(i, this.options.noIgnore);
+                                copyManual(
+                                    i,
+                                    this.options.noIgnore
+                                );
                             });
                         }
 
