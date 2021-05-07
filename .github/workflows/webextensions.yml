@@ -40,7 +40,7 @@ jobs:
           curl -L https://github.com/dothq-extensions/adblock/releases/download/${{ steps.dotshield.outputs.release }}/addon.zip -o shield.zip
           curl -L https://github.com/dothq/ntp/releases/download/${{ steps.ntp.outputs.release }}/ntp.zip -o ntp.zip
 
-      - name: Unpack
+      - name: Unpack Shield
         run: |
           cd browser-desktop
           ls
@@ -54,7 +54,13 @@ jobs:
           rm -rf shield.zip
           git add ./common/browser/extensions/shield && git commit -m "🛡 Dot Shield ${{ steps.dotshield.outputs.release }}"
           echo "Unpacking shield... done!"
-          #
+
+      - name: Unpacking ntp
+        if: always()
+        run: |
+          cd browser-desktop
+          ls
+          pwd
           echo "Unpacking ntp..."
           rm -rf ./common/browser/extensions/ntp
           unzip -d ./common/browser/extensions/ntp ntp.zip
@@ -63,7 +69,9 @@ jobs:
           git add ./common/browser/extensions/ntp && git commit -m "🖼️ NTP ${{ steps.dotshield.outputs.release }}"
           echo "Unpack ntp... done!"
 
+
       - name: Push to GitHub
+        if: always()
         run: |
           cd browser-desktop
           git status
