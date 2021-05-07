@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..ab8f51b9a4a0daa83bc7bef7483bf4e567d2fef5 100644
+index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..1375602b77b0174365e5982e2901c22acc49a0d7 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -140,7 +140,7 @@ pref("app.update.notifyDuringDownload", false);
@@ -777,15 +777,6 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..ab8f51b9a4a0daa83bc7bef7483bf4e5
  #endif
  
  pref("browser.translation.detectLanguage", false);
-@@ -1747,7 +1747,7 @@ pref("browser.contentblocking.customBlockList.preferences.ui.enabled", false);
- pref("browser.contentblocking.reportBreakage.url", "https://tracking-protection-issues.herokuapp.com/new");
- 
- // Enable Protections report's Lockwise card by default.
--pref("browser.contentblocking.report.lockwise.enabled", true);
-+pref("browser.contentblocking.report.lockwise.enabled", false);
- 
- // Enable Protections report's Monitor card by default.
- pref("browser.contentblocking.report.monitor.enabled", true);
 @@ -1797,19 +1797,19 @@ pref("browser.contentblocking.cfr-milestone.milestones", "[1000, 5000, 10000, 25
  
  // Enables the new Protections Panel.
@@ -1008,7 +999,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..ab8f51b9a4a0daa83bc7bef7483bf4e5
  #endif
  
  // Map top-level await expressions in the console
-@@ -2527,12 +2527,104 @@ pref("first-startup.timeout", 30000);
+@@ -2527,12 +2527,107 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -1117,4 +1108,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..ab8f51b9a4a0daa83bc7bef7483bf4e5
 +pref("gfx.webrender.all", true);
 +pref("browser.tabs.drawInTitlebar", true);
 +pref("browser.toolbars.bookmarks.visibility", "never");
++
++// Firefox Services
++pref("browser.contentblocking.report.lockwise.enabled", false);
 \ No newline at end of file
