@@ -30,6 +30,7 @@ class Patch {
     public indent?: number;
     public options: {
         minimal?: boolean;
+        noIgnore?: boolean;
     };
     private _done: boolean = false;
 
@@ -53,7 +54,7 @@ class Patch {
                                     `We were unable to copy the file or directory \`${this.src}\` as it doesn't exist in the common directory.`
                                 );
 
-                            copyManual(this.src);
+                            copyManual(this.src, this.options.noIgnore);
                         }
 
                         if (Array.isArray(this.src)) {
@@ -86,7 +87,7 @@ class Patch {
                                     );
                                 }
 
-                                copyManual(i);
+                                copyManual(i, this.options.noIgnore);
                             });
                         }
 
@@ -288,6 +289,7 @@ class Patch {
         indent?: number;
         options: {
             minimal?: boolean;
+            noIgnore?: boolean;
         };
     }) {
         this.name = name;

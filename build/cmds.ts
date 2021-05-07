@@ -99,6 +99,11 @@ export const commands: Cmd[] = [
                 arg: "-m, --minimal",
                 description:
                     "Import patches in minimal mode"
+            },
+            {
+                arg: "--noignore",
+                description:
+                    "Bypass .gitignore. You shouldn't really use this."
             }
         ],
         controller: importPatches

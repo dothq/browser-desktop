@@ -5,7 +5,7 @@ import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
 
-const importManual = async (minimal?: boolean) => {
+const importManual = async (minimal?: boolean, noIgnore?: boolean) => {
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );
@@ -37,7 +37,8 @@ const importManual = async (minimal?: boolean) => {
                 markers,
                 indent,
                 options: {
-                    minimal
+                    minimal,
+                    noIgnore
                 }
             });
 
@@ -57,7 +58,7 @@ const importManual = async (minimal?: boolean) => {
     });
 };
 
-const importPatchFiles = async (minimal?: boolean) => {
+const importPatchFiles = async (minimal?: boolean, noIgnore?: boolean) => {
     let patches = readdirSync(PATCHES_DIR);
 
     patches = patches.filter((p) => p !== ".index");
@@ -78,7 +79,8 @@ const importPatchFiles = async (minimal?: boolean) => {
             type: "file",
             status: [i, patches.length],
             options: {
-                minimal
+                minimal,
+                noIgnore
             }
         });
 
@@ -103,14 +105,15 @@ const importPatchFiles = async (minimal?: boolean) => {
 
 interface Args {
     minimal?: boolean;
+    noignore?: boolean;
 }
 
 export const importPatches = async (type: string, args: Args) => {
     if (type) {
-        if (type == "manual") await importManual(args.minimal);
-        else if (type == "file") await importPatchFiles(args.minimal);
+        if (type == "manual") await importManual(args.minimal, args.noignore);
+        else if (type == "file") await importPatchFiles(args.minimal, args.noignore);
     } else {
-        await importManual(args.minimal);
-        await importPatchFiles(args.minimal);
+        await importManual(args.minimal, args.noignore);
+        await importPatchFiles(args.minimal, args.noignore);
     }
 };
