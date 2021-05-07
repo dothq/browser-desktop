@@ -108,10 +108,15 @@ interface Args {
     noignore?: boolean;
 }
 
-export const importPatches = async (type: string, args: Args) => {
+export const importPatches = async (
+    type: string,
+    args: Args
+) => {
     if (type) {
-        if (type == "manual") await importManual(args.minimal, args.noignore);
-        else if (type == "file") await importPatchFiles(args.minimal, args.noignore);
+        if (type == "manual")
+            await importManual(args.minimal);
+        else if (type == "file")
+            await importPatchFiles(args.minimal);
     } else {
         await importManual(args.minimal, args.noignore);
         await importPatchFiles(args.minimal, args.noignore);
