@@ -10,7 +10,10 @@ const getChunked = (location: string) => {
     return location.replace(/\\/g, "/").split("/");
 };
 
-export const copyManual = (name: string, noIgnore?: boolean) => {
+export const copyManual = (
+    name: string,
+    noIgnore?: boolean
+) => {
     try {
         copySync(
             resolve(COMMON_DIR, ...getChunked(name)),
