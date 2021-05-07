@@ -27,11 +27,6 @@ browser-components-urlbar-UrlbarInput-jsm.patch - browser/components/urlbar/Urlb
 browser-confvars-sh.patch - browser/confvars.sh
 browser-extensions-moz-build.patch - browser/extensions/moz.build
 browser-extensions-screenshots-icons-icon-v2-svg.patch - browser/extensions/screenshots/icons/icon-v2.svg
-browser-locales-en-US-browser-aboutDialog-ftl.patch - browser/locales/en-US/browser/aboutDialog.ftl
-browser-locales-en-US-browser-browser-ftl.patch - browser/locales/en-US/browser/browser.ftl
-browser-locales-en-US-browser-browserContext-ftl.patch - browser/locales/en-US/browser/browserContext.ftl
-browser-locales-en-US-chrome-browser-app-extension-fields-properties.patch - browser/locales/en-US/chrome/browser/app-extension-fields.properties
-browser-locales-en-US-chrome-browser-browser-dtd.patch - browser/locales/en-US/chrome/browser/browser.dtd
 browser-modules-PageActions-jsm.patch - browser/modules/PageActions.jsm
 browser-themes-addons-jar-mn.patch - browser/themes/addons/jar.mn
 browser-themes-linux-browser-css.patch - browser/themes/linux/browser.css
@@ -122,7 +117,6 @@ services-settings-dumps-main-top-sites-json.patch - services/settings/dumps/main
 toolkit-components-moz-build.patch - toolkit/components/moz.build
 toolkit-components-search-SearchEngineSelector-jsm.patch - toolkit/components/search/SearchEngineSelector.jsm
 toolkit-content-widgets-moz-input-box-js.patch - toolkit/content/widgets/moz-input-box.js
-toolkit-locales-en-US-chrome-global-global-extension-fields-properties.patch - toolkit/locales/en-US/chrome/global/global-extension-fields.properties
 toolkit-modules-LightweightThemeConsumer-jsm.patch - toolkit/modules/LightweightThemeConsumer.jsm
 toolkit-mozapps-extensions-content-aboutaddons-js.patch - toolkit/mozapps/extensions/content/aboutaddons.js
 toolkit-mozapps-extensions-internal-AddonSettings-jsm.patch - toolkit/mozapps/extensions/internal/AddonSettings.jsm
