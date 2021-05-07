@@ -12,7 +12,6 @@ import { resolve } from "path";
 import { log } from "..";
 import {
     COMMON_DIR,
-
     PATCHES_DIR,
     SRC_DIR
 } from "../constants";
@@ -30,8 +29,9 @@ const isLocale = (l: string) =>
     (l.endsWith(".inc") && l.includes("locales")) ||
     l.endsWith(".ftl") ||
     (l.endsWith(".properties") && !l.includes("test")) ||
-    (l.endsWith(".dtd") && !l.includes("test")) &&
-    l.toLowerCase().includes("en-us")
+    (l.endsWith(".dtd") &&
+        !l.includes("test") &&
+        l.toLowerCase().includes("en-us"));
 
 const getFiles = async (flags: string, cwd: string) => {
     let { stdout: ignored } = await execa(
@@ -64,7 +64,9 @@ const getFiles = async (flags: string, cwd: string) => {
         );
     }); // this filters out the manual patches
 
-    const l10nFiles = fls.split("\n").filter((l: any) => isLocale(l))
+    const l10nFiles = fls
+        .split("\n")
+        .filter((l: any) => isLocale(l));
 
     log.info(
         `Ignoring ${ignored.split("\n").length} files...`
@@ -87,7 +89,11 @@ const exportModified = async (
     patchesDir: string,
     cwd: string
 ) => {
-    const { files, fileNames, l10nFiles } = await getFiles("M", cwd);
+    const {
+        files,
+        fileNames,
+        l10nFiles
+    } = await getFiles("M", cwd);
 
     var filesWritten = 0;
 
@@ -137,7 +143,9 @@ const exportModified = async (
 
     await Promise.all(
         l10nFiles.map(async (l10n: any, i: any) => {
-            const type = l10n.split(".")[l10n.split(".").length - 1];
+            const type = l10n.split(".")[
+                l10n.split(".").length - 1
+            ];
 
             const { stdout: diff } = await execa(
                 "git",
@@ -153,37 +161,68 @@ const exportModified = async (
                 }
             );
 
-            const changed = diff.split("\n").filter(ln => (ln.startsWith("+") && !ln.startsWith("+++"))).map(i => i.substr(1))
+            const changed = diff
+                .split("\n")
+                .filter(
+                    (ln) =>
+                        ln.startsWith("+") &&
+                        !ln.startsWith("+++")
+                )
+                .map((i) => i.substr(1));
 
-            const localePath = l10n.split("/locales/en-US/")[1].split("/");
-            const localeName = (localePath.pop());
+            const localePath = l10n
+                .split("/locales/en-US/")[1]
+                .split("/");
+            const localeName = localePath.pop();
 
             if (!changed) {
                 console.log(diff);
-                log.error(`Failed to find changed lines in ${l10n}`);
+                log.error(
+                    `Failed to find changed lines in ${l10n}`
+                );
                 return;
             }
 
             if (changed[0] == "") changed.shift();
 
-            const copyrightNotice = type == "ftl" || type == "properties"
-                ? `# This Source Code Form is subject to the terms of the Mozilla Public
+            const copyrightNotice =
+                type == "ftl" || type == "properties"
+                    ? `# This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n`
-                : type == "dtd"
+                    : type == "dtd"
                     ? `<!-- This Source Code Form is subject to the terms of the Mozilla Public
 - License, v. 2.0. If a copy of the MPL was not distributed with this
 - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->\n\n`
-                    : ``
+                    : ``;
 
-            ensureDirSync(resolve(process.cwd(), "l10n", "en-US", ...localePath));
+            ensureDirSync(
+                resolve(
+                    process.cwd(),
+                    "l10n",
+                    "en-US",
+                    ...localePath
+                )
+            );
 
             writeFileSync(
-                resolve(process.cwd(), "l10n", "en-US", ...localePath, localeName),
+                resolve(
+                    process.cwd(),
+                    "l10n",
+                    "en-US",
+                    ...localePath,
+                    localeName
+                ),
                 `${copyrightNotice}${changed.join("\n")}`
-            )
+            );
 
-            log.info(`Wrote ${changed.length} strings to ${localePath.join("/")}/${localeName}.`)
+            log.info(
+                `Wrote ${
+                    changed.length
+                } strings to ${localePath.join(
+                    "/"
+                )}/${localeName}.`
+            );
         })
     );
 };
@@ -252,7 +291,9 @@ export const exportPatches = async () => {
     console.log();
     rmdirSync(PATCHES_DIR, { recursive: true });
     mkdirSync(PATCHES_DIR);
-    rmdirSync(resolve(process.cwd(), "l10n", "en-US"), { recursive: true });
+    rmdirSync(resolve(process.cwd(), "l10n", "en-US"), {
+        recursive: true
+    });
     mkdirSync(resolve(process.cwd(), "l10n", "en-US"));
     writeFileSync(resolve(PATCHES_DIR, ".index"), "");
 
