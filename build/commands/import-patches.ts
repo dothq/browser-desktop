@@ -105,7 +105,12 @@ interface Args {
     minimal?: boolean;
 }
 
-export const importPatches = async (args: Args) => {
-    await importManual(args.minimal);
-    await importPatchFiles(args.minimal);
+export const importPatches = async (type: string, args: Args) => {
+    if (type) {
+        if (type == "manual") await importManual(args.minimal);
+        else if (type == "file") await importPatchFiles(args.minimal);
+    } else {
+        await importManual(args.minimal);
+        await importPatchFiles(args.minimal);
+    }
 };

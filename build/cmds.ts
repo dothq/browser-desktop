@@ -91,7 +91,7 @@ export const commands: Cmd[] = [
         controller: fixLineEndings
     },
     {
-        cmd: "import",
+        cmd: "import [type]",
         aliases: ["import-patches", "i"],
         description: "Import patches into the browser.",
         options: [
