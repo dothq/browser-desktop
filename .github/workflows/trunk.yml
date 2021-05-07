@@ -56,7 +56,7 @@ jobs:
                 cd src
                 git checkout .
                 cd ..
-                ./melon import --minimal
+                ./melon import --minimal --noignore
                 ./melon doctor patches
                 
             - name: Push to trunk
