@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
-index 8e44d005f45c13c4b712a9ab57be0524593f5761..cdf5d503e5c973486410d44cab1080f94ee9a7f5 100644
+index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf302712a7 100644
 --- a/browser/base/content/browser-context.inc
 +++ b/browser/base/content/browser-context.inc
 @@ -223,16 +223,24 @@
@@ -12,7 +12,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..cdf5d503e5c973486410d44cab1080f9
 +                image="chrome://browser/skin/save.svg"/>
 +      <menuitem id="context-generateqrcode"
 +                data-l10n-id="main-context-menu-page-qr-generate"
-+                oncommand="gContextMenu.generateQrCode();"
++                oncommand="gContextMenu.generateQrCode(event);"
 +                class="menuitem-iconic"
 +                image="chrome://browser/skin/qr-code.svg"/>
        <menuitem id="context-pocket"
