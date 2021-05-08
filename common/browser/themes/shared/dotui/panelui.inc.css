@@ -26,7 +26,7 @@ toolbarseparator {
 }
 
 menupopup {
-    box-shadow: 0 6.4px 14.4px 0 #0002,0 1.2px 3.6px 0 #0000001c !important;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.25) !important;
     padding: 28px !important;
     margin: -28px !important;
     background-color: transparent !important;
@@ -36,7 +36,7 @@ menupopup {
 
 .menupopup-arrowscrollbox {
     border-radius: 6px !important;
-    box-shadow: 0 6.4px 14.4px 0 #0002,0 1.2px 3.6px 0 #0000001c;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.25) !important;
     padding: 6px 0 !important;
     background-color: var(--arrowpanel-background) !important;
 }
