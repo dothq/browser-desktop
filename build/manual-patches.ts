@@ -68,7 +68,12 @@ const manualPatches: IPatch[] = [
         action: "copy",
         src: [
             "browser/themes/shared/icons/spell-check.svg",
-            "browser/themes/shared/icons/qr-code.svg"
+            "browser/themes/shared/icons/qr-code.svg",
+            "browser/themes/shared/icons/certificate.svg",
+            "browser/themes/shared/icons/cookies.svg",
+
+            "browser/themes/shared/notification-icons/javascript.svg",
+            "browser/themes/shared/notification-icons/location.svg"
         ]
     },
     {
