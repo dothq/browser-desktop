@@ -65,8 +65,8 @@ const renderQrCode = (url) => {
     const qr = new AwesomeQR.AwesomeQR({
         text: url,
         size: 500,
-        colorLight: document.body.style.getPropertyValue("--theme-ntp-background"),
-        colorDark: document.body.style.getPropertyValue("--theme-toolbar-field"),
+        colorLight: "white",
+        colorDark: "darkgray",
         autoColor: false,
         backgroundDimming: "transparent",
         components: {
