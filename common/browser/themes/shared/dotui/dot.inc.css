@@ -4,6 +4,7 @@
 
 %include panelui.inc.css
 /* %include addressbar.inc.css */
+%include identity_popup.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -11,6 +12,7 @@
     --urlbar-toolbar-height: 42px !important;
     --inline-tab-padding: 12px !important;
     --tab-min-height: 38px !important;
+    --panel-separator-color: var(--arrowpanel-border-color) !important;
 }
 
 #urlbar {
