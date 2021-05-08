@@ -11,6 +11,7 @@ browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
 browser-base-content-nsContextMenu-js.patch - browser/base/content/nsContextMenu.js
 browser-components-BrowserGlue-jsm.patch - browser/components/BrowserGlue.jsm
 browser-components-about-AboutRedirector-cpp.patch - browser/components/about/AboutRedirector.cpp
+browser-components-controlcenter-content-identityPanel-inc-xhtml.patch - browser/components/controlcenter/content/identityPanel.inc.xhtml
 browser-components-customizableui-CustomizableUI-jsm.patch - browser/components/customizableui/CustomizableUI.jsm
 browser-components-customizableui-CustomizeMode-jsm.patch - browser/components/customizableui/CustomizeMode.jsm
 browser-components-extensions-ExtensionPopups-jsm.patch - browser/components/extensions/ExtensionPopups.jsm
@@ -95,6 +96,7 @@ browser-themes-shared-jar-inc-mn.patch - browser/themes/shared/jar.inc.mn
 browser-themes-shared-menupanel-inc-css.patch - browser/themes/shared/menupanel.inc.css
 browser-themes-shared-reader-readerMode-svg.patch - browser/themes/shared/reader/readerMode.svg
 browser-themes-windows-browser-css.patch - browser/themes/windows/browser.css
+browser-tools-mozscreenshots-mozscreenshots-extension-configurations-ControlCenter-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/ControlCenter.jsm
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-LightweightThemes-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
 build-appini_header-py.patch - build/appini_header.py
 build-moz-build.patch - build/moz.build
