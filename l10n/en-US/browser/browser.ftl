@@ -4,5 +4,12 @@
 
 page-action-qr-code-panel =
   .label = Generate QR Code for Page
+identity-certificate-label = Certificate
+identity-certificate-issuer = Issued by: { $certIssuer }
+
+identity-cookie-label = Cookies
+
+identity-site-permissions-label = Site permissions
+
 urlbar-qr-code-button =
   .tooltiptext = Generate QR Code for this Page
