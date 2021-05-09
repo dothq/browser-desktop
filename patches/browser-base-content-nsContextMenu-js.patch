@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/nsContextMenu.js b/browser/base/content/nsContextMenu.js
-index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e21e818137 100644
+index b03abc5d09fb1a91795d2b6c5433a6f548881f52..f77cefe7954dd2238e616a7e6f343341f63471bf 100644
 --- a/browser/base/content/nsContextMenu.js
 +++ b/browser/base/content/nsContextMenu.js
 @@ -160,7 +160,7 @@ class nsContextMenu {
@@ -49,7 +49,17 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      );
  
      var shouldShow = !(
-@@ -653,18 +653,27 @@ class nsContextMenu {
+@@ -632,7 +632,8 @@ class nsContextMenu {
+     this.setItemAttr(
+       "context-viewinfo",
+       "disabled",
+-      this.webExtBrowserType === "popup"
++      this.webExtBrowserType === "popup" ||
++      gIdentityHandler._hasInvalidPageProxyState()
+     );
+     this.showItem("inspect-separator", showInspect);
+     this.showItem("context-inspect", showInspect);
+@@ -653,18 +654,27 @@ class nsContextMenu {
      this.showItem(
        "context-viewbgimage",
        shouldShow &&
@@ -83,7 +93,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
    }
  
    initMiscItems() {
-@@ -687,7 +696,7 @@ class nsContextMenu {
+@@ -687,7 +697,7 @@ class nsContextMenu {
      this.showItem(
        "context-bookmarklink",
        (this.onLink && !this.onMailtoLink && !this.onMozExtLink) ||
@@ -92,7 +102,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      );
      this.showItem(
        "context-keywordfield",
-@@ -867,7 +876,7 @@ class nsContextMenu {
+@@ -867,7 +877,7 @@ class nsContextMenu {
      this.showItem(
        "context-media-hidecontrols",
        this.target.controls &&
@@ -101,7 +111,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      );
      this.showItem(
        "context-video-fullscreen",
-@@ -975,7 +984,7 @@ class nsContextMenu {
+@@ -975,7 +985,7 @@ class nsContextMenu {
          !loginFillInfo.passwordField.found ||
          documentURI.schemeIs("about") ||
          this.browser.contentPrincipal.spec ==
@@ -110,7 +120,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
        ) {
          // Both generation and fill will default to disabled.
          return;
-@@ -1185,7 +1194,7 @@ class nsContextMenu {
+@@ -1185,7 +1195,7 @@ class nsContextMenu {
            this.browser.contentPrincipal.originAttributes.privateBrowsingId > 0;
          sm.checkSameOriginURI(referrerURI, targetURI, false, isPrivateWin);
          persistAllowMixedContentInChildTab = true;
@@ -119,7 +129,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      }
  
      let params = {
-@@ -1243,7 +1252,7 @@ class nsContextMenu {
+@@ -1243,7 +1253,7 @@ class nsContextMenu {
    // View Partial Source
    viewPartialSource() {
      let { browser } = this;
@@ -128,7 +138,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
        let tabBrowser = gBrowser;
        const inNewWindow = !Services.prefs.getBoolPref("view_source.tab");
        // In the case of popups, we need to find a non-popup browser window.
-@@ -1336,7 +1345,7 @@ class nsContextMenu {
+@@ -1336,7 +1346,7 @@ class nsContextMenu {
      let referrerInfo = this.contentData.referrerInfo;
      let systemPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
      if (this.onCanvas) {
@@ -137,7 +147,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
          openUILink(blobURL, e, {
            referrerInfo,
            triggeringPrincipal: systemPrincipal,
-@@ -1368,7 +1377,7 @@ class nsContextMenu {
+@@ -1368,7 +1378,7 @@ class nsContextMenu {
          if (url.fileBaseName) {
            name = decodeURI(url.fileBaseName) + ".jpg";
          }
@@ -146,7 +156,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      }
      if (!name) {
        name = "snapshot.jpg";
-@@ -1542,11 +1551,11 @@ class nsContextMenu {
+@@ -1542,11 +1552,11 @@ class nsContextMenu {
                    msg = bundle.GetStringFromName("downloadErrorExtension");
                  }
                }
@@ -160,7 +170,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
            return;
          }
  
-@@ -1601,7 +1610,7 @@ class nsContextMenu {
+@@ -1601,7 +1611,7 @@ class nsContextMenu {
        },
      };
  
@@ -169,7 +179,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      callbacks.prototype = {
        getInterface: function sLA_callbacks_getInterface(aIID) {
          if (aIID.equals(Ci.nsIAuthPrompt) || aIID.equals(Ci.nsIAuthPrompt2)) {
-@@ -1620,7 +1629,7 @@ class nsContextMenu {
+@@ -1620,7 +1630,7 @@ class nsContextMenu {
      // if it we don't have the headers after a short time, the user
      // won't have received any feedback from their click.  that's bad.  so
      // we give up waiting for the filename.
@@ -178,7 +188,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
      timerCallback.prototype = {
        notify: function sLA_timer_notify(aTimer) {
          channel.cancel(NS_ERROR_SAVE_LINK_AS_TIMEOUT);
-@@ -1717,7 +1726,7 @@ class nsContextMenu {
+@@ -1717,7 +1727,7 @@ class nsContextMenu {
      let isPrivate = PrivateBrowsingUtils.isBrowserPrivate(this.browser);
      if (this.onCanvas) {
        // Bypass cache, since it's a data: URL.
@@ -187,7 +197,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
          internalSave(
            blobURL,
            null, // document
-@@ -1943,12 +1952,12 @@ class nsContextMenu {
+@@ -1943,12 +1953,12 @@ class nsContextMenu {
          "intl.accept_languages",
          Ci.nsIPrefLocalizedString
        ).data;
@@ -202,7 +212,7 @@ index b03abc5d09fb1a91795d2b6c5433a6f548881f52..2278be21e24ac9579f56d55b9eabd8e2
  
      uri = uri.replace(/%LOCALE%/, escape(locale)).replace(/%VERSION%/, version);
  
-@@ -2135,6 +2144,14 @@ class nsContextMenu {
+@@ -2135,6 +2145,14 @@ class nsContextMenu {
    doCustomCommand(generatedItemId, handlingUserInput) {
      this.actor.doCustomCommand(generatedItemId, handlingUserInput);
    }

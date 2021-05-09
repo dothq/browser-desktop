@@ -1,0 +1,440 @@
+diff --git a/browser/base/content/browser.js b/browser/base/content/browser.js
+index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086c4c6b431 100644
+--- a/browser/base/content/browser.js
++++ b/browser/base/content/browser.js
+@@ -253,6 +253,11 @@ XPCOMUtils.defineLazyScriptGetter(
+   "gSharedTabWarning",
+   "chrome://browser/content/browser-webrtc.js"
+ );
++XPCOMUtils.defineLazyScriptGetter(
++  this,
++  "TabPreview",
++  "chrome://browser/content/tabpreview/tabpreview.js"
++);
+ 
+ // lazy service getters
+ 
+@@ -1012,7 +1017,7 @@ const gStoragePressureObserver = {
+       ]);
+       buttons.push({
+         "l10n-id": "space-alert-under-5gb-ok-button",
+-        callback() {},
++        callback() { },
+       });
+     } else {
+       // The firefox-used space >= 5GB, then guide users to about:preferences
+@@ -1920,7 +1925,7 @@ var gBrowserInit = {
+ 
+     gBrowser.addEventListener(
+       "PermissionStateChange",
+-      function() {
++      function () {
+         gIdentityHandler.refreshIdentityBlock();
+       },
+       true
+@@ -2080,7 +2085,7 @@ var gBrowserInit = {
+       PanicButtonNotifier.init();
+     });
+ 
+-    gBrowser.tabContainer.addEventListener("TabSelect", function() {
++    gBrowser.tabContainer.addEventListener("TabSelect", function () {
+       for (let panel of document.querySelectorAll(
+         "panel[tabspecific='true']"
+       )) {
+@@ -2284,7 +2289,7 @@ var gBrowserInit = {
+             csp: window.arguments[10],
+             fromExternal: true,
+           });
+-        } catch (e) {}
++        } catch (e) { }
+       } else if (window.arguments.length >= 3) {
+         // window.arguments[1]: unused (bug 871161)
+         //                 [2]: referrerInfo (nsIReferrerInfo)
+@@ -2446,7 +2451,7 @@ var gBrowserInit = {
+   // promise resolving to the URI to load.
+   get uriToLoadPromise() {
+     delete this.uriToLoadPromise;
+-    return (this.uriToLoadPromise = (function() {
++    return (this.uriToLoadPromise = (function () {
+       // window.arguments[0]: URI to load (string), or an nsIArray of
+       //                      nsISupportsStrings to load, or a xul:tab of
+       //                      a tabbrowser, which will be replaced by this
+@@ -2531,7 +2536,7 @@ var gBrowserInit = {
+     try {
+       gBrowser.removeProgressListener(window.XULBrowserWindow);
+       gBrowser.removeTabsProgressListener(window.TabsProgressListener);
+-    } catch (ex) {}
++    } catch (ex) { }
+ 
+     PlacesToolbarHelper.uninit();
+ 
+@@ -2724,7 +2729,7 @@ function BrowserForward(aEvent) {
+   if (where == "current") {
+     try {
+       gBrowser.goForward();
+-    } catch (ex) {}
++    } catch (ex) { }
+   } else {
+     duplicateTabIn(gBrowser.selectedTab, where, 1);
+   }
+@@ -2736,7 +2741,7 @@ function BrowserBack(aEvent) {
+   if (where == "current") {
+     try {
+       gBrowser.goBack();
+-    } catch (ex) {}
++    } catch (ex) { }
+   } else {
+     duplicateTabIn(gBrowser.selectedTab, where, -1);
+   }
+@@ -2895,7 +2900,7 @@ function loadOneOrMoreURIs(aURIString, aTriggeringPrincipal, aCsp) {
+       triggeringPrincipal: aTriggeringPrincipal,
+       csp: aCsp,
+     });
+-  } catch (e) {}
++  } catch (e) { }
+ }
+ 
+ function openLocation(event) {
+@@ -2977,7 +2982,7 @@ var gLastOpenDirectory = {
+         if (!this._lastDir.exists()) {
+           this._lastDir = null;
+         }
+-      } catch (e) {}
++      } catch (e) { }
+     }
+     return this._lastDir;
+   },
+@@ -3016,7 +3021,7 @@ function BrowserOpenFileWindow() {
+           if (fp.file) {
+             gLastOpenDirectory.path = fp.file.parent.QueryInterface(Ci.nsIFile);
+           }
+-        } catch (ex) {}
++        } catch (ex) { }
+         openTrustedLinkIn(fp.fileURL.spec, "current");
+       }
+     };
+@@ -3028,14 +3033,14 @@ function BrowserOpenFileWindow() {
+     );
+     fp.appendFilters(
+       nsIFilePicker.filterAll |
+-        nsIFilePicker.filterText |
+-        nsIFilePicker.filterImages |
+-        nsIFilePicker.filterXML |
+-        nsIFilePicker.filterHTML
++      nsIFilePicker.filterText |
++      nsIFilePicker.filterImages |
++      nsIFilePicker.filterXML |
++      nsIFilePicker.filterHTML
+     );
+     fp.displayDirectory = gLastOpenDirectory.path;
+     fp.open(fpCallback);
+-  } catch (ex) {}
++  } catch (ex) { }
+ }
+ 
+ function BrowserCloseTabOrWindow(event) {
+@@ -3139,7 +3144,7 @@ function readFromClipboard() {
+       data = data.value.QueryInterface(Ci.nsISupportsString);
+       url = data.data;
+     }
+-  } catch (ex) {}
++  } catch (ex) { }
+ 
+   return url;
+ }
+@@ -3170,7 +3175,7 @@ async function BrowserViewSourceOfDocument(args) {
+     try {
+       await top.gViewSourceUtils.openInExternalEditor(args);
+       return;
+-    } catch (data) {}
++    } catch (data) { }
+   }
+ 
+   let tabBrowser = gBrowser;
+@@ -3183,8 +3188,8 @@ async function BrowserViewSourceOfDocument(args) {
+     if (!tabBrowser) {
+       throw new Error(
+         "BrowserViewSourceOfDocument should be passed the " +
+-          "subject browser if called from a window without " +
+-          "gBrowser defined."
++        "subject browser if called from a window without " +
++        "gBrowser defined."
+       );
+     }
+     // Some internal URLs (such as specific chrome: and about: URLs that are
+@@ -3262,41 +3267,44 @@ function BrowserPageInfo(
+   browsingContext,
+   browser
+ ) {
+-  if (documentURL instanceof HTMLDocument) {
+-    Deprecated.warning(
+-      "Please pass the location URL instead of the document " +
+-        "to BrowserPageInfo() as the first argument.",
+-      "https://bugzilla.mozilla.org/show_bug.cgi?id=1238180"
+-    );
+-    documentURL = documentURL.location;
+-  }
+-
+-  let args = { initialTab, imageElement, browsingContext, browser };
+-
+-  documentURL = documentURL || window.gBrowser.selectedBrowser.currentURI.spec;
+-
+-  // Check for windows matching the url
+-  for (let currentWindow of Services.wm.getEnumerator("Browser:page-info")) {
+-    if (currentWindow.closed) {
+-      continue;
+-    }
+-    if (
+-      currentWindow.document.documentElement.getAttribute("relatedUrl") ==
+-      documentURL
+-    ) {
+-      currentWindow.focus();
+-      currentWindow.resetPageInfo(args);
+-      return currentWindow;
+-    }
+-  }
+-
+-  // We didn't find a matching window, so open a new one.
+-  return openDialog(
+-    "chrome://browser/content/pageinfo/pageInfo.xhtml",
+-    "",
+-    "chrome,toolbar,dialog=no,resizable",
+-    args
+-  );
++  gIdentityHandler._openPopup()
++
++  // @todo(dot-browser): We're removing the Page Info dialog popup in favour of the identity box popup
++  // if (documentURL instanceof HTMLDocument) {
++  //   Deprecated.warning(
++  //     "Please pass the location URL instead of the document " +
++  //     "to BrowserPageInfo() as the first argument.",
++  //     "https://bugzilla.mozilla.org/show_bug.cgi?id=1238180"
++  //   );
++  //   documentURL = documentURL.location;
++  // }
++
++  // let args = { initialTab, imageElement, browsingContext, browser };
++
++  // documentURL = documentURL || window.gBrowser.selectedBrowser.currentURI.spec;
++
++  // // Check for windows matching the url
++  // for (let currentWindow of Services.wm.getEnumerator("Browser:page-info")) {
++  //   if (currentWindow.closed) {
++  //     continue;
++  //   }
++  //   if (
++  //     currentWindow.document.documentElement.getAttribute("relatedUrl") ==
++  //     documentURL
++  //   ) {
++  //     currentWindow.focus();
++  //     currentWindow.resetPageInfo(args);
++  //     return currentWindow;
++  //   }
++  // }
++
++  // // We didn't find a matching window, so open a new one.
++  // return openDialog(
++  //   "chrome://browser/content/pageinfo/pageInfo.xhtml",
++  //   "",
++  //   "chrome,toolbar,dialog=no,resizable",
++  //   args
++  // );
+ }
+ 
+ function UpdateUrlbarSearchSplitterState() {
+@@ -3796,7 +3804,7 @@ var homeButtonObserver = {
+     browserDragAndDrop.dragOver(aEvent);
+     aEvent.dropEffect = "link";
+   },
+-  onDragExit(aEvent) {},
++  onDragExit(aEvent) { },
+ };
+ 
+ function openHomeDialog(aURL) {
+@@ -3829,7 +3837,7 @@ var newTabButtonObserver = {
+   onDragOver(aEvent) {
+     browserDragAndDrop.dragOver(aEvent);
+   },
+-  onDragExit(aEvent) {},
++  onDragExit(aEvent) { },
+   async onDrop(aEvent) {
+     let links = browserDragAndDrop.dropLinks(aEvent);
+     if (
+@@ -3868,7 +3876,7 @@ var newWindowButtonObserver = {
+   onDragOver(aEvent) {
+     browserDragAndDrop.dragOver(aEvent);
+   },
+-  onDragExit(aEvent) {},
++  onDragExit(aEvent) { },
+   async onDrop(aEvent) {
+     let links = browserDragAndDrop.dropLinks(aEvent);
+     if (
+@@ -4220,7 +4228,7 @@ const BrowserSearch = {
+         win.BrowserSearch.webSearch();
+       } else {
+         // If there are no open browser windows, open a new one
+-        var observer = function(subject, topic, data) {
++        var observer = function (subject, topic, data) {
+           if (subject == win) {
+             BrowserSearch.webSearch();
+             Services.obs.removeObserver(
+@@ -4240,7 +4248,7 @@ const BrowserSearch = {
+       return;
+     }
+ 
+-    let focusUrlBarIfSearchFieldIsNotActive = function(aSearchBar) {
++    let focusUrlBarIfSearchFieldIsNotActive = function (aSearchBar) {
+       if (!aSearchBar || document.activeElement != aSearchBar.textbox) {
+         // Limit the results to search suggestions, like the search bar.
+         gURLBar.searchModeShortcut();
+@@ -4464,13 +4472,13 @@ function FillHistoryMenu(aParent) {
+   // Lazily add the hover listeners on first showing and never remove them
+   if (!aParent.hasStatusListener) {
+     // Show history item's uri in the status bar when hovering, and clear on exit
+-    aParent.addEventListener("DOMMenuItemActive", function(aEvent) {
++    aParent.addEventListener("DOMMenuItemActive", function (aEvent) {
+       // Only the current page should have the checked attribute, so skip it
+       if (!aEvent.target.hasAttribute("checked")) {
+         XULBrowserWindow.setOverLink(aEvent.target.getAttribute("uri"));
+       }
+     });
+-    aParent.addEventListener("DOMMenuItemInactive", function() {
++    aParent.addEventListener("DOMMenuItemInactive", function () {
+       XULBrowserWindow.setOverLink("");
+     });
+ 
+@@ -5259,7 +5267,7 @@ var XULBrowserWindow = {
+     // See bug 358202, when tabs are switched during a drag operation,
+     // timers don't fire on windows (bug 203573)
+     if (aRequest) {
+-      setTimeout(function() {
++      setTimeout(function () {
+         XULBrowserWindow.asyncUpdateUI();
+       }, 0);
+     } else {
+@@ -5406,7 +5414,7 @@ var XULBrowserWindow = {
+ 
+     try {
+       uri = Services.io.createExposableURI(uri);
+-    } catch (e) {}
++    } catch (e) { }
+     gIdentityHandler.updateIdentity(this._state, uri);
+   },
+ 
+@@ -5513,7 +5521,7 @@ var LinkTargetDisplay = {
+ 
+   _showDelayed() {
+     this._timer = setTimeout(
+-      function(self) {
++      function (self) {
+         StatusPanel.update();
+         window.removeEventListener("mousemove", self, true);
+       },
+@@ -5694,7 +5702,7 @@ var CombinedStopReload = {
+     // accidentally reloading the page when intending to click the stop button
+     this.reload.disabled = true;
+     this._timer = setTimeout(
+-      function(self) {
++      function (self) {
+         self._timer = 0;
+         self.reload.disabled =
+           XULBrowserWindow.reloadCommand.getAttribute("disabled") == "true";
+@@ -5856,7 +5864,7 @@ var TabsProgressListener = {
+   },
+ };
+ 
+-function nsBrowserAccess() {}
++function nsBrowserAccess() { }
+ 
+ nsBrowserAccess.prototype = {
+   QueryInterface: ChromeUtils.generateQI(["nsIBrowserDOMWindow"]),
+@@ -5972,7 +5980,7 @@ nsBrowserAccess.prototype = {
+     if (aOpenWindowInfo && isExternal) {
+       Cu.reportError(
+         "nsBrowserAccess.openURI did not expect aOpenWindowInfo to be " +
+-          "passed if the context is OPEN_EXTERNAL."
++        "passed if the context is OPEN_EXTERNAL."
+       );
+       throw Components.Exception("", Cr.NS_ERROR_FAILURE);
+     }
+@@ -6189,7 +6197,7 @@ nsBrowserAccess.prototype = {
+ 
+     var userContextId =
+       aParams.openerOriginAttributes &&
+-      "userContextId" in aParams.openerOriginAttributes
++        "userContextId" in aParams.openerOriginAttributes
+         ? aParams.openerOriginAttributes.userContextId
+         : Ci.nsIScriptSecurityManager.DEFAULT_USER_CONTEXT_ID;
+ 
+@@ -6429,7 +6437,7 @@ function setToolbarVisibility(
+             }
+             try {
+               currentURI = Services.io.newURI(uriToLoad);
+-            } catch (ex) {}
++            } catch (ex) { }
+           }
+         }
+         isVisible =
+@@ -6518,7 +6526,7 @@ var gTabletModePageCounter = {
+   inc() {
+     this.enabled = AppConstants.isPlatformAndVersionAtLeast("win", "10.0");
+     if (!this.enabled) {
+-      this.inc = () => {};
++      this.inc = () => { };
+       return;
+     }
+     this.inc = this._realInc;
+@@ -6925,7 +6933,7 @@ function handleLinkClick(event, href, linkNode) {
+         isPrivateWin
+       );
+       persistAllowMixedContentInChildTab = true;
+-    } catch (e) {}
++    } catch (e) { }
+   }
+ 
+   let frameID = WebNavigationFrames.getFrameId(doc.defaultView);
+@@ -7042,7 +7050,7 @@ function handleDroppedLink(
+     }
+   }
+ 
+-  (async function() {
++  (async function () {
+     if (
+       links.length >=
+       Services.prefs.getIntPref("browser.tabs.maxOpenBeforeWarn")
+@@ -7444,7 +7452,7 @@ var BrowserOffline = {
+       if (cancelGoOffline.data) {
+         return false;
+       }
+-    } catch (ex) {}
++    } catch (ex) { }
+ 
+     return true;
+   },
+@@ -7986,7 +7994,7 @@ function BrowserOpenAddonsMgr(aView) {
+     let emWindow;
+     let browserWindow;
+ 
+-    var receivePong = function(aSubject, aTopic, aData) {
++    var receivePong = function (aSubject, aTopic, aData) {
+       let browserWin = aSubject.browsingContext.topChromeWindow;
+       if (!emWindow || browserWin == window /* favor the current window */) {
+         emWindow = aSubject;
+@@ -8777,7 +8785,7 @@ var PanicButtonNotifier = {
+         PanicButtonNotifier.close();
+         removeListeners();
+       };
+-      popup.addEventListener("popupshown", function() {
++      popup.addEventListener("popupshown", function () {
+         PanicButtonNotifier.timer = setTimeout(onTimeout, 3000);
+       });
+       // To prevent the popup from closing when user tries to interact with the
+@@ -9409,7 +9417,7 @@ var gDialogBox = {
+       },
+     });
+     let closedPromise = new Promise(resolve => {
+-      this._closedCallback = function() {
++      this._closedCallback = function () {
+         PromptUtils.fireDialogEvent(window, "DOMModalDialogClosed");
+         resolve();
+       };
