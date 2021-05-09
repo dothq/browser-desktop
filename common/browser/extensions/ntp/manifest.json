@@ -18,5 +18,6 @@
     },
     "chrome_settings_overrides" : {
         "homepage": "index.html"
-    }
+    },
+    "web_accessible_resources": ["backgrounds/unsplash/francesco_ungaro-N1Vo7S2i4jY.jpeg"]
 }

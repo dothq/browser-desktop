@@ -76,7 +76,8 @@ const manualPatches: IPatch[] = [
         action: "copy",
         src: [
             "browser/extensions/shield",
-            "browser/extensions/qrcodes"
+            "browser/extensions/qrcodes",
+            "browser/extensions/ntp"
         ]
     },
     {

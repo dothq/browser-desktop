@@ -1,5 +1,5 @@
 diff --git a/browser/extensions/moz.build b/browser/extensions/moz.build
-index 0eb3c53e76c2e040676b99b9caec14e0ee6b678f..0f4bb7b176725ef6761ee1dc3d25bc32f5124e19 100644
+index 0eb3c53e76c2e040676b99b9caec14e0ee6b678f..798edd100dafcfa4f901b685b85d73d71faf81e1 100644
 --- a/browser/extensions/moz.build
 +++ b/browser/extensions/moz.build
 @@ -4,4 +4,4 @@
@@ -7,4 +7,4 @@ index 0eb3c53e76c2e040676b99b9caec14e0ee6b678f..0f4bb7b176725ef6761ee1dc3d25bc32
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
 -DIRS += ["doh-rollout", "formautofill", "screenshots", "webcompat", "report-site-issue"]
-+DIRS += ["doh-rollout", "formautofill", "screenshots", "webcompat", "report-site-issue", "shield", "qrcodes"]
++DIRS += [ "doh-rollout", "formautofill", "ntp", "qrcodes", "report-site-issue", "screenshots", "shield", "webcompat" ]
