@@ -30,6 +30,9 @@
     <a href="https://what-version-is-dot-on.vercel.app/">
       <img src="https://what-version-is-dot-on.vercel.app/badge?3"></img>
     </a>
+    <a href="https://liberapay.com/dothq/donate">
+      <img alt="Donate using Liberapay" src="https://img.shields.io/liberapay/receives/dothq.svg?logo=liberapay">
+    </a>
   </p>
 </p>
 
@@ -89,7 +92,7 @@ You can find the Dot Browser roadmap [here](https://github.com/orgs/dothq/projec
 
 ## 💸 Donations
 
-We accept donations on [Patreon](https://patreon.com/dothq) to keep our servers running.
+We accept donations on [Liberapay](https://liberapay.com/dothq) or [Patreon](https://patreon.com/dothq) to keep our servers running.
 
 ## 🔗 Useful Information
 
