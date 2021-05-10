@@ -18,8 +18,5 @@
     },
     "chrome_settings_overrides" : {
         "homepage": "index.html"
-    },
-    "web_accessible_resources": [
-        "backgrounds/unsplash/*.jpeg"
-    ]
+    }
 }
