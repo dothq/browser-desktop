@@ -89,11 +89,8 @@ const exportModified = async (
     patchesDir: string,
     cwd: string
 ) => {
-    const {
-        files,
-        fileNames,
-        l10nFiles
-    } = await getFiles("M", cwd);
+    const { files, fileNames, l10nFiles } =
+        await getFiles("M", cwd);
 
     var filesWritten = 0;
 
@@ -143,9 +140,10 @@ const exportModified = async (
 
     await Promise.all(
         l10nFiles.map(async (l10n: any, i: any) => {
-            const type = l10n.split(".")[
-                l10n.split(".").length - 1
-            ];
+            const type =
+                l10n.split(".")[
+                    l10n.split(".").length - 1
+                ];
 
             const { stdout: diff } = await execa(
                 "git",

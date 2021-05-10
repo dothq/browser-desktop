@@ -204,10 +204,7 @@ class Patch {
                     null;
                 }
 
-                const {
-                    stdout,
-                    exitCode
-                } = await execa(
+                const { stdout, exitCode } = await execa(
                     "git",
                     [
                         "apply",

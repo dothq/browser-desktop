@@ -17,11 +17,8 @@ program
     .storeOptionsAsProperties(false)
     .passCommandToAction(false);
 
-const {
-    dot,
-    firefox,
-    melon
-} = require("../package.json").versions;
+const { dot, firefox, melon } =
+    require("../package.json").versions;
 
 let reportedFFVersion;
 
