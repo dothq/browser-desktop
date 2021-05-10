@@ -7,8 +7,27 @@
 DEFINES["MOZ_APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
 DEFINES["MOZ_APP_MAXVERSION"] = CONFIG["MOZ_APP_MAXVERSION"]
 
+# All of the default files
 FINAL_TARGET_FILES.features["newtab@dothq.co"] += [
     "backgrounds.json",
+    "e6159b87e636918505210a8903fa7ef6.png",
+    "index.html",
+    "manifest.json",
+    "moz.build",
+    "ntp.bundle.js",
+    "ntp.bundle.js.br",
+    "vendors.bundle.js",
+    "vendors.bundle.js.br",
+    "vendors.bundle.js.LICENSE.txt"
+]
+
+# Extension icon files
+FINAL_TARGET_FILES.features["newtab@dothq.co"].images += [
+    "images/compass.svg"
+]
+
+# The image files, to be stored in backgrounds/unsplash/[file]
+FINAL_TARGET_FILES.features["newtab@dothq.co"].backgrounds.unsplash += [
     "backgrounds/unsplash/alessiofurlan-1_w81R7vBDs.jpeg",
     "backgrounds/unsplash/amir_bnl-kY_7fnav2yA.jpeg",
     "backgrounds/unsplash/anggitsuko28-xaWyjsBsPFU.jpeg",
@@ -78,17 +97,7 @@ FINAL_TARGET_FILES.features["newtab@dothq.co"] += [
     "backgrounds/unsplash/tobbes_rd-x8tC7MNhTYg.jpeg",
     "backgrounds/unsplash/tsomme--q8zxQJtIDA.jpeg",
     "backgrounds/unsplash/vincentledvina-OPfRkFwI6xA.jpeg",
-    "backgrounds/unsplash/weirick-wXG9JJUg_6E.jpeg",
-    "e6159b87e636918505210a8903fa7ef6.png",
-    "images/compass.svg",
-    "index.html",
-    "manifest.json",
-    "moz.build",
-    "ntp.bundle.js",
-    "ntp.bundle.js.br",
-    "vendors.bundle.js",
-    "vendors.bundle.js.br",
-    "vendors.bundle.js.LICENSE.txt"
+    "backgrounds/unsplash/weirick-wXG9JJUg_6E.jpeg"
 ]
 
 with Files("**"):
