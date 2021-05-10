@@ -1,0 +1,104 @@
+# -*- Mode: python; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+DEFINES["MOZ_APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
+DEFINES["MOZ_APP_MAXVERSION"] = CONFIG["MOZ_APP_MAXVERSION"]
+
+# All of the default files
+FINAL_TARGET_FILES.features["newtab@dothq.co"] += [
+    "backgrounds.json",
+    "e6159b87e636918505210a8903fa7ef6.png",
+    "index.html",
+    "manifest.json",
+    "moz.build",
+    "ntp.bundle.js",
+    "ntp.bundle.js.br",
+    "vendors.bundle.js",
+    "vendors.bundle.js.br",
+    "vendors.bundle.js.LICENSE.txt"
+]
+
+# Extension icon files
+FINAL_TARGET_FILES.features["newtab@dothq.co"].images += [
+    "images/compass.svg"
+]
+
+# The image files, to be stored in backgrounds/unsplash/[file]
+FINAL_TARGET_FILES.features["newtab@dothq.co"].backgrounds.unsplash += [
+    "backgrounds/unsplash/alessiofurlan-1_w81R7vBDs.jpeg",
+    "backgrounds/unsplash/amir_bnl-kY_7fnav2yA.jpeg",
+    "backgrounds/unsplash/anggitsuko28-xaWyjsBsPFU.jpeg",
+    "backgrounds/unsplash/anitsirk-my0eAAiM7sI.jpeg",
+    "backgrounds/unsplash/bejayoern-1wSb6yT6G0w.jpeg",
+    "backgrounds/unsplash/cherrym00n-5sj7ztHUwUs.jpeg",
+    "backgrounds/unsplash/christopher__burns-C1J_eSGNPt0.jpeg",
+    "backgrounds/unsplash/cyclens_-isv95Hs-u5g.jpeg",
+    "backgrounds/unsplash/danieljschwarz-Mn1FQ4Ng0zo.jpeg",
+    "backgrounds/unsplash/danielsessler-YVKbOZIB1IA.jpeg",
+    "backgrounds/unsplash/davehoefler-fRHdKE6uj58.jpeg",
+    "backgrounds/unsplash/dg1990-NRn5rrBnH8w.jpeg",
+    "backgrounds/unsplash/didiofederico_photographer-JWHSIG1kM2c.jpeg",
+    "backgrounds/unsplash/earth-uWvl0xuVScI.jpeg",
+    "backgrounds/unsplash/eberhardgross-2EUojVQSJDE.jpeg",
+    "backgrounds/unsplash/ericmuhr-5uf6fKhRc_Q.jpeg",
+    "backgrounds/unsplash/evablue-1xgnRBvF_UI.jpeg",
+    "backgrounds/unsplash/fabbel78-PQhlEz8LMnA.jpeg",
+    "backgrounds/unsplash/florianolv-r36d1SXEpNo.jpeg",
+    "backgrounds/unsplash/francesco-ungaro-n1vo7s2i4jy.jpeg",
+    "backgrounds/unsplash/francesco_ungaro-N1Vo7S2i4jY.jpeg",
+    "backgrounds/unsplash/gabriel_2019-L9yw8os_C7k.jpeg",
+    "backgrounds/unsplash/h4mmiidd-9ggFurIDYdA.jpeg",
+    "backgrounds/unsplash/iankeefe-OgcJIKRnRC8.jpeg",
+    "backgrounds/unsplash/intricateexplorer-IgGyLBT1jN8.jpeg",
+    "backgrounds/unsplash/itsmesaul-e0YYxA3vpfg.jpeg",
+    "backgrounds/unsplash/jakobowens1-EwRM05V0VSI.jpeg",
+    "backgrounds/unsplash/jcgellidon-AZ4ZqW6lXTE.jpeg",
+    "backgrounds/unsplash/johnmarkarnold-XNIjmb6Ax04.jpeg",
+    "backgrounds/unsplash/joshstyle-3cDgtRQW5hg.jpeg",
+    "backgrounds/unsplash/joshstyle-fXls-tVemno.jpeg",
+    "backgrounds/unsplash/jsycra-6CUdZEColp0.jpeg",
+    "backgrounds/unsplash/jverdi-TrWxMFWvk4Y.jpeg",
+    "backgrounds/unsplash/kalvisuals-XHU9wRgxZIQ.jpeg",
+    "backgrounds/unsplash/katieannejowett-bks3_OW1_sQ.jpeg",
+    "backgrounds/unsplash/kdelpdp-KebTj7-ESS0.jpeg",
+    "backgrounds/unsplash/kellysikkema-PYWHYRxijFM.jpeg",
+    "backgrounds/unsplash/kencheungphoto-C7ZEKkaMz3A.jpeg",
+    "backgrounds/unsplash/lauraadaiphoto-oPxm1Gr1veQ.jpeg",
+    "backgrounds/unsplash/lgence-IrOyCOYQReg.jpeg",
+    "backgrounds/unsplash/luddyphoto-liJOHDqUnpU.jpeg",
+    "backgrounds/unsplash/maiq-SbPXdHqnI84.jpeg",
+    "backgrounds/unsplash/mansonyms-F0mL86YnJXo.jpeg",
+    "backgrounds/unsplash/marceloquinan-u0ZgqJD55pE.jpeg",
+    "backgrounds/unsplash/marulla-5iwoZtm_l5g.jpeg",
+    "backgrounds/unsplash/matthewhenry-R87jFRACpU0.jpeg",
+    "backgrounds/unsplash/midwestiscool-SFqSMtdl0eQ.jpeg",
+    "backgrounds/unsplash/mohamadaz-4wzRuAb-KWs.jpeg",
+    "backgrounds/unsplash/mohammad_amin-qsnfSvCdec4.jpeg",
+    "backgrounds/unsplash/mylovefromjesus-jIzO_06K79k.jpeg",
+    "backgrounds/unsplash/nasa-Q1p7bh3SHj8.jpeg",
+    "backgrounds/unsplash/notethanun-gQekwa7JK0k.jpeg",
+    "backgrounds/unsplash/osalom-LoijtQXXNhs.jpeg",
+    "backgrounds/unsplash/oserone-bni8MOaaaBM.jpeg",
+    "backgrounds/unsplash/pueblovista-a0D-7TJ3IMA.jpeg",
+    "backgrounds/unsplash/pueblovista-YR-oXTkOtLo.jpeg",
+    "backgrounds/unsplash/pueblovista-YRW6zJoQKmE.jpeg",
+    "backgrounds/unsplash/riccardomion-IutqINJUAts.jpeg",
+    "backgrounds/unsplash/ruth_ellen-MenMX04sh_A.jpeg",
+    "backgrounds/unsplash/ryanschroeder-Gg7uKdHFb_c.jpeg",
+    "backgrounds/unsplash/sdh_photos-Q7WEasAbvAU.jpeg",
+    "backgrounds/unsplash/silasbaisch-Wn4ulyzVoD4.jpeg",
+    "backgrounds/unsplash/sortino-71vAb1FXB6g.jpeg",
+    "backgrounds/unsplash/syinq-ImoVrhUBeFs.jpeg",
+    "backgrounds/unsplash/szabolcs_taking_pictures-ZHOIR8oLvh0.jpeg",
+    "backgrounds/unsplash/taeyeonstar-EjKRQQuzrkg.jpeg",
+    "backgrounds/unsplash/tobbes_rd-x8tC7MNhTYg.jpeg",
+    "backgrounds/unsplash/tsomme--q8zxQJtIDA.jpeg",
+    "backgrounds/unsplash/vincentledvina-OPfRkFwI6xA.jpeg",
+    "backgrounds/unsplash/weirick-wXG9JJUg_6E.jpeg"
+]
+
+with Files("**"):
+    BUG_COMPONENT = ("Dot Browser", "NTP")

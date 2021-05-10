@@ -1,0 +1,25 @@
+{
+    "name": "New Tab",
+    "description": "Dot Browser New Tab Page",
+    "version": "1.0.0",
+    "applications": { "gecko": { "id": "newtab@dothq.co" } },
+    "manifest_version": 2,
+    "icons": {
+        "16": "images/compass.svg",
+        "32": "images/compass.svg",
+        "48": "images/compass.svg",
+        "128": "images/compass.svg"
+    },
+    "permissions": [
+        "tabs"
+    ],
+    "chrome_url_overrides" : {
+        "newtab": "index.html"
+    },
+    "chrome_settings_overrides" : {
+        "homepage": "index.html"
+    },
+    "web_accessible_resources": [
+        "backgrounds/unsplash/*.jpeg"
+    ]
+}
