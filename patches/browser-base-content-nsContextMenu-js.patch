@@ -1,0 +1,229 @@
+diff --git a/browser/base/content/nsContextMenu.js b/browser/base/content/nsContextMenu.js
+index b03abc5d09fb1a91795d2b6c5433a6f548881f52..f77cefe7954dd2238e616a7e6f343341f63471bf 100644
+--- a/browser/base/content/nsContextMenu.js
++++ b/browser/base/content/nsContextMenu.js
+@@ -160,7 +160,7 @@ class nsContextMenu {
+         "intl.ellipsis",
+         Ci.nsIPrefLocalizedString
+       ).data;
+-    } catch (e) {}
++    } catch (e) { }
+ 
+     // Reset after "on-build-contextmenu" notification in case selection was
+     // changed during the notification.
+@@ -352,7 +352,7 @@ class nsContextMenu {
+         !mailtoHandler.alwaysAskBeforeHandling &&
+         mailtoHandler.preferredAction == Ci.nsIHandlerInfo.useHelperApp &&
+         mailtoHandler.preferredApplicationHandler instanceof
+-          Ci.nsIWebHandlerApp;
++        Ci.nsIWebHandlerApp;
+     }
+ 
+     if (
+@@ -364,7 +364,7 @@ class nsContextMenu {
+       this.linkURL = this.selectionInfo.linkURL;
+       try {
+         this.linkURI = makeURI(this.linkURL);
+-      } catch (ex) {}
++      } catch (ex) { }
+ 
+       this.linkTextStr = this.selectionInfo.linkText;
+       this.onPlainTextLink = true;
+@@ -590,15 +590,15 @@ class nsContextMenu {
+     this.showItem(
+       "context-viewpartialsource-selection",
+       !this.inAboutDevtoolsToolbox &&
+-        this.isContentSelected &&
+-        this.selectionInfo.isDocumentLevelSelection
++      this.isContentSelected &&
++      this.selectionInfo.isDocumentLevelSelection
+     );
+ 
+     this.showItem(
+       "context-print-selection",
+       !this.inAboutDevtoolsToolbox &&
+-        this.isContentSelected &&
+-        this.selectionInfo.isDocumentLevelSelection
++      this.isContentSelected &&
++      this.selectionInfo.isDocumentLevelSelection
+     );
+ 
+     var shouldShow = !(
+@@ -632,7 +632,8 @@ class nsContextMenu {
+     this.setItemAttr(
+       "context-viewinfo",
+       "disabled",
+-      this.webExtBrowserType === "popup"
++      this.webExtBrowserType === "popup" ||
++      gIdentityHandler._hasInvalidPageProxyState()
+     );
+     this.showItem("inspect-separator", showInspect);
+     this.showItem("context-inspect", showInspect);
+@@ -653,18 +654,27 @@ class nsContextMenu {
+     this.showItem(
+       "context-viewbgimage",
+       shouldShow &&
+-        !this.hasMultipleBGImages &&
+-        !this.inSyntheticDoc &&
+-        !this.inPDFViewer
++      !this.hasMultipleBGImages &&
++      !this.inSyntheticDoc &&
++      !this.inPDFViewer
+     );
+     this.showItem(
+       "context-sep-viewbgimage",
+       shouldShow &&
+-        !this.hasMultipleBGImages &&
+-        !this.inSyntheticDoc &&
+-        !this.inPDFViewer
++      !this.hasMultipleBGImages &&
++      !this.inSyntheticDoc &&
++      !this.inPDFViewer
+     );
+     document.getElementById("context-viewbgimage").disabled = !this.hasBGImage;
++
++    this.showItem(
++      "context-generateqrcode",
++      shouldShow &&
++      this.inTabBrowser &&
++      !this.inFrame &&
++      !this.contentData.documentURIObject.schemeIs("about") &&
++      Services.prefs.getBoolPref("browser.qrcodes.enabled", true)
++    );
+   }
+ 
+   initMiscItems() {
+@@ -687,7 +697,7 @@ class nsContextMenu {
+     this.showItem(
+       "context-bookmarklink",
+       (this.onLink && !this.onMailtoLink && !this.onMozExtLink) ||
+-        this.onPlainTextLink
++      this.onPlainTextLink
+     );
+     this.showItem(
+       "context-keywordfield",
+@@ -867,7 +877,7 @@ class nsContextMenu {
+     this.showItem(
+       "context-media-hidecontrols",
+       this.target.controls &&
+-        (this.onVideo || (this.onAudio && !this.inSyntheticDoc))
++      (this.onVideo || (this.onAudio && !this.inSyntheticDoc))
+     );
+     this.showItem(
+       "context-video-fullscreen",
+@@ -975,7 +985,7 @@ class nsContextMenu {
+         !loginFillInfo.passwordField.found ||
+         documentURI.schemeIs("about") ||
+         this.browser.contentPrincipal.spec ==
+-          "resource://pdf.js/web/viewer.html"
++        "resource://pdf.js/web/viewer.html"
+       ) {
+         // Both generation and fill will default to disabled.
+         return;
+@@ -1185,7 +1195,7 @@ class nsContextMenu {
+           this.browser.contentPrincipal.originAttributes.privateBrowsingId > 0;
+         sm.checkSameOriginURI(referrerURI, targetURI, false, isPrivateWin);
+         persistAllowMixedContentInChildTab = true;
+-      } catch (e) {}
++      } catch (e) { }
+     }
+ 
+     let params = {
+@@ -1243,7 +1253,7 @@ class nsContextMenu {
+   // View Partial Source
+   viewPartialSource() {
+     let { browser } = this;
+-    let openSelectionFn = function() {
++    let openSelectionFn = function () {
+       let tabBrowser = gBrowser;
+       const inNewWindow = !Services.prefs.getBoolPref("view_source.tab");
+       // In the case of popups, we need to find a non-popup browser window.
+@@ -1336,7 +1346,7 @@ class nsContextMenu {
+     let referrerInfo = this.contentData.referrerInfo;
+     let systemPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
+     if (this.onCanvas) {
+-      this._canvasToBlobURL(this.targetIdentifier).then(function(blobURL) {
++      this._canvasToBlobURL(this.targetIdentifier).then(function (blobURL) {
+         openUILink(blobURL, e, {
+           referrerInfo,
+           triggeringPrincipal: systemPrincipal,
+@@ -1368,7 +1378,7 @@ class nsContextMenu {
+         if (url.fileBaseName) {
+           name = decodeURI(url.fileBaseName) + ".jpg";
+         }
+-      } catch (e) {}
++      } catch (e) { }
+     }
+     if (!name) {
+       name = "snapshot.jpg";
+@@ -1542,11 +1552,11 @@ class nsContextMenu {
+                   msg = bundle.GetStringFromName("downloadErrorExtension");
+                 }
+               }
+-            } catch (ex) {}
++            } catch (ex) { }
+ 
+             let window = Services.wm.getOuterWindowWithId(windowID);
+             Services.prompt.alert(window, title, msg);
+-          } catch (ex) {}
++          } catch (ex) { }
+           return;
+         }
+ 
+@@ -1601,7 +1611,7 @@ class nsContextMenu {
+       },
+     };
+ 
+-    function callbacks() {}
++    function callbacks() { }
+     callbacks.prototype = {
+       getInterface: function sLA_callbacks_getInterface(aIID) {
+         if (aIID.equals(Ci.nsIAuthPrompt) || aIID.equals(Ci.nsIAuthPrompt2)) {
+@@ -1620,7 +1630,7 @@ class nsContextMenu {
+     // if it we don't have the headers after a short time, the user
+     // won't have received any feedback from their click.  that's bad.  so
+     // we give up waiting for the filename.
+-    function timerCallback() {}
++    function timerCallback() { }
+     timerCallback.prototype = {
+       notify: function sLA_timer_notify(aTimer) {
+         channel.cancel(NS_ERROR_SAVE_LINK_AS_TIMEOUT);
+@@ -1717,7 +1727,7 @@ class nsContextMenu {
+     let isPrivate = PrivateBrowsingUtils.isBrowserPrivate(this.browser);
+     if (this.onCanvas) {
+       // Bypass cache, since it's a data: URL.
+-      this._canvasToBlobURL(this.targetIdentifier).then(function(blobURL) {
++      this._canvasToBlobURL(this.targetIdentifier).then(function (blobURL) {
+         internalSave(
+           blobURL,
+           null, // document
+@@ -1943,12 +1953,12 @@ class nsContextMenu {
+         "intl.accept_languages",
+         Ci.nsIPrefLocalizedString
+       ).data;
+-    } catch (e) {}
++    } catch (e) { }
+ 
+     var version = "-";
+     try {
+       version = Services.appinfo.version;
+-    } catch (e) {}
++    } catch (e) { }
+ 
+     uri = uri.replace(/%LOCALE%/, escape(locale)).replace(/%VERSION%/, version);
+ 
+@@ -2135,6 +2145,14 @@ class nsContextMenu {
+   doCustomCommand(generatedItemId, handlingUserInput) {
+     this.actor.doCustomCommand(generatedItemId, handlingUserInput);
+   }
++
++  generateQrCode(aEvent) {
++    const action = PageActions.actionForID('qr_dothq_co');
++
++    if (action) {
++      BrowserPageActions.doCommandForAction(action, aEvent, this);
++    }
++  }
+ }
+ 
+ XPCOMUtils.defineLazyModuleGetters(nsContextMenu, {

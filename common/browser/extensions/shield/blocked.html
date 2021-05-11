@@ -10,12 +10,14 @@
     <div>
       <h1>This page has been blocked by the adblocker</h1>
       <p>
-        If you think this is a mistake, you can whitelist in the shield popup,
-        or
+        If you think this is a mistake, you can
+        <a id="whitelist">whitelist</a> this page, or
         <a href="./settings.html"
           >change the filter lists that you are loading in settings</a
         >.
       </p>
+      <hr />
+      <p id="by">This page was blocked by dot shield</p>
     </div>
 
     <style>
@@ -46,9 +48,17 @@
         height: 100vh;
       }
 
+      a {
+        color: rgb(0, 102, 204);
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
       div {
         max-width: 600px;
       }
     </style>
+
+    <script src="blocked.js"></script>
   </body>
 </html>

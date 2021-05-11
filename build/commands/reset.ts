@@ -70,10 +70,11 @@ export const reset = async ({
                                     Array.isArray(src)
                                 ) {
                                     src.forEach((i) => {
-                                        const path = resolve(
-                                            SRC_DIR,
-                                            i
-                                        );
+                                        const path =
+                                            resolve(
+                                                SRC_DIR,
+                                                i
+                                            );
 
                                         if (
                                             path !==
@@ -104,31 +105,29 @@ export const reset = async ({
 
                     let leftovers = new Set();
 
-                    const {
-                        stdout: origFiles
-                    } = await execa(
-                        "git",
-                        [
-                            "clean",
-                            "-e",
-                            "'!*.orig'",
-                            "--dry-run"
-                        ],
-                        { cwd: SRC_DIR }
-                    );
+                    const { stdout: origFiles } =
+                        await execa(
+                            "git",
+                            [
+                                "clean",
+                                "-e",
+                                "'!*.orig'",
+                                "--dry-run"
+                            ],
+                            { cwd: SRC_DIR }
+                        );
 
-                    const {
-                        stdout: rejFiles
-                    } = await execa(
-                        "git",
-                        [
-                            "clean",
-                            "-e",
-                            "'!*.rej'",
-                            "--dry-run"
-                        ],
-                        { cwd: SRC_DIR }
-                    );
+                    const { stdout: rejFiles } =
+                        await execa(
+                            "git",
+                            [
+                                "clean",
+                                "-e",
+                                "'!*.rej'",
+                                "--dry-run"
+                            ],
+                            { cwd: SRC_DIR }
+                        );
 
                     origFiles
                         .split("\n")

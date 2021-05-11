@@ -1,0 +1,55 @@
+diff --git a/browser/components/extensions/ExtensionPopups.jsm b/browser/components/extensions/ExtensionPopups.jsm
+index 1514e75b7287479ca716cccb89b38c8f24d3e1cf..5d343d0cc5b1963263d41839b89ee428d5ec9aa2 100644
+--- a/browser/components/extensions/ExtensionPopups.jsm
++++ b/browser/components/extensions/ExtensionPopups.jsm
+@@ -53,7 +53,7 @@ function promisePopupShown(popup) {
+     } else {
+       popup.addEventListener(
+         "popupshown",
+-        function(event) {
++        function (event) {
+           resolve();
+         },
+         { once: true }
+@@ -132,7 +132,7 @@ class BasePopup {
+     this.destroyed = true;
+     this.browserLoadedDeferred.reject(new Error("Popup destroyed"));
+     // Ignore unhandled rejections if the "attach" method is not called.
+-    this.browserLoaded.catch(() => {});
++    this.browserLoaded.catch(() => { });
+ 
+     BasePopup.instances.get(this.window).delete(this.extension);
+ 
+@@ -176,7 +176,7 @@ class BasePopup {
+       mm.removeMessageListener("Extension:BrowserContentLoaded", this);
+       mm.removeMessageListener("Extension:BrowserResized", this);
+     } else if (finalize) {
+-      this.receiveMessage = () => {};
++      this.receiveMessage = () => { };
+     }
+     browser.removeEventListener("pagetitlechanged", this);
+     browser.removeEventListener("DOMWindowClose", this);
+@@ -443,9 +443,14 @@ class BasePopup {
+     // If they have not set a background-color, we force it to white to ensure visibility
+     // of the extension content. Passing `null` should be treated the same as no argument,
+     // which is why we can't use default parameters here.
++    if (this.extension.id == "qr@dothq.co") {
++      return;
++    }
++
+     if (!background) {
+       background = "#fff";
+     }
++
+     if (this.panel.id != "widget-overflow") {
+       this.panel.style.setProperty("--arrowpanel-background", background);
+     }
+@@ -608,7 +613,7 @@ class ViewPopup extends BasePopup {
+       Promise.race([
+         // This promise may be rejected if the popup calls window.close()
+         // before it has fully loaded.
+-        this.browserLoaded.catch(() => {}),
++        this.browserLoaded.catch(() => { }),
+         new Promise(resolve => setTimeout(resolve, POPUP_LOAD_TIMEOUT_MS)),
+       ]),
+     ]);

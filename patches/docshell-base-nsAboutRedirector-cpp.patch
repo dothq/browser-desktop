@@ -1,0 +1,26 @@
+diff --git a/docshell/base/nsAboutRedirector.cpp b/docshell/base/nsAboutRedirector.cpp
+index de7771efd2739182dca2da665553bd69e3e72c55..971eef323d8cd3e687cc410bce789604e18a2dc5 100644
+--- a/docshell/base/nsAboutRedirector.cpp
++++ b/docshell/base/nsAboutRedirector.cpp
+@@ -82,6 +82,10 @@ static const RedirEntry kRedirMap[] = {
+     {"credits", "https://www.mozilla.org/credits/",
+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+          nsIAboutModule::URI_MUST_LOAD_IN_CHILD},
++    {"history", "chrome://browser/content/abouthistory/aboutHistory.xhtml",
++     nsIAboutModule::ALLOW_SCRIPT |
++     nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
++         nsIAboutModule::MAKE_LINKABLE | nsIAboutModule::URI_CAN_LOAD_IN_CHILD},
+     {"httpsonlyerror", "chrome://global/content/httpsonlyerror/errorpage.html",
+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+          nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
+@@ -107,6 +111,10 @@ static const RedirEntry kRedirMap[] = {
+          nsIAboutModule::HIDE_FROM_ABOUTABOUT},
+     {"networking", "chrome://global/content/aboutNetworking.html",
+      nsIAboutModule::ALLOW_SCRIPT},
++    {"newpreferences", "chrome://browser/content/preferences/new/newpreferences.html",
++     nsIAboutModule::ALLOW_SCRIPT |
++     nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
++         nsIAboutModule::MAKE_LINKABLE | nsIAboutModule::URI_CAN_LOAD_IN_CHILD},
+     {"performance", "chrome://global/content/aboutPerformance.html",
+      nsIAboutModule::ALLOW_SCRIPT},
+     {"plugins", "chrome://global/content/plugins.html",

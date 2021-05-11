@@ -1,19 +1,17 @@
 {
   "manifest_version": 2,
-
   "applications": {
     "gecko": {
       "id": "light@themes.dothq.co"
     }
   },
-
   "name": "Light",
   "description": "A theme with a light color scheme.",
   "author": "Dot HQ",
   "version": "1.1",
-
-  "icons": {"32": "icon.svg"},
-
+  "icons": {
+    "32": "icon.svg"
+  },
   "theme": {
     "colors": {
       "tab_background_text": "rgb(24, 25, 26)",
@@ -21,7 +19,7 @@
       "frame": "#F3F4F4",
       "popup": "#ffffff",
       "popup_text": "#0c0c0d",
-      "popup_border": "#E5E5E5",
+      "popup_border": "#EDEDED",
       "tab_line": "#E0E1E7",
       "toolbar": "#ffffff",
       "toolbar_top_separator": "#E5E5E5",
@@ -39,7 +37,6 @@
       "sidebar": "#FBFBFB"
     }
   },
-
   "theme_experiment": {
     "stylesheet": "experiment.css"
   }

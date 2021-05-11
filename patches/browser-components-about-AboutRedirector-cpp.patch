@@ -1,21 +1,13 @@
 diff --git a/browser/components/about/AboutRedirector.cpp b/browser/components/about/AboutRedirector.cpp
-index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..95d0d5ddecdf16dcfd147d4ed9e74cf0cb7451db 100644
+index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..bc1e8e4c42e4c8a354ddffed019e7a887c5cdc60 100644
 --- a/browser/components/about/AboutRedirector.cpp
 +++ b/browser/components/about/AboutRedirector.cpp
-@@ -128,6 +128,16 @@ static const RedirEntry kRedirMap[] = {
+@@ -127,7 +127,7 @@ static const RedirEntry kRedirMap[] = {
+          nsIAboutModule::URI_MUST_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
           nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
      {"ion", "chrome://browser/content/ion.html",
-      nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::HIDE_FROM_ABOUTABOUT},
-+    {"history",
-+     "chrome://browser/content/abouthistory/aboutHistory.xhtml",
-+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-+         nsIAboutModule::URI_MUST_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
-+         nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
-+    {"newpreferences",
-+     "chrome://browser/content/preferences/new/newpreferences.html",
-+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-+         nsIAboutModule::URI_MUST_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
-+         nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS}
+-     nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::HIDE_FROM_ABOUTABOUT},
++     nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::HIDE_FROM_ABOUTABOUT}
  };
  
  static nsAutoCString GetAboutModuleName(nsIURI* aURI) {

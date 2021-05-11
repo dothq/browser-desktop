@@ -1,5 +1,6 @@
 export * from "./bootstrap";
 export * from "./build";
+export * from "./discard";
 export * from "./download";
 export * from "./download-artifacts";
 export * from "./execute";

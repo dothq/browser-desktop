@@ -1,5 +1,5 @@
 import execa from "execa";
-import { readFileSync } from "fs-extra";
+import { existsSync, readFileSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 
@@ -13,7 +13,14 @@ export const shaCheck = async (command: string) => {
     if (
         blacklistedCommands.filter((c) =>
             command.startsWith(c)
-        ).length !== 0
+        ).length !== 0 ||
+        !existsSync(
+            resolve(
+                process.cwd(),
+                ".dotbuild",
+                "metadata"
+            )
+        )
     )
         return;
 

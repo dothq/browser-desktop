@@ -9,6 +9,8 @@ on:
 jobs:
     check:
         runs-on: ubuntu-latest
+        env:
+            CI_SKIP_INIT: true
 
         steps:
             - name: Install dependencies
@@ -22,18 +24,6 @@ jobs:
               run: |
                 git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
                 git config --global user.name "dothq-robot"
-        
-            - name: Get week number
-              id: week
-              run: echo "::set-output name=weekno::$(date +%V)"
-        
-            - name: Cache repository
-              uses: actions/cache@v2
-              id: cache
-              with:
-                path: |
-                  ~/work/browser-desktop/browser-desktop/**/*
-                key: ${{ steps.week.outputs.weekno }}
         
             - uses: actions/checkout@v2
               if: steps.cache.outputs.cache-hit != 'true'
@@ -52,9 +42,9 @@ jobs:
                 echo Init
                 git checkout --orphan base
                 echo Checkout
-                git add -f .
+                git add -f . > /dev/null
                 echo Add
-                git commit -am "Firefox"
+                git commit -am "Firefox" > /dev/null
                 echo Commit
                 git checkout -b dot
                 echo Checkout 2
@@ -66,8 +56,8 @@ jobs:
                 cd src
                 git checkout .
                 cd ..
-                ./melon import --minimal
-                python3 scripts/patches-applied.py
+                ./melon import --minimal --noignore
+                ./melon doctor patches
                 
             - name: Push to trunk
               run: |

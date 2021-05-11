@@ -1,6 +1,7 @@
 import {
     bootstrap,
     build,
+    discard,
     download,
     downloadArtifacts,
     execute,
@@ -37,6 +38,18 @@ export const commands: Cmd[] = [
             }
         ],
         controller: build
+    },
+    {
+        cmd: "discard <file>",
+        description: "Discard a files changes.",
+        options: [
+            {
+                arg: "--keep, --keep-patch",
+                description:
+                    "Keep the patch file instead of removing it"
+            }
+        ],
+        controller: discard
     },
     {
         cmd: "download [ffVersion]",
@@ -78,7 +91,7 @@ export const commands: Cmd[] = [
         controller: fixLineEndings
     },
     {
-        cmd: "import",
+        cmd: "import [type]",
         aliases: ["import-patches", "i"],
         description: "Import patches into the browser.",
         options: [
@@ -86,6 +99,11 @@ export const commands: Cmd[] = [
                 arg: "-m, --minimal",
                 description:
                     "Import patches in minimal mode"
+            },
+            {
+                arg: "--noignore",
+                description:
+                    "Bypass .gitignore. You shouldn't really use this."
             }
         ],
         controller: importPatches

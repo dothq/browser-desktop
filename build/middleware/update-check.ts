@@ -11,9 +11,8 @@ export const updateCheck = async () => {
         `https://product-details.mozilla.org/1.0/firefox_history_major_releases.json`
     );
 
-    let version = Object.keys(data)[
-        Object.keys(data).length - 1
-    ];
+    let version =
+        Object.keys(data)[Object.keys(data).length - 1];
 
     if (firefoxVersion && version !== firefoxVersion)
         log.warning(

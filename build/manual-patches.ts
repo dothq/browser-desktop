@@ -67,13 +67,30 @@ const manualPatches: IPatch[] = [
         name: "icons",
         action: "copy",
         src: [
-            "browser/themes/shared/icons/spell-check.svg"
+            "browser/themes/shared/icons/spell-check.svg",
+            "browser/themes/shared/icons/qr-code.svg",
+            "browser/themes/shared/icons/certificate.svg",
+            "browser/themes/shared/icons/cookies.svg",
+
+            "browser/themes/shared/notification-icons/javascript.svg",
+            "browser/themes/shared/notification-icons/location.svg"
         ]
     },
     {
         name: "extensions",
         action: "copy",
-        src: ["browser/extensions/shield"]
+        src: [
+            "browser/extensions/shield",
+            "browser/extensions/qrcodes",
+            "browser/extensions/ntp"
+        ]
+    },
+    {
+        name: "l10n",
+        action: "copy",
+        src: [
+            "browser/locales/en-US/browser/qr-codes.ftl"
+        ]
     }
 ];
 

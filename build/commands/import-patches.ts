@@ -1,11 +1,14 @@
 import { readdirSync } from "fs-extra";
-import { log } from "..";
+import { bin_name, log } from "..";
 import { PATCHES_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
-import { delay } from "../utils";
+import { delay, dispatch } from "../utils";
 
-const importManual = async (minimal?: boolean) => {
+const importManual = async (
+    minimal?: boolean,
+    noIgnore?: boolean
+) => {
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );
@@ -37,7 +40,8 @@ const importManual = async (minimal?: boolean) => {
                 markers,
                 indent,
                 options: {
-                    minimal
+                    minimal,
+                    noIgnore
                 }
             });
 
@@ -57,7 +61,10 @@ const importManual = async (minimal?: boolean) => {
     });
 };
 
-const importPatchFiles = async (minimal?: boolean) => {
+const importPatchFiles = async (
+    minimal?: boolean,
+    noIgnore?: boolean
+) => {
     let patches = readdirSync(PATCHES_DIR);
 
     patches = patches.filter((p) => p !== ".index");
@@ -78,7 +85,8 @@ const importPatchFiles = async (minimal?: boolean) => {
             type: "file",
             status: [i, patches.length],
             options: {
-                minimal
+                minimal,
+                noIgnore
             }
         });
 
@@ -87,6 +95,15 @@ const importPatchFiles = async (minimal?: boolean) => {
         await p.apply();
     }
 
+    console.log();
+    await dispatch(
+        `./${bin_name}`,
+        ["doctor", "patches"],
+        process.cwd(),
+        true,
+        true
+    );
+
     log.success(
         `Successfully imported ${patches.length} patch files!`
     );
@@ -94,9 +111,23 @@ const importPatchFiles = async (minimal?: boolean) => {
 
 interface Args {
     minimal?: boolean;
+    noignore?: boolean;
 }
 
-export const importPatches = async (args: Args) => {
-    await importManual(args.minimal);
-    await importPatchFiles(args.minimal);
+export const importPatches = async (
+    type: string,
+    args: Args
+) => {
+    if (type) {
+        if (type == "manual")
+            await importManual(args.minimal);
+        else if (type == "file")
+            await importPatchFiles(args.minimal);
+    } else {
+        await importManual(args.minimal, args.noignore);
+        await importPatchFiles(
+            args.minimal,
+            args.noignore
+        );
+    }
 };

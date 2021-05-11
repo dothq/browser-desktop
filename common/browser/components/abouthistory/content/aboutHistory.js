@@ -4,12 +4,13 @@
 
 "use strict";
 
-const ChromeUtils = {
-    import: () => { },
-    defineModuleGetter: () => { },
-};
+/* global ChromeUtils, Services */
+ChromeUtils.defineModuleGetter(
+    this,
+    "Services",
+    "resource://gre/modules/Services.jsm"
+);
 
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 const { AppConstants } = ChromeUtils.import(
     "resource://gre/modules/AppConstants.jsm"
 );
@@ -56,4 +57,4 @@ window.addEventListener("hashchange", (e) => {
     } catch (e) {
         return window.location.replace("about:home");
     }
-}) 
+})

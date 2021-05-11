@@ -16,13 +16,26 @@ function DotProtocolHandler() {
 DotProtocolHandler.prototype = {
   scheme: "dot",
   defaultPort: -1,
-  protocolFlags: Ci.nsIProtocolHandler.URI_DANGEROUS_TO_LOAD,
+  protocolFlags:
+    Ci.nsIProtocolHandler.URI_STD |
+    Ci.nsIProtocolHandler.URI_IS_UI_RESOURCE |
+    Ci.nsIProtocolHandler.URI_IS_LOCAL_RESOURCE,
 
   newChannel(uri, loadInfo) {
-    let realURL = NetUtil.newURI(`about:${uri.pathQueryRef.split("//")}`);
-    let channel = Services.io.newChannelFromURIWithLoadInfo(realURL, loadInfo);
-    loadInfo.resultPrincipalURI = realURL;
-    return channel;
+    let realURL;
+    let channel;
+
+    try {
+      realURL = NetUtil.newURI(`about:${uri.pathQueryRef.split("//")[1]}`);
+
+      channel = Services.io.newChannelFromURIWithLoadInfo(realURL, loadInfo);
+      loadInfo.resultPrincipalURI = realURL;
+      return channel;
+    } catch (err) {
+      let aboutBlank = NetUtil.newURI(`about:blank`);
+
+      return Services.io.newChannelFromURIWithLoadInfo(aboutBlank, {});
+    }
   },
 
   QueryInterface: ChromeUtils.generateQI(["nsIProtocolHandler"]),

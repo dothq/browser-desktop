@@ -23,9 +23,8 @@ const main = async () => {
     )
         throw new Error("Bad version");
 
-    const curr = versions["firefox-display"].split(
-        "."
-    )[0];
+    const curr =
+        versions["firefox-display"].split(".")[0];
     const newv = version.split(".")[0];
 
     if (curr >= newv) {

@@ -13,9 +13,6 @@ FINAL_TARGET_FILES.features["shield@privacy.dothq.co"] += [
     "background.js",
     "blocked.html",
     "cosmetics.js",
-    "font/Inter.var.woff2",
-    "icons/shield.svg",
-    "icons/shieldDark.svg",
     "manifest.json",
     "moz.build",
     "popup.html",
@@ -25,6 +22,15 @@ FINAL_TARGET_FILES.features["shield@privacy.dothq.co"] += [
     "stats.html",
     "stats.js",
     "yt.js",
+]
+
+FINAL_TARGET_FILES.features["shield@privacy.dothq.co"].font += [
+    "font/Inter.var.woff2"
+]
+
+FINAL_TARGET_FILES.features["shield@privacy.dothq.co"].icons += [
+    "icons/shield.svg",
+    "icons/shieldDark.svg"
 ]
 
 with Files("**"):

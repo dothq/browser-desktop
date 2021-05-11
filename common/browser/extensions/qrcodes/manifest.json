@@ -1,0 +1,37 @@
+{
+    "name": "QR Codes",
+    "version": "1.0.0",
+    "description": "Generate QR Codes for the sites you're currently browsing.",
+    "author": "Dot HQ <contact@dothq.co>",
+    "homepage_url": "https://github.com/dothq/browser-desktop",
+    "incognito": "spanning",
+    "applications": {
+        "gecko": {
+            "id": "qr@dothq.co"
+        }
+    },
+    "icons": {
+        "32": "icon.svg"
+    },
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "<all_urls>"
+    ],
+    "manifest_version": 2,
+    "l10n_resources": [
+        "browser/qr-codes.ftl"
+    ],
+    "page_action": {
+        "browser_style": true,
+        "default_icon": {
+            "32": "icon.svg"
+        },
+        "default_title": "__MSG_qr-codes-context-menu__",
+        "default_popup": "popup.html",
+        "show_matches": [
+            "<all_urls>"
+        ],
+        "pinned": true
+    }
+}

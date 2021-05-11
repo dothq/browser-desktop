@@ -1,6 +1,9 @@
 import chalk from "chalk";
 import commander, { Command } from "commander";
+import { existsSync, readFileSync } from "fs";
+import { resolve } from "path";
 import { commands } from "./cmds";
+import { SRC_DIR } from "./constants";
 import Log from "./log";
 import { shaCheck } from "./middleware/sha-check";
 import { updateCheck } from "./middleware/update-check";
@@ -14,18 +17,52 @@ program
     .storeOptionsAsProperties(false)
     .passCommandToAction(false);
 
-const {
-    dot,
-    firefox,
-    melon
-} = require("../package.json").versions;
+const { dot, firefox, melon } =
+    require("../package.json").versions;
+
+let reportedFFVersion;
+
+if (
+    existsSync(
+        resolve(
+            SRC_DIR,
+            "browser",
+            "config",
+            "version.txt"
+        )
+    )
+) {
+    const version = readFileSync(
+        resolve(
+            SRC_DIR,
+            "browser",
+            "config",
+            "version.txt"
+        ),
+        "utf-8"
+    ).replace(/\n/g, "");
+
+    if (version !== firefox) reportedFFVersion = version;
+}
 
 export const bin_name = "melon";
 
 program.version(`
 \t${chalk.bold("Dot Browser")}     ${dot}
-\t${chalk.bold("Firefox")}         ${firefox}
+\t${chalk.bold("Firefox")}         ${firefox} ${
+    reportedFFVersion
+        ? `(being reported as ${reportedFFVersion})`
+        : ``
+}
 \t${chalk.bold("Melon")}           ${melon}
+
+${
+    reportedFFVersion
+        ? `Mismatch detected between expected Firefox version and the actual version.
+You may have downloaded the source code using a different version and
+then switched to another branch.`
+        : ``
+}
 `);
 program.name(bin_name);
 

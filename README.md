@@ -17,6 +17,8 @@
     <a href="https://github.com/dothq/browser/discussions/new?category_id=32000754">Request Feature</a>
     ·
     <a href="https://docs.dothq.co">Documentation</a>
+      ·
+    <a href="https://github.com/dothq/browser-desktop-patched">Patched Edition</a>
     <br />
     <br />
     <a href="https://github.com/dothq/browser-desktop/actions?query=workflow%3ABuild">
@@ -24,6 +26,12 @@
     </a>
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop">
       <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop.svg?type=shield"></img>
+    </a>
+    <a href="https://what-version-is-dot-on.vercel.app/">
+      <img src="https://what-version-is-dot-on.vercel.app/badge?3"></img>
+    </a>
+    <a href="https://liberapay.com/dothq/donate">
+      <img alt="Donate using Liberapay" src="https://img.shields.io/liberapay/receives/dothq.svg?logo=liberapay">
     </a>
   </p>
 </p>
@@ -84,7 +92,7 @@ You can find the Dot Browser roadmap [here](https://github.com/orgs/dothq/projec
 
 ## 💸 Donations
 
-We accept donations on [Patreon](https://patreon.com/dothq) to keep our servers running.
+We accept donations on [Liberapay](https://liberapay.com/dothq) or [Patreon](https://patreon.com/dothq) to keep our servers running.
 
 ## 🔗 Useful Information
 

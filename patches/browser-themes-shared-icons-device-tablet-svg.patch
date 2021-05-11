@@ -1,0 +1,16 @@
+diff --git a/browser/themes/shared/icons/device-tablet.svg b/browser/themes/shared/icons/device-tablet.svg
+index 58e61faa11aaa2b67e1cb50d573693a6ebb74ad0..652535406c80d13001d83144f75bf973a843410c 100644
+--- a/browser/themes/shared/icons/device-tablet.svg
++++ b/browser/themes/shared/icons/device-tablet.svg
+@@ -2,5 +2,8 @@
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+-  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M14 1H2C.895 1 0 1.895 0 3v10c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2V3c0-1.105-.895-2-2-2zm-1 11.5c0 .276-.224.5-.5.5h-10c-.276 0-.5-.224-.5-.5v-9c0-.276.224-.5.5-.5h10c.276 0 .5.224.5.5v9zM15 9h-1V7h1v2z"/>
+-</svg>
++  <path fill="context-fill" fill-opacity="context-fill-opacity"
++    d="M12 9C12.5523 9 13 8.55229 13 8C13 7.44772 12.5523 7 12 7C11.4477 7 11 7.44772 11 8C11 8.55229 11.4477 9 12 9Z" />
++  <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++    d="M0 5C0 3.34315 1.34315 2 3 2H13C14.6569 2 16 3.34315 16 5V11C16 12.6569 14.6569 14 13 14H3C1.34315 14 0 12.6569 0 11V5ZM13 4H3C2.44772 4 2 4.44772 2 5V11C2 11.5523 2.44772 12 3 12H13C13.5523 12 14 11.5523 14 11V5C14 4.44772 13.5523 4 13 4Z" />
++</svg>
+\ No newline at end of file

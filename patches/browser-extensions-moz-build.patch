@@ -1,10 +1,10 @@
 diff --git a/browser/extensions/moz.build b/browser/extensions/moz.build
-index 269dcb2a32d6873e9b697f4c35b9180dcc4daaf9..966aa60bc11e440f430c7056141592babee06bba 100644
+index 0eb3c53e76c2e040676b99b9caec14e0ee6b678f..798edd100dafcfa4f901b685b85d73d71faf81e1 100644
 --- a/browser/extensions/moz.build
 +++ b/browser/extensions/moz.build
-@@ -11,4 +11,5 @@ DIRS += [
-     "webcompat",
-     "report-site-issue",
-     "pictureinpicture",
-+    "shield"
- ]
+@@ -4,4 +4,4 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-DIRS += ["doh-rollout", "formautofill", "screenshots", "webcompat", "report-site-issue"]
++DIRS += [ "doh-rollout", "formautofill", "ntp", "qrcodes", "report-site-issue", "screenshots", "shield", "webcompat" ]

@@ -1,0 +1,14 @@
+diff --git a/browser/themes/shared/icons/back-12.svg b/browser/themes/shared/icons/back-12.svg
+index 60da772448801df04e66d5e7825bd26ecd61486c..95552c9074f98eadfdd617c4192e92f04a6752e2 100644
+--- a/browser/themes/shared/icons/back-12.svg
++++ b/browser/themes/shared/icons/back-12.svg
+@@ -2,5 +2,7 @@
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+-  <path d="M8.25 11.5a1 1 0 00.75-.29 1 1 0 000-1.42L5.16 6 9 2.21A1 1 0 007.54.79L3 5.29a1 1 0 000 1.42l4.5 4.5a1 1 0 00.75.29z" fill="context-fill" fill-opacity="context-fill-opacity"/>
++  <path fill="context-fill" fill-opacity="context-fill-opacity" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
++    clip-rule="evenodd"
++    d="M9.70711 0.292893C10.0976 0.683417 10.0976 1.31658 9.70711 1.70711L5.41421 6L9.70711 10.2929C10.0976 10.6834 10.0976 11.3166 9.70711 11.7071C9.31658 12.0976 8.68342 12.0976 8.29289 11.7071L3.29289 6.70711C2.90237 6.31658 2.90237 5.68342 3.29289 5.29289L8.29289 0.292893C8.68342 -0.0976311 9.31658 -0.0976311 9.70711 0.292893Z" />
+ </svg>
+\ No newline at end of file
