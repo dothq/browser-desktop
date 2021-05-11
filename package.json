@@ -16,8 +16,8 @@
         "dockerode": "^3.2.1",
         "execa": "^5.0.0",
         "fs-extra": "^9.0.1",
-        "ora": "^5.4.0",
         "glob": "^7.1.6",
+        "ora": "^5.4.0",
         "promptly": "^3.2.0",
         "rimraf": "^3.0.2",
         "typescript": "^4.1.3"
