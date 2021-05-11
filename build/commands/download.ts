@@ -34,9 +34,8 @@ const unpack = async (name: string, version: string) => {
 
     setInterval(() => {
         downloadProgress.text = "Unpacking Firefox...";
-        downloadProgress.prefixText = chalk.blueBright.bold(
-            log.getDiff()
-        );
+        downloadProgress.prefixText =
+            chalk.blueBright.bold(log.getDiff());
     }, 1000);
 
     await execa("tar", ["-xvf", name, "-C", cwd]);
@@ -206,9 +205,8 @@ export const download = async (
             ).toFixed(0)
         );
 
-        downloadProgress.prefixText = chalk.blueBright.bold(
-            log.getDiff()
-        );
+        downloadProgress.prefixText =
+            chalk.blueBright.bold(log.getDiff());
         downloadProgress.text = `Downloading Firefox release ${pjson.versions["firefox-display"]}...\t${percentCompleted}%`;
     });
 
