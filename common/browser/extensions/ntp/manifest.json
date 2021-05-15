@@ -1,7 +1,7 @@
 {
   "name": "New Tab",
   "description": "Dot Browser New Tab Page",
-  "version": "0.0.5a3",
+  "version": "0.0.5a4",
   "applications": {
     "gecko": {
       "id": "newtab@dothq.co"
