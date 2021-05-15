@@ -5,6 +5,7 @@
 %include panelui.inc.css
 /* %include addressbar.inc.css */
 %include identity_popup.inc.css
+%include sidebars.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
