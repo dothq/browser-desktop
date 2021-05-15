@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..1375602b77b0174365e5982e2901c22acc49a0d7 100644
+index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..68140e503393e2f5d2b4d07ab0522c0cbcb9009b 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -140,7 +140,7 @@ pref("app.update.notifyDuringDownload", false);
@@ -999,7 +999,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..1375602b77b0174365e5982e2901c22a
  #endif
  
  // Map top-level await expressions in the console
-@@ -2527,12 +2527,107 @@ pref("first-startup.timeout", 30000);
+@@ -2527,12 +2527,114 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -1111,4 +1111,11 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..1375602b77b0174365e5982e2901c22a
 +
 +// Firefox Services
 +pref("browser.contentblocking.report.lockwise.enabled", false);
++
++// Sidebar
++pref("sidebar.disabled", false);
++pref("sidebar.pinned", false);
++pref("sidebar.selected", "");
++pref("sidebar.startItems", "");
++pref("sidebar.endItems", "");
 \ No newline at end of file
