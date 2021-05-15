@@ -27,6 +27,7 @@ const flags: {
 
 const isLocale = (l: string) =>
     (l.endsWith(".inc") && l.includes("locales")) ||
+    (l.endsWith(".ini") && l.includes("locales")) ||
     l.endsWith(".ftl") ||
     (l.endsWith(".properties") && !l.includes("test")) ||
     (l.endsWith(".dtd") &&
@@ -142,7 +143,7 @@ const exportModified = async (
         l10nFiles.map(async (l10n: any, i: any) => {
             const type =
                 l10n.split(".")[
-                    l10n.split(".").length - 1
+                l10n.split(".").length - 1
                 ];
 
             const { stdout: diff } = await execa(
@@ -189,10 +190,14 @@ const exportModified = async (
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n`
                     : type == "dtd"
-                    ? `<!-- This Source Code Form is subject to the terms of the Mozilla Public
+                        ? `<!-- This Source Code Form is subject to the terms of the Mozilla Public
 - License, v. 2.0. If a copy of the MPL was not distributed with this
 - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->\n\n`
-                    : ``;
+                        : type == "ini"
+                            ? `; This Source Code Form is subject to the terms of the Mozilla Public
+; License, v. 2.0. If a copy of the MPL was not distributed with this
+; file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n`
+                            : ``;
 
             ensureDirSync(
                 resolve(
@@ -215,8 +220,7 @@ const exportModified = async (
             );
 
             log.info(
-                `Wrote ${
-                    changed.length
+                `Wrote ${changed.length
                 } strings to ${localePath.join(
                     "/"
                 )}/${localeName}.`
