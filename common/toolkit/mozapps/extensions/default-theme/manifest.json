@@ -34,7 +34,10 @@
       "button_background_active": "rgba(0, 0, 0, 0.1)",
       "popup_highlight": "#256EF5",
       "ntp_background": "#ffffff",
-      "sidebar": "#FBFBFB"
+      "sidebar": "#ffffff",
+      "sidebar_text": "rgba(0, 0, 0, 0.8)",
+      "sidebar_highlight": "#256EF5",
+      "sidebar_border": "#E5E5E5"
     }
   },
   "dark_theme": {
@@ -58,8 +61,9 @@
       "popup_highlight": "#256EF5",
       "ntp_background": "#1C1C1C",
       "ntp_text": "rgb(249, 249, 250)",
-      "sidebar": "#121212",
+      "sidebar": "#1A1A1A",
       "sidebar_text": "rgb(249, 249, 250)",
+      "sidebar_highlight": "white",
       "sidebar_border": "rgba(255, 255, 255, 0.1)"
     }
   }
