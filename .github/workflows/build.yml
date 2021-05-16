@@ -339,7 +339,7 @@ jobs:
           echo rustc --version >> C:\build-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script-64.sh
           echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build >> C:\build-script-64.sh
-          C:\mozilla-build\start-shell.bat "C:\build-script-64.sh"
+          bash "C:\build-script-64.sh"
 
       - name: Package
         shell: cmd
@@ -352,7 +352,7 @@ jobs:
           echo rustc --version >> C:\pack-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script-64.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\pack-script-64.sh
-          C:\mozilla-build\start-shell.bat "C:\pack-script-64.sh"
+          bash "C:\pack-script-64.sh"
 
       - name: Make artifact available
         shell: bash --noprofile --norc -eo pipefail {0}
