@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-sidebar.js b/browser/base/content/browser-sidebar.js
-index 59185832cfe31af2bf64fbfd3f87564295974d94..4e1b8f38a4e288e591334d521eb28ecbe78bfeb4 100644
+index 59185832cfe31af2bf64fbfd3f87564295974d94..20c6a4d0edaa0285c114b5e1143060edd9b5049d 100644
 --- a/browser/base/content/browser-sidebar.js
 +++ b/browser/base/content/browser-sidebar.js
 @@ -14,8 +14,7 @@ var SidebarUI = {
@@ -123,7 +123,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..4e1b8f38a4e288e591334d521eb28ecb
        if (this.browser.contentDocument.location.href != url) {
          this.browser.addEventListener(
            "load",
-@@ -550,17 +571,24 @@ var SidebarUI = {
+@@ -550,17 +571,26 @@ var SidebarUI = {
  
      this.selectMenuItem("");
  
@@ -131,10 +131,12 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..4e1b8f38a4e288e591334d521eb28ecb
 +
 +    this._box.style.marginLeft = `${-Math.abs(this._box.getBoundingClientRect().width)}px`
 +
++    let animationsDisabled = Services.prefs.getBoolPref("sidebar.animations.disabled");
++
 +    setTimeout(() => {
 +      this._box.hidden = this._splitter.hidden = true;
 +      this._iconBar.hidden = this._splitter.hidden = true;
-+    }, 170);
++    }, animationsDisabled ? 0 : 170);
 +
      // Replace the document currently displayed in the sidebar with about:blank
      // so that we can free memory by unloading the page. We need to explicitly
@@ -151,7 +153,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..4e1b8f38a4e288e591334d521eb28ecb
      let selBrowser = gBrowser.selectedBrowser;
      selBrowser.focus();
      if (triggerNode) {
-@@ -595,6 +623,15 @@ var SidebarUI = {
+@@ -595,6 +625,15 @@ var SidebarUI = {
        }
      }
    },
