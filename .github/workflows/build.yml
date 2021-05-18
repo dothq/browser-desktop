@@ -609,6 +609,12 @@ jobs:
 
       - name: List artifacts
         run: ls -R | grep dot-${{ needs.build-data.outputs.version }}
+        
+      - name: Clean up artifacts
+        run: |
+          find -path './[^.|out]*' -prune -type d -exec cp -r '{}'/. ./out \;
+          find -path './[^.|out]*' -prune -type d -exec rm -rf {} \;
+          mv out/**/* .
 
       - name: Release
         uses: dothq/tag-and-release-and-upload@master
@@ -616,7 +622,7 @@ jobs:
           github-token: ${{ secrets.ROBOT_TOKEN }}
           version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
           name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
-          assets: '["dot-87.0.dmg", "dot-87.0.exe", "dot-87.0.flatpak", "dot-87.0.source.tar.xz", "dot-87.0.tar.bz2"]'
+          assets: '["dot-${{ needs.build-data.outputs.version }}.dmg", "dot-${{ needs.build-data.outputs.version }}.exe", "dot-${{ needs.build-data.outputs.version }}.AppImage", "dot-${{ needs.build-data.outputs.version }}.flatpak", "dot-${{ needs.build-data.outputs.version }}.source.tar.xz", "dot-${{ needs.build-data.outputs.version }}.tar.bz2"]'
           body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 
