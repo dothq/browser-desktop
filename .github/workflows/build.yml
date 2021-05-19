@@ -24,7 +24,6 @@ jobs:
           echo "::set-output name=dotversion::$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')"
           echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
           echo "::set-output name=builddate::$(date +"%Y%m%d")"
-
   linux-64:
     name: 🐧 Linux (64-bit)
     runs-on: ubuntu-20.04
@@ -50,16 +49,13 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-
       - name: Verify mozconfig
         run: |
           cat configs/linux/mozconfig
-
       - name: Set up Git User
         run: |
           git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
           git config --global user.name "dothq-robot"
-
       - name: Install dependencies
         run: |
           npm i typescript
@@ -68,7 +64,6 @@ jobs:
           sudo apt-get install dos2unix
           rustup install ${{ needs.build-data.outputs.rust_version }}
           rustup default ${{ needs.build-data.outputs.rust_version }}
-
       - name: Download workspace
         run: |
           ./melon download
@@ -85,7 +80,6 @@ jobs:
           echo Checkout 2
           cd ..
           sudo rm -rf firefox-*.source.tar.xz
-
       - name: Fix line-endings
         run: ./melon fix-le
 
@@ -98,27 +92,24 @@ jobs:
           ./mach bootstrap --application-choice browser --no-interactive
           cd ..
           MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
-
       - name: Package
         run: |
           cd src
           ./mach package
           cd ..
-
       - name: Make artifact available
         run: |
           cp ./src/obj-*/dist/dot-*.tar.bz2 .
           mv dot-*.tar.bz2 "dot-${{ needs.build-data.outputs.version }}.tar.bz2"
-
       - name: Upload artifact 
         uses: actions/upload-artifact@v2
         with:
           name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
           path: ./dot-${{ needs.build-data.outputs.version }}.tar.bz2
-      
+
   flatpak-64:
     name: 📦 Flatpak (64-bit)
-    needs: build-data
+    needs: [build-data, linux-64]
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
@@ -137,7 +128,6 @@ jobs:
           cd packages/flatpak
           node download.js
           tar -xvf dot.tar.bz2
-
       - uses: bilelmoussaoui/flatpak-github-actions@v2
         with:
           bundle: 'dot-nightly.flatpak'
@@ -148,10 +138,10 @@ jobs:
         with:
           name: dot-${{ needs.build-data.outputs.version }}.flatpak
           path: ./dot-nightly.flatpak
-  
+
   appimage-64:
     name: 📦 AppImage (64-bit)
-    needs: build-data
+    needs: [build-data, linux-64]
     runs-on: ubuntu-latest
     steps:
       - name: Clone packaging scripts
@@ -163,7 +153,6 @@ jobs:
           ./appimage/build.sh
           cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
           cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -282,13 +271,6 @@ jobs:
           echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\Users\Administrator\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Cache build cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            C:\Users\Administrator\AppData\Local\Mozilla\sccache
-          key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows/*.yml*') }}
-
       - name: Disable autocrlf
         shell: bash --noprofile --norc -eo pipefail {0}
         run: |
@@ -332,27 +314,27 @@ jobs:
         shell: cmd
         run: |
           type nul > C:\build-script-64.sh
-          echo export PATH="$PATH:/c/Users/Administrator/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/Administrator/bin:/c/Users/Administrator/AppData/Local/Programs/Python/Python39/Scripts:/c/Users/Administrator/AppData/Local/Programs/Python/Python39:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/cmd:/bin:/c/Program Files/nodejs:/c/ProgramData/chocolatey/bin:/c/ProgramData/chocolatey/lib/Elixir/bin:/c/XZ-5.2.1:/c/bin:/c/Program Files/dotnet:/c/Users/Administrator/.cargo/bin:/c/Users/Administrator/scoop/shims:/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/bin:/c/Users/Administrator/AppData/Roaming/npm:/c/Users/Administrator/.dotnet/tools:/usr/bin/vendor_perl:/usr/bin/core_perl" >> C:\build-script-64.sh
+          # echo export PATH="$PATH:/c/Users/Administrator/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/Administrator/bin:/c/Users/Administrator/AppData/Local/Programs/Python/Python39/Scripts:/c/Users/Administrator/AppData/Local/Programs/Python/Python39:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/cmd:/bin:/c/Program Files/nodejs:/c/ProgramData/chocolatey/bin:/c/ProgramData/chocolatey/lib/Elixir/bin:/c/XZ-5.2.1:/c/bin:/c/Program Files/dotnet:/c/Users/Administrator/.cargo/bin:/c/Users/Administrator/scoop/shims:/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/bin:/c/Users/Administrator/AppData/Roaming/npm:/c/Users/Administrator/.dotnet/tools:/usr/bin/vendor_perl:/usr/bin/core_perl" >> C:\build-script-64.sh
           echo echo $PATH >> C:\build-script-64.sh
           echo rustup install ${{ needs.build-data.outputs.rust_version }} >> C:\build-script-64.sh
           echo rustup default ${{ needs.build-data.outputs.rust_version }} >> C:\build-script-64.sh
           echo rustc --version >> C:\build-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop >> C:\build-script-64.sh
           echo MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build >> C:\build-script-64.sh
-          bash "C:\build-script-64.sh"
+          C:\mozilla-build\start-shell.bat "C:\build-script-64.sh"
 
       - name: Package
         shell: cmd
         run: |
           type nul > C:\pack-script-64.sh
-          echo export PATH="$PATH:/c/Users/Administrator/.cargo/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/Administrator/bin:/c/Users/Administrator/AppData/Local/Programs/Python/Python39/Scripts:/c/Users/Administrator/AppData/Local/Programs/Python/Python39:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/cmd:/bin:/c/Program Files/nodejs:/c/ProgramData/chocolatey/bin:/c/ProgramData/chocolatey/lib/Elixir/bin:/c/XZ-5.2.1:/c/bin:/c/Program Files/dotnet:/c/Users/Administrator/.cargo/bin:/c/Users/Administrator/scoop/shims:/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/bin:/c/Users/Administrator/AppData/Roaming/npm:/c/Users/Administrator/.dotnet/tools:/usr/bin/vendor_perl:/usr/bin/core_perl" >> C:\pack-script-64.sh
+          # echo export PATH="$PATH:/c/Users/Administrator/.cargo/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/Administrator/bin:/c/Users/Administrator/AppData/Local/Programs/Python/Python39/Scripts:/c/Users/Administrator/AppData/Local/Programs/Python/Python39:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/cmd:/bin:/c/Program Files/nodejs:/c/ProgramData/chocolatey/bin:/c/ProgramData/chocolatey/lib/Elixir/bin:/c/XZ-5.2.1:/c/bin:/c/Program Files/dotnet:/c/Users/Administrator/.cargo/bin:/c/Users/Administrator/scoop/shims:/c/Users/Administrator/AppData/Local/Microsoft/WindowsApps:/bin:/c/Users/Administrator/AppData/Roaming/npm:/c/Users/Administrator/.dotnet/tools:/usr/bin/vendor_perl:/usr/bin/core_perl" >> C:\pack-script-64.sh
           echo echo $PATH >> C:\pack-script-64.sh
           echo rustup install ${{ needs.build-data.outputs.rust_version }} >> C:\pack-script-64.sh
           echo rustup default ${{ needs.build-data.outputs.rust_version }} >> C:\pack-script-64.sh
           echo rustc --version >> C:\pack-script-64.sh
           echo cd /c/_work/browser-desktop/browser-desktop/src >> C:\pack-script-64.sh
           echo MOZCONFIG=../configs/windows/mozconfig ./mach package >> C:\pack-script-64.sh
-          bash "C:\pack-script-64.sh"
+          C:\mozilla-build\start-shell.bat "C:\pack-script-64.sh"
 
       - name: Make artifact available
         shell: bash --noprofile --norc -eo pipefail {0}
@@ -626,15 +608,15 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: List artifacts
-        run: ls | grep dot-${{ needs.build-data.outputs.version }}
-
+        run: ls -R
+        
       - name: Release
         uses: dothq/tag-and-release-and-upload@master
         with:
           github-token: ${{ secrets.ROBOT_TOKEN }}
           version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
           name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
-          assets: '["dot-87.0.AppImage", "dot-87.0.dmg", "dot-87.0.exe", "dot-87.0.flatpak", "dot-87.0.source.tar.xz", "dot-87.0.tar.bz2"]'
+          assets: '["dot-${{ needs.build-data.outputs.version }}.dmg/dot-${{ needs.build-data.outputs.version }}.dmg", "dot-${{ needs.build-data.outputs.version }}.exe/dot-${{ needs.build-data.outputs.version }}.exe", "dot-${{ needs.build-data.outputs.version }}.source.tar.xz/dot-${{ needs.build-data.outputs.version }}.source.tar.xz", "dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2"]'
           body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 
