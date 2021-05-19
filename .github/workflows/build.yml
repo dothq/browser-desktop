@@ -608,14 +608,8 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: List artifacts
-        run: ls -R | grep dot-${{ needs.build-data.outputs.version }}
+        run: ls -R
         
-#       - name: Clean up artifacts
-#         run: |
-#           find -path './[^.|out]*' -prune -type d -exec cp -r '{}'/. ./out \;
-#           find -path './[^.|out]*' -prune -type d -exec rm -rf {} \;
-#           mv out/**/* .
-
       - name: Release
         uses: dothq/tag-and-release-and-upload@master
         with:
