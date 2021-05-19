@@ -1,5 +1,5 @@
 diff --git a/browser/components/moz.build b/browser/components/moz.build
-index d16b27b1eaa3da7d11117731dfcf0903af71099a..57b7298f6461f967aececa7ffa8ffa64f5e91a07 100644
+index d16b27b1eaa3da7d11117731dfcf0903af71099a..655a259c9e6ce822a28df224a2f121d1071b87c9 100644
 --- a/browser/components/moz.build
 +++ b/browser/components/moz.build
 @@ -28,6 +28,7 @@ with Files("controlcenter/**"):
@@ -10,3 +10,11 @@ index d16b27b1eaa3da7d11117731dfcf0903af71099a..57b7298f6461f967aececa7ffa8ffa64
      "aboutlogins",
      "attribution",
      "contextualidentity",
+@@ -52,6 +53,7 @@ DIRS += [
+     "search",
+     "sessionstore",
+     "shell",
++    "sidebars",
+     "syncedtabs",
+     "uitour",
+     "urlbar",
