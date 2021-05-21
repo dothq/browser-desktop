@@ -1,0 +1,94 @@
+#bookmarks {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-color: white gray;
+    margin-block-end: 14px;
+}
+
+.bookmark-item-context {
+    width: -moz-available;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    margin: 0 12px;
+    padding: 0 14px;
+    margin-block-end: 2px;
+
+    border: none;
+    outline: none;
+    appearance: none;
+
+    color: var(--theme-sidebar-text);
+    background-color: transparent;
+
+    border-radius: 6px;
+}
+
+.bookmark-item-context:active {
+    background-color: var(--theme-button-background-active) !important;
+}
+
+.bookmark-item-context:hover {
+    background-color: var(--theme-button-background-hover);
+}
+
+.bookmark-item .bookmark-item-context > .bookmark-item-chevron {
+    content: "";
+    width: 8px;
+    height: 4px;
+    margin-right: 12px;
+    position: relative;
+
+    mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="4" viewBox="0 0 8 4" fill="none"> <path d="M3.86668 3.82419L0.432503 0.427751C0.273671 0.270663 0.384908 0 0.608301 0H7.40118C7.62324 0 7.73508 0.267896 7.57895 0.425786L4.22024 3.82223C4.12315 3.92041 3.96486 3.92129 3.86668 3.82419Z" fill="black" fill-opacity="0.8"/> </svg>');
+    mask-repeat: no-repeat;
+    mask-size: cover;
+    background-color: currentColor;
+
+    transform: rotate(-90deg);
+    transition: 0.1s transform linear;
+}
+
+.bookmark-item .bookmark::before {
+    display: none !important;
+}
+
+.bookmark-item-text {
+    margin-inline-start: 12px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: calc(100% - 48px);
+    width: calc(100% - 48px);
+}
+
+.bookmark-item-icon {
+    width: 16px;
+    height: 16px;
+    background-image: var(--bookmark-item-icon);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#bookmarksBar {
+    --bookmark-item-icon: url(chrome://browser/skin/bookmarks-toolbar.svg);
+}
+
+#bookmarksMenu {
+    --bookmark-item-icon: url(chrome://browser/skin/bookmarks-menu.svg);
+}
+
+#bookmarksUnfiled {
+    --bookmark-item-icon: url(chrome://browser/skin/bookmarks-other.svg);
+}
+
+.bookmark-item:not([open]) .bookmark-item-children {
+    display: none;
+}
+
+.bookmark-item-children {
+    margin-inline-start: 32px;
+}
