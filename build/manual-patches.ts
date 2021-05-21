@@ -95,9 +95,7 @@ const manualPatches: IPatch[] = [
     {
         name: "sidebars",
         action: "copy",
-        src: [
-            "browser/components/sidebars"
-        ]
+        src: ["browser/components/sidebars"]
     }
 ];
 
