@@ -616,7 +616,7 @@ jobs:
           github-token: ${{ secrets.ROBOT_TOKEN }}
           version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
           name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
-          assets: '["dot-${{ needs.build-data.outputs.version }}.dmg/dot-${{ needs.build-data.outputs.version }}.dmg", "dot-${{ needs.build-data.outputs.version }}.exe/dot-${{ needs.build-data.outputs.version }}.exe", "dot-${{ needs.build-data.outputs.version }}.source.tar.xz/dot-${{ needs.build-data.outputs.version }}.source.tar.xz", "dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2"]'
+          assets: '["dot-${{ needs.build-data.outputs.version }}.dmg/dot-${{ needs.build-data.outputs.version }}.dmg", "dot-${{ needs.build-data.outputs.version }}.exe/dot-${{ needs.build-data.outputs.version }}.exe", "dot-${{ needs.build-data.outputs.version }}.source.tar.xz/dot-${{ needs.build-data.outputs.version }}.source.tar.xz", "dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2", "dot-${{ needs.build-data.outputs.version }}.AppImage/Dot_Browser-x86-64.AppImage", " dot-nightly/dot-nightly.flatpak"]'
           body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 
