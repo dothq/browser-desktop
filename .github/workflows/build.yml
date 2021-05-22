@@ -130,14 +130,14 @@ jobs:
           tar -xvf dot.tar.bz2
       - uses: bilelmoussaoui/flatpak-github-actions@v2
         with:
-          bundle: 'dot-nightly.flatpak'
+          bundle: dot-${{ needs.build-data.outputs.version }}.flatpak
           manifest-path: './packages/flatpak/co.dothq.browser.nightly.yml'
 
       - name: Upload artifact 
         uses: actions/upload-artifact@v2
         with:
           name: dot-${{ needs.build-data.outputs.version }}.flatpak
-          path: ./dot-nightly.flatpak
+          path: ./dot-${{ needs.build-data.outputs.version }}.flatpak
 
   appimage-64:
     name: 📦 AppImage (64-bit)
@@ -153,11 +153,13 @@ jobs:
           ./appimage/build.sh
           cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
           cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
+          mv ../Dot_Browser-x86-64.AppImage ../dot-${{ needs.build-data.outputs.version }}.AppImage
+          
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: dot-${{ needs.build-data.outputs.version }}.AppImage
-          path: ./Dot_Browser-x86-64.AppImage
+          path: ./dot-${{ needs.build-data.outputs.version }}.AppImage
 
   # linux-32:
   #   name: 🐧 Linux (32-bit)
@@ -616,7 +618,7 @@ jobs:
           github-token: ${{ secrets.ROBOT_TOKEN }}
           version: "${{ needs.build-data.outputs.version }}-${{ needs.build-data.outputs.build_date }}"
           name: "Nightly v${{ needs.build-data.outputs.version }} (${{ needs.build-data.outputs.build_date }})"
-          assets: '["dot-${{ needs.build-data.outputs.version }}.dmg/dot-${{ needs.build-data.outputs.version }}.dmg", "dot-${{ needs.build-data.outputs.version }}.exe/dot-${{ needs.build-data.outputs.version }}.exe", "dot-${{ needs.build-data.outputs.version }}.source.tar.xz/dot-${{ needs.build-data.outputs.version }}.source.tar.xz", "dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2", "dot-${{ needs.build-data.outputs.version }}.AppImage/Dot_Browser-x86-64.AppImage", " dot-nightly/dot-nightly.flatpak"]'
+          assets: '["dot-${{ needs.build-data.outputs.version }}.dmg/dot-${{ needs.build-data.outputs.version }}.dmg", "dot-${{ needs.build-data.outputs.version }}.exe/dot-${{ needs.build-data.outputs.version }}.exe", "dot-${{ needs.build-data.outputs.version }}.source.tar.xz/dot-${{ needs.build-data.outputs.version }}.source.tar.xz", "dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2", "dot-${{ needs.build-data.outputs.version }}.AppImage/dot-${{ needs.build-data.outputs.version }}.AppImage", "dot-${{ needs.build-data.outputs.version }}.flatpak/dot-${{ needs.build-data.outputs.version }}.flatpak"]'
           body_path: "/home/runner/work/browser-desktop/browser-desktop/.github/RELEASE_TEMPLATE.md"
           overwrite: true
 
