@@ -3,9 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 %include panelui.inc.css
-/* %include addressbar.inc.css */
-%include identity_popup.inc.css
+%include addressbar.inc.css
 %include sidebars.inc.css
+
+%include identity_popup.inc.css
+%include bookmark_popup.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -14,6 +16,12 @@
     --inline-tab-padding: 12px !important;
     --tab-min-height: 38px !important;
     --panel-separator-color: var(--arrowpanel-border-color) !important;
+    --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #1662D3) !important;
+}
+  
+:root[lwt-popup-brighttext] panel,
+toolbar[brighttext] {
+    --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #3c89fd) !important;
 }
 
 #urlbar {
