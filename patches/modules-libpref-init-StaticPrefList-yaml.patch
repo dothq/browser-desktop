@@ -1,8 +1,8 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..22da39fe21190b6c312bd38c8078b7fd7351b2e5 100644
+index b2ebd34526a655cca95c38c085101f3ad15951b0..b4b144b0c8a35d5f6f60f732ab5bf4646a0e984d 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
-@@ -1183,6 +1183,11 @@
+@@ -1205,6 +1205,11 @@
    value: "#551A8B"
    mirror: never
  
@@ -14,7 +14,7 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..22da39fe21190b6c312bd38c8078b7fd
  #---------------------------------------------------------------------------
  # Prefs starting with "canvas."
  #---------------------------------------------------------------------------
-@@ -8213,7 +8218,7 @@
+@@ -8429,7 +8434,7 @@
  
  - name: network.cookie.sameSite.laxByDefault
    type: bool
@@ -23,7 +23,7 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..22da39fe21190b6c312bd38c8078b7fd
    mirror: always
  
  # lax-by-default 2 minutes tollerance for unsafe methods. The value is in seconds.
-@@ -8224,12 +8229,12 @@
+@@ -8440,12 +8445,12 @@
  
  - name: network.cookie.sameSite.noneRequiresSecure
    type: bool
@@ -38,7 +38,7 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..22da39fe21190b6c312bd38c8078b7fd
    mirror: always
  
  - name: network.cookie.thirdparty.sessionOnly
-@@ -9356,6 +9361,12 @@
+@@ -9604,6 +9609,12 @@
    value: 480
    mirror: always
  

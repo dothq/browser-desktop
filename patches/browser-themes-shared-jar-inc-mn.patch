@@ -1,8 +1,8 @@
 diff --git a/browser/themes/shared/jar.inc.mn b/browser/themes/shared/jar.inc.mn
-index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..8930788c6cabc52c77280919178129855f689488 100644
+index 9a62864b3f1ff80db532019949f6c480175de35f..219711a0186555a12d8de920ec5e3312e14a4972 100644
 --- a/browser/themes/shared/jar.inc.mn
 +++ b/browser/themes/shared/jar.inc.mn
-@@ -77,6 +77,8 @@
+@@ -71,6 +71,8 @@
    skin/classic/browser/notification-icons/drag-indicator.svg                (../shared/notification-icons/drag-indicator.svg)
    skin/classic/browser/notification-icons/focus-tab-by-prompt.svg           (../shared/notification-icons/focus-tab-by-prompt.svg)
    skin/classic/browser/notification-icons/indexedDB.svg                     (../shared/notification-icons/indexedDB.svg)
@@ -11,27 +11,26 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..8930788c6cabc52c7728091917812985
    skin/classic/browser/notification-icons/microphone-blocked.svg            (../shared/notification-icons/microphone-blocked.svg)
    skin/classic/browser/notification-icons/microphone-detailed.svg           (../shared/notification-icons/microphone-detailed.svg)
    skin/classic/browser/notification-icons/microphone.svg                    (../shared/notification-icons/microphone.svg)
-@@ -163,9 +165,11 @@
+@@ -148,8 +150,10 @@
    skin/classic/browser/bookmark-hollow.svg            (../shared/icons/bookmark-hollow.svg)
    skin/classic/browser/bookmark-star-on-tray.svg      (../shared/icons/bookmark-star-on-tray.svg)
    skin/classic/browser/bookmarks-toolbar.svg          (../shared/icons/bookmarks-toolbar.svg)
 +  skin/classic/browser/certificate.svg                (../shared/icons/certificate.svg)
    skin/classic/browser/characterEncoding.svg          (../shared/icons/characterEncoding.svg)
    skin/classic/browser/chevron-animation.svg          (../shared/icons/chevron-animation.svg)
-   skin/classic/browser/check-animation.svg            (../shared/icons/check-animation.svg)
 +  skin/classic/browser/cookies.svg                    (../shared/icons/cookies.svg)
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
    skin/classic/browser/device-phone.svg               (../shared/icons/device-phone.svg)
-@@ -206,6 +210,7 @@
-   skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
+@@ -190,6 +194,7 @@
    skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
+   skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
 +  skin/classic/browser/qr-code.svg                    (../shared/icons/qr-code.svg)
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
    skin/classic/browser/reload.svg                     (../shared/icons/reload.svg)
    skin/classic/browser/reload-to-stop.svg             (../shared/icons/reload-to-stop.svg)
-@@ -218,6 +223,7 @@
+@@ -203,6 +208,7 @@
  #ifndef MOZ_WIDGET_GTK
    skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
  #endif

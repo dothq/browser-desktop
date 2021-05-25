@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
-index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf302712a7 100644
+index 2b474f879e49d5086bf0725864319be55de83956..aefd3528384347d6c6c2ee43531ec8a4fb9cc2f2 100644
 --- a/browser/base/content/browser-context.inc
 +++ b/browser/base/content/browser-context.inc
-@@ -223,16 +223,24 @@
+@@ -224,20 +224,33 @@
        <menuseparator id="context-sep-ctp"/>
        <menuitem id="context-savepage"
                  data-l10n-id="main-context-menu-page-save"
@@ -31,7 +31,7 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf
                     onpopupshowing="(() => { gSync.populateSendTabToDevicesMenu(event.target, gBrowser.currentURI.spec, gBrowser.contentTitle); })()"/>
        </menu>
 -      <menu id="fill-login" hidden="true">
-+      <menu 
++      <menu
 +        id="fill-login"
 +        hidden="true"
 +        class="menuitem-iconic"
@@ -40,12 +40,12 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf
          <menupopup id="fill-login-popup" />
        </menu>
       <menuitem id="fill-login-generated-password"
-@@ -251,23 +259,33 @@
+@@ -251,23 +264,33 @@
        <menuseparator id="passwordmgr-items-separator"/>
        <menuitem id="context-undo"
                  data-l10n-id="text-action-undo"
 -                command="cmd_undo"/>
-+                command="cmd_undo"                
++                command="cmd_undo"
 +                class="menuitem-iconic"
 +                image="chrome://global/skin/icons/undo.svg"/>
        <menuitem id="context-redo"
@@ -55,14 +55,14 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf
        <menuitem id="context-cut"
                  data-l10n-id="text-action-cut"
 -                command="cmd_cut"/>
-+                command="cmd_cut"                
++                command="cmd_cut"
 +                class="menuitem-iconic"
 +                image="chrome://browser/skin/edit-cut.svg"/>
        <menuitem id="context-copy"
                  data-l10n-id="text-action-copy"
 -                command="cmd_copy"/>
-+                command="cmd_copy"                
-+                class="menuitem-iconic"
++                command="cmd_copy"
++                class="menuitem-iconic"n
 +                image="chrome://browser/skin/edit-copy.svg"/>
        <menuitem id="context-paste"
                  data-l10n-id="text-action-paste"
@@ -73,13 +73,13 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf
        <menuitem id="context-delete"
                  data-l10n-id="text-action-delete"
 -                command="cmd_delete"/>
-+                command="cmd_delete"                
++                command="cmd_delete"
 +                class="menuitem-iconic"
 +                image="chrome://global/skin/icons/delete.svg"/>
        <menuitem id="context-selectall"
                  data-l10n-id="text-action-select-all"
-@@ -292,7 +312,9 @@
-                 data-l10n-id="main-context-menu-keyword"
+                 command="cmd_selectAll"/>
+@@ -289,7 +312,9 @@
                  oncommand="AddKeywordForSearchField();"/>
        <menuitem id="context-searchselect"
                  oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, this.usePrivate, this.principal, this.csp, event);"
@@ -88,9 +88,9 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf
 +                class="menuitem-iconic"
 +                image="chrome://global/skin/icons/search-glass.svg"/>
        <menuitem id="context-searchselect-private"
-                 oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp);"/>
-       <menuseparator id="context-sep-sendlinktodevice" class="sync-ui-item"
-@@ -363,7 +385,9 @@
+                 oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp, event);"
+                 onclick="checkForMiddleClick(this, event);"/>
+@@ -344,7 +369,9 @@
                  label="&spellCheckToggle.label;"
                  type="checkbox"
                  accesskey="&spellCheckToggle.accesskey;"
@@ -101,12 +101,12 @@ index 8e44d005f45c13c4b712a9ab57be0524593f5761..e6c6cab6b29509ee749e326f0a841adf
        <menuitem id="spell-add-dictionaries-main"
                  label="&spellAddDictionaries.label;"
                  accesskey="&spellAddDictionaries.accesskey;"
-@@ -390,11 +414,15 @@
+@@ -377,11 +404,15 @@
        <menuitem id="context-inspect-a11y"
                  hidden="true"
                  data-l10n-id="main-context-menu-inspect-a11y-properties"
 -                oncommand="gContextMenu.inspectA11Y();"/>
-+                oncommand="gContextMenu.inspectA11Y();"                
++                oncommand="gContextMenu.inspectA11Y();"
 +                class="menuitem-iconic"
 +                image="chrome://devtools/skin/images/command-pick-accessibility.svg"/>
        <menuitem id="context-inspect"
