@@ -62,7 +62,7 @@ index 2b474f879e49d5086bf0725864319be55de83956..aefd3528384347d6c6c2ee43531ec8a4
                  data-l10n-id="text-action-copy"
 -                command="cmd_copy"/>
 +                command="cmd_copy"
-+                class="menuitem-iconic"n
++                class="menuitem-iconic"
 +                image="chrome://browser/skin/edit-copy.svg"/>
        <menuitem id="context-paste"
                  data-l10n-id="text-action-paste"
