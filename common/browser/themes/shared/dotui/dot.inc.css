@@ -9,6 +9,11 @@
 %include identity_popup.inc.css
 %include bookmark_popup.inc.css
 
+%include personal_toolbar.inc.css
+
+%include components/checkbox.inc.css
+%include components/input.inc.css
+
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
     --tab-min-width: 104px !important;
@@ -17,6 +22,7 @@
     --tab-min-height: 38px !important;
     --panel-separator-color: var(--arrowpanel-border-color) !important;
     --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #1662D3) !important;
+    --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
 }
   
 :root[lwt-popup-brighttext] panel,
@@ -334,4 +340,8 @@ display: none !important;
 #pageAction-panel-qr_dothq_co > .toolbarbutton-icon, 
 #pageAction-urlbar-qr_dothq_co {
     list-style-image: url("chrome://browser/skin/qr-code.svg") !important;
+}
+
+#PersonalToolbar {
+    -moz-box-ordinal-group: 1 !important;
 }
