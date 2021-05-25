@@ -2,12 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-::selection {
+#editBookmarkPanel > ::selection {
     background-color: var(--dot-accent-color) !important;
     color: var(--arrowpanel-background) !important;
 }
 
-.panel-header {
+#editBookmarkPanel > .panel-header {
     border-bottom: none !important;
     height: 46px;
     width: 310px;
@@ -129,7 +129,7 @@
     margin-bottom: 10px;
 }
 
-html|input, #editBMPanel_folderRow > hbox {
+#editBMPanel_folderRow > hbox {
     appearance: none !important;
     border: none;
     outline: none;
@@ -143,44 +143,6 @@ html|input, #editBMPanel_folderRow > hbox {
 
 #editBMPanel_folderRow > hbox {
     margin-inline-start: 4px;
-}
-
-checkbox {
-    appearance: none !important;
-}
-
-checkbox > .checkbox-check {
-    appearance: none !important;
-    background-color: transparent;
-    border: 2px solid var(--arrowpanel-color);
-    fill: transparent;
-    opacity: 0.4;
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    -moz-context-properties: fill;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-checkbox:hover > .checkbox-check {
-    opacity: 0.6;
-}
-
-checkbox:active > .checkbox-check {
-    opacity: 0.9;
-}
-
-checkbox > .checkbox-check[checked="true"] {
-    background-image: url(chrome://global/skin/icons/check.svg);
-    background-color: var(--dot-accent-color) !important;
-    fill: white !important;
-    opacity: 1 !important;
-    border: none !important;
-}
-
-checkbox > .checkbox-label-box > .checkbox-label {
-    margin-inline-start: 8px !important;
 }
 
 #editBookmarkPanelRows > vbox {
