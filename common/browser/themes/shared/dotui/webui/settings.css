@@ -1,0 +1,17 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.preferences-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.2rem;
+}
+
+.preferences-block .preferences-block-container {
+    background-color: var(--theme-ntp-background);
+    max-width: 750px;
+    padding: 38px 0;
+    border-radius: 6px;
+    min-height: calc(38px * 2);
+}
