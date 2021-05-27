@@ -1,5 +1,5 @@
 diff --git a/browser/components/about/AboutRedirector.cpp b/browser/components/about/AboutRedirector.cpp
-index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..bc1e8e4c42e4c8a354ddffed019e7a887c5cdc60 100644
+index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..96b3f0375211256a01c779e933cfd41e81983e9e 100644
 --- a/browser/components/about/AboutRedirector.cpp
 +++ b/browser/components/about/AboutRedirector.cpp
 @@ -127,7 +127,7 @@ static const RedirEntry kRedirMap[] = {
@@ -11,3 +11,17 @@ index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..bc1e8e4c42e4c8a354ddffed019e7a88
  };
  
  static nsAutoCString GetAboutModuleName(nsIURI* aURI) {
+@@ -197,6 +197,13 @@ AboutRedirector::NewChannel(nsIURI* aURI, nsILoadInfo* aLoadInfo,
+         NS_ENSURE_SUCCESS(rv, rv);
+       }
+ 
++      if (
++        path.EqualsLiteral("preferences") && 
++        Preferences::GetBool("browser.preferences.webuiexperience.enabled", true)
++      ) {
++        url.AssignASCII("chrome://browser/content/preferences/new/newpreferences.html");
++      }
++
+       // fall back to the specified url in the map
+       if (url.IsEmpty()) {
+         url.AssignASCII(redir.url);
