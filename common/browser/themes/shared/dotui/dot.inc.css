@@ -21,7 +21,7 @@
     --inline-tab-padding: 12px !important;
     --tab-min-height: 38px !important;
     --panel-separator-color: var(--arrowpanel-border-color) !important;
-    --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #1662D3) !important;
+    --dot-accent-color: #1662D3 !important;
     --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
 }
   
