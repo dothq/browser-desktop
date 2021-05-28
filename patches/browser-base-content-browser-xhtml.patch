@@ -30,7 +30,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
        <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" hidden="true"
                  oncommand="gBrowser.pinMultiSelectedTabs();"/>
        <menuitem id="context_unpinSelectedTabs" data-lazy-l10n-id="unpin-selected-tabs" hidden="true"
-@@ -158,7 +161,9 @@
+@@ -156,7 +159,9 @@
                  oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.uniqueSelectedPages);"/>
        <menuitem id="context_bookmarkTab"
                  data-lazy-l10n-id="bookmark-tab"
@@ -38,17 +38,10 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
 +                class="menuitem-iconic"
 +                oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.getUniquePages([TabContextMenu.contextTab]));"
 +                image="chrome://browser/skin/bookmark.svg"/>
-       <menu id="context_reopenInContainer"
-             data-lazy-l10n-id="reopen-in-container"
-             hidden="true">
-@@ -200,11 +205,15 @@
-       <menuitem id="context_undoCloseTab"
-                 data-lazy-l10n-id="tab-context-undo-close-tabs"
-                 data-l10n-args='{"tabCount": 1}'
--                observes="History:UndoCloseTab"/>
-+                observes="History:UndoCloseTab"
-+                class="menuitem-iconic"
-+                image="chrome://global/skin/icons/undo.svg"/>
+       <menu id="context_moveTabOptions"
+             data-lazy-l10n-id="tab-context-move-tabs"
+             data-l10n-args='{"tabCount": 1}'>
+@@ -191,7 +196,9 @@
        <menuitem id="context_closeTab"
                  data-lazy-l10n-id="tab-context-close-tabs"
                  data-l10n-args='{"tabCount": 1}'
@@ -56,6 +49,17 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
 +                oncommand="TabContextMenu.closeContextTabs();"
 +                class="menuitem-iconic"
 +                image="chrome://browser/skin/stop.svg"/>
+       <menu id="context_closeTabOptions"
+             data-lazy-l10n-id="tab-context-close-multiple-tabs">
+         <menupopup id="closeTabOptions">
+@@ -206,7 +213,9 @@
+       <menuitem id="context_undoCloseTab"
+                 data-lazy-l10n-id="tab-context-reopen-closed-tabs"
+                 data-l10n-args='{"tabCount": 1}'
+-                observes="History:UndoCloseTab"/>
++                observes="History:UndoCloseTab"
++                class="menuitem-iconic"
++                image="chrome://global/skin/icons/undo.svg"/>
      </menupopup>
  
      <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
@@ -88,9 +92,9 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
        <menuitem oncommand="gCustomizeMode.enter()"
                  observes="cmd_CustomizeToolbars"
 -                class="viewCustomizeToolbar"
--                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"/>
+-                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"/>
++                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"
 +                class="viewCustomizeToolbar menuitem-iconic"
-+                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"
 +                image="chrome://browser/skin/customize.svg"/>
      </menupopup>
  
@@ -132,11 +136,11 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
          </toolbaritem>
 -        <toolbarseparator id="appMenu-tp-separator"/>
 +        <toolbarseparator id="appMenu-tp-separator" hidden="true"/>
-+        <toolbarbutton id="appMenu-new-tab-button"
++        <toolbarbutton id="appMenu-new-tab-button2"
 +                       class="subviewbutton subviewbutton-iconic"
 +                       label="&tabCmd.label;"
 +                       key="key_newNavigatorTab"
-+                       oncommand="BrowserOpenTab()"/>
++                       command="cmd_newNavigatorTab"/>
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
@@ -180,7 +184,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
 +                       hidden="true"/>
          <toolbarbutton id="appMenu-addons-button"
                         class="subviewbutton subviewbutton-iconic"
-                        label="&addons.label;"
+                        data-l10n-id="appmenuitem-addons-and-themes"
                         key="key_openAddons"
                         command="Tools:Addons"
 -                       />

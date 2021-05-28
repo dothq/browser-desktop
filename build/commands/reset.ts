@@ -8,11 +8,21 @@ import { SRC_DIR } from "../constants";
 import { IPatch } from "../interfaces/patch";
 import manualPatches from "../manual-patches";
 
-export const reset = async () => {
+export const reset = async ({
+    hard
+}: {
+    hard?: boolean;
+}) => {
     try {
-        log.warning(
-            "This will clear all your unexported changes in the `src` directory!"
-        );
+        if (hard) {
+            log.hardWarning(
+                "You have --hard mode enabled. Typing `yes` will DELETE the entire `src` directory!"
+            );
+        } else {
+            log.warning(
+                "This will clear all your unexported changes in the `src` directory!"
+            );
+        }
         log.warning(
             `You can export your changes by running |${bin_name} export|.`
         );
@@ -159,10 +169,17 @@ export const reset = async () => {
                         }
                     );
 
+                    if (hard) {
+                        log.info(`Deleting src...`);
+
+                        rimraf.sync(resolve(SRC_DIR));
+                    }
+
                     log.success("Reset successfully.");
-                    log.info(
-                        "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
-                    );
+                    if (!hard)
+                        log.info(
+                            "Next time you build, it may need to recompile parts of the program because the cache was invalidated."
+                        );
                 }
             })
             .catch((e) => e);

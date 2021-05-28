@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.js b/browser/base/content/browser.js
-index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086c4c6b431 100644
+index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4bcc6e0b23 100644
 --- a/browser/base/content/browser.js
 +++ b/browser/base/content/browser.js
 @@ -253,6 +253,11 @@ XPCOMUtils.defineLazyScriptGetter(
@@ -14,16 +14,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  
  // lazy service getters
  
-@@ -1012,7 +1017,7 @@ const gStoragePressureObserver = {
-       ]);
-       buttons.push({
-         "l10n-id": "space-alert-under-5gb-ok-button",
--        callback() {},
-+        callback() { },
-       });
-     } else {
-       // The firefox-used space >= 5GB, then guide users to about:preferences
-@@ -1920,7 +1925,7 @@ var gBrowserInit = {
+@@ -1932,7 +1937,7 @@ var gBrowserInit = {
  
      gBrowser.addEventListener(
        "PermissionStateChange",
@@ -32,7 +23,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          gIdentityHandler.refreshIdentityBlock();
        },
        true
-@@ -2080,7 +2085,7 @@ var gBrowserInit = {
+@@ -2092,7 +2097,7 @@ var gBrowserInit = {
        PanicButtonNotifier.init();
      });
  
@@ -41,7 +32,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        for (let panel of document.querySelectorAll(
          "panel[tabspecific='true']"
        )) {
-@@ -2284,7 +2289,7 @@ var gBrowserInit = {
+@@ -2296,7 +2301,7 @@ var gBrowserInit = {
              csp: window.arguments[10],
              fromExternal: true,
            });
@@ -50,7 +41,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        } else if (window.arguments.length >= 3) {
          // window.arguments[1]: unused (bug 871161)
          //                 [2]: referrerInfo (nsIReferrerInfo)
-@@ -2446,7 +2451,7 @@ var gBrowserInit = {
+@@ -2458,7 +2463,7 @@ var gBrowserInit = {
    // promise resolving to the URI to load.
    get uriToLoadPromise() {
      delete this.uriToLoadPromise;
@@ -59,7 +50,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        // window.arguments[0]: URI to load (string), or an nsIArray of
        //                      nsISupportsStrings to load, or a xul:tab of
        //                      a tabbrowser, which will be replaced by this
-@@ -2531,7 +2536,7 @@ var gBrowserInit = {
+@@ -2543,7 +2548,7 @@ var gBrowserInit = {
      try {
        gBrowser.removeProgressListener(window.XULBrowserWindow);
        gBrowser.removeTabsProgressListener(window.TabsProgressListener);
@@ -68,7 +59,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  
      PlacesToolbarHelper.uninit();
  
-@@ -2724,7 +2729,7 @@ function BrowserForward(aEvent) {
+@@ -2733,7 +2738,7 @@ function BrowserForward(aEvent) {
    if (where == "current") {
      try {
        gBrowser.goForward();
@@ -77,7 +68,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
    } else {
      duplicateTabIn(gBrowser.selectedTab, where, 1);
    }
-@@ -2736,7 +2741,7 @@ function BrowserBack(aEvent) {
+@@ -2745,7 +2750,7 @@ function BrowserBack(aEvent) {
    if (where == "current") {
      try {
        gBrowser.goBack();
@@ -86,7 +77,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
    } else {
      duplicateTabIn(gBrowser.selectedTab, where, -1);
    }
-@@ -2895,7 +2900,7 @@ function loadOneOrMoreURIs(aURIString, aTriggeringPrincipal, aCsp) {
+@@ -2904,7 +2909,7 @@ function loadOneOrMoreURIs(aURIString, aTriggeringPrincipal, aCsp) {
        triggeringPrincipal: aTriggeringPrincipal,
        csp: aCsp,
      });
@@ -95,7 +86,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  }
  
  function openLocation(event) {
-@@ -2977,7 +2982,7 @@ var gLastOpenDirectory = {
+@@ -2986,7 +2991,7 @@ var gLastOpenDirectory = {
          if (!this._lastDir.exists()) {
            this._lastDir = null;
          }
@@ -104,7 +95,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
      }
      return this._lastDir;
    },
-@@ -3016,7 +3021,7 @@ function BrowserOpenFileWindow() {
+@@ -3025,7 +3030,7 @@ function BrowserOpenFileWindow() {
            if (fp.file) {
              gLastOpenDirectory.path = fp.file.parent.QueryInterface(Ci.nsIFile);
            }
@@ -113,7 +104,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          openTrustedLinkIn(fp.fileURL.spec, "current");
        }
      };
-@@ -3028,14 +3033,14 @@ function BrowserOpenFileWindow() {
+@@ -3037,14 +3042,14 @@ function BrowserOpenFileWindow() {
      );
      fp.appendFilters(
        nsIFilePicker.filterAll |
@@ -133,7 +124,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  }
  
  function BrowserCloseTabOrWindow(event) {
-@@ -3139,7 +3144,7 @@ function readFromClipboard() {
+@@ -3148,7 +3153,7 @@ function readFromClipboard() {
        data = data.value.QueryInterface(Ci.nsISupportsString);
        url = data.data;
      }
@@ -142,7 +133,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  
    return url;
  }
-@@ -3170,7 +3175,7 @@ async function BrowserViewSourceOfDocument(args) {
+@@ -3179,7 +3184,7 @@ async function BrowserViewSourceOfDocument(args) {
      try {
        await top.gViewSourceUtils.openInExternalEditor(args);
        return;
@@ -151,7 +142,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
    }
  
    let tabBrowser = gBrowser;
-@@ -3183,8 +3188,8 @@ async function BrowserViewSourceOfDocument(args) {
+@@ -3192,8 +3197,8 @@ async function BrowserViewSourceOfDocument(args) {
      if (!tabBrowser) {
        throw new Error(
          "BrowserViewSourceOfDocument should be passed the " +
@@ -162,7 +153,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        );
      }
      // Some internal URLs (such as specific chrome: and about: URLs that are
-@@ -3262,41 +3267,44 @@ function BrowserPageInfo(
+@@ -3271,41 +3276,44 @@ function BrowserPageInfo(
    browsingContext,
    browser
  ) {
@@ -242,7 +233,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  }
  
  function UpdateUrlbarSearchSplitterState() {
-@@ -3796,7 +3804,7 @@ var homeButtonObserver = {
+@@ -3805,7 +3813,7 @@ var homeButtonObserver = {
      browserDragAndDrop.dragOver(aEvent);
      aEvent.dropEffect = "link";
    },
@@ -251,7 +242,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  };
  
  function openHomeDialog(aURL) {
-@@ -3829,7 +3837,7 @@ var newTabButtonObserver = {
+@@ -3838,7 +3846,7 @@ var newTabButtonObserver = {
    onDragOver(aEvent) {
      browserDragAndDrop.dragOver(aEvent);
    },
@@ -260,7 +251,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
    async onDrop(aEvent) {
      let links = browserDragAndDrop.dropLinks(aEvent);
      if (
-@@ -3868,7 +3876,7 @@ var newWindowButtonObserver = {
+@@ -3877,7 +3885,7 @@ var newWindowButtonObserver = {
    onDragOver(aEvent) {
      browserDragAndDrop.dragOver(aEvent);
    },
@@ -269,7 +260,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
    async onDrop(aEvent) {
      let links = browserDragAndDrop.dropLinks(aEvent);
      if (
-@@ -4220,7 +4228,7 @@ const BrowserSearch = {
+@@ -4237,7 +4245,7 @@ const BrowserSearch = {
          win.BrowserSearch.webSearch();
        } else {
          // If there are no open browser windows, open a new one
@@ -278,7 +269,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
            if (subject == win) {
              BrowserSearch.webSearch();
              Services.obs.removeObserver(
-@@ -4240,7 +4248,7 @@ const BrowserSearch = {
+@@ -4257,7 +4265,7 @@ const BrowserSearch = {
        return;
      }
  
@@ -287,7 +278,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        if (!aSearchBar || document.activeElement != aSearchBar.textbox) {
          // Limit the results to search suggestions, like the search bar.
          gURLBar.searchModeShortcut();
-@@ -4464,13 +4472,13 @@ function FillHistoryMenu(aParent) {
+@@ -4503,13 +4511,13 @@ function FillHistoryMenu(aParent) {
    // Lazily add the hover listeners on first showing and never remove them
    if (!aParent.hasStatusListener) {
      // Show history item's uri in the status bar when hovering, and clear on exit
@@ -303,7 +294,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        XULBrowserWindow.setOverLink("");
      });
  
-@@ -5259,7 +5267,7 @@ var XULBrowserWindow = {
+@@ -5321,7 +5329,7 @@ var XULBrowserWindow = {
      // See bug 358202, when tabs are switched during a drag operation,
      // timers don't fire on windows (bug 203573)
      if (aRequest) {
@@ -312,7 +303,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          XULBrowserWindow.asyncUpdateUI();
        }, 0);
      } else {
-@@ -5406,7 +5414,7 @@ var XULBrowserWindow = {
+@@ -5468,7 +5476,7 @@ var XULBrowserWindow = {
  
      try {
        uri = Services.io.createExposableURI(uri);
@@ -321,7 +312,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
      gIdentityHandler.updateIdentity(this._state, uri);
    },
  
-@@ -5513,7 +5521,7 @@ var LinkTargetDisplay = {
+@@ -5575,7 +5583,7 @@ var LinkTargetDisplay = {
  
    _showDelayed() {
      this._timer = setTimeout(
@@ -330,7 +321,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          StatusPanel.update();
          window.removeEventListener("mousemove", self, true);
        },
-@@ -5694,7 +5702,7 @@ var CombinedStopReload = {
+@@ -5754,7 +5762,7 @@ var CombinedStopReload = {
      // accidentally reloading the page when intending to click the stop button
      this.reload.disabled = true;
      this._timer = setTimeout(
@@ -339,7 +330,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          self._timer = 0;
          self.reload.disabled =
            XULBrowserWindow.reloadCommand.getAttribute("disabled") == "true";
-@@ -5856,7 +5864,7 @@ var TabsProgressListener = {
+@@ -5916,7 +5924,7 @@ var TabsProgressListener = {
    },
  };
  
@@ -348,7 +339,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  
  nsBrowserAccess.prototype = {
    QueryInterface: ChromeUtils.generateQI(["nsIBrowserDOMWindow"]),
-@@ -5972,7 +5980,7 @@ nsBrowserAccess.prototype = {
+@@ -6032,7 +6040,7 @@ nsBrowserAccess.prototype = {
      if (aOpenWindowInfo && isExternal) {
        Cu.reportError(
          "nsBrowserAccess.openURI did not expect aOpenWindowInfo to be " +
@@ -357,7 +348,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        );
        throw Components.Exception("", Cr.NS_ERROR_FAILURE);
      }
-@@ -6189,7 +6197,7 @@ nsBrowserAccess.prototype = {
+@@ -6245,7 +6253,7 @@ nsBrowserAccess.prototype = {
  
      var userContextId =
        aParams.openerOriginAttributes &&
@@ -366,7 +357,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          ? aParams.openerOriginAttributes.userContextId
          : Ci.nsIScriptSecurityManager.DEFAULT_USER_CONTEXT_ID;
  
-@@ -6429,7 +6437,7 @@ function setToolbarVisibility(
+@@ -6501,7 +6509,7 @@ function setToolbarVisibility(
              }
              try {
                currentURI = Services.io.newURI(uriToLoad);
@@ -375,7 +366,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
            }
          }
          isVisible =
-@@ -6518,7 +6526,7 @@ var gTabletModePageCounter = {
+@@ -6590,7 +6598,7 @@ var gTabletModePageCounter = {
    inc() {
      this.enabled = AppConstants.isPlatformAndVersionAtLeast("win", "10.0");
      if (!this.enabled) {
@@ -384,7 +375,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        return;
      }
      this.inc = this._realInc;
-@@ -6925,7 +6933,7 @@ function handleLinkClick(event, href, linkNode) {
+@@ -6997,7 +7005,7 @@ function handleLinkClick(event, href, linkNode) {
          isPrivateWin
        );
        persistAllowMixedContentInChildTab = true;
@@ -393,7 +384,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
    }
  
    let frameID = WebNavigationFrames.getFrameId(doc.defaultView);
-@@ -7042,7 +7050,7 @@ function handleDroppedLink(
+@@ -7114,7 +7122,7 @@ function handleDroppedLink(
      }
    }
  
@@ -402,7 +393,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
      if (
        links.length >=
        Services.prefs.getIntPref("browser.tabs.maxOpenBeforeWarn")
-@@ -7444,7 +7452,7 @@ var BrowserOffline = {
+@@ -7516,7 +7524,7 @@ var BrowserOffline = {
        if (cancelGoOffline.data) {
          return false;
        }
@@ -411,7 +402,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
  
      return true;
    },
-@@ -7986,7 +7994,7 @@ function BrowserOpenAddonsMgr(aView) {
+@@ -8069,7 +8077,7 @@ function BrowserOpenAddonsMgr(aView) {
      let emWindow;
      let browserWindow;
  
@@ -420,7 +411,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
        let browserWin = aSubject.browsingContext.topChromeWindow;
        if (!emWindow || browserWin == window /* favor the current window */) {
          emWindow = aSubject;
-@@ -8777,7 +8785,7 @@ var PanicButtonNotifier = {
+@@ -8876,7 +8884,7 @@ var PanicButtonNotifier = {
          PanicButtonNotifier.close();
          removeListeners();
        };
@@ -429,7 +420,7 @@ index 27d8911d618861a908d9581b079ff8c390970cb9..e1b15155f89fcc2367b580873efc9086
          PanicButtonNotifier.timer = setTimeout(onTimeout, 3000);
        });
        // To prevent the popup from closing when user tries to interact with the
-@@ -9409,7 +9417,7 @@ var gDialogBox = {
+@@ -9569,7 +9577,7 @@ var gDialogBox = {
        },
      });
      let closedPromise = new Promise(resolve => {

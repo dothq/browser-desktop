@@ -1,5 +1,5 @@
 diff --git a/browser/components/extensions/ExtensionPopups.jsm b/browser/components/extensions/ExtensionPopups.jsm
-index 1514e75b7287479ca716cccb89b38c8f24d3e1cf..5d343d0cc5b1963263d41839b89ee428d5ec9aa2 100644
+index f727a02266c9c1e7de1736e7697b03116e3c354b..7eb7ba9ff809ad65984669b14a05c1a2b130f608 100644
 --- a/browser/components/extensions/ExtensionPopups.jsm
 +++ b/browser/components/extensions/ExtensionPopups.jsm
 @@ -53,7 +53,7 @@ function promisePopupShown(popup) {
@@ -29,7 +29,7 @@ index 1514e75b7287479ca716cccb89b38c8f24d3e1cf..5d343d0cc5b1963263d41839b89ee428
      }
      browser.removeEventListener("pagetitlechanged", this);
      browser.removeEventListener("DOMWindowClose", this);
-@@ -443,9 +443,14 @@ class BasePopup {
+@@ -448,9 +448,14 @@ class BasePopup {
      // If they have not set a background-color, we force it to white to ensure visibility
      // of the extension content. Passing `null` should be treated the same as no argument,
      // which is why we can't use default parameters here.
@@ -44,7 +44,7 @@ index 1514e75b7287479ca716cccb89b38c8f24d3e1cf..5d343d0cc5b1963263d41839b89ee428
      if (this.panel.id != "widget-overflow") {
        this.panel.style.setProperty("--arrowpanel-background", background);
      }
-@@ -608,7 +613,7 @@ class ViewPopup extends BasePopup {
+@@ -613,7 +618,7 @@ class ViewPopup extends BasePopup {
        Promise.race([
          // This promise may be rejected if the popup calls window.close()
          // before it has fully loaded.

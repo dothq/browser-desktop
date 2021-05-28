@@ -67,6 +67,11 @@
             "emoji": "⌨",
             "code": ":keyboard:",
             "description": "Update keyboard shortcuts or add menu items"
+        },
+        {        
+            "emoji": "🆙",
+            "code": ":up:",
+            "description": "Update a patch or the browser version"
         }
     ],
     "git.ignoreLimitWarning": true,
@@ -76,5 +81,6 @@
     },
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
-    }
+    },
+    "svg.preview.background": "transparent"
 }

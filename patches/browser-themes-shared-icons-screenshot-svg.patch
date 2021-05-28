@@ -1,7 +1,7 @@
-diff --git a/browser/extensions/screenshots/icons/icon-v2.svg b/browser/extensions/screenshots/icons/icon-v2.svg
+diff --git a/browser/themes/shared/icons/screenshot.svg b/browser/themes/shared/icons/screenshot.svg
 index 92b1473b61ec796a8b35d462ac5fe825bf9522ab..00056b94a4e4cc08263d78329ee65e3bb6d71aca 100644
---- a/browser/extensions/screenshots/icons/icon-v2.svg
-+++ b/browser/extensions/screenshots/icons/icon-v2.svg
+--- a/browser/themes/shared/icons/screenshot.svg
++++ b/browser/themes/shared/icons/screenshot.svg
 @@ -1,4 +1,10 @@
  <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this

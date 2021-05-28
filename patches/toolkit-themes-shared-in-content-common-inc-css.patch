@@ -1,13 +1,13 @@
 diff --git a/toolkit/themes/shared/in-content/common.inc.css b/toolkit/themes/shared/in-content/common.inc.css
-index 74af79fb9d4b328938d96c622350f0f3d29daade..e6cd237703c102ba330eaf70a62ce3aab5e5519d 100644
+index 0e3b104add4b5c5cfa7e1f2b5ffc0516631135a2..9a87c8acf580e0b77ca9ed0a7b3fea7aed2c7fd9 100644
 --- a/toolkit/themes/shared/in-content/common.inc.css
 +++ b/toolkit/themes/shared/in-content/common.inc.css
-@@ -7,16 +7,16 @@
+@@ -7,14 +7,14 @@
  @namespace xul "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
  
  :root {
 -  --in-content-page-color: #0c0c0d;
--  --in-content-page-background: #f9f9fa;
+-  --in-content-page-background: #fff;
 +  --in-content-page-color: #030303;
 +  --in-content-page-background: #FFFFFF;
    --in-content-text-color: var(--grey-90);
@@ -15,17 +15,13 @@ index 74af79fb9d4b328938d96c622350f0f3d29daade..e6cd237703c102ba330eaf70a62ce3aa
    --in-content-selected-text: #fff;
    --in-content-box-background: #fff;
 -  --in-content-box-background-odd: rgba(12, 12, 13, 0.05); /* grey 90 a05 */
--  --in-content-box-background-hover: #ededf0; /* grey 20 */
--  --in-content-box-background-active: #d7d7db; /* grey 30 */
 -  --in-content-box-border-color: var(--grey-90-a30);
 +  --in-content-box-background-odd: rgba(52, 52, 52, 0.05); /* grey 90 a05 */
-+  --in-content-box-background-hover: #EAEAEA; /* grey 20 */
-+  --in-content-box-background-active: #B6B6B6; /* grey 30 */
 +  --in-content-box-border-color: #EAEAEA;
-   --in-content-box-info-background: var(--grey-20);
+   --in-content-box-info-background: #f0f0f4;
    --in-content-item-hover: rgba(69, 161, 255, 0.2); /* blue 40 a20 */
    --in-content-item-selected: #0a84ff;
-@@ -106,7 +106,7 @@
+@@ -121,7 +121,7 @@
  @media (prefers-color-scheme: dark) {
    :root {
      /* Keep these in sync with layout/base/PresShell.cpp, and plaintext.css */

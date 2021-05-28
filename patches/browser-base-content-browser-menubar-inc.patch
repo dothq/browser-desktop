@@ -2,7 +2,7 @@ diff --git a/browser/base/content/browser-menubar.inc b/browser/base/content/bro
 index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..f728a1ab454155dd6e2fb78f36d189219d53cd39 100644
 --- a/browser/base/content/browser-menubar.inc
 +++ b/browser/base/content/browser-menubar.inc
-@@ -92,23 +92,33 @@
+@@ -96,23 +96,33 @@
                           onpopuphidden="updateEditUIVisibility()">
                  <menuitem id="menu_undo"
                            key="key_undo"

@@ -28,7 +28,6 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..5bec152075f8a267f439482bf67da64d
 +  skin/classic/browser/certificate.svg                (../shared/icons/certificate.svg)
    skin/classic/browser/characterEncoding.svg          (../shared/icons/characterEncoding.svg)
    skin/classic/browser/chevron-animation.svg          (../shared/icons/chevron-animation.svg)
-   skin/classic/browser/check-animation.svg            (../shared/icons/check-animation.svg)
 +  skin/classic/browser/cookies.svg                    (../shared/icons/cookies.svg)
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
@@ -36,6 +35,7 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..5bec152075f8a267f439482bf67da64d
 @@ -206,6 +213,7 @@
    skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
    skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
+   skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
 +  skin/classic/browser/qr-code.svg                    (../shared/icons/qr-code.svg)
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
@@ -48,4 +48,4 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..5bec152075f8a267f439482bf67da64d
 +  skin/classic/browser/spell-check.svg                (../shared/icons/spell-check.svg)
    skin/classic/browser/stop.svg                       (../shared/icons/stop.svg)
    skin/classic/browser/stop-to-reload.svg             (../shared/icons/stop-to-reload.svg)
-   skin/classic/browser/sync.svg                       (../shared/icons/sync.svg)
+   skin/classic/browser/success-animation.svg          (../shared/icons/success-animation.svg)

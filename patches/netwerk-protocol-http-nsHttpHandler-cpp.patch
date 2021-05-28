@@ -1,8 +1,8 @@
 diff --git a/netwerk/protocol/http/nsHttpHandler.cpp b/netwerk/protocol/http/nsHttpHandler.cpp
-index bf3d9a125f0755ee36a815ee6e11fd82d32c26b3..eb922c66b99bb0dfa9cc828e0e8427be6dbbf3e6 100644
+index 8712a4082d93cd255b02258d13b42d2230d997c2..21dffdb8bedfe68aee5157c62cdad02441512715 100644
 --- a/netwerk/protocol/http/nsHttpHandler.cpp
 +++ b/netwerk/protocol/http/nsHttpHandler.cpp
-@@ -851,7 +851,7 @@ void nsHttpHandler::BuildUserAgent() {
+@@ -850,7 +850,7 @@ void nsHttpHandler::BuildUserAgent() {
    mUserAgent += '/';
    mUserAgent += mProductSub;
  

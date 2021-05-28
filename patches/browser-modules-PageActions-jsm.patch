@@ -1,28 +1,8 @@
 diff --git a/browser/modules/PageActions.jsm b/browser/modules/PageActions.jsm
-index 92ab266a0019a30c6dbebce5e9601be3ccddc4cf..e8cb577be194d8012eec7b803f87862c524aa7c9 100644
+index 67343c54c83db475b315524d6708924dd21f6a5b..1521a50e271cf645aab439d8093e05e5a09111c2 100644
 --- a/browser/modules/PageActions.jsm
 +++ b/browser/modules/PageActions.jsm
-@@ -232,8 +232,8 @@ var PageActions = {
-       let index = !action.__insertBeforeActionID
-         ? -1
-         : this._builtInActions.findIndex(a => {
--            return a.id == action.__insertBeforeActionID;
--          });
-+          return a.id == action.__insertBeforeActionID;
-+        });
-       if (index < 0) {
-         // Append the action (excluding transient actions).
-         index = this._builtInActions.filter(a => !a.__transient).length;
-@@ -366,7 +366,7 @@ var PageActions = {
-     try {
-       let json = Services.prefs.getStringPref(PREF_PERSISTED_ACTIONS);
-       this._persistedActions = this._migratePersistedActions(JSON.parse(json));
--    } catch (ex) {}
-+    } catch (ex) { }
-   },
- 
-   _purgeUnregisteredPersistedActions() {
-@@ -1130,7 +1130,7 @@ Action.prototype = {
+@@ -1205,7 +1205,7 @@ Action.prototype = {
    },
  
    get _isBuiltIn() {

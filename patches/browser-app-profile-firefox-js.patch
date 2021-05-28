@@ -91,7 +91,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Show a skeleton UI window prior to loading libxul. Only visible for windows
-@@ -325,13 +325,13 @@ pref("browser.urlbar.maxHistoricalSearchSuggestions", 2);
+@@ -321,13 +321,13 @@ pref("browser.urlbar.maxHistoricalSearchSuggestions", 2);
  
  // The default behavior for the urlbar can be configured to use any combination
  // of the match filters with each additional filter adding more results (union).
@@ -112,7 +112,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  
  // Whether the QuickSuggest experiment is enabled.
  pref("browser.urlbar.quicksuggest.enabled", false);
-@@ -435,7 +435,7 @@ pref("browser.download.viewableInternally.enabledTypes", "xml,svg,webp,avif");
+@@ -431,7 +431,7 @@ pref("browser.download.viewableInternally.enabledTypes", "xml,svg,webp,avif");
  pref("browser.download.autohideButton", true);
  
  #ifndef XP_MACOSX
@@ -121,7 +121,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // This controls the visibility of the radio button in the
-@@ -447,7 +447,7 @@ pref("browser.helperApps.showOpenOptionForPdfJS", true);
+@@ -443,7 +443,7 @@ pref("browser.helperApps.showOpenOptionForPdfJS", true);
  pref("browser.helperApps.showOpenOptionForViewableInternally", true);
  
  // search engines URL
@@ -130,7 +130,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  
  // search bar results always open in a new tab
  pref("browser.search.openintab", false);
-@@ -509,9 +509,9 @@ pref("browser.link.open_newwindow.restriction", 2);
+@@ -505,9 +505,9 @@ pref("browser.link.open_newwindow.restriction", 2);
  // We set this differently on Mac because the fullscreen implementation there is
  // different.
  #ifdef XP_MACOSX
@@ -142,7 +142,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Tabbed browser
-@@ -541,7 +541,7 @@ pref("browser.tabs.tabMinWidth", 76);
+@@ -537,7 +537,7 @@ pref("browser.tabs.tabMinWidth", 76);
  // Initial titlebar state is managed by -moz-gtk-csd-hide-titlebar-by-default
  // on Linux.
  #ifndef UNIX_BUT_NOT_MAC
@@ -151,7 +151,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  //Control the visibility of Tab Manager Menu.
-@@ -568,9 +568,9 @@ pref("browser.tabs.delayHidingAudioPlayingIconMS", 3000);
+@@ -564,9 +564,9 @@ pref("browser.tabs.delayHidingAudioPlayingIconMS", 3000);
  pref("browser.tabs.remote.separatePrivilegedContentProcess", true);
  
  #if defined(NIGHTLY_BUILD) && !defined(MOZ_ASAN)
@@ -164,7 +164,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Pref to control whether we use a separate privileged content process
-@@ -599,13 +599,13 @@ pref("browser.ctrlTab.recentlyUsedOrder", true);
+@@ -595,13 +595,13 @@ pref("browser.ctrlTab.recentlyUsedOrder", true);
  // By default, do not export HTML at shutdown.
  // If true, at shutdown the bookmarks in your menu and toolbar will
  // be exported as HTML to the bookmarks.html file.
@@ -180,14 +180,12 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  
  // Whether menu should close after Ctrl-click, middle-click, etc.
  pref("browser.bookmarks.openInTabClosesMenu", true);
-@@ -623,43 +623,43 @@ pref("browser.bookmarks.openInTabClosesMenu", true);
+@@ -619,42 +619,42 @@ pref("browser.bookmarks.openInTabClosesMenu", true);
  pref("browser.bookmarks.defaultLocation", "toolbar");
  
  // Scripts & Windows prefs
 -pref("dom.disable_open_during_load",              true);
--pref("javascript.options.showInConsole",          true);
 +pref("dom.disable_open_during_load", true);
-+pref("javascript.options.showInConsole", true);
  
  // allow JS to move and resize existing windows
 -pref("dom.disable_window_move_resize",            false);
@@ -251,7 +249,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  
  // What default should we use for the time span in the sanitizer:
  // 0 - Clear everything
-@@ -671,14 +671,14 @@ pref("privacy.history.custom",              false);
+@@ -666,14 +666,14 @@ pref("privacy.history.custom",              false);
  // 6 - Last 24 hours
  pref("privacy.sanitize.timeSpan", 1);
  
@@ -270,7 +268,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  
  // simple gestures support
  pref("browser.gesture.swipe.left", "Browser:BackOrBackDuplicate");
-@@ -688,17 +688,17 @@ pref("browser.gesture.swipe.down", "cmd_scrollBottom");
+@@ -683,17 +683,17 @@ pref("browser.gesture.swipe.down", "cmd_scrollBottom");
  pref("browser.gesture.pinch.latched", false);
  pref("browser.gesture.pinch.threshold", 25);
  #if defined(XP_WIN) || defined(MOZ_WIDGET_GTK)
@@ -298,7 +296,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  pref("browser.gesture.twist.latched", false);
  pref("browser.gesture.twist.threshold", 0);
-@@ -716,33 +716,33 @@ pref("browser.history_swipe_animation.disabled", false);
+@@ -715,33 +715,33 @@ pref("browser.history_swipe_animation.disabled", false);
  // 4: Treat vertical wheel as horizontal scroll
  // 5: Zoom in or out (pinch zoom).
  #ifdef XP_MACOSX
@@ -358,7 +356,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  pref("mousewheel.with_win.action", 1);
  
  pref("browser.xul.error_pages.expert_bad_cert", false);
-@@ -760,7 +760,7 @@ pref("network.protocol-handler.external.news", true);   // for news
+@@ -759,7 +759,7 @@ pref("network.protocol-handler.external.news", true);   // for news
  pref("network.protocol-handler.external.snews", true);  // for secure news
  pref("network.protocol-handler.external.nntp", true);   // also news
  #ifdef XP_WIN
@@ -367,7 +365,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // ...without warning dialogs
-@@ -769,7 +769,7 @@ pref("network.protocol-handler.warn-external.news", false);
+@@ -768,7 +768,7 @@ pref("network.protocol-handler.warn-external.news", false);
  pref("network.protocol-handler.warn-external.snews", false);
  pref("network.protocol-handler.warn-external.nntp", false);
  #ifdef XP_WIN
@@ -376,7 +374,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // By default, all protocol handlers are exposed.  This means that
-@@ -797,9 +797,9 @@ pref("plugins.testmode", false);
+@@ -796,9 +796,9 @@ pref("plugins.testmode", false);
  pref("plugins.show_infobar", false);
  
  #if defined(_ARM64_) && defined(XP_WIN)
@@ -388,7 +386,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Enables the download and use of the flash blocklists.
-@@ -814,9 +814,9 @@ pref("plugins.favorfallback.mode", "follow-ctp");
+@@ -813,9 +813,9 @@ pref("plugins.favorfallback.mode", "follow-ctp");
  pref("plugins.favorfallback.rules", "nosrc,video");
  
  #ifdef XP_WIN
@@ -400,7 +398,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Toggling Search bar on and off in about:preferences
-@@ -1035,20 +1035,20 @@ pref("breakpad.reportURL", "https://crash-stats.mozilla.org/report/index/");
+@@ -1034,20 +1034,20 @@ pref("breakpad.reportURL", "https://crash-stats.mozilla.org/report/index/");
  
  // URL for "Learn More" for DataCollection
  pref("toolkit.datacollection.infoURL",
@@ -425,7 +423,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
-@@ -1081,116 +1081,116 @@ pref("browser.flash-protected-mode-flip.done", false);
+@@ -1080,116 +1080,116 @@ pref("browser.flash-protected-mode-flip.done", false);
  pref("dom.ipc.shims.enabledWarnings", false);
  
  #if defined(XP_WIN) && defined(MOZ_SANDBOX)
@@ -631,7 +629,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
    #endif
  #endif
  
-@@ -1202,19 +1202,19 @@ pref("dom.ipc.shims.enabledWarnings", false);
+@@ -1201,19 +1201,19 @@ pref("dom.ipc.shims.enabledWarnings", false);
  // NPAPI to manipulate the cursor, and these workarounds will be removed.
  // See bug 621117.
  #ifdef XP_MACOSX
@@ -661,7 +659,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Preferences to be synced by default
-@@ -1368,17 +1368,17 @@ pref("prompts.tabChromePromptSubDialog", true);
+@@ -1367,17 +1367,17 @@ pref("prompts.tabChromePromptSubDialog", true);
  // Whether to show the dialogs opened at the content level, such as
  // alert() or prompt(), using a SubDialogManager in the TabDialogBox.
  #ifdef EARLY_BETA_OR_EARLIER
@@ -683,7 +681,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  
-@@ -1395,7 +1395,7 @@ pref("browser.newtabpage.activity-stream.newNewtabExperience.colors", "#0090ED,#
+@@ -1394,7 +1394,7 @@ pref("browser.newtabpage.activity-stream.newNewtabExperience.colors", "#0090ED,#
  
  // Activity Stream prefs that control to which page to redirect
  #ifndef RELEASE_OR_BETA
@@ -692,7 +690,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // The remote FxA root content URL for the Activity Stream firstrun page.
-@@ -1432,9 +1432,9 @@ pref("browser.newtabpage.activity-stream.discoverystream.spocs-endpoint-query",
+@@ -1431,9 +1431,9 @@ pref("browser.newtabpage.activity-stream.discoverystream.spocs-endpoint-query",
  pref("browser.newtabpage.activity-stream.discoverystream.region-stories-block", "FR");
  // List of locales that get stories, regardless of region-stories-config.
  #ifdef NIGHTLY_BUILD
@@ -704,7 +702,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  // List of regions that get stories by default.
  pref("browser.newtabpage.activity-stream.discoverystream.region-stories-config", "US,DE,CA,GB,IE,CH,AT,BE,IN");
-@@ -1459,9 +1459,9 @@ pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);
+@@ -1458,9 +1458,9 @@ pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);
  
  // The pref controls if search hand-off is enabled for Activity Stream.
  #ifdef NIGHTLY_BUILD
@@ -725,7 +723,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Completely disable pdf.js as an option to preview pdfs within firefox.
-@@ -1602,9 +1602,9 @@ pref("identity.mobilepromo.ios", "https://www.mozilla.org/firefox/ios/?utm_sourc
+@@ -1596,9 +1596,9 @@ pref("identity.mobilepromo.ios", "https://www.mozilla.org/firefox/ios/?utm_sourc
  // Migrate any existing Firefox Account data from the default profile to the
  // Developer Edition profile.
  #ifdef MOZ_DEV_EDITION
@@ -737,7 +735,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // If activated, send tab will use the new FxA commands backend.
-@@ -1626,8 +1626,8 @@ pref("media.gmp.trial-create.enabled", true);
+@@ -1620,8 +1620,8 @@ pref("media.gmp.trial-create.enabled", true);
  // unsupported.
  
  #ifdef MOZ_WIDEVINE_EME
@@ -748,7 +746,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  pref("media.gmp-gmpopenh264.visible", true);
-@@ -1637,10 +1637,10 @@ pref("media.gmp-gmpopenh264.enabled", true);
+@@ -1631,10 +1631,10 @@ pref("media.gmp-gmpopenh264.enabled", true);
  pref("media.autoplay.default", 1); // 0=Allowed, 1=Blocked, 5=All Blocked
  
  #ifdef NIGHTLY_BUILD
@@ -762,7 +760,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  pref("media.videocontrols.picture-in-picture.enabled", true);
-@@ -1648,11 +1648,11 @@ pref("media.videocontrols.picture-in-picture.video-toggle.enabled", true);
+@@ -1642,11 +1642,11 @@ pref("media.videocontrols.picture-in-picture.video-toggle.enabled", true);
  pref("media.videocontrols.picture-in-picture.keyboard-controls.enabled", true);
  
  #ifdef NIGHTLY_BUILD
@@ -777,7 +775,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  pref("browser.translation.detectLanguage", false);
-@@ -1797,19 +1797,19 @@ pref("browser.contentblocking.cfr-milestone.milestones", "[1000, 5000, 10000, 25
+@@ -1791,19 +1791,19 @@ pref("browser.contentblocking.cfr-milestone.milestones", "[1000, 5000, 10000, 25
  
  // Enables the new Protections Panel.
  #ifdef NIGHTLY_BUILD
@@ -803,7 +801,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  pref("privacy.userContext.extension", "");
  // allows user to open container menu on a left click instead of a new
-@@ -1843,9 +1843,9 @@ pref("browser.tabs.remote.desktopbehavior", true);
+@@ -1844,9 +1844,9 @@ pref("browser.tabs.remote.desktopbehavior", true);
  
  // Run media transport in a separate process?
  #ifdef EARLY_BETA_OR_EARLIER
@@ -815,7 +813,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // For speculatively warming up tabs to improve perceived
-@@ -1871,8 +1871,8 @@ pref("browser.tabs.crashReporting.email", "");
+@@ -1869,8 +1869,8 @@ pref("browser.tabs.crashReporting.includeURL", false);
  pref("extensions.experiments.enabled", false);
  
  #if defined(XP_WIN)
@@ -826,7 +824,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Don't limit how many nodes we care about on desktop:
-@@ -1934,7 +1934,7 @@ pref("signon.management.page.sort", "name");
+@@ -1932,7 +1932,7 @@ pref("signon.management.page.sort", "name");
  // where it is clicked). Be sure that if these two prefs are updated, that
  // the utm_creative param be last.
  pref("signon.management.page.breachAlertUrl",
@@ -835,7 +833,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  pref("signon.management.page.showPasswordSyncNotification", true);
  pref("signon.passwordEditCapture.enabled", true);
  pref("signon.showAutoCompleteFooter", true);
-@@ -1953,9 +1953,9 @@ pref("webchannel.allowObject.urlWhitelist", "https://content.cdn.mozilla.net htt
+@@ -1951,9 +1951,9 @@ pref("webchannel.allowObject.urlWhitelist", "https://content.cdn.mozilla.net htt
  // crash reports, and then show a notification for submitting
  // those reports.
  #ifdef NIGHTLY_BUILD
@@ -847,7 +845,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // chancesUntilSuppress is how many times we'll show the unsubmitted
-@@ -2026,7 +2026,7 @@ pref("doh-rollout.clearModeOnShutdown", false);
+@@ -2024,7 +2024,7 @@ pref("doh-rollout.clearModeOnShutdown", false);
  
  // URL for Learn More link for browser error logging in preferences
  pref("browser.chrome.errorReporter.infoURL",
@@ -856,7 +854,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  
  // Normandy client preferences
  pref("app.normandy.api_url", "https://normandy.cdn.mozilla.net/api/v1");
-@@ -2039,19 +2039,19 @@ pref("app.normandy.shieldLearnMoreUrl", "https://support.mozilla.org/1/firefox/%
+@@ -2037,19 +2037,19 @@ pref("app.normandy.shieldLearnMoreUrl", "https://support.mozilla.org/1/firefox/%
  pref("app.normandy.last_seen_buildid", "");
  pref("app.normandy.onsync_skew_sec", 600);
  #ifdef MOZ_DATA_REPORTING
@@ -883,7 +881,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Simulate conditions that will happen when the browser
-@@ -2146,7 +2146,7 @@ pref("devtools.command-button-measure.enabled", false);
+@@ -2144,7 +2144,7 @@ pref("devtools.command-button-measure.enabled", false);
  pref("devtools.command-button-noautohide.enabled", false);
  pref("devtools.command-button-errorcount.enabled", true);
  #ifndef MOZILLA_OFFICIAL
@@ -892,7 +890,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Inspector preferences
-@@ -2204,9 +2204,9 @@ pref("devtools.layout.grid.opened", true);
+@@ -2202,9 +2202,9 @@ pref("devtools.layout.grid.opened", true);
  // Enable hovering Box Model values and jumping to their source CSS rule in the
  // rule-view.
  #if defined(NIGHTLY_BUILD)
@@ -904,7 +902,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // By how many times eyedropper will magnify pixels
-@@ -2265,9 +2265,9 @@ pref("devtools.performance.ui.enable-memory-flame", false);
+@@ -2263,9 +2263,9 @@ pref("devtools.performance.ui.enable-memory-flame", false);
  
  // Enable experimental options in the UI only in Nightly
  #if defined(NIGHTLY_BUILD)
@@ -916,7 +914,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // The default cache UI setting
-@@ -2292,7 +2292,7 @@ pref("devtools.netmonitor.panes-search-width", 550);
+@@ -2290,7 +2290,7 @@ pref("devtools.netmonitor.panes-search-width", 550);
  pref("devtools.netmonitor.panes-search-height", 450);
  pref("devtools.netmonitor.filters", "[\"all\"]");
  pref("devtools.netmonitor.visibleColumns",
@@ -925,7 +923,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  );
  pref("devtools.netmonitor.columnsData",
    '[{"name":"status","minWidth":30,"width":5}, {"name":"method","minWidth":30,"width":5}, {"name":"domain","minWidth":30,"width":10}, {"name":"file","minWidth":30,"width":25}, {"name":"url","minWidth":30,"width":25},{"name":"initiator","minWidth":30,"width":10},{"name":"type","minWidth":30,"width":5},{"name":"transferred","minWidth":30,"width":10},{"name":"contentSize","minWidth":30,"width":5},{"name":"waterfall","minWidth":150,"width":15}]');
-@@ -2358,13 +2358,13 @@ pref("devtools.webconsole.filter.net", false);
+@@ -2356,13 +2356,13 @@ pref("devtools.webconsole.filter.net", false);
  pref("devtools.webconsole.filter.netxhr", false);
  
  // Webconsole autocomplete preference
@@ -942,7 +940,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Show context selector in console input, in the content toolbox
-@@ -2400,9 +2400,9 @@ pref("devtools.webconsole.timestampMessages", false);
+@@ -2398,9 +2398,9 @@ pref("devtools.webconsole.timestampMessages", false);
  
  // Enable the webconsole sidebar toggle in Nightly builds.
  #if defined(NIGHTLY_BUILD)
@@ -954,7 +952,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Saved editor mode state in the console.
-@@ -2418,9 +2418,9 @@ pref("devtools.webconsole.input.editorOnboarding", true);
+@@ -2416,9 +2416,9 @@ pref("devtools.webconsole.input.editorOnboarding", true);
  
  // Enable the new performance recording panel in Nightly builds.
  #if defined(NIGHTLY_BUILD)
@@ -966,7 +964,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Enable message grouping in the console, true by default
-@@ -2476,16 +2476,16 @@ pref("devtools.responsive.userAgent", "");
+@@ -2474,16 +2474,16 @@ pref("devtools.responsive.userAgent", "");
  
  // Show the custom user agent input only in Nightly.
  #if defined(NIGHTLY_BUILD)
@@ -987,7 +985,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Show process debug targets.
-@@ -2503,9 +2503,9 @@ pref("devtools.aboutdebugging.collapsibilities.temporaryExtension", false);
+@@ -2501,9 +2501,9 @@ pref("devtools.aboutdebugging.collapsibilities.temporaryExtension", false);
  // about:debugging: only show system and hidden extensions in local builds by
  // default.
  #ifdef MOZILLA_OFFICIAL
@@ -1008,14 +1006,10 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Test Prefs that do nothing for testing
- #if defined(EARLY_BETA_OR_EARLIER)
--  pref("app.normandy.test-prefs.bool", false);
--  pref("app.normandy.test-prefs.integer", 0);
--  pref("app.normandy.test-prefs.string", "");
-+pref("app.normandy.test-prefs.bool", false);
-+pref("app.normandy.test-prefs.integer", 0);
-+pref("app.normandy.test-prefs.string", "");
- #endif
+@@ -2541,3 +2541,98 @@ pref("first-startup.timeout", 30000);
+ // are expected to go away once a standardized alternative becomes
+ // available.
+ pref("svg.context-properties.content.allowed-domains", "profile.accounts.firefox.com,profile.stage.mozaws.net");
 +
 +// Dot Browser Modifications
 +

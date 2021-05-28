@@ -1,15 +1,142 @@
 diff --git a/services/settings/dumps/main/top-sites.json b/services/settings/dumps/main/top-sites.json
-index 1d66f87355286648cf2c8b038827c7be6a5ad351..3a4b0de104ea2168d06097e6b38884a880241a4d 100644
+index 1351e73b489ecb7029f4343e154c1b507fdcc8ef..268c73f0e37f83563669f7c7c2badf71338a8a40 100644
 --- a/services/settings/dumps/main/top-sites.json
 +++ b/services/settings/dumps/main/top-sites.json
-@@ -1,588 +1,3 @@
+@@ -1,652 +1,3 @@
  {
 -  "data": [
 -    {
--      "url": "https://www.amazon.com/",
+-      "url": "https://yandex.com.tr/&clid2453500",
+-      "order": 0,
+-      "title": "Yandex",
+-      "schema": 1617724183437,
+-      "include_regions": [
+-        "TR"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "dbbcd85e-6db4-44d5-9cc1-abad1fe1e557",
+-      "last_modified": 1617895381762
+-    },
+-    {
+-      "url": "https://yandex.kz/&clid2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1617893863240,
+-      "include_regions": [
+-        "KZ"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "5863a53d-e0c3-4053-8332-1edf7f5b7797",
+-      "last_modified": 1617895381757
+-    },
+-    {
+-      "url": "https://yandex.by/&clid2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1617893920230,
+-      "include_regions": [
+-        "BY"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "dbb0749e-1556-420f-8f3e-2e9d5b5efbee",
+-      "last_modified": 1617895381753
+-    },
+-    {
+-      "url": "https://yandex.ru/&clid2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1617893981865,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "f16abe55-30be-4d53-b1ac-7ba1e16d17c6",
+-      "last_modified": 1617895381749
+-    },
+-    {
+-      "url": "https://yandex.ru/",
+-      "order": 0,
+-      "title": "Yandex",
+-      "schema": 1616776602723,
+-      "include_regions": [
+-        "BY",
+-        "KZ",
+-        "RU",
+-        "TR"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "id": "49e408ae-41c9-400c-9d9a-b871e0ef8db4",
+-      "last_modified": 1617895381744
+-    },
+-    {
+-      "url": "https://www.amazon.fr/",
+-      "order": 40,
+-      "title": "Amazon",
+-      "schema": 1615464108938,
+-      "include_regions": [
+-        "FR"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "61f01feb-8243-4fef-b360-733e8c5a150e",
+-      "last_modified": 1616085500499
+-    },
+-    {
+-      "url": "https://www.amazon.de/",
+-      "order": 25,
+-      "title": "Amazon",
+-      "schema": 1615385045177,
+-      "include_regions": [
+-        "DE"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "6e34a6b9-353f-4df1-91f7-25912d621d23",
+-      "last_modified": 1616085500495
+-    },
+-    {
+-      "url": "https://www.amazon.co.uk/",
 -      "order": 50,
 -      "title": "Amazon",
--      "schema": 1615377699731,
+-      "schema": 1615463950377,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "bd30e776-5537-47e9-b66c-e46d6daccc50",
+-      "last_modified": 1616085500491
+-    },
+-    {
+-      "url": "https://www.amazon.com/",
+-      "order": 23,
+-      "title": "Amazon",
+-      "schema": 1615463623635,
 -      "include_regions": [
 -        "US",
 -        "IT",
@@ -20,7 +147,7 @@ index 1d66f87355286648cf2c8b038827c7be6a5ad351..3a4b0de104ea2168d06097e6b38884a8
 -        "ebay-2020-1"
 -      ],
 -      "id": "2bf453fd-b588-4d99-b7e7-0d48387a62f8",
--      "last_modified": 1615385045122
+-      "last_modified": 1616085500488
 -    },
 -    {
 -      "url": "https://www.amazon.ca/",
@@ -82,24 +209,6 @@ index 1d66f87355286648cf2c8b038827c7be6a5ad351..3a4b0de104ea2168d06097e6b38884a8
 -      "last_modified": 1611838808382
 -    },
 -    {
--      "url": "https://yandex.ru/",
--      "order": 0,
--      "title": "Yandex",
--      "schema": 1611836566443,
--      "include_regions": [
--        "BY",
--        "KZ",
--        "RU",
--        "TR"
--      ],
--      "search_shortcut": true,
--      "exclude_experiments": [
--        "ebay-2020-1"
--      ],
--      "id": "49e408ae-41c9-400c-9d9a-b871e0ef8db4",
--      "last_modified": 1611838808379
--    },
--    {
 -      "url": "https://www.baidu.com/",
 -      "order": 10,
 -      "schema": 1611835746769,
@@ -109,51 +218,6 @@ index 1d66f87355286648cf2c8b038827c7be6a5ad351..3a4b0de104ea2168d06097e6b38884a8
 -      "search_shortcut": true,
 -      "id": "1bfdbe7c-570f-494a-b61c-20c5c64dd69d",
 -      "last_modified": 1611838808375
--    },
--    {
--      "url": "https://www.amazon.co.uk/",
--      "order": 5,
--      "title": "Amazon",
--      "schema": 1611835711932,
--      "include_regions": [
--        "GB"
--      ],
--      "search_shortcut": true,
--      "exclude_experiments": [
--        "ebay-2020-1"
--      ],
--      "id": "bd30e776-5537-47e9-b66c-e46d6daccc50",
--      "last_modified": 1611838808370
--    },
--    {
--      "url": "https://www.amazon.de/",
--      "order": 5,
--      "title": "Amazon",
--      "schema": 1611835627376,
--      "include_regions": [
--        "DE"
--      ],
--      "search_shortcut": true,
--      "exclude_experiments": [
--        "ebay-2020-1"
--      ],
--      "id": "6e34a6b9-353f-4df1-91f7-25912d621d23",
--      "last_modified": 1611838808367
--    },
--    {
--      "url": "https://www.amazon.fr/",
--      "order": 5,
--      "title": "Amazon",
--      "schema": 1611835723849,
--      "include_regions": [
--        "FR"
--      ],
--      "search_shortcut": true,
--      "exclude_experiments": [
--        "ebay-2020-1"
--      ],
--      "id": "61f01feb-8243-4fef-b360-733e8c5a150e",
--      "last_modified": 1611838808365
 -    },
 -    {
 -      "url": "https://www.ebay.com.au/?mkevt=1&mkcid=2&mkrid=7051608169736203&keyword=conducive&crlp=318353405AU%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217349",
@@ -590,7 +654,5 @@ index 1d66f87355286648cf2c8b038827c7be6a5ad351..3a4b0de104ea2168d06097e6b38884a8
 -      "last_modified": 1599146777345
 -    }
 -  ]
--}
 +  "data": []
-+}
-\ No newline at end of file
+ }

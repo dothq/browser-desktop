@@ -1,5 +1,5 @@
 diff --git a/browser/themes/linux/browser.css b/browser/themes/linux/browser.css
-index cbe544287d2745928362f3e33bfb81deebd21e28..04727ac9b6d1fe580118a12a0091493826969e6d 100644
+index e9a3e4c2ac703b8501395cb32cfedf0939d5797d..ac3dbc8c8791f2ed19242240023690e44ba2ab11 100644
 --- a/browser/themes/linux/browser.css
 +++ b/browser/themes/linux/browser.css
 @@ -7,6 +7,7 @@
@@ -7,6 +7,6 @@ index cbe544287d2745928362f3e33bfb81deebd21e28..04727ac9b6d1fe580118a12a00914938
  
  %include ../shared/browser.inc.css
 +%include dotui/dot.linux.inc.css
- 
- :root {
-   --toolbar-non-lwt-bgcolor: -moz-dialog;
+ /**
+  * We intentionally do not include browser-custom-colors.inc.css,
+  * instead choosing to fall back to system colours and transparencies
