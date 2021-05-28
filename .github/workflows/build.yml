@@ -107,59 +107,79 @@ jobs:
           name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
           path: ./dot-${{ needs.build-data.outputs.version }}.tar.bz2
 
-#   flatpak-64:
-#     name: 📦 Flatpak (64-bit)
-#     needs: [build-data, linux-64]
-#     runs-on: ubuntu-latest
-#     container:
-#       image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
-#       options: --privileged
+  flatpak-64:
+    name: 📦 Flatpak (64-bit)
+    needs: [build-data, linux-64]
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-3.38
+      options: --privileged
 
-#     steps:
-#       - name: Clone packaging scripts
-#         run: git clone --recurse-submodules https://github.com/dothq/packages.git
+    steps:
+      - name: Clone packaging scripts
+        run: git clone --recurse-submodules https://github.com/dothq/packages.git
 
-#       - uses: actions/setup-node@v2
-#         with:
-#           node-version: '14'
-
-#       - name: Download binaries
-#         run: |
-#           cd packages/flatpak
-#           node download.js
-#           tar -xvf dot.tar.bz2
-#       - uses: bilelmoussaoui/flatpak-github-actions@v2
-#         with:
-#           bundle: dot-${{ needs.build-data.outputs.version }}.flatpak
-#           manifest-path: './packages/flatpak/co.dothq.browser.nightly.yml'
-
-#       - name: Upload artifact 
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: dot-${{ needs.build-data.outputs.version }}.flatpak
-#           path: ./dot-${{ needs.build-data.outputs.version }}.flatpak
-
-#   appimage-64:
-#     name: 📦 AppImage (64-bit)
-#     needs: [build-data, linux-64]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Clone packaging scripts
-#         run: git clone --recurse-submodules https://github.com/dothq/packages.git
-
-#       - name: Build
-#         run: |
-#           cd packages/
-#           ./appimage/build.sh
-#           cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
-#           cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
-#           mv ../Dot_Browser-x86-64.AppImage ../dot-${{ needs.build-data.outputs.version }}.AppImage
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
           
-#       - name: Upload artifact
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: dot-${{ needs.build-data.outputs.version }}.AppImage
-#           path: ./dot-${{ needs.build-data.outputs.version }}.AppImage
+      - uses: actions/download-artifact@v2
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Download binaries
+        run: |
+          cd packages/flatpak
+          node download.js
+          cp ../../dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2 ./dot.tar.bz2
+          tar -xvf dot.tar.bz2
+      - uses: bilelmoussaoui/flatpak-github-actions@v2
+        with:
+          bundle: dot-${{ needs.build-data.outputs.version }}.flatpak
+          manifest-path: './packages/flatpak/co.dothq.browser.nightly.yml'
+
+      - name: Upload artifact 
+        uses: actions/upload-artifact@v2
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.flatpak
+          path: ./dot-${{ needs.build-data.outputs.version }}.flatpak
+
+  appimage-64:
+    name: 📦 AppImage (64-bit)
+    needs: [build-data, linux-64]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone packaging scripts
+        run: git clone --recurse-submodules https://github.com/dothq/packages.git
+        
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          
+      - uses: actions/download-artifact@v2
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Build
+        run: |
+          cd packages/
+          cp ../dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2 ./appimage/dot.tar.bz2
+          ./appimage/build.sh
+          cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
+          cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
+          mv ../Dot_Browser-x86-64.AppImage ../dot-${{ needs.build-data.outputs.version }}.AppImage
+          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dot-${{ needs.build-data.outputs.version }}.AppImage
+          path: ./dot-${{ needs.build-data.outputs.version }}.AppImage
 
   # linux-32:
   #   name: 🐧 Linux (32-bit)
