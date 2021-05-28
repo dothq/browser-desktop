@@ -7,26 +7,24 @@
 <html>
 
 <head>
-  <title data-l10n-id="about-preferences-page-title"></title>
-  <meta http-equiv="Content-Security-Policy" content="default-src chrome: blob:; object-src 'none'" />
+  <title data-l10n-id="pref-page-title"></title>
   <link rel="icon" href="chrome://global/skin/icons/settings.svg" />
-  <link rel="stylesheet" href="chrome://browser/content/abouthistory/aboutHistory.css" media="all" />
+  <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/common.css" media="all" />
+  <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/settings.css" media="all" />
   <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
   <link rel="localization" href="branding/brand.ftl" />
   <link rel="localization" href="browser/branding/brandings.ftl" />
+  <link rel="localization" href="browser/preferences/preferences.ftl" />
   <link rel="localization" href="browser/aboutPreferences.ftl" />
-  <script src="chrome://browser/content/abouthistory/aboutHistory.js"></script>
+  <script src="chrome://browser/content/preferences/new/newpreferences.js"></script>
   <script src="chrome://browser/content/contentTheme.js"></script>
 </head>
 
 <body>
-  <div class="divide">
+  <div id="mount" class="app-divide">
     <aside class="sidebar">
-      <h1 data-l10n-id="about-preferences-page-title"></h1>
-      <div class="search-box">
-        <i class="search-box-icon"></i>
-        <input data-l10n-id="preferences-filter" type="text" />
-      </div>
+      <h1 data-l10n-id="pref-page-title"></h1>
+      <input id="search-textbox" data-l10n-id="preferences-filter" type="text" />
       <ul class="sidebar-categories">
 
         <li>
@@ -94,8 +92,20 @@
       </ul>
     </aside>
 
-    <main id="preferences-content">
+    <main id="content">
+      <h2 class="section-title">
+        General
+      </h2>
 
+      <div class="preferences-block">
+        <h4 class="block-title">
+          Profiles
+        </h4>
+
+        <div class="preferences-block-container">
+
+        </div>
+      </div>
     </main>
   </div>
 </body>

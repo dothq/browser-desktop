@@ -91,6 +91,11 @@ const manualPatches: IPatch[] = [
         src: [
             "browser/locales/en-US/browser/qr-codes.ftl"
         ]
+    },
+    {
+        name: "sidebars",
+        action: "copy",
+        src: ["browser/components/sidebars"]
     }
 ];
 

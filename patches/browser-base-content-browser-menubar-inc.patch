@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-menubar.inc b/browser/base/content/browser-menubar.inc
-index 27119ac8b1826d03828da6ae5b476a3266ed1207..1978048d6cf205c3247763311ecd4ac6e3e97e2f 100644
+index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..f728a1ab454155dd6e2fb78f36d189219d53cd39 100644
 --- a/browser/base/content/browser-menubar.inc
 +++ b/browser/base/content/browser-menubar.inc
 @@ -96,23 +96,33 @@
@@ -41,3 +41,13 @@ index 27119ac8b1826d03828da6ae5b476a3266ed1207..1978048d6cf205c3247763311ecd4ac6
                  <menuseparator/>
                  <menuitem id="menu_selectAll"
                            key="key_selectAll"
+@@ -160,6 +170,9 @@
+                               type="checkbox"
+                               class="sync-ui-item"
+                               oncommand="SidebarUI.toggle('viewTabsSidebar');" data-l10n-id="menu-view-synced-tabs-sidebar"/>
++                    <menuitem id="menu_accountsSidebar"
++                              type="checkbox"
++                              oncommand="SidebarUI.toggle('viewAccountsSidebar');" data-l10n-id="menu-view-accounts"/>
+                   </menupopup>
+                 </menu>
+                 <menuseparator/>

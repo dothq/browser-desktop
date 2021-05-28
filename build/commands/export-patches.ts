@@ -27,6 +27,7 @@ const flags: {
 
 const isLocale = (l: string) =>
     (l.endsWith(".inc") && l.includes("locales")) ||
+    (l.endsWith(".ini") && l.includes("locales")) ||
     l.endsWith(".ftl") ||
     (l.endsWith(".properties") && !l.includes("test")) ||
     (l.endsWith(".dtd") &&
@@ -192,6 +193,10 @@ const exportModified = async (
                     ? `<!-- This Source Code Form is subject to the terms of the Mozilla Public
 - License, v. 2.0. If a copy of the MPL was not distributed with this
 - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->\n\n`
+                    : type == "ini"
+                    ? `; This Source Code Form is subject to the terms of the Mozilla Public
+; License, v. 2.0. If a copy of the MPL was not distributed with this
+; file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n`
                     : ``;
 
             ensureDirSync(

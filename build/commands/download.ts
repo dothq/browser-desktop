@@ -96,7 +96,7 @@ const unpack = async (name: string, version: string) => {
 
         writeFileSync(
             resolve(process.cwd(), "package.json"),
-            JSON.stringify(pjson, null, 2)
+            JSON.stringify(pjson, null, 4)
         );
 
         await writeMetadata();

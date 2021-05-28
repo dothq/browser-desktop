@@ -1,0 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+html|input {
+    appearance: none !important;
+    border: none;
+    outline: none;
+    height: 36px;
+    border-radius: calc(var(--toolbarbutton-border-radius) + 4px);
+    border: 1px solid var(--arrowpanel-border-color);
+    background-color: transparent;
+    color: var(--arrowpanel-color);
+    padding-left: 12px;
+}

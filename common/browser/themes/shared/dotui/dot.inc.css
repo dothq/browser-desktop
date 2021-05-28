@@ -3,8 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 %include panelui.inc.css
-/* %include addressbar.inc.css */
+%include addressbar.inc.css
+%include sidebars.inc.css
+
 %include identity_popup.inc.css
+%include bookmark_popup.inc.css
+
+%include personal_toolbar.inc.css
+
+%include components/checkbox.inc.css
+%include components/input.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -13,6 +21,13 @@
     --inline-tab-padding: 12px !important;
     --tab-min-height: 38px !important;
     --panel-separator-color: var(--arrowpanel-border-color) !important;
+    --dot-accent-color: #1662D3 !important;
+    --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
+}
+  
+:root[lwt-popup-brighttext] panel,
+toolbar[brighttext] {
+    --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #3c89fd) !important;
 }
 
 #urlbar {
@@ -329,4 +344,8 @@ display: none !important;
 #pageAction-panel-qr_dothq_co > .toolbarbutton-icon, 
 #pageAction-urlbar-qr_dothq_co {
     list-style-image: url("chrome://browser/skin/qr-code.svg") !important;
+}
+
+#PersonalToolbar {
+    -moz-box-ordinal-group: 1 !important;
 }

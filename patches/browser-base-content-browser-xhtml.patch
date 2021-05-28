@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592f6248955 100644
+index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18ccb5cad0 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -130,17 +130,20 @@
@@ -63,7 +63,31 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
      </menupopup>
  
      <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
-@@ -490,8 +499,9 @@
+@@ -398,23 +407,6 @@
+            flip="slide"
+            orient="vertical"
+            position="bottomcenter topleft">
+-      <toolbarbutton id="sidebar-switcher-bookmarks"
+-                     type="checkbox"
+-                     data-l10n-id="sidebar-menu-bookmarks"
+-                     class="subviewbutton subviewbutton-iconic"
+-                     key="viewBookmarksSidebarKb"
+-                     oncommand="SidebarUI.show('viewBookmarksSidebar');"/>
+-      <toolbarbutton id="sidebar-switcher-history"
+-                     type="checkbox"
+-                     data-l10n-id="sidebar-menu-history"
+-                     class="subviewbutton subviewbutton-iconic"
+-                     key="key_gotoHistory"
+-                     oncommand="SidebarUI.show('viewHistorySidebar');"/>
+-      <toolbarbutton id="sidebar-switcher-tabs"
+-                     type="checkbox"
+-                     data-l10n-id="sidebar-menu-synced-tabs"
+-                     class="subviewbutton subviewbutton-iconic sync-ui-item"
+-                     oncommand="SidebarUI.show('viewTabsSidebar');"/>
+       <toolbarseparator/>
+       <!-- Extension toolbarbuttons go here. -->
+       <toolbarseparator id="sidebar-extensions-separator"/>
+@@ -489,8 +481,9 @@
                      correctly. -->
        <menuitem oncommand="gCustomizeMode.enter()"
                  observes="cmd_CustomizeToolbars"
@@ -75,8 +99,30 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
      </menupopup>
  
      <menupopup id="blockedPopupOptions"
-@@ -770,7 +780,7 @@
-                         oncommand="gSync.toggleAccountPanel(this, event)"/>
+@@ -546,6 +539,21 @@
+ 
+ #include ../../components/places/content/placesContextMenu.inc.xhtml
+ 
++    <menupopup id="sidebar-context-menu">
++      <menuitem class="menuitem-iconic"
++                observes="cmd_CustomizeToolbars"
++                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"
++                image="chrome://browser/skin/customize.svg"
++      />
++    </menupopup>
++
++    <menupopup id="sidebar-item-context-menu">
++      <menuitem class="menuitem-iconic"
++                data-l10n-id="sidebar-context-menu-remove-item"
++                image="chrome://global/skin/icons/delete.svg"
++      />
++    </menupopup>
++
+     <panel id="ctrlTab-panel" hidden="true" norestorefocus="true" level="top">
+       <hbox id="ctrlTab-previews"/>
+       <hbox id="ctrlTab-showAll-container" pack="center"/>
+@@ -763,7 +771,7 @@
+                         oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
          </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
 -        <toolbaritem>
@@ -84,7 +130,7 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
                 oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -781,7 +791,12 @@
+@@ -774,7 +782,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -98,7 +144,7 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -807,9 +822,10 @@
+@@ -800,9 +813,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -112,7 +158,7 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&fullZoom.label;"/>
-@@ -839,8 +855,8 @@
+@@ -832,8 +846,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -123,7 +169,7 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -864,18 +880,34 @@
+@@ -857,18 +871,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -161,7 +207,23 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -922,6 +954,7 @@
+@@ -879,8 +909,7 @@
+                        key="key_preferencesCmdMac"
+ #endif
+ #endif
+-                       oncommand="openPreferences()"
+-                       />
++                       oncommand="openPreferences()"/>
+         <toolbarbutton id="appMenu-customize-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        data-l10n-id="appmenu-customizetoolbar"
+@@ -910,11 +939,13 @@
+ #endif
+                        />
+         <toolbarseparator/>
++
+         <toolbarbutton id="appMenu-find-button"
+                        class="subviewbutton subviewbutton-iconic"
                         label="&findOnCmd.label;"
                         key="key_find"
                         command="cmd_find"/>
@@ -169,3 +231,57 @@ index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..76ca83a39caf1037e137a60f620f2592
          <toolbarbutton id="appMenu-more-button"
                         class="subviewbutton subviewbutton-nav"
                         label="&moreMenu.label;"
+@@ -2349,6 +2380,44 @@
+   </box>
+ 
+   <hbox flex="1" id="browser">
++    <vbox id="sidebar-iconbar" hidden="true" context="sidebar-context-menu">
++      <vbox class="sidebar-iconbar-container">
++        <toolbarbutton id="sidebar-switcher-bookmarks"
++              class="sidebar-iconbar-item" 
++              oncommand="SidebarUI.toggle('viewBookmarksSidebar');"
++              context="sidebar-item-context-menu"
++              data-l10n-id="sidebar-menu-bookmarks"
++        />
++        <toolbarbutton id="sidebar-switcher-history"
++              class="sidebar-iconbar-item"
++              oncommand="SidebarUI.toggle('viewHistorySidebar');"
++              context="sidebar-item-context-menu"
++              data-l10n-id="sidebar-menu-history"
++        />
++        <toolbarbutton id="sidebar-switcher-tabs"
++              class="sidebar-iconbar-item"
++              oncommand="SidebarUI.toggle('viewTabsSidebar');"
++              context="sidebar-item-context-menu"
++              data-l10n-id="sidebar-menu-synced-tabs"
++        />
++      </vbox>
++
++      <vbox class="sidebar-iconbar-container">
++        <toolbarbutton id="sidebar-switcher-accounts"
++              class="sidebar-iconbar-item" 
++              oncommand="SidebarUI.toggle('viewAccountsSidebar');"
++              context="sidebar-item-context-menu"
++              data-l10n-id="sidebar-menu-accounts"
++        />
++        <toolbarbutton id="sidebar-switcher-settings"
++              class="sidebar-iconbar-item" 
++              oncommand="openPreferences();"
++              context="sidebar-item-context-menu"
++              data-l10n-id="sidebar-menu-settings"
++        />
++      </vbox>
++    </vbox>
++
+     <vbox id="sidebar-box" hidden="true" class="chromeclass-extrachrome">
+       <box id="sidebar-header" align="center">
+         <toolbarbutton id="sidebar-switcher-target" flex="1" class="tabbable">
+@@ -2365,7 +2434,7 @@
+         <toolbarbutton id="sidebar-close" class="close-icon tabbable" tooltiptext="&sidebarCloseButton.tooltip;" oncommand="SidebarUI.hide();"/>
+       </box>
+       <browser id="sidebar" flex="1" autoscroll="false" disablehistory="true" disablefullscreen="true"
+-                style="min-width: 14em; width: 18em; max-width: 36em;" tooltip="aHTMLTooltip"/>
++                style="min-width: 14em; width: 24em; max-width: 36em;" tooltip="aHTMLTooltip"/>
+     </vbox>
+ 
+     <splitter id="sidebar-splitter" class="chromeclass-extrachrome sidebar-splitter" hidden="true"/>

@@ -1,19 +1,17 @@
 {
   "manifest_version": 2,
-
   "applications": {
     "gecko": {
       "id": "dark@themes.dothq.co"
     }
   },
-
   "name": "Dark",
   "description": "A theme with a dark color scheme.",
   "author": "Dot HQ",
   "version": "1.1",
-
-  "icons": {"32": "icon.svg"},
-
+  "icons": {
+    "32": "icon.svg"
+  },
   "theme": {
     "colors": {
       "tab_background_text": "white",
@@ -35,12 +33,12 @@
       "popup_highlight": "#256EF5",
       "ntp_background": "#1C1C1C",
       "ntp_text": "rgb(249, 249, 250)",
-      "sidebar": "#121212",
+      "sidebar": "#1A1A1A",
       "sidebar_text": "rgb(249, 249, 250)",
+      "sidebar_highlight": "white",
       "sidebar_border": "rgba(255, 255, 255, 0.1)"
     }
   },
-
   "theme_experiment": {
     "stylesheet": "experiment.css"
   }

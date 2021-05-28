@@ -1,5 +1,5 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index b2ebd34526a655cca95c38c085101f3ad15951b0..b4b144b0c8a35d5f6f60f732ab5bf4646a0e984d 100644
+index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5cbf717792955b92c555ab17f865f0b7488017a1 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
 @@ -1205,6 +1205,11 @@
@@ -51,3 +51,20 @@ index b2ebd34526a655cca95c38c085101f3ad15951b0..b4b144b0c8a35d5f6f60f732ab5bf464
  # Anti-tracking permission expiration.
  - name: privacy.restrict3rdpartystorage.expiration
    type: uint32_t
+@@ -9752,6 +9763,16 @@
+   value: false
+   mirror: always
+ 
++#---------------------------------------------------------------------------
++# Prefs starting with "sidebar."
++#---------------------------------------------------------------------------
++
++# Force animations on the sidebar to be disabled
++- name: sidebar.animations.disabled
++  type: bool
++  value: false
++  mirror: always
++
+ #---------------------------------------------------------------------------
+ # Prefs starting with "slider."
+ #---------------------------------------------------------------------------

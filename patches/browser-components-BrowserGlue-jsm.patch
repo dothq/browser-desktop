@@ -1,5 +1,5 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c348b1b04db 100644
+index 81de0fb201173b6661798ee21461eb3800059580..27884b8baf2c8b8c67e6dd5930222c7614e29a8a 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
 @@ -166,7 +166,7 @@ let JSPROCESSACTORS = {
@@ -32,31 +32,29 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
    AboutLogins: {
      parent: {
        moduleURI: "resource:///actors/AboutLoginsParent.jsm",
-@@ -520,14 +534,19 @@ let JSWINDOWACTORS = {
+@@ -519,6 +534,7 @@ let JSWINDOWACTORS = {
        moduleURI: "resource:///actors/LightweightThemeChild.jsm",
        events: {
          pageshow: { mozSystemGroup: true },
-+        DOMWindowCreated: {},
-+        click: {},
++        DOMContentLoaded: { mozSystemGroup: true },
        },
      },
      includeChrome: true,
-     allFrames: true,
-+    remoteTypes: ["privilegedabout"],
-     matches: [
--      "about:home",
--      "about:newtab",
--      "about:welcome",
-+      "about:*",
-+      "about:certerror?*",
-+      "about:neterror?*",
-+      "chrome://browser/content/abouthistory/aboutHistory.xhtml",
-+      "chrome://browser/content/preferences/new/newpreferences.html",
+@@ -527,9 +543,12 @@ let JSWINDOWACTORS = {
+       "about:home",
+       "about:newtab",
+       "about:welcome",
++      "about:preferences",
        "chrome://browser/content/syncedtabs/sidebar.xhtml",
        "chrome://browser/content/places/historySidebar.xhtml",
        "chrome://browser/content/places/bookmarksSidebar.xhtml",
-@@ -765,8 +784,8 @@ let JSWINDOWACTORS = {
-     !Services.startup.showedPreXULSkeletonUI &&
++      "chrome://browser/content/sidebars/bookmarks/sidebar.html",
++      "chrome://browser/content/preferences/new/newpreferences.html"
+     ],
+   },
+ 
+@@ -763,8 +782,8 @@ let JSWINDOWACTORS = {
+   if (
      Services.prefs.getCharPref(
        "extensions.activeThemeID",
 -      "default-theme@mozilla.org"
@@ -66,7 +64,39 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
    ) {
      return;
    }
-@@ -1358,62 +1377,63 @@ BrowserGlue.prototype = {
+@@ -853,19 +872,19 @@ if (AppConstants.MOZ_CRASHREPORTER) {
+   });
+ }
+ 
+-XPCOMUtils.defineLazyGetter(this, "gBrandBundle", function() {
++XPCOMUtils.defineLazyGetter(this, "gBrandBundle", function () {
+   return Services.strings.createBundle(
+     "chrome://branding/locale/brand.properties"
+   );
+ });
+ 
+-XPCOMUtils.defineLazyGetter(this, "gBrowserBundle", function() {
++XPCOMUtils.defineLazyGetter(this, "gBrowserBundle", function () {
+   return Services.strings.createBundle(
+     "chrome://browser/locale/browser.properties"
+   );
+ });
+ 
+-XPCOMUtils.defineLazyGetter(this, "gTabbrowserBundle", function() {
++XPCOMUtils.defineLazyGetter(this, "gTabbrowserBundle", function () {
+   return Services.strings.createBundle(
+     "chrome://browser/locale/tabbrowser.properties"
+   );
+@@ -929,7 +948,7 @@ function BrowserGlue() {
+     "nsIUserIdleService"
+   );
+ 
+-  XPCOMUtils.defineLazyGetter(this, "_distributionCustomizer", function() {
++  XPCOMUtils.defineLazyGetter(this, "_distributionCustomizer", function () {
+     const { DistributionCustomizer } = ChromeUtils.import(
+       "resource:///modules/distribution.js"
+     );
+@@ -1356,26 +1375,26 @@ BrowserGlue.prototype = {
      SessionStore.init();
  
      AddonManager.maybeInstallBuiltinAddon(
@@ -170,7 +200,61 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
  
      AboutHomeStartupCache.init();
  
-@@ -2142,6 +2162,22 @@ BrowserGlue.prototype = {
+@@ -1482,7 +1501,7 @@ BrowserGlue.prototype = {
+         "browser.slowStartup.averageTime"
+       );
+       samples = Services.prefs.getIntPref("browser.slowStartup.samples");
+-    } catch (e) {}
++    } catch (e) { }
+ 
+     let totalTime = averageTime * samples + currentTime;
+     samples++;
+@@ -1718,7 +1737,7 @@ BrowserGlue.prototype = {
+     let scaling = aWindow.devicePixelRatio * 100;
+     try {
+       Services.telemetry.getHistogramById("DISPLAY_SCALING").add(scaling);
+-    } catch (ex) {}
++    } catch (ex) { }
+   },
+ 
+   _collectStartupConditionsTelemetry() {
+@@ -1824,7 +1843,7 @@ BrowserGlue.prototype = {
+           "resource://gre/modules/UpdateUtils.jsm",
+           {}
+         ).UpdateUtils.UpdateChannel;
+-      } catch (ex) {}
++      } catch (ex) { }
+       if (updateChannel) {
+         let uninstalledValue = WindowsRegistry.readRegKey(
+           Ci.nsIWindowsRegKey.ROOT_KEY_CURRENT_USER,
+@@ -1992,7 +2011,7 @@ BrowserGlue.prototype = {
+     );
+     let categoryPref;
+     switch (
+-      Services.prefs.getStringPref("browser.contentblocking.category", null)
++    Services.prefs.getStringPref("browser.contentblocking.category", null)
+     ) {
+       case "standard":
+         categoryPref = 0;
+@@ -2226,7 +2245,7 @@ BrowserGlue.prototype = {
+           }
+         });
+       },
+-      onCloseWindow() {},
++      onCloseWindow() { },
+     };
+ 
+     Services.prefs.addObserver(PREF_ION_ID, _checkIonPref);
+@@ -2265,7 +2284,7 @@ BrowserGlue.prototype = {
+           }
+         });
+       },
+-      onCloseWindow() {},
++      onCloseWindow() { },
+     };
+ 
+     // Update all open windows if the pref changes.
+@@ -2284,6 +2303,22 @@ BrowserGlue.prototype = {
      Services.wm.addListener(windowListener);
    },
  
@@ -193,7 +277,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
    _showNewInstallModal() {
      // Allow other observers of the same topic to run while we open the dialog.
      Services.tm.dispatchToMainThread(() => {
-@@ -2234,6 +2270,7 @@ BrowserGlue.prototype = {
+@@ -2376,6 +2411,7 @@ BrowserGlue.prototype = {
      this._monitorHTTPSOnlyPref();
      this._monitorIonPref();
      this._monitorIonStudies();
@@ -201,7 +285,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
  
      let pService = Cc["@mozilla.org/toolkit/profile-service;1"].getService(
        Ci.nsIToolkitProfileService
-@@ -2425,7 +2462,7 @@ BrowserGlue.prototype = {
+@@ -2567,7 +2603,7 @@ BrowserGlue.prototype = {
            let { setTimeout } = ChromeUtils.import(
              "resource://gre/modules/Timer.jsm"
            );
@@ -210,7 +294,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
              Services.tm.idleDispatchToMainThread(
                Services.startup.trackStartupCrashEnd
              );
-@@ -2633,7 +2670,7 @@ BrowserGlue.prototype = {
+@@ -2777,7 +2813,7 @@ BrowserGlue.prototype = {
          this._gmpInstallManager = new obj.GMPInstallManager();
          // We don't really care about the results, if someone is interested they
          // can check the log.
@@ -219,7 +303,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
        },
  
        () => {
-@@ -2698,7 +2735,7 @@ BrowserGlue.prototype = {
+@@ -2842,7 +2878,7 @@ BrowserGlue.prototype = {
  
    _addBreachAlertsPrefObserver() {
      const BREACH_ALERTS_PREF = "signon.management.page.breach-alerts.enabled";
@@ -228,7 +312,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
        if (!Services.prefs.getBoolPref(BREACH_ALERTS_PREF)) {
          await LoginBreaches.clearAllPotentiallyVulnerablePasswords();
        }
-@@ -2897,7 +2934,7 @@ BrowserGlue.prototype = {
+@@ -3041,7 +3077,7 @@ BrowserGlue.prototype = {
        if (importBookmarksHTML) {
          importBookmarks = true;
        }
@@ -237,7 +321,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
  
      // Support legacy bookmarks.html format for apps that depend on that format.
      let autoExportHTML = Services.prefs.getBoolPref(
-@@ -2926,7 +2963,7 @@ BrowserGlue.prototype = {
+@@ -3070,7 +3106,7 @@ BrowserGlue.prototype = {
            await this._backupBookmarks();
            importBookmarks = true;
          }
@@ -246,7 +330,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
  
        // This may be reused later, check for "=== undefined" to see if it has
        // been populated already.
-@@ -3085,14 +3122,14 @@ BrowserGlue.prototype = {
+@@ -3229,14 +3265,14 @@ BrowserGlue.prototype = {
     * If a backup for today doesn't exist, this creates one.
     */
    _backupBookmarks: function BG__backupBookmarks() {
@@ -263,7 +347,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
        ) {
          let maxBackups = Services.prefs.getIntPref(
            "browser.bookmarks.max_backups"
-@@ -3197,7 +3234,7 @@ BrowserGlue.prototype = {
+@@ -3361,7 +3397,7 @@ BrowserGlue.prototype = {
      if (
        currentUIVersion < 65 &&
        Services.prefs.getCharPref("general.config.filename", "") ==
@@ -272,7 +356,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
      ) {
        let searchInitializedPromise = new Promise(resolve => {
          if (Services.search.isInitialized) {
-@@ -3413,7 +3450,7 @@ BrowserGlue.prototype = {
+@@ -3577,7 +3613,7 @@ BrowserGlue.prototype = {
          !Services.prefs.getBoolPref("media.autoplay.allow-muted") &&
          !Services.prefs.prefHasUserValue("media.autoplay.default") &&
          Services.prefs.getIntPref("media.autoplay.default") ==
@@ -281,7 +365,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
        ) {
          Services.prefs.setIntPref(
            "media.autoplay.default",
-@@ -3559,8 +3596,8 @@ BrowserGlue.prototype = {
+@@ -3723,8 +3759,8 @@ BrowserGlue.prototype = {
        } catch (error) {
          Cu.reportError(
            "Could not access the AddonManager to upgrade the profile. This is most " +
@@ -292,7 +376,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
          );
        }
        Promise.resolve(addonPromise).then(addon => {
-@@ -4388,7 +4425,7 @@ const ContentPermissionIntegration = {
+@@ -4555,7 +4591,7 @@ const ContentPermissionIntegration = {
    },
  };
  
@@ -301,7 +385,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
  
  ContentPermissionPrompt.prototype = {
    classID: Components.ID("{d8903bf6-68d5-4e97-bcd1-e4d3012f721a}"),
-@@ -4696,7 +4733,7 @@ var JawsScreenReaderVersionCheck = {
+@@ -4863,7 +4899,7 @@ var JawsScreenReaderVersionCheck = {
      if (!win || !win.gBrowser || !win.gBrowser.selectedBrowser) {
        Services.console.logStringMessage(
          "Content access support for older versions of JAWS is disabled " +
@@ -310,7 +394,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
        );
        this._prompted = false;
        return;
-@@ -5292,7 +5329,7 @@ var AboutHomeStartupCache = {
+@@ -5459,7 +5495,7 @@ var AboutHomeStartupCache = {
  
          this.log.trace(
            "Writing the page data is complete. Now opening the " +
@@ -319,7 +403,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
          );
  
          let scriptOutputStream;
-@@ -5437,7 +5474,7 @@ var AboutHomeStartupCache = {
+@@ -5604,7 +5640,7 @@ var AboutHomeStartupCache = {
        if (this._cacheDeferred) {
          this.log.error(
            "A privileged about content process shut down while cache streams " +
@@ -328,7 +412,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..fdc0e6e1b69306880635ab98168c0c34
          );
          // The crash occurred while we were waiting on cache input streams to
          // be returned to us. Resolve with null streams instead.
-@@ -5535,7 +5572,7 @@ var AboutHomeStartupCache = {
+@@ -5702,7 +5738,7 @@ var AboutHomeStartupCache = {
        ) {
          this.log.error(
            "Somehow got a success result despite having never " +
