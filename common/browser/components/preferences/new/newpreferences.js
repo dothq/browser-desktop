@@ -22,7 +22,13 @@ const updateThemeData = () => {
     }
 }
 
+const ready = () => {
+    console.log("[Settings] Initialising settings components.")
+
+    profiles.init();
+}
+
 window.addEventListener("focus", updateThemeData);
 window.addEventListener("blur", updateThemeData);
-window.addEventListener("DOMContentLoaded", updateThemeData);
+window.addEventListener("DOMContentLoaded", ready);
 window.addEventListener("pageshow", updateThemeData, { once: true });

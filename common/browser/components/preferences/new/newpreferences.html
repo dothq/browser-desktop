@@ -16,6 +16,9 @@
   <link rel="localization" href="browser/branding/brandings.ftl" />
   <link rel="localization" href="browser/preferences/preferences.ftl" />
   <link rel="localization" href="browser/aboutPreferences.ftl" />
+  <!-- Settings component scripts -->
+  <script src="chrome://browser/content/preferences/new/components/profiles.js"></script>
+  <!-- Settings component scripts: END -->
   <script src="chrome://browser/content/preferences/new/newpreferences.js"></script>
   <script src="chrome://browser/content/contentTheme.js"></script>
 </head>
@@ -102,7 +105,7 @@
           Profiles
         </h4>
 
-        <div class="preferences-block-container">
+        <div id="profiles" class="preferences-block-container">
 
         </div>
       </div>
@@ -111,6 +114,3 @@
 </body>
 
 </html>
-
-
-var a = await Services.search.getEngines()
