@@ -6,13 +6,15 @@
 %include addressbar.inc.css
 %include sidebars.inc.css
 
-%include identity_popup.inc.css
-%include bookmark_popup.inc.css
+%include popups/identity.inc.css
+%include popups/bookmarks.inc.css
+%include popups/notifications.inc.css
 
-%include personal_toolbar.inc.css
+%include toolbars/personal.inc.css
 
 %include components/checkbox.inc.css
 %include components/input.inc.css
+%include components/dialog.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -344,4 +346,8 @@ display: none !important;
 
 #PersonalToolbar {
     -moz-box-ordinal-group: 1 !important;
+}
+
+.ac-dropmarker {
+    margin-inline-end: 16px !important;
 }

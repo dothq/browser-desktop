@@ -9,6 +9,14 @@ html, body {
     padding: 0;
     font-family: inherit;
     overflow: hidden;
+
+    user-select: none;
+    -moz-user-select: none;
+}
+
+hr {
+    border-color: #80808029 !important;
+    margin: 2.2rem 0;
 }
 
 .app-divide {
@@ -32,7 +40,7 @@ html, body {
     appearance: none;
     border: none;
     outline: none;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--theme-toolbar-field);
     padding: 12px 14px;
     padding-left: 14px;
     border-radius: 8px;
@@ -96,4 +104,56 @@ h4.block-title {
     opacity: 0.5;
     margin: 0;
     margin-bottom: 1.5rem;
+}
+
+a.webui-button {
+    height: 42px;
+    display: flex;
+    border-radius: 8px;
+    padding: 0 28px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 2px solid transparent;
+    text-decoration: none !important;
+    --btn-accent: #1662D3;
+}
+
+a.webui-button.big-padding {
+    padding: 0 48px !important;
+}
+
+a.webui-button.primary {
+    background-color: var(--btn-accent);
+    color: white !important;
+}
+
+a.webui-button.secondary {
+    border: 2px solid var(--btn-accent);
+    color: var(--btn-accent) !important;
+    background-color: transparent;
+}
+
+a.webui-button.dangerous {
+    --btn-accent: rgb(251, 38, 38);
+}
+
+a.webui-button.warning {
+    --btn-accent: rgb(251, 248, 16);
+}
+
+a.webui-button.primary:hover {
+    background-image: linear-gradient(#00000026 0%, #00000026 100%);
+}
+
+a.webui-button.primary:active {
+    background-image: linear-gradient(#0000003b 0%, #0000003b 100%);
+}
+
+a.webui-button.secondary:hover {
+    background-image: linear-gradient(#00000008 0%, #00000008 100%);
+}
+
+a.webui-button.secondary:active {
+    background-image: linear-gradient(#0000001a 0%, #0000001a 100%);
 }

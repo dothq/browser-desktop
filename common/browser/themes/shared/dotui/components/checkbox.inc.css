@@ -20,6 +20,14 @@ checkbox > .checkbox-check {
     background-repeat: no-repeat;
 }
 
+checkbox:hover > .checkbox-check[checked="true"] {
+    background-image: linear-gradient(#00000034 0%, #00000034 100%);
+}
+
+checkbox:active > .checkbox-check[checked="true"] {
+    background-image: linear-gradient(#00000067 0%, #00000067 100%);
+}
+
 checkbox:hover > .checkbox-check {
     opacity: 0.6;
 }
@@ -29,11 +37,12 @@ checkbox:active > .checkbox-check {
 }
 
 checkbox > .checkbox-check[checked="true"] {
-    background-image: url(chrome://global/skin/icons/check.svg);
+    list-style-image: url(chrome://global/skin/icons/check.svg);
     background-color: var(--dot-accent-color) !important;
     fill: white !important;
     opacity: 1 !important;
     border: none !important;
+    padding: 2px;
 }
 
 checkbox > .checkbox-label-box > .checkbox-label {

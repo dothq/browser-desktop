@@ -10,8 +10,51 @@
 
 .preferences-block .preferences-block-container {
     background-color: var(--theme-ntp-background);
-    max-width: 750px;
-    padding: 38px 0;
+    max-width: 900px;
+    padding: 36px 0;
     border-radius: 6px;
-    min-height: calc(38px * 2);
+    min-height: calc(36px * 2);
+}
+
+.preferences-item {
+    padding: 0 36px;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    justify-content: space-between;
+}
+
+.preferences-item > .application-profile-data { 
+    display: flex;
+    align-items: center;
+}
+
+.application-profile-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.application-profile.secondary {
+    margin-bottom: 0;
+}
+
+.preferences-item.application-profile.primary {
+    margin-bottom: 2.2rem;
+}
+
+.application-profile.primary > .application-profile-data > .application-profile-avatar {
+    width: 36px;
+    height: 36px;
+}
+
+.application-profile-avatar {
+    width: 26px;
+    height: 26px;
+    background-image: var(--profile-avatar);
+    display: flex;
+    margin-inline-end: 20px;
+    background-color: #9d9b9b42;
+    border-radius: 100%;
+    background-size: cover;
 }
