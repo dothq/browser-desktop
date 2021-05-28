@@ -6,6 +6,7 @@ browser-base-content-browser-context-inc.patch - browser/base/content/browser-co
 browser-base-content-browser-data-submission-info-bar-js.patch - browser/base/content/browser-data-submission-info-bar.js
 browser-base-content-browser-menubar-inc.patch - browser/base/content/browser-menubar.inc
 browser-base-content-browser-pageActions-js.patch - browser/base/content/browser-pageActions.js
+browser-base-content-browser-sidebar-js.patch - browser/base/content/browser-sidebar.js
 browser-base-content-browser-siteIdentity-js.patch - browser/base/content/browser-siteIdentity.js
 browser-base-content-browser-js.patch - browser/base/content/browser.js
 browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
@@ -17,6 +18,7 @@ browser-components-controlcenter-content-identityPanel-inc-xhtml.patch - browser
 browser-components-customizableui-CustomizableUI-jsm.patch - browser/components/customizableui/CustomizableUI.jsm
 browser-components-customizableui-CustomizeMode-jsm.patch - browser/components/customizableui/CustomizeMode.jsm
 browser-components-extensions-ExtensionPopups-jsm.patch - browser/components/extensions/ExtensionPopups.jsm
+browser-components-extensions-parent-ext-sidebarAction-js.patch - browser/components/extensions/parent/ext-sidebarAction.js
 browser-components-moz-build.patch - browser/components/moz.build
 browser-components-newtab-aboutwelcome-AboutWelcomeParent-jsm.patch - browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 browser-components-newtab-aboutwelcome-content-aboutwelcome-bundle-js.patch - browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
@@ -26,9 +28,11 @@ browser-components-preferences-moz-build.patch - browser/components/preferences/
 browser-components-search-content-searchbar-js.patch - browser/components/search/content/searchbar.js
 browser-components-sessionstore-content-aboutSessionRestore-xhtml.patch - browser/components/sessionstore/content/aboutSessionRestore.xhtml
 browser-components-urlbar-UrlbarInput-jsm.patch - browser/components/urlbar/UrlbarInput.jsm
+browser-components-urlbar-UrlbarView-jsm.patch - browser/components/urlbar/UrlbarView.jsm
 browser-confvars-sh.patch - browser/confvars.sh
 browser-extensions-moz-build.patch - browser/extensions/moz.build
 browser-modules-PageActions-jsm.patch - browser/modules/PageActions.jsm
+browser-modules-ThemeVariableMap-jsm.patch - browser/modules/ThemeVariableMap.jsm
 browser-themes-addons-jar-mn.patch - browser/themes/addons/jar.mn
 browser-themes-linux-browser-css.patch - browser/themes/linux/browser.css
 browser-themes-osx-browser-css.patch - browser/themes/osx/browser.css
@@ -94,6 +98,11 @@ browser-themes-shared-identity-block-tracking-protection-disabled-svg.patch - br
 browser-themes-shared-identity-block-tracking-protection-svg.patch - browser/themes/shared/identity-block/tracking-protection.svg
 browser-themes-shared-jar-inc-mn.patch - browser/themes/shared/jar.inc.mn
 browser-themes-shared-menupanel-inc-css.patch - browser/themes/shared/menupanel.inc.css
+browser-themes-shared-places-bookmarksMenu-svg.patch - browser/themes/shared/places/bookmarksMenu.svg
+browser-themes-shared-places-bookmarksToolbar-svg.patch - browser/themes/shared/places/bookmarksToolbar.svg
+browser-themes-shared-places-folder-svg.patch - browser/themes/shared/places/folder.svg
+browser-themes-shared-places-history-svg.patch - browser/themes/shared/places/history.svg
+browser-themes-shared-places-tag-svg.patch - browser/themes/shared/places/tag.svg
 browser-themes-windows-browser-css.patch - browser/themes/windows/browser.css
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-ControlCenter-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/ControlCenter.jsm
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-LightweightThemes-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
@@ -109,6 +118,7 @@ docshell-build-components-conf.patch - docshell/build/components.conf
 dom-base-Document-cpp.patch - dom/base/Document.cpp
 layout-base-PresShell-cpp.patch - layout/base/PresShell.cpp
 modules-libpref-init-StaticPrefList-yaml.patch - modules/libpref/init/StaticPrefList.yaml
+modules-libpref-moz-build.patch - modules/libpref/moz.build
 netwerk-protocol-http-nsHttpHandler-cpp.patch - netwerk/protocol/http/nsHttpHandler.cpp
 python-mozbuild-mozbuild-controller-building-py.patch - python/mozbuild/mozbuild/controller/building.py
 services-settings-dumps-main-moz-build.patch - services/settings/dumps/main/moz.build

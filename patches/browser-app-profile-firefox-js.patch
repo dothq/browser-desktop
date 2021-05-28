@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44ed0397701 100644
+index 25e0726b0e190bbaaa61ce5ce3d73a0ef643e336..c259f37cc2246726990e456455f14fcf57a84543 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -2541,3 +2541,98 @@ pref("first-startup.timeout", 30000);
@@ -101,14 +101,3 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
 +
 +// Firefox Services
 +pref("browser.contentblocking.report.lockwise.enabled", false);
-+
-+// Sidebar
-+pref("sidebar.disabled", false);
-+pref("sidebar.pinned", false);
-+pref("sidebar.selected", "");
-+pref("sidebar.startItems", "");
-+pref("sidebar.endItems", "");
-+
-+// Experiments
-+pref("browser.preferences.webuiexperience.enabled", false);
-\ No newline at end of file

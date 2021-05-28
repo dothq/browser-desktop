@@ -1,5 +1,5 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5cbf717792955b92c555ab17f865f0b7488017a1 100644
+index b2ebd34526a655cca95c38c085101f3ad15951b0..edf4135a28485e31d3b7f1a24a31278f985de10d 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
 @@ -1205,6 +1205,11 @@
@@ -51,7 +51,7 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5cbf717792955b92c555ab17f865f0b7
  # Anti-tracking permission expiration.
  - name: privacy.restrict3rdpartystorage.expiration
    type: uint32_t
-@@ -9752,6 +9763,16 @@
+@@ -10000,6 +10011,16 @@
    value: false
    mirror: always
  

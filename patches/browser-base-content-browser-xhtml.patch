@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18ccb5cad0 100644
+index 57a95856fa4beb0fa68dc9e2a88bb29daa2b4769..d0d969422db1612582896b41ec59edda56867dc4 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -130,17 +130,20 @@
@@ -63,7 +63,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
      </menupopup>
  
      <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
-@@ -398,23 +407,6 @@
+@@ -399,23 +408,6 @@
             flip="slide"
             orient="vertical"
             position="bottomcenter topleft">
@@ -87,7 +87,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
        <toolbarseparator/>
        <!-- Extension toolbarbuttons go here. -->
        <toolbarseparator id="sidebar-extensions-separator"/>
-@@ -489,8 +481,9 @@
+@@ -490,8 +482,9 @@
                      correctly. -->
        <menuitem oncommand="gCustomizeMode.enter()"
                  observes="cmd_CustomizeToolbars"
@@ -99,7 +99,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
      </menupopup>
  
      <menupopup id="blockedPopupOptions"
-@@ -546,6 +539,21 @@
+@@ -547,6 +540,21 @@
  
  #include ../../components/places/content/placesContextMenu.inc.xhtml
  
@@ -121,13 +121,16 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
      <panel id="ctrlTab-panel" hidden="true" norestorefocus="true" level="top">
        <hbox id="ctrlTab-previews"/>
        <hbox id="ctrlTab-showAll-container" pack="center"/>
-@@ -763,4 +771,4 @@
+@@ -770,7 +778,7 @@
+                         oncommand="gSync.toggleAccountPanel(this, event)"/>
+         </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
 -        <toolbaritem>
 +        <toolbaritem hidden="true">
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
-@@ -774,7 +782,12 @@
+                oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
+@@ -781,7 +789,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -141,7 +144,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -800,9 +813,10 @@
+@@ -807,9 +820,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -155,7 +158,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&fullZoom.label;"/>
-@@ -832,8 +846,8 @@
+@@ -839,8 +853,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -166,7 +169,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -857,18 +871,34 @@
+@@ -864,18 +878,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -204,7 +207,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -879,8 +909,7 @@
+@@ -886,8 +916,7 @@
                         key="key_preferencesCmdMac"
  #endif
  #endif
@@ -214,7 +217,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
          <toolbarbutton id="appMenu-customize-button"
                         class="subviewbutton subviewbutton-iconic"
                         data-l10n-id="appmenu-customizetoolbar"
-@@ -910,11 +939,13 @@
+@@ -917,11 +946,13 @@
  #endif
                         />
          <toolbarseparator/>
@@ -228,7 +231,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
          <toolbarbutton id="appMenu-more-button"
                         class="subviewbutton subviewbutton-nav"
                         label="&moreMenu.label;"
-@@ -2349,6 +2380,44 @@
+@@ -2370,6 +2401,44 @@
    </box>
  
    <hbox flex="1" id="browser">
@@ -273,7 +276,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
      <vbox id="sidebar-box" hidden="true" class="chromeclass-extrachrome">
        <box id="sidebar-header" align="center">
          <toolbarbutton id="sidebar-switcher-target" flex="1" class="tabbable">
-@@ -2365,7 +2434,7 @@
+@@ -2386,7 +2455,7 @@
          <toolbarbutton id="sidebar-close" class="close-icon tabbable" tooltiptext="&sidebarCloseButton.tooltip;" oncommand="SidebarUI.hide();"/>
        </box>
        <browser id="sidebar" flex="1" autoscroll="false" disablehistory="true" disablefullscreen="true"
