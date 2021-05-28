@@ -1,0 +1,43 @@
+diff --git a/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js b/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+index e28b38fb80e259c0982416a140a16408ee5c8ddc..91a4d08ad722769da6ab6ef16d4640ada4c7c311 100644
+--- a/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ b/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -130,23 +130,21 @@ class AboutWelcome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComp
+   componentDidMount() {
+     this.fetchFxAFlowUri(); // Record impression with performance data after allowing the page to load
+ 
+-    const recordImpression = domState => {
+-      const {
+-        domComplete,
+-        domInteractive
+-      } = performance.getEntriesByType("navigation").pop();
+-      window.AWSendEventTelemetry({
+-        event: "IMPRESSION",
+-        event_context: {
+-          domComplete,
+-          domInteractive,
+-          mountStart: performance.getEntriesByName("mount").pop().startTime,
+-          domState,
+-          source: this.props.UTMTerm,
+-          page: "about:welcome"
+-        },
+-        message_id: this.props.messageId
+-      });
++    const recordImpression = domState => {// const { domComplete, domInteractive } = performance
++      //   .getEntriesByType("navigation")
++      //   .pop();
++      // window.AWSendEventTelemetry({
++      //   event: "IMPRESSION",
++      //   event_context: {
++      //     domComplete,
++      //     domInteractive,
++      //     mountStart: performance.getEntriesByName("mount").pop().startTime,
++      //     domState,
++      //     source: this.props.UTMTerm,
++      //     page: "about:welcome",
++      //   },
++      //   message_id: this.props.messageId,
++      // });
+     };
+ 
+     if (document.readyState === "complete") {

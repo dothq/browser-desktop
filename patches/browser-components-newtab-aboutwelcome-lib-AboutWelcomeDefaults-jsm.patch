@@ -1,0 +1,23 @@
+diff --git a/browser/components/newtab/aboutwelcome/lib/AboutWelcomeDefaults.jsm b/browser/components/newtab/aboutwelcome/lib/AboutWelcomeDefaults.jsm
+index f09a83f08381f6970d6c69762e5197c4f83c631a..604389a5c37981600e39fb31f15e05a0a6d24d0b 100644
+--- a/browser/components/newtab/aboutwelcome/lib/AboutWelcomeDefaults.jsm
++++ b/browser/components/newtab/aboutwelcome/lib/AboutWelcomeDefaults.jsm
+@@ -157,18 +157,6 @@ const DEFAULT_WELCOME_CONTENT = {
+                 string_id: "onboarding-multistage-theme-description-dark",
+               },
+             },
+-            {
+-              theme: "alpenglow",
+-              label: {
+-                string_id: "onboarding-multistage-theme-label-alpenglow",
+-              },
+-              tooltip: {
+-                string_id: "onboarding-multistage-theme-tooltip-alpenglow-2",
+-              },
+-              description: {
+-                string_id: "onboarding-multistage-theme-description-alpenglow",
+-              },
+-            },
+           ],
+         },
+         primary_button: {
