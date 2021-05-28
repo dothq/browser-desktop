@@ -121,15 +121,12 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..48a25dcf13b33d6fa14205262dff8f18
      <panel id="ctrlTab-panel" hidden="true" norestorefocus="true" level="top">
        <hbox id="ctrlTab-previews"/>
        <hbox id="ctrlTab-showAll-container" pack="center"/>
-@@ -763,7 +771,7 @@
-                         oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
-         </toolbaritem>
+@@ -763,4 +771,4 @@
          <toolbarseparator class="sync-ui-item"/>
 -        <toolbaritem>
 +        <toolbaritem hidden="true">
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
-                oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
 @@ -774,7 +782,12 @@
              </label>
            </toolbarbutton>

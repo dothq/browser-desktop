@@ -53,8 +53,7 @@ index 81de0fb201173b6661798ee21461eb3800059580..27884b8baf2c8b8c67e6dd5930222c76
      ],
    },
  
-@@ -763,8 +782,8 @@ let JSWINDOWACTORS = {
-   if (
+@@ -763,7 +782,7 @@ let JSWINDOWACTORS = {
      Services.prefs.getCharPref(
        "extensions.activeThemeID",
 -      "default-theme@mozilla.org"
@@ -96,7 +95,7 @@ index 81de0fb201173b6661798ee21461eb3800059580..27884b8baf2c8b8c67e6dd5930222c76
      const { DistributionCustomizer } = ChromeUtils.import(
        "resource:///modules/distribution.js"
      );
-@@ -1356,26 +1375,26 @@ BrowserGlue.prototype = {
+@@ -1356,61 +1375,62 @@ BrowserGlue.prototype = {
      SessionStore.init();
  
      AddonManager.maybeInstallBuiltinAddon(
@@ -199,25 +198,6 @@ index 81de0fb201173b6661798ee21461eb3800059580..27884b8baf2c8b8c67e6dd5930222c76
 +    // SaveToPocket.init();
  
      AboutHomeStartupCache.init();
- 
-@@ -1482,7 +1501,7 @@ BrowserGlue.prototype = {
-         "browser.slowStartup.averageTime"
-       );
-       samples = Services.prefs.getIntPref("browser.slowStartup.samples");
--    } catch (e) {}
-+    } catch (e) { }
- 
-     let totalTime = averageTime * samples + currentTime;
-     samples++;
-@@ -1718,7 +1737,7 @@ BrowserGlue.prototype = {
-     let scaling = aWindow.devicePixelRatio * 100;
-     try {
-       Services.telemetry.getHistogramById("DISPLAY_SCALING").add(scaling);
--    } catch (ex) {}
-+    } catch (ex) { }
-   },
- 
-   _collectStartupConditionsTelemetry() {
 @@ -1824,7 +1843,7 @@ BrowserGlue.prototype = {
            "resource://gre/modules/UpdateUtils.jsm",
            {}

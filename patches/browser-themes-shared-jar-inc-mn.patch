@@ -21,7 +21,7 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..5bec152075f8a267f439482bf67da64d
    skin/classic/browser/notification-icons/microphone-blocked.svg            (../shared/notification-icons/microphone-blocked.svg)
    skin/classic/browser/notification-icons/microphone-detailed.svg           (../shared/notification-icons/microphone-detailed.svg)
    skin/classic/browser/notification-icons/microphone.svg                    (../shared/notification-icons/microphone.svg)
-@@ -163,9 +168,11 @@
+@@ -163,8 +168,10 @@
    skin/classic/browser/bookmark-hollow.svg            (../shared/icons/bookmark-hollow.svg)
    skin/classic/browser/bookmark-star-on-tray.svg      (../shared/icons/bookmark-star-on-tray.svg)
    skin/classic/browser/bookmarks-toolbar.svg          (../shared/icons/bookmarks-toolbar.svg)
@@ -32,15 +32,10 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..5bec152075f8a267f439482bf67da64d
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
    skin/classic/browser/device-phone.svg               (../shared/icons/device-phone.svg)
-@@ -206,6 +213,7 @@
-   skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
-   skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
-   skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
+@@ -206,2 +213,3 @@
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
 +  skin/classic/browser/qr-code.svg                    (../shared/icons/qr-code.svg)
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
-   skin/classic/browser/reload.svg                     (../shared/icons/reload.svg)
-   skin/classic/browser/reload-to-stop.svg             (../shared/icons/reload-to-stop.svg)
 @@ -218,6 +226,7 @@
  #ifndef MOZ_WIDGET_GTK
    skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
