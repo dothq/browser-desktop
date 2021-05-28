@@ -68,7 +68,7 @@
             "code": ":keyboard:",
             "description": "Update keyboard shortcuts or add menu items"
         },
-        {        
+        {
             "emoji": "🆙",
             "code": ":up:",
             "description": "Update a patch or the browser version"
