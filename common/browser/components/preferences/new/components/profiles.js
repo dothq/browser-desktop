@@ -8,6 +8,10 @@ ChromeUtils.defineModuleGetter(
     "resource://gre/modules/SharedPromptUtils.jsm"
 );
 
+const mutateFunction = (f) => {
+    return f.toString().replace(/^[^{]*{\s*/, '').replace(/\s*}[^}]*$/, '');
+}
+
 class ProfilesComponent {
     _service = null;
 
@@ -43,71 +47,71 @@ class ProfilesComponent {
         return this.DEFAULT_AVATARS[avatarId];
     }
 
-    async switchTo(id) {
-        console.log(id)
-
+    switchTo(id) {
         let profile = Array.from(this._service.profiles).find(p => p.name == id);
 
         if (profile) {
-            let bag = PromptUtils.objectToPropBag({
-                text: "test"
-            });
-            await windowRoot.ownerGlobal.gDialogBox.open(
-                "chrome://browser/content/preferences/new/dialogs/switchProfile.html",
-                {},
-                bag
-            );
-
-            console.log(bag)
-
             this._service.defaultProfile = profile;
             this.render();
 
-            // Services.startup.createInstanceWithProfile(profile);
+            document.getElementById("application-profile-primary-edit").style.display = "none";
+            document.getElementById("application-profile-primary-restart").style.display = "";
         }
     }
 
     _template(data, selectedProfile) {
         data = Array.from(data);
 
-        const secondaryProfilesTemplate = () => {
-            return data.filter(p => p.rootDir.path !== selectedProfile.rootDir.path).map(profile => {
-                return `<div id="${this.getProfileId(profile)}" class="preferences-item application-profile secondary">
-                    <div class="application-profile-data">
-                        <i class="application-profile-avatar"
-                            style="--profile-avatar: url(${this.profileIdToAvatar(this.getProfileId(profile))})"></i>
-                        <span class="application-profile-name">${this.shouldMigrateName(profile)
-                        ? this.stripName(profile.name)
-                        : profile.name
-                    }</span>
-                    </div>
-                    <div class="application-profile-actions">
-                        <a class="webui-button primary">Edit</a>
-                        <a class="webui-button secondary" onclick="profiles.switchTo('${profile.name}')">Switch to…</a>
-                    </div>
-                </div>`;
-            })
-        }
-
         return `
             <div id="${this.getProfileId(selectedProfile)}" class="preferences-item application-profile primary">
                 <div class="application-profile-data">
                     <i class="application-profile-avatar"
                         style="--profile-avatar: url(${this.profileIdToAvatar(this.getProfileId(selectedProfile))})"></i>
-                    <span class="application-profile-name">${this.shouldMigrateName(selectedProfile)
+                    <div style="display:flex;flex-direction:column;gap: 2px">
+                        <span class="application-profile-name">${this.shouldMigrateName(selectedProfile)
                 ? this.stripName(selectedProfile.name)
                 : selectedProfile.name
             }</span>
+                            <p style="margin:0;opacity:.5;font-size:13px;">Current profile</p>
+                    </div>
                 </div>
                 <div class="application-profile-actions">
-                    <a class="webui-button primary">Edit</a>
+                    <a class="webui-button primary" id="application-profile-primary-edit">Edit</a>
+                    <a class="webui-button primary warn" style="display: none" id="application-profile-primary-restart">Restart required</a>
                 </div>
             </div>
             <hr>
-            <div style="display:flex;flex-direction:column;gap: 1.25rem">
-                ${secondaryProfilesTemplate().join("")}
+            <div class="show-more-container" style="display:flex;flex-direction:column;" id="application-profile-show-more">
+                <div class="preferences-item show-more-item" style="min-height: 28px">
+                    Show more
+                </div>
+
+                <div class="show-more-data" style="display: none;flex-direction:column;gap: 1.25rem;margin-top: 16px;">
+                    ${this._otherProfilesTemplate(data, selectedProfile)}
+                </div>
             </div>
         `
+    }
+
+    _otherProfilesTemplate(data, selectedProfile) {
+        data = Array.from(data);
+
+        return (data.filter(p => p.rootDir.path !== selectedProfile.rootDir.path).map(profile => {
+            return `<div id="${this.getProfileId(profile)}" class="preferences-item application-profile secondary">
+                <div class="application-profile-data">
+                    <i class="application-profile-avatar"
+                        style="--profile-avatar: url(${this.profileIdToAvatar(this.getProfileId(profile))})"></i>
+                    <span class="application-profile-name">${this.shouldMigrateName(profile)
+                    ? this.stripName(profile.name)
+                    : profile.name
+                }</span>
+                </div>
+                <div class="application-profile-actions">
+                    <a class="webui-button primary">Edit</a>
+                    <a class="webui-button secondary switch-to-button" data-profile-id="${profile.name}">Switch to…</a>
+                </div>
+            </div>`;
+        })).join("")
     }
 
     constructor() {
@@ -127,6 +131,40 @@ class ProfilesComponent {
 
         let profilesEl = document.getElementById("profiles");
         profilesEl.innerHTML = template;
+
+        let showMoreRevealerEl = document.getElementById("application-profile-show-more");
+        let showMoreButtonEl = showMoreRevealerEl.childNodes[1];
+
+        showMoreButtonEl.addEventListener("click", () => {
+            let showMoreDataEl = showMoreRevealerEl.childNodes[3];
+
+            if (!showMoreRevealerEl.getAttribute("open")) {
+                showMoreRevealerEl.setAttribute("open", "true");
+                showMoreDataEl.style.display = "flex";
+                showMoreButtonEl.lastChild.textContent = `Show less`
+            } else {
+                showMoreRevealerEl.removeAttribute("open");
+                showMoreDataEl.style.display = "none";
+                showMoreButtonEl.lastChild.textContent = `Show more`
+            }
+        })
+
+        profilesEl.querySelectorAll(".switch-to-button").forEach(el => {
+            el.addEventListener("click", () => {
+                this.switchTo(el.getAttribute("data-profile-id"));
+            });
+        })
+
+        const profileAvatarEl = document.getElementById("profile-avatar");
+        const profileNameEl = document.getElementById("profile-name");
+        const profileExtraEl = document.getElementById("profile-extra");
+
+        const avatarURL = this.profileIdToAvatar(this.getProfileId(this._service.defaultProfile));
+        profileAvatarEl.style.backgroundImage = `url(${avatarURL})`;
+        profileNameEl.textContent = this.shouldMigrateName(this._service.defaultProfile)
+            ? this.stripName(this._service.defaultProfile.name)
+            : this._service.defaultProfile.name;
+        profileExtraEl.textContent = `Current profile`;
     }
 }
 

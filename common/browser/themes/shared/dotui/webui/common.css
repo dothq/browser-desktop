@@ -135,7 +135,7 @@ a.webui-button.secondary {
 }
 
 a.webui-button.dangerous {
-    --btn-accent: rgb(251, 38, 38);
+    --btn-accent: #E72929;
 }
 
 a.webui-button.warning {

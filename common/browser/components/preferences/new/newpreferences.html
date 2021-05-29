@@ -28,8 +28,14 @@
     <aside class="sidebar">
       <h1 data-l10n-id="pref-page-title"></h1>
       <input id="search-textbox" data-l10n-id="preferences-filter" type="text" />
-      <ul class="sidebar-categories">
-
+      <div id="profile">
+        <div id="profile-avatar"></div>
+        <div id="profile-data">
+          <span id="profile-name"></span>
+          <span id="profile-extra"></span>
+        </div>
+      </div>
+      <ul id="sidebar" class="sidebar-categories">
         <li>
           <a class="sidebar-category" href="#general" id="tab-general">
             <i class="general-icon"></i>
@@ -45,13 +51,6 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#themes" id="tab-themes">
-            <i class="themes-icon"></i>
-            <span data-l10n-id="preferences-category-themes"></span>
-          </a>
-        </li>
-
-        <li>
           <a class="sidebar-category" href="#start-page" id="tab-start-page">
             <i class="start-page-icon"></i>
             <span data-l10n-id="preferences-category-start-page"></span>
@@ -59,9 +58,9 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#privacy-and-security" id="tab-privacy-and-security">
-            <i class="privacy-and-security-icon"></i>
-            <span data-l10n-id="preferences-category-privacy-and-security"></span>
+          <a class="sidebar-category" href="#context-menus" id="tab-context-menus">
+            <i class="context-menus-icon"></i>
+            <span data-l10n-id="preferences-category-context-menus"></span>
           </a>
         </li>
 
@@ -73,9 +72,16 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#language-and-region" id="tab-language-and-region">
-            <i class="l10n-icon"></i>
-            <span data-l10n-id="preferences-category-l10n"></span>
+          <a class="sidebar-category" href="#privacy-and-security" id="tab-privacy-and-security">
+            <i class="privacy-and-security-icon"></i>
+            <span data-l10n-id="preferences-category-privacy-and-security"></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-category" href="#gestures" id="tab-gestures">
+            <i class="gestures-icon"></i>
+            <span data-l10n-id="preferences-category-gestures"></span>
           </a>
         </li>
 
@@ -87,27 +93,50 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#ease-of-access" id="tab-ease-of-access">
-            <i class="ease-of-access-icon"></i>
-            <span data-l10n-id="preferences-category-ease-of-access"></span>
+          <a class="sidebar-category" href="#sync" id="tab-sync">
+            <i class="sync-icon"></i>
+            <span data-l10n-id="preferences-category-sync"></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-category" href="#language-and-region" id="tab-language-and-region">
+            <i class="l10n-icon"></i>
+            <span data-l10n-id="preferences-category-l10n"></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-category" href="#experiments" id="tab-experiments">
+            <i class="experiments-icon"></i>
+            <span data-l10n-id="preferences-category-experiments"></span>
           </a>
         </li>
       </ul>
     </aside>
 
     <main id="content">
-      <h2 class="section-title">
-        General
-      </h2>
+      <div class="tab-content" id="tab-content-general">
+        <h2 class="section-title">
+          General
+        </h2>
 
-      <div class="preferences-block">
-        <h4 class="block-title">
-          Profiles
-        </h4>
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Profiles
+          </h4>
 
-        <div id="profiles" class="preferences-block-container">
+          <div id="profiles" class="preferences-block-container">
 
+          </div>
         </div>
+      </div>
+
+      <div class="tab-content" id="tab-content-not-found">
+        <h2 class="section-title">
+          Not found
+        </h2>
+        <p class="section-body">Your search returned no results.</p>
       </div>
     </main>
   </div>

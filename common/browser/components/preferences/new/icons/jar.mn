@@ -1,0 +1,17 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+browser.jar:
+   content/browser/preferences/new/icons/category-about.svg
+   content/browser/preferences/new/icons/category-context-menus.svg
+   content/browser/preferences/new/icons/category-downloads.svg
+   content/browser/preferences/new/icons/category-experiments.svg
+   content/browser/preferences/new/icons/category-general.svg
+   content/browser/preferences/new/icons/category-gestures.svg
+   content/browser/preferences/new/icons/category-language-and-region.svg
+   content/browser/preferences/new/icons/category-privacy-and-security.svg
+   content/browser/preferences/new/icons/category-search.svg
+   content/browser/preferences/new/icons/category-start-page.svg
+   content/browser/preferences/new/icons/category-sync.svg
+   content/browser/preferences/new/icons/category-appearance.svg

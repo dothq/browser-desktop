@@ -2,6 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+.tab-content {
+    display: none;
+    margin-bottom: 6rem;
+}
+
 .preferences-block {
     display: flex;
     flex-direction: column;
@@ -57,4 +62,194 @@
     background-color: #9d9b9b42;
     border-radius: 100%;
     background-size: cover;
+}
+
+.show-more-item {
+    min-height: 28px;
+    justify-content: flex-start;
+    font-weight: 500;
+    color: #1662D3;
+    max-width: max-content;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-left: 24px;
+    margin-bottom: 0;
+}
+
+.show-more-item:hover {
+    background-color: var(--theme-button-background-hover);
+}
+
+.show-more-item::before {
+    content: "";
+    height: 16px;
+    width: 16px;
+    background-image: url(chrome://global/skin/icons/arrow-left.svg);
+    position: relative;
+    margin-right: 12px;
+    background-size: cover;
+    transform: rotate(-90deg);
+    transition: 0.2s transform;
+    -moz-context-properties: fill;
+    fill: #1662D3;
+}
+
+.show-more-container[open] > .show-more-item::before {
+    transform: rotate(90deg);
+}
+
+.sidebar-categories {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-category {
+    height: 42px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    position: relative;
+    text-decoration: none;
+    color: var(--theme-textcolor);
+    opacity: 0.75;
+}
+
+.sidebar-category:hover {
+    text-decoration: none;
+}
+
+.sidebar-category:not([selected]):hover {
+    color: var(--theme-textcolor);
+    opacity: 0.75;
+}
+
+.sidebar-category[selected] {
+    color: #1662D3;
+    opacity: 1;
+}
+
+.sidebar-category::before {
+    content: "";
+    height: 42px;
+    width: 100%;
+    position: absolute;
+    min-height: 42px;
+    z-index: 0;
+    border-radius: 8px;
+}
+
+.sidebar-category:hover::before {
+    background-color: var(--theme-button-background-hover);
+}
+
+.sidebar-category:active::before {
+    background-color: var(--theme-button-background-active);
+}
+
+.sidebar-category[selected]::before {
+    background-color: currentColor;
+    opacity: 0.1;
+}
+
+.sidebar-category::after {
+    content: "";
+    background-color: currentColor;
+    width: 3px;
+    height: 20px;
+    position: absolute;
+    border-radius: 100px;
+    opacity: 0;
+}
+
+.sidebar-category[selected]::after {
+    opacity: 1;
+}
+
+.sidebar-category i {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    margin: 0 18px;
+    background-size: cover;
+    -moz-context-properties: fill;
+}
+
+#profile {
+    display: flex;
+    align-items: center;
+    margin: 26px 0;
+    padding: 10px 0;
+    border-radius: 8px;
+}
+
+#profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    background-size: cover;
+    margin-right: 16px;
+}
+
+#profile-data {
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-data #profile-name {
+    font-weight: 500;
+}
+
+#profile-data #profile-extra {
+    font-weight: 400;
+    opacity: 0.5;
+    margin-top: 4px;
+}
+
+#tab-general > .general-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-general.svg);
+}
+
+#tab-appearance > .appearance-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-appearance.svg);
+}
+
+#tab-start-page > .start-page-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-start-page.svg);
+}
+
+#tab-context-menus > .context-menus-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-context-menus.svg);
+}
+
+#tab-search > .search-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-search.svg);
+}
+
+#tab-privacy-and-security > .privacy-and-security-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-privacy-and-security.svg);
+}
+
+#tab-gestures > .gestures-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-gestures.svg);
+}
+
+#tab-downloads > .downloads-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-downloads.svg);
+}
+
+#tab-sync > .sync-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-sync.svg);
+}
+
+#tab-language-and-region > .l10n-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-language-and-region.svg);
+}
+
+#tab-experiments > .experiments-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-experiments.svg);
 }
