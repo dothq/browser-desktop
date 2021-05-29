@@ -134,7 +134,7 @@ jobs:
         run: |
           cd packages/flatpak
           node download.js
-          cp ../../dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2 ./dot.tar.bz2
+          cp ../../dot-${{ needs.build-data.outputs.version }}.tar.bz2 ./dot.tar.bz2
           tar -xvf dot.tar.bz2
       - uses: bilelmoussaoui/flatpak-github-actions@v2
         with:
@@ -169,7 +169,7 @@ jobs:
       - name: Build
         run: |
           cd packages/
-          cp ../dot-${{ needs.build-data.outputs.version }}.tar.bz2/dot-${{ needs.build-data.outputs.version }}.tar.bz2 ./appimage/dot.tar.bz2
+          cp ../dot-${{ needs.build-data.outputs.version }}.tar.bz2 ./appimage/dot.tar.bz2
           ./appimage/build.sh
           cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
           cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
