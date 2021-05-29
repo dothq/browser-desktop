@@ -337,8 +337,8 @@ display: none !important;
     list-style-image: url(chrome://browser/skin/tracking-protection.svg) !important;
 }
 
-.tab-close-button .close-icon {
-    padding: 4px;
+.tab-close-button.close-icon {
+    padding: 0;
 }
 
 #pageAction-panel-qr_dothq_co > .toolbarbutton-icon, 
