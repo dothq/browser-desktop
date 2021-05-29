@@ -146,9 +146,12 @@ toolkit-themes-shared-icons-defaultFavicon-svg.patch - toolkit/themes/shared/ico
 toolkit-themes-shared-icons-delete-svg.patch - toolkit/themes/shared/icons/delete.svg
 toolkit-themes-shared-icons-document-svg.patch - toolkit/themes/shared/icons/document.svg
 toolkit-themes-shared-icons-folder-svg.patch - toolkit/themes/shared/icons/folder.svg
+toolkit-themes-shared-icons-info-filled-svg.patch - toolkit/themes/shared/icons/info-filled.svg
+toolkit-themes-shared-icons-info-svg.patch - toolkit/themes/shared/icons/info.svg
 toolkit-themes-shared-icons-open-in-new-svg.patch - toolkit/themes/shared/icons/open-in-new.svg
 toolkit-themes-shared-icons-print-svg.patch - toolkit/themes/shared/icons/print.svg
 toolkit-themes-shared-icons-search-glass-svg.patch - toolkit/themes/shared/icons/search-glass.svg
+toolkit-themes-shared-icons-security-broken-svg.patch - toolkit/themes/shared/icons/security-broken.svg
 toolkit-themes-shared-icons-security-svg.patch - toolkit/themes/shared/icons/security.svg
 toolkit-themes-shared-icons-settings-svg.patch - toolkit/themes/shared/icons/settings.svg
 toolkit-themes-shared-icons-update-icon-svg.patch - toolkit/themes/shared/icons/update-icon.svg

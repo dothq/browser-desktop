@@ -1,0 +1,20 @@
+diff --git a/toolkit/themes/shared/icons/info.svg b/toolkit/themes/shared/icons/info.svg
+index a00aacf25ef543c69ea6d212d33947df3b77e380..8c3dde0dc2bb901e6997519733bfb2aabb52899a 100644
+--- a/toolkit/themes/shared/icons/info.svg
++++ b/toolkit/themes/shared/icons/info.svg
+@@ -1,6 +1,11 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M8 1a7 7 0 1 0 7 7 7.008 7.008 0 0 0-7-7zm0 13a6 6 0 1 1 6-6 6.007 6.007 0 0 1-6 6zm0-7a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V8a1 1 0 0 0-1-1zm0-3.188A1.188 1.188 0 1 0 9.188 5 1.188 1.188 0 0 0 8 3.812z" />
+-</svg>
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
++  <path fill="context-fill" fill-opacity="context-fill-opacity"
++    d="M9 5C9 5.55228 8.55228 6 8 6C7.44771 6 7 5.55228 7 5C7 4.44772 7.44771 4 8 4C8.55228 4 9 4.44772 9 5Z" />
++  <path fill="context-fill" fill-opacity="context-fill-opacity"
++    d="M9 8C9 7.44772 8.55228 7 8 7C7.44771 7 7 7.44772 7 8V11C7 11.5523 7.44771 12 8 12C8.55228 12 9 11.5523 9 11V8Z" />
++  <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++    d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" />
++</svg>
+\ No newline at end of file
