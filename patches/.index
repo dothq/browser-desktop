@@ -142,8 +142,10 @@ toolkit-themes-shared-icons-autoscroll-vertical-svg.patch - toolkit/themes/share
 toolkit-themes-shared-icons-autoscroll-svg.patch - toolkit/themes/shared/icons/autoscroll.svg
 toolkit-themes-shared-icons-check-svg.patch - toolkit/themes/shared/icons/check.svg
 toolkit-themes-shared-icons-close-svg.patch - toolkit/themes/shared/icons/close.svg
+toolkit-themes-shared-icons-defaultFavicon-svg.patch - toolkit/themes/shared/icons/defaultFavicon.svg
 toolkit-themes-shared-icons-delete-svg.patch - toolkit/themes/shared/icons/delete.svg
 toolkit-themes-shared-icons-document-svg.patch - toolkit/themes/shared/icons/document.svg
+toolkit-themes-shared-icons-folder-svg.patch - toolkit/themes/shared/icons/folder.svg
 toolkit-themes-shared-icons-open-in-new-svg.patch - toolkit/themes/shared/icons/open-in-new.svg
 toolkit-themes-shared-icons-print-svg.patch - toolkit/themes/shared/icons/print.svg
 toolkit-themes-shared-icons-search-glass-svg.patch - toolkit/themes/shared/icons/search-glass.svg
