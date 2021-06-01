@@ -1,8 +1,8 @@
 diff --git a/toolkit/themes/shared/icons/security-broken.svg b/toolkit/themes/shared/icons/security-broken.svg
-index 133e411e3d6ae8ba0763a530f864c19bde707483..662083d026335f25c182bee2cfcf72b61927386e 100644
+index 133e411e3d6ae8ba0763a530f864c19bde707483..f51c71de63d3541717cffac2e56c92caf5ab75ef 100644
 --- a/toolkit/themes/shared/icons/security-broken.svg
 +++ b/toolkit/themes/shared/icons/security-broken.svg
-@@ -1,7 +1,21 @@
+@@ -1,7 +1,9 @@
  <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -10,22 +10,10 @@ index 133e411e3d6ae8ba0763a530f864c19bde707483..662083d026335f25c182bee2cfcf72b6
 -  <path d="M12.5 6.984h-.484L4 15h8.5a1.5 1.5 0 0 0 1.5-1.5V8.484a1.5 1.5 0 0 0-1.5-1.5zm-6.5 0V5a2 2 0 0 1 4 0v1l1.892-1.892A4 4 0 0 0 4 5v1.984h-.5a1.5 1.5 0 0 0-1.5 1.5V13.5a1.483 1.483 0 0 0 .07.43l6.946-6.946z" fill="context-fill" fill-opacity="context-fill-opacity"/>
 -  <path d="M2 15a1 1 0 0 1-.707-1.707l12-12a1 1 0 0 1 1.414 1.414l-12 12A1 1 0 0 1 2 15z" fill="#ff0039"/>
 -</svg>
-+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-+  <g clip-path="url(#clip0)">
-+    <path
-+      d="M21.0814 8.99397L6.07534 24H18.6667C20.5077 24 22 22.5674 22 20.8V11.2C22 10.3448 21.6506 9.56803 21.0814 8.99397Z"
-+      fill="context-fill" fill-opacity="context-fill-opacity" />
-+    <path
-+      d="M12 0C8.68631 0 6.00002 2.86538 6.00002 6.4V8H5.33336C3.49241 8 2.00002 9.43269 2.00002 11.2L2 20L13.9297 8H9.00002V6.4C9.00002 4.63269 10.3432 3.2 12 3.2C13.6569 3.2 15 4.63269 15 6.4L15 7L17.6667 4.29135C16.8496 1.79272 14.6211 0 12 0Z"
-+      fill="context-fill" fill-opacity="context-fill-opacity" />
-+    <path
-+      d="M20.887 1.03766L1.03766 20.887C0.464575 21.4601 0.464575 22.3893 1.03766 22.9623C1.61074 23.5354 2.53989 23.5354 3.11297 22.9623L22.9623 3.11297C23.5354 2.53989 23.5354 1.61074 22.9623 1.03766C22.3893 0.464576 21.4601 0.464576 20.887 1.03766Z"
-+      fill="#FF4752" />
-+  </g>
-+  <defs>
-+    <clipPath id="clip0">
-+      <rect width="24" height="24" fill="context-fill" fill-opacity="context-fill-opacity" />
-+    </clipPath>
-+  </defs>
++<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
++  <path d="M1 15L15 1" stroke="#FF4752" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
++  <path fill-rule="evenodd" clip-rule="evenodd"
++    d="M13.8764 5.65912C14.5615 6.20894 15 7.05326 15 8V13C15 14.6569 13.6569 16 12 16H4C3.85282 16 3.70812 15.9894 3.56661 15.9689L13.8764 5.65912ZM1 11.4645V8C1 6.42731 2.21016 5.13726 3.75008 5.01026C3.88768 4.99891 4 4.88807 4 4.75V4C4 1.79086 5.79086 0 8 0C9.2228 0 10.3174 0.548691 11.0512 1.4133L9.62736 2.83711C9.26454 2.33028 8.67084 2 8 2C6.89543 2 6 2.89543 6 4V4.75C6 4.88807 6.11193 5 6.25 5H7.46447L1 11.4645Z"
++    fill="context-fill" fill-opacity="context-fill-opacity" />
 +</svg>
 \ No newline at end of file
