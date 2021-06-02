@@ -25,15 +25,6 @@ const flags: {
     A: "add"
 };
 
-const isLocale = (l: string) =>
-    (l.endsWith(".inc") && l.includes("locales")) ||
-    (l.endsWith(".ini") && l.includes("locales")) ||
-    l.endsWith(".ftl") ||
-    (l.endsWith(".properties") && !l.includes("test")) ||
-    (l.endsWith(".dtd") &&
-        !l.includes("test") &&
-        l.toLowerCase().includes("en-us"));
-
 const getFiles = async (flags: string, cwd: string) => {
     let { stdout: ignored } = await execa(
         "git",
@@ -60,8 +51,7 @@ const getFiles = async (flags: string, cwd: string) => {
     const files = fls.split("\n").filter((i: any) => {
         return !(
             ignored.split("\n").includes(i) ||
-            i == ".gitignore" ||
-            isLocale(i)
+            i == ".gitignore"
         );
     }); // this filters out the manual patches
 
