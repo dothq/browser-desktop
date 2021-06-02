@@ -7,7 +7,7 @@ html, body {
     color: var(--theme-textcolor);
     margin: 0;
     padding: 0;
-    font-family: inherit;
+    font: message-box;
     overflow: hidden;
 
     user-select: none;
@@ -15,8 +15,10 @@ html, body {
 }
 
 hr {
-    border-color: #80808029 !important;
     margin: 2.2rem 0;
+    height: 1px;
+    background-color: #80808029;
+    border: none !important;
 }
 
 .app-divide {
@@ -156,4 +158,9 @@ a.webui-button.secondary:hover {
 
 a.webui-button.secondary:active {
     background-image: linear-gradient(#0000001a 0%, #0000001a 100%);
+}
+
+a.webui-button[disabled], a.webui-button:disabled, a.webui-button.disabled {
+    opacity: .5 !important;
+    pointer-events: none !important;
 }

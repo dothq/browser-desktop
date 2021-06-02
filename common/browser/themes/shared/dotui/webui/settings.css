@@ -2,6 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+%include ../components/checkbox.inc.css
+
+input[type="checkbox"] {
+    margin: 0;
+    margin-right: 8px !important;
+}
+
 .tab-content {
     display: none;
     margin-bottom: 6rem;
@@ -10,7 +19,7 @@
 .preferences-block {
     display: flex;
     flex-direction: column;
-    margin-bottom: 2.2rem;
+    margin-bottom: 5rem;
 }
 
 .preferences-block .preferences-block-container {
@@ -18,23 +27,47 @@
     max-width: 900px;
     padding: 36px 0;
     border-radius: 6px;
-    min-height: calc(36px * 2);
+}
+
+.preferences-block .preferences-block-container:not(#profiles) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 .preferences-item {
     padding: 0 36px;
-    margin-bottom: 1.25rem;
     display: flex;
     align-items: center;
-    min-height: 52px;
+    min-height: 36px;
     justify-content: space-between;
 }
 
-.preferences-item > .application-profile-data { 
+.preferences-item > .preferences-item-container,
+.preferences-item > .application-profile-data {
     display: flex;
     align-items: center;
 }
 
+.preferences-item > .preferences-item-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.preferences-item-title {
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.preferences-item-subtitle {
+    font-size: 14px;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+}
+
+.preferences-item-actions,
 .application-profile-actions {
     display: flex;
     gap: 16px;
@@ -210,6 +243,36 @@
     margin-top: 4px;
 }
 
+.preferences-banner {
+    background-color: rgba(37, 110, 245, 0.1);
+    border-radius: 8px;
+    color: #1662D3;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    min-height: 38px;
+    max-width: 900px;
+    font-weight: 500;
+    margin-bottom: 3rem;
+}
+
+.preferences-banner > i {
+    width: 16px;
+    height: 16px;
+    margin: 0 18px;
+    -moz-context-properties: fill;
+    fill: currentColor;
+    min-width: 16px;
+}
+
+.gap-10 {
+    gap: 10px !important;
+}
+
+.indent {
+    margin-inline-start: 28px !important;
+}
+
 #tab-general > .general-icon {
     background-image: url(chrome://browser/content/preferences/new/icons/category-general.svg);
 }
@@ -252,4 +315,8 @@
 
 #tab-experiments > .experiments-icon {
     background-image: url(chrome://browser/content/preferences/new/icons/category-experiments.svg);
+}
+
+.work-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/work.svg);
 }
