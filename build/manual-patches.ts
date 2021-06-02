@@ -91,7 +91,7 @@ const manualPatches: IPatch[] = [
             "browser/locales/en-US/browser/qr-codes.ftl",
             "browser/locales/en-US/browser/aboutPreferences.ftl",
             "browser/locales/en-US/browser/aboutHistory.ftl",
-            "browser/locales/en-US/browser/onboarding.ftl",
+            "browser/locales/en-US/browser/onboarding.ftl"
         ]
     },
     {
