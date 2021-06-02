@@ -2,17 +2,46 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@keyframes dialogFrame-fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes dialogBox-fadein {
+    0% {
+        margin-top: calc(65px + 32px);
+    }
+    100% {
+        margin-top: 68px !important;
+        margin: 68px;
+    }
+}
+
+#window-modal-dialog {
+    animation: 0.4s dialogFrame-fadein forwards;
+    opacity: 1;
+}
+
+.dialogTemplate.dialogOverlay {
+    animation: 0.4s dialogBox-fadein forwards;
+    margin-top: calc(68px + 32px);
+}
+
 .dialogBox {
     box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108) !important;
     margin-top: calc(-68px + -5px) !important;
 }
 
+:root[brighttext="true"][popup-brighttext="true"] .dialogBox {
+    border: 1px solid #3b303021 !important;
+}
+
 .dialogBox, .dialogTemplate {
     border-radius: 10px;
-}
-  
-.dialogTemplate {
-    margin: 68px !important;
 }
   
 #window-modal-dialog::backdrop {

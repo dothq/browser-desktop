@@ -1,0 +1,113 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+tabmodalprompt {
+    height: calc(100% + 20px);
+    font-family: inherit !important;
+    background-color: transparent !important;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)) !important;
+    margin-top: 0 !important;
+    z-index: 10;
+    grid-template-rows: 0fr [dialog-start] auto [dialog-end] 2fr !important;
+}
+
+.paymentDialogContainerFrame, .tabmodalprompt-mainContainer {
+    color: -moz-fieldText;
+    border-radius: 0 0 12px 12px;
+    background-color: var(--arrowpanel-background);
+    box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
+    border: none !important;
+    transform: translateY(0px);
+    z-index: 50000;
+}
+
+.tabmodalprompt-infoTitle {
+    display: block;
+    color: initial;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 16px !important;
+}
+  
+.tabmodalprompt-buttonContainer {
+    background-color: transparent !important;
+    border-top: none !important;
+    padding: 26px !important;
+    gap: 16px;
+}
+
+.tabmodalprompt-topContainer {
+    padding: 26px !important;
+    display: flex;
+    flex-direction: column;
+}
+  
+.tabmodalprompt-mainContainer {
+    min-width: 34em !important;
+}
+  
+.tabmodalprompt-tabBody {
+    color: initial !important;
+    opacity: 0.5;
+    margin-bottom: 2em !important;
+}
+  
+.tabmodalprompt-checkbox {
+    margin: 0 !important;
+    color: initial;
+}
+  
+.tabmodalprompt-checkbox .checkbox-label-box {
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+.tabmodalprompt-buttonContainer > button[default="true"] {
+    background-color: var(--dot-accent-color);
+    color: white !important;
+}
+  
+.tabmodalprompt-buttonContainer > button:not([default="true"]) {
+    border: 2px solid var(--dot-accent-color);
+}
+
+.tabmodalprompt-buttonContainer > button[default="true"]:hover {
+    background-image: linear-gradient(#00000026 0%, #00000026 100%);
+}
+
+.tabmodalprompt-buttonContainer > button[default="true"]:active {
+    background-image: linear-gradient(#0000003b 0%, #0000003b 100%);;
+}
+  
+.tabmodalprompt-buttonContainer > button:not([default="true"]):hover {
+    background-image: linear-gradient(#00000008 0%, #00000008 100%);
+}
+
+.tabmodalprompt-buttonContainer > button:not([default="true"]):active {
+    background-image: linear-gradient(#0000001a 0%, #0000001a 100%);
+}
+
+.tabmodalprompt-buttonContainer > button {
+    margin: 0 !important;
+    padding: 0 !important;
+    appearance: none;
+    padding: 12px 36px !important;
+    border-radius: 8px;
+    color: var(--dot-accent-color) !important;
+    font-weight: 500;
+    border: 2px solid transparent;
+}
+  
+.tabmodalprompt-checkboxContainer, 
+.tabmodalprompt-password1Container, 
+.tabmodalprompt-loginContainer,
+.tabmodalprompt-checkbox {
+    margin-top: 1.5em !important;
+}
+
+.tabmodalprompt-loginTextbox {
+    margin: 0 !important;
+    margin-top: 1em !important;
+    min-height: 36px !important;
+}
