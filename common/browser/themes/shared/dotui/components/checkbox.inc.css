@@ -2,14 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-checkbox {
+checkbox, input[type="checkbox"] {
     appearance: none !important;
 }
 
-checkbox > .checkbox-check {
+checkbox > .checkbox-check, input[type="checkbox"] {
     appearance: none !important;
     background-color: transparent;
-    border: 2px solid var(--arrowpanel-color);
+    border: 2px solid var(--arrowpanel-color, var(--theme-textcolor));
     fill: transparent;
     opacity: 0.4;
     width: 20px;
@@ -20,25 +20,30 @@ checkbox > .checkbox-check {
     background-repeat: no-repeat;
 }
 
-checkbox:hover > .checkbox-check[checked="true"] {
-    background-image: linear-gradient(#00000034 0%, #00000034 100%);
+checkbox:hover > .checkbox-check[checked="true"],
+input[type="checkbox"][checked="true"]:hover {
+    background-image: url(chrome://global/skin/icons/check.svg), linear-gradient(#00000034 0%, #00000034 100%);
 }
 
-checkbox:active > .checkbox-check[checked="true"] {
-    background-image: linear-gradient(#00000067 0%, #00000067 100%);
+checkbox:active > .checkbox-check[checked="true"],
+input[type="checkbox"][checked="true"]:active {
+    background-image: url(chrome://global/skin/icons/check.svg), linear-gradient(#00000067 0%, #00000067 100%);
 }
 
-checkbox:hover > .checkbox-check {
+checkbox:hover > .checkbox-check,
+input[type="checkbox"]:not([checked="true"]):hover {
     opacity: 0.6;
 }
 
-checkbox:active > .checkbox-check {
+checkbox:active > .checkbox-check,
+input[type="checkbox"]:not([checked="true"]):active {
     opacity: 0.9;
 }
 
-checkbox > .checkbox-check[checked="true"] {
-    list-style-image: url(chrome://global/skin/icons/check.svg);
-    background-color: var(--dot-accent-color) !important;
+checkbox > .checkbox-check[checked="true"],
+input[type="checkbox"][checked="true"] {
+    background-image: url(chrome://global/skin/icons/check.svg);
+    background-color: var(--dot-accent-color, #1662D3) !important;
     fill: white !important;
     opacity: 1 !important;
     border: none !important;
