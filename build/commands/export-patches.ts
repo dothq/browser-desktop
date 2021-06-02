@@ -76,8 +76,7 @@ const exportModified = async (
     patchesDir: string,
     cwd: string
 ) => {
-    const { files, fileNames } =
-        await getFiles("M", cwd);
+    const { files, fileNames } = await getFiles("M", cwd);
 
     var filesWritten = 0;
 
