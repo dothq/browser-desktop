@@ -1,0 +1,26 @@
+diff --git a/browser/locales/en-US/chrome/browser/app-extension-fields.properties b/browser/locales/en-US/chrome/browser/app-extension-fields.properties
+index e13a7d847b2da3b35f4949f3f209cda642cb006d..20a88180a8b0439431b8bc51b7fdc8250077a9a8 100644
+--- a/browser/locales/en-US/chrome/browser/app-extension-fields.properties
++++ b/browser/locales/en-US/chrome/browser/app-extension-fields.properties
+@@ -2,14 +2,10 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-# LOCALIZATION NOTE (extension.firefox-compact-light@mozilla.org.name): This is displayed in about:addons -> Appearance
+-extension.firefox-compact-light@mozilla.org.name=Light
+-extension.firefox-compact-light@mozilla.org.description=A theme with a light color scheme.
++# LOCALIZATION NOTE (extension.light@themes.dothq.co.name): This is displayed in about:addons -> Appearance
++extension.light@themes.dothq.co.name=Light
++extension.light@themes.dothq.co.description=A theme with a light color scheme.
+ 
+-# LOCALIZATION NOTE (extension.firefox-compact-dark@mozilla.org.name): This is displayed in about:addons -> Appearance
+-extension.firefox-compact-dark@mozilla.org.name=Dark
+-extension.firefox-compact-dark@mozilla.org.description=A theme with a dark color scheme.
+-
+-# LOCALIZATION NOTE (extension.firefox-alpenglow@mozilla.org.name): This is displayed in about:addons -> Appearance
+-extension.firefox-alpenglow@mozilla.org.name=Firefox Alpenglow
+-extension.firefox-alpenglow@mozilla.org.description=Use a colorful appearance for buttons, menus, and windows.
++# LOCALIZATION NOTE (extension.dark@themes.dothq.co.name): This is displayed in about:addons -> Appearance
++extension.dark@themes.dothq.co.name=Dark
++extension.dark@themes.dothq.co.description=A theme with a dark color scheme.
+\ No newline at end of file

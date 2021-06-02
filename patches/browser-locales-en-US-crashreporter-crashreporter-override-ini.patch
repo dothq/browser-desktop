@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/crashreporter/crashreporter-override.ini b/browser/locales/en-US/crashreporter/crashreporter-override.ini
+index f14b1c4f0dab338718d2f2c2a3c448a1d3c31615..6dd901cb4b9247a2cd6c3654a82d9be8b258017b 100644
+--- a/browser/locales/en-US/crashreporter/crashreporter-override.ini
++++ b/browser/locales/en-US/crashreporter/crashreporter-override.ini
+@@ -5,5 +5,5 @@
+ # This file is in the UTF-8 encoding
+ [Strings]
+ # LOCALIZATION NOTE (CrashReporterProductErrorText2): The %s is replaced with a string containing detailed information.
+-CrashReporterProductErrorText2=Firefox had a problem and crashed. We’ll try to restore your tabs and windows when it restarts.\n\nUnfortunately the crash reporter is unable to submit a crash report.\n\nDetails: %s
+-CrashReporterDescriptionText2=Firefox had a problem and crashed. We’ll try to restore your tabs and windows when it restarts.\n\nTo help us diagnose and fix the problem, you can send us a crash report.
++CrashReporterProductErrorText2=Dot had a problem and crashed. We’ll try to restore your tabs and windows when it restarts.\n\nUnfortunately the crash reporter is unable to submit a crash report.\n\nDetails: %s
++CrashReporterDescriptionText2=Dot had a problem and crashed. We’ll try to restore your tabs and windows when it restarts.\n\nTo help us diagnose and fix the problem, you can send us a crash report.

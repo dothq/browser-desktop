@@ -1,0 +1,17 @@
+diff --git a/browser/locales/en-US/browser/preferences/preferences.ftl b/browser/locales/en-US/browser/preferences/preferences.ftl
+index 92bfc55389511663ec6b748882199b87dd21a715..be64ac0d0dc61ed1dd0c87ca2c4ee10b76d605fe 100644
+--- a/browser/locales/en-US/browser/preferences/preferences.ftl
++++ b/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -9,11 +9,7 @@ do-not-track-option-default-content-blocking-known =
+ do-not-track-option-always =
+     .label = Always
+ 
+-pref-page-title =
+-    { PLATFORM() ->
+-        [windows] Options
+-       *[other] Preferences
+-    }
++pref-page-title = Settings
+ 
+ # This is used to determine the width of the search field in about:preferences,
+ # in order to make the entire placeholder string visible

@@ -1,0 +1,13 @@
+diff --git a/browser/locales/en-US/browser/menubar.ftl b/browser/locales/en-US/browser/menubar.ftl
+index 7a544d1d4fdca4b4c115a591e38a3cf3f230c2e2..b6f8e0d46a0e6cd2274b4374b74a777a7bb82ea1 100644
+--- a/browser/locales/en-US/browser/menubar.ftl
++++ b/browser/locales/en-US/browser/menubar.ftl
+@@ -140,6 +140,8 @@ menu-view-history-button =
+     .label = History
+ menu-view-synced-tabs-sidebar =
+     .label = Synced Tabs
++menu-view-accounts-button =
++    .label = Accounts
+ menu-view-full-zoom =
+     .label = Zoom
+     .accesskey = Z
