@@ -21,7 +21,6 @@ const manualPatches: IPatch[] = [
         action: "copy",
         src: [
             "browser/components/abouthistory",
-            "browser/locales/en-US/browser/aboutHistory.ftl",
             "browser/actors/AboutHistoryChild.jsm",
             "browser/actors/AboutHistoryParent.jsm"
         ]
@@ -89,7 +88,10 @@ const manualPatches: IPatch[] = [
         name: "l10n",
         action: "copy",
         src: [
-            "browser/locales/en-US/browser/qr-codes.ftl"
+            "browser/locales/en-US/browser/qr-codes.ftl",
+            "browser/locales/en-US/browser/aboutPreferences.ftl",
+            "browser/locales/en-US/browser/aboutHistory.ftl",
+            "browser/locales/en-US/browser/onboarding.ftl",
         ]
     },
     {
