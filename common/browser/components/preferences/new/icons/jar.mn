@@ -15,3 +15,5 @@ browser.jar:
    content/browser/preferences/new/icons/category-start-page.svg
    content/browser/preferences/new/icons/category-sync.svg
    content/browser/preferences/new/icons/category-appearance.svg
+
+   content/browser/preferences/new/icons/work.svg

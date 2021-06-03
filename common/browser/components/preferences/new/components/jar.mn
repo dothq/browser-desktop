@@ -4,3 +4,7 @@
 
 browser.jar:
    content/browser/preferences/new/components/profiles.js
+   content/browser/preferences/new/components/start-up.js
+   content/browser/preferences/new/components/policies.js
+   content/browser/preferences/new/components/search-box.js
+   content/browser/preferences/new/components/banners.js

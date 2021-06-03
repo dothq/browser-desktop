@@ -11,13 +11,16 @@
   <link rel="icon" href="chrome://global/skin/icons/settings.svg" />
   <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/common.css" media="all" />
   <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/settings.css" media="all" />
-  <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
   <link rel="localization" href="branding/brand.ftl" />
   <link rel="localization" href="browser/branding/brandings.ftl" />
   <link rel="localization" href="browser/preferences/preferences.ftl" />
   <link rel="localization" href="browser/aboutPreferences.ftl" />
   <!-- Settings component scripts -->
   <script src="chrome://browser/content/preferences/new/components/profiles.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/start-up.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/policies.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/search-box.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/banners.js"></script>
   <!-- Settings component scripts: END -->
   <script src="chrome://browser/content/preferences/new/newpreferences.js"></script>
   <script src="chrome://browser/content/contentTheme.js"></script>
@@ -116,6 +119,10 @@
     </aside>
 
     <main id="content">
+      <div id="preferences-banners">
+
+      </div>
+
       <div class="tab-content" id="tab-content-general">
         <h2 class="section-title">
           General
@@ -130,6 +137,16 @@
 
           </div>
         </div>
+
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Start-up
+          </h4>
+
+          <div id="start-up" class="preferences-block-container">
+
+          </div>
+        </div>
       </div>
 
       <div class="tab-content" id="tab-content-not-found">
@@ -139,6 +156,47 @@
         <p class="section-body">Your search returned no results.</p>
       </div>
     </main>
+  </div>
+
+  <div id="templates">
+    <template id="template-start-up">
+      <div class="preferences-item">
+        <div class="preferences-item-container">
+          <span class="preferences-item-title">
+            Default Browser
+          </span>
+          <span class="preferences-item-subtitle" id="set-default-body">
+            Dot Browser is not your default web browser.
+          </span>
+        </div>
+
+        <div class="preferences-item-actions">
+          <a id="set-default-btn" class="webui-button primary">Set as default</a>
+        </div>
+      </div>
+
+      <div class="preferences-item">
+        <div class="preferences-item-container gap-10">
+          <span class="preferences-item-title">
+            Session
+          </span>
+          <span class="preferences-item-subtitle" style="opacity: 1;">
+            <input type="checkbox" id="restore-session-checkbox">
+            <label for="restore-session-checkbox">
+              Restore previous session on start-up
+            </label>
+          </span>
+
+          <span id="warn-on-quit-item" class="preferences-item-subtitle indent" style="opacity: 1;">
+            <input type="checkbox" data-preference="browser.sessionstore.warnOnQuit" data-preference-type="bool"
+              type="checkbox" id="warn-on-quit-checkbox">
+            <label for="warn-on-quit-checkbox">
+              Warn you when quitting the browser
+            </label>
+          </span>
+        </div>
+      </div>
+    </template>
   </div>
 </body>
 
