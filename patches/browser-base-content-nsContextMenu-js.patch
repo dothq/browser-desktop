@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/nsContextMenu.js b/browser/base/content/nsContextMenu.js
-index 478646df36b38fd505da5e7e74383a1eac46465a..63af9c6d4b29112c242f7045ae0aecd7a5084229 100644
+index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad8ce416a8 100644
 --- a/browser/base/content/nsContextMenu.js
 +++ b/browser/base/content/nsContextMenu.js
 @@ -160,7 +160,7 @@ class nsContextMenu {
@@ -49,21 +49,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..63af9c6d4b29112c242f7045ae0aecd7
      );
  
      var shouldShow = !(
-@@ -641,6 +641,13 @@ class nsContextMenu {
-         nsContextMenu.DevToolsShim.isDevToolsUser());
- 
-     this.showItem("context-viewsource", shouldShow);
-+//     Something changed here with ff88. This line was removed. Idk why, so it has been commented out
-+//     this.setItemAttr(
-+//       "context-viewinfo",
-+//       "disabled",
-+//      this.webExtBrowserType === "popup" ||
-+//      gIdentityHandler._hasInvalidPageProxyState()
-+//     );
-     this.showItem("context-inspect", showInspect);
- 
-     this.showItem("context-inspect-a11y", showInspectA11Y);
-@@ -651,6 +658,15 @@ class nsContextMenu {
+@@ -651,6 +651,15 @@ class nsContextMenu {
        this.onVideo && (!this.inSyntheticDoc || this.inFrame)
      );
      this.setItemAttr("context-viewvideo", "disabled", !this.mediaURL);
@@ -79,7 +65,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..63af9c6d4b29112c242f7045ae0aecd7
    }
  
    initMiscItems() {
-@@ -2191,6 +2207,14 @@ class nsContextMenu {
+@@ -2191,6 +2200,14 @@ class nsContextMenu {
    doCustomCommand(generatedItemId, handlingUserInput) {
      this.actor.doCustomCommand(generatedItemId, handlingUserInput);
    }
