@@ -43,15 +43,10 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..33e69854cba65af0005d58e662461cbd
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
    skin/classic/browser/device-phone.svg               (../shared/icons/device-phone.svg)
-@@ -206,6 +217,7 @@
-   skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
-   skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
-   skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
+@@ -206,2 +217,3 @@
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
 +  skin/classic/browser/qr-code.svg                    (../shared/icons/qr-code.svg)
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
-   skin/classic/browser/reload.svg                     (../shared/icons/reload.svg)
-   skin/classic/browser/reload-to-stop.svg             (../shared/icons/reload-to-stop.svg)
 @@ -218,6 +230,7 @@
  #ifndef MOZ_WIDGET_GTK
    skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
