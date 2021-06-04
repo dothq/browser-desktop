@@ -1,0 +1,13 @@
+diff --git a/toolkit/locales/en-US/chrome/global/commonDialogs.properties b/toolkit/locales/en-US/chrome/global/commonDialogs.properties
+index 86d3499a556427700929b833c8557cc28e8ca65d..b9e276c15c9c15c9f90dd7d15c66b8abce7cb567 100644
+--- a/toolkit/locales/en-US/chrome/global/commonDialogs.properties
++++ b/toolkit/locales/en-US/chrome/global/commonDialogs.properties
+@@ -19,7 +19,7 @@ Save=&Save
+ Revert=&Revert
+ DontSave=Do&n’t Save
+ ScriptDlgGenericHeading=[JavaScript Application]
+-ScriptDlgHeading=The page at %S says:
++ScriptDlgHeading=%S says:
+ ScriptDlgNullPrincipalHeading=This page says:
+ ScriptDialogLabel=Prevent this page from creating additional dialogs
+ ScriptDialogPreventTitle=Confirm Dialog Preference

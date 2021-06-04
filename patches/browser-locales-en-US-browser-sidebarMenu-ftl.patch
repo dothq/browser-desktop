@@ -1,0 +1,19 @@
+diff --git a/browser/locales/en-US/browser/sidebarMenu.ftl b/browser/locales/en-US/browser/sidebarMenu.ftl
+index ab2cea2d39fbd9744584790c01c0c76200098510..ef526e4bfd7cd0f9bb13b4eb7feb3f0eb478db76 100644
+--- a/browser/locales/en-US/browser/sidebarMenu.ftl
++++ b/browser/locales/en-US/browser/sidebarMenu.ftl
+@@ -11,5 +11,14 @@ sidebar-menu-history =
+ sidebar-menu-synced-tabs =
+   .label = Synced Tabs
+ 
++sidebar-menu-accounts =
++  .label = Accounts
++
++sidebar-menu-settings =
++  .tooltiptext = Settings
++
+ sidebar-menu-close =
+   .label = Close Sidebar
++
++sidebar-context-menu-remove-item =
++  .label = Remove Item from Sidebar

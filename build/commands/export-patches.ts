@@ -25,15 +25,6 @@ const flags: {
     A: "add"
 };
 
-const isLocale = (l: string) =>
-    (l.endsWith(".inc") && l.includes("locales")) ||
-    (l.endsWith(".ini") && l.includes("locales")) ||
-    l.endsWith(".ftl") ||
-    (l.endsWith(".properties") && !l.includes("test")) ||
-    (l.endsWith(".dtd") &&
-        !l.includes("test") &&
-        l.toLowerCase().includes("en-us"));
-
 const getFiles = async (flags: string, cwd: string) => {
     let { stdout: ignored } = await execa(
         "git",
@@ -60,14 +51,9 @@ const getFiles = async (flags: string, cwd: string) => {
     const files = fls.split("\n").filter((i: any) => {
         return !(
             ignored.split("\n").includes(i) ||
-            i == ".gitignore" ||
-            isLocale(i)
+            i == ".gitignore"
         );
     }); // this filters out the manual patches
-
-    const l10nFiles = fls
-        .split("\n")
-        .filter((l: any) => isLocale(l));
 
     log.info(
         `Ignoring ${ignored.split("\n").length} files...`
@@ -83,15 +69,14 @@ const getFiles = async (flags: string, cwd: string) => {
         }
     });
 
-    return { files, fileNames, l10nFiles };
+    return { files, fileNames };
 };
 
 const exportModified = async (
     patchesDir: string,
     cwd: string
 ) => {
-    const { files, fileNames, l10nFiles } =
-        await getFiles("M", cwd);
+    const { files, fileNames } = await getFiles("M", cwd);
 
     var filesWritten = 0;
 
@@ -137,96 +122,6 @@ const exportModified = async (
 
     log.info(
         `Wrote ${filesWritten} to patches directory.`
-    );
-
-    await Promise.all(
-        l10nFiles.map(async (l10n: any, i: any) => {
-            const type =
-                l10n.split(".")[
-                    l10n.split(".").length - 1
-                ];
-
-            const { stdout: diff } = await execa(
-                "git",
-                [
-                    "diff",
-                    "--src-prefix=a/",
-                    "--dst-prefix=b/",
-                    l10n
-                ],
-                {
-                    cwd,
-                    stripFinalNewline: false
-                }
-            );
-
-            const changed = diff
-                .split("\n")
-                .filter(
-                    (ln) =>
-                        ln.startsWith("+") &&
-                        !ln.startsWith("+++")
-                )
-                .map((i) => i.substr(1));
-
-            const localePath = l10n
-                .split("/locales/en-US/")[1]
-                .split("/");
-            const localeName = localePath.pop();
-
-            if (!changed) {
-                console.log(diff);
-                log.error(
-                    `Failed to find changed lines in ${l10n}`
-                );
-                return;
-            }
-
-            if (changed[0] == "") changed.shift();
-
-            const copyrightNotice =
-                type == "ftl" || type == "properties"
-                    ? `# This Source Code Form is subject to the terms of the Mozilla Public
-# License, v. 2.0. If a copy of the MPL was not distributed with this
-# file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n`
-                    : type == "dtd"
-                    ? `<!-- This Source Code Form is subject to the terms of the Mozilla Public
-- License, v. 2.0. If a copy of the MPL was not distributed with this
-- file, You can obtain one at http://mozilla.org/MPL/2.0/. -->\n\n`
-                    : type == "ini"
-                    ? `; This Source Code Form is subject to the terms of the Mozilla Public
-; License, v. 2.0. If a copy of the MPL was not distributed with this
-; file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n`
-                    : ``;
-
-            ensureDirSync(
-                resolve(
-                    process.cwd(),
-                    "l10n",
-                    "en-US",
-                    ...localePath
-                )
-            );
-
-            writeFileSync(
-                resolve(
-                    process.cwd(),
-                    "l10n",
-                    "en-US",
-                    ...localePath,
-                    localeName
-                ),
-                `${copyrightNotice}${changed.join("\n")}`
-            );
-
-            log.info(
-                `Wrote ${
-                    changed.length
-                } strings to ${localePath.join(
-                    "/"
-                )}/${localeName}.`
-            );
-        })
     );
 };
 

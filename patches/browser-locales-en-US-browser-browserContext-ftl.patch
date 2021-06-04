@@ -1,0 +1,16 @@
+diff --git a/browser/locales/en-US/browser/browserContext.ftl b/browser/locales/en-US/browser/browserContext.ftl
+index 78f8f520e45b186f2c82793557dc4723371135e5..e85eebebfacad3e18dc00771d0f8d32726af873d 100644
+--- a/browser/locales/en-US/browser/browserContext.ftl
++++ b/browser/locales/en-US/browser/browserContext.ftl
+@@ -67,6 +67,11 @@ main-context-menu-page-save =
+     .label = Save Page As…
+     .accesskey = P
+ 
++## Make QR Code with page URL
++
++main-context-menu-page-qr-generate =
++    .label = Generate QR Code for Page…
++
+ ## Simple menu items
+ 
+ main-context-menu-bookmark-add =

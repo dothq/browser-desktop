@@ -1,8 +1,8 @@
-# Optimise builds
-ac_add_options --enable-application=browser
-ac_add_options --enable-release
-ac_add_options --with-ccache=sccache
-ac_add_options --enable-updater
+MOZ_AUTOMATION=1 
+ac_add_options --target=x86_64-pc-mingw32 
+ac_add_options --enable-js-shell 
+ac_add_options --enable-rust-simd 
+--enable-crashreporter 
 
 # Disable telemetry and tracking
 mk_add_options MOZ_TELEMETRY_REPORTING=

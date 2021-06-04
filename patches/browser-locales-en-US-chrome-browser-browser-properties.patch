@@ -1,0 +1,24 @@
+diff --git a/browser/locales/en-US/chrome/browser/browser.properties b/browser/locales/en-US/chrome/browser/browser.properties
+index e601538b0218f8475333d1a9df5ceb9838221e98..5eb176527b3a7f9cdf212ea0d5bdcea81b0346c8 100644
+--- a/browser/locales/en-US/chrome/browser/browser.properties
++++ b/browser/locales/en-US/chrome/browser/browser.properties
+@@ -581,8 +581,8 @@ protections.footer.blockedTrackerCounter.tooltip=Since %S
+ protections.milestone.description=#1 blocked #2 tracker since #3;#1 blocked over #2 trackers since #3
+ 
+ # Edit Bookmark UI
+-editBookmarkPanel.newBookmarkTitle=New Bookmark
+-editBookmarkPanel.editBookmarkTitle=Edit This Bookmark
++editBookmarkPanel.newBookmarkTitle=Bookmark added
++editBookmarkPanel.editBookmarkTitle=Edit Bookmark
+ editBookmarkPanel.cancel.label=Cancel
+ editBookmarkPanel.cancel.accesskey=C
+ 
+@@ -591,7 +591,7 @@ editBookmarkPanel.cancel.accesskey=C
+ # Replacement for #1 is the number of bookmarks to be removed.
+ # If this causes problems with localization you can also do "Remove Bookmarks (#1)"
+ # instead of "Remove #1 Bookmarks".
+-editBookmark.removeBookmarks.label=Remove Bookmark;Remove #1 Bookmarks
++editBookmark.removeBookmarks.label=Remove;Remove #1 Bookmarks
+ editBookmark.removeBookmarks.accesskey=R
+ 
+ # Application menu

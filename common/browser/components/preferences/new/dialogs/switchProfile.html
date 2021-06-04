@@ -1,0 +1,90 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+
+<html width="550" height="200">
+
+<head>
+    <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/common.css" media="all" />
+    <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/dialog.css" media="all" />
+    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
+    <link rel="localization" href="browser/preferences/preferences.ftl" />
+    <script>
+        "use strict";
+
+        const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+
+        ChromeUtils.defineModuleGetter(
+            this,
+            "LightweightThemeManager",
+            "resource://gre/modules/LightweightThemeManager.jsm"
+        );
+
+        const updateThemeData = () => {
+            const themeData = Object.entries(LightweightThemeManager.currentThemeWithFallback);
+
+            for (const [key, value] of themeData) {
+                if (typeof value == "string") {
+                    document.body.style.setProperty(`--theme-${key.replace(/_/g, "-")}`, value);
+                }
+            }
+        }
+
+        window.addEventListener("focus", updateThemeData);
+        window.addEventListener("blur", updateThemeData);
+        window.addEventListener("DOMContentLoaded", updateThemeData);
+        window.addEventListener("pageshow", updateThemeData, { once: true });
+
+        console.log(window.arguments[0])
+    </script>
+    <style>
+        body {
+            width: calc(100% - 24px * 2);
+            padding: 24px;
+            height: calc(100vh - 24px * 2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button-flex {
+            display: flex;
+            flex-direction: row;
+            max-width: 280px;
+            gap: 16px;
+            height: 100%;
+            margin-left: auto;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        a.webui-button {
+            flex: 1;
+        }
+
+        h3 {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        b {
+            font-weight: 500;
+        }
+
+        p {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Are you sure?</h3>
+    <p id="switchProfileBody">Switching to Profile % will close this window.</p>
+    <div class="button-flex">
+        <a class="webui-button secondary" onclick="window.close();">Cancel</a>
+        <a class="webui-button primary" onclick="window.close();">OK</a>
+    </div>
+</body>
+
+</html>

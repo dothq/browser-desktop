@@ -8,7 +8,7 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..33e69854cba65af0005d58e662461cbd
    skin/classic/browser/customizableui/whimsy.png               (../shared/customizableui/whimsy.png)
 +  skin/classic/browser/dotui/sidebar.css                       (../shared/dotui/sidebar.css)
 +  skin/classic/browser/dotui/webui/common.css                  (../shared/dotui/webui/common.css)
-+  skin/classic/browser/dotui/webui/settings.css                  (../shared/dotui/webui/settings.css)
++* skin/classic/browser/dotui/webui/settings.css                  (../shared/dotui/webui/settings.css)
    skin/classic/browser/downloads/contentAreaDownloadsView.css  (../shared/downloads/contentAreaDownloadsView.css)
    skin/classic/browser/downloads/download-blocked.svg          (../shared/downloads/download-blocked.svg)
    skin/classic/browser/downloads/download-summary.svg          (../shared/downloads/download-summary.svg)
@@ -21,6 +21,17 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..33e69854cba65af0005d58e662461cbd
    skin/classic/browser/notification-icons/microphone-blocked.svg            (../shared/notification-icons/microphone-blocked.svg)
    skin/classic/browser/notification-icons/microphone-detailed.svg           (../shared/notification-icons/microphone-detailed.svg)
    skin/classic/browser/notification-icons/microphone.svg                    (../shared/notification-icons/microphone.svg)
+@@ -100,6 +105,10 @@
+   skin/classic/browser/notification-icons/block-social-dark.svg             (../shared/notification-icons/block-social-dark.svg)
+   skin/classic/browser/notification-icons/block-social.svg                  (../shared/notification-icons/block-social.svg)
+ 
++  skin/classic/browser/onboarding-icons/adblock.svg                         (../shared/onboarding-icons/adblock.svg)
++  skin/classic/browser/onboarding-icons/import.svg                          (../shared/onboarding-icons/import.svg)
++  skin/classic/browser/onboarding-icons/personalise.svg                     (../shared/onboarding-icons/personalise.svg)
++
+   skin/classic/browser/tracking-protection.svg                 (../shared/identity-block/tracking-protection.svg)
+   skin/classic/browser/tracking-protection-disabled.svg        (../shared/identity-block/tracking-protection-disabled.svg)
+   skin/classic/browser/tracking-protection-animation.svg        (../shared/identity-block/tracking-protection-animation.svg)
 @@ -148,8 +153,10 @@
    skin/classic/browser/bookmark-hollow.svg            (../shared/icons/bookmark-hollow.svg)
    skin/classic/browser/bookmark-star-on-tray.svg      (../shared/icons/bookmark-star-on-tray.svg)
@@ -32,7 +43,8 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..33e69854cba65af0005d58e662461cbd
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
    skin/classic/browser/device-phone.svg               (../shared/icons/device-phone.svg)
-@@ -190,6 +197,7 @@
+@@ -206,6 +217,7 @@
+   skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
    skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
    skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
@@ -40,7 +52,7 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..33e69854cba65af0005d58e662461cbd
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
    skin/classic/browser/reload.svg                     (../shared/icons/reload.svg)
    skin/classic/browser/reload-to-stop.svg             (../shared/icons/reload-to-stop.svg)
-@@ -203,6 +211,7 @@
+@@ -218,6 +230,7 @@
  #ifndef MOZ_WIDGET_GTK
    skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
  #endif

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
+        d="M4 4V3C4 1.34315 5.34315 0 7 0H9C10.6569 0 12 1.34315 12 3V4H13C14.6569 4 16 5.34315 16 7V13C16 14.6569 14.6569 16 13 16H3C1.34315 16 0 14.6569 0 13V7C0 5.34315 1.34315 4 3 4H4ZM7 2H9C9.55228 2 10 2.44772 10 3V4H6V3C6 2.44772 6.44772 2 7 2Z" />
+</svg>

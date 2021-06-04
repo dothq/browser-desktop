@@ -1,0 +1,21 @@
+diff --git a/browser/locales/en-US/chrome/browser/sitePermissions.properties b/browser/locales/en-US/chrome/browser/sitePermissions.properties
+index 0802d4cdc8cc4dc8b6260b71797990cebf116bf0..56fa548e947f8fc76b9b6939989cb368b0ef6dec 100644
+--- a/browser/locales/en-US/chrome/browser/sitePermissions.properties
++++ b/browser/locales/en-US/chrome/browser/sitePermissions.properties
+@@ -39,7 +39,7 @@ permission.microphone.label = Use the Microphone
+ permission.screen.label = Share the Screen
+ permission.install.label = Install Add-ons
+ permission.popup.label = Open Pop-up Windows
+-permission.geo.label = Access Your Location
++permission.geo.label = Location
+ permission.xr.label = Access Virtual Reality Devices
+ permission.shortcuts.label = Override Keyboard Shortcuts
+ permission.focus-tab-by-prompt.label = Switch to this Tab
+@@ -47,6 +47,7 @@ permission.persistent-storage.label = Store Data in Persistent Storage
+ permission.canvas.label = Extract Canvas Data
+ permission.midi.label = Access MIDI Devices
+ permission.midi-sysex.label = Access MIDI Devices with SysEx Support
++permission.javascript.label = JavaScript
+ # LOCALIZATION NOTE (permission.open-protocol-handler.label):
+ # Open as a verb. "This site may open applications".
+ permission.open-protocol-handler.label = Open applications
