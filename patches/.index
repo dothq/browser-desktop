@@ -116,6 +116,7 @@ devtools-client-themes-images-debugging-tabs-svg.patch - devtools/client/themes/
 docshell-base-nsAboutRedirector-cpp.patch - docshell/base/nsAboutRedirector.cpp
 docshell-build-components-conf.patch - docshell/build/components.conf
 dom-base-Document-cpp.patch - dom/base/Document.cpp
+dom-base-nsGlobalWindowOuter-cpp.patch - dom/base/nsGlobalWindowOuter.cpp
 layout-base-PresShell-cpp.patch - layout/base/PresShell.cpp
 modules-libpref-init-StaticPrefList-yaml.patch - modules/libpref/init/StaticPrefList.yaml
 modules-libpref-moz-build.patch - modules/libpref/moz.build
@@ -129,6 +130,7 @@ toolkit-components-moz-build.patch - toolkit/components/moz.build
 toolkit-components-search-SearchEngineSelector-jsm.patch - toolkit/components/search/SearchEngineSelector.jsm
 toolkit-content-widgets-moz-input-box-js.patch - toolkit/content/widgets/moz-input-box.js
 toolkit-modules-LightweightThemeConsumer-jsm.patch - toolkit/modules/LightweightThemeConsumer.jsm
+toolkit-modules-SubDialog-jsm.patch - toolkit/modules/SubDialog.jsm
 toolkit-mozapps-extensions-content-aboutaddons-js.patch - toolkit/mozapps/extensions/content/aboutaddons.js
 toolkit-mozapps-extensions-internal-AddonSettings-jsm.patch - toolkit/mozapps/extensions/internal/AddonSettings.jsm
 toolkit-mozapps-extensions-internal-XPIDatabase-jsm.patch - toolkit/mozapps/extensions/internal/XPIDatabase.jsm
