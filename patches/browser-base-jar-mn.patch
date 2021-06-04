@@ -1,8 +1,8 @@
 diff --git a/browser/base/jar.mn b/browser/base/jar.mn
-index 8d482e8b6417223807cc618e8f31728698501e15..03a7ab52e9c0879ffd402a02a641c79370f9365b 100644
+index 26e70f4f410443f4cdd28b6a8afc65a0dfc5f183..186baf6b8cda8d2cd0c37e27f94d18b911164b88 100644
 --- a/browser/base/jar.mn
 +++ b/browser/base/jar.mn
-@@ -79,11 +79,6 @@ browser.jar:
+@@ -77,11 +77,6 @@ browser.jar:
          content/browser/defaultthemes/5.icon.jpg            (content/defaultthemes/5.icon.jpg)
          content/browser/defaultthemes/5.preview.jpg         (content/defaultthemes/5.preview.jpg)
          content/browser/history-swipe-arrow.svg             (content/history-swipe-arrow.svg)

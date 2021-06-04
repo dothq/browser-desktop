@@ -1,5 +1,5 @@
 diff --git a/docshell/build/components.conf b/docshell/build/components.conf
-index 69151f083cffe37604549d17ad611045e5bac8b1..1c4658cc8a5fb3a7a21519d10bcc50a406f67d4a 100644
+index 99a6fd962268b96053c5d3648ce9bff4d2af1c6e..d7e2ae9642c21ea2cd55efbebf05a7f5005d4d92 100644
 --- a/docshell/build/components.conf
 +++ b/docshell/build/components.conf
 @@ -14,6 +14,7 @@ about_pages = [

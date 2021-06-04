@@ -1,13 +1,15 @@
-diff --git a/toolkit/themes/shared/icons/identity-icon.svg b/toolkit/themes/shared/icons/identity-icon.svg
-index 80b57ff43ab73390275c8bda923e71eadbd51665..8c3dde0dc2bb901e6997519733bfb2aabb52899a 100644
---- a/toolkit/themes/shared/icons/identity-icon.svg
-+++ b/toolkit/themes/shared/icons/identity-icon.svg
-@@ -2,5 +2,10 @@
+diff --git a/toolkit/themes/shared/icons/info.svg b/toolkit/themes/shared/icons/info.svg
+index a00aacf25ef543c69ea6d212d33947df3b77e380..8c3dde0dc2bb901e6997519733bfb2aabb52899a 100644
+--- a/toolkit/themes/shared/icons/info.svg
++++ b/toolkit/themes/shared/icons/info.svg
+@@ -1,6 +1,11 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
--  <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" d="M8 15a7 7 0 1 1 7-7 7 7 0 0 1-7 7zM8 2a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0v3a1 1 0 0 1-1 1zm0-6a1 1 0 1 1 1-1 1 1 0 0 1-1 1z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M8 1a7 7 0 1 0 7 7 7.008 7.008 0 0 0-7-7zm0 13a6 6 0 1 1 6-6 6.007 6.007 0 0 1-6 6zm0-7a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V8a1 1 0 0 0-1-1zm0-3.188A1.188 1.188 0 1 0 9.188 5 1.188 1.188 0 0 0 8 3.812z" />
 -</svg>
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 +  <path fill="context-fill" fill-opacity="context-fill-opacity"
 +    d="M9 5C9 5.55228 8.55228 6 8 6C7.44771 6 7 5.55228 7 5C7 4.44772 7.44771 4 8 4C8.55228 4 9 4.44772 9 5Z" />
 +  <path fill="context-fill" fill-opacity="context-fill-opacity"

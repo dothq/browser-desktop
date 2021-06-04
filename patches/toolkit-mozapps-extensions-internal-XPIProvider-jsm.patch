@@ -1,8 +1,8 @@
 diff --git a/toolkit/mozapps/extensions/internal/XPIProvider.jsm b/toolkit/mozapps/extensions/internal/XPIProvider.jsm
-index ac5bdacb6de917005dd568b676bec7238a23e176..e1a49536477125f5a507814d16f7a57f712193a9 100644
+index 06773a773c93baa3e5299b74dc9373095447ecd1..c83f46c2bc16e24ae82323c4cb961518416410da 100644
 --- a/toolkit/mozapps/extensions/internal/XPIProvider.jsm
 +++ b/toolkit/mozapps/extensions/internal/XPIProvider.jsm
-@@ -2469,7 +2469,7 @@ var XPIProvider = {
+@@ -2472,7 +2472,7 @@ var XPIProvider = {
        AddonManagerPrivate.markProviderSafe(this);
  
        this.maybeInstallBuiltinAddon(

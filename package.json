@@ -2,8 +2,8 @@
     "name": "dot",
     "versions": {
         "dot": "0.0.1",
-        "firefox-display": "87.0",
-        "firefox": "87.0",
+        "firefox-display": "88.0",
+        "firefox": "88.0",
         "melon": "0.0.1"
     },
     "repository": "https://github.com/dothq/browser-desktop",
@@ -17,6 +17,7 @@
         "execa": "^5.1.0",
         "fs-extra": "^9.0.1",
         "glob": "^7.1.6",
+        "ora": "^5.4.0",
         "promptly": "^3.2.0",
         "rimraf": "^3.0.2",
         "typescript": "^4.1.3"

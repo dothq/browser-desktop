@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/jar.inc.mn b/browser/themes/shared/jar.inc.mn
-index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..6d4e4f889e1a87e69ddeb6345d8c05dc277bd3db 100644
+index 9a62864b3f1ff80db532019949f6c480175de35f..33e69854cba65af0005d58e662461cbd0d0e9e1c 100644
 --- a/browser/themes/shared/jar.inc.mn
 +++ b/browser/themes/shared/jar.inc.mn
 @@ -45,6 +45,9 @@
@@ -12,7 +12,7 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..6d4e4f889e1a87e69ddeb6345d8c05dc
    skin/classic/browser/downloads/contentAreaDownloadsView.css  (../shared/downloads/contentAreaDownloadsView.css)
    skin/classic/browser/downloads/download-blocked.svg          (../shared/downloads/download-blocked.svg)
    skin/classic/browser/downloads/download-summary.svg          (../shared/downloads/download-summary.svg)
-@@ -77,6 +80,8 @@
+@@ -71,6 +74,8 @@
    skin/classic/browser/notification-icons/drag-indicator.svg                (../shared/notification-icons/drag-indicator.svg)
    skin/classic/browser/notification-icons/focus-tab-by-prompt.svg           (../shared/notification-icons/focus-tab-by-prompt.svg)
    skin/classic/browser/notification-icons/indexedDB.svg                     (../shared/notification-icons/indexedDB.svg)
@@ -32,14 +32,13 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..6d4e4f889e1a87e69ddeb6345d8c05dc
    skin/classic/browser/tracking-protection.svg                 (../shared/identity-block/tracking-protection.svg)
    skin/classic/browser/tracking-protection-disabled.svg        (../shared/identity-block/tracking-protection-disabled.svg)
    skin/classic/browser/tracking-protection-animation.svg        (../shared/identity-block/tracking-protection-animation.svg)
-@@ -163,9 +172,11 @@
+@@ -148,8 +153,10 @@
    skin/classic/browser/bookmark-hollow.svg            (../shared/icons/bookmark-hollow.svg)
    skin/classic/browser/bookmark-star-on-tray.svg      (../shared/icons/bookmark-star-on-tray.svg)
    skin/classic/browser/bookmarks-toolbar.svg          (../shared/icons/bookmarks-toolbar.svg)
 +  skin/classic/browser/certificate.svg                (../shared/icons/certificate.svg)
    skin/classic/browser/characterEncoding.svg          (../shared/icons/characterEncoding.svg)
    skin/classic/browser/chevron-animation.svg          (../shared/icons/chevron-animation.svg)
-   skin/classic/browser/check-animation.svg            (../shared/icons/check-animation.svg)
 +  skin/classic/browser/cookies.svg                    (../shared/icons/cookies.svg)
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
@@ -47,6 +46,7 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..6d4e4f889e1a87e69ddeb6345d8c05dc
 @@ -206,6 +217,7 @@
    skin/classic/browser/private-browsing.svg           (../shared/icons/private-browsing.svg)
    skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
+   skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
 +  skin/classic/browser/qr-code.svg                    (../shared/icons/qr-code.svg)
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
@@ -59,4 +59,4 @@ index ada11562915d4c63b5aedb8e0ed2b49512f2c5d5..6d4e4f889e1a87e69ddeb6345d8c05dc
 +  skin/classic/browser/spell-check.svg                (../shared/icons/spell-check.svg)
    skin/classic/browser/stop.svg                       (../shared/icons/stop.svg)
    skin/classic/browser/stop-to-reload.svg             (../shared/icons/stop-to-reload.svg)
-   skin/classic/browser/sync.svg                       (../shared/icons/sync.svg)
+   skin/classic/browser/success-animation.svg          (../shared/icons/success-animation.svg)

@@ -1,5 +1,5 @@
 diff --git a/browser/modules/ThemeVariableMap.jsm b/browser/modules/ThemeVariableMap.jsm
-index 32e034aedfa91d0bdc2e77c3136e0ad6fe06729d..66c0cfb94294c6e2f16744f8bb8a9b1bb5539d29 100644
+index a906416cc17f59d4a145f3f1e283114359e46489..bc60782c9292dee266478917deba03b180e76f78 100644
 --- a/browser/modules/ThemeVariableMap.jsm
 +++ b/browser/modules/ThemeVariableMap.jsm
 @@ -173,6 +173,13 @@ const ThemeVariableMap = [

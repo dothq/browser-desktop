@@ -1,7 +1,7 @@
-diff --git a/toolkit/themes/shared/places/defaultFavicon.svg b/toolkit/themes/shared/places/defaultFavicon.svg
+diff --git a/toolkit/themes/shared/icons/defaultFavicon.svg b/toolkit/themes/shared/icons/defaultFavicon.svg
 index 69a0408a60f233bb4e14be6dcbfe3e1e27353b21..64ff26a6626f1493d9db9d4eaa2484a5ec1acc88 100644
---- a/toolkit/themes/shared/places/defaultFavicon.svg
-+++ b/toolkit/themes/shared/places/defaultFavicon.svg
+--- a/toolkit/themes/shared/icons/defaultFavicon.svg
++++ b/toolkit/themes/shared/icons/defaultFavicon.svg
 @@ -2,5 +2,7 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->

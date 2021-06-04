@@ -1,4 +1,5 @@
 import axios from "axios";
+import chalk from "chalk";
 import execa from "execa";
 import fs, {
     appendFileSync,
@@ -6,6 +7,7 @@ import fs, {
     writeFileSync
 } from "fs";
 import { moveSync, removeSync } from "fs-extra";
+import ora from "ora";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
@@ -14,6 +16,15 @@ import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
 
+const downloadProgress = ora({
+    text: `Downloading Firefox release ${pjson.versions["firefox-display"]}...`,
+    prefixText: chalk.blueBright.bold("00:00:00"),
+    spinner: {
+        frames: [""]
+    },
+    indent: 0
+});
+
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep);
 
@@ -21,7 +32,12 @@ const unpack = async (name: string, version: string) => {
         cwd = "./";
     }
 
-    log.info(`Unpacking Firefox...`);
+    setInterval(() => {
+        downloadProgress.text = "Unpacking Firefox...";
+        downloadProgress.prefixText =
+            chalk.blueBright.bold(log.getDiff());
+    }, 1000);
+
     await execa("tar", ["-xvf", name, "-C", cwd]);
 
     moveSync(
@@ -86,6 +102,8 @@ const unpack = async (name: string, version: string) => {
         await writeMetadata();
 
         removeSync(name);
+
+        process.exit(0);
     });
 };
 
@@ -164,7 +182,7 @@ export const download = async (
             }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
         );
 
-    log.info(`Downloading Firefox release ${version}...`);
+    downloadProgress.start();
 
     const { data, headers } = await axios.get(url, {
         responseType: "stream"
@@ -181,29 +199,23 @@ export const download = async (
     data.on("data", (chunk: any) => {
         receivedBytes += chunk.length;
 
-        let rand = Math.floor(Math.random() * 1000 + 1);
+        let percentCompleted = parseInt(
+            Math.round(
+                (receivedBytes * 100) / length
+            ).toFixed(0)
+        );
 
-        if (rand > 999.5) {
-            let percentCompleted = parseInt(
-                Math.round(
-                    (receivedBytes * 100) / length
-                ).toFixed(0)
-            );
-            if (
-                percentCompleted % 2 == 0 ||
-                percentCompleted >= 100
-            )
-                return;
-            log.info(
-                `\t${filename}\t${percentCompleted}%...`
-            );
-        }
+        downloadProgress.prefixText =
+            chalk.blueBright.bold(log.getDiff());
+        downloadProgress.text = `Downloading Firefox release ${pjson.versions["firefox-display"]}...\t${percentCompleted}%`;
     });
 
     data.pipe(writer);
 
     data.on("end", async () => {
         await unpack(filename, version);
+
+        downloadProgress.stop();
 
         if (process.platform === "win32") {
             if (

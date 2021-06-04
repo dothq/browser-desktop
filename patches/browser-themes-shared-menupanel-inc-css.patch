@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/menupanel.inc.css b/browser/themes/shared/menupanel.inc.css
-index 5a422bf5ab78dba60bc7c21241bb16e276463204..598af8a88f477dd504926de330d0f17dac7618e3 100644
+index d5079e9881f2460a9356627033b23dfa8dd75d65..e61e9b5d330f739a84840c7534acbcd4802ed56f 100644
 --- a/browser/themes/shared/menupanel.inc.css
 +++ b/browser/themes/shared/menupanel.inc.css
 @@ -4,6 +4,10 @@
@@ -10,6 +10,6 @@ index 5a422bf5ab78dba60bc7c21241bb16e276463204..598af8a88f477dd504926de330d0f17d
 +  list-style-image: url(chrome://browser/skin/new-tab.svg);
 +}
 +
- @supports not -moz-bool-pref("browser.proton.appmenu.enabled") {
+ @supports not -moz-bool-pref("browser.proton.enabled") {
  #appMenu-new-window-button {
    list-style-image: url(chrome://browser/skin/new-window.svg);
