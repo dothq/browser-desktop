@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/jar.inc.mn b/browser/themes/shared/jar.inc.mn
-index 9a62864b3f1ff80db532019949f6c480175de35f..d79dbf2e253df0e29755eff219b9ce57849ff250 100644
+index 9a62864b3f1ff80db532019949f6c480175de35f..815c9b82a883805f80937ca52a6f3e8105752fd1 100644
 --- a/browser/themes/shared/jar.inc.mn
 +++ b/browser/themes/shared/jar.inc.mn
 @@ -45,6 +45,9 @@
@@ -21,18 +21,19 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..d79dbf2e253df0e29755eff219b9ce57
    skin/classic/browser/notification-icons/microphone-blocked.svg            (../shared/notification-icons/microphone-blocked.svg)
    skin/classic/browser/notification-icons/microphone-detailed.svg           (../shared/notification-icons/microphone-detailed.svg)
    skin/classic/browser/notification-icons/microphone.svg                    (../shared/notification-icons/microphone.svg)
-@@ -94,6 +99,10 @@
+@@ -94,6 +99,11 @@
    skin/classic/browser/notification-icons/block-social-dark.svg             (../shared/notification-icons/block-social-dark.svg)
    skin/classic/browser/notification-icons/block-social.svg                  (../shared/notification-icons/block-social.svg)
  
-+  skin/classic/browser/onboarding-icons/adblock.svg                         (../shared/onboarding-icons/adblock.svg)
-+  skin/classic/browser/onboarding-icons/import.svg                          (../shared/onboarding-icons/import.svg)
-+  skin/classic/browser/onboarding-icons/personalise.svg                     (../shared/onboarding-icons/personalise.svg)
++  # Onboarding icons do not seem to exist
++  # skin/classic/browser/onboarding-icons/adblock.svg                         (../shared/onboarding-icons/adblock.svg)
++  # skin/classic/browser/onboarding-icons/import.svg                          (../shared/onboarding-icons/import.svg)
++  # skin/classic/browser/onboarding-icons/personalise.svg                     (../shared/onboarding-icons/personalise.svg)
 +
    skin/classic/browser/tracking-protection.svg                 (../shared/identity-block/tracking-protection.svg)
    skin/classic/browser/tracking-protection-disabled.svg        (../shared/identity-block/tracking-protection-disabled.svg)
    skin/classic/browser/tracking-protection-animation.svg        (../shared/identity-block/tracking-protection-animation.svg)
-@@ -148,8 +157,10 @@
+@@ -148,8 +158,10 @@
    skin/classic/browser/bookmark-hollow.svg            (../shared/icons/bookmark-hollow.svg)
    skin/classic/browser/bookmark-star-on-tray.svg      (../shared/icons/bookmark-star-on-tray.svg)
    skin/classic/browser/bookmarks-toolbar.svg          (../shared/icons/bookmarks-toolbar.svg)
@@ -43,7 +44,7 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..d79dbf2e253df0e29755eff219b9ce57
    skin/classic/browser/customize.svg                  (../shared/icons/customize.svg)
    skin/classic/browser/developer.svg                  (../shared/icons/developer.svg)
    skin/classic/browser/device-phone.svg               (../shared/icons/device-phone.svg)
-@@ -190,6 +201,7 @@
+@@ -190,6 +202,7 @@
    skin/classic/browser/privateBrowsing.svg            (../shared/icons/privateBrowsing.svg)
    skin/classic/browser/reader-mode.svg                (../shared/icons/reader-mode.svg)
    skin/classic/browser/restore-session.svg            (../shared/icons/restore-session.svg)
@@ -51,7 +52,7 @@ index 9a62864b3f1ff80db532019949f6c480175de35f..d79dbf2e253df0e29755eff219b9ce57
    skin/classic/browser/quit.svg                       (../shared/icons/quit.svg)
    skin/classic/browser/reload.svg                     (../shared/icons/reload.svg)
    skin/classic/browser/reload-to-stop.svg             (../shared/icons/reload-to-stop.svg)
-@@ -203,6 +215,7 @@
+@@ -203,6 +216,7 @@
  #ifndef MOZ_WIDGET_GTK
    skin/classic/browser/sort.svg                       (../shared/icons/sort.svg)
  #endif
