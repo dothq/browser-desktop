@@ -1,0 +1,94 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+
+<html width="612" height="660" autowidth="true">
+
+<head>
+    <link rel="stylesheet" href="chrome://browser/content/onboarding/onboarding.css" media="all" />
+    <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/common.css" media="all" />
+    <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/dialog.css" media="all" />
+    <link rel="localization" href="branding/brand.ftl" />
+    <link rel="localization" href="browser/onboarding.ftl" />
+    <script src="chrome://browser/content/onboarding/onboarding.js"></script>
+</head>
+
+<body>
+    <div id="welcome-slides">
+        <div id="welcome-slide-1">
+            <img src="chrome://branding/content/icon64.png" width="62">
+            <h1 data-l10n-id="welcome-screens-1-title"></h1>
+            <p data-l10n-id="welcome-screens-1-body"></p>
+            <div id="welcome-slide-content">
+
+            </div>
+            <div class="button-flex">
+                <a class="webui-button primary" onclick="selectSlide(1)"
+                    data-l10n-id="welcome-screens-1-primary-button"></a>
+                <a class="webui-button secondary" onclick="window.close();" data-l10n-id="welcome-button-skip"></a>
+            </div>
+        </div>
+
+        <div id="welcome-slide-2">
+            <img src="chrome://browser/skin/onboarding-icons/personalise.svg" width="62">
+            <h1 data-l10n-id="welcome-screens-2-title"></h1>
+            <p data-l10n-id="welcome-screens-2-body"></p>
+            <div id="welcome-slide-content">
+                <div id="welcome-slide-2-theme-selector">
+                    <a class="welcome-theme auto" id="welcome-theme-auto" onclick="selectTheme(0)">
+                        <div class="welcome-theme-image"></div>
+                        <span class="welcome-theme-name"></span>
+                    </a>
+
+                    <a class="welcome-theme light" id="welcome-theme-light" onclick="selectTheme(1)" selected>
+                        <div class="welcome-theme-image"></div>
+                        <span class="welcome-theme-name"></span>
+                    </a>
+
+                    <a class="welcome-theme dark" id="welcome-theme-dark" onclick="selectTheme(2)">
+                        <div class="welcome-theme-image"></div>
+                        <span class="welcome-theme-name"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="button-flex">
+                <a class="webui-button primary" onclick="selectSlide(2)" data-l10n-id="welcome-button-next"></a>
+            </div>
+        </div>
+
+        <div id="welcome-slide-3">
+            <img src="chrome://browser/skin/onboarding-icons/adblock.svg" width="62">
+            <h1 data-l10n-id="welcome-screens-3-title"></h1>
+            <p data-l10n-id="welcome-screens-3-body"></p>
+            <div id="welcome-slide-content">
+
+            </div>
+            <div class="button-flex">
+                <a class="webui-button primary" onclick="selectSlide(3)" data-l10n-id="welcome-button-next"></a>
+            </div>
+        </div>
+
+        <div id="welcome-slide-4">
+            <img src="chrome://browser/skin/onboarding-icons/import.svg" width="62">
+            <h1 data-l10n-id="welcome-screens-4-title"></h1>
+            <p data-l10n-id="welcome-screens-4-body"></p>
+            <div id="welcome-slide-content">
+                <input type="checkbox" label="Bookmarks">
+                <input type="checkbox" label="History">
+                <input type="checkbox" label="Cookies">
+                <input type="checkbox" label="Passwords">
+                <input type="checkbox" label="Addons and Themes">
+            </div>
+            <div class="button-flex" style="max-width: 300px;align-items: center;">
+                <a class="webui-button primary" onclick="selectSlide(4)"
+                    data-l10n-id="welcome-screens-4-primary-button"></a>
+                <a class="webui-button secondary" onclick="window.close()"
+                    data-l10n-id="welcome-screens-4-secondary-button" style="max-width: 150px;"></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
