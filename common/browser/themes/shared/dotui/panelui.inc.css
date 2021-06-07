@@ -200,3 +200,7 @@ menu[disabled="true"], menuitem[disabled="true"], menucaption[disabled="true"] {
 menupopup {
     min-width: 325px !important;
 }
+
+#context-bookmarkpage[starred="true"] {
+    color: var(--dot-accent-color);
+}

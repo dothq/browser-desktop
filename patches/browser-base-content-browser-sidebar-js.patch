@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser-sidebar.js b/browser/base/content/browser-sidebar.js
-index 59185832cfe31af2bf64fbfd3f87564295974d94..20c6a4d0edaa0285c114b5e1143060edd9b5049d 100644
+index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc45ad4a65 100644
 --- a/browser/base/content/browser-sidebar.js
 +++ b/browser/base/content/browser-sidebar.js
-@@ -14,8 +14,7 @@ var SidebarUI = {
+@@ -14,10 +14,9 @@ var SidebarUI = {
        [
          "viewBookmarksSidebar",
          {
@@ -10,8 +10,11 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..20c6a4d0edaa0285c114b5e1143060ed
 -            .getElementById("sidebar-switcher-bookmarks")
 +          title: document.getElementById("sidebar-switcher-bookmarks")
              .getAttribute("label"),
-           url: "chrome://browser/content/places/bookmarksSidebar.xhtml",
+-          url: "chrome://browser/content/places/bookmarksSidebar.xhtml",
++          url: "chrome://browser/content/sidebars/bookmarks/sidebar.html",
            menuId: "menu_bookmarksSidebar",
+           buttonId: "sidebar-switcher-bookmarks",
+         },
 @@ -25,8 +24,7 @@ var SidebarUI = {
        [
          "viewHistorySidebar",

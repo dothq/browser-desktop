@@ -1,0 +1,13 @@
+diff --git a/security/manager/locales/en-US/chrome/pipnss/pipnss.properties b/security/manager/locales/en-US/chrome/pipnss/pipnss.properties
+index 5e15e898c6bf777eb9f69aeea0e89c4c68fe88d9..a735324b601fd39c86996b943053d27545c22b8e 100755
+--- a/security/manager/locales/en-US/chrome/pipnss/pipnss.properties
++++ b/security/manager/locales/en-US/chrome/pipnss/pipnss.properties
+@@ -101,7 +101,7 @@ certErrorNotYetValidNow=The certificate will not be valid until %1$S. The curren
+ 
+ certErrorMitM=Websites prove their identity via certificates, which are issued by certificate authorities.
+ # LOCALIZATION NOTE (certErrorMitM2): %S is brandShortName
+-certErrorMitM2=%S is backed by the non-profit Mozilla, which administers a completely open certificate authority (CA) store. The CA store helps ensure that certificate authorities are following best practices for user security.
++certErrorMitM2=%S uses a completely open certificate authority (CA) store. The CA store helps ensure that certificate authorities are following best practices for user security.
+ # LOCALIZATION NOTE (certErrorMitM3): %S is brandShortName
+ certErrorMitM3=%S uses the Mozilla CA store to verify that a connection is secure, rather than certificates supplied by the user’s operating system. So, if an antivirus program or a network is intercepting a connection with a security certificate issued by a CA that is not in the Mozilla CA store, the connection is considered unsafe.
+ 

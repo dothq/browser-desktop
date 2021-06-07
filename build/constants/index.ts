@@ -42,3 +42,6 @@ export const OBJ_DIR = resolve(
     SRC_DIR,
     `obj-${CONFIG_GUESS}`
 );
+
+export const FTL_STRING_LINE_REGEX =
+    /(([a-zA-Z0-9\-]*|\.[a-z\-]*) =(.*|\.)|\[[a-zA-Z0-9]*\].*(\n\s?\s?})?|\*\[[a-zA-Z0-9]*\] .*(\n\s?\s?})?)/gm;

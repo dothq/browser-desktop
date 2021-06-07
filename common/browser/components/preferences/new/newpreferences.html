@@ -7,28 +7,38 @@
 <html>
 
 <head>
-  <title data-l10n-id="about-preferences-page-title"></title>
-  <meta http-equiv="Content-Security-Policy" content="default-src chrome: blob:; object-src 'none'" />
+  <title data-l10n-id="pref-page-title"></title>
   <link rel="icon" href="chrome://global/skin/icons/settings.svg" />
-  <link rel="stylesheet" href="chrome://browser/content/abouthistory/aboutHistory.css" media="all" />
-  <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
+  <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/common.css" media="all" />
+  <link rel="stylesheet" href="chrome://browser/skin/dotui/webui/settings.css" media="all" />
   <link rel="localization" href="branding/brand.ftl" />
   <link rel="localization" href="browser/branding/brandings.ftl" />
+  <link rel="localization" href="browser/preferences/preferences.ftl" />
   <link rel="localization" href="browser/aboutPreferences.ftl" />
-  <script src="chrome://browser/content/abouthistory/aboutHistory.js"></script>
+  <!-- Settings component scripts -->
+  <script src="chrome://browser/content/preferences/new/components/profiles.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/start-up.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/policies.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/search-box.js"></script>
+  <script src="chrome://browser/content/preferences/new/components/banners.js"></script>
+  <!-- Settings component scripts: END -->
+  <script src="chrome://browser/content/preferences/new/newpreferences.js"></script>
   <script src="chrome://browser/content/contentTheme.js"></script>
 </head>
 
 <body>
-  <div class="divide">
+  <div id="mount" class="app-divide">
     <aside class="sidebar">
-      <h1 data-l10n-id="about-preferences-page-title"></h1>
-      <div class="search-box">
-        <i class="search-box-icon"></i>
-        <input data-l10n-id="preferences-filter" type="text" />
+      <h1 data-l10n-id="pref-page-title"></h1>
+      <input id="search-textbox" data-l10n-id="preferences-filter" type="text" />
+      <div id="profile">
+        <div id="profile-avatar"></div>
+        <div id="profile-data">
+          <span id="profile-name"></span>
+          <span id="profile-extra"></span>
+        </div>
       </div>
-      <ul class="sidebar-categories">
-
+      <ul id="sidebar" class="sidebar-categories">
         <li>
           <a class="sidebar-category" href="#general" id="tab-general">
             <i class="general-icon"></i>
@@ -44,13 +54,6 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#themes" id="tab-themes">
-            <i class="themes-icon"></i>
-            <span data-l10n-id="preferences-category-themes"></span>
-          </a>
-        </li>
-
-        <li>
           <a class="sidebar-category" href="#start-page" id="tab-start-page">
             <i class="start-page-icon"></i>
             <span data-l10n-id="preferences-category-start-page"></span>
@@ -58,9 +61,9 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#privacy-and-security" id="tab-privacy-and-security">
-            <i class="privacy-and-security-icon"></i>
-            <span data-l10n-id="preferences-category-privacy-and-security"></span>
+          <a class="sidebar-category" href="#context-menus" id="tab-context-menus">
+            <i class="context-menus-icon"></i>
+            <span data-l10n-id="preferences-category-context-menus"></span>
           </a>
         </li>
 
@@ -72,9 +75,16 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#language-and-region" id="tab-language-and-region">
-            <i class="l10n-icon"></i>
-            <span data-l10n-id="preferences-category-l10n"></span>
+          <a class="sidebar-category" href="#privacy-and-security" id="tab-privacy-and-security">
+            <i class="privacy-and-security-icon"></i>
+            <span data-l10n-id="preferences-category-privacy-and-security"></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-category" href="#gestures" id="tab-gestures">
+            <i class="gestures-icon"></i>
+            <span data-l10n-id="preferences-category-gestures"></span>
           </a>
         </li>
 
@@ -86,21 +96,108 @@
         </li>
 
         <li>
-          <a class="sidebar-category" href="#ease-of-access" id="tab-ease-of-access">
-            <i class="ease-of-access-icon"></i>
-            <span data-l10n-id="preferences-category-ease-of-access"></span>
+          <a class="sidebar-category" href="#sync" id="tab-sync">
+            <i class="sync-icon"></i>
+            <span data-l10n-id="preferences-category-sync"></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-category" href="#language-and-region" id="tab-language-and-region">
+            <i class="l10n-icon"></i>
+            <span data-l10n-id="preferences-category-l10n"></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-category" href="#experiments" id="tab-experiments">
+            <i class="experiments-icon"></i>
+            <span data-l10n-id="preferences-category-experiments"></span>
           </a>
         </li>
       </ul>
     </aside>
 
-    <main id="preferences-content">
+    <main id="content">
+      <div id="preferences-banners">
 
+      </div>
+
+      <div class="tab-content" id="tab-content-general">
+        <h2 class="section-title">
+          General
+        </h2>
+
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Profiles
+          </h4>
+
+          <div id="profiles" class="preferences-block-container">
+
+          </div>
+        </div>
+
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Start-up
+          </h4>
+
+          <div id="start-up" class="preferences-block-container">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-content-not-found">
+        <h2 class="section-title">
+          Not found
+        </h2>
+        <p class="section-body">Your search returned no results.</p>
+      </div>
     </main>
+  </div>
+
+  <div id="templates">
+    <template id="template-start-up">
+      <div class="preferences-item">
+        <div class="preferences-item-container">
+          <span class="preferences-item-title">
+            Default Browser
+          </span>
+          <span class="preferences-item-subtitle" id="set-default-body">
+            Dot Browser is not your default web browser.
+          </span>
+        </div>
+
+        <div class="preferences-item-actions">
+          <a id="set-default-btn" class="webui-button primary">Set as default</a>
+        </div>
+      </div>
+
+      <div class="preferences-item">
+        <div class="preferences-item-container gap-10">
+          <span class="preferences-item-title">
+            Session
+          </span>
+          <span class="preferences-item-subtitle" style="opacity: 1;">
+            <input type="checkbox" id="restore-session-checkbox">
+            <label for="restore-session-checkbox">
+              Restore previous session on start-up
+            </label>
+          </span>
+
+          <span id="warn-on-quit-item" class="preferences-item-subtitle indent" style="opacity: 1;">
+            <input type="checkbox" data-preference="browser.sessionstore.warnOnQuit" data-preference-type="bool"
+              type="checkbox" id="warn-on-quit-checkbox">
+            <label for="warn-on-quit-checkbox">
+              Warn you when quitting the browser
+            </label>
+          </span>
+        </div>
+      </div>
+    </template>
   </div>
 </body>
 
 </html>
-
-
-var a = await Services.search.getEngines()

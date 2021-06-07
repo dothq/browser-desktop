@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-siteIdentity.js b/browser/base/content/browser-siteIdentity.js
-index 01d47f0907e6b77423ae4ad00150d71e31eb8ea8..45d75650fe3487f8ea8f6f7c713a17c3050fc37a 100644
+index 01d47f0907e6b77423ae4ad00150d71e31eb8ea8..82aa6c8fa4d3d89f7613f5ba8cf75baf3aaff168 100644
 --- a/browser/base/content/browser-siteIdentity.js
 +++ b/browser/base/content/browser-siteIdentity.js
 @@ -57,7 +57,7 @@ var gIdentityHandler = {
@@ -54,7 +54,16 @@ index 01d47f0907e6b77423ae4ad00150d71e31eb8ea8..45d75650fe3487f8ea8f6f7c713a17c3
    /**
     * Returns whether the issuer of the current certificate chain is
     * built-in (returns false) or imported (returns true).
-@@ -770,12 +779,20 @@ var gIdentityHandler = {
+@@ -763,6 +772,8 @@ var gIdentityHandler = {
+     let icon_label = "";
+     let tooltip = "";
+ 
++    this._identityIconLabel.removeAttribute("hidden");
++
+     if (this._isSecureInternalUI) {
+       // This is a secure internal Firefox page.
+       this._identityBox.className = "chromeUI";
+@@ -770,12 +781,20 @@ var gIdentityHandler = {
        icon_label = brandBundle.getString("brandShorterName");
      } else if (this._pageExtensionPolicy) {
        // This is a WebExtension page.
@@ -81,7 +90,7 @@ index 01d47f0907e6b77423ae4ad00150d71e31eb8ea8..45d75650fe3487f8ea8f6f7c713a17c3
      } else if (this._uriHasHost && this._isSecureConnection) {
        // This is a secure connection.
        this._identityBox.className = "verifiedDomain";
-@@ -816,6 +833,12 @@ var gIdentityHandler = {
+@@ -816,6 +835,12 @@ var gIdentityHandler = {
      } else if (this._isPotentiallyTrustworthy) {
        // This is a local resource (and shouldn't be marked insecure).
        this._identityBox.className = "localResource";
@@ -94,7 +103,7 @@ index 01d47f0907e6b77423ae4ad00150d71e31eb8ea8..45d75650fe3487f8ea8f6f7c713a17c3
      } else {
        // This is an insecure connection.
        let warnOnInsecure =
-@@ -1091,9 +1114,14 @@ var gIdentityHandler = {
+@@ -1091,9 +1116,14 @@ var gIdentityHandler = {
        [owner]
      );
  

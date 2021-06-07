@@ -1,5 +1,5 @@
 diff --git a/browser/modules/ThemeVariableMap.jsm b/browser/modules/ThemeVariableMap.jsm
-index 32e034aedfa91d0bdc2e77c3136e0ad6fe06729d..28475f1018861049d5d3cd4e7a2704380853fecf 100644
+index 32e034aedfa91d0bdc2e77c3136e0ad6fe06729d..66c0cfb94294c6e2f16744f8bb8a9b1bb5539d29 100644
 --- a/browser/modules/ThemeVariableMap.jsm
 +++ b/browser/modules/ThemeVariableMap.jsm
 @@ -173,6 +173,13 @@ const ThemeVariableMap = [
@@ -10,7 +10,7 @@ index 32e034aedfa91d0bdc2e77c3136e0ad6fe06729d..28475f1018861049d5d3cd4e7a270438
 +    "--sidebar-highlight-color",
 +    {
 +      lwtProperty: "sidebar_highlight",
-+      optionalElementID: "sidebar-iconbar",
++      optionalElementID: "browser",
 +    },
 +  ],
  ];

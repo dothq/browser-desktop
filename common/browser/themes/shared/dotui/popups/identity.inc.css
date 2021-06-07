@@ -1,0 +1,127 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
+.identity-popup-section[hasexpander]:hover {
+    background-color: var(--arrowpanel-dimmed);
+}
+
+.identity-popup-section[hasexpander]:active {
+    background-color: var(--arrowpanel-dimmed-even-further);
+}
+
+:root[lwt-popup-brighttext] .identity-popup-connection-secure {
+    color: #09B050 !important;
+}
+  
+#identity-popup[connection^="secure"][lock-icon-gray] .identity-popup-security-connection {
+    fill: #09B050 !important;
+}
+  
+.identity-popup-security-connection {
+    background-position: 22px !important;
+}
+  
+.identity-popup-section-content, #permission-popup-permissions-content {
+    height: 46px;
+}
+  
+.identity-popup-security-connection, #identity-popup-security-description, #identity-popup-security-httpsonlymode {
+    padding-inline: calc(22px + 16px) 0px !important;
+}
+  
+#identity-popup[customroot="true"] [when-customroot="true"], #identity-popup[connection="not-secure"] [when-connection~="not-secure"], #identity-popup[connection="secure-cert-user-overridden"] [when-connection~="secure-cert-user-overridden"], #identity-popup[connection="secure-ev"] [when-connection~="secure-ev"], #identity-popup[connection="secure"] [when-connection~="secure"], #identity-popup[connection="chrome"] [when-connection~="chrome"], #identity-popup[connection="file"] [when-connection~="file"], #identity-popup[connection="extension"] [when-connection~="extension"], #identity-popup[connection="cert-error-page"] [when-connection~="cert-error-page"], #identity-popup[connection="https-only-error-page"] [when-connection~="https-only-error-page"], #identity-popup[ciphers="weak"] [when-ciphers~="weak"], #identity-popup[mixedcontent~="active-loaded"] [when-mixedcontent="active-loaded"], #identity-popup[mixedcontent~="passive-loaded"]:not([mixedcontent~="active-loaded"]) [when-mixedcontent="passive-loaded"], #identity-popup[mixedcontent~="active-blocked"]:not([mixedcontent~="passive-loaded"]) [when-mixedcontent="active-blocked"], #identity-popup[mixedcontent~="active-blocked"][mixedcontent~="passive-loaded"] [when-mixedcontent~="active-blocked"][when-mixedcontent~="passive-loaded"], #identity-popup[httpsonlystatus="exception"] [when-httpsonlystatus~="exception"], #identity-popup[httpsonlystatus="upgraded"] [when-httpsonlystatus~="upgraded"], #identity-popup[httpsonlystatus="failed-top"] [when-httpsonlystatus~="failed-top"], #identity-popup[httpsonlystatus="failed-sub"] [when-httpsonlystatus~="failed-sub"], #identity-popup-securityView-body[mixedcontent~="active-blocked"] > button[when-mixedcontent="active-blocked"] {
+    margin-inline-start: 14px !important;
+    margin-bottom: 0 !important;
+    line-height: 46px;
+    font-weight: 500;
+}
+  
+.identity-popup-section:not([hasexpander]) > .identity-popup-expander {
+    display: none !important;
+}
+
+.identity-popup-expander {
+    margin: 4px 6px !important;
+    border-radius: 6px;
+    background-color: transparent !important;
+}
+
+.identity-popup-expander > .button-box {
+    border: none !important;
+}
+
+.identity-popup-section > .identity-popup-section-content > .identity-popup-security-connection {
+    height: 46px !important;
+}
+  
+.identity-popup-section-content, #permission-popup-permissions-content {
+    padding-block: 0em !important;
+}
+
+.identity-popup-section, .permission-popup-section, .protections-popup-section {
+    border-top: none !important;
+}
+  
+#permission-popup-mainView-panel-header, #identity-popup-mainView-panel-header {
+    border-bottom: 1px solid var(--panel-separator-color);
+}
+
+.identity-popup-section-content:not(.identity-popup-security-content) {
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+}
+
+.identity-popup-section-icon {
+    -moz-context-properties: fill, fill-opacity;
+    fill: currentColor;
+    fill-opacity: .6;
+    background: var(--icon) center no-repeat;
+    background-size: 16px, auto;
+    width: 16px;
+    height: 16px;
+    margin-inline-end: 14px;
+}
+
+.identity-popup-section-text-container {
+    color: currentColor;
+    display: flex;
+    flex-direction: column;
+    column-gap: 2px;
+    opacity: .75;
+}
+
+.identity-popup-section-title {
+    font-weight: 500;
+    font-size: 14.6667px;
+}
+
+.identity-popup-section-subtitle {
+    font-weight: 400;
+    font-size: 13px;
+    opacity: .5;
+}
+
+.identity-popup-site-permissions-item > .identity-popup-section-content {
+    padding: 0 calc(22px + 16px);
+}
+
+#identity-popup-site-permissions-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
+}
+
+#identity-popup[connection="chrome"] #identity-popup-mainView > hbox:not(#identity-popup-security),
+#identity-popup[connection="extension"] #identity-popup-mainView > hbox:not(#identity-popup-security),
+#identity-popup[connection="file"] #identity-popup-mainView > hbox:not(#identity-popup-security),
+#identity-popup[connection="extension"] #identity-popup-mainView > hbox:not(#identity-popup-security) 
+{
+    display: none !important;
+}
+
+#identity-popup[connection="secure-cert-user-overridden"] .identity-popup-connection-not-secure, 
+#identity-popup[connection="cert-error-page"] .identity-popup-connection-not-secure {
+    color: #ffbf00 !important;
+}

@@ -1,0 +1,23 @@
+diff --git a/browser/themes/shared/places/bookmarksMenu.svg b/browser/themes/shared/places/bookmarksMenu.svg
+index 97154aadb68c59ddea29d805639adc19608af2ab..ea20da5319578aa7268404f3bea910a12a97460c 100644
+--- a/browser/themes/shared/places/bookmarksMenu.svg
++++ b/browser/themes/shared/places/bookmarksMenu.svg
+@@ -1,9 +1,11 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg width="16" height="16" viewBox="0 0 16 16" fill="context-fill" fill-opacity="context-fill-opacity" xmlns="http://www.w3.org/2000/svg">
+-  <path fill-opacity=".05" d="M15,2H1v12c0,0.6,0.5,1,1,1h12c0.6,0,1-0.4,1-1V2L15,2z"/>
+-  <path d="M3,5v1h2V5H3z M3,9h2V8H3V9z M3,12h2v-1H3V12z"/>
+-  <path fill-opacity=".9" d="M6,5v1h7V5H6z M12,8H6v1h6V8z M6,12h7v-1H6V12z"/>
+-  <path d="M7,2V1H1v1v1v11c0,0.5,0.5,1,1,1h12c0.5,0,1-0.5,1-1V2H7z M13.5,14h-11C2.2,14,2,13.8,2,13.5V3h12v10.5 C14,13.8,13.8,14,13.5,14z"/>
+-</svg>
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
++  <path fill="context-fill" fill-opacity="context-fill-opacity"
++    d="M2 2C1.44772 2 1 2.44772 1 3C1 3.55228 1.44772 4 2 4H14C14.5523 4 15 3.55228 15 3C15 2.44772 14.5523 2 14 2H2Z" />
++  <path fill="context-fill" fill-opacity="context-fill-opacity"
++    d="M1 8C1 7.44772 1.44772 7 2 7H14C14.5523 7 15 7.44772 15 8C15 8.55228 14.5523 9 14 9H2C1.44772 9 1 8.55228 1 8Z" />
++  <path fill="context-fill" fill-opacity="context-fill-opacity"
++    d="M1 13C1 12.4477 1.44772 12 2 12H14C14.5523 12 15 12.4477 15 13C15 13.5523 14.5523 14 14 14H2C1.44772 14 1 13.5523 1 13Z" />
++</svg>
+\ No newline at end of file

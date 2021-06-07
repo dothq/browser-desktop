@@ -1,0 +1,14 @@
+diff --git a/toolkit/locales/en-US/chrome/global/global-extension-fields.properties b/toolkit/locales/en-US/chrome/global/global-extension-fields.properties
+index 0fb1689b9f84564f13b697f80478ae21a9f25ddf..a2f6f1ecb8f8e3fa7f13a6b2a50cc7ca9cbd6b03 100644
+--- a/toolkit/locales/en-US/chrome/global/global-extension-fields.properties
++++ b/toolkit/locales/en-US/chrome/global/global-extension-fields.properties
+@@ -2,6 +2,6 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-# LOCALIZATION NOTE (extension.default-theme@mozilla.org.name, extension.default-theme@mozilla.org.description): This is displayed in about:addons -> Appearance
+-extension.default-theme@mozilla.org.name=Default
+-extension.default-theme@mozilla.org.description=A theme with the operating system color scheme.
++# LOCALIZATION NOTE (extension.dynamic@themes.dothq.co.name, extension.dynamic@themes.dothq.co.description): This is displayed in about:addons -> Appearance
++extension.dynamic@themes.dothq.co.name=Automatic
++extension.dynamic@themes.dothq.co.description=A theme with an automatic color scheme.

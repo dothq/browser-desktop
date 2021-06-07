@@ -1,0 +1,19 @@
+diff --git a/browser/themes/shared/places/tag.svg b/browser/themes/shared/places/tag.svg
+index 3be1d0e1be3f6634f48fef8eb320a005ad6c4b2e..6ae5aec5065575a0bbc2b87c8f3fbc43cf61b2b2 100644
+--- a/browser/themes/shared/places/tag.svg
++++ b/browser/themes/shared/places/tag.svg
+@@ -1,8 +1,8 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path fill-opacity=".1" d="M1 1h6l8 8-6 6-8-8V1zm3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+-  <path d="M1 1v6l8 8 6-6-8-8H1zm0-1h6a1 1 0 0 1 .707.293l8 8a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414 0l-8-8A1 1 0 0 1 0 7V1a1 1 0 0 1 1-1zm3 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+-  <path fill-opacity=".4" d="M8.146 6.854a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1-.708.708l-3-3zm-2 2a.5.5 0 1 1 .708-.708l2 2a.5.5 0 0 1-.708.708l-2-2z"/>
+-</svg>
++
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
++  <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++    d="M14.6386 6.58629L8.88632 0.612717C8.50931 0.221209 7.9892 0 7.44568 0H3C1.34315 0 0 1.34315 0 3V7.44568C0 7.9892 0.221208 8.50931 0.612717 8.88632L6.58629 14.6386C7.37134 15.3946 8.61713 15.3829 9.38778 14.6122L14.6122 9.38778C15.3829 8.61713 15.3946 7.37134 14.6386 6.58629ZM7.74069 2.30636C7.55219 2.1106 7.29213 2 7.02037 2H3C2.44772 2 2 2.44772 2 3V7.02037C2 7.29213 2.1106 7.55219 2.30636 7.74069L7.26671 12.5173C7.65924 12.8953 8.28213 12.8894 8.66746 12.5041L12.5041 8.66746C12.8894 8.28213 12.8953 7.65923 12.5173 7.26671L7.74069 2.30636Z" />
++</svg>
+\ No newline at end of file

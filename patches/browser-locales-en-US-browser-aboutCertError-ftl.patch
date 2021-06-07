@@ -1,0 +1,13 @@
+diff --git a/browser/locales/en-US/browser/aboutCertError.ftl b/browser/locales/en-US/browser/aboutCertError.ftl
+index a3d1c4fd0e2324d321bb9f2d7303e9731667c1ca..748698ded938b84751324b3efb7f5c632f0a8af1 100644
+--- a/browser/locales/en-US/browser/aboutCertError.ftl
++++ b/browser/locales/en-US/browser/aboutCertError.ftl
+@@ -8,7 +8,7 @@ cert-error-intro = { $hostname } uses an invalid security certificate.
+ 
+ cert-error-mitm-intro = Websites prove their identity via certificates, which are issued by certificate authorities.
+ 
+-cert-error-mitm-mozilla = { -brand-short-name } is backed by the non-profit Mozilla, which administers a completely open certificate authority (CA) store. The CA store helps ensure that certificate authorities are following best practices for user security.
++cert-error-mitm-mozilla = { -brand-short-name } uses a completely open certificate authority (CA) store. The CA store helps ensure that certificate authorities are following best practices for user security.
+ 
+ cert-error-mitm-connection = { -brand-short-name } uses the Mozilla CA store to verify that a connection is secure, rather than certificates supplied by the user’s operating system. So, if an antivirus program or a network is intercepting a connection with a security certificate issued by a CA that is not in the Mozilla CA store, the connection is considered unsafe.
+ 

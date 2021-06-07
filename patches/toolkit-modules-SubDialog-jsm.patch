@@ -1,0 +1,57 @@
+diff --git a/toolkit/modules/SubDialog.jsm b/toolkit/modules/SubDialog.jsm
+index 6e4631af65956e5686516733e1d8c648b9028766..80c26a627966e84c7b905dcfca4a97b83320741b 100644
+--- a/toolkit/modules/SubDialog.jsm
++++ b/toolkit/modules/SubDialog.jsm
+@@ -145,9 +145,8 @@ SubDialog.prototype = {
+ 
+     // If the parent is chrome we also need open the dialog as chrome, otherwise
+     // the openDialog call will fail.
+-    let dialogFeatures = `resizable,dialog=no,centerscreen,chrome=${
+-      this._window?.isChromeWindow ? "yes" : "no"
+-    }`;
++    let dialogFeatures = `resizable,dialog=no,centerscreen,chrome=${this._window?.isChromeWindow ? "yes" : "no"
++      }`;
+     if (features) {
+       dialogFeatures = `${features},${dialogFeatures}`;
+     }
+@@ -174,8 +173,8 @@ SubDialog.prototype = {
+     this._box.setAttribute(
+       "resizable",
+       featureParams.has("resizable") &&
+-        featureParams.get("resizable") != "no" &&
+-        featureParams.get("resizable") != "0"
++      featureParams.get("resizable") != "no" &&
++      featureParams.get("resizable") != "0"
+     );
+   },
+ 
+@@ -441,6 +440,8 @@ SubDialog.prototype = {
+     if (this._window.isChromeWindow) {
+       boxMinWidth = `min(80vw, ${boxMinWidth})`;
+     }
++
++    if (docEl.getAttribute("autowidth") == "true") boxMinWidth = "auto";
+     this._box.style.minWidth = boxMinWidth;
+ 
+     this.resizeVertically();
+@@ -524,13 +525,13 @@ SubDialog.prototype = {
+     } else {
+       Cu.reportError(
+         "This dialog (" +
+-          this._frame.contentWindow.location.href +
+-          ") " +
+-          "set a height in non-px-non-em units ('" +
+-          frameHeight +
+-          "'), " +
+-          "which is likely to lead to bad sizing in in-content preferences. " +
+-          "Please consider changing this."
++        this._frame.contentWindow.location.href +
++        ") " +
++        "set a height in non-px-non-em units ('" +
++        frameHeight +
++        "'), " +
++        "which is likely to lead to bad sizing in in-content preferences. " +
++        "Please consider changing this."
+       );
+       comparisonFrameHeight = parseFloat(frameHeight);
+     }

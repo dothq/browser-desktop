@@ -1,0 +1,25 @@
+diff --git a/browser/locales/en-US/browser/aboutDialog.ftl b/browser/locales/en-US/browser/aboutDialog.ftl
+index 5679b48eda1b77804d78a243f591376892d45e3f..137ed50a8f3a97d305dbeeac7e7ae3fd818c080f 100644
+--- a/browser/locales/en-US/browser/aboutDialog.ftl
++++ b/browser/locales/en-US/browser/aboutDialog.ftl
+@@ -25,7 +25,7 @@ update-failed-main =
+     Update failed. <a data-l10n-name="failed-link-main">Download the latest version</a>
+ 
+ update-adminDisabled = Updates disabled by your system administrator
+-update-noUpdatesFound = { -brand-short-name } is up to date
++update-noUpdatesFound = { -brand-short-name } is up to date.
+ update-otherInstanceHandlingUpdates = { -brand-short-name } is being updated by another instance
+ 
+ update-manual = Updates available at <label data-l10n-name="manual-link"/>
+@@ -43,9 +43,9 @@ aboutdialog-submit-feedback = Submit Feedback
+ 
+ community-exp = <label data-l10n-name="community-exp-mozillaLink">{ -vendor-short-name }</label> is a <label data-l10n-name="community-exp-creditsLink">global community</label> working together to keep the Web open, public and accessible to all.
+ 
+-community-2 = { -brand-short-name } is designed by <label data-l10n-name="community-mozillaLink">{ -vendor-short-name }</label>, a <label data-l10n-name="community-creditsLink">global community</label> working together to keep the Web open, public and accessible to all.
++community-2 = This browser is made possible by the <label data-l10n-name="community-firefoxLink">Firefox open-source project</label> and <label data-l10n-name="community-contributorsLink">its contributors</label>.
+ 
+-helpus = Want to help? <label data-l10n-name="helpus-donateLink">Make a donation</label> or <label data-l10n-name="helpus-getInvolvedLink">get involved!</label>
++helpus = Want to help? <label data-l10n-name="helpus-donateLink">Make a donation to Mozilla</label> or <label data-l10n-name="helpus-getInvolvedLink">get involved!</label>
+ 
+ bottomLinks-license = Licensing Information
+ bottomLinks-rights = End-User Rights

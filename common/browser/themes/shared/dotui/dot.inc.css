@@ -3,9 +3,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 %include panelui.inc.css
-/* %include addressbar.inc.css */
-%include identity_popup.inc.css
+%include addressbar.inc.css
 %include sidebars.inc.css
+
+%include popups/identity.inc.css
+%include popups/bookmarks.inc.css
+/* %include popups/notifications.inc.css */
+
+%include toolbars/personal.inc.css
+
+%include components/checkbox.inc.css
+%include components/input.inc.css
+%include components/dialog.inc.css
+%include components/tabmodalprompt.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -14,6 +24,13 @@
     --inline-tab-padding: 12px !important;
     --tab-min-height: 38px !important;
     --panel-separator-color: var(--arrowpanel-border-color) !important;
+    --dot-accent-color: #1662D3 !important;
+    --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
+}
+  
+:root[lwt-popup-brighttext] panel,
+toolbar[brighttext] {
+    --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #3c89fd) !important;
 }
 
 #urlbar {
@@ -145,24 +162,6 @@ notification[type], notification {
     border-color: var(--chrome-content-separator-color) !important;
     padding: 6px 0 6px !important;
     padding-inline-start: 14px !important;
-}
-
-tabmodalprompt {
-    height: calc(100% + 20px);
-    margin-top: -20px;
-    background-color: transparent !important;
-}
-
-tabmodalprompt:not([hidden]) {
-    grid-template-rows: 0fr [dialog-start] auto [dialog-end] 2fr !important;
-}
-
-.paymentDialogContainerFrame, .tabmodalprompt-mainContainer {
-    color: -moz-fieldText;
-    border-radius: 6px;
-    background-color: var(--arrowpanel-background);
-    box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
-    border: none !important;
 }
 
 #back-button {
@@ -326,4 +325,22 @@ display: none !important;
 #pageAction-panel-qr_dothq_co > .toolbarbutton-icon, 
 #pageAction-urlbar-qr_dothq_co {
     list-style-image: url("chrome://browser/skin/qr-code.svg") !important;
+}
+
+#PersonalToolbar {
+    -moz-box-ordinal-group: 1 !important;
+}
+
+.ac-dropmarker {
+    margin-inline-end: 16px !important;
+}
+
+#sidebar-button[checked="true"] > .toolbarbutton-icon {
+    fill: var(--dot-accent-color);
+    background-color: #1662D321 !important; /* this value is hardcoded so we should make sure this changes if we update the accent color */
+}
+
+.identity-popup-body-padded {
+    padding: 22px;
+    display: flex;
 }

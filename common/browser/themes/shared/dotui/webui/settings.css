@@ -1,0 +1,322 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+%include ../components/checkbox.inc.css
+
+input[type="checkbox"] {
+    margin: 0;
+    margin-right: 8px !important;
+}
+
+.tab-content {
+    display: none;
+    margin-bottom: 6rem;
+}
+
+.preferences-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5rem;
+}
+
+.preferences-block .preferences-block-container {
+    background-color: var(--theme-ntp-background);
+    max-width: 900px;
+    padding: 36px 0;
+    border-radius: 6px;
+}
+
+.preferences-block .preferences-block-container:not(#profiles) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.preferences-item {
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    min-height: 36px;
+    justify-content: space-between;
+}
+
+.preferences-item > .preferences-item-container,
+.preferences-item > .application-profile-data {
+    display: flex;
+    align-items: center;
+}
+
+.preferences-item > .preferences-item-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.preferences-item-title {
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.preferences-item-subtitle {
+    font-size: 14px;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+}
+
+.preferences-item-actions,
+.application-profile-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.application-profile.secondary {
+    margin-bottom: 0;
+}
+
+.preferences-item.application-profile.primary {
+    margin-bottom: 2.2rem;
+}
+
+.application-profile.primary > .application-profile-data > .application-profile-avatar {
+    width: 36px;
+    height: 36px;
+}
+
+.application-profile-avatar {
+    width: 26px;
+    height: 26px;
+    background-image: var(--profile-avatar);
+    display: flex;
+    margin-inline-end: 20px;
+    background-color: #9d9b9b42;
+    border-radius: 100%;
+    background-size: cover;
+}
+
+.show-more-item {
+    min-height: 28px;
+    justify-content: flex-start;
+    font-weight: 500;
+    color: #1662D3;
+    max-width: max-content;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-left: 24px;
+    margin-bottom: 0;
+}
+
+.show-more-item:hover {
+    background-color: var(--theme-button-background-hover);
+}
+
+.show-more-item::before {
+    content: "";
+    height: 16px;
+    width: 16px;
+    background-image: url(chrome://global/skin/icons/arrow-left.svg);
+    position: relative;
+    margin-right: 12px;
+    background-size: cover;
+    transform: rotate(-90deg);
+    transition: 0.2s transform;
+    -moz-context-properties: fill;
+    fill: #1662D3;
+}
+
+.show-more-container[open] > .show-more-item::before {
+    transform: rotate(90deg);
+}
+
+.sidebar-categories {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-category {
+    height: 42px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    position: relative;
+    text-decoration: none;
+    color: var(--theme-textcolor);
+    opacity: 0.75;
+}
+
+.sidebar-category:hover {
+    text-decoration: none;
+}
+
+.sidebar-category:not([selected]):hover {
+    color: var(--theme-textcolor);
+    opacity: 0.75;
+}
+
+.sidebar-category[selected] {
+    color: #1662D3;
+    opacity: 1;
+}
+
+.sidebar-category::before {
+    content: "";
+    height: 42px;
+    width: 100%;
+    position: absolute;
+    min-height: 42px;
+    z-index: 0;
+    border-radius: 8px;
+}
+
+.sidebar-category:hover::before {
+    background-color: var(--theme-button-background-hover);
+}
+
+.sidebar-category:active::before {
+    background-color: var(--theme-button-background-active);
+}
+
+.sidebar-category[selected]::before {
+    background-color: currentColor;
+    opacity: 0.1;
+}
+
+.sidebar-category::after {
+    content: "";
+    background-color: currentColor;
+    width: 3px;
+    height: 20px;
+    position: absolute;
+    border-radius: 100px;
+    opacity: 0;
+}
+
+.sidebar-category[selected]::after {
+    opacity: 1;
+}
+
+.sidebar-category i {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    margin: 0 18px;
+    background-size: cover;
+    -moz-context-properties: fill;
+}
+
+#profile {
+    display: flex;
+    align-items: center;
+    margin: 26px 0;
+    padding: 10px 0;
+    border-radius: 8px;
+}
+
+#profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    background-size: cover;
+    margin-right: 16px;
+}
+
+#profile-data {
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-data #profile-name {
+    font-weight: 500;
+}
+
+#profile-data #profile-extra {
+    font-weight: 400;
+    opacity: 0.5;
+    margin-top: 4px;
+}
+
+.preferences-banner {
+    background-color: rgba(37, 110, 245, 0.1);
+    border-radius: 8px;
+    color: #1662D3;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    min-height: 38px;
+    max-width: 900px;
+    font-weight: 500;
+    margin-bottom: 3rem;
+}
+
+.preferences-banner > i {
+    width: 16px;
+    height: 16px;
+    margin: 0 18px;
+    -moz-context-properties: fill;
+    fill: currentColor;
+    min-width: 16px;
+}
+
+.gap-10 {
+    gap: 10px !important;
+}
+
+.indent {
+    margin-inline-start: 28px !important;
+}
+
+#tab-general > .general-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-general.svg);
+}
+
+#tab-appearance > .appearance-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-appearance.svg);
+}
+
+#tab-start-page > .start-page-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-start-page.svg);
+}
+
+#tab-context-menus > .context-menus-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-context-menus.svg);
+}
+
+#tab-search > .search-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-search.svg);
+}
+
+#tab-privacy-and-security > .privacy-and-security-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-privacy-and-security.svg);
+}
+
+#tab-gestures > .gestures-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-gestures.svg);
+}
+
+#tab-downloads > .downloads-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-downloads.svg);
+}
+
+#tab-sync > .sync-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-sync.svg);
+}
+
+#tab-language-and-region > .l10n-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-language-and-region.svg);
+}
+
+#tab-experiments > .experiments-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/category-experiments.svg);
+}
+
+.work-icon {
+    background-image: url(chrome://browser/content/preferences/new/icons/work.svg);
+}

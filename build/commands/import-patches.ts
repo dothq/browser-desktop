@@ -22,7 +22,7 @@ const importManual = async (
 
         var i = 0;
 
-        for await (const {
+        for await (let {
             name,
             action,
             src,

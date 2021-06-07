@@ -89,6 +89,7 @@ You can find the Dot Browser roadmap [here](https://github.com/orgs/dothq/projec
 -   [EnderDev](https://github.com/EnderDev) - **_Main Developer_**
 -   [Andy Browser](https://github.com/bigspeedfpv) - **_Main Developer_**
 -   [Trevor Thalacker](https://github.com/trevorthalacker) - **_Main Developer_**
+-   [TrickyPR](https://github.com/trickypr) - **_Main Developer_**
 
 ## 💸 Donations
 

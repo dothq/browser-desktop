@@ -1,0 +1,60 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="chrome://browser/content/sidebars/bookmarks/sidebar.js"></script>
+    <script src="chrome://browser/content/sidebars/generic/sidebar-theme.js"></script>
+    <link rel="stylesheet" href="chrome://browser/skin/dotui/sidebar.css">
+    <link rel="stylesheet" href="chrome://browser/content/sidebars/bookmarks/sidebar.css">
+    <link rel="localization" href="browser/bookmarksSidebar.ftl" />
+</head>
+
+<body>
+    <div id="sidebar-content">
+        <input id="search-textbox" type="search" data-l10n-id="bookmarks-sidebar-search-textbox">
+        <main id="bookmarks">
+            <div class="bookmark-item" id="bookmarksBar">
+                <button class="bookmark-item-context folder" label="Bookmarks Bar"
+                    onclick="bookmarks.handleBookmarkItemClick(this.parentNode, this.childNodes[1])">
+                    <i class="bookmark-item-chevron"></i>
+                    <i class="bookmark-item-icon"></i>
+                    <span class="bookmark-item-text">Bookmarks Bar</span>
+                </button>
+
+                <div id="bookmarksBar-children" class="bookmark-item-children">
+
+                </div>
+            </div>
+            <div class="bookmark-item" id="bookmarksMenu">
+                <button class="bookmark-item-context folder" label="Bookmarks Menu"
+                    onclick="bookmarks.handleBookmarkItemClick(this.parentNode, this.childNodes[1])">
+                    <i class="bookmark-item-chevron"></i>
+                    <i class="bookmark-item-icon"></i>
+                    <span class="bookmark-item-text">Bookmarks Menu</span>
+                </button>
+
+                <div id="bookmarksMenu-children" class="bookmark-item-children">
+
+                </div>
+            </div>
+            <div class="bookmark-item" id="bookmarksUnfiled">
+                <button class="bookmark-item-context folder" label="Other Bookmarks"
+                    onclick="bookmarks.handleBookmarkItemClick(this.parentNode, this.childNodes[1])">
+                    <i class="bookmark-item-chevron"></i>
+                    <i class="bookmark-item-icon"></i>
+                    <span class="bookmark-item-text">Other Bookmarks</span>
+                </button>
+
+                <div id="bookmarksUnfiled-children" class="bookmark-item-children">
+
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

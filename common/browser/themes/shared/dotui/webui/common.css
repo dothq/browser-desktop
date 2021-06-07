@@ -1,0 +1,166 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+html, body {
+    background-color: var(--theme-ntp-background);
+    color: var(--theme-textcolor);
+    margin: 0;
+    padding: 0;
+    font: message-box;
+    overflow: hidden;
+
+    user-select: none;
+    -moz-user-select: none;
+}
+
+hr {
+    margin: 2.2rem 0;
+    height: 1px;
+    background-color: #80808029;
+    border: none !important;
+}
+
+.app-divide {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+    display: flex;
+    min-width: calc(418px - 42px * 2);
+    width: calc(0px - 42px * 2);
+    height: 100vh;
+    background-color: var(--theme-sidebar);
+    color: var(--theme-sidebar-text);
+    padding: 0 42px;
+    flex-direction: column;
+    max-width: calc(600px - 42px * 2);
+}
+
+#search-textbox {
+    appearance: none;
+    border: none;
+    outline: none;
+    background-color: var(--theme-toolbar-field);
+    padding: 12px 14px;
+    padding-left: 14px;
+    border-radius: 8px;
+    color: currentColor;
+    background-image: url(chrome://global/skin/icons/search-glass.svg);
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: 14px;
+    padding-left: 44px;
+    border: 1px solid transparent;
+    opacity: 1;
+    transition: 0.15s box-shadow, 0.15s border, 0.15s border-color;
+    margin: 0;
+    -moz-context-properties: fill;
+    fill: currentColor;
+}
+
+#search-textbox:focus {
+    box-shadow: 0px 0px 0px 1px #1662D3;
+    border: 1px solid #1662D3;
+    background-color: transparent;
+    transition: 0.15s box-shadow, 0.15s border, 0.15s border-color, 0.15s background-color;
+}
+
+#search-textbox::selection {
+    background-color: #1662D3;
+    color: currentColor;
+}
+
+.sidebar > h1 {
+    height: 102px;
+    font-weight: 600;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    margin: 0;
+}
+
+#content {
+    width: 100%;
+    flex: 1;
+    background-color: var(--theme-ntp-background);
+    color: var(--theme-textcolor);
+    background-image: linear-gradient(#88888812 0%, #88888812 100%);
+    overflow-y: scroll;
+    scrollbar-color: rgba(0, 0, 0, 0.342) var(--theme-sidebar);
+    padding: 72px 72px 0 72px;
+}
+
+h2.section-title {
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0;
+    margin-bottom: 2.2rem;
+}
+
+h4.block-title {
+    font-weight: 500;
+    font-size: 16px;
+    opacity: 0.5;
+    margin: 0;
+    margin-bottom: 1.5rem;
+}
+
+a.webui-button {
+    height: 42px;
+    display: flex;
+    border-radius: 8px;
+    padding: 0 28px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 2px solid transparent;
+    text-decoration: none !important;
+    --btn-accent: #1662D3;
+}
+
+a.webui-button.big-padding {
+    padding: 0 48px !important;
+}
+
+a.webui-button.primary {
+    background-color: var(--btn-accent);
+    color: white !important;
+}
+
+a.webui-button.secondary {
+    border: 2px solid var(--btn-accent);
+    color: var(--btn-accent) !important;
+    background-color: transparent;
+}
+
+a.webui-button.dangerous {
+    --btn-accent: #E72929;
+}
+
+a.webui-button.warning {
+    --btn-accent: rgb(251, 248, 16);
+}
+
+a.webui-button.primary:hover {
+    background-image: linear-gradient(#00000026 0%, #00000026 100%);
+}
+
+a.webui-button.primary:active {
+    background-image: linear-gradient(#0000003b 0%, #0000003b 100%);
+}
+
+a.webui-button.secondary:hover {
+    background-image: linear-gradient(#00000008 0%, #00000008 100%);
+}
+
+a.webui-button.secondary:active {
+    background-image: linear-gradient(#0000001a 0%, #0000001a 100%);
+}
+
+a.webui-button[disabled], a.webui-button:disabled, a.webui-button.disabled {
+    opacity: .5 !important;
+    pointer-events: none !important;
+}
