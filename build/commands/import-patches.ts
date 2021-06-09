@@ -90,7 +90,7 @@ const importPatchFiles = async (
             }
         });
 
-        await delay(100);
+        await delay(10);
 
         await p.apply();
     }
