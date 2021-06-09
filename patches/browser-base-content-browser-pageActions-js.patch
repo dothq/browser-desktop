@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser-pageActions.js b/browser/base/content/browser-pageActions.js
-index 096012abde728e5728c5a3de1bc19953921d3659..70f8b1b770545e17b24df8d1513783c7a3019f03 100644
+index 16ff6eae1edebd418c272e2f6a2109971d8a7d80..af25313771d9e67b259de4bc88ca071eaf1ccf42 100644
 --- a/browser/base/content/browser-pageActions.js
 +++ b/browser/base/content/browser-pageActions.js
-@@ -1364,7 +1364,7 @@ BrowserPageActions.shareURL = {
+@@ -1355,7 +1355,7 @@ BrowserPageActions.shareURL = {
        PanelMultiView.hidePopup(BrowserPageActions.panelNode);
      };
  
@@ -11,7 +11,7 @@ index 096012abde728e5728c5a3de1bc19953921d3659..70f8b1b770545e17b24df8d1513783c7
        let item = document.createXULElement("toolbarbutton");
        item.setAttribute("label", share.menuItemTitle);
        item.setAttribute("share-name", share.name);
-@@ -1392,6 +1392,26 @@ BrowserPageActions.shareURL = {
+@@ -1383,6 +1383,26 @@ BrowserPageActions.shareURL = {
    },
  };
  

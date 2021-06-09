@@ -1,8 +1,8 @@
 diff --git a/toolkit/mozapps/extensions/content/aboutaddons.js b/toolkit/mozapps/extensions/content/aboutaddons.js
-index 3fccbceab5f9ef98de40277be3739e53de061631..80f51fccba28399a1f427b822d102d292f1e374d 100644
+index 2beb23784fd9bd4a0d0a9c90c575ad57e470e46f..3abe4d623c172c81e3272a72f61c259525ed035c 100644
 --- a/toolkit/mozapps/extensions/content/aboutaddons.js
 +++ b/toolkit/mozapps/extensions/content/aboutaddons.js
-@@ -87,15 +87,15 @@ const EXTENSION_ICON_URL =
+@@ -86,15 +86,15 @@ const EXTENSION_ICON_URL =
    "chrome://mozapps/skin/extensions/extensionGeneric.svg";
  const BUILTIN_THEME_PREVIEWS = new Map([
    [

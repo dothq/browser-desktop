@@ -1,8 +1,8 @@
 diff --git a/browser/components/urlbar/UrlbarInput.jsm b/browser/components/urlbar/UrlbarInput.jsm
-index 73d15dff8e5b82c236e8022c71cacd7b0de4bd48..0d4f6a431999c1e04e388b3387715f6b68357c05 100644
+index 4c4207106b38e9da1a2ab1f2ce6c0a6d71d2ad6b..ca675d8f9d3ad309161878edc9a9a8157bbc5751 100644
 --- a/browser/components/urlbar/UrlbarInput.jsm
 +++ b/browser/components/urlbar/UrlbarInput.jsm
-@@ -2516,6 +2516,8 @@ class UrlbarInput {
+@@ -2538,6 +2538,8 @@ class UrlbarInput {
        .GetStringFromName("pasteAndGo.label");
      pasteAndGo.setAttribute("label", label);
      pasteAndGo.setAttribute("anonid", "paste-and-go");

@@ -1,8 +1,8 @@
 diff --git a/toolkit/modules/SubDialog.jsm b/toolkit/modules/SubDialog.jsm
-index b7282c33cfcc8acb09de1b71a807a8158d0c8fae..e447aa61f020255972d9eaf76bf1e21afb537492 100644
+index 68d773afc88714fbc21c01667bbf7a2a4194bcd9..ca9a314b91f363707f5a10ee1bf8db0b7f575d4c 100644
 --- a/toolkit/modules/SubDialog.jsm
 +++ b/toolkit/modules/SubDialog.jsm
-@@ -160,9 +160,8 @@ SubDialog.prototype = {
+@@ -172,9 +172,8 @@ SubDialog.prototype = {
  
      // If the parent is chrome we also need open the dialog as chrome, otherwise
      // the openDialog call will fail.
@@ -14,7 +14,7 @@ index b7282c33cfcc8acb09de1b71a807a8158d0c8fae..e447aa61f020255972d9eaf76bf1e21a
      if (features) {
        dialogFeatures = `${features},${dialogFeatures}`;
      }
-@@ -183,8 +182,8 @@ SubDialog.prototype = {
+@@ -195,8 +194,8 @@ SubDialog.prototype = {
      this._box.setAttribute(
        "resizable",
        featureParams.has("resizable") &&
@@ -25,7 +25,7 @@ index b7282c33cfcc8acb09de1b71a807a8158d0c8fae..e447aa61f020255972d9eaf76bf1e21a
      );
    },
  
-@@ -449,6 +448,8 @@ SubDialog.prototype = {
+@@ -470,6 +469,8 @@ SubDialog.prototype = {
      if (this._window.isChromeWindow) {
        boxMinWidth = `min(80vw, ${boxMinWidth})`;
      }
@@ -34,7 +34,7 @@ index b7282c33cfcc8acb09de1b71a807a8158d0c8fae..e447aa61f020255972d9eaf76bf1e21a
      this._box.style.minWidth = boxMinWidth;
  
      this.resizeVertically();
-@@ -545,13 +546,13 @@ SubDialog.prototype = {
+@@ -566,13 +567,13 @@ SubDialog.prototype = {
      } else {
        Cu.reportError(
          "This dialog (" +

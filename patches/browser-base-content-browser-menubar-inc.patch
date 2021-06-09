@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-menubar.inc b/browser/base/content/browser-menubar.inc
-index 27119ac8b1826d03828da6ae5b476a3266ed1207..e32fffd69f1032d79d74237e6beb168cce0e2480 100644
+index a7189c2feab957d4f33623fd3b196f6e640a2ad9..c70569320c0c4187b5a6d2656a11da1c4e88eeb0 100644
 --- a/browser/base/content/browser-menubar.inc
 +++ b/browser/base/content/browser-menubar.inc
 @@ -96,23 +96,33 @@
@@ -41,7 +41,7 @@ index 27119ac8b1826d03828da6ae5b476a3266ed1207..e32fffd69f1032d79d74237e6beb168c
                  <menuseparator/>
                  <menuitem id="menu_selectAll"
                            key="key_selectAll"
-@@ -170,6 +180,9 @@
+@@ -166,6 +176,9 @@
                                type="checkbox"
                                class="sync-ui-item"
                                oncommand="SidebarUI.toggle('viewTabsSidebar');" data-l10n-id="menu-view-synced-tabs-sidebar"/>

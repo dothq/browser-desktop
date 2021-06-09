@@ -1,5 +1,5 @@
 diff --git a/browser/components/sessionstore/content/aboutSessionRestore.xhtml b/browser/components/sessionstore/content/aboutSessionRestore.xhtml
-index 05c0e4f732ee16eac6f25f321a4a97ae52c4bf6d..3ba38698bce33fbd293f2f8d73195241c833d623 100644
+index 8e78064f94255cd223787a330a4c6b944a69d38f..cc96c807aca4e53891f05c95b1a2a566842c7f20 100644
 --- a/browser/components/sessionstore/content/aboutSessionRestore.xhtml
 +++ b/browser/components/sessionstore/content/aboutSessionRestore.xhtml
 @@ -19,6 +19,7 @@

@@ -1,5 +1,5 @@
 diff --git a/toolkit/components/moz.build b/toolkit/components/moz.build
-index 474e9561ec803723ea79da2c2e1accab5a81d578..5cb2ea1ff4ca5edd6a76356eb88c4bd52fc65d6c 100644
+index dbcab1465abfdcfab83587e373851d64357fea04..dff7f2c61e5ddb71e3a88771bb97f26286d07856 100644
 --- a/toolkit/components/moz.build
 +++ b/toolkit/components/moz.build
 @@ -33,6 +33,7 @@ DIRS += [

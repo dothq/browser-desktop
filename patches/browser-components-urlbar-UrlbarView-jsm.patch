@@ -1,8 +1,8 @@
 diff --git a/browser/components/urlbar/UrlbarView.jsm b/browser/components/urlbar/UrlbarView.jsm
-index ed2e7b09fd218827f83293ced72fd0babd51a196..324dc9127620ec7e09523a69018ed9b6ef139619 100644
+index 6955afc945c1e1e5596aae884e35cad87b2fcf61..ae358f608c3337e9e80a0221651faba501830bae 100644
 --- a/browser/components/urlbar/UrlbarView.jsm
 +++ b/browser/components/urlbar/UrlbarView.jsm
-@@ -637,10 +637,10 @@ class UrlbarView {
+@@ -639,10 +639,10 @@ class UrlbarView {
        this.oneOffSearchButtons.enable(
          (firstResult.providerName != "UrlbarProviderSearchTips" ||
            queryContext.trimmedSearchString) &&
@@ -17,7 +17,7 @@ index ed2e7b09fd218827f83293ced72fd0babd51a196..324dc9127620ec7e09523a69018ed9b6
        );
      }
  
-@@ -888,8 +888,8 @@ class UrlbarView {
+@@ -890,8 +890,8 @@ class UrlbarView {
    _resultIsSearchSuggestion(result) {
      return Boolean(
        result &&
@@ -28,7 +28,7 @@ index ed2e7b09fd218827f83293ced72fd0babd51a196..324dc9127620ec7e09523a69018ed9b6
      );
    }
  
-@@ -1201,9 +1201,9 @@ class UrlbarView {
+@@ -1258,9 +1258,9 @@ class UrlbarView {
      let needsNewContent =
        oldResultType === undefined ||
        (oldResultType == UrlbarUtils.RESULT_TYPE.TIP) !=
@@ -40,7 +40,7 @@ index ed2e7b09fd218827f83293ced72fd0babd51a196..324dc9127620ec7e09523a69018ed9b6
        (oldResultType == UrlbarUtils.RESULT_TYPE.DYNAMIC &&
          result.type == UrlbarUtils.RESULT_TYPE.DYNAMIC &&
          oldResult.dynamicType != result.dynamicType) ||
-@@ -1411,9 +1411,16 @@ class UrlbarView {
+@@ -1468,9 +1468,16 @@ class UrlbarView {
      let url = item._elements.get("url");
      if (setURL) {
        item.setAttribute("has-url", "true");

@@ -1,8 +1,8 @@
 diff --git a/toolkit/xre/nsAppRunner.cpp b/toolkit/xre/nsAppRunner.cpp
-index 5eb43aa0ae6320ef1ab47ddf03b4d8fbd4107d86..64980379427876a77b36a4cc3c383cabc9654e19 100644
+index 3a9928cee4525652b99856a460eeff9b30a1cffc..57e588039358f3092e8f643b2242a09145584199 100644
 --- a/toolkit/xre/nsAppRunner.cpp
 +++ b/toolkit/xre/nsAppRunner.cpp
-@@ -1991,11 +1991,11 @@ static void ReflectSkeletonUIPrefToRegistry(const char* aPref, void* aData) {
+@@ -1979,11 +1979,11 @@ static void ReflectSkeletonUIPrefToRegistry(const char* aPref, void* aData) {
    if (shouldBeEnabled && Preferences::HasUserValue(kPrefThemeId)) {
      nsCString themeId;
      Preferences::GetCString(kPrefThemeId, themeId);

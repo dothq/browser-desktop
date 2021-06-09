@@ -1,8 +1,8 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index b2ebd34526a655cca95c38c085101f3ad15951b0..edf4135a28485e31d3b7f1a24a31278f985de10d 100644
+index b4b2dc76427c0240eb461570937d8dce181be091..c60e255cddf9c22525331ea1d7d5942d8d5fb4a2 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
-@@ -1205,6 +1205,11 @@
+@@ -1321,6 +1321,11 @@
    value: "#551A8B"
    mirror: never
  
@@ -14,7 +14,7 @@ index b2ebd34526a655cca95c38c085101f3ad15951b0..edf4135a28485e31d3b7f1a24a31278f
  #---------------------------------------------------------------------------
  # Prefs starting with "canvas."
  #---------------------------------------------------------------------------
-@@ -8429,7 +8434,7 @@
+@@ -8719,7 +8724,7 @@
  
  - name: network.cookie.sameSite.laxByDefault
    type: bool
@@ -23,7 +23,7 @@ index b2ebd34526a655cca95c38c085101f3ad15951b0..edf4135a28485e31d3b7f1a24a31278f
    mirror: always
  
  # lax-by-default 2 minutes tollerance for unsafe methods. The value is in seconds.
-@@ -8440,12 +8445,12 @@
+@@ -8730,12 +8735,12 @@
  
  - name: network.cookie.sameSite.noneRequiresSecure
    type: bool
@@ -38,7 +38,7 @@ index b2ebd34526a655cca95c38c085101f3ad15951b0..edf4135a28485e31d3b7f1a24a31278f
    mirror: always
  
  - name: network.cookie.thirdparty.sessionOnly
-@@ -9604,6 +9609,12 @@
+@@ -9905,6 +9910,12 @@
    value: 480
    mirror: always
  
@@ -51,7 +51,7 @@ index b2ebd34526a655cca95c38c085101f3ad15951b0..edf4135a28485e31d3b7f1a24a31278f
  # Anti-tracking permission expiration.
  - name: privacy.restrict3rdpartystorage.expiration
    type: uint32_t
-@@ -10000,6 +10011,16 @@
+@@ -10301,6 +10312,16 @@
    value: false
    mirror: always
  

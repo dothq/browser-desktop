@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/browser.js b/browser/base/content/browser.js
-index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4bcc6e0b23 100644
+index 16168e5db4bac5442668f94d6639dc92afd1698d..d6a2d8c4b059d03c61eaf5d8558de1c3afef71cd 100644
 --- a/browser/base/content/browser.js
 +++ b/browser/base/content/browser.js
-@@ -253,6 +253,11 @@ XPCOMUtils.defineLazyScriptGetter(
+@@ -255,6 +255,11 @@ XPCOMUtils.defineLazyScriptGetter(
    "gSharedTabWarning",
    "chrome://browser/content/browser-webrtc.js"
  );
@@ -13,17 +13,17 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
 +);
  
  // lazy service getters
-
-@@ -2092,7 +2097,7 @@ var gBrowserInit = {
+ 
+@@ -2057,7 +2062,7 @@ var gBrowserInit = {
        PanicButtonNotifier.init();
      });
-
+ 
 -    gBrowser.tabContainer.addEventListener("TabSelect", function() {
 +    gBrowser.tabContainer.addEventListener("TabSelect", function () {
        for (let panel of document.querySelectorAll(
          "panel[tabspecific='true']"
        )) {
-@@ -2296,7 +2301,7 @@ var gBrowserInit = {
+@@ -2257,7 +2262,7 @@ var gBrowserInit = {
              csp: window.arguments[10],
              fromExternal: true,
            });
@@ -32,7 +32,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        } else if (window.arguments.length >= 3) {
          // window.arguments[1]: unused (bug 871161)
          //                 [2]: referrerInfo (nsIReferrerInfo)
-@@ -2458,7 +2463,7 @@ var gBrowserInit = {
+@@ -2419,7 +2424,7 @@ var gBrowserInit = {
    // promise resolving to the URI to load.
    get uriToLoadPromise() {
      delete this.uriToLoadPromise;
@@ -41,7 +41,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        // window.arguments[0]: URI to load (string), or an nsIArray of
        //                      nsISupportsStrings to load, or a xul:tab of
        //                      a tabbrowser, which will be replaced by this
-@@ -2543,7 +2548,7 @@ var gBrowserInit = {
+@@ -2504,7 +2509,7 @@ var gBrowserInit = {
      try {
        gBrowser.removeProgressListener(window.XULBrowserWindow);
        gBrowser.removeTabsProgressListener(window.TabsProgressListener);
@@ -50,7 +50,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  
      PlacesToolbarHelper.uninit();
  
-@@ -2733,7 +2738,7 @@ function BrowserForward(aEvent) {
+@@ -2694,7 +2699,7 @@ function BrowserForward(aEvent) {
    if (where == "current") {
      try {
        gBrowser.goForward();
@@ -59,7 +59,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
    } else {
      duplicateTabIn(gBrowser.selectedTab, where, 1);
    }
-@@ -2745,7 +2750,7 @@ function BrowserBack(aEvent) {
+@@ -2706,7 +2711,7 @@ function BrowserBack(aEvent) {
    if (where == "current") {
      try {
        gBrowser.goBack();
@@ -68,7 +68,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
    } else {
      duplicateTabIn(gBrowser.selectedTab, where, -1);
    }
-@@ -2904,7 +2909,7 @@ function loadOneOrMoreURIs(aURIString, aTriggeringPrincipal, aCsp) {
+@@ -2875,7 +2880,7 @@ function loadOneOrMoreURIs(aURIString, aTriggeringPrincipal, aCsp) {
        triggeringPrincipal: aTriggeringPrincipal,
        csp: aCsp,
      });
@@ -77,7 +77,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  }
  
  function openLocation(event) {
-@@ -2986,7 +2991,7 @@ var gLastOpenDirectory = {
+@@ -2957,7 +2962,7 @@ var gLastOpenDirectory = {
          if (!this._lastDir.exists()) {
            this._lastDir = null;
          }
@@ -86,7 +86,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
      }
      return this._lastDir;
    },
-@@ -3025,7 +3030,7 @@ function BrowserOpenFileWindow() {
+@@ -2996,7 +3001,7 @@ function BrowserOpenFileWindow() {
            if (fp.file) {
              gLastOpenDirectory.path = fp.file.parent.QueryInterface(Ci.nsIFile);
            }
@@ -95,7 +95,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
          openTrustedLinkIn(fp.fileURL.spec, "current");
        }
      };
-@@ -3037,14 +3042,14 @@ function BrowserOpenFileWindow() {
+@@ -3008,14 +3013,14 @@ function BrowserOpenFileWindow() {
      );
      fp.appendFilters(
        nsIFilePicker.filterAll |
@@ -115,7 +115,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  }
  
  function BrowserCloseTabOrWindow(event) {
-@@ -3148,7 +3153,7 @@ function readFromClipboard() {
+@@ -3119,7 +3124,7 @@ function readFromClipboard() {
        data = data.value.QueryInterface(Ci.nsISupportsString);
        url = data.data;
      }
@@ -124,7 +124,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  
    return url;
  }
-@@ -3179,7 +3184,7 @@ async function BrowserViewSourceOfDocument(args) {
+@@ -3150,7 +3155,7 @@ async function BrowserViewSourceOfDocument(args) {
      try {
        await top.gViewSourceUtils.openInExternalEditor(args);
        return;
@@ -133,7 +133,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
    }
  
    let tabBrowser = gBrowser;
-@@ -3192,8 +3197,8 @@ async function BrowserViewSourceOfDocument(args) {
+@@ -3163,8 +3168,8 @@ async function BrowserViewSourceOfDocument(args) {
      if (!tabBrowser) {
        throw new Error(
          "BrowserViewSourceOfDocument should be passed the " +
@@ -144,7 +144,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        );
      }
      // Some internal URLs (such as specific chrome: and about: URLs that are
-@@ -3271,41 +3276,44 @@ function BrowserPageInfo(
+@@ -3242,41 +3247,44 @@ function BrowserPageInfo(
    browsingContext,
    browser
  ) {
@@ -224,7 +224,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  }
  
  function UpdateUrlbarSearchSplitterState() {
-@@ -3805,7 +3813,7 @@ var homeButtonObserver = {
+@@ -3779,7 +3787,7 @@ var homeButtonObserver = {
      browserDragAndDrop.dragOver(aEvent);
      aEvent.dropEffect = "link";
    },
@@ -233,7 +233,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  };
  
  function openHomeDialog(aURL) {
-@@ -3838,7 +3846,7 @@ var newTabButtonObserver = {
+@@ -3812,7 +3820,7 @@ var newTabButtonObserver = {
    onDragOver(aEvent) {
      browserDragAndDrop.dragOver(aEvent);
    },
@@ -242,7 +242,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
    async onDrop(aEvent) {
      let links = browserDragAndDrop.dropLinks(aEvent);
      if (
-@@ -3877,7 +3885,7 @@ var newWindowButtonObserver = {
+@@ -3851,7 +3859,7 @@ var newWindowButtonObserver = {
    onDragOver(aEvent) {
      browserDragAndDrop.dragOver(aEvent);
    },
@@ -251,7 +251,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
    async onDrop(aEvent) {
      let links = browserDragAndDrop.dropLinks(aEvent);
      if (
-@@ -4237,7 +4245,7 @@ const BrowserSearch = {
+@@ -4209,7 +4217,7 @@ const BrowserSearch = {
          win.BrowserSearch.webSearch();
        } else {
          // If there are no open browser windows, open a new one
@@ -260,7 +260,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
            if (subject == win) {
              BrowserSearch.webSearch();
              Services.obs.removeObserver(
-@@ -4257,7 +4265,7 @@ const BrowserSearch = {
+@@ -4229,7 +4237,7 @@ const BrowserSearch = {
        return;
      }
  
@@ -269,7 +269,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        if (!aSearchBar || document.activeElement != aSearchBar.textbox) {
          // Limit the results to search suggestions, like the search bar.
          gURLBar.searchModeShortcut();
-@@ -4503,13 +4511,13 @@ function FillHistoryMenu(aParent) {
+@@ -4475,13 +4483,13 @@ function FillHistoryMenu(aParent) {
    // Lazily add the hover listeners on first showing and never remove them
    if (!aParent.hasStatusListener) {
      // Show history item's uri in the status bar when hovering, and clear on exit
@@ -285,7 +285,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        XULBrowserWindow.setOverLink("");
      });
  
-@@ -5321,7 +5329,7 @@ var XULBrowserWindow = {
+@@ -5285,7 +5293,7 @@ var XULBrowserWindow = {
      // See bug 358202, when tabs are switched during a drag operation,
      // timers don't fire on windows (bug 203573)
      if (aRequest) {
@@ -294,7 +294,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
          XULBrowserWindow.asyncUpdateUI();
        }, 0);
      } else {
-@@ -5468,7 +5476,7 @@ var XULBrowserWindow = {
+@@ -5432,7 +5440,7 @@ var XULBrowserWindow = {
  
      try {
        uri = Services.io.createExposableURI(uri);
@@ -303,7 +303,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
      gIdentityHandler.updateIdentity(this._state, uri);
    },
  
-@@ -5575,7 +5583,7 @@ var LinkTargetDisplay = {
+@@ -5539,7 +5547,7 @@ var LinkTargetDisplay = {
  
    _showDelayed() {
      this._timer = setTimeout(
@@ -312,7 +312,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
          StatusPanel.update();
          window.removeEventListener("mousemove", self, true);
        },
-@@ -5754,7 +5762,7 @@ var CombinedStopReload = {
+@@ -5718,7 +5726,7 @@ var CombinedStopReload = {
      // accidentally reloading the page when intending to click the stop button
      this.reload.disabled = true;
      this._timer = setTimeout(
@@ -321,7 +321,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
          self._timer = 0;
          self.reload.disabled =
            XULBrowserWindow.reloadCommand.getAttribute("disabled") == "true";
-@@ -5916,7 +5924,7 @@ var TabsProgressListener = {
+@@ -5880,7 +5888,7 @@ var TabsProgressListener = {
    },
  };
  
@@ -330,7 +330,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  
  nsBrowserAccess.prototype = {
    QueryInterface: ChromeUtils.generateQI(["nsIBrowserDOMWindow"]),
-@@ -6032,7 +6040,7 @@ nsBrowserAccess.prototype = {
+@@ -5996,7 +6004,7 @@ nsBrowserAccess.prototype = {
      if (aOpenWindowInfo && isExternal) {
        Cu.reportError(
          "nsBrowserAccess.openURI did not expect aOpenWindowInfo to be " +
@@ -339,7 +339,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        );
        throw Components.Exception("", Cr.NS_ERROR_FAILURE);
      }
-@@ -6245,7 +6253,7 @@ nsBrowserAccess.prototype = {
+@@ -6209,7 +6217,7 @@ nsBrowserAccess.prototype = {
  
      var userContextId =
        aParams.openerOriginAttributes &&
@@ -348,7 +348,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
          ? aParams.openerOriginAttributes.userContextId
          : Ci.nsIScriptSecurityManager.DEFAULT_USER_CONTEXT_ID;
  
-@@ -6501,7 +6509,7 @@ function setToolbarVisibility(
+@@ -6469,7 +6477,7 @@ function setToolbarVisibility(
              }
              try {
                currentURI = Services.io.newURI(uriToLoad);
@@ -357,7 +357,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
            }
          }
          isVisible =
-@@ -6590,7 +6598,7 @@ var gTabletModePageCounter = {
+@@ -6551,7 +6559,7 @@ var gTabletModePageCounter = {
    inc() {
      this.enabled = AppConstants.isPlatformAndVersionAtLeast("win", "10.0");
      if (!this.enabled) {
@@ -366,7 +366,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        return;
      }
      this.inc = this._realInc;
-@@ -7114,7 +7122,7 @@ function handleDroppedLink(
+@@ -7053,7 +7061,7 @@ function handleDroppedLink(
      }
    }
  
@@ -375,7 +375,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
      if (
        links.length >=
        Services.prefs.getIntPref("browser.tabs.maxOpenBeforeWarn")
-@@ -7516,7 +7524,7 @@ var BrowserOffline = {
+@@ -7455,7 +7463,7 @@ var BrowserOffline = {
        if (cancelGoOffline.data) {
          return false;
        }
@@ -384,7 +384,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
  
      return true;
    },
-@@ -8069,7 +8077,7 @@ function BrowserOpenAddonsMgr(aView) {
+@@ -8008,7 +8016,7 @@ function BrowserOpenAddonsMgr(aView) {
      let emWindow;
      let browserWindow;
  
@@ -393,7 +393,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        let browserWin = aSubject.browsingContext.topChromeWindow;
        if (!emWindow || browserWin == window /* favor the current window */) {
          emWindow = aSubject;
-@@ -8876,7 +8884,7 @@ var PanicButtonNotifier = {
+@@ -8815,7 +8823,7 @@ var PanicButtonNotifier = {
          PanicButtonNotifier.close();
          removeListeners();
        };
@@ -402,7 +402,7 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
          PanicButtonNotifier.timer = setTimeout(onTimeout, 3000);
        });
        // To prevent the popup from closing when user tries to interact with the
-@@ -9569,7 +9577,7 @@ var gDialogBox = {
+@@ -9520,7 +9528,7 @@ var gDialogBox = {
        },
      });
      let closedPromise = new Promise(resolve => {

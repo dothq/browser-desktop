@@ -1,8 +1,8 @@
 diff --git a/dom/base/Document.cpp b/dom/base/Document.cpp
-index 93baac5ba84922575d8d334533f553f3ad69cfa0..f68baf217852e392bb7a78d62ba4815fe1ca04bf 100644
+index ce2cbca4b4c5ebb95a0991793131aa53317b862b..21574cfe50adb6c8a8c11cb3fab8d10f7b674801 100644
 --- a/dom/base/Document.cpp
 +++ b/dom/base/Document.cpp
-@@ -16984,8 +16984,9 @@ void Document::RemoveToplevelLoadingDocument(Document* aDoc) {
+@@ -17083,8 +17083,9 @@ void Document::RemoveToplevelLoadingDocument(Document* aDoc) {
  
  StylePrefersColorScheme Document::PrefersColorScheme(
      IgnoreRFP aIgnoreRFP) const {

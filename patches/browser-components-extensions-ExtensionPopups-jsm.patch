@@ -1,5 +1,5 @@
 diff --git a/browser/components/extensions/ExtensionPopups.jsm b/browser/components/extensions/ExtensionPopups.jsm
-index f727a02266c9c1e7de1736e7697b03116e3c354b..7eb7ba9ff809ad65984669b14a05c1a2b130f608 100644
+index 3460370477a56384a6a864212f18f3d22fba32ea..bde119a08f4c98402b9cc1998e4fb5155660b1c0 100644
 --- a/browser/components/extensions/ExtensionPopups.jsm
 +++ b/browser/components/extensions/ExtensionPopups.jsm
 @@ -53,7 +53,7 @@ function promisePopupShown(popup) {
@@ -11,7 +11,7 @@ index f727a02266c9c1e7de1736e7697b03116e3c354b..7eb7ba9ff809ad65984669b14a05c1a2
            resolve();
          },
          { once: true }
-@@ -132,7 +132,7 @@ class BasePopup {
+@@ -133,7 +133,7 @@ class BasePopup {
      this.destroyed = true;
      this.browserLoadedDeferred.reject(new Error("Popup destroyed"));
      // Ignore unhandled rejections if the "attach" method is not called.
@@ -20,7 +20,7 @@ index f727a02266c9c1e7de1736e7697b03116e3c354b..7eb7ba9ff809ad65984669b14a05c1a2
  
      BasePopup.instances.get(this.window).delete(this.extension);
  
-@@ -176,7 +176,7 @@ class BasePopup {
+@@ -177,7 +177,7 @@ class BasePopup {
        mm.removeMessageListener("Extension:BrowserContentLoaded", this);
        mm.removeMessageListener("Extension:BrowserResized", this);
      } else if (finalize) {
@@ -29,7 +29,7 @@ index f727a02266c9c1e7de1736e7697b03116e3c354b..7eb7ba9ff809ad65984669b14a05c1a2
      }
      browser.removeEventListener("pagetitlechanged", this);
      browser.removeEventListener("DOMWindowClose", this);
-@@ -448,9 +448,14 @@ class BasePopup {
+@@ -449,9 +449,14 @@ class BasePopup {
      // If they have not set a background-color, we force it to white to ensure visibility
      // of the extension content. Passing `null` should be treated the same as no argument,
      // which is why we can't use default parameters here.
@@ -44,7 +44,7 @@ index f727a02266c9c1e7de1736e7697b03116e3c354b..7eb7ba9ff809ad65984669b14a05c1a2
      if (this.panel.id != "widget-overflow") {
        this.panel.style.setProperty("--arrowpanel-background", background);
      }
-@@ -613,7 +618,7 @@ class ViewPopup extends BasePopup {
+@@ -614,7 +619,7 @@ class ViewPopup extends BasePopup {
        Promise.race([
          // This promise may be rejected if the popup calls window.close()
          // before it has fully loaded.

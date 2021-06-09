@@ -1,8 +1,8 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index 25e0726b0e190bbaaa61ce5ce3d73a0ef643e336..c259f37cc2246726990e456455f14fcf57a84543 100644
+index 064d0338199982996d269a5685a1d164b2920c0d..d3a497c6754daa2011b65be4ecee8ea2d8268540 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
-@@ -2541,3 +2541,98 @@ pref("first-startup.timeout", 30000);
+@@ -2551,3 +2551,98 @@ pref("first-startup.timeout", 30000);
  // are expected to go away once a standardized alternative becomes
  // available.
  pref("svg.context-properties.content.allowed-domains", "profile.accounts.firefox.com,profile.stage.mozaws.net");

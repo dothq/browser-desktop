@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-siteIdentity.js b/browser/base/content/browser-siteIdentity.js
-index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e61f76ce83 100644
+index 0572abe547a0b93b0458ef58f692ca7c8ee4b69d..7b636e7b4f455f4e43171bb37184ee0af1079b1b 100644
 --- a/browser/base/content/browser-siteIdentity.js
 +++ b/browser/base/content/browser-siteIdentity.js
 @@ -57,7 +57,7 @@ var gIdentityHandler = {
@@ -11,7 +11,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
  
    /**
     * Whether the established HTTPS connection is considered "broken".
-@@ -276,7 +276,7 @@ var gIdentityHandler = {
+@@ -299,7 +299,7 @@ var gIdentityHandler = {
    get _identityPopupContentVerif() {
      delete this._identityPopupContentVerif;
      return (this._identityPopupContentVerif = document.getElementById(
@@ -20,7 +20,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
      ));
    },
    get _identityPopupCustomRootLearnMore() {
-@@ -311,7 +311,7 @@ var gIdentityHandler = {
+@@ -334,7 +334,7 @@ var gIdentityHandler = {
    get _popupExpander() {
      delete this._popupExpander;
      return (this._popupExpander = document.getElementById(
@@ -29,7 +29,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
      ));
    },
    get _clearSiteDataFooter() {
-@@ -614,7 +614,7 @@ var gIdentityHandler = {
+@@ -663,7 +663,7 @@ var gIdentityHandler = {
      // SubjectName fields, broken up for individual access
      if (cert.subjectName) {
        result.subjectNameFields = {};
@@ -38,7 +38,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
          var field = v.split("=");
          this[field[0]] = field[1];
        }, result.subjectNameFields);
-@@ -740,6 +740,15 @@ var gIdentityHandler = {
+@@ -789,6 +789,15 @@ var gIdentityHandler = {
      return "unknownIdentity";
    },
  
@@ -54,7 +54,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
    /**
     * Returns whether the issuer of the current certificate chain is
     * built-in (returns false) or imported (returns true).
-@@ -774,6 +783,8 @@ var gIdentityHandler = {
+@@ -823,6 +832,8 @@ var gIdentityHandler = {
      let icon_label = "";
      let tooltip = "";
  
@@ -63,7 +63,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
      if (this._isSecureInternalUI) {
        // This is a secure internal Firefox page.
        this._identityBox.className = "chromeUI";
-@@ -781,12 +792,20 @@ var gIdentityHandler = {
+@@ -830,12 +841,20 @@ var gIdentityHandler = {
        icon_label = brandBundle.getString("brandShorterName");
      } else if (this._pageExtensionPolicy) {
        // This is a WebExtension page.
@@ -90,7 +90,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
      } else if (this._uriHasHost && this._isSecureConnection) {
        // This is a secure connection.
        this._identityBox.className = "verifiedDomain";
-@@ -827,6 +846,12 @@ var gIdentityHandler = {
+@@ -876,6 +895,12 @@ var gIdentityHandler = {
      } else if (this._isPotentiallyTrustworthy) {
        // This is a local resource (and shouldn't be marked insecure).
        this._identityBox.className = "localResource";
@@ -103,7 +103,7 @@ index 0cffd607a3dec410e46d1039c88f159fbfef3fba..ce848c86c808c861d93e9968133c59e6
      } else {
        // This is an insecure connection.
        let warnOnInsecure =
-@@ -1097,9 +1122,14 @@ var gIdentityHandler = {
+@@ -1162,9 +1187,14 @@ var gIdentityHandler = {
        [owner]
      );
  

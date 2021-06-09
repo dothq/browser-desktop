@@ -1,8 +1,8 @@
 diff --git a/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx b/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
-index e3bb39503b062c118fb1b3a6e76cfecb53c3bf9a..4114abfcf1808421b5f45627cb133ad1c5948bbe 100644
+index db2de9ed3f8c51f33cc7dff17a4228d707313be9..b1213f9aed9edf5e9e0c91ce6dd6a2256c31c58e 100644
 --- a/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
 +++ b/browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
-@@ -23,21 +23,21 @@ class AboutWelcome extends React.PureComponent {
+@@ -30,21 +30,21 @@ class AboutWelcome extends React.PureComponent {
  
      // Record impression with performance data after allowing the page to load
      const recordImpression = domState => {

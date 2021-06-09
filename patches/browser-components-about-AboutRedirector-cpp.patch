@@ -1,8 +1,8 @@
 diff --git a/browser/components/about/AboutRedirector.cpp b/browser/components/about/AboutRedirector.cpp
-index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..96b3f0375211256a01c779e933cfd41e81983e9e 100644
+index c805adc254b23f02e2ac1293a0befffa49db435f..4c8632fa7f7a9ea96c538f70b66eaaf7d229ed3b 100644
 --- a/browser/components/about/AboutRedirector.cpp
 +++ b/browser/components/about/AboutRedirector.cpp
-@@ -127,7 +127,7 @@ static const RedirEntry kRedirMap[] = {
+@@ -131,7 +131,7 @@ static const RedirEntry kRedirMap[] = {
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
           nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
      {"ion", "chrome://browser/content/ion.html",
@@ -11,7 +11,7 @@ index e3ff9023ca9f02d7f8d53e93333fe25ce4057038..96b3f0375211256a01c779e933cfd41e
  };
  
  static nsAutoCString GetAboutModuleName(nsIURI* aURI) {
-@@ -197,6 +197,13 @@ AboutRedirector::NewChannel(nsIURI* aURI, nsILoadInfo* aLoadInfo,
+@@ -201,6 +201,13 @@ AboutRedirector::NewChannel(nsIURI* aURI, nsILoadInfo* aLoadInfo,
          NS_ENSURE_SUCCESS(rv, rv);
        }
  

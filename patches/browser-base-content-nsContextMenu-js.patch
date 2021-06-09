@@ -1,8 +1,8 @@
 diff --git a/browser/base/content/nsContextMenu.js b/browser/base/content/nsContextMenu.js
-index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad8ce416a8 100644
+index abd548073026885bf21c18479dc5fa5338c70547..af9c36798c6168376abf4082821eb7de2d2da02d 100644
 --- a/browser/base/content/nsContextMenu.js
 +++ b/browser/base/content/nsContextMenu.js
-@@ -160,7 +160,7 @@ class nsContextMenu {
+@@ -159,7 +159,7 @@ class nsContextMenu {
          "intl.ellipsis",
          Ci.nsIPrefLocalizedString
        ).data;
@@ -11,7 +11,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad
  
      // Reset after "on-build-contextmenu" notification in case selection was
      // changed during the notification.
-@@ -363,7 +363,7 @@ class nsContextMenu {
+@@ -361,7 +361,7 @@ class nsContextMenu {
          !mailtoHandler.alwaysAskBeforeHandling &&
          mailtoHandler.preferredAction == Ci.nsIHandlerInfo.useHelperApp &&
          mailtoHandler.preferredApplicationHandler instanceof
@@ -20,7 +20,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad
      }
  
      if (
-@@ -375,7 +375,7 @@ class nsContextMenu {
+@@ -373,7 +373,7 @@ class nsContextMenu {
        this.linkURL = this.selectionInfo.linkURL;
        try {
          this.linkURI = makeURI(this.linkURL);
@@ -29,7 +29,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad
  
        this.linkTextStr = this.selectionInfo.linkText;
        this.onPlainTextLink = true;
-@@ -603,15 +603,15 @@ class nsContextMenu {
+@@ -631,15 +631,15 @@ class nsContextMenu {
      this.showItem(
        "context-viewpartialsource-selection",
        !this.inAboutDevtoolsToolbox &&
@@ -49,7 +49,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad
      );
  
      var shouldShow = !(
-@@ -651,6 +651,15 @@ class nsContextMenu {
+@@ -679,6 +679,15 @@ class nsContextMenu {
        this.onVideo && (!this.inSyntheticDoc || this.inFrame)
      );
      this.setItemAttr("context-viewvideo", "disabled", !this.mediaURL);
@@ -65,7 +65,7 @@ index 478646df36b38fd505da5e7e74383a1eac46465a..664c0099d8a54c095fa612390f087dad
    }
  
    initMiscItems() {
-@@ -2191,6 +2200,14 @@ class nsContextMenu {
+@@ -2211,6 +2220,14 @@ class nsContextMenu {
    doCustomCommand(generatedItemId, handlingUserInput) {
      this.actor.doCustomCommand(generatedItemId, handlingUserInput);
    }

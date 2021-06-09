@@ -1,7 +1,6 @@
 browser-actors-moz-build.patch - browser/actors/moz.build
 browser-app-profile-firefox-js.patch - browser/app/profile/firefox.js
 browser-base-content-aboutDialog-xhtml.patch - browser/base/content/aboutDialog.xhtml
-browser-base-content-aboutNetError-xhtml.patch - browser/base/content/aboutNetError.xhtml
 browser-base-content-browser-context-inc.patch - browser/base/content/browser-context.inc
 browser-base-content-browser-data-submission-info-bar-js.patch - browser/base/content/browser-data-submission-info-bar.js
 browser-base-content-browser-menubar-inc.patch - browser/base/content/browser-menubar.inc
@@ -10,6 +9,7 @@ browser-base-content-browser-sidebar-js.patch - browser/base/content/browser-sid
 browser-base-content-browser-siteIdentity-js.patch - browser/base/content/browser-siteIdentity.js
 browser-base-content-browser-js.patch - browser/base/content/browser.js
 browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
+browser-base-content-certerror-aboutNetError-xhtml.patch - browser/base/content/certerror/aboutNetError.xhtml
 browser-base-content-nsContextMenu-js.patch - browser/base/content/nsContextMenu.js
 browser-base-jar-mn.patch - browser/base/jar.mn
 browser-components-BrowserGlue-jsm.patch - browser/components/BrowserGlue.jsm
@@ -21,7 +21,6 @@ browser-components-extensions-ExtensionPopups-jsm.patch - browser/components/ext
 browser-components-extensions-parent-ext-sidebarAction-js.patch - browser/components/extensions/parent/ext-sidebarAction.js
 browser-components-moz-build.patch - browser/components/moz.build
 browser-components-newtab-aboutwelcome-AboutWelcomeParent-jsm.patch - browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-browser-components-newtab-aboutwelcome-content-aboutwelcome-bundle-js.patch - browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 browser-components-newtab-aboutwelcome-lib-AboutWelcomeDefaults-jsm.patch - browser/components/newtab/aboutwelcome/lib/AboutWelcomeDefaults.jsm
 browser-components-newtab-content-src-aboutwelcome-aboutwelcome-jsx.patch - browser/components/newtab/content-src/aboutwelcome/aboutwelcome.jsx
 browser-components-preferences-moz-build.patch - browser/components/preferences/moz.build
@@ -74,7 +73,6 @@ browser-themes-shared-icons-mail-svg.patch - browser/themes/shared/icons/mail.sv
 browser-themes-shared-icons-menu-badged-svg.patch - browser/themes/shared/icons/menu-badged.svg
 browser-themes-shared-icons-menu-svg.patch - browser/themes/shared/icons/menu.svg
 browser-themes-shared-icons-new-tab-svg.patch - browser/themes/shared/icons/new-tab.svg
-browser-themes-shared-icons-new-window-svg.patch - browser/themes/shared/icons/new-window.svg
 browser-themes-shared-icons-open-svg.patch - browser/themes/shared/icons/open.svg
 browser-themes-shared-icons-pin-tab-svg.patch - browser/themes/shared/icons/pin-tab.svg
 browser-themes-shared-icons-privateBrowsing-svg.patch - browser/themes/shared/icons/privateBrowsing.svg
@@ -146,7 +144,6 @@ toolkit-themes-shared-icons-check-svg.patch - toolkit/themes/shared/icons/check.
 toolkit-themes-shared-icons-close-svg.patch - toolkit/themes/shared/icons/close.svg
 toolkit-themes-shared-icons-defaultFavicon-svg.patch - toolkit/themes/shared/icons/defaultFavicon.svg
 toolkit-themes-shared-icons-delete-svg.patch - toolkit/themes/shared/icons/delete.svg
-toolkit-themes-shared-icons-document-svg.patch - toolkit/themes/shared/icons/document.svg
 toolkit-themes-shared-icons-folder-svg.patch - toolkit/themes/shared/icons/folder.svg
 toolkit-themes-shared-icons-info-filled-svg.patch - toolkit/themes/shared/icons/info-filled.svg
 toolkit-themes-shared-icons-info-svg.patch - toolkit/themes/shared/icons/info.svg
