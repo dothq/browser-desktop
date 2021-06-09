@@ -13,20 +13,11 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
 +);
  
  // lazy service getters
- 
-@@ -1932,7 +1937,7 @@ var gBrowserInit = {
- 
-     gBrowser.addEventListener(
-       "PermissionStateChange",
--      function() {
-+      function () {
-         gIdentityHandler.refreshIdentityBlock();
-       },
-       true
+
 @@ -2092,7 +2097,7 @@ var gBrowserInit = {
        PanicButtonNotifier.init();
      });
- 
+
 -    gBrowser.tabContainer.addEventListener("TabSelect", function() {
 +    gBrowser.tabContainer.addEventListener("TabSelect", function () {
        for (let panel of document.querySelectorAll(
@@ -375,15 +366,6 @@ index e257c4a073323e9b448c83c94db39aeb74e59cb9..9a6d801b38ae799bc2fd74e58c113e4b
        return;
      }
      this.inc = this._realInc;
-@@ -6997,7 +7005,7 @@ function handleLinkClick(event, href, linkNode) {
-         isPrivateWin
-       );
-       persistAllowMixedContentInChildTab = true;
--    } catch (e) {}
-+    } catch (e) { }
-   }
- 
-   let frameID = WebNavigationFrames.getFrameId(doc.defaultView);
 @@ -7114,7 +7122,7 @@ function handleDroppedLink(
      }
    }

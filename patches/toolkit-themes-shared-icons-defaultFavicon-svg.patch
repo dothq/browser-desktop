@@ -1,13 +1,15 @@
 diff --git a/toolkit/themes/shared/icons/defaultFavicon.svg b/toolkit/themes/shared/icons/defaultFavicon.svg
-index 69a0408a60f233bb4e14be6dcbfe3e1e27353b21..64ff26a6626f1493d9db9d4eaa2484a5ec1acc88 100644
+index e1689b5e6d649b006670941ec379128fa8754614..64ff26a6626f1493d9db9d4eaa2484a5ec1acc88 100644
 --- a/toolkit/themes/shared/icons/defaultFavicon.svg
 +++ b/toolkit/themes/shared/icons/defaultFavicon.svg
-@@ -2,5 +2,7 @@
+@@ -1,6 +1,8 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
--  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8zm5.163 4.958h-1.552a7.7 7.7 0 0 0-1.051-2.376 6.03 6.03 0 0 1 2.603 2.376zM14 8a5.963 5.963 0 0 1-.335 1.958h-1.821A12.327 12.327 0 0 0 12 8a12.327 12.327 0 0 0-.156-1.958h1.821A5.963 5.963 0 0 1 14 8zm-6 6c-1.075 0-2.037-1.2-2.567-2.958h5.135C10.037 12.8 9.075 14 8 14zM5.174 9.958a11.084 11.084 0 0 1 0-3.916h5.651A11.114 11.114 0 0 1 11 8a11.114 11.114 0 0 1-.174 1.958zM2 8a5.963 5.963 0 0 1 .335-1.958h1.821a12.361 12.361 0 0 0 0 3.916H2.335A5.963 5.963 0 0 1 2 8zm6-6c1.075 0 2.037 1.2 2.567 2.958H5.433C5.963 3.2 6.925 2 8 2zm-2.56.582a7.7 7.7 0 0 0-1.051 2.376H2.837A6.03 6.03 0 0 1 5.44 2.582zm-2.6 8.46h1.549a7.7 7.7 0 0 0 1.051 2.376 6.03 6.03 0 0 1-2.603-2.376zm7.723 2.376a7.7 7.7 0 0 0 1.051-2.376h1.552a6.03 6.03 0 0 1-2.606 2.376z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M8.5 1a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15zm2.447 1.75a6.255 6.255 0 0 1 3.756 5.125l-2.229 0A9.426 9.426 0 0 0 10.54 2.75l.407 0zm-2.049 0a8.211 8.211 0 0 1 2.321 5.125l-5.438 0A8.211 8.211 0 0 1 8.102 2.75l.796 0zm-2.846 0 .408 0a9.434 9.434 0 0 0-1.934 5.125l-2.229 0A6.254 6.254 0 0 1 6.052 2.75zm0 11.5a6.252 6.252 0 0 1-3.755-5.125l2.229 0A9.426 9.426 0 0 0 6.46 14.25l-.408 0zm2.05 0a8.211 8.211 0 0 1-2.321-5.125l5.437 0a8.211 8.211 0 0 1-2.321 5.125l-.795 0zm2.846 0-.409 0a9.418 9.418 0 0 0 1.934-5.125l2.229 0a6.253 6.253 0 0 1-3.754 5.125z"/>
 -</svg>
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 +  <path fill="context-fill" fill-opacity="context-fill-opacity" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
 +    clip-rule="evenodd"
 +    d="M8.99983 0C8.99977 0 8.99988 0 8.99983 0H4C2.34315 0 1 1.34315 1 3V13C1 14.6569 2.34315 16 4 16H12C13.6569 16 15 14.6569 15 13V6C15 5.74408 14.9024 5.48816 14.7071 5.29289L9.70711 0.292893C9.51184 0.0976311 9.25575 0 8.99983 0ZM12.5858 6L9 2.41421V6H12.5858ZM7 7V2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V8H8C7.44772 8 7 7.55228 7 7Z" />

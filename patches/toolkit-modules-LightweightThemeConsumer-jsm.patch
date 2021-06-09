@@ -1,13 +1,17 @@
 diff --git a/toolkit/modules/LightweightThemeConsumer.jsm b/toolkit/modules/LightweightThemeConsumer.jsm
-index 5a616692520c347df22d1bb94b7f17125da9778c..a5625b0da9c6503dde7cd6c431cd8d1d83c84d8b 100644
+index 10a2cd67fb045a4d6fe9e327da455c1b4cf7814f..932b6ce52f2892a4e4fdcf4c363676b6178b3f1d 100644
 --- a/toolkit/modules/LightweightThemeConsumer.jsm
 +++ b/toolkit/modules/LightweightThemeConsumer.jsm
-@@ -6,7 +6,7 @@ var EXPORTED_SYMBOLS = ["LightweightThemeConsumer"];
+@@ -6,9 +6,9 @@ var EXPORTED_SYMBOLS = ["LightweightThemeConsumer"];
  
  const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
  
 -const DEFAULT_THEME_ID = "default-theme@mozilla.org";
-+const DEFAULT_THEME_ID = null;
+-const LIGHT_THEME_ID = "firefox-compact-light@mozilla.org";
+-const DARK_THEME_ID = "firefox-compact-dark@mozilla.org";
++const DEFAULT_THEME_ID = "dynamic@themes.dothq.co";
++const LIGHT_THEME_ID = "light@themes.dothq.co";
++const DARK_THEME_ID = "dark@themes.dothq.co";
  
  ChromeUtils.defineModuleGetter(
    this,

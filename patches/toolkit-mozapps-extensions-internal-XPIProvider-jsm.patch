@@ -1,5 +1,5 @@
 diff --git a/toolkit/mozapps/extensions/internal/XPIProvider.jsm b/toolkit/mozapps/extensions/internal/XPIProvider.jsm
-index 06773a773c93baa3e5299b74dc9373095447ecd1..c83f46c2bc16e24ae82323c4cb961518416410da 100644
+index 0599e221ed1eac4b894ae9aeab3b4f958c4a48bd..b53d188014ca3ce63ee0439937ebe584cb07a7e0 100644
 --- a/toolkit/mozapps/extensions/internal/XPIProvider.jsm
 +++ b/toolkit/mozapps/extensions/internal/XPIProvider.jsm
 @@ -2472,7 +2472,7 @@ var XPIProvider = {
@@ -8,6 +8,6 @@ index 06773a773c93baa3e5299b74dc9373095447ecd1..c83f46c2bc16e24ae82323c4cb961518
        this.maybeInstallBuiltinAddon(
 -        "default-theme@mozilla.org",
 +        "dynamic@themes.dothq.co",
-         "1.1",
+         "1.2",
          "resource://default-theme/"
        );

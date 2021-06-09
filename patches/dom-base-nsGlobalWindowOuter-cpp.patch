@@ -1,20 +1,21 @@
 diff --git a/dom/base/nsGlobalWindowOuter.cpp b/dom/base/nsGlobalWindowOuter.cpp
-index 653c8c03fbdc16e54b1637ca4b399f45152be60c..5b147739cf230a97c0a465fdec4f836fd4a26124 100644
+index f1b9496cb8c7ebdaec68cec1774cd1b7f92ac88a..79ce368c06eeed08a53d8fc85de94e1fa3291808 100644
 --- a/dom/base/nsGlobalWindowOuter.cpp
 +++ b/dom/base/nsGlobalWindowOuter.cpp
-@@ -4826,7 +4826,7 @@ void nsGlobalWindowOuter::MakeScriptDialogTitle(
-           aOutTitle, nsContentUtils::eCOMMON_DIALOG_PROPERTIES,
-           "ScriptDlgHeading", addonPolicy->Name());
-     } else {
--      nsresult rv = aSubjectPrincipal->GetExposablePrePath(prepath);
-+      nsresult rv = aSubjectPrincipal->GetAsciiHost(prepath);
-       if (NS_SUCCEEDED(rv) && !prepath.IsEmpty()) {
-         NS_ConvertUTF8toUTF16 ucsPrePath(prepath);
-         nsContentUtils::FormatLocalizedString(
-@@ -4912,6 +4912,8 @@ bool nsGlobalWindowOuter::AlertOrConfirm(bool aAlert, const nsAString& aMessage,
+@@ -4815,7 +4815,7 @@ void nsGlobalWindowOuter::MakeMessageWithPrincipal(
+         }
+       }
+       if (!aUseHostPort || NS_FAILED(rv)) {
+-        rv = aSubjectPrincipal->GetExposablePrePath(contentDesc);
++        rv = aSubjectPrincipal->GetAsciiHost(contentDesc);
+       }
+       if (NS_SUCCEEDED(rv) && !contentDesc.IsEmpty()) {
+         NS_ConvertUTF8toUTF16 ucsPrePath(contentDesc);
+@@ -4902,6 +4902,9 @@ bool nsGlobalWindowOuter::AlertOrConfirm(bool aAlert, const nsAString& aMessage,
      // Just silently return.  In the case of alert(), the return value is
      // ignored.  In the case of confirm(), returning false is the same thing as
      // would happen if the user cancels.
++
 +    uint8_t artificialDelay = rand() % 2000 + 200;
 +    PR_Sleep(PR_MillisecondsToInterval(artificialDelay));
      return false;

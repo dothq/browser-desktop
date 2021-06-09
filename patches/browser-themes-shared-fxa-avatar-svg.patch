@@ -1,13 +1,16 @@
 diff --git a/browser/themes/shared/fxa/avatar.svg b/browser/themes/shared/fxa/avatar.svg
-index e9d04295159367cc42a62e3f0b7a9b64d41ad505..dc40c27d5e6c11fcfd14108a8d64dd2f070a911b 100644
+index 9391f575402cc6e5060bbf5e77c393d50e79787f..92b614257f3601280bc271e2fc7317d14406a6b4 100644
 --- a/browser/themes/shared/fxa/avatar.svg
 +++ b/browser/themes/shared/fxa/avatar.svg
-@@ -2,5 +2,6 @@
+@@ -1,6 +1,8 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="context-fill" fill-opacity="context-fill-opacity">
--  <path d="M8 1a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm0 2a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm4.11 7.81a5 5 0 0 1-8.22 0A1 1 0 0 1 4 9.58C5 8.36 6.48 10 8 10s3-1.64 4.05-.42a1 1 0 0 1 .06 1.23z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M8.5 1a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15zm0 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm0 9.75c-1.912 0-3.571-1.038-4.489-2.569A1.993 1.993 0 0 1 5.505 11l5.99 0c.596 0 1.126.267 1.494.681-.918 1.531-2.577 2.569-4.489 2.569z"/>
 -</svg>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill"
++  fill-opacity="context-fill-opacity">
 +  <path fill-rule="evenodd" clip-rule="evenodd"
 +    d="M16 8C16 10.9432 14.4106 13.5152 12.0433 14.9045C10.8569 15.6008 9.47506 16 8 16C6.52494 16 5.14313 15.6008 3.9567 14.9045C1.58939 13.5152 0 10.9432 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM12.2235 12.2617C12.6625 11.8266 12.7892 11.1507 12.4582 10.6286C11.8377 9.64976 10.7447 9 9.5 9H6.5C5.25528 9 4.16231 9.64976 3.54179 10.6286C3.21083 11.1507 3.33747 11.8266 3.77651 12.2617C4.86075 13.3363 6.35286 14 8 14C9.64714 14 11.1393 13.3363 12.2235 12.2617ZM8 7C9.10457 7 10 6.10457 10 5C10 3.89543 9.10457 3 8 3C6.89543 3 6 3.89543 6 5C6 6.10457 6.89543 7 8 7Z" />
 +</svg>

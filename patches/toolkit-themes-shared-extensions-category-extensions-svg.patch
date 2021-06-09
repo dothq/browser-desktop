@@ -1,17 +1,17 @@
 diff --git a/toolkit/themes/shared/extensions/category-extensions.svg b/toolkit/themes/shared/extensions/category-extensions.svg
-index 105a8981aa8a93402bb0eadcbb8cb1b0e72b0550..eccf1cf6da84f1ce63858b0c8181ec001f42833c 100644
+index 41b203ab62011518070be5d5980d45a8d59ff2b4..386a386fe4e888950f56c1eab41c551109b4c023 100644
 --- a/toolkit/themes/shared/extensions/category-extensions.svg
 +++ b/toolkit/themes/shared/extensions/category-extensions.svg
 @@ -1,6 +1,8 @@
  <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="context-fill" fill-opacity="context-fill-opacity" width="32" height="32">
--  <path d="M14.53 8c-1 0-1 1-1.75 1a.77.77 0 0 1-.78-.75V5a1 1 0 0 0-1-1H7.78A.77.77 0 0 1 7 3.25c0-.75 1-.78 1-1.75S7.13 0 6 0 4 .64 4 1.5s1 1 1 1.75a.77.77 0 0 1-.72.75H1a1 1 0 0 0-1 1v2.25A.77.77 0 0 0 .78 8c.75 0 .78-1 1.75-1S4 7.9 4 9s-.64 2-1.5 2-1-1-1.75-1a.77.77 0 0 0-.75.75V15a1 1 0 0 0 1 1h3.28a.77.77 0 0 0 .72-.75c0-.75-1-.78-1-1.75S4.92 12 6 12s2 .64 2 1.5-1 1-1 1.75a.77.77 0 0 0 .75.75H11a1 1 0 0 0 1-1v-3.25a.77.77 0 0 1 .75-.75c.75 0 .78 1 1.75 1s1.5-.9 1.5-2-.61-2-1.47-2z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="m15.5 5-2 0 0-1.873c0-1.594-1.183-2.961-2.693-3.112A3.003 3.003 0 0 0 7.5 2.999L7.5 5l-3 0A2.5 2.5 0 0 0 2 7.5l0 2.25c0 .69.56 1.25 1.25 1.25l1.623 0c.833 0 1.544.59 1.62 1.343a1.49 1.49 0 0 1-.379 1.163c-.285.314-.69.494-1.113.494L3.25 14C2.56 14 2 14.56 2 15.25l0 2.25A2.5 2.5 0 0 0 4.5 20l11 0a2.5 2.5 0 0 0 2.5-2.5l0-10A2.5 2.5 0 0 0 15.5 5zm1 12.7-.8.8-11.4 0-.8-.8 0-2.2 1.501 0c.846 0 1.657-.36 2.225-.988a3.01 3.01 0 0 0 .759-2.318C7.834 10.683 6.467 9.5 4.873 9.5L3.5 9.5l0-2.2.8-.8 3.7 0a1 1 0 0 0 1-1l0-2.501a1.502 1.502 0 0 1 1.657-1.492c.753.075 1.343.787 1.343 1.62L12 5.5a1 1 0 0 0 1 1l2.7 0 .8.8 0 10.4z"/>
 -</svg>
 +<svg width="32" height="32" viewBox="0 0 24 24" fill="context-fill" fill-opacity="context-fill-opacity"
-+    xmlns="http://www.w3.org/2000/svg">
-+    <path
-+        d="M10 0C12.2091 0 14 1.79086 14 4H17C18.6569 4 20 5.34315 20 7V10C22.2091 10 24 11.7909 24 14C24 16.2091 22.2091 18 20 18V21C20 22.6569 18.6569 24 17 24H3C1.34315 24 0 22.6569 0 21V19C0 18.4477 0.447715 18 1 18C3.20914 18 5 16.2091 5 14C5 11.7909 3.20914 10 1 10C0.447716 10 0 9.55228 0 9V7C0 5.34315 1.34315 4 3 4H6C6 1.79086 7.79086 0 10 0Z" />
++  xmlns="http://www.w3.org/2000/svg">
++  <path
++    d="M10 0C12.2091 0 14 1.79086 14 4H17C18.6569 4 20 5.34315 20 7V10C22.2091 10 24 11.7909 24 14C24 16.2091 22.2091 18 20 18V21C20 22.6569 18.6569 24 17 24H3C1.34315 24 0 22.6569 0 21V19C0 18.4477 0.447715 18 1 18C3.20914 18 5 16.2091 5 14C5 11.7909 3.20914 10 1 10C0.447716 10 0 9.55228 0 9V7C0 5.34315 1.34315 4 3 4H6C6 1.79086 7.79086 0 10 0Z" />
 +</svg>
 \ No newline at end of file

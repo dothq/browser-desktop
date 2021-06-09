@@ -1,32 +1,31 @@
 diff --git a/toolkit/themes/shared/in-content/common.inc.css b/toolkit/themes/shared/in-content/common.inc.css
-index 0e3b104add4b5c5cfa7e1f2b5ffc0516631135a2..9a87c8acf580e0b77ca9ed0a7b3fea7aed2c7fd9 100644
+index 6ed71ad9e90aabe5123e0b701f97491608dbdec7..026d657950d378faa170415d12bb5f3520f52d14 100644
 --- a/toolkit/themes/shared/in-content/common.inc.css
 +++ b/toolkit/themes/shared/in-content/common.inc.css
-@@ -7,14 +7,14 @@
- @namespace xul "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+@@ -8,13 +8,13 @@
  
+ :host,
  :root {
--  --in-content-page-color: #0c0c0d;
+-  --in-content-page-color: rgb(21, 20, 26);
 -  --in-content-page-background: #fff;
 +  --in-content-page-color: #030303;
 +  --in-content-page-background: #FFFFFF;
-   --in-content-text-color: var(--grey-90);
-   --in-content-deemphasized-text: var(--grey-60);
-   --in-content-selected-text: #fff;
+   --in-content-text-color: var(--in-content-page-color);
+   --in-content-deemphasized-text: rgb(91, 91, 102);
    --in-content-box-background: #fff;
 -  --in-content-box-background-odd: rgba(12, 12, 13, 0.05); /* grey 90 a05 */
--  --in-content-box-border-color: var(--grey-90-a30);
+-  --in-content-box-border-color: rgb(143, 143, 157);
 +  --in-content-box-background-odd: rgba(52, 52, 52, 0.05); /* grey 90 a05 */
 +  --in-content-box-border-color: #EAEAEA;
    --in-content-box-info-background: #f0f0f4;
-   --in-content-item-hover: rgba(69, 161, 255, 0.2); /* blue 40 a20 */
-   --in-content-item-selected: #0a84ff;
-@@ -121,7 +121,7 @@
- @media (prefers-color-scheme: dark) {
+   --in-content-item-hover: color-mix(in srgb, var(--in-content-primary-button-background) 20%, transparent);
+   --in-content-item-hover-text: var(--in-content-page-color);
+@@ -140,7 +140,7 @@
+   :host,
    :root {
      /* Keep these in sync with layout/base/PresShell.cpp, and plaintext.css */
--    --in-content-page-background: #2A2A2E;
+-    --in-content-page-background: rgb(28,27,34);
 +    --in-content-page-background: #1C1C1C;
-     --in-content-page-color: rgb(249, 249, 250);
+     --in-content-page-color: rgb(251,251,254);
+     --in-content-deemphasized-text: rgb(191,191,201);
  
-     --in-content-text-color: var(--in-content-page-color);

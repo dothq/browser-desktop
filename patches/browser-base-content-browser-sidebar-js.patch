@@ -1,42 +1,18 @@
 diff --git a/browser/base/content/browser-sidebar.js b/browser/base/content/browser-sidebar.js
-index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc45ad4a65 100644
+index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf0785d7e0 100644
 --- a/browser/base/content/browser-sidebar.js
 +++ b/browser/base/content/browser-sidebar.js
-@@ -14,10 +14,9 @@ var SidebarUI = {
-       [
-         "viewBookmarksSidebar",
-         {
--          title: document
--            .getElementById("sidebar-switcher-bookmarks")
-+          title: document.getElementById("sidebar-switcher-bookmarks")
+@@ -17,7 +17,7 @@ var SidebarUI = {
+           title: document
+             .getElementById("sidebar-switcher-bookmarks")
              .getAttribute("label"),
 -          url: "chrome://browser/content/places/bookmarksSidebar.xhtml",
 +          url: "chrome://browser/content/sidebars/bookmarks/sidebar.html",
            menuId: "menu_bookmarksSidebar",
-           buttonId: "sidebar-switcher-bookmarks",
          },
-@@ -25,8 +24,7 @@ var SidebarUI = {
-       [
-         "viewHistorySidebar",
-         {
--          title: document
--            .getElementById("sidebar-switcher-history")
-+          title: document.getElementById("sidebar-switcher-history")
-             .getAttribute("label"),
-           url: "chrome://browser/content/places/historySidebar.xhtml",
-           menuId: "menu_historySidebar",
-@@ -37,8 +35,7 @@ var SidebarUI = {
-       [
-         "viewTabsSidebar",
-         {
--          title: document
--            .getElementById("sidebar-switcher-tabs")
-+          title: document.getElementById("sidebar-switcher-tabs")
-             .getAttribute("label"),
-           url: "chrome://browser/content/syncedtabs/sidebar.xhtml",
+       ],
+@@ -42,6 +42,16 @@ var SidebarUI = {
            menuId: "menu_tabsSidebar",
-@@ -46,6 +43,16 @@ var SidebarUI = {
-           triggerButtonId: "PanelUI-remotetabs-view-sidebar",
          },
        ],
 +      [
@@ -52,7 +28,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
      ]));
    },
  
-@@ -65,6 +72,7 @@ var SidebarUI = {
+@@ -61,6 +71,7 @@ var SidebarUI = {
    lastOpenedId: null,
  
    _box: null,
@@ -60,7 +36,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
    // The constructor of this label accesses the browser element due to the
    // control="sidebar" attribute, so avoid getting this label during startup.
    get _title() {
-@@ -93,6 +101,7 @@ var SidebarUI = {
+@@ -89,6 +100,7 @@ var SidebarUI = {
  
    init() {
      this._box = document.getElementById("sidebar-box");
@@ -68,7 +44,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
      this._splitter = document.getElementById("sidebar-splitter");
      this._icon = document.getElementById("sidebar-icon");
      this._reversePositionButton = document.getElementById(
-@@ -285,10 +294,16 @@ var SidebarUI = {
+@@ -281,10 +293,16 @@ var SidebarUI = {
        return true;
      }
  
@@ -85,7 +61,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
      this.showInitially(commandID);
  
      return true;
-@@ -455,11 +470,15 @@ var SidebarUI = {
+@@ -451,11 +469,15 @@ var SidebarUI = {
      return this._show(commandID).then(() => {
        this._loadSidebarExtension(commandID);
  
@@ -101,7 +77,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
        return true;
      });
    },
-@@ -498,7 +517,13 @@ var SidebarUI = {
+@@ -494,7 +516,13 @@ var SidebarUI = {
      return new Promise(resolve => {
        this.selectMenuItem(commandID);
  
@@ -115,7 +91,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
        this.setPosition();
  
        this.hideSwitcherPanel();
-@@ -507,10 +532,6 @@ var SidebarUI = {
+@@ -503,10 +531,6 @@ var SidebarUI = {
        this._box.setAttribute("sidebarcommand", commandID);
        this.lastOpenedId = commandID;
  
@@ -126,7 +102,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
        if (this.browser.contentDocument.location.href != url) {
          this.browser.addEventListener(
            "load",
-@@ -550,17 +571,26 @@ var SidebarUI = {
+@@ -546,17 +570,26 @@ var SidebarUI = {
  
      this.selectMenuItem("");
  
@@ -156,7 +132,7 @@ index 59185832cfe31af2bf64fbfd3f87564295974d94..01790ce8468bcd29ee2ebfcfcfb872bc
      let selBrowser = gBrowser.selectedBrowser;
      selBrowser.focus();
      if (triggerNode) {
-@@ -595,6 +625,15 @@ var SidebarUI = {
+@@ -588,6 +621,15 @@ var SidebarUI = {
        }
      }
    },

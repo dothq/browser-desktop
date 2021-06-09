@@ -1,9 +1,9 @@
 diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
-index 2b474f879e49d5086bf0725864319be55de83956..8e460fb20290aa29f144a9f6bccc9257931ede42 100644
+index ee0f14db4f27cdb7dc3ed0cc8d456a6fe3aeaf74..f2eba72213fff7543f16a33a35f964850e0903fe 100644
 --- a/browser/base/content/browser-context.inc
 +++ b/browser/base/content/browser-context.inc
-@@ -224,20 +224,33 @@
-       <menuseparator id="context-sep-ctp"/>
+@@ -253,18 +253,31 @@
+ #endif
        <menuitem id="context-savepage"
                  data-l10n-id="main-context-menu-page-save"
 -                oncommand="gContextMenu.savePageAs();"/>
@@ -18,8 +18,6 @@ index 2b474f879e49d5086bf0725864319be55de83956..8e460fb20290aa29f144a9f6bccc9257
        <menuitem id="context-pocket"
                  data-l10n-id="main-context-menu-save-to-pocket"
                  oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>
-       <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
-                      hidden="true"/>
        <menu id="context-sendpagetodevice"
 -            class="sync-ui-item"
 +            class="sync-ui-item menuitem-iconic"
@@ -39,8 +37,8 @@ index 2b474f879e49d5086bf0725864319be55de83956..8e460fb20290aa29f144a9f6bccc9257
 +      >
          <menupopup id="fill-login-popup" />
        </menu>
-      <menuitem id="fill-login-generated-password"
-@@ -251,23 +264,33 @@
+       <menuitem id="fill-login-generated-password"
+@@ -278,23 +291,33 @@
        <menuseparator id="passwordmgr-items-separator"/>
        <menuitem id="context-undo"
                  data-l10n-id="text-action-undo"
@@ -79,18 +77,18 @@ index 2b474f879e49d5086bf0725864319be55de83956..8e460fb20290aa29f144a9f6bccc9257
        <menuitem id="context-selectall"
                  data-l10n-id="text-action-select-all"
                  command="cmd_selectAll"/>
-@@ -289,7 +312,9 @@
+@@ -310,7 +333,9 @@
+                 data-l10n-id="main-context-menu-keyword"
                  oncommand="AddKeywordForSearchField();"/>
        <menuitem id="context-searchselect"
-                 oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, this.usePrivate, this.principal, this.csp, event);"
--                onclick="checkForMiddleClick(this, event);"/>
-+                onclick="checkForMiddleClick(this, event);"
+-                oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, this.usePrivate, this.principal, this.csp, event);"/>
++                oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, this.usePrivate, this.principal, this.csp, event);"
 +                class="menuitem-iconic"
 +                image="chrome://global/skin/icons/search-glass.svg"/>
        <menuitem id="context-searchselect-private"
-                 oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp, event);"
-                 onclick="checkForMiddleClick(this, event);"/>
-@@ -344,7 +369,9 @@
+                 oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp, event);"/>
+ 
+@@ -360,7 +385,9 @@
                  label="&spellCheckToggle.label;"
                  type="checkbox"
                  accesskey="&spellCheckToggle.accesskey;"
@@ -101,7 +99,7 @@ index 2b474f879e49d5086bf0725864319be55de83956..8e460fb20290aa29f144a9f6bccc9257
        <menuitem id="spell-add-dictionaries-main"
                  label="&spellAddDictionaries.label;"
                  accesskey="&spellAddDictionaries.accesskey;"
-@@ -377,11 +404,15 @@
+@@ -393,11 +420,15 @@
        <menuitem id="context-inspect-a11y"
                  hidden="true"
                  data-l10n-id="main-context-menu-inspect-a11y-properties"

@@ -1,12 +1,17 @@
 diff --git a/toolkit/themes/shared/icons/check.svg b/toolkit/themes/shared/icons/check.svg
-index e19cbe09608531ac238871f9d73f24cbfbd6c6b6..f7709f7e0e20c355b5f6b5e3cadebe55da4beb68 100644
+index 3c356385c68608abd25f9290ca75c39455614600..6e2438533ab77d9dda1c293ce2ab510f102975d8 100644
 --- a/toolkit/themes/shared/icons/check.svg
 +++ b/toolkit/themes/shared/icons/check.svg
-@@ -2,5 +2,6 @@
+@@ -1,6 +1,8 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="context-fill" fill-opacity="context-fill-opacity">
--  <path stroke="context-stroke none" stroke-width="0.5" d="M6.52,12.5a1,1,0,0,1-.705-.291l-3.52-3.5a1,1,0,1,1,1.41-1.418l2.812,2.8,5.774-5.793a1,1,0,0,1,1.416,1.412l-6.479,6.5A1,1,0,0,1,6.52,12.5Z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path stroke="context-stroke none" stroke-width="0.5" d="m6.023 13-4.84-4.839a.626.626 0 0 1 .885-.885l4.307 4.308 7.559-7.561a.628.628 0 0 1 .885 0 .628.628 0 0 1 0 .885l-8.09 8.09-.706.002z"/>
+-</svg>
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="context-fill"
++  fill-opacity="context-fill-opacity">
 +  <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
 +    d="M14.6941 3.28016C15.0917 3.66352 15.1032 4.29658 14.7198 4.69414L7.00556 12.6941C6.62661 13.0871 6.0025 13.1036 5.6034 12.7311L1.31768 8.73106C0.913931 8.35422 0.892111 7.72143 1.26894 7.31768C1.64578 6.91393 2.27857 6.89211 2.68232 7.26895L6.24879 10.5977L13.2802 3.30587C13.6635 2.90831 14.2966 2.8968 14.6941 3.28016Z" />
- </svg>
++</svg>
+\ No newline at end of file

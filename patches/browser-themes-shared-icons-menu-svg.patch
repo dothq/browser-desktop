@@ -1,13 +1,18 @@
 diff --git a/browser/themes/shared/icons/menu.svg b/browser/themes/shared/icons/menu.svg
-index 86f38be5e4daadc22817b9334749b970aeec1abf..1cc97d5b0b62f1c4646e693dc46e3ca49b4e01af 100644
+index 39628990ce318d19daf1e91c430521c40e9a131d..a26f8d1e7f6c2845f87d419c55e1197b4e019f08 100644
 --- a/browser/themes/shared/icons/menu.svg
 +++ b/browser/themes/shared/icons/menu.svg
-@@ -2,5 +2,6 @@
+@@ -1,8 +1,8 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
--  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M3,4H13a1,1,0,0,0,0-2H3A1,1,0,0,0,3,4ZM13,7H3A1,1,0,0,0,3,9H13a1,1,0,0,0,0-2Zm0,5H3a1,1,0,0,0,0,2H13a1,1,0,0,0,0-2Z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="m13.375 4.25-10.75 0a.625.625 0 0 1 0-1.25l10.75 0a.625.625 0 0 1 0 1.25z"/>
+-  <path d="m13.375 8.25-10.75 0a.625.625 0 0 1 0-1.25l10.75 0a.625.625 0 0 1 0 1.25z"/>
+-  <path d="m13.375 12.25-10.75 0a.625.625 0 0 1 0-1.25l10.75 0a.625.625 0 0 1 0 1.25z"/>
 -</svg>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill"
++  fill-opacity="context-fill-opacity">
 +  <path fill="context-fill" fill-opacity="context-fill-opacity"
 +    d="M2 6a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm6 0a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm6 0a2 2 0 1 0 2 2 2 2 0 0 0-2-2z" />
 +</svg>

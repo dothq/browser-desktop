@@ -1,5 +1,5 @@
 diff --git a/browser/components/customizableui/CustomizableUI.jsm b/browser/components/customizableui/CustomizableUI.jsm
-index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..e5a9cf4154b0cdf8ff0868701d8163c6237ae32a 100644
+index 3d35513f7800166dcbe7622228c66ffb20ca2dfa..19f444408a1102babcfb4afd71c4d9e967ed76f5 100644
 --- a/browser/components/customizableui/CustomizableUI.jsm
 +++ b/browser/components/customizableui/CustomizableUI.jsm
 @@ -9,6 +9,9 @@ const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
@@ -24,11 +24,11 @@ index 5188ac328fbdbe4c7bab26349be2b43aaf1ad2e6..e5a9cf4154b0cdf8ff0868701d8163c6
  
  const kSpecialWidgetPfx = "customizableui-special-";
  
-@@ -262,6 +268,7 @@ var CustomizableUIInternal = {
+@@ -260,6 +266,7 @@ var CustomizableUIInternal = {
          ? null
          : "home-button",
        "spring",
 +      `${makeWidgetId(kShieldID)}-browser-action`,
        "urlbar-container",
        "spring",
-       "downloads-button",
+       "save-to-pocket-button",

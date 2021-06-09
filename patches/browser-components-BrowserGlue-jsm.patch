@@ -1,16 +1,7 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 3ef1e1453591039f9c34edfe8b14af5d044d2266..98a0111b1c06e1ee5868db1b8d5d669f05d4c02a 100644
+index 858e24b8f91089545c84847f66714fea033b4b48..a3bf154c325317c75b80ffb59f11f538c143197a 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -166,7 +166,7 @@ let JSPROCESSACTORS = {
-               "RefreshBlocker",
-               "all"
-             );
--          } catch (ex) {}
-+          } catch (ex) { }
-         }
-       });
-     },
 @@ -179,6 +179,20 @@ let JSPROCESSACTORS = {
   * available at https://firefox-source-docs.mozilla.org/dom/ipc/jsactors.html
   */
@@ -32,15 +23,16 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..98a0111b1c06e1ee5868db1b8d5d669f
    AboutLogins: {
      parent: {
        moduleURI: "resource:///actors/AboutLoginsParent.jsm",
-@@ -520,6 +534,7 @@ let JSWINDOWACTORS = {
+@@ -526,7 +540,7 @@ let JSWINDOWACTORS = {
        moduleURI: "resource:///actors/LightweightThemeChild.jsm",
        events: {
          pageshow: { mozSystemGroup: true },
+-        DOMContentLoaded: {},
 +        DOMContentLoaded: { mozSystemGroup: true },
        },
      },
      includeChrome: true,
-@@ -528,9 +543,12 @@ let JSWINDOWACTORS = {
+@@ -535,9 +549,12 @@ let JSWINDOWACTORS = {
        "about:home",
        "about:newtab",
        "about:welcome",
@@ -53,137 +45,25 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..98a0111b1c06e1ee5868db1b8d5d669f
      ],
    },
  
-@@ -765,8 +783,8 @@ let JSWINDOWACTORS = {
-     !Services.startup.showedPreXULSkeletonUI &&
-     Services.prefs.getCharPref(
-       "extensions.activeThemeID",
--      "default-theme@mozilla.org"
--    ) != "default-theme@mozilla.org"
-+      "dynamic@themes.dothq.co"
-+    ) != "dynamic@themes.dothq.co"
-   ) {
-     return;
-   }
-@@ -855,19 +873,19 @@ if (AppConstants.MOZ_CRASHREPORTER) {
-   });
- }
- 
--XPCOMUtils.defineLazyGetter(this, "gBrandBundle", function() {
-+XPCOMUtils.defineLazyGetter(this, "gBrandBundle", function () {
-   return Services.strings.createBundle(
-     "chrome://branding/locale/brand.properties"
-   );
- });
- 
--XPCOMUtils.defineLazyGetter(this, "gBrowserBundle", function() {
-+XPCOMUtils.defineLazyGetter(this, "gBrowserBundle", function () {
-   return Services.strings.createBundle(
-     "chrome://browser/locale/browser.properties"
-   );
- });
- 
--XPCOMUtils.defineLazyGetter(this, "gTabbrowserBundle", function() {
-+XPCOMUtils.defineLazyGetter(this, "gTabbrowserBundle", function () {
-   return Services.strings.createBundle(
-     "chrome://browser/locale/tabbrowser.properties"
-   );
-@@ -931,7 +949,7 @@ function BrowserGlue() {
-     "nsIUserIdleService"
-   );
- 
--  XPCOMUtils.defineLazyGetter(this, "_distributionCustomizer", function() {
-+  XPCOMUtils.defineLazyGetter(this, "_distributionCustomizer", function () {
-     const { DistributionCustomizer } = ChromeUtils.import(
-       "resource:///modules/distribution.js"
-     );
-@@ -1358,62 +1376,63 @@ BrowserGlue.prototype = {
+@@ -1367,27 +1384,28 @@ BrowserGlue.prototype = {
      SessionStore.init();
  
      AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-compact-light@mozilla.org",
-+      "light@themes.dothq.co",
-       "1.1",
++      "light@themes.dothq.coorg",
+       "1.2",
        "resource://builtin-themes/light/"
      );
      AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-compact-dark@mozilla.org",
 +      "dark@themes.dothq.co",
-       "1.1",
+       "1.2",
        "resource://builtin-themes/dark/"
      );
  
--    if (
--      AppConstants.NIGHTLY_BUILD &&
--      Services.prefs.getBoolPref("browser.proton.enabled", false)
--    ) {
--      // Temporarily install a fork of the light & dark themes to do development on for
--      // Proton. We only make this available if `browser.proton.enabled` is set
--      // to true, and we make sure to uninstall it again during shutdown.
--      const kProtonDarkThemeID = "firefox-compact-proton-dark@mozilla.org";
--      AddonManager.maybeInstallBuiltinAddon(
--        kProtonDarkThemeID,
--        "1.0",
--        "resource://builtin-themes/proton-dark/"
--      );
--
--      const kProtonLightThemeID = "firefox-compact-proton-light@mozilla.org";
--      AddonManager.maybeInstallBuiltinAddon(
--        kProtonLightThemeID,
--        "1.0",
--        "resource://builtin-themes/proton-light/"
--      );
--      AsyncShutdown.profileChangeTeardown.addBlocker(
--        "Uninstall Proton themes",
--        async () => {
--          for (let themeID of [kProtonDarkThemeID, kProtonLightThemeID]) {
--            try {
--              let addon = await AddonManager.getAddonByID(themeID);
--              await addon.uninstall();
--            } catch (e) {
--              Cu.reportError(`Failed to uninstall ${themeID} on shutdown`);
--            }
--          }
--        }
--      );
--    }
-+//    if (
-+//      AppConstants.NIGHTLY_BUILD &&
-+//      Services.prefs.getBoolPref("browser.proton.enabled", false)
-+//    ) {
-+//      // Temporarily install a fork of the light & dark themes to do development on for
-+//      // Proton. We only make this available if `browser.proton.enabled` is set
-+//      // to true, and we make sure to uninstall it again during shutdown.
-+//      const kProtonDarkThemeID = "firefox-compact-proton-dark@mozilla.org";
-+//      AddonManager.maybeInstallBuiltinAddon(
-+//        kProtonDarkThemeID,
-+//        "1.0",
-+//        "resource://builtin-themes/proton-dark/"
-+//      );
-+//
-+//      const kProtonLightThemeID = "firefox-compact-proton-light@mozilla.org";
-+//      AddonManager.maybeInstallBuiltinAddon(
-+//        kProtonLightThemeID,
-+//        "1.0",
-+//        "resource://builtin-themes/proton-light/"
-+//      );
-+//      AsyncShutdown.profileChangeTeardown.addBlocker(
-+//        "Uninstall Proton themes",
-+//        async () => {
-+//          for (let themeID of [kProtonDarkThemeID, kProtonLightThemeID]) {
-+//            try {
-+//              let addon = await AddonManager.getAddonByID(themeID);
-+//              await addon.uninstall();
-+//            } catch (e) {
-+//              Cu.reportError(`Failed to uninstall ${themeID} on shutdown`);
-+//            }
-+//          }
-+//        }
-+//      );
-+//    }
- 
      AddonManager.maybeInstallBuiltinAddon(
 -      "firefox-alpenglow@mozilla.org",
--      "1.2",
+-      "1.4",
 -      "resource://builtin-themes/alpenglow/"
 +      "fusion@themes.dothq.co",
 +      "0.1",
@@ -195,48 +75,12 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..98a0111b1c06e1ee5868db1b8d5d669f
      }
  
 -    SaveToPocket.init();
-+    // This line enables pocket
++    // Stop pocket from being enabled. Maybe make this option avaiable in settings somewhere?
 +    // SaveToPocket.init();
  
      AboutHomeStartupCache.init();
  
-@@ -1684,7 +1703,7 @@ BrowserGlue.prototype = {
-           "resource://gre/modules/UpdateUtils.jsm",
-           {}
-         ).UpdateUtils.UpdateChannel;
--      } catch (ex) {}
-+      } catch (ex) { }
-       if (updateChannel) {
-         let uninstalledValue = WindowsRegistry.readRegKey(
-           Ci.nsIWindowsRegKey.ROOT_KEY_CURRENT_USER,
-@@ -1850,7 +1869,7 @@ BrowserGlue.prototype = {
-     );
-     let categoryPref;
-     switch (
--      Services.prefs.getStringPref("browser.contentblocking.category", null)
-+    Services.prefs.getStringPref("browser.contentblocking.category", null)
-     ) {
-       case "standard":
-         categoryPref = 0;
-@@ -2084,7 +2103,7 @@ BrowserGlue.prototype = {
-           }
-         });
-       },
--      onCloseWindow() {},
-+      onCloseWindow() { },
-     };
- 
-     Services.prefs.addObserver(PREF_ION_ID, _checkIonPref);
-@@ -2123,7 +2142,7 @@ BrowserGlue.prototype = {
-           }
-         });
-       },
--      onCloseWindow() {},
-+      onCloseWindow() { },
-     };
- 
-     // Update all open windows if the pref changes.
-@@ -2142,6 +2161,22 @@ BrowserGlue.prototype = {
+@@ -2107,6 +2125,22 @@ BrowserGlue.prototype = {
      Services.wm.addListener(windowListener);
    },
  
@@ -259,7 +103,7 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..98a0111b1c06e1ee5868db1b8d5d669f
    _showNewInstallModal() {
      // Allow other observers of the same topic to run while we open the dialog.
      Services.tm.dispatchToMainThread(() => {
-@@ -2234,6 +2269,7 @@ BrowserGlue.prototype = {
+@@ -2199,6 +2233,7 @@ BrowserGlue.prototype = {
      this._monitorHTTPSOnlyPref();
      this._monitorIonPref();
      this._monitorIonStudies();
@@ -267,139 +111,3 @@ index 3ef1e1453591039f9c34edfe8b14af5d044d2266..98a0111b1c06e1ee5868db1b8d5d669f
  
      let pService = Cc["@mozilla.org/toolkit/profile-service;1"].getService(
        Ci.nsIToolkitProfileService
-@@ -2425,7 +2461,7 @@ BrowserGlue.prototype = {
-           let { setTimeout } = ChromeUtils.import(
-             "resource://gre/modules/Timer.jsm"
-           );
--          setTimeout(function() {
-+          setTimeout(function () {
-             Services.tm.idleDispatchToMainThread(
-               Services.startup.trackStartupCrashEnd
-             );
-@@ -2633,7 +2669,7 @@ BrowserGlue.prototype = {
-         this._gmpInstallManager = new obj.GMPInstallManager();
-         // We don't really care about the results, if someone is interested they
-         // can check the log.
--        this._gmpInstallManager.simpleCheckAndInstall().catch(() => {});
-+        this._gmpInstallManager.simpleCheckAndInstall().catch(() => { });
-       },
- 
-       () => {
-@@ -2698,7 +2734,7 @@ BrowserGlue.prototype = {
- 
-   _addBreachAlertsPrefObserver() {
-     const BREACH_ALERTS_PREF = "signon.management.page.breach-alerts.enabled";
--    const clearVulnerablePasswordsIfBreachAlertsDisabled = async function() {
-+    const clearVulnerablePasswordsIfBreachAlertsDisabled = async function () {
-       if (!Services.prefs.getBoolPref(BREACH_ALERTS_PREF)) {
-         await LoginBreaches.clearAllPotentiallyVulnerablePasswords();
-       }
-@@ -2897,7 +2933,7 @@ BrowserGlue.prototype = {
-       if (importBookmarksHTML) {
-         importBookmarks = true;
-       }
--    } catch (ex) {}
-+    } catch (ex) { }
- 
-     // Support legacy bookmarks.html format for apps that depend on that format.
-     let autoExportHTML = Services.prefs.getBoolPref(
-@@ -2926,7 +2962,7 @@ BrowserGlue.prototype = {
-           await this._backupBookmarks();
-           importBookmarks = true;
-         }
--      } catch (ex) {}
-+      } catch (ex) { }
- 
-       // This may be reused later, check for "=== undefined" to see if it has
-       // been populated already.
-@@ -3085,14 +3121,14 @@ BrowserGlue.prototype = {
-    * If a backup for today doesn't exist, this creates one.
-    */
-   _backupBookmarks: function BG__backupBookmarks() {
--    return (async function() {
-+    return (async function () {
-       let lastBackupFile = await PlacesBackups.getMostRecentBackup();
-       // Should backup bookmarks if there are no backups or the maximum
-       // interval between backups elapsed.
-       if (
-         !lastBackupFile ||
-         new Date() - PlacesBackups.getDateForFile(lastBackupFile) >
--          BOOKMARKS_BACKUP_MIN_INTERVAL_DAYS * 86400000
-+        BOOKMARKS_BACKUP_MIN_INTERVAL_DAYS * 86400000
-       ) {
-         let maxBackups = Services.prefs.getIntPref(
-           "browser.bookmarks.max_backups"
-@@ -3197,7 +3233,7 @@ BrowserGlue.prototype = {
-     if (
-       currentUIVersion < 65 &&
-       Services.prefs.getCharPref("general.config.filename", "") ==
--        "dsengine.cfg"
-+      "dsengine.cfg"
-     ) {
-       let searchInitializedPromise = new Promise(resolve => {
-         if (Services.search.isInitialized) {
-@@ -3413,7 +3449,7 @@ BrowserGlue.prototype = {
-         !Services.prefs.getBoolPref("media.autoplay.allow-muted") &&
-         !Services.prefs.prefHasUserValue("media.autoplay.default") &&
-         Services.prefs.getIntPref("media.autoplay.default") ==
--          Ci.nsIAutoplay.BLOCKED
-+        Ci.nsIAutoplay.BLOCKED
-       ) {
-         Services.prefs.setIntPref(
-           "media.autoplay.default",
-@@ -3559,8 +3595,8 @@ BrowserGlue.prototype = {
-       } catch (error) {
-         Cu.reportError(
-           "Could not access the AddonManager to upgrade the profile. This is most " +
--            "likely because the upgrader is being run from an xpcshell test where " +
--            "the AddonManager is not initialized."
-+          "likely because the upgrader is being run from an xpcshell test where " +
-+          "the AddonManager is not initialized."
-         );
-       }
-       Promise.resolve(addonPromise).then(addon => {
-@@ -4388,7 +4424,7 @@ const ContentPermissionIntegration = {
-   },
- };
- 
--function ContentPermissionPrompt() {}
-+function ContentPermissionPrompt() { }
- 
- ContentPermissionPrompt.prototype = {
-   classID: Components.ID("{d8903bf6-68d5-4e97-bcd1-e4d3012f721a}"),
-@@ -4696,7 +4732,7 @@ var JawsScreenReaderVersionCheck = {
-     if (!win || !win.gBrowser || !win.gBrowser.selectedBrowser) {
-       Services.console.logStringMessage(
-         "Content access support for older versions of JAWS is disabled " +
--          "due to compatibility issues with this version of Firefox."
-+        "due to compatibility issues with this version of Firefox."
-       );
-       this._prompted = false;
-       return;
-@@ -5292,7 +5328,7 @@ var AboutHomeStartupCache = {
- 
-         this.log.trace(
-           "Writing the page data is complete. Now opening the " +
--            "script output stream."
-+          "script output stream."
-         );
- 
-         let scriptOutputStream;
-@@ -5437,7 +5473,7 @@ var AboutHomeStartupCache = {
-       if (this._cacheDeferred) {
-         this.log.error(
-           "A privileged about content process shut down while cache streams " +
--            "were still en route."
-+          "were still en route."
-         );
-         // The crash occurred while we were waiting on cache input streams to
-         // be returned to us. Resolve with null streams instead.
-@@ -5535,7 +5571,7 @@ var AboutHomeStartupCache = {
-       ) {
-         this.log.error(
-           "Somehow got a success result despite having never " +
--            "successfully sent down the cache streams"
-+          "successfully sent down the cache streams"
-         );
-         this.recordResult(this._cacheDeferredResultScalar);
-       } else {

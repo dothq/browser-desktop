@@ -1,13 +1,15 @@
 diff --git a/layout/base/PresShell.cpp b/layout/base/PresShell.cpp
-index 36d64d2e377719abcf255e0935f2d752502fa4c6..897b9779956d98b90a50c9a75fa2b6d1d8aa3299 100644
+index 05d899547c5c074f114b77ae405675bfc92e4423..e2211e2a6cce5e000735ccf0630bc6fa6424a39e 100644
 --- a/layout/base/PresShell.cpp
 +++ b/layout/base/PresShell.cpp
-@@ -5296,7 +5296,7 @@ nscolor PresShell::GetDefaultBackgroundColorToDraw() {
+@@ -5286,8 +5286,8 @@ nscolor PresShell::GetDefaultBackgroundColorToDraw() {
        doc->PrefersColorScheme(Document::IgnoreRFP::Yes) ==
            StylePrefersColorScheme::Dark) {
      // Use --in-content-page-background for prefers-color-scheme: dark.
--    return NS_RGB(0x2A, 0x2A, 0x2E);
-+    return NS_RGB(0x1C, 0x1C, 0x1C);
+-    return StaticPrefs::browser_proton_enabled() ? NS_RGB(0x1C, 0x1B, 0x22)
+-                                                 : NS_RGB(0x2A, 0x2A, 0x2E);
++    return StaticPrefs::browser_proton_enabled() ? NS_RGB(0x1C, 0x1C, 0x1C)
++                                                 : NS_RGB(0x1C, 0x1C, 0x1C);
    }
  
    return backgroundColor;

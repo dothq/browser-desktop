@@ -1,19 +1,17 @@
 diff --git a/browser/components/extensions/parent/ext-sidebarAction.js b/browser/components/extensions/parent/ext-sidebarAction.js
-index b30128661e3f5c56d1db82c60d4919a5dfedef77..a3c1236fd8c14a9ab4097063b917a7866b5cbe2d 100644
+index 99aa63874bc6f1821baae6788fbba18f6861f9c6..9fe8b1800715f5e33d647bfe23a1058f56ea2900 100644
 --- a/browser/components/extensions/parent/ext-sidebarAction.js
 +++ b/browser/components/extensions/parent/ext-sidebarAction.js
-@@ -187,17 +187,17 @@ this.sidebarAction = class extends ExtensionAPI {
-     toolbarbutton.setAttribute("id", this.buttonId);
-     toolbarbutton.setAttribute("type", "checkbox");
-     toolbarbutton.setAttribute("label", details.title);
--    toolbarbutton.setAttribute("oncommand", `SidebarUI.show("${this.id}");`);
-+    toolbarbutton.setAttribute("oncommand", `SidebarUI.toggle("${this.id}");`);
-     toolbarbutton.setAttribute(
-       "class",
--      "subviewbutton subviewbutton-iconic webextension-menuitem"
-+      "sidebar-iconbar-item-ext sidebar-iconbar-item"
-     );
-     toolbarbutton.setAttribute("key", keyId);
+@@ -178,7 +178,7 @@ this.sidebarAction = class extends ExtensionAPI {
+     menuitem.setAttribute("type", "checkbox");
+     menuitem.setAttribute("label", details.title);
+     menuitem.setAttribute("oncommand", `SidebarUI.toggle("${this.id}");`);
+-    menuitem.setAttribute("class", "menuitem-iconic webextension-menuitem");
++    menuitem.setAttribute("class", "sidebar-iconbar-item-ext sidebar-iconbar-item");
+     menuitem.setAttribute("key", keyId);
+     this.setMenuIcon(menuitem, details);
+ 
+@@ -195,8 +195,8 @@ this.sidebarAction = class extends ExtensionAPI {
      this.setMenuIcon(toolbarbutton, details);
  
      document.getElementById("viewSidebarMenu").appendChild(menuitem);

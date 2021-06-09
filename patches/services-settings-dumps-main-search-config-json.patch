@@ -1,8 +1,17 @@
 diff --git a/services/settings/dumps/main/search-config.json b/services/settings/dumps/main/search-config.json
-index bef57ba1aeb7a60dffdffae05d995665c96bb9b8..ceceec0f1d25b263c73a79d1b724f14fa2dce852 100644
+index 05f518a8d845cad0d6d6283c88c30f683df17d6f..06366572213d446b7d7bc82814ff7a0647e88d94 100644
 --- a/services/settings/dumps/main/search-config.json
 +++ b/services/settings/dumps/main/search-config.json
-@@ -1091,7 +1091,7 @@
+@@ -43,7 +43,7 @@
+       ],
+       "telemetryId": "ddg",
+       "webExtension": {
+-        "id": "ddg@search.mozilla.org"
++        "id": "ddg@search.dothq.co"
+       },
+       "id": "c0b26c0e-63e6-4235-b2ce-5f16b6a8bf87",
+       "last_modified": 1619450717295
+@@ -1755,7 +1755,7 @@
        ],
        "telemetryId": "google-b-d",
        "webExtension": {
@@ -11,16 +20,7 @@ index bef57ba1aeb7a60dffdffae05d995665c96bb9b8..ceceec0f1d25b263c73a79d1b724f14f
        },
        "id": "cb8e7210-9f0b-48fa-8708-b9a03df79eea",
        "last_modified": 1605203142486
-@@ -2131,7 +2131,7 @@
-       ],
-       "telemetryId": "ddg",
-       "webExtension": {
--        "id": "ddg@search.mozilla.org"
-+        "id": "ddg@search.dothq.co"
-       },
-       "id": "c0b26c0e-63e6-4235-b2ce-5f16b6a8bf87",
-       "last_modified": 1595254832054
-@@ -2391,7 +2391,7 @@
+@@ -2090,7 +2090,7 @@
          }
        ],
        "webExtension": {
@@ -29,7 +29,7 @@ index bef57ba1aeb7a60dffdffae05d995665c96bb9b8..ceceec0f1d25b263c73a79d1b724f14f
        },
        "id": "7ec766f6-639a-4618-91bc-33eb3d4378c6",
        "last_modified": 1593025575021
-@@ -3061,7 +3061,7 @@
+@@ -2760,7 +2760,7 @@
          }
        ],
        "webExtension": {
@@ -38,7 +38,7 @@ index bef57ba1aeb7a60dffdffae05d995665c96bb9b8..ceceec0f1d25b263c73a79d1b724f14f
        },
        "id": "f59fddbc-580b-4672-9cda-32941ceec729",
        "last_modified": 1589299342030
-@@ -3499,7 +3499,7 @@
+@@ -3198,7 +3198,7 @@
          }
        ],
        "webExtension": {

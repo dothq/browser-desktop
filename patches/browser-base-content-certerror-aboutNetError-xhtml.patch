@@ -1,0 +1,10 @@
+diff --git a/browser/base/content/certerror/aboutNetError.xhtml b/browser/base/content/certerror/aboutNetError.xhtml
+index 915609eb9f3aca13a205aec51c7f7d296b5fd29b..fc316e3220938e10bc49f469426c240718d5f701 100644
+--- a/browser/base/content/certerror/aboutNetError.xhtml
++++ b/browser/base/content/certerror/aboutNetError.xhtml
+@@ -213,4 +213,5 @@
+   <script src="chrome://global/content/certviewer/asn1js_bundle.js"></script>
+   <script src="chrome://global/content/certviewer/pkijs_bundle.js"></script>
+   <script type="module" src="chrome://browser/content/certerror/aboutNetError.js"/>
++  <script src="chrome://browser/content/contentTheme.js"/>
+ </html>

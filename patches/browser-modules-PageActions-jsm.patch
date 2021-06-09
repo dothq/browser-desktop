@@ -1,13 +1,13 @@
 diff --git a/browser/modules/PageActions.jsm b/browser/modules/PageActions.jsm
-index 67343c54c83db475b315524d6708924dd21f6a5b..1521a50e271cf645aab439d8093e05e5a09111c2 100644
+index 3e26f72e7d3296f94bfe7ee85c8102e3c582e5c5..ff6abfa38d06236b8ede46c20e7c00a5572c8b55 100644
 --- a/browser/modules/PageActions.jsm
 +++ b/browser/modules/PageActions.jsm
-@@ -1205,7 +1205,7 @@ Action.prototype = {
+@@ -1220,7 +1220,7 @@ Action.prototype = {
    },
  
    get _isBuiltIn() {
--    let builtInIDs = ["pocket", "screenshots_mozilla_org"].concat(
-+    let builtInIDs = ["pocket", "screenshots_mozilla_org", "qr_dothq_co"].concat(
+-    let builtInIDs = ["screenshots_mozilla_org"].concat(
++    let builtInIDs = ["screenshots_mozilla_org", "qr_dothq_co"].concat(
        gBuiltInActions.filter(a => !a.__isSeparator).map(a => a.id)
      );
      return builtInIDs.includes(this.id);

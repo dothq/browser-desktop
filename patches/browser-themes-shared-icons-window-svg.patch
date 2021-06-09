@@ -1,16 +1,16 @@
 diff --git a/browser/themes/shared/icons/window.svg b/browser/themes/shared/icons/window.svg
-index 47275aece708656902c7819525d295744ae27977..961413b4cb933a90757cf6a142f759b3ed3ce7b9 100644
+index 1c3e1b24d438327b5aa2f78473f92ce1ef2d2fdb..512c6c164ec6e1447a377dc6c998e318a1870856 100644
 --- a/browser/themes/shared/icons/window.svg
 +++ b/browser/themes/shared/icons/window.svg
 @@ -1,6 +1,7 @@
  <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
--  <path fill="context-fill" fill-opacity="context-fill-opacity" d="M13 1H3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h11a2 2 0 0 0 2-2V4a3 3 0 0 0-3-3zm1 11a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6h12zm0-7H2V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"/>
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M13 1 3 1a2 2 0 0 0-2 2l0 9a2 2 0 0 0 2 2l10 0a2 2 0 0 0 2-2l0-9a2 2 0 0 0-2-2zM2.85 2.25l10.3 0 .6.6 0 2.15-11.5 0 0-2.15.6-.6zm10.3 10.5-10.3 0-.6-.6 0-5.9 11.5 0 0 5.9-.6.6z"/>
 -</svg>
 +<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-+    <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
-+        d="M0 4C0 2.34315 1.34315 1 3 1H13C14.6569 1 16 2.34315 16 4V12C16 13.6569 14.6569 15 13 15H3C1.34315 15 0 13.6569 0 12V4ZM3 3H13C13.5523 3 14 3.44772 14 4V5H2V4C2 3.44772 2.44772 3 3 3ZM2 7V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V7H2Z" />
++  <path fill="context-fill" fill-opacity="context-fill-opacity" fill-rule="evenodd" clip-rule="evenodd"
++    d="M0 4C0 2.34315 1.34315 1 3 1H13C14.6569 1 16 2.34315 16 4V12C16 13.6569 14.6569 15 13 15H3C1.34315 15 0 13.6569 0 12V4ZM3 3H13C13.5523 3 14 3.44772 14 4V5H2V4C2 3.44772 2.44772 3 3 3ZM2 7V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V7H2Z" />
 +</svg>
 \ No newline at end of file
