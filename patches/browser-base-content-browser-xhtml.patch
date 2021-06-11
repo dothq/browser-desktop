@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec60d0e3a7 100644
+index e8a8c4074092fc2bbc4dce0df667f766b245ae62..852f54edd97f1013175df41784dd62da257a0ce7 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -134,17 +134,20 @@
@@ -84,18 +84,19 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
        <toolbarseparator/>
        <!-- Extension toolbarbuttons go here. -->
        <toolbarseparator id="sidebar-extensions-separator"/>
-@@ -499,7 +494,9 @@
+@@ -498,8 +493,9 @@
+                     correctly. -->
        <menuitem oncommand="gCustomizeMode.enter()"
                  observes="cmd_CustomizeToolbars"
-                 class="viewCustomizeToolbar"
+-                class="viewCustomizeToolbar"
 -                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"/>
-+                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"
 +                class="viewCustomizeToolbar menuitem-iconic"
++                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"
 +                image="chrome://browser/skin/customize.svg"/>
      </menupopup>
  
      <menupopup id="blockedPopupOptions"
-@@ -555,6 +552,21 @@
+@@ -555,6 +551,21 @@
  
  #include ../../components/places/content/placesContextMenu.inc.xhtml
  
@@ -117,7 +118,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
      <panel id="ctrlTab-panel" hidden="true" norestorefocus="true" level="top">
        <hbox id="ctrlTab-previews"/>
        <hbox id="ctrlTab-showAll-container" pack="center"/>
-@@ -759,7 +771,7 @@
+@@ -759,7 +770,7 @@
                          oncommand="gSync.toggleAccountPanel(this, event)"/>
          </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
@@ -126,7 +127,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
                 oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -770,7 +782,12 @@
+@@ -770,7 +781,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -140,7 +141,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -796,7 +813,10 @@
+@@ -796,7 +812,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -152,7 +153,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
          <toolbarseparator/>
          <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none">
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
-@@ -828,8 +848,8 @@
+@@ -828,8 +847,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -163,7 +164,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -853,18 +873,34 @@
+@@ -853,18 +872,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -201,6 +202,14 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2b204ada80b6ff51c48d85770e1841ec
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
+@@ -943,6 +978,7 @@
+                        key="key_quitApplication"
+                        command="cmd_quitApplication"/>
+ #endif
++        </toolbaritem>
+       </vbox>
+     </panelview>
+ 
 @@ -2352,6 +2388,44 @@
    </box>
  
