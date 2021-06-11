@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/customizableui/panelUI.inc.css b/browser/themes/shared/customizableui/panelUI.inc.css
-index accd9754b54f1bdacdc8e9622bdbb07de2c95870..32dc27eadadedc107b378c29a0ffb8a3f46fbb91 100644
+index accd9754b54f1bdacdc8e9622bdbb07de2c95870..394f5a4813a473fb60b424d1a7521f83ca9f86af 100644
 --- a/browser/themes/shared/customizableui/panelUI.inc.css
 +++ b/browser/themes/shared/customizableui/panelUI.inc.css
 @@ -564,7 +564,8 @@ panelview:not([mainview]) .toolbarbutton-text,
@@ -8,7 +8,7 @@ index accd9754b54f1bdacdc8e9622bdbb07de2c95870..32dc27eadadedc107b378c29a0ffb8a3
  #PanelUI-fxa {
 -  width: 22.5em;
 +  -moz-context-properties: fill;
-+  fill: white;
++  fill: currentColor;
  }
  
  #customizationui-widget-multiview panelview:not([extension]) {
