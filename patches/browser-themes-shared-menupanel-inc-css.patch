@@ -1,15 +1,84 @@
 diff --git a/browser/themes/shared/menupanel.inc.css b/browser/themes/shared/menupanel.inc.css
-index 26c0a1a0a0683b3e5564441bf27a8119f9e4b68c..c7a54d44805697b96232acbbd88b8cfed2b9cd60 100644
+index 26c0a1a0a0683b3e5564441bf27a8119f9e4b68c..44dc52d4647467fa7cb8310276824dae629bced0 100644
 --- a/browser/themes/shared/menupanel.inc.css
 +++ b/browser/themes/shared/menupanel.inc.css
-@@ -4,6 +4,10 @@
+@@ -2,17 +2,34 @@
+  * License, v. 2.0. If a copy of the MPL was not distributed with this
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
  
++
++.panel-subview-body .subviewbutton .toolbarbutton-icon {
++  /* Ensure the text with icons and without icons lines up */
++  width: 16px;
++}
++
++#appMenu-zoom-controls2 label:first-child {
++  padding-left: 44px;
++}
++
  /* Menu panel and palette styles */
  
+-@media not (-moz-proton) {
++#appMenu-new-tab-button2,
 +#appMenu-new-tab-button {
 +  list-style-image: url(chrome://browser/skin/new-tab.svg);
 +}
 +
- @media not (-moz-proton) {
++#appMenu-new-window-button2,
  #appMenu-new-window-button {
    list-style-image: url(chrome://browser/skin/window.svg);
+ }
+ 
++#appMenu-new-private-window-button2,
+ #appMenu-private-window-button {
+   list-style-image: url(chrome://browser/skin/privateBrowsing.svg);
+ }
+ 
++#appMenu-print-button2,
+ #appMenu-print-button {
+   list-style-image: url(chrome://global/skin/icons/print.svg);
+ }
+@@ -40,6 +57,7 @@
+   list-style-image: url(chrome://browser/skin/customize.svg);
+ }
+ 
++#appMenu-find-button2,
+ #appMenu-find-button,
+ #panelMenu_searchBookmarks {
+   list-style-image: url(chrome://global/skin/icons/search-glass.svg);
+@@ -57,6 +75,7 @@
+   list-style-image: url(chrome://browser/skin/whatsnew.svg);
+ }
+ 
++#appMenu-help-button2,
+ #appMenu-help-button {
+   list-style-image: url(chrome://global/skin/icons/help.svg);
+ }
+@@ -101,6 +120,7 @@
+   list-style-image: url("chrome://global/skin/icons/pocket.svg");
+ }
+ 
++#appMenu-history-button,
+ #appMenu-library-history-button {
+   list-style-image: url(chrome://browser/skin/history.svg);
+ }
+@@ -143,6 +163,7 @@
+   list-style-image: url("chrome://browser/skin/bookmark-hollow.svg");
+ }
+ 
++#appMenu-bookmarks-button,
+ #appMenu-library-bookmarks-button,
+ #panelMenuBookmarkThisPage[starred] {
+   list-style-image: url("chrome://browser/skin/bookmark.svg");
+@@ -166,10 +187,10 @@ toolbarpaletteitem[place="palette"] > #bookmarks-menu-button,
+   list-style-image: url(chrome://browser/skin/window.svg);
+ }
+ 
++#appMenu-downloads-button,
+ #appMenu-library-downloads-button {
+   list-style-image: url("chrome://browser/skin/downloads/downloads.svg");
+ }
+-} /** END not Proton **/
+ 
+ @media (-moz-proton) {
+ /**

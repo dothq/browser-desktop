@@ -1,0 +1,31 @@
+diff --git a/browser/themes/shared/customizableui/panelUI.inc.css b/browser/themes/shared/customizableui/panelUI.inc.css
+index accd9754b54f1bdacdc8e9622bdbb07de2c95870..5a1e011a4357296f0cf1348c06df59ea20326806 100644
+--- a/browser/themes/shared/customizableui/panelUI.inc.css
++++ b/browser/themes/shared/customizableui/panelUI.inc.css
+@@ -564,7 +564,7 @@ panelview:not([mainview]) .toolbarbutton-text,
+ 
+ #appMenu-popup panelview,
+ #PanelUI-fxa {
+-  width: 22.5em;
++  /* width: 22.5em; */
+ }
+ 
+ #customizationui-widget-multiview panelview:not([extension]) {
+@@ -1533,7 +1533,8 @@ panelview .toolbarbutton-1,
+ }
+ 
+ #appMenu-zoom-controls2 > .subviewbutton {
+-  margin-inline-start: 2px;
++  /* Correctly align in the proton ui */
++  /* margin-inline-start: 2px; */
+   padding: 4px 4px;
+ }
+ } /*** END proton ***/
+@@ -1686,6 +1687,7 @@ panelmultiview .toolbaritem-combined-buttons > spacer.after-label {
+   padding: 4px 5px;
+ }
+ 
++#appMenu-zoom-controls2 > .subviewbutton,
+ #appMenu-zoom-controls > .subviewbutton {
+   margin-inline-start: 10px;
+ }
