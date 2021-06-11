@@ -223,3 +223,24 @@
 }
 
 /* end of block */
+
+#sidebar-switcher-bookmarks .toolbarbutton-icon {
+    list-style-image: url(chrome://browser/skin/bookmark.svg);
+    -moz-context-properties: fill;
+    fill: currentColor;
+    opacity: 0.8;
+  }
+  
+  #sidebar-switcher-history .toolbarbutton-icon {
+    list-style-image: url(chrome://browser/skin/history.svg);
+    -moz-context-properties: fill;
+    fill: currentColor;
+    opacity: 0.8;
+  }
+  
+  #sidebar-switcher-tabs .toolbarbutton-icon {
+    list-style-image: url(chrome://browser/skin/tab.svg);
+    -moz-context-properties: fill;
+    fill: currentColor;
+    opacity: 0.8;
+  }
