@@ -47,6 +47,8 @@ toolbar[brighttext] {
     box-shadow: none !important;
 }
 
+/* Tab Styles */
+
 .tab-content > .tab-close-button {
     border-radius: 4px !important;
 }
@@ -61,6 +63,8 @@ toolbar[brighttext] {
 
 .tabbrowser-tab .tab-stack .tab-background, .tabbrowser-tab {
     border-radius: 0px !important;
+    /* Proton patch: remove shadow */
+    box-shadow: none !important;
 }
 
 .tabbrowser-tab:hover > .tab-stack > .tab-background:not([selected="true"], [multiselected]) {
@@ -99,6 +103,14 @@ toolbar[brighttext] {
 .titlebar-spacer[type="pre-tabs"] {
     border-inline-color: transparent !important;
     display: none !important;
+}
+
+.tab-background {
+    margin: 0 !important;
+}
+
+.tabbrowser-tab:not(:hover) > .tab-stack > .tab-content > .tab-close-button {
+    width: initial !important;
 }
 
 #urlbar[breakout][breakout-extend] > #urlbar-background {

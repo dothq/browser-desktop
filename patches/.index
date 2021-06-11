@@ -137,6 +137,7 @@ toolkit-themes-shared-extensions-category-discover-svg.patch - toolkit/themes/sh
 toolkit-themes-shared-extensions-category-extensions-svg.patch - toolkit/themes/shared/extensions/category-extensions.svg
 toolkit-themes-shared-extensions-extension-svg.patch - toolkit/themes/shared/extensions/extension.svg
 toolkit-themes-shared-extensions-extensionGeneric-svg.patch - toolkit/themes/shared/extensions/extensionGeneric.svg
+toolkit-themes-shared-icons-add-svg.patch - toolkit/themes/shared/icons/add.svg
 toolkit-themes-shared-icons-autoscroll-horizontal-svg.patch - toolkit/themes/shared/icons/autoscroll-horizontal.svg
 toolkit-themes-shared-icons-autoscroll-vertical-svg.patch - toolkit/themes/shared/icons/autoscroll-vertical.svg
 toolkit-themes-shared-icons-autoscroll-svg.patch - toolkit/themes/shared/icons/autoscroll.svg
