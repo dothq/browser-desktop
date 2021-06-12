@@ -1,0 +1,24 @@
+diff --git a/toolkit/components/urlformatter/URLFormatter.jsm b/toolkit/components/urlformatter/URLFormatter.jsm
+index 6da75044fd1c99247ff8b55305fe043df0b2082f..6e398f915710c264a133b7a476e1b0891c48798c 100644
+--- a/toolkit/components/urlformatter/URLFormatter.jsm
++++ b/toolkit/components/urlformatter/URLFormatter.jsm
+@@ -107,6 +107,9 @@ nsURLFormatterService.prototype = {
+         "$1"
+       );
+     },
++    DOTVERSION() {
++      return AppConstants.DOT_APP_VERSION;
++    },
+     APPBUILDID() {
+       return Services.appinfo.appBuildID;
+     },
+@@ -122,6 +125,9 @@ nsURLFormatterService.prototype = {
+     OS() {
+       return Services.appinfo.OS;
+     },
++    OSLOWER() {
++      return Services.appinfo.OS.toLowerCase();
++    },
+     XPCOMABI() {
+       return this.ABI;
+     },
