@@ -5,7 +5,7 @@
 // This file contains branding-specific prefs.
 
 pref("startup.homepage_override_url", "");
-pref("startup.homepage_welcome_url", "about:welcome");
+pref("startup.homepage_welcome_url", "");
 pref("startup.homepage_welcome_url.additional", "");
 pref("datareporting.policy.firstRunURL", "");
 // Interval: Time between checks for a new version (in seconds)
@@ -18,15 +18,15 @@ pref("app.update.promptWaitTime", 691200);
 // update" link supplied in the "An update is available" page of the update
 // wizard.
 #if MOZ_UPDATE_CHANNEL == beta
-  pref("app.update.url.manual", "https://dothq.co/browser/desktop/beta");
-  pref("app.update.url.details", "https://dothq.co/browser/desktop/beta/notes");
-  pref("app.releaseNotesURL", "https://dothq.co/browser/desktop/%VERSION%/beta/releasenotes");
-  pref("app.releaseNotesURL.aboutDialog", "https://dothq.co/browser/desktop/%VERSION%/beta/releasenotes");
+pref("app.update.url.manual", "https://dothq.co/browser/desktop/beta");
+pref("app.update.url.details", "https://dothq.co/browser/desktop/beta/notes");
+pref("app.releaseNotesURL", "https://dothq.co/browser/desktop/%DOTVERSION%/beta/releasenotes");
+pref("app.releaseNotesURL.aboutDialog", "https://dothq.co/browser/desktop/%DOTVERSION%/beta/releasenotes");
 #else
-  pref("app.update.url.manual", "https://dothq.co/browser/desktop");
-  pref("app.update.url.details", "https://dothq.co/browser/desktop/notes");
-  pref("app.releaseNotesURL", "https://dothq.co/browser/desktop/%VERSION%/releasenotes");
-  pref("app.releaseNotesURL.aboutDialog", "https://dothq.co/browser/desktop/%VERSION%/releasenotes");
+pref("app.update.url.manual", "https://dothq.co/browser/desktop");
+pref("app.update.url.details", "https://dothq.co/browser/desktop/notes");
+pref("app.releaseNotesURL", "https://dothq.co/browser/desktop/%DOTVERSION%/releasenotes");
+pref("app.releaseNotesURL.aboutDialog", "https://dothq.co/browser/desktop/%DOTVERSION%/releasenotes");
 #endif
 
 // The number of days a binary is permitted to be old
