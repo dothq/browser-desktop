@@ -189,10 +189,6 @@ export const exportPatches = async () => {
     console.log();
     rmdirSync(PATCHES_DIR, { recursive: true });
     mkdirSync(PATCHES_DIR);
-    rmdirSync(resolve(process.cwd(), "l10n", "en-US"), {
-        recursive: true
-    });
-    mkdirSync(resolve(process.cwd(), "l10n", "en-US"));
     writeFileSync(resolve(PATCHES_DIR, ".index"), "");
 
     log.info("Exporting modified files...");
