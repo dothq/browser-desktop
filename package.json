@@ -1,7 +1,7 @@
 {
     "name": "dot",
     "versions": {
-        "dot": "0.0.1",
+        "dot": "0.3.0",
         "firefox-display": "87.0",
         "firefox": "87.0",
         "melon": "0.0.1"
