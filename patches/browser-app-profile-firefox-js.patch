@@ -1,5 +1,5 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44ed0397701 100644
+index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..5e5cb7b11efc6d37297c8d64416ab8971817e87b 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
 @@ -140,7 +140,7 @@ pref("app.update.notifyDuringDownload", false);
@@ -999,7 +999,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
  #endif
  
  // Map top-level await expressions in the console
-@@ -2527,12 +2527,117 @@ pref("first-startup.timeout", 30000);
+@@ -2527,12 +2527,120 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -1023,7 +1023,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
 +pref("general.autoScroll", true);
 +pref("browser.preferences.experimental.hidden", true);
 +pref("browser.preferences.experimental", false);
-+pref("app.feedback.baseURL", "https://services.dothq.co/feedback/send?product=dot&version=%VERSION%&channel=unknown");
++pref("app.feedback.baseURL", "https://services.dothq.co/feedback/send?product=dot&version=%DOTVERSION%&channel=unknown");
 +
 +// Network
 +pref("dom.security.https_only_mode", true); // Enable HTTPS-only mode
@@ -1121,4 +1121,7 @@ index ef44a16daa39b28bf0e475ce94c2d249aaeb5f3d..2f27f448fe9e34c263f2e73bf235a44e
 +
 +// Experiments
 +pref("browser.preferences.webuiexperience.enabled", false);
++
++// Support Links
++pref("app.support.baseURL", "https://support.dothq.co/%LOCALE%/desktop/%OSLOWER%/%DOTVERSION%/");
 \ No newline at end of file
