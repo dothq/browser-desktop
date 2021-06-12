@@ -1,0 +1,13 @@
+diff --git a/toolkit/content/aboutSupport.js b/toolkit/content/aboutSupport.js
+index ccd9c89fe5250cb79079387c6d17882e0f343bfc..a0628baee9f601f29cada34f6fbbe491b3e66578 100644
+--- a/toolkit/content/aboutSupport.js
++++ b/toolkit/content/aboutSupport.js
+@@ -95,7 +95,7 @@ var snapshotFormatters = {
+       Ci.nsIFile
+     ).path;
+     $("supportLink").href = data.supportURL;
+-    let version = AppConstants.MOZ_APP_VERSION_DISPLAY;
++    let version = AppConstants.DOT_APP_VERSION;
+     if (data.vendor) {
+       version += " (" + data.vendor + ")";
+     }
