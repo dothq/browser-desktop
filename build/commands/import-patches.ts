@@ -6,7 +6,9 @@ import { PATCHES_DIR, SRC_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
-const { versions: { dot } } = require("../../package.json");
+const {
+    versions: { dot }
+} = require("../../package.json");
 
 const importManual = async (
     minimal?: boolean,
@@ -122,7 +124,13 @@ export const importPatches = async (
     args: Args
 ) => {
     writeFileSync(
-        resolve(SRC_DIR, "browser", "app", "dot", "version.txt"),
+        resolve(
+            SRC_DIR,
+            "browser",
+            "app",
+            "dot",
+            "version.txt"
+        ),
         dot
     );
 
