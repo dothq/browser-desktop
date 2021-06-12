@@ -149,6 +149,42 @@
         </div>
       </div>
 
+      <div class="tab-content" id="tab-content-appearance">
+        <h2 class="section-title">
+          Appearance
+        </h2>
+
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Themes
+          </h4>
+
+          <div id="themes" class="preferences-block-container">
+
+          </div>
+        </div>
+
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Window
+          </h4>
+
+          <div id="window" class="preferences-block-container">
+
+          </div>
+        </div>
+
+        <div class="preferences-block">
+          <h4 class="block-title">
+            Advanced
+          </h4>
+
+          <div id="advanced" class="preferences-block-container">
+
+          </div>
+        </div>
+      </div>
+
       <div class="tab-content" id="tab-content-not-found">
         <h2 class="section-title">
           Not found
@@ -181,16 +217,55 @@
             Session
           </span>
           <span class="preferences-item-subtitle" style="opacity: 1;">
-            <input type="checkbox" id="restore-session-checkbox">
             <label for="restore-session-checkbox">
+              <input type="checkbox" id="restore-session-checkbox">
               Restore previous session on start-up
             </label>
           </span>
 
           <span id="warn-on-quit-item" class="preferences-item-subtitle indent" style="opacity: 1;">
-            <input type="checkbox" data-preference="browser.sessionstore.warnOnQuit" data-preference-type="bool"
-              type="checkbox" id="warn-on-quit-checkbox">
             <label for="warn-on-quit-checkbox">
+              <input type="checkbox" data-preference="browser.sessionstore.warnOnQuit" data-preference-type="bool"
+              type="checkbox" id="warn-on-quit-checkbox">
+              Warn you when quitting the browser
+            </label>
+          </span>
+        </div>
+      </div>
+    </template>
+
+    <template id="template-appearance">
+      <div class="preferences-item">
+        <div class="preferences-item-container">
+          <span class="preferences-item-title">
+            Default Browser
+          </span>
+          <span class="preferences-item-subtitle" id="set-default-body">
+            Dot Browser is not your default web browser.
+          </span>
+        </div>
+
+        <div class="preferences-item-actions">
+          <a id="set-default-btn" class="webui-button primary">Set as default</a>
+        </div>
+      </div>
+
+      <div class="preferences-item">
+        <div class="preferences-item-container gap-10">
+          <span class="preferences-item-title">
+            Session
+          </span>
+          <span class="preferences-item-subtitle" style="opacity: 1;">
+            <label for="restore-session-checkbox">
+              <input type="checkbox" id="restore-session-checkbox">
+              Restore previous session on start-up
+            </label>
+          </span>
+
+          <span id="warn-on-quit-item" class="preferences-item-subtitle indent" style="opacity: 1;">
+            <label for="warn-on-quit-checkbox">
+              <input type="checkbox" data-preference="browser.sessionstore.warnOnQuit" data-preference-type="bool"
+              type="checkbox" id="warn-on-quit-checkbox">
               Warn you when quitting the browser
             </label>
           </span>
