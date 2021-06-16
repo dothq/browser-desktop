@@ -124,13 +124,8 @@ export const importPatches = async (
     args: Args
 ) => {
     ensureDirSync(
-        resolve(
-            SRC_DIR,
-            "browser",
-            "app",
-            "dot"
-        )
-    )
+        resolve(SRC_DIR, "browser", "app", "dot")
+    );
 
     writeFileSync(
         resolve(
