@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { readdirSync } from "fs-extra";
+import { ensureDirSync, readdirSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 import { PATCHES_DIR, SRC_DIR } from "../constants";
@@ -123,6 +123,15 @@ export const importPatches = async (
     type: string,
     args: Args
 ) => {
+    ensureDirSync(
+        resolve(
+            SRC_DIR,
+            "browser",
+            "app",
+            "dot"
+        )
+    )
+
     writeFileSync(
         resolve(
             SRC_DIR,
