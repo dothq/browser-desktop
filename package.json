@@ -1,7 +1,7 @@
 {
     "name": "dot",
     "versions": {
-        "dot": "0.0.1",
+        "dot": "0.3.0",
         "firefox-display": "89.0",
         "firefox": "89.0",
         "melon": "0.0.1"
@@ -31,6 +31,7 @@
         "css-loader": "^5.2.4",
         "extract-loader": "^5.1.0",
         "file-loader": "^6.2.0",
+        "husky": "^6.0.0",
         "postcss-loader": "^5.2.0",
         "prettier": "^2.2.1",
         "sass": "^1.32.12",
@@ -41,6 +42,7 @@
     },
     "scripts": {
         "ci-build": "tsc",
-        "prettier": "npx prettier --loglevel debug --write ."
+        "prettier": "npx prettier --loglevel debug --write .",
+        "postinstall": "husky install"
     }
 }

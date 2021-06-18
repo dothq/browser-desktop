@@ -98,6 +98,14 @@ const manualPatches: IPatch[] = [
         name: "sidebars",
         action: "copy",
         src: ["browser/components/sidebars"]
+    },
+    {
+        name: "onboarding",
+        action: "copy",
+        src: [
+            "browser/components/onboarding",
+            "browser/themes/shared/onboarding-icons"
+        ]
     }
 ];
 

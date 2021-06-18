@@ -189,13 +189,7 @@ export const exportPatches = async () => {
     log.info(`Wiping patches directory...`);
     console.log();
     rmdirSync(PATCHES_DIR, { recursive: true });
-    mkdirSync(PATCHES_DIR), { recursive: true };
-    rmdirSync(resolve(process.cwd(), "l10n", "en-US"), {
-        recursive: true
-    });
-    mkdirSync(resolve(process.cwd(), "l10n", "en-US"), {
-        recursive: true
-    });
+    mkdirSync(PATCHES_DIR);
     writeFileSync(resolve(PATCHES_DIR, ".index"), "");
 
     log.info("Exporting modified files...");

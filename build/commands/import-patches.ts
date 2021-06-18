@@ -1,9 +1,14 @@
-import { readdirSync } from "fs-extra";
+import { writeFileSync } from "fs";
+import { ensureDirSync, readdirSync } from "fs-extra";
+import { resolve } from "path";
 import { bin_name, log } from "..";
-import { PATCHES_DIR } from "../constants";
+import { PATCHES_DIR, SRC_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
+const {
+    versions: { dot }
+} = require("../../package.json");
 
 const importManual = async (
     minimal?: boolean,
@@ -118,6 +123,21 @@ export const importPatches = async (
     type: string,
     args: Args
 ) => {
+    ensureDirSync(
+        resolve(SRC_DIR, "browser", "app", "dot")
+    );
+
+    writeFileSync(
+        resolve(
+            SRC_DIR,
+            "browser",
+            "app",
+            "dot",
+            "version.txt"
+        ),
+        dot
+    );
+
     if (type) {
         if (type == "manual")
             await importManual(args.minimal);

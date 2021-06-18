@@ -13,7 +13,7 @@ index 064d0338199982996d269a5685a1d164b2920c0d..d3a497c6754daa2011b65be4ecee8ea2
 +pref("general.autoScroll", true);
 +pref("browser.preferences.experimental.hidden", true);
 +pref("browser.preferences.experimental", false);
-+pref("app.feedback.baseURL", "https://services.dothq.co/feedback/send?product=dot&version=%VERSION%&channel=unknown");
++pref("app.feedback.baseURL", "https://services.dothq.co/feedback/send?product=dot&version=%DOTVERSION%&channel=unknown");
 +
 +// Network
 +pref("dom.security.https_only_mode", true); // Enable HTTPS-only mode
@@ -101,3 +101,17 @@ index 064d0338199982996d269a5685a1d164b2920c0d..d3a497c6754daa2011b65be4ecee8ea2
 +
 +// Firefox Services
 +pref("browser.contentblocking.report.lockwise.enabled", false);
++
++// Sidebar
++pref("sidebar.disabled", false);
++pref("sidebar.pinned", false);
++pref("sidebar.selected", "");
++pref("sidebar.startItems", "");
++pref("sidebar.endItems", "");
++
++// Experiments
++pref("browser.preferences.webuiexperience.enabled", false);
++
++// Support Links
++pref("app.support.baseURL", "https://support.dothq.co/%LOCALE%/desktop/%OSLOWER%/%DOTVERSION%/");
+\ No newline at end of file
