@@ -1,8 +1,8 @@
 diff --git a/build/moz.configure/init.configure b/build/moz.configure/init.configure
-index 7435bdeaad03bf781bb6d2cc66ebf1cbae25f0db..87313fa9a63291a159b64db73a3c1b8bda88b458 100644
+index a5b15aa45840193d204f2268d3ea257c4860710c..799364b88cca3a631294266b0dbcb9197915d1db 100644
 --- a/build/moz.configure/init.configure
 +++ b/build/moz.configure/init.configure
-@@ -1189,6 +1189,7 @@ def version_path(path):
+@@ -1197,6 +1197,7 @@ def version_path(path):
  @imports("re")
  def milestone(build_env, build_project, version_path, _):
      versions = []
@@ -10,7 +10,7 @@ index 7435bdeaad03bf781bb6d2cc66ebf1cbae25f0db..87313fa9a63291a159b64db73a3c1b8b
      paths = ["config/milestone.txt"]
      if build_project == "js":
          paths = paths * 3
-@@ -1216,6 +1217,12 @@ def milestone(build_env, build_project, version_path, _):
+@@ -1224,6 +1225,12 @@ def milestone(build_env, build_project, version_path, _):
  
      milestone, firefox_version, firefox_version_display = versions[:3]
  
@@ -23,20 +23,20 @@ index 7435bdeaad03bf781bb6d2cc66ebf1cbae25f0db..87313fa9a63291a159b64db73a3c1b8b
      # version.txt content from the project directory if there is one, otherwise
      # the firefox version.
      app_version = versions[3] if len(versions) > 3 else firefox_version
-@@ -1265,6 +1272,7 @@ def milestone(build_env, build_project, version_path, _):
+@@ -1273,6 +1280,7 @@ def milestone(build_env, build_project, version_path, _):
          is_early_beta_or_earlier=is_early_beta_or_earlier,
          app_version=app_version,
          app_version_display=app_version_display,
-+        dot_version=dot_version
++        dot_version=dot_version,
      )
  
  
-@@ -1292,6 +1300,8 @@ set_config("MOZ_APP_VERSION", milestone.app_version)
+@@ -1300,6 +1308,8 @@ set_config("MOZ_APP_VERSION", milestone.app_version)
  set_config("MOZ_APP_VERSION_DISPLAY", milestone.app_version_display)
  add_old_configure_assignment("MOZ_APP_VERSION", milestone.app_version)
  
 +set_config("DOT_APP_VERSION", milestone.dot_version)
 +add_old_configure_assignment("DOT_APP_VERSION", milestone.dot_version)
  
- # Dummy function for availability in toolkit/moz.configure. Overridden in
- # mobile/android/moz.configure.
+ # The app update channel is 'default' when not supplied. The value is used in
+ # the application's confvars.sh (and is made available to a project specific

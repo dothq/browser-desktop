@@ -1,5 +1,5 @@
 diff --git a/toolkit/modules/moz.build b/toolkit/modules/moz.build
-index 88676f6f303f9cee70fab6a1b32807b94008a7ab..5b385c3ce0185e51118b0204456144639da25958 100644
+index 3626b9f83402814fe27d223df07d8b96e9ae14e6..b83e5298e5eaed73903fa45ae2745cb5edaf0d29 100644
 --- a/toolkit/modules/moz.build
 +++ b/toolkit/modules/moz.build
 @@ -276,6 +276,7 @@ if CONFIG["MOZ_WIDGET_TOOLKIT"] == "windows":
@@ -9,4 +9,4 @@ index 88676f6f303f9cee70fab6a1b32807b94008a7ab..5b385c3ce0185e51118b020445614463
 +    "DOT_APP_VERSION",
      "MOZ_APP_NAME",
      "MOZ_APP_BASENAME",
-     "MOZ_APP_VERSION",
+     "MOZ_APP_DISPLAYNAME",
