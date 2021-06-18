@@ -31,7 +31,8 @@ const getFiles = async (flags: string, cwd: string) => {
         [
             "ls-files",
             `-${flags.toLowerCase()}`,
-            "--ignored",
+            "-i",
+            "-o",
             "--exclude-standard"
         ],
         { cwd }
@@ -188,11 +189,13 @@ export const exportPatches = async () => {
     log.info(`Wiping patches directory...`);
     console.log();
     rmdirSync(PATCHES_DIR, { recursive: true });
-    mkdirSync(PATCHES_DIR);
+    mkdirSync(PATCHES_DIR), { recursive: true };
     rmdirSync(resolve(process.cwd(), "l10n", "en-US"), {
         recursive: true
     });
-    mkdirSync(resolve(process.cwd(), "l10n", "en-US"));
+    mkdirSync(resolve(process.cwd(), "l10n", "en-US"), {
+        recursive: true
+    });
     writeFileSync(resolve(PATCHES_DIR, ".index"), "");
 
     log.info("Exporting modified files...");
