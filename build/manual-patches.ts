@@ -72,7 +72,11 @@ const manualPatches: IPatch[] = [
             "browser/themes/shared/icons/cookies.svg",
 
             "browser/themes/shared/notification-icons/javascript.svg",
-            "browser/themes/shared/notification-icons/location.svg"
+            "browser/themes/shared/notification-icons/location.svg",
+
+            "other-licenses/7zstub/firefox/setup.ico",
+            "toolkit/mozapps/update/updater/updater.ico",
+            "toolkit/mozapps/update/updater/updater.png"
         ]
     },
     {
