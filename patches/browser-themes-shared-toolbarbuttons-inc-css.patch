@@ -1,0 +1,32 @@
+diff --git a/browser/themes/shared/toolbarbuttons.inc.css b/browser/themes/shared/toolbarbuttons.inc.css
+index f50029010753c6384dab042591744198f11709fa..a0b9695aa9d12c998deb687ae1d3d6e22c70f070 100644
+--- a/browser/themes/shared/toolbarbuttons.inc.css
++++ b/browser/themes/shared/toolbarbuttons.inc.css
+@@ -7,7 +7,7 @@
+ 
+   --toolbar-start-end-padding: 8px;
+   --toolbarbutton-outer-padding: 2px;
+-  --toolbarbutton-inner-padding: 8px;
++  --toolbarbutton-inner-padding: 6px;
+ 
+   --toolbarbutton-hover-background: var(--button-hover-bgcolor);
+   --toolbarbutton-active-background: var(--button-active-bgcolor);
+@@ -73,13 +73,14 @@
+   --bookmark-block-padding: 7px;
+ }
+ 
+-@media (-moz-proton) {
+-#TabsToolbar {
++/* Removed because it makes stuff too large */
++/* @media (-moz-proton) {
++#TabsToolbar { */
+   /* Override the inner padding to ensure the dimensions match the tabs, but also making sure
+      different types of buttons (combined-buttons-dropmarker or text) still look correct. */
+   --toolbarbutton-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
+-}
+-} /*** END proton ***/
++/* } */
++/* } ** END proton ** */
+ 
+ /* ::::: primary toolbar buttons ::::: */
+ 

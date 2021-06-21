@@ -106,6 +106,7 @@ browser-themes-shared-places-bookmarksToolbar-svg.patch - browser/themes/shared/
 browser-themes-shared-places-folder-svg.patch - browser/themes/shared/places/folder.svg
 browser-themes-shared-places-history-svg.patch - browser/themes/shared/places/history.svg
 browser-themes-shared-places-tag-svg.patch - browser/themes/shared/places/tag.svg
+browser-themes-shared-toolbarbuttons-inc-css.patch - browser/themes/shared/toolbarbuttons.inc.css
 browser-themes-windows-browser-css.patch - browser/themes/windows/browser.css
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-ControlCenter-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/ControlCenter.jsm
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-LightweightThemes-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
