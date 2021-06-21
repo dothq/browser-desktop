@@ -1,0 +1,13 @@
+diff --git a/browser/themes/shared/contextmenu.inc.css b/browser/themes/shared/contextmenu.inc.css
+index d3e5e6378a04dbdf802d912bd4305bec75cd52ae..890c53c83de5b415d1312167ab7b0387b4aebc89 100644
+--- a/browser/themes/shared/contextmenu.inc.css
++++ b/browser/themes/shared/contextmenu.inc.css
+@@ -13,7 +13,7 @@
+ }
+ 
+ #context-navigation > .menuitem-iconic > .menu-iconic-left > .menu-iconic-icon {
+-  width: 1.25em;
++  width: 16px;
+   height: auto;
+   margin: 7px;
+   -moz-context-properties: fill;

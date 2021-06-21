@@ -39,6 +39,7 @@ browser-themes-addons-jar-mn.patch - browser/themes/addons/jar.mn
 browser-themes-linux-browser-css.patch - browser/themes/linux/browser.css
 browser-themes-osx-browser-css.patch - browser/themes/osx/browser.css
 browser-themes-shared-browser-inc-css.patch - browser/themes/shared/browser.inc.css
+browser-themes-shared-contextmenu-inc-css.patch - browser/themes/shared/contextmenu.inc.css
 browser-themes-shared-customizableui-panelUI-inc-css.patch - browser/themes/shared/customizableui/panelUI.inc.css
 browser-themes-shared-downloads-downloads-svg.patch - browser/themes/shared/downloads/downloads.svg
 browser-themes-shared-error-pages-css.patch - browser/themes/shared/error-pages.css
