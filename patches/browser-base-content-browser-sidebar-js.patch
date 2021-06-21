@@ -1,34 +1,100 @@
 diff --git a/browser/base/content/browser-sidebar.js b/browser/base/content/browser-sidebar.js
-index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf0785d7e0 100644
+index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..0565b50101c7ea2acbafdb7f2dc38bdd92d3cb91 100644
 --- a/browser/base/content/browser-sidebar.js
 +++ b/browser/base/content/browser-sidebar.js
-@@ -17,7 +17,7 @@ var SidebarUI = {
-           title: document
-             .getElementById("sidebar-switcher-bookmarks")
-             .getAttribute("label"),
+@@ -7,42 +7,56 @@
+  */
+ var SidebarUI = {
+   get sidebars() {
+-    if (this._sidebars) {
+-      return this._sidebars;
++    if (typeof this._sidebars == 'undefined') {
++      this._sidebars = new Map([
++        [
++          "viewBookmarksSidebar",
++          {
++            title: document
++              .getElementById("sidebar-switcher-bookmarks")
++              .getAttribute("label"),
++            url: "chrome://browser/content/sidebars/bookmarks/sidebar.html",
++            menuId: "menu_bookmarksSidebar",
++            buttonId: "sidebar-switcher-bookmarks",
++          },
++        ],
++        [
++          "viewHistorySidebar",
++          {
++            title: document
++              .getElementById("sidebar-switcher-history")
++              .getAttribute("label"),
++            url: "chrome://browser/content/places/historySidebar.xhtml",
++            menuId: "menu_historySidebar",
++            triggerButtonId: "appMenuViewHistorySidebar",
++            buttonId: "sidebar-switcher-history",
++          },
++        ],
++        [
++          "viewTabsSidebar",
++          {
++            title: document
++              .getElementById("sidebar-switcher-tabs")
++              .getAttribute("label"),
++            url: "chrome://browser/content/syncedtabs/sidebar.xhtml",
++            menuId: "menu_tabsSidebar",
++            buttonId: "sidebar-switcher-tabs",
++          },
++        ],
++        [
++          "viewAccountsSidebar",
++          {
++            title: document.getElementById("sidebar-switcher-accounts")
++              .getAttribute("label"),
++            url: "about:profiles",
++            menuId: "menu_accountsSidebar",
++            buttonId: "sidebar-switcher-accounts"
++          },
++        ],
++      ]);
+     }
+-    return (this._sidebars = new Map([
+-      [
+-        "viewBookmarksSidebar",
+-        {
+-          title: document
+-            .getElementById("sidebar-switcher-bookmarks")
+-            .getAttribute("label"),
 -          url: "chrome://browser/content/places/bookmarksSidebar.xhtml",
-+          url: "chrome://browser/content/sidebars/bookmarks/sidebar.html",
-           menuId: "menu_bookmarksSidebar",
-         },
-       ],
-@@ -42,6 +42,16 @@ var SidebarUI = {
-           menuId: "menu_tabsSidebar",
-         },
-       ],
-+      [
-+        "viewAccountsSidebar",
-+        {
-+          title: document.getElementById("sidebar-switcher-accounts")
-+            .getAttribute("label"),
-+          url: "about:profiles",
-+          menuId: "menu_accountsSidebar",
-+          buttonId: "sidebar-switcher-accounts"
-+        },
-+      ],
-     ]));
+-          menuId: "menu_bookmarksSidebar",
+-        },
+-      ],
+-      [
+-        "viewHistorySidebar",
+-        {
+-          title: document
+-            .getElementById("sidebar-switcher-history")
+-            .getAttribute("label"),
+-          url: "chrome://browser/content/places/historySidebar.xhtml",
+-          menuId: "menu_historySidebar",
+-          triggerButtonId: "appMenuViewHistorySidebar",
+-        },
+-      ],
+-      [
+-        "viewTabsSidebar",
+-        {
+-          title: document
+-            .getElementById("sidebar-switcher-tabs")
+-            .getAttribute("label"),
+-          url: "chrome://browser/content/syncedtabs/sidebar.xhtml",
+-          menuId: "menu_tabsSidebar",
+-        },
+-      ],
+-    ]));
++
++    return this._sidebars;
    },
  
-@@ -61,6 +71,7 @@ var SidebarUI = {
+   // Avoid getting the browser element from init() to avoid triggering the
+@@ -61,6 +75,7 @@ var SidebarUI = {
    lastOpenedId: null,
  
    _box: null,
@@ -36,7 +102,15 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
    // The constructor of this label accesses the browser element due to the
    // control="sidebar" attribute, so avoid getting this label during startup.
    get _title() {
-@@ -89,6 +100,7 @@ var SidebarUI = {
+@@ -76,6 +91,7 @@ var SidebarUI = {
+   _switcherTarget: null,
+   _switcherArrow: null,
+   _inited: false,
++  _sidebars: undefined,
+ 
+   _initDeferred: PromiseUtils.defer(),
+ 
+@@ -89,6 +105,7 @@ var SidebarUI = {
  
    init() {
      this._box = document.getElementById("sidebar-box");
@@ -44,7 +118,7 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
      this._splitter = document.getElementById("sidebar-splitter");
      this._icon = document.getElementById("sidebar-icon");
      this._reversePositionButton = document.getElementById(
-@@ -281,10 +293,16 @@ var SidebarUI = {
+@@ -281,10 +298,16 @@ var SidebarUI = {
        return true;
      }
  
@@ -61,7 +135,7 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
      this.showInitially(commandID);
  
      return true;
-@@ -451,11 +469,15 @@ var SidebarUI = {
+@@ -451,11 +474,15 @@ var SidebarUI = {
      return this._show(commandID).then(() => {
        this._loadSidebarExtension(commandID);
  
@@ -77,7 +151,7 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
        return true;
      });
    },
-@@ -494,7 +516,13 @@ var SidebarUI = {
+@@ -494,7 +521,13 @@ var SidebarUI = {
      return new Promise(resolve => {
        this.selectMenuItem(commandID);
  
@@ -91,7 +165,7 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
        this.setPosition();
  
        this.hideSwitcherPanel();
-@@ -503,10 +531,6 @@ var SidebarUI = {
+@@ -503,10 +536,6 @@ var SidebarUI = {
        this._box.setAttribute("sidebarcommand", commandID);
        this.lastOpenedId = commandID;
  
@@ -102,7 +176,7 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
        if (this.browser.contentDocument.location.href != url) {
          this.browser.addEventListener(
            "load",
-@@ -546,17 +570,26 @@ var SidebarUI = {
+@@ -546,17 +575,26 @@ var SidebarUI = {
  
      this.selectMenuItem("");
  
@@ -132,18 +206,35 @@ index 88f7ed1afbb0f25130ae9b2c6d5058da1fc3a21e..22ab7ba977fa811b8d40e18a15948abf
      let selBrowser = gBrowser.selectedBrowser;
      selBrowser.focus();
      if (triggerNode) {
-@@ -588,6 +621,15 @@ var SidebarUI = {
+@@ -569,10 +607,11 @@ var SidebarUI = {
+    * none if the argument is an empty string.
+    */
+   selectMenuItem(commandID) {
+-    for (let [id, { menuId, triggerButtonId }] of this.sidebars) {
++    console.log(commandID)
++    this.sidebars.forEach(({ menuId, buttonId }, id) => {
+       let menu = document.getElementById(menuId);
+       let triggerbutton =
+-        triggerButtonId && document.getElementById(triggerButtonId);
++        buttonId && document.getElementById(buttonId);
+       if (id == commandID) {
+         menu.setAttribute("checked", "true");
+         if (triggerbutton) {
+@@ -586,8 +625,17 @@ var SidebarUI = {
+           updateToggleControlLabel(triggerbutton);
+         }
        }
-     }
+-    }
++    });
    },
 +
 +  ensureTooltipSet() {
-+    for (let [id, { title, buttonId }] of this.sidebars) {
++    this.sidebars.forEach(({ title, buttonId }, id) => {
 +      let button = document.getElementById(buttonId);
 +
 +      button.setAttribute("tooltiptext", title);
 +      button.setAttribute("context", "sidebar-item-context-menu");
-+    };
++    });
 +  }
  };
  
