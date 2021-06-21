@@ -130,6 +130,7 @@ menuitem[type="checkbox"] {
     padding: 6px 18px !important;
     min-height: 28px !important;
     margin: 2px 0;
+    border-radius: 0;
 }
   
 toolbarseparator {
