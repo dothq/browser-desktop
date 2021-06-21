@@ -1,0 +1,18 @@
+diff --git a/browser/themes/shared/identity-block/identity-block.inc.css b/browser/themes/shared/identity-block/identity-block.inc.css
+index 6379f2fc29dfae772ada8a9707d488c1ffd3fa9b..06e75e18d2ea0af434f4debb0e411056fcd81935 100644
+--- a/browser/themes/shared/identity-block/identity-block.inc.css
++++ b/browser/themes/shared/identity-block/identity-block.inc.css
+@@ -218,11 +218,11 @@
+ }
+ 
+ #identity-box[pageproxystate="valid"].chromeUI #identity-icon {
+-  list-style-image: url(chrome://branding/content/icon16.png);
++  list-style-image: url(chrome://branding/content/identity-icons-brand.svg);
+ }
+ @media (min-resolution: 1.1dppx) {
+   #identity-box[pageproxystate="valid"].chromeUI #identity-icon {
+-    list-style-image: url(chrome://branding/content/icon32.png);
++    list-style-image: url(chrome://branding/content/identity-icons-brand.svg);
+   }
+ }
+ 

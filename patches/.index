@@ -96,6 +96,7 @@ browser-themes-shared-icons-tab-svg.patch - browser/themes/shared/icons/tab.svg
 browser-themes-shared-icons-unpin-tab-svg.patch - browser/themes/shared/icons/unpin-tab.svg
 browser-themes-shared-icons-whatsnew-svg.patch - browser/themes/shared/icons/whatsnew.svg
 browser-themes-shared-icons-window-svg.patch - browser/themes/shared/icons/window.svg
+browser-themes-shared-identity-block-identity-block-inc-css.patch - browser/themes/shared/identity-block/identity-block.inc.css
 browser-themes-shared-identity-block-permissions-svg.patch - browser/themes/shared/identity-block/permissions.svg
 browser-themes-shared-identity-block-tracking-protection-disabled-svg.patch - browser/themes/shared/identity-block/tracking-protection-disabled.svg
 browser-themes-shared-identity-block-tracking-protection-svg.patch - browser/themes/shared/identity-block/tracking-protection.svg
