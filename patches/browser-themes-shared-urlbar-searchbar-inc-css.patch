@@ -1,0 +1,14 @@
+diff --git a/browser/themes/shared/urlbar-searchbar.inc.css b/browser/themes/shared/urlbar-searchbar.inc.css
+index e80aaf6bbed8ce4f08488a805d5c5aab69442c20..b89f3c315e808adad9070e947df9af08fdabe062 100644
+--- a/browser/themes/shared/urlbar-searchbar.inc.css
++++ b/browser/themes/shared/urlbar-searchbar.inc.css
+@@ -242,7 +242,8 @@
+ 
+ #urlbar-input-container {
+   /* Match urlbar-background's border. */
+-  border: 1px solid transparent;
++  /* This creates a padding around items in the url bar */
++  /* border: 1px solid transparent; */
+   padding: var(--urlbar-container-padding);
+ }
+ 

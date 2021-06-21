@@ -109,6 +109,7 @@ browser-themes-shared-places-history-svg.patch - browser/themes/shared/places/hi
 browser-themes-shared-places-tag-svg.patch - browser/themes/shared/places/tag.svg
 browser-themes-shared-tabs-inc-css.patch - browser/themes/shared/tabs.inc.css
 browser-themes-shared-toolbarbuttons-inc-css.patch - browser/themes/shared/toolbarbuttons.inc.css
+browser-themes-shared-urlbar-searchbar-inc-css.patch - browser/themes/shared/urlbar-searchbar.inc.css
 browser-themes-windows-browser-css.patch - browser/themes/windows/browser.css
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-ControlCenter-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/ControlCenter.jsm
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-LightweightThemes-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
