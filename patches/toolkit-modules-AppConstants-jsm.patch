@@ -1,8 +1,8 @@
 diff --git a/toolkit/modules/AppConstants.jsm b/toolkit/modules/AppConstants.jsm
-index 004edddcffd6f6e0b09a9f0adbc600516e743394..6f6741b2b7c027f9b4884704268e0acb73541e43 100644
+index f181cf3904c888ef7a9ffc6597ddd5ef15e4bee0..cb2376a839fc94719a91c0af3a93fdb551472fe5 100644
 --- a/toolkit/modules/AppConstants.jsm
 +++ b/toolkit/modules/AppConstants.jsm
-@@ -342,6 +342,8 @@ this.AppConstants = Object.freeze({
+@@ -340,6 +340,8 @@ this.AppConstants = Object.freeze({
    MOZ_WIDGET_TOOLKIT: "@MOZ_WIDGET_TOOLKIT@",
    ANDROID_PACKAGE_NAME: "@ANDROID_PACKAGE_NAME@",
  

@@ -1,0 +1,22 @@
+diff --git a/browser/base/content/browser-sync.js b/browser/base/content/browser-sync.js
+index 28b0de4fbcd48db7daa0100f3c89560f1d681d3f..3378c7a8c838750923b088ea76fe3bd46f737633 100644
+--- a/browser/base/content/browser-sync.js
++++ b/browser/base/content/browser-sync.js
+@@ -1682,7 +1682,7 @@ var gSync = {
+     const enabled =
+       !this.sendTabConfiguredAndLoading &&
+       BrowserUtils.isShareableURL(targetURI);
+-    const hideItems = this.shouldHideSendContextMenuItems(enabled);
++    const hideItems = false;
+ 
+     contextMenu.showItem(
+       "context-sendpagetodevice",
+@@ -1690,7 +1690,7 @@ var gSync = {
+     );
+     contextMenu.showItem(
+       "context-sendlinktodevice",
+-      !hideItems && showSendLink
++      true
+     );
+ 
+     if (!showSendLink && !showSendPage) {

@@ -1,8 +1,8 @@
 diff --git a/toolkit/modules/Troubleshoot.jsm b/toolkit/modules/Troubleshoot.jsm
-index db96f52a3b24a715670126553b42a9e223c0d320..2515686e8f7c9317453a3373a499943cb28eb02c 100644
+index fa61c1eb877577624dbc07c690a576ee810c602f..43c8e09ce1464db1e88a05c664bd04af7f3fa0a7 100644
 --- a/toolkit/modules/Troubleshoot.jsm
 +++ b/toolkit/modules/Troubleshoot.jsm
-@@ -203,6 +203,7 @@ var dataProviders = {
+@@ -204,6 +204,7 @@ var dataProviders = {
          " " +
          Services.sysinfo.getProperty("build"),
        version: AppConstants.MOZ_APP_VERSION_DISPLAY,

@@ -1,8 +1,8 @@
 diff --git a/browser/base/moz.build b/browser/base/moz.build
-index 4f62ec18721ce81c269f618bf67fcc1c259243f1..784a1d35cd366f1003dfd398246f1e769fd0bed2 100644
+index 670edb73906b87fddf721dfc6f15c14e9b6ad25f..ab41f5b20eab304d99db323811b337f98042f88a 100644
 --- a/browser/base/moz.build
 +++ b/browser/base/moz.build
-@@ -70,6 +70,8 @@ PERFTESTS_MANIFESTS += ["content/test/perftest.ini"]
+@@ -74,6 +74,8 @@ PERFTESTS_MANIFESTS += ["content/test/perftest.ini"]
  DEFINES["MOZ_APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
  DEFINES["MOZ_APP_VERSION_DISPLAY"] = CONFIG["MOZ_APP_VERSION_DISPLAY"]
  

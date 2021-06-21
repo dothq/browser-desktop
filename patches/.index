@@ -1,5 +1,6 @@
 browser-actors-moz-build.patch - browser/actors/moz.build
 browser-app-profile-firefox-js.patch - browser/app/profile/firefox.js
+browser-base-content-aboutDialog-js.patch - browser/base/content/aboutDialog.js
 browser-base-content-aboutDialog-xhtml.patch - browser/base/content/aboutDialog.xhtml
 browser-base-content-browser-context-inc.patch - browser/base/content/browser-context.inc
 browser-base-content-browser-data-submission-info-bar-js.patch - browser/base/content/browser-data-submission-info-bar.js
@@ -7,11 +8,13 @@ browser-base-content-browser-menubar-inc.patch - browser/base/content/browser-me
 browser-base-content-browser-pageActions-js.patch - browser/base/content/browser-pageActions.js
 browser-base-content-browser-sidebar-js.patch - browser/base/content/browser-sidebar.js
 browser-base-content-browser-siteIdentity-js.patch - browser/base/content/browser-siteIdentity.js
+browser-base-content-browser-sync-js.patch - browser/base/content/browser-sync.js
 browser-base-content-browser-js.patch - browser/base/content/browser.js
 browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
 browser-base-content-certerror-aboutNetError-xhtml.patch - browser/base/content/certerror/aboutNetError.xhtml
 browser-base-content-nsContextMenu-js.patch - browser/base/content/nsContextMenu.js
 browser-base-jar-mn.patch - browser/base/jar.mn
+browser-base-moz-build.patch - browser/base/moz.build
 browser-components-BrowserGlue-jsm.patch - browser/components/BrowserGlue.jsm
 browser-components-about-AboutRedirector-cpp.patch - browser/components/about/AboutRedirector.cpp
 browser-components-controlcenter-content-identityPanel-inc-xhtml.patch - browser/components/controlcenter/content/identityPanel.inc.xhtml
@@ -107,7 +110,9 @@ browser-themes-windows-browser-css.patch - browser/themes/windows/browser.css
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-ControlCenter-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/ControlCenter.jsm
 browser-tools-mozscreenshots-mozscreenshots-extension-configurations-LightweightThemes-jsm.patch - browser/tools/mozscreenshots/mozscreenshots/extension/configurations/LightweightThemes.jsm
 build-appini_header-py.patch - build/appini_header.py
+build-application-ini-in.patch - build/application.ini.in
 build-moz-build.patch - build/moz.build
+build-moz-configure-init-configure.patch - build/moz.configure/init.configure
 build-variables-py.patch - build/variables.py
 devtools-client-aboutdebugging-src-actions-runtimes-js.patch - devtools/client/aboutdebugging/src/actions/runtimes.js
 devtools-client-themes-images-command-pick-svg.patch - devtools/client/themes/images/command-pick.svg
@@ -128,9 +133,14 @@ services-settings-dumps-main-search-default-override-allowlist-json.patch - serv
 services-settings-dumps-main-top-sites-json.patch - services/settings/dumps/main/top-sites.json
 toolkit-components-moz-build.patch - toolkit/components/moz.build
 toolkit-components-search-SearchEngineSelector-jsm.patch - toolkit/components/search/SearchEngineSelector.jsm
+toolkit-components-urlformatter-URLFormatter-jsm.patch - toolkit/components/urlformatter/URLFormatter.jsm
+toolkit-content-aboutSupport-js.patch - toolkit/content/aboutSupport.js
 toolkit-content-widgets-moz-input-box-js.patch - toolkit/content/widgets/moz-input-box.js
+toolkit-modules-AppConstants-jsm.patch - toolkit/modules/AppConstants.jsm
 toolkit-modules-LightweightThemeConsumer-jsm.patch - toolkit/modules/LightweightThemeConsumer.jsm
 toolkit-modules-SubDialog-jsm.patch - toolkit/modules/SubDialog.jsm
+toolkit-modules-Troubleshoot-jsm.patch - toolkit/modules/Troubleshoot.jsm
+toolkit-modules-moz-build.patch - toolkit/modules/moz.build
 toolkit-mozapps-extensions-content-aboutaddons-js.patch - toolkit/mozapps/extensions/content/aboutaddons.js
 toolkit-mozapps-extensions-internal-AddonSettings-jsm.patch - toolkit/mozapps/extensions/internal/AddonSettings.jsm
 toolkit-mozapps-extensions-internal-XPIDatabase-jsm.patch - toolkit/mozapps/extensions/internal/XPIDatabase.jsm

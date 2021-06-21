@@ -1,8 +1,8 @@
 diff --git a/build/application.ini.in b/build/application.ini.in
-index a6141de0be15819575acde2a5736c42bacf21977..1d0eed4aaf15fab8b3acb7d0512d982b29b05a82 100644
+index 6df13230a45b2a86356f4e5a7b189c46f53e44cc..cd7df656dbade684bea4cc4ccef47a8bf0b9243c 100644
 --- a/build/application.ini.in
 +++ b/build/application.ini.in
-@@ -52,5 +52,5 @@ ServerURL=https://crash-reports.mozilla.com/submit?id=@MOZ_APP_ID@&version=@MOZ_
+@@ -52,5 +52,5 @@ ServerURL=@MOZ_CRASHREPORTER_URL@/submit?id=@MOZ_APP_ID@&version=@MOZ_APP_VERSIO
  
  #if MOZ_UPDATER
  [AppUpdate]
