@@ -1,0 +1,15 @@
+diff --git a/browser/themes/shared/tabs.inc.css b/browser/themes/shared/tabs.inc.css
+index 644d8d5fc97c47f9c4f736cc13b8caf10514d911..3902eb69ce7b5d969beefcd46778e4055df5aaad 100644
+--- a/browser/themes/shared/tabs.inc.css
++++ b/browser/themes/shared/tabs.inc.css
+@@ -544,8 +544,8 @@
+ @media (-moz-proton) {
+ .tab-close-button {
+   margin-inline-end: calc(var(--inline-tab-padding) / -2);
+-  width: 24px;
+-  height: 24px;
++  width: 20px;
++  height: 20px;
+   padding: 7px;
+   border-radius: var(--tab-border-radius);
+ }
