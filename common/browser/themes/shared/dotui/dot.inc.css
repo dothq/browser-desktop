@@ -238,6 +238,10 @@ notification[type], notification {
 display: none !important;
 }
 
+#appMenu-fxa-separator {
+    display: none;
+}
+
 .tabbrowser-tab::after,
 .tabbrowser-tab::before {
     opacity: 0.3 !important;
