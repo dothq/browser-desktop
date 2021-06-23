@@ -2,7 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-qr-codes-title = QR Code for { $hostname }
+# Note that this used to have { $hostname } but that didn't work for some reason
+main-context-menu-page-qr-generate =
+    .label = Generate QR Code...
 
 qr-codes-context-menu = Generate QR Code for Page…
 
