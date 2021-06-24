@@ -1,25 +1,30 @@
 diff --git a/browser/components/controlcenter/content/identityPanel.inc.xhtml b/browser/components/controlcenter/content/identityPanel.inc.xhtml
-index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..6a896081317bd09d9da3db3c19d86d36edc86cb8 100644
+index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..84d53ea6db40b29343ebdddf5c85b03885a4eab5 100644
 --- a/browser/components/controlcenter/content/identityPanel.inc.xhtml
 +++ b/browser/components/controlcenter/content/identityPanel.inc.xhtml
-@@ -23,12 +23,14 @@
+@@ -23,12 +23,20 @@
            <html:span id="identity-popup-mainView-panel-header-span" role="heading" aria-level="1"/>
          </label>
        </vbox>
--      <toolbarseparator></toolbarseparator>
-+      <!-- TODO: Figure out what this is -->
-+      <!-- <toolbarseparator></toolbarseparator> -->
++      
+       <toolbarseparator></toolbarseparator>
  
        <!-- Security Section -->
        <hbox id="identity-popup-security" class="identity-popup-section" flex="1">
 -        <vbox class="identity-popup-security-content" flex="1">
 +        <vbox class="identity-popup-security-content identity-popup-section-content" flex="1">
  
++
++          <button id="identity-popup-security-expander"
++                class="identity-popup-expander"
++                when-connection="not-secure secure secure-ev secure-cert-user-overridden cert-error-page https-only-error-page"
++                oncommand="gIdentityHandler.showSecuritySubView();"/>
++
 +          <!-- TODO: Figure out what the `identity-button` class does -->
            <vbox class="identity-popup-security-connection identity-button">
              <hbox flex="1">
                <description class="identity-popup-connection-not-secure"
-@@ -83,20 +85,154 @@
+@@ -83,16 +91,150 @@
            </vbox>
  
          </vbox>
@@ -27,6 +32,7 @@ index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..6a896081317bd09d9da3db3c19d86d36
 -                class="identity-popup-expander"
 -                when-connection="not-secure secure secure-ev secure-cert-user-overridden cert-error-page https-only-error-page"
 -                oncommand="gIdentityHandler.showSecuritySubView();"/>
++      </hbox>
 +
 +      <!-- Certificate Section -->
 +      <hbox
@@ -174,12 +180,7 @@ index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..6a896081317bd09d9da3db3c19d86d36
          <button id="identity-popup-clear-sitedata-button"
                  data-l10n-id="identity-clear-site-data"
                  oncommand="gIdentityHandler.clearSiteData(event);"/>
-       </vbox>
-+      </hbox>
-     </panelview>
- 
-     <!-- Security SubView -->
-@@ -180,7 +316,7 @@
+@@ -180,7 +322,7 @@
                  oncommand="gIdentityHandler.enableMixedContentProtection()"/>
        </vbox>
  
