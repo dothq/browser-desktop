@@ -8,7 +8,7 @@
 
 %include popups/identity.inc.css
 %include popups/bookmarks.inc.css
-/* %include popups/notifications.inc.css */
+%include popups/notifications.inc.css
 
 %include toolbars/personal.inc.css
 
@@ -16,6 +16,8 @@
 %include components/input.inc.css
 %include components/dialog.inc.css
 %include components/tabmodalprompt.inc.css
+
+%include private_browsing.inc.css
 
 :root {
     --backbutton-hover-background: var(--toolbarbutton-hover-background) !important;
@@ -33,6 +35,55 @@ toolbar[brighttext] {
     --dot-accent-color: var(--lwt-toolbarbutton-icon-fill-attention, #3c89fd) !important;
 }
 
+.toolbar-items {
+    padding-top: 0px !important;
+}
+
+#navigator-toolbox {
+    padding-top: calc(var(--space-above-tabbar) - 4px) !important;
+    background-color: var(--toolbar-bgcolor) !important;
+}
+
+#toolbar-menubar {
+    background-color: var(--toolbar-bgcolor) !important;
+    height: 40px;
+    padding: 0 !important;
+    margin-top: calc(var(--space-above-tabbar) + (-4px * 3));
+}
+
+#main-menubar {
+    margin-left: 12px;
+    height: 40px;
+    font-size: 14px;
+}
+
+#main-menubar > menu {
+    padding: 0 8px !important;
+    appearance: none !important;
+    border-radius: var(--toolbarbutton-border-radius);
+    margin: 4px 2px;
+}
+
+#main-menubar > menu[_moz-menuactive="true"] {
+    background-color: var(--toolbarbutton-hover-background) !important;
+    color: currentColor !important;
+}
+
+#main-menubar > menu[open="true"] {
+    background-color: var(--toolbarbutton-active-background) !important;
+    color: currentColor !important;
+}
+
+#TabsToolbar {
+    background-color: var(--lwt-accent-color);
+}
+
+#menubar-items {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+      
 #urlbar {
     --urlbar-height: 32px !important;
 }
@@ -343,4 +394,35 @@ display: none !important;
 .identity-popup-body-padded {
     padding: 22px;
     display: flex;
+}
+
+.menubar-product-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url(chrome://branding/content/icon64.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#urlbar-zoom-button {
+    color: var(--dot-accent-color) !important;
+    padding: 4px 10px !important;
+    border-radius: var(--toolbarbutton-border-radius) !important;
+    background-color: #1662D321 !important;
+    border: none !important;
+}
+
+#urlbar-zoom-button:hover {
+    background-color: #1662d348 !important;
+}
+
+#urlbar-zoom-button:active {
+    background-color: #1662d36b !important;
+}
+
+.urlbar-icon {
+    width: var(--urlbar-height) !important;
+    height: var(--urlbar-height) !important;
+    padding: calc(var(--urlbar-icon-padding) + 2px) !important;
 }
