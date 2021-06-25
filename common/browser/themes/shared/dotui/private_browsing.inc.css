@@ -1,0 +1,28 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root[privatebrowsingmode] {
+    --lwt-accent-color: rgb(58, 2, 125) !important;
+    --lwt-text-color: white !important;
+    --arrowpanel-background: rgb(255, 255, 255) !important;
+    --panel-disabled-color: rgba(12, 12, 13, 0.5) !important;
+    --panel-description-color: rgba(12, 12, 13, 0.65) !important;
+    --arrowpanel-color: rgba(12, 12, 13, 1) !important;
+    --arrowpanel-border-color: rgb(237, 237, 237) !important;
+    --lwt-toolbar-field-background-color: #220043 !important;
+    --lwt-toolbar-field-color: white !important;
+    --lwt-toolbar-field-border-color: rgb(255, 255, 255) !important;
+    --lwt-toolbar-field-focus: #fff !important;
+    --lwt-toolbar-field-focus-color: rgb(4, 4, 4) !important;
+    --toolbar-bgcolor: rgb(38, 1, 104) !important;
+    --urlbar-separator-color: rgb(229, 229, 229) !important;
+    --lwt-toolbar-vertical-separator: rgba(229, 229, 229, 0.22) !important;
+    --chrome-content-separator-color: rgba(255, 255, 255, 0.17) !important;
+    --lwt-toolbarbutton-icon-fill: #ffffffbf !important;
+    --lwt-toolbarbutton-hover-background: rgba(255, 255, 255, 0.1) !important;
+    --lwt-toolbarbutton-active-background: rgba(255, 255, 255, 0.2) !important;
+    --autocomplete-popup-background: rgb(255, 255, 255) !important;
+    --autocomplete-popup-color: rgb(12, 12, 13) !important;
+    --autocomplete-popup-highlight-background: #520080 !important;
+}
