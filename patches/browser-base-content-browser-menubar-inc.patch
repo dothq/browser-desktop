@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-menubar.inc b/browser/base/content/browser-menubar.inc
-index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..f728a1ab454155dd6e2fb78f36d189219d53cd39 100644
+index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..f4dee7bd72a9d0ed64a8a80bdb8c7683ac793d0c 100644
 --- a/browser/base/content/browser-menubar.inc
 +++ b/browser/base/content/browser-menubar.inc
 @@ -92,23 +92,33 @@
@@ -41,13 +41,27 @@ index 058c1e5835e0a9dd3e92952cd8b987fd06d00ed7..f728a1ab454155dd6e2fb78f36d18921
                  <menuseparator/>
                  <menuitem id="menu_selectAll"
                            key="key_selectAll"
-@@ -160,6 +170,9 @@
-                               type="checkbox"
+@@ -149,17 +159,20 @@
+                 <menu id="viewSidebarMenuMenu" data-l10n-id="menu-view-sidebar">
+                   <menupopup id="viewSidebarMenu">
+                     <menuitem id="menu_bookmarksSidebar"
+-                              type="checkbox"
++                              type="radio"
+                               key="viewBookmarksSidebarKb"
+                               oncommand="SidebarUI.toggle('viewBookmarksSidebar');" data-l10n-id="menu-view-bookmarks"/>
+                     <menuitem id="menu_historySidebar"
+-                              type="checkbox"
++                              type="radio"
+                               key="key_gotoHistory"
+                               oncommand="SidebarUI.toggle('viewHistorySidebar');" data-l10n-id="menu-view-history-button"/>
+                     <menuitem id="menu_tabsSidebar"
+-                              type="checkbox"
++                              type="radio"
                                class="sync-ui-item"
                                oncommand="SidebarUI.toggle('viewTabsSidebar');" data-l10n-id="menu-view-synced-tabs-sidebar"/>
 +                    <menuitem id="menu_accountsSidebar"
-+                              type="checkbox"
-+                              oncommand="SidebarUI.toggle('viewAccountsSidebar');" data-l10n-id="menu-view-accounts"/>
++                              type="radio"
++                              oncommand="SidebarUI.toggle('viewAccountsSidebar');" data-l10n-id="menu-view-accounts-button"/>
                    </menupopup>
                  </menu>
                  <menuseparator/>
