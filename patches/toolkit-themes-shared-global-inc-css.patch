@@ -1,0 +1,16 @@
+diff --git a/toolkit/themes/shared/global.inc.css b/toolkit/themes/shared/global.inc.css
+index d9b8589bbe4447e577c3cbf72a0bdfacb3df75fe..853573b6dcbda48ec04ef3f49787c1471e9f0b92 100644
+--- a/toolkit/themes/shared/global.inc.css
++++ b/toolkit/themes/shared/global.inc.css
+@@ -26,6 +26,11 @@ html|textarea {
+   font: inherit;
+ }
+ 
++::selection {
++  background-color: var(--dot-accent-color, #1662D3);
++  color: white;
++}
++
+ /* Textbox context menu */
+ 
+ .textbox-contextmenu:-moz-locale-dir(rtl) {
