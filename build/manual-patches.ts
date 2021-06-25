@@ -76,7 +76,9 @@ const manualPatches: IPatch[] = [
 
             "other-licenses/7zstub/firefox/setup.ico",
             "toolkit/mozapps/update/updater/updater.ico",
-            "toolkit/mozapps/update/updater/updater.png"
+            "toolkit/mozapps/update/updater/updater.png",
+
+            "layout/generic/broken-image.svg"
         ]
     },
     {
