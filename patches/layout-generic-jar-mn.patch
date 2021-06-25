@@ -1,0 +1,10 @@
+diff --git a/layout/generic/jar.mn b/layout/generic/jar.mn
+index d01a968b8422505ea94eca7f3297891e34268a7f..00f74d29cfdbbfd4de02c4405e883b9c4d6e2b00 100644
+--- a/layout/generic/jar.mn
++++ b/layout/generic/jar.mn
+@@ -4,4 +4,5 @@
+ 
+ toolkit.jar:
+    res/broken-image.png                (broken-image.png)
++   res/broken-image.svg                (broken-image.svg)
+    res/loading-image.png               (loading-image.png)
