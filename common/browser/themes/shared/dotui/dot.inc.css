@@ -28,6 +28,8 @@
     --panel-separator-color: var(--arrowpanel-border-color) !important;
     --dot-accent-color: #1662D3 !important;
     --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
+    --buttons-primary-button-bgcolor: var(--dot-accent-color);
+    --button-bgcolor: var(--lwt-accent-color);
 }
   
 :root[lwt-popup-brighttext] panel,
@@ -365,4 +367,18 @@ display: none !important;
 .identity-popup-body-padded {
     padding: 22px;
     display: flex;
+}
+
+/* Overides for native styles */
+button {
+    background-color: var(--button-bgcolor);
+    appearance: inherit;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+tree {
+    background-color: var(--button-bgcolor);
+    appearance: inherit;
+    border-radius: 4px;
 }

@@ -2,6 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+.panel-no-padding input, #editBMPanel_namePicker, #editBMPanel_tagsField {
+    background-color: var(--button-bgcolor) !important;
+    border-color: none !important;
+    border-radius: calc(var(--toolbarbutton-border-radius) + 4px) !important;
+}
+
 #editBookmarkPanel > ::selection {
     background-color: var(--dot-accent-color) !important;
     color: var(--arrowpanel-background) !important;
@@ -92,7 +98,13 @@
     gap: 16px;
     background-color: transparent;
     border-top: 1px solid var(--arrowpanel-border-color);
-}   
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+}
+
+#editBookmarkPanelDoneButton[default] {
+    color: var(--arrowpanel-color) !important;
+}
 
 .expander-up, .expander-down {
     min-width: 0;
@@ -169,4 +181,23 @@ menulist {
 
 #editBookmarkPanelBottomContent {
     padding-top: 0px !important;
+}
+
+#editBMPanel_foldersExpander {
+    display: none;
+}
+
+#editBMPanel_folderMenuList {
+    background-color: var(--button-bgcolor) !important;
+    border-color: none !important;
+    border-radius: calc(var(--toolbarbutton-border-radius) + 4px);
+} 
+
+#editBMPanel_folderRow hbox {
+    margin-inline-start: 0;
+    padding-left: 0;
+}
+
+#editBMPanel_tagsSelectorExpander {
+    background: none !important;
 }
