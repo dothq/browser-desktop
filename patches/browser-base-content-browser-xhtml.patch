@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index e8a8c4074092fc2bbc4dce0df667f766b245ae62..856ae69cb5ff9d8de06b5b1ea4f2396c1878f102 100644
+index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5bef1726d95 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -134,17 +134,20 @@
@@ -228,39 +228,16 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..856ae69cb5ff9d8de06b5b1ea4f2396c
          <toolbarseparator/>
          <toolbarbutton id="appMenu-print-button2"
                         class="subviewbutton"
-@@ -1038,31 +1063,6 @@
+@@ -1038,7 +1063,7 @@
                         data-l10n-id="appmenuitem-find-in-page"
                         key="key_find"
                         command="cmd_find"/>
 -        <toolbaritem id="appMenu-zoom-controls2" class="subviewbutton toolbaritem-combined-buttons" closemenu="none">
--          <label class="toolbarbutton-text" value="&fullZoom.label;"/>
--          <toolbarbutton id="appMenu-zoomReduce-button2"
--                         class="subviewbutton subviewbutton-iconic"
--                         command="cmd_fullZoomReduce"
--                         data-l10n-id="appmenuitem-zoom-reduce"
--                         tooltip="dynamic-shortcut-tooltip"/>
--          <toolbarbutton id="appMenu-zoomReset-button2"
--                         class="subviewbutton"
--                         command="cmd_fullZoomReset"
--                         tooltip="dynamic-shortcut-tooltip"/>
--          <toolbarbutton id="appMenu-zoomEnlarge-button2"
--                         class="subviewbutton subviewbutton-iconic"
--                         command="cmd_fullZoomEnlarge"
--                         data-l10n-id="appmenuitem-zoom-enlarge"
--                         tooltip="dynamic-shortcut-tooltip"/>
--          <toolbarbutton id="appMenu-fullscreen-button2"
--                         class="subviewbutton subviewbutton-iconic"
--                         label="&fullScreenCmd.label;"
--                         observes="View:FullScreen"
--                         type="checkbox"
--                         closemenu="auto"
--                         onclick="if (event.button == 0) this.closest('panel').hidePopup();"
--                         tooltip="dynamic-shortcut-tooltip"/>
--        </toolbaritem>
-         <toolbarseparator/>
-         <toolbarbutton id="appMenu-settings-button"
-                        class="subviewbutton"
-@@ -2352,6 +2352,44 @@
++        <toolbaritem id="appMenu-zoom-controls2" class="subviewbutton toolbaritem-combined-buttons" closemenu="none" style="display:none;">
+           <label class="toolbarbutton-text" value="&fullZoom.label;"/>
+           <toolbarbutton id="appMenu-zoomReduce-button2"
+                          class="subviewbutton subviewbutton-iconic"
+@@ -2352,6 +2377,44 @@
    </box>
  
    <hbox flex="1" id="browser">
@@ -305,7 +282,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..856ae69cb5ff9d8de06b5b1ea4f2396c
      <vbox id="sidebar-box" hidden="true" class="chromeclass-extrachrome">
        <box id="sidebar-header" align="center">
          <toolbarbutton id="sidebar-switcher-target" flex="1" class="tabbable">
-@@ -2368,7 +2406,7 @@
+@@ -2368,7 +2431,7 @@
          <toolbarbutton id="sidebar-close" class="close-icon tabbable" tooltiptext="&sidebarCloseButton.tooltip;" oncommand="SidebarUI.hide();"/>
        </box>
        <browser id="sidebar" flex="1" autoscroll="false" disablehistory="true" disablefullscreen="true"
