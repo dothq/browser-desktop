@@ -36,13 +36,6 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Cache build cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/cache/sccache
-          key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
-
       - name: Free up space
         run: |
           sudo rm -rf /usr/share/dotnet
@@ -192,13 +185,6 @@ jobs:
   #     - run: echo ${{ github.run_id }}
 
   #     - uses: actions/checkout@v2
-
-  #     - name: Cache build cache
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           ~/cache/sccache
-  #         key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
 
   #     - name: Free up space
   #       run: |
@@ -391,13 +377,6 @@ jobs:
   #         echo "C:\Program Files\Git\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
   #         echo "C:\Users\Administrator\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-  #     - name: Cache build cache
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           C:\Users\Administrator\AppData\Local\Mozilla\sccache
-  #         key: ${{ runner.os }}-${{ hashFiles('**\.github\workflows') }}
-
   #     - name: Disable autocrlf
   #       shell: bash --noprofile --norc -eo pipefail {0}
   #       run: |
@@ -494,13 +473,6 @@ jobs:
       - run: echo ${{ github.run_id }}
 
       - uses: actions/checkout@v2
-
-      - name: Cache build cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/Library/Caches/Mozilla.sccache
-          key: ${{ runner.os }}-${{ hashFiles('**/.github/workflows') }}
 
       - name: Verify mozconfig
         run: |
