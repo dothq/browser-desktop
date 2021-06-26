@@ -1,0 +1,5 @@
+/* This file is for styling the customisation page */
+
+.customization-lwtheme-menu-theme[image^="resource:"] > .toolbarbutton-icon {
+    border-radius: 0 !important;
+}
