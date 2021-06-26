@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index e8a8c4074092fc2bbc4dce0df667f766b245ae62..852f54edd97f1013175df41784dd62da257a0ce7 100644
+index e8a8c4074092fc2bbc4dce0df667f766b245ae62..4d394545314735b5db07a00c86d7c1a6864ac7e6 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -134,17 +134,20 @@
@@ -210,7 +210,25 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..852f54edd97f1013175df41784dd62da
        </vbox>
      </panelview>
  
-@@ -2352,6 +2388,44 @@
+@@ -1006,17 +1042,6 @@
+                        label="&libraryDownloads.label;"
+                        key="key_openDownloads"
+                        command="Tools:Downloads"/>
+-        <toolbarbutton id="appMenu-passwords-button"
+-                       class="subviewbutton"
+-                       data-l10n-id="appmenuitem-passwords"
+-                       oncommand="LoginHelper.openPasswordManager(window, { entryPoint: 'mainmenu' })"
+-                       />
+-        <toolbarbutton id="appMenu-extensions-themes-button"
+-                       class="subviewbutton"
+-                       data-l10n-id="appmenuitem-addons-and-themes"
+-                       key="key_openAddons"
+-                       command="Tools:Addons"
+-                       />
+         <toolbarseparator/>
+         <toolbarbutton id="appMenu-print-button2"
+                        class="subviewbutton"
+@@ -2352,6 +2377,44 @@
    </box>
  
    <hbox flex="1" id="browser">
@@ -255,7 +273,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..852f54edd97f1013175df41784dd62da
      <vbox id="sidebar-box" hidden="true" class="chromeclass-extrachrome">
        <box id="sidebar-header" align="center">
          <toolbarbutton id="sidebar-switcher-target" flex="1" class="tabbable">
-@@ -2368,7 +2442,7 @@
+@@ -2368,7 +2431,7 @@
          <toolbarbutton id="sidebar-close" class="close-icon tabbable" tooltiptext="&sidebarCloseButton.tooltip;" oncommand="SidebarUI.hide();"/>
        </box>
        <browser id="sidebar" flex="1" autoscroll="false" disablehistory="true" disablefullscreen="true"
