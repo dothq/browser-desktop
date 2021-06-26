@@ -125,3 +125,22 @@
 #identity-popup[connection="cert-error-page"] .identity-popup-connection-not-secure {
     color: #ffbf00 !important;
 }
+
+.identity-popup-expander:-moz-locale-dir(ltr) {
+    transform: scaleX(-1);
+}
+
+#identity-popup-certificate-expander, #identity-popup-cookies-expander {
+    background: url("chrome://global/skin/icons/arrow-left.svg") center no-repeat;
+    border-style: none;
+    appearance: none;
+    background-size: 16px, auto;
+    -moz-context-properties: fill, fill-opacity;
+    transform: scaleX(-1);
+    padding: 4px 0;
+    min-width: auto;
+    width: 38px;
+    fill: currentColor;
+    opacity: .6;
+    color: inherit !important;
+}

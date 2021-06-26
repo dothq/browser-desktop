@@ -1,8 +1,8 @@
 diff --git a/browser/components/controlcenter/content/identityPanel.inc.xhtml b/browser/components/controlcenter/content/identityPanel.inc.xhtml
-index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..84d53ea6db40b29343ebdddf5c85b03885a4eab5 100644
+index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..79249d3458b19c457c9c63549ae89418b1c95551 100644
 --- a/browser/components/controlcenter/content/identityPanel.inc.xhtml
 +++ b/browser/components/controlcenter/content/identityPanel.inc.xhtml
-@@ -23,12 +23,20 @@
+@@ -23,12 +23,14 @@
            <html:span id="identity-popup-mainView-panel-header-span" role="heading" aria-level="1"/>
          </label>
        </vbox>
@@ -10,21 +10,16 @@ index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..84d53ea6db40b29343ebdddf5c85b038
        <toolbarseparator></toolbarseparator>
  
        <!-- Security Section -->
-       <hbox id="identity-popup-security" class="identity-popup-section" flex="1">
+-      <hbox id="identity-popup-security" class="identity-popup-section" flex="1">
 -        <vbox class="identity-popup-security-content" flex="1">
++      <hbox id="identity-popup-security" class="identity-popup-section" flex="1" style="display: none;">
 +        <vbox class="identity-popup-security-content identity-popup-section-content" flex="1">
  
-+
-+          <button id="identity-popup-security-expander"
-+                class="identity-popup-expander"
-+                when-connection="not-secure secure secure-ev secure-cert-user-overridden cert-error-page https-only-error-page"
-+                oncommand="gIdentityHandler.showSecuritySubView();"/>
-+
 +          <!-- TODO: Figure out what the `identity-button` class does -->
            <vbox class="identity-popup-security-connection identity-button">
              <hbox flex="1">
                <description class="identity-popup-connection-not-secure"
-@@ -83,16 +91,150 @@
+@@ -83,16 +85,150 @@
            </vbox>
  
          </vbox>
@@ -180,7 +175,7 @@ index 8875b2ac8d0bf878fee7a365d07553bc1be5e653..84d53ea6db40b29343ebdddf5c85b038
          <button id="identity-popup-clear-sitedata-button"
                  data-l10n-id="identity-clear-site-data"
                  oncommand="gIdentityHandler.clearSiteData(event);"/>
-@@ -180,7 +322,7 @@
+@@ -180,7 +316,7 @@
                  oncommand="gIdentityHandler.enableMixedContentProtection()"/>
        </vbox>
  
