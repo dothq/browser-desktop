@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser-context.inc b/browser/base/content/browser-context.inc
-index ee0f14db4f27cdb7dc3ed0cc8d456a6fe3aeaf74..67dfbbcede14be3778300686742005dcd0813901 100644
+index ee0f14db4f27cdb7dc3ed0cc8d456a6fe3aeaf74..0ac200eea44f8cc2b0375fa3364a557042ebceb8 100644
 --- a/browser/base/content/browser-context.inc
 +++ b/browser/base/content/browser-context.inc
 @@ -46,7 +46,6 @@
@@ -85,7 +85,16 @@ index ee0f14db4f27cdb7dc3ed0cc8d456a6fe3aeaf74..67dfbbcede14be3778300686742005dc
        <menuitem id="context-selectall"
                  data-l10n-id="text-action-select-all"
                  command="cmd_selectAll"/>
-@@ -310,7 +332,9 @@
+@@ -304,13 +326,17 @@
+       <menuseparator id="context-sep-selectall"/>
+       <menuitem id="context-take-screenshot"
+                 data-l10n-id="main-context-menu-take-screenshot"
+-                oncommand="gContextMenu.takeScreenshot();"/>
++                oncommand="gContextMenu.takeScreenshot();"
++                class="menuitem-iconic"
++                image="chrome://browser/skin/screenshot.svg" />
+       <menuseparator id="context-sep-screenshots"/>
+       <menuitem id="context-keywordfield"
                  data-l10n-id="main-context-menu-keyword"
                  oncommand="AddKeywordForSearchField();"/>
        <menuitem id="context-searchselect"
@@ -96,7 +105,7 @@ index ee0f14db4f27cdb7dc3ed0cc8d456a6fe3aeaf74..67dfbbcede14be3778300686742005dc
        <menuitem id="context-searchselect-private"
                  oncommand="BrowserSearch.loadSearchFromContext(this.searchTerms, true, this.principal, this.csp, event);"/>
  
-@@ -360,7 +384,9 @@
+@@ -360,7 +386,9 @@
                  label="&spellCheckToggle.label;"
                  type="checkbox"
                  accesskey="&spellCheckToggle.accesskey;"
@@ -107,7 +116,7 @@ index ee0f14db4f27cdb7dc3ed0cc8d456a6fe3aeaf74..67dfbbcede14be3778300686742005dc
        <menuitem id="spell-add-dictionaries-main"
                  label="&spellAddDictionaries.label;"
                  accesskey="&spellAddDictionaries.accesskey;"
-@@ -393,11 +419,15 @@
+@@ -393,11 +421,15 @@
        <menuitem id="context-inspect-a11y"
                  hidden="true"
                  data-l10n-id="main-context-menu-inspect-a11y-properties"
