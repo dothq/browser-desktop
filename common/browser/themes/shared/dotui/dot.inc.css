@@ -53,6 +53,10 @@ toolbar[brighttext] {
 
 /* Tab Styles */
 
+#tabbrowser-tabs .tabbrowser-tab {
+    padding-inline: 0 !important;
+}
+
 .tab-content > .tab-close-button {
     border-radius: 4px !important;
 }
