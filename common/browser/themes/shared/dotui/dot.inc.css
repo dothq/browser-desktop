@@ -386,3 +386,12 @@ tree {
     appearance: inherit;
     border-radius: 4px;
 }
+
+#PersonalToolbar {
+    padding-top: 0 !important;
+}
+
+#import-button {
+    margin: 0 !important;
+    padding: 6px 8px !important;
+}
