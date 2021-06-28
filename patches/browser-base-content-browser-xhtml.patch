@@ -1,8 +1,19 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5bef1726d95 100644
+index e8a8c4074092fc2bbc4dce0df667f766b245ae62..8d18642732cff9c3271c38e643a29edc51831bc4 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
-@@ -134,17 +134,20 @@
+@@ -80,6 +80,10 @@
+   <link rel="localization" href="toolkit/printing/printUI.ftl"/>
+   <link rel="localization" href="browser/tabbrowser.ftl"/>
+ 
++  <!-- Custom localisation for Dot Browser -->
++  <link rel="localization" href="browser/qr-codes.ftl"/>
++  <link rel="localization" href="browser/toolbarContextMenu.ftl"/>
++
+   <title data-l10n-id="browser-main-window-title"></title>
+ 
+ # All JS files which are needed by browser.xhtml and other top level windows to
+@@ -134,17 +138,20 @@
        <menuitem id="context_openANewTab" data-lazy-l10n-id="tab-context-new-tab"
                  oncommand="gBrowser.addAdjacentNewTab(TabContextMenu.contextTab)"/>
        <menuseparator/>
@@ -30,7 +41,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
        <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" hidden="true"
                  oncommand="gBrowser.pinMultiSelectedTabs();"/>
        <menuitem id="context_unpinSelectedTabs" data-lazy-l10n-id="unpin-selected-tabs" hidden="true"
-@@ -160,7 +163,9 @@
+@@ -160,7 +167,9 @@
                  oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.uniqueSelectedPages);"/>
        <menuitem id="context_bookmarkTab"
                  data-lazy-l10n-id="bookmark-tab"
@@ -41,7 +52,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
        <menu id="context_moveTabOptions"
              data-lazy-l10n-id="tab-context-move-tabs"
              data-l10n-args='{"tabCount": 1}'>
-@@ -195,7 +200,9 @@
+@@ -195,7 +204,9 @@
        <menuitem id="context_closeTab"
                  data-lazy-l10n-id="tab-context-close-tabs"
                  data-l10n-args='{"tabCount": 1}'
@@ -52,7 +63,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
        <menu id="context_closeTabOptions"
              data-lazy-l10n-id="tab-context-close-multiple-tabs">
          <menupopup id="closeTabOptions">
-@@ -210,7 +217,9 @@
+@@ -210,7 +221,9 @@
        <menuitem id="context_undoCloseTab"
                  data-lazy-l10n-id="tab-context-reopen-closed-tabs"
                  data-l10n-args='{"tabCount": 1}'
@@ -63,7 +74,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
      </menupopup>
  
      <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
-@@ -405,20 +414,6 @@
+@@ -405,20 +418,6 @@
             flip="slide"
             orient="vertical"
             position="bottomcenter topleft">
@@ -84,7 +95,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
        <toolbarseparator/>
        <!-- Extension toolbarbuttons go here. -->
        <toolbarseparator id="sidebar-extensions-separator"/>
-@@ -498,8 +493,9 @@
+@@ -498,8 +497,9 @@
                      correctly. -->
        <menuitem oncommand="gCustomizeMode.enter()"
                  observes="cmd_CustomizeToolbars"
@@ -96,7 +107,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
      </menupopup>
  
      <menupopup id="blockedPopupOptions"
-@@ -555,6 +551,21 @@
+@@ -555,6 +555,21 @@
  
  #include ../../components/places/content/placesContextMenu.inc.xhtml
  
@@ -118,7 +129,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
      <panel id="ctrlTab-panel" hidden="true" norestorefocus="true" level="top">
        <hbox id="ctrlTab-previews"/>
        <hbox id="ctrlTab-showAll-container" pack="center"/>
-@@ -759,7 +770,7 @@
+@@ -759,7 +774,7 @@
                          oncommand="gSync.toggleAccountPanel(this, event)"/>
          </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
@@ -127,7 +138,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
                 oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -770,7 +781,12 @@
+@@ -770,7 +785,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -141,7 +152,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -796,7 +812,10 @@
+@@ -796,7 +816,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -153,7 +164,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
          <toolbarseparator/>
          <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none">
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
-@@ -828,8 +847,8 @@
+@@ -828,8 +851,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -164,7 +175,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -853,18 +872,34 @@
+@@ -853,18 +876,34 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -202,7 +213,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -943,6 +978,7 @@
+@@ -943,6 +982,7 @@
                         key="key_quitApplication"
                         command="cmd_quitApplication"/>
  #endif
@@ -210,7 +221,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
        </vbox>
      </panelview>
  
-@@ -1006,17 +1042,6 @@
+@@ -1006,17 +1046,6 @@
                         label="&libraryDownloads.label;"
                         key="key_openDownloads"
                         command="Tools:Downloads"/>
@@ -228,7 +239,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
          <toolbarseparator/>
          <toolbarbutton id="appMenu-print-button2"
                         class="subviewbutton"
-@@ -1038,7 +1063,7 @@
+@@ -1038,7 +1067,7 @@
                         data-l10n-id="appmenuitem-find-in-page"
                         key="key_find"
                         command="cmd_find"/>
@@ -237,7 +248,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
            <label class="toolbarbutton-text" value="&fullZoom.label;"/>
            <toolbarbutton id="appMenu-zoomReduce-button2"
                           class="subviewbutton subviewbutton-iconic"
-@@ -2352,6 +2377,44 @@
+@@ -2352,6 +2381,44 @@
    </box>
  
    <hbox flex="1" id="browser">
@@ -282,7 +293,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..1da987d758ca38a048666b554060c5be
      <vbox id="sidebar-box" hidden="true" class="chromeclass-extrachrome">
        <box id="sidebar-header" align="center">
          <toolbarbutton id="sidebar-switcher-target" flex="1" class="tabbable">
-@@ -2368,7 +2431,7 @@
+@@ -2368,7 +2435,7 @@
          <toolbarbutton id="sidebar-close" class="close-icon tabbable" tooltiptext="&sidebarCloseButton.tooltip;" oncommand="SidebarUI.hide();"/>
        </box>
        <browser id="sidebar" flex="1" autoscroll="false" disablehistory="true" disablefullscreen="true"
