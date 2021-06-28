@@ -201,3 +201,7 @@ menulist {
 #editBMPanel_tagsSelectorExpander {
     background: none !important;
 }
+
+#editBookmarkPanelInfoArea {
+    padding: 0 !important;
+}
