@@ -399,3 +399,7 @@ tree {
 #urlbar-search-mode-indicator-close {
     background-size: 16px 16px !important;
 }
+
+#urlbar-search-mode-indicator {
+    background-color: var(--button-bgcolor) !important;
+}
