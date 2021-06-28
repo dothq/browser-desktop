@@ -395,3 +395,7 @@ tree {
     margin: 0 !important;
     padding: 6px 8px !important;
 }
+
+#urlbar-search-mode-indicator-close {
+    background-size: 16px 16px !important;
+}
