@@ -1,0 +1,25 @@
+diff --git a/toolkit/themes/shared/icons/page-portrait.svg b/toolkit/themes/shared/icons/page-portrait.svg
+index cb1a41d93dcb66d1e50d9ac8e1f8050b7aeb6f25..abce7227394eea3a9d6b0e29c758bea5c50f2cd4 100644
+--- a/toolkit/themes/shared/icons/page-portrait.svg
++++ b/toolkit/themes/shared/icons/page-portrait.svg
+@@ -1,6 +1,16 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
+-  <path d="M9.422 1 4 1a2 2 0 0 0-2 2l0 10a2 2 0 0 0 2 2l8 0a2 2 0 0 0 2-2l0-7.422a2 2 0 0 0-.586-1.414l-2.578-2.578A2 2 0 0 0 9.422 1zm3.328 5 0 7.15-.6.6-8.3 0-.6-.6 0-10.3.6-.6 5.15 0L9 5.4l.6.6 3.15 0z"/>
+-</svg>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
++  <path d="M8 2V7H13" stroke="context-fill" stroke-opacity="context-fill-opacity" stroke-width="2"
++    stroke-linecap="round" stroke-linejoin="round" />
++  <path fill-rule="evenodd" clip-rule="evenodd"
++    d="M13 6H15V13C15 14.6569 13.6569 16 12 16H4C2.34315 16 1 14.6569 1 13V3C1 1.34315 2.34315 0 4 0H9V2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V6Z"
++    fill="context-fill" fill-opacity="context-fill-opacity" />
++  <path
++    d="M9.70711 0.292893C9.31658 -0.0976311 8.68342 -0.0976311 8.29289 0.292893C7.90237 0.683417 7.90237 1.31658 8.29289 1.70711L9.70711 0.292893ZM13.2929 6.70711C13.6834 7.09763 14.3166 7.09763 14.7071 6.70711C15.0976 6.31658 15.0976 5.68342 14.7071 5.29289L13.2929 6.70711ZM8.29289 1.70711L13.2929 6.70711L14.7071 5.29289L9.70711 0.292893L8.29289 1.70711Z"
++    fill="context-fill" fill-opacity="context-fill-opacity" />
++  <path fill-rule="evenodd" clip-rule="evenodd"
++    d="M8.99983 0C8.99977 0 8.99988 0 8.99983 0H4C2.34315 0 1 1.34315 1 3V13C1 14.6569 2.34315 16 4 16H12C13.6569 16 15 14.6569 15 13V6C15 5.74408 14.9024 5.48816 14.7071 5.29289L9.70711 0.292893C9.51184 0.0976311 9.25575 0 8.99983 0ZM12.5858 6L9 2.41421V6H12.5858ZM7 7V2H4C3.44772 2 3 2.44772 3 3V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V8H8C7.44772 8 7 7.55228 7 7Z"
++    fill="context-fill" fill-opacity="context-fill-opacity" />
++</svg>
+\ No newline at end of file
