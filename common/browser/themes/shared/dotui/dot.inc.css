@@ -30,6 +30,8 @@
     --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
     --buttons-primary-button-bgcolor: var(--dot-accent-color);
     --button-bgcolor: var(--lwt-accent-color);
+
+    --toolbarbutton-icon-fill-attention: var(--dot-accent-color)
 }
   
 :root[lwt-popup-brighttext] panel,

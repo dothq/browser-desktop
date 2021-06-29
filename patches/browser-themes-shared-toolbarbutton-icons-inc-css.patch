@@ -1,0 +1,13 @@
+diff --git a/browser/themes/shared/toolbarbutton-icons.inc.css b/browser/themes/shared/toolbarbutton-icons.inc.css
+index 09540d3bdf9d8c169426a3fb9571d8fbd1272bee..af40dcde24e9f733ab9c7e0587c793fbafb5b237 100644
+--- a/browser/themes/shared/toolbarbutton-icons.inc.css
++++ b/browser/themes/shared/toolbarbutton-icons.inc.css
+@@ -12,7 +12,7 @@
+ 
+ :root[lwt-popup-brighttext] panel,
+ toolbar[brighttext]:-moz-lwtheme {
+-  --toolbarbutton-icon-fill-attention: var(--lwt-toolbarbutton-icon-fill-attention, rgb(0,221,255));
++  --toolbarbutton-icon-fill-attention: var(--lwt-toolbarbutton-icon-fill-attention, var(--dot-accent-color));
+ }
+ 
+ @media not (-moz-proton) {

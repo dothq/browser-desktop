@@ -1,5 +1,5 @@
 diff --git a/browser/themes/linux/browser.css b/browser/themes/linux/browser.css
-index 6aec2069d298cec0f0288129e376dfd7878e1e72..5a63abd218010405bb107d85659547c15730ae99 100644
+index 6aec2069d298cec0f0288129e376dfd7878e1e72..95ed9d41c027d745f4264f35898a5f9a4739ca44 100644
 --- a/browser/themes/linux/browser.css
 +++ b/browser/themes/linux/browser.css
 @@ -7,6 +7,7 @@
@@ -10,3 +10,12 @@ index 6aec2069d298cec0f0288129e376dfd7878e1e72..5a63abd218010405bb107d85659547c1
  /**
   * We intentionally do not include browser-custom-colors.inc.css,
   * instead choosing to fall back to system colours and transparencies
+@@ -33,7 +34,7 @@
+ @media (-moz-proton) {
+ :root:not(:-moz-lwtheme) {
+   --focus-outline-color: -moz-accent-color;
+-  --toolbarbutton-icon-fill-attention: -moz-accent-color;
++  --toolbarbutton-icon-fill-attention: var(--dot-accent-color) !important;
+ }
+ 
+ #TabsToolbar:not(:-moz-lwtheme),

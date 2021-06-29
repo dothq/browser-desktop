@@ -1,5 +1,5 @@
 diff --git a/toolkit/themes/shared/in-content/common.inc.css b/toolkit/themes/shared/in-content/common.inc.css
-index 6ed71ad9e90aabe5123e0b701f97491608dbdec7..026d657950d378faa170415d12bb5f3520f52d14 100644
+index 6ed71ad9e90aabe5123e0b701f97491608dbdec7..311b7f5cca83a0d9888cf157d93692150070e921 100644
 --- a/toolkit/themes/shared/in-content/common.inc.css
 +++ b/toolkit/themes/shared/in-content/common.inc.css
 @@ -8,13 +8,13 @@
@@ -29,3 +29,42 @@ index 6ed71ad9e90aabe5123e0b701f97491608dbdec7..026d657950d378faa170415d12bb5f35
      --in-content-page-color: rgb(251,251,254);
      --in-content-deemphasized-text: rgb(191,191,201);
  
+@@ -160,9 +160,9 @@
+     --in-content-icon-color: rgb(251,251,254);
+ 
+     --in-content-primary-button-text-color: rgb(21,20,26);
+-    --in-content-primary-button-background: rgb(0,221,255);
+-    --in-content-primary-button-background-hover: rgb(128,235,255);
+-    --in-content-primary-button-background-active: rgb(170,242,255);
++    --in-content-primary-button-background: #4394ff;
++    --in-content-primary-button-background-hover: #579fff;
++    --in-content-primary-button-background-active: #579fff;
+ 
+     --in-content-danger-button-background: #ff848b;
+     --in-content-danger-button-background-hover: #ffbdc5;
+@@ -245,6 +245,10 @@
+ @media (prefers-contrast) {
+   :host,
+   :root {
++    --primary-color: #4394ff;
++    --primary-light-color: #579fff;
++    --primary-text-color: black;
++
+     --in-content-page-color: -moz-DialogText;
+     --in-content-page-background: -moz-Dialog;
+     --in-content-deemphasized-text: GrayText;
+@@ -279,10 +283,10 @@
+     --in-content-button-background-hover: -moz-ButtonHoverFace;
+     --in-content-button-background-active: ButtonFace;
+ 
+-    --in-content-primary-button-text-color: HighlightText;
+-    --in-content-primary-button-background: Highlight;
+-    --in-content-primary-button-background-hover: Highlight;
+-    --in-content-primary-button-background-active: Highlight;
++    --in-content-primary-button-text-color: var(--primary-text-color);
++    --in-content-primary-button-background: var(--dot-accent-color);
++    --in-content-primary-button-background-hover: var(--primary-light-color);
++    --in-content-primary-button-background-active: var(--dot-accent-color);
+ 
+     --in-content-danger-button-background: Highlight;
+     --in-content-danger-button-background-hover: Highlight;
