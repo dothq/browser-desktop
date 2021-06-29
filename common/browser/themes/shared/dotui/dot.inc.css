@@ -209,6 +209,10 @@ notification[type], notification {
     margin-top: unset !important;
 }
 
+.tab-icon-image {
+    margin-inline-end: 6px !important;
+}
+
 .tab-icon-image[src="chrome://branding/content/icon32.png"] {
     display: none !important;
 }
