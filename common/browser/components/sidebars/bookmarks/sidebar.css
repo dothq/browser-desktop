@@ -1,3 +1,9 @@
+#sidebar-content {
+    /* Force icons to use the theme color defined by sidebar-theme.js */
+    fill: var(--theme-sidebar-text);
+    -moz-context-properties: fill;
+}
+
 #bookmarks {
     width: 100%;
     height: 100%;

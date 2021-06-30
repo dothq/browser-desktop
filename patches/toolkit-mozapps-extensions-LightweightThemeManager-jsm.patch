@@ -1,0 +1,59 @@
+diff --git a/toolkit/mozapps/extensions/LightweightThemeManager.jsm b/toolkit/mozapps/extensions/LightweightThemeManager.jsm
+index 78c2135e615aba36bc83e911b9358df29bb0750b..5cf69907be0bd4aa8ac2349f9e72ee16543cc46a 100644
+--- a/toolkit/mozapps/extensions/LightweightThemeManager.jsm
++++ b/toolkit/mozapps/extensions/LightweightThemeManager.jsm
+@@ -10,7 +10,27 @@ var EXPORTED_SYMBOLS = ["LightweightThemeManager"];
+ // active theme can be found. This the case for WebExtension Themes, for example.
+ var _fallbackThemeData = null;
+ 
++// Hold the system theme for the browser environment. This should be used to ensure
++// the dark theme is returned when the system is dark and the light theme is returned
++// when the system is in light mode. This can be overridden by changing the
++// theme to one without a dark_theme key
++let _systemDarkMode = false;
++
+ var LightweightThemeManager = {
++  /**
++   * Update the private variable `_systemDarkTheme` to mach the current system theme.
++   * This function is expensive to execute and should not be executed regularly
++   *
++   * @param {Window} window The containing window instance. Can be retrieved with `document.defaultView`
++   * @returns {boolean} _systemDarkTheme
++   */
++  updateSystemTheme(window) {
++    const darkThemeMediaQuery = window.matchMedia("(-moz-system-dark-theme)");
++    _systemDarkMode = darkThemeMediaQuery.matches
++
++    return _systemDarkMode
++  },
++
+   set fallbackThemeData(data) {
+     if (data && Object.getOwnPropertyNames(data).length) {
+       _fallbackThemeData = Object.assign({}, data);
+@@ -25,8 +45,26 @@ var LightweightThemeManager = {
+    *
+    * This will always return the original theme data and not make use of
+    * locally persisted resources.
++   *
++   * This is system theme dependant, if you want a theme independent to
++   * system theme, use the `currentThemeWithFallbackSystemIndependant`
+    */
+   get currentThemeWithFallback() {
++    const useDarkTheme = _fallbackThemeData !== null &&
++      typeof _fallbackThemeData.darkTheme != 'undefined' &&
++      _systemDarkMode
++
++    return _fallbackThemeData && (useDarkTheme ? _fallbackThemeData.darkTheme : _fallbackThemeData.theme);
++  },
++
++  /*
++   * Returns the currently active theme, taking the fallback theme into account
++   * if we'd be using the default theme otherwise.
++   *
++   * This will always return the original theme data and not make use of
++   * locally persisted resources.
++   */
++  get currentThemeWithFallbackSystemIndependant() {
+     return _fallbackThemeData && _fallbackThemeData.theme;
+   },
+ 

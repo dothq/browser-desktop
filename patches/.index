@@ -148,6 +148,7 @@ toolkit-modules-LightweightThemeConsumer-jsm.patch - toolkit/modules/Lightweight
 toolkit-modules-SubDialog-jsm.patch - toolkit/modules/SubDialog.jsm
 toolkit-modules-Troubleshoot-jsm.patch - toolkit/modules/Troubleshoot.jsm
 toolkit-modules-moz-build.patch - toolkit/modules/moz.build
+toolkit-mozapps-extensions-LightweightThemeManager-jsm.patch - toolkit/mozapps/extensions/LightweightThemeManager.jsm
 toolkit-mozapps-extensions-content-aboutaddons-js.patch - toolkit/mozapps/extensions/content/aboutaddons.js
 toolkit-mozapps-extensions-internal-AddonSettings-jsm.patch - toolkit/mozapps/extensions/internal/AddonSettings.jsm
 toolkit-mozapps-extensions-internal-XPIDatabase-jsm.patch - toolkit/mozapps/extensions/internal/XPIDatabase.jsm

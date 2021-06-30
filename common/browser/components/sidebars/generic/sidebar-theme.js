@@ -12,6 +12,9 @@ ChromeUtils.defineModuleGetter(
 );
 
 const updateThemeData = () => {
+    // Ensure that the theme consumer is in sync with the system theme
+    LightweightThemeManager.updateSystemTheme(document.defaultView)
+
     const themeData = Object.entries(LightweightThemeManager.currentThemeWithFallback);
 
     for (const [key, value] of themeData) {
