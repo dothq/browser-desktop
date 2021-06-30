@@ -1,0 +1,29 @@
+diff --git a/toolkit/themes/linux/global/button.css b/toolkit/themes/linux/global/button.css
+index 0a104b1d7524cf4f2854b286968d2823025f960b..6de8c6a2c8458435967c095cd7dc7aec9fe33fa2 100644
+--- a/toolkit/themes/linux/global/button.css
++++ b/toolkit/themes/linux/global/button.css
+@@ -13,7 +13,7 @@
+ button {
+   margin: 1px 5px 2px;
+   min-width: 6.3em;
+-  color: ButtonText;
++  color: var(--input-color);
+   text-shadow: none;
+ }
+ 
+@@ -31,13 +31,13 @@ button {
+ /* .......... hover state .......... */
+ 
+ button:where(:hover:not([checked="true"], [default="true"])) {
+-  color: -moz-buttonhovertext;
++  color: var(--input-color);
+ }
+ 
+ /* .......... active state .......... */
+ 
+ button:where(:hover:active, [open="true"]):where(:not([default="true"])) {
+-  color: -moz-gtk-buttonactivetext;
++  color: var(--input-color);
+ }
+ 
+ /* .......... disabled state .......... */

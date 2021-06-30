@@ -153,6 +153,7 @@ toolkit-mozapps-extensions-content-aboutaddons-js.patch - toolkit/mozapps/extens
 toolkit-mozapps-extensions-internal-AddonSettings-jsm.patch - toolkit/mozapps/extensions/internal/AddonSettings.jsm
 toolkit-mozapps-extensions-internal-XPIDatabase-jsm.patch - toolkit/mozapps/extensions/internal/XPIDatabase.jsm
 toolkit-mozapps-extensions-internal-XPIProvider-jsm.patch - toolkit/mozapps/extensions/internal/XPIProvider.jsm
+toolkit-themes-linux-global-button-css.patch - toolkit/themes/linux/global/button.css
 toolkit-themes-shared-extensions-category-discover-svg.patch - toolkit/themes/shared/extensions/category-discover.svg
 toolkit-themes-shared-extensions-category-extensions-svg.patch - toolkit/themes/shared/extensions/category-extensions.svg
 toolkit-themes-shared-extensions-category-themes-svg.patch - toolkit/themes/shared/extensions/category-themes.svg
