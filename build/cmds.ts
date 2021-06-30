@@ -135,7 +135,7 @@ export const commands: Cmd[] = [
         controller: reset
     },
     {
-        cmd: "run",
+        cmd: "run [chrome]",
         description: "Run the browser.",
         controller: run
     },

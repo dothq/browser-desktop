@@ -4,7 +4,19 @@ import { bin_name, log } from "..";
 import { SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
 
-export const run = async () => {
+const chromeUI = [
+    { id: `dotui`, uri: `chrome://dot/content/browser.xhtml` }
+]
+
+export const run = async (chrome?: string) => {
+    var chromePkg;
+
+    if(chrome) {
+        chromePkg = chromeUI.find(c => c.id == chrome);
+
+        if(!chromePkg) throw new Error(`Unable to locate chrome package named \`${chrome}\`.`)
+    }
+
     const dirs = readdirSync(SRC_DIR);
     const objDirname: any = dirs.find((dir) => {
         return dir.startsWith("obj-");
@@ -19,24 +31,13 @@ export const run = async () => {
     const objDir = resolve(SRC_DIR, objDirname);
 
     if (existsSync(objDir)) {
-        const artifactPath = resolve(
-            objDir,
-            "dist",
-            "bin",
-            "dot"
+        dispatch(
+            "./mach",
+            ["run"].concat(chromePkg ? ['-chrome', chromePkg.uri] : []),
+            SRC_DIR,
+            true,
+            true
         );
-
-        if (existsSync(artifactPath)) {
-            dispatch(
-                "./mach",
-                ["run"],
-                SRC_DIR,
-                true,
-                true
-            );
-        } else {
-            log.error(`Cannot find a built binary.`);
-        }
     } else {
         log.error(
             `Unable to locate any built binaries.\nRun |${bin_name} build| to initiate a build.`
