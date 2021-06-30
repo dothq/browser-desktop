@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index e8a8c4074092fc2bbc4dce0df667f766b245ae62..8d18642732cff9c3271c38e643a29edc51831bc4 100644
+index e8a8c4074092fc2bbc4dce0df667f766b245ae62..2afebe2f17f426f266e7de7002e21f354cd6be10 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -80,6 +80,10 @@
@@ -114,7 +114,7 @@ index e8a8c4074092fc2bbc4dce0df667f766b245ae62..8d18642732cff9c3271c38e643a29edc
 +    <menupopup id="sidebar-context-menu">
 +      <menuitem class="menuitem-iconic"
 +                observes="cmd_CustomizeToolbars"
-+                data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"
++                data-l10n-id="toolbar-context-menu-view-customize-toolbar"
 +                image="chrome://browser/skin/customize.svg"
 +      />
 +    </menupopup>
