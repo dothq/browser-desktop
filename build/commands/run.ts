@@ -5,16 +5,22 @@ import { SRC_DIR } from "../constants";
 import { dispatch } from "../utils";
 
 const chromeUI = [
-    { id: `dotui`, uri: `chrome://dot/content/browser.xhtml` }
-]
+    {
+        id: `dotui`,
+        uri: `chrome://dot/content/browser.xhtml`
+    }
+];
 
 export const run = async (chrome?: string) => {
     var chromePkg;
 
-    if(chrome) {
-        chromePkg = chromeUI.find(c => c.id == chrome);
+    if (chrome) {
+        chromePkg = chromeUI.find((c) => c.id == chrome);
 
-        if(!chromePkg) throw new Error(`Unable to locate chrome package named \`${chrome}\`.`)
+        if (!chromePkg)
+            throw new Error(
+                `Unable to locate chrome package named \`${chrome}\`.`
+            );
     }
 
     const dirs = readdirSync(SRC_DIR);
@@ -33,7 +39,11 @@ export const run = async (chrome?: string) => {
     if (existsSync(objDir)) {
         dispatch(
             "./mach",
-            ["run"].concat(chromePkg ? ['-chrome', chromePkg.uri] : []),
+            ["run"].concat(
+                chromePkg
+                    ? ["-chrome", chromePkg.uri]
+                    : []
+            ),
             SRC_DIR,
             true,
             true
