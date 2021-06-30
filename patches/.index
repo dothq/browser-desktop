@@ -9,6 +9,7 @@ browser-base-content-browser-pageActions-js.patch - browser/base/content/browser
 browser-base-content-browser-sidebar-js.patch - browser/base/content/browser-sidebar.js
 browser-base-content-browser-siteIdentity-js.patch - browser/base/content/browser-siteIdentity.js
 browser-base-content-browser-sync-js.patch - browser/base/content/browser-sync.js
+browser-base-content-browser-css.patch - browser/base/content/browser.css
 browser-base-content-browser-js.patch - browser/base/content/browser.js
 browser-base-content-browser-xhtml.patch - browser/base/content/browser.xhtml
 browser-base-content-certerror-aboutNetError-xhtml.patch - browser/base/content/certerror/aboutNetError.xhtml
@@ -167,6 +168,7 @@ toolkit-themes-shared-icons-delete-svg.patch - toolkit/themes/shared/icons/delet
 toolkit-themes-shared-icons-folder-svg.patch - toolkit/themes/shared/icons/folder.svg
 toolkit-themes-shared-icons-info-filled-svg.patch - toolkit/themes/shared/icons/info-filled.svg
 toolkit-themes-shared-icons-info-svg.patch - toolkit/themes/shared/icons/info.svg
+toolkit-themes-shared-icons-more-svg.patch - toolkit/themes/shared/icons/more.svg
 toolkit-themes-shared-icons-open-in-new-svg.patch - toolkit/themes/shared/icons/open-in-new.svg
 toolkit-themes-shared-icons-page-portrait-svg.patch - toolkit/themes/shared/icons/page-portrait.svg
 toolkit-themes-shared-icons-print-svg.patch - toolkit/themes/shared/icons/print.svg

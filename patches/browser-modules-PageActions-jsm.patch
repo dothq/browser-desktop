@@ -1,8 +1,30 @@
 diff --git a/browser/modules/PageActions.jsm b/browser/modules/PageActions.jsm
-index 3e26f72e7d3296f94bfe7ee85c8102e3c582e5c5..ff6abfa38d06236b8ede46c20e7c00a5572c8b55 100644
+index 3e26f72e7d3296f94bfe7ee85c8102e3c582e5c5..d0636baa5994364a6ce4a41189a54a92ee19d9bd 100644
 --- a/browser/modules/PageActions.jsm
 +++ b/browser/modules/PageActions.jsm
-@@ -1220,7 +1220,7 @@ Action.prototype = {
+@@ -35,12 +35,15 @@ const ACTION_ID_TRANSIENT_SEPARATOR = "transientSeparator";
+ const PREF_PERSISTED_ACTIONS = "browser.pageActions.persistedActions";
+ const PERSISTED_ACTIONS_CURRENT_VERSION = 1;
+ 
+-XPCOMUtils.defineLazyPreferenceGetter(
+-  this,
+-  "protonEnabled",
+-  "browser.proton.enabled",
+-  false
+-);
++// XPCOMUtils.defineLazyPreferenceGetter(
++//   this,
++//   "protonEnabled",
++//   "browser.proton.enabled",
++//   false
++// );
++
++// Override proton so everything still exists
++const protonEnabled = false
+ 
+ // Escapes the given raw URL string, and returns an equivalent CSS url()
+ // value for it.
+@@ -1220,7 +1223,7 @@ Action.prototype = {
    },
  
    get _isBuiltIn() {
@@ -11,3 +33,51 @@ index 3e26f72e7d3296f94bfe7ee85c8102e3c582e5c5..ff6abfa38d06236b8ede46c20e7c00a5
        gBuiltInActions.filter(a => !a.__isSeparator).map(a => a.id)
      );
      return builtInIDs.includes(this.id);
+@@ -1334,26 +1337,27 @@ PageActions._initBuiltInActions = function() {
+       },
+ 
+       // add search engine
+-      {
+-        id: "addSearchEngine",
+-        // The title is set in browser-pageActions.js.
+-        isBadged: true,
+-        _transient: true,
+-        onShowingInPanel(buttonNode) {
+-          browserPageActions(buttonNode).addSearchEngine.onShowingInPanel();
+-        },
+-        onCommand(event, buttonNode) {
+-          browserPageActions(buttonNode).addSearchEngine.onCommand(
+-            event,
+-            buttonNode
+-          );
+-        },
+-        onSubviewShowing(panelViewNode) {
+-          browserPageActions(panelViewNode).addSearchEngine.onSubviewShowing(
+-            panelViewNode
+-          );
+-        },
+-      },
++      // This is broken, so I have disabled it
++      // {
++      //   id: "addSearchEngine",
++      //   // The title is set in browser-pageActions.js.
++      //   isBadged: true,
++      //   _transient: true,
++      //   onShowingInPanel(buttonNode) {
++      //     browserPageActions(buttonNode).addSearchEngine.onShowingInPanel();
++      //   },
++      //   onCommand(event, buttonNode) {
++      //     browserPageActions(buttonNode).addSearchEngine.onCommand(
++      //       event,
++      //       buttonNode
++      //     );
++      //   },
++      //   onSubviewShowing(panelViewNode) {
++      //     browserPageActions(panelViewNode).addSearchEngine.onSubviewShowing(
++      //       panelViewNode
++      //     );
++      //   },
++      // },
+     ]
+   );
+ 

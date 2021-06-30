@@ -1,0 +1,23 @@
+diff --git a/browser/base/content/browser.css b/browser/base/content/browser.css
+index 21d0b519b89ddc2941246b41fb6d566759532381..9aa0c5b13121b6fcb4554c78579216e32a6860c9 100644
+--- a/browser/base/content/browser.css
++++ b/browser/base/content/browser.css
+@@ -778,13 +778,14 @@ toolbar:not(#TabsToolbar) > #personal-bookmarks {
+   }
+ }
+ 
+-@media (-moz-proton) {
++/* We want this section of the browser to be present at all times */
++/* @media (-moz-proton) {
+   /* The page actions menu is hidden by default, it is only shown in small
+-     windows as the overflow target of multiple page action buttons */
++     windows as the overflow target of multiple page action buttons /
+   #pageActionButton {
+-    visibility: collapse;
++    /* visibility: collapse; /
+   }
+-}
++} */
+ 
+ /* 680px is just below half of popular 1366px wide screens, so when putting two
+    browser windows next to each other on such a screen, they'll be above this
