@@ -76,7 +76,7 @@
     padding: 0;
     border: 2px solid var(--dot-accent-color) !important;
     padding: 10px 38px !important;
-    color: var(--dot-accent-color) !important;
+    color: var(--dot-accent-color);
     font-weight: 500;
     border-radius: 6px;
 }

@@ -87,7 +87,7 @@
       "sidebar_border": "rgba(255, 255, 255, 0.1)",
 
       "popup_action_color": "rgb(91,91,102)",
-      "button": "rgba(207,207,216,.33)",
+      "button": "rgba(207,207,216,.1)",
       "button_hover": "rgba(207,207,216,.66)",
       "button_active": "rgb(207,207,216)",
       "button_primary": "rgb(0, 97, 224)",

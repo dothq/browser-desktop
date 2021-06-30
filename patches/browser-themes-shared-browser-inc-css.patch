@@ -1,5 +1,5 @@
 diff --git a/browser/themes/shared/browser.inc.css b/browser/themes/shared/browser.inc.css
-index 021bc2fe8283784780c79a706ee50a2ba8cb581c..06c4701f46a12e1f5f52afda2d959f15febc0758 100644
+index 021bc2fe8283784780c79a706ee50a2ba8cb581c..e01f87b03ea4daee76d7d39c0dfe41cb289b15ee 100644
 --- a/browser/themes/shared/browser.inc.css
 +++ b/browser/themes/shared/browser.inc.css
 @@ -2,6 +2,8 @@
@@ -11,3 +11,12 @@ index 021bc2fe8283784780c79a706ee50a2ba8cb581c..06c4701f46a12e1f5f52afda2d959f15
  %include downloads/indicator.inc.css
  %include addons/extension-controlled.inc.css
  
+@@ -122,7 +124,7 @@
+ }
+ 
+ :root[lwt-toolbar-field-focus-brighttext] {
+-  --lwt-popup-brighttext-url-color: #00ddff;
++  --lwt-popup-brighttext-url-color: var(--dot-accent-color);
+ }
+ 
+ /* Increase the contrast of urlbar boxes in brighttext LWT.
