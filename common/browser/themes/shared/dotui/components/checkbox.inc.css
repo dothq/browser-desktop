@@ -6,6 +6,10 @@ checkbox, input[type="checkbox"] {
     appearance: none !important;
 }
 
+checkbox[disabled="true"] > .checkbox-check {
+    opacity: 0.25 !important;
+}
+
 checkbox > .checkbox-check, input[type="checkbox"] {
     appearance: none !important;
     background-color: transparent;
