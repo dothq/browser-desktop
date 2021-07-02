@@ -1,9 +1,9 @@
 diff --git a/toolkit/themes/shared/global.inc.css b/toolkit/themes/shared/global.inc.css
-index d9b8589bbe4447e577c3cbf72a0bdfacb3df75fe..853573b6dcbda48ec04ef3f49787c1471e9f0b92 100644
+index 3421a0d51231ab7db5f0622715672d44ebce5340..13e73c100165c0ddbdec6bbab40822bd4e23f698 100644
 --- a/toolkit/themes/shared/global.inc.css
 +++ b/toolkit/themes/shared/global.inc.css
-@@ -26,6 +26,11 @@ html|textarea {
-   font: inherit;
+@@ -130,6 +130,11 @@ xul|label[disabled="true"] {
+   text-decoration: underline;
  }
  
 +::selection {

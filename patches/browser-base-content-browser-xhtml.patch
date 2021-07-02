@@ -1,5 +1,5 @@
 diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
-index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc08162116 100644
+index e8a8c4074092fc2bbc4dce0df667f766b245ae62..68b79ef9805ab7428d0dc9e277adbc1943b30cc3 100644
 --- a/browser/base/content/browser.xhtml
 +++ b/browser/base/content/browser.xhtml
 @@ -80,6 +80,10 @@
@@ -13,13 +13,11 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
    <title data-l10n-id="browser-main-window-title"></title>
  
  # All JS files which are needed by browser.xhtml and other top level windows to
-@@ -134,17 +138,20 @@
-       <menuitem id="context_openANewTab" data-lazy-l10n-id="tab-context-new-tab"
+@@ -135,16 +139,19 @@
                  oncommand="gBrowser.addAdjacentNewTab(TabContextMenu.contextTab)"/>
        <menuseparator/>
--      <menuitem id="context_reloadTab" data-lazy-l10n-id="reload-tab"
+       <menuitem id="context_reloadTab" data-lazy-l10n-id="reload-tab"
 -                oncommand="gBrowser.reloadTab(TabContextMenu.contextTab);"/>
-+      <menuitem id="context_reloadTab" class="menuitem-iconic" data-lazy-l10n-id="reload-tab"
 +                oncommand="gBrowser.reloadTab(TabContextMenu.contextTab);"
 +                image="chrome://browser/skin/reload.svg"/>
        <menuitem id="context_reloadSelectedTabs" data-lazy-l10n-id="reload-tabs" hidden="true"
@@ -63,18 +61,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
        <menu id="context_closeTabOptions"
              data-lazy-l10n-id="tab-context-close-multiple-tabs">
          <menupopup id="closeTabOptions">
-@@ -210,7 +221,9 @@
-       <menuitem id="context_undoCloseTab"
-                 data-lazy-l10n-id="tab-context-reopen-closed-tabs"
-                 data-l10n-args='{"tabCount": 1}'
--                observes="History:UndoCloseTab"/>
-+                observes="History:UndoCloseTab"
-+                class="menuitem-iconic"
-+                image="chrome://global/skin/icons/undo.svg"/>
-     </menupopup>
- 
-     <!-- bug 415444/582485: event.stopPropagation is here for the cloned version
-@@ -405,20 +418,6 @@
+@@ -405,20 +416,6 @@
             flip="slide"
             orient="vertical"
             position="bottomcenter topleft">
@@ -95,7 +82,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
        <toolbarseparator/>
        <!-- Extension toolbarbuttons go here. -->
        <toolbarseparator id="sidebar-extensions-separator"/>
-@@ -498,8 +497,9 @@
+@@ -498,8 +495,9 @@
                      correctly. -->
        <menuitem oncommand="gCustomizeMode.enter()"
                  observes="cmd_CustomizeToolbars"
@@ -107,7 +94,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
      </menupopup>
  
      <menupopup id="blockedPopupOptions"
-@@ -555,6 +555,21 @@
+@@ -555,6 +553,21 @@
  
  #include ../../components/places/content/placesContextMenu.inc.xhtml
  
@@ -129,7 +116,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
      <panel id="ctrlTab-panel" hidden="true" norestorefocus="true" level="top">
        <hbox id="ctrlTab-previews"/>
        <hbox id="ctrlTab-showAll-container" pack="center"/>
-@@ -632,7 +640,6 @@
+@@ -638,7 +651,6 @@
  
  #include ../../components/customizableui/content/panelUI.inc.xhtml
  #include ../../components/controlcenter/content/identityPanel.inc.xhtml
@@ -137,8 +124,8 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
  #include ../../components/controlcenter/content/protectionsPanel.inc.xhtml
  #include ../../components/downloads/content/downloadsPanel.inc.xhtml
  #include ../../../devtools/startup/enableDevToolsPopup.inc.xhtml
-@@ -763,7 +770,7 @@
-                         oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
+@@ -759,7 +771,7 @@
+                         oncommand="gSync.toggleAccountPanel(this, event)"/>
          </toolbaritem>
          <toolbarseparator class="sync-ui-item"/>
 -        <toolbaritem>
@@ -146,7 +133,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
            <toolbarbutton id="appMenu-protection-report-button"
                 class="subviewbutton subviewbutton-iconic"
                 oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -770,7 +785,12 @@
+@@ -770,7 +782,12 @@
              </label>
            </toolbarbutton>
          </toolbaritem>
@@ -160,7 +147,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
          <toolbarbutton id="appMenu-new-window-button"
                         class="subviewbutton subviewbutton-iconic"
                         label="&newNavigatorCmd.label;"
-@@ -796,7 +816,10 @@
+@@ -796,7 +813,10 @@
          <toolbarbutton id="appMenuRestoreLastSession"
                         label="&appMenuHistory.restoreSession.label;"
                         class="subviewbutton subviewbutton-iconic"
@@ -172,9 +159,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
          <toolbarseparator/>
          <toolbaritem id="appMenu-zoom-controls" class="toolbaritem-combined-buttons" closemenu="none">
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
-           <spacer class="before-label"/>
-           <label value="&fullZoom.label;"/>
-@@ -832,8 +845,8 @@
+@@ -828,8 +848,8 @@
                           onclick="if (event.button == 0) this.closest('panel').hidePopup();"
                           tooltip="dynamic-shortcut-tooltip"/>
          </toolbaritem>
@@ -185,7 +170,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
            <!-- Use a spacer, because panel sizing code gets confused when using CSS methods. -->
            <spacer class="before-label"/>
            <label value="&editMenu.label;"/>
-@@ -853,18 +876,34 @@
+@@ -853,18 +873,36 @@
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&places.library.title;"
                         closemenu="none"
@@ -205,6 +190,7 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
                         command="Tools:Addons"
 -                       />
 +                       hidden="true"/>
++
 +        <toolbarbutton id="appMenu-library-history-button"
 +                       class="subviewbutton subviewbutton-iconic subviewbutton-nav"
 +                       label="&historyMenu.label;"
@@ -220,18 +206,19 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
 +                       label="&libraryDownloads.label;"
 +                       closemenu="none"
 +                       oncommand="DownloadsSubview.show(this);"/>
++
          <toolbarbutton id="appMenu-preferences-button"
                         class="subviewbutton subviewbutton-iconic"
  #ifdef XP_WIN
-@@ -943,6 +982,7 @@
+@@ -943,6 +981,7 @@
                         key="key_quitApplication"
                         command="cmd_quitApplication"/>
  #endif
-+        </toolbaritem>
++      </toolbaritem>
        </vbox>
      </panelview>
  
-@@ -1006,17 +1046,6 @@
+@@ -1006,17 +1045,6 @@
                         label="&libraryDownloads.label;"
                         key="key_openDownloads"
                         command="Tools:Downloads"/>
@@ -246,68 +233,34 @@ index 0a1090292f54612dbf0f564c772f12ae0056dc67..d1eee5f91cbba57c5f790910f45d39fc
 -                       key="key_openAddons"
 -                       command="Tools:Addons"
 -                       />
-+                       oncommand="openPreferences()"/>
-         <toolbarbutton id="appMenu-customize-button"
-                        class="subviewbutton subviewbutton-iconic"
-                        data-l10n-id="appmenu-customizetoolbar"
-@@ -910,11 +938,13 @@
- #endif
-                        />
          <toolbarseparator/>
          <toolbarbutton id="appMenu-print-button2"
                         class="subviewbutton"
-@@ -1038,7 +1067,7 @@
+@@ -1038,6 +1066,7 @@
                         data-l10n-id="appmenuitem-find-in-page"
                         key="key_find"
                         command="cmd_find"/>
 +        <toolbarseparator/>
-         <toolbarbutton id="appMenu-more-button"
-                        class="subviewbutton subviewbutton-nav"
-                        label="&moreMenu.label;"
-@@ -1646,27 +1676,28 @@
+         <toolbaritem id="appMenu-zoom-controls2" class="subviewbutton toolbaritem-combined-buttons" closemenu="none">
+           <label class="toolbarbutton-text" value="&fullZoom.label;"/>
+           <toolbarbutton id="appMenu-zoomReduce-button2"
+@@ -1662,7 +1691,6 @@
    <box>
    <toolbox id="navigator-toolbox" flex="1">
  
 -    <vbox id="titlebar">
--      <!-- Menu -->
--      <toolbar type="menubar" id="toolbar-menubar"
--               class="browser-toolbar chromeclass-menubar titlebar-color"
--               customizable="true"
--               mode="icons"
-+    <!-- Menu -->
-+    <toolbar type="menubar" id="toolbar-menubar"
-+              class="browser-toolbar chromeclass-menubar titlebar-color"
-+              customizable="true"
-+              mode="icons"
- #ifdef MENUBAR_CAN_AUTOHIDE
--               toolbarname="&menubarCmd.label;"
--               accesskey="&menubarCmd.accesskey;"
--               autohide="true"
-+              toolbarname="&menubarCmd.label;"
-+              accesskey="&menubarCmd.accesskey;"
-+              autohide="true"
- #endif
--               context="toolbar-context-menu">
--        <toolbaritem id="menubar-items" align="center">
-+              context="toolbar-context-menu">
-+      <toolbaritem id="menubar-items" align="center">
-+        <image class="menubar-product-icon"></image>
- # The entire main menubar is placed into browser-menubar.inc, so that it can be
- # shared with other top level windows in macWindow.inc.xhtml.
- #include browser-menubar.inc
--        </toolbaritem>
--        <spacer flex="1" skipintoolbarset="true" style="-moz-box-ordinal-group: 1000;"/>
-+      </toolbaritem>
-+      <spacer flex="1" skipintoolbarset="true" style="-moz-box-ordinal-group: 1000;"/>
+       <!-- Menu -->
+       <toolbar type="menubar" id="toolbar-menubar"
+                class="browser-toolbar chromeclass-menubar titlebar-color"
+@@ -1683,6 +1711,7 @@
  #include titlebar-items.inc.xhtml
--      </toolbar>
-+    </toolbar>
+       </toolbar>
  
-+    <vbox id="titlebar">
++      <vbox id="titlebar">
        <toolbar id="TabsToolbar"
                 class="browser-toolbar titlebar-color"
                 fullscreentoolbar="true"
-@@ -2349,6 +2380,44 @@
+@@ -2352,6 +2381,44 @@
    </box>
  
    <hbox flex="1" id="browser">
