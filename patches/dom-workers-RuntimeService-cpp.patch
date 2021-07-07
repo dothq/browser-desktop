@@ -1,5 +1,5 @@
 diff --git a/dom/workers/RuntimeService.cpp b/dom/workers/RuntimeService.cpp
-index e7df6ded13a38436942414d16161445e74d2a40a..9ec9c54105c605e8d4bc1d19596467994ccc81ab 100644
+index e7df6ded13a38436942414d16161445e74d2a40a..dd5c2b33af1b4a1864cb045567e48867a3e05f0b 100644
 --- a/dom/workers/RuntimeService.cpp
 +++ b/dom/workers/RuntimeService.cpp
 @@ -17,6 +17,7 @@
@@ -10,11 +10,13 @@ index e7df6ded13a38436942414d16161445e74d2a40a..9ec9c54105c605e8d4bc1d1959646799
  
  #include <algorithm>
  #include "mozilla/ipc/BackgroundChild.h"
-@@ -2065,7 +2066,21 @@ uint32_t RuntimeService::ClampedHardwareConcurrency() const {
+@@ -2064,8 +2065,22 @@ uint32_t RuntimeService::ClampedHardwareConcurrency() const {
+   // The Firefox Hardware Report says 70% of Firefox users have exactly 2 cores.
    // When the resistFingerprinting pref is set, we want to blend into the crowd
    // so spoof navigator.hardwareConcurrency = 2 to reduce user uniqueness.
-   if (MOZ_UNLIKELY(nsContentUtils::ShouldResistFingerprinting())) {
+-  if (MOZ_UNLIKELY(nsContentUtils::ShouldResistFingerprinting())) {
 -    return 2;
++  if (MOZ_LIKELY(nsContentUtils::ShouldResistFingerprinting())) {
 +    // The goal of Dot's anti-fingerprinting is to make the data used to create
 +    // a fingerprint unstable. Therefore, we want to generate a random number to
 +    // use as hardwareConcurrency. As more modern, higher-core hardware comes

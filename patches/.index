@@ -135,6 +135,7 @@ devtools-client-themes-images-debugging-tabs-svg.patch - devtools/client/themes/
 docshell-base-nsAboutRedirector-cpp.patch - docshell/base/nsAboutRedirector.cpp
 docshell-build-components-conf.patch - docshell/build/components.conf
 dom-base-Document-cpp.patch - dom/base/Document.cpp
+dom-base-Navigator-cpp.patch - dom/base/Navigator.cpp
 dom-base-nsGlobalWindowOuter-cpp.patch - dom/base/nsGlobalWindowOuter.cpp
 dom-media-webaudio-blink-DynamicsCompressor-cpp.patch - dom/media/webaudio/blink/DynamicsCompressor.cpp
 dom-workers-RuntimeService-cpp.patch - dom/workers/RuntimeService.cpp
