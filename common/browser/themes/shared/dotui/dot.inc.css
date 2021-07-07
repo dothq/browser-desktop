@@ -8,7 +8,8 @@
 
 %include popups/identity.inc.css
 %include popups/bookmarks.inc.css
-%include popups/notifications.inc.css
+/* Does not exist */
+/* %include popups/notifications.inc.css */
 
 %include toolbars/personal.inc.css
 

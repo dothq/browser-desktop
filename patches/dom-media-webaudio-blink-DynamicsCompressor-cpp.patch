@@ -1,0 +1,69 @@
+diff --git a/dom/media/webaudio/blink/DynamicsCompressor.cpp b/dom/media/webaudio/blink/DynamicsCompressor.cpp
+index d31dfb3c17cbe4dbcc64776d9d25c9da26f27252..9ef82d1daf1df1cab1837d6bf08e310d51b6df13 100644
+--- a/dom/media/webaudio/blink/DynamicsCompressor.cpp
++++ b/dom/media/webaudio/blink/DynamicsCompressor.cpp
+@@ -26,17 +26,34 @@
+  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
++#include "mozilla/StaticPrefs_privacy.h"
+ #include "DynamicsCompressor.h"
+ #include "AlignmentUtils.h"
+ #include "AudioBlock.h"
+ 
+ #include <cmath>
++#include <iostream>
+ #include "AudioNodeEngine.h"
++#include "nsCOMPtr.h"
+ #include "nsDebug.h"
++#include "nsIRandomGenerator.h"
+ 
+ using mozilla::AudioBlockCopyChannelWithScale;
+ using mozilla::WEBAUDIO_BLOCK_SIZE;
+ 
++/*
++ * Generate a random number between 0 and 1 with 32766 different values.
++ */
++float randomFloat(nsCOMPtr<nsIRandomGenerator> rng) {
++  // Array to store random bytes
++  uint8_t* randomBytes;
++  // Fill the array with random bytes (2)
++  rng->GenerateRandomBytes(2, &randomByte);
++  // Get the first random byte
++  uint16_t randomByte = ((uint16_t)randomBytes[1] << 8) | randomBytes[0];
++  return (randomByte / 32767.0f);
++}
++
+ namespace WebCore {
+ 
+ DynamicsCompressor::DynamicsCompressor(float sampleRate,
+@@ -241,6 +258,29 @@ void DynamicsCompressor::process(const AudioBlock* sourceChunk,
+   float releaseTime = parameterValue(ParamRelease);
+   float preDelayTime = parameterValue(ParamPreDelay);
+ 
++  if (StaticPrefs::privacy_resistFingerprinting_audioAPINoise()) {
++    // Create a random number generator
++    nsCOMPtr<nsIRandomGenerator> rg =
++        do_GetService("@mozilla.org/security/random-generator;1", &rv);
++
++    // Create random noise
++    float threshholdRng = randomFloat(rg);
++    float kneeRng = randomFloat(rg);
++    float ratioRng = randomFloat(rg);
++
++    // Add these to the config params. They should be small enough not to be
++    // noticeable by a user
++    dbThreshold += (threshholdRng - 0.5f) / 0.4;
++    dbKnee += (kneeRng - 0.5f) / 0.4;
++    ratio += (ratioRng - 0.5f) / 0.4;
++  }
++
++  bool audioNoise = StaticPrefs::privacy_resistFingerprinting_audioAPINoise();
++
++  stdout << "privacy.resistFingerprinting.audioAPINoise"
++         << StaticPrefs::privacy_resistFingerprinting_audioAPINoise()
++         << std::endl;
++
+   // This is effectively a master volume on the compressed signal
+   // (pre-blending).
+   float dbPostGain = parameterValue(ParamPostGain);

@@ -31,7 +31,8 @@ const getFiles = async (flags: string, cwd: string) => {
         [
             "ls-files",
             `-${flags.toLowerCase()}`,
-            "--ignored",
+            "-i",
+            "-o",
             "--exclude-standard"
         ],
         { cwd }
