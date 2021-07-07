@@ -137,6 +137,7 @@ docshell-build-components-conf.patch - docshell/build/components.conf
 dom-base-Document-cpp.patch - dom/base/Document.cpp
 dom-base-nsGlobalWindowOuter-cpp.patch - dom/base/nsGlobalWindowOuter.cpp
 dom-media-webaudio-blink-DynamicsCompressor-cpp.patch - dom/media/webaudio/blink/DynamicsCompressor.cpp
+dom-workers-RuntimeService-cpp.patch - dom/workers/RuntimeService.cpp
 layout-base-PresShell-cpp.patch - layout/base/PresShell.cpp
 layout-generic-jar-mn.patch - layout/generic/jar.mn
 layout-generic-nsImageFrame-cpp.patch - layout/generic/nsImageFrame.cpp
