@@ -28,27 +28,23 @@ export const exportFile = async (file: string) => {
         }
     );
     const name =
-        file.split("/")[file.replace(/\./g, "-").split("/").length-1].replace(/\./g, "-") +
-        ".patch";
+        file
+            .split("/")
+            [
+                file.replace(/\./g, "-").split("/")
+                    .length - 1
+            ].replace(/\./g, "-") + ".patch";
 
-    const patchPath = (
-        file.replace(/\./g, "-")
-    ).split("/").slice(0,-1);
+    const patchPath = file
+        .replace(/\./g, "-")
+        .split("/")
+        .slice(0, -1);
 
-    ensureDirSync(
-        resolve(
-            BROWSER_DIR,
-            ...patchPath
-        )
-    )
-    
+    ensureDirSync(resolve(BROWSER_DIR, ...patchPath));
+
     proc.stdout?.pipe(
         createWriteStream(
-            resolve(
-                BROWSER_DIR,
-                ...patchPath,
-                name
-            )
+            resolve(BROWSER_DIR, ...patchPath, name)
         )
     );
     log.info(`Wrote "${name}" to patches directory.`);
