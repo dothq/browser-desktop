@@ -1,7 +1,5 @@
 import { writeFileSync } from "fs";
-import {
-    ensureDirSync
-} from "fs-extra";
+import { ensureDirSync } from "fs-extra";
 import { sync } from "glob";
 import { resolve } from "path";
 import { bin_name, log } from "..";
@@ -76,7 +74,7 @@ const importPatchFiles = async (
     let patches = sync("**/*.patch", {
         nodir: true,
         cwd: BROWSER_DIR
-    })
+    });
 
     patches = patches.filter((p) => p !== ".index");
 

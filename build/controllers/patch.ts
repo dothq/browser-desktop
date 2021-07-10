@@ -12,7 +12,8 @@ import readline from "readline";
 import { log } from "..";
 import {
     BROWSER_DIR,
-    COMMON_DIR, PATCH_ARGS,
+    COMMON_DIR,
+    PATCH_ARGS,
     SRC_DIR
 } from "../constants";
 import { copyManual } from "../utils";

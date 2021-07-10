@@ -52,7 +52,7 @@ const unpack = async (name: string, version: string) => {
         if (initProgress) {
             initProgress.text = initProgressText;
             initProgress.prefixText =
-                chalk.blueBright.bold(log.getDiff());   
+                chalk.blueBright.bold(log.getDiff());
         }
     }, 100);
 
@@ -63,16 +63,25 @@ const unpack = async (name: string, version: string) => {
     } catch (e) {}
     ensureDirSync(SRC_DIR);
 
-    let tarProc = execa("tar", ["--transform", "s,firefox-89.0,engine,", `--show-transformed`, "-xf", resolve(cwd, ".dotbuild", "engines", name)]);
+    let tarProc = execa("tar", [
+        "--transform",
+        "s,firefox-89.0,engine,",
+        `--show-transformed`,
+        "-xf",
+        resolve(cwd, ".dotbuild", "engines", name)
+    ]);
 
     (tarProc.stdout as any).on("data", onData);
     (tarProc.stdout as any).on("error", onData);
-    
+
     tarProc.on("exit", () => {
         if (process.env.CI_SKIP_INIT)
             return log.info("Skipping initialisation.");
 
-        const initProc = execa(`./${bin_name}`, ["init", "engine"]);
+        const initProc = execa(`./${bin_name}`, [
+            "init",
+            "engine"
+        ]);
 
         (initProc.stdout as any).on("data", onData);
         (initProc.stdout as any).on("error", onData);
@@ -81,8 +90,10 @@ const unpack = async (name: string, version: string) => {
             initProgressText = "";
             initProgress.stop();
             initProgress = null;
-            
-            await new Promise((resolve) => setTimeout(resolve, 5000));
+
+            await new Promise((resolve) =>
+                setTimeout(resolve, 5000)
+            );
 
             log.success(
                 `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
@@ -90,7 +101,8 @@ const unpack = async (name: string, version: string) => {
             console.log();
 
             pjson.versions["firefox-display"] = version;
-            pjson.versions["firefox"] = version.split("b")[0];
+            pjson.versions["firefox"] =
+                version.split("b")[0];
 
             writeFileSync(
                 resolve(process.cwd(), "package.json"),
@@ -99,11 +111,13 @@ const unpack = async (name: string, version: string) => {
 
             await writeMetadata();
 
-            removeSync(resolve(cwd, ".dotbuild", "engines", name));
+            removeSync(
+                resolve(cwd, ".dotbuild", "engines", name)
+            );
 
             process.exit(0);
         });
-    })
+    });
 };
 
 export const download = async (
