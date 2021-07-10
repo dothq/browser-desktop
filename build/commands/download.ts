@@ -1,4 +1,5 @@
 import axios from "axios";
+import chalk from "chalk";
 import execa from "execa";
 import fs, {
     existsSync,
@@ -6,6 +7,7 @@ import fs, {
     writeFileSync
 } from "fs";
 import { ensureDirSync, removeSync } from "fs-extra";
+import ora from "ora";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
@@ -15,6 +17,28 @@ import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
 
+let initProgressText = "Initialising...";
+let initProgress: any = ora({
+    text: `Initialising...`,
+    prefixText: chalk.blueBright.bold("00:00:00"),
+    spinner: {
+        frames: [""]
+    },
+    indent: 0
+});
+
+const onData = (data: any) => {
+    const d = data.toString();
+
+    d.split("\n").forEach((line: any) => {
+        if (line.trim().length !== 0) {
+            let t = line.split(" ");
+            t.shift();
+            initProgressText = t.join(" ");
+        }
+    });
+};
+
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep);
 
@@ -22,62 +46,64 @@ const unpack = async (name: string, version: string) => {
         cwd = "./";
     }
 
-    log.info(`Unpacking Firefox...`);
+    initProgress.start();
+
+    setInterval(() => {
+        if (initProgress) {
+            initProgress.text = initProgressText;
+            initProgress.prefixText =
+                chalk.blueBright.bold(log.getDiff());   
+        }
+    }, 100);
+
+    initProgressText = `Unpacking Firefox...`;
 
     try {
         rmdirSync(SRC_DIR);
     } catch (e) { };
     ensureDirSync(SRC_DIR);
 
-    await execa("tar", ["--transform", "s,firefox-89.0,engine,", `--show-transformed`, "-xf", resolve(cwd, ".dotbuild", "engines", name)]);
+    let tarProc = execa("tar", ["--transform", "s,firefox-89.0,engine,", `--show-transformed`, "-xf", resolve(cwd, ".dotbuild", "engines", name)]);
 
-    if (process.env.CI_SKIP_INIT)
-        return log.info("Skipping initialisation.");
+    (tarProc.stdout as any).on("data", onData);
+    (tarProc.stdout as any).on("error", onData);
+    
+    tarProc.on("exit", () => {
+        if (process.env.CI_SKIP_INIT)
+            return log.info("Skipping initialisation.");
 
-    const proc = execa(`./${bin_name}`, ["init", "engine"]);
+        const initProc = execa(`./${bin_name}`, ["init", "engine"]);
 
-    (proc.stdout as any).on("data", (data: any) => {
-        const d = data.toString();
+        (initProc.stdout as any).on("data", onData);
+        (initProc.stdout as any).on("error", onData);
 
-        d.split("\n").forEach((line: any) => {
-            if (line.length !== 0) {
-                let t = line.split(" ");
-                t.shift();
-                log.info(t.join(" "));
-            }
+        initProc.on("exit", async () => {
+            initProgressText = "";
+            initProgress.stop();
+            initProgress = null;
+            
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+
+            log.success(
+                `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
+            );
+            console.log();
+
+            pjson.versions["firefox-display"] = version;
+            pjson.versions["firefox"] = version.split("b")[0];
+
+            writeFileSync(
+                resolve(process.cwd(), "package.json"),
+                JSON.stringify(pjson, null, 4)
+            );
+
+            await writeMetadata();
+
+            removeSync(resolve(cwd, ".dotbuild", "engines", name));
+
+            process.exit(0);
         });
-    });
-
-    (proc.stdout as any).on("error", (data: any) => {
-        const d = data.toString();
-
-        d.split("\n").forEach((line: any) => {
-            if (line.length !== 0) {
-                let t = line.split(" ");
-                t.shift();
-                log.info(t.join(" "));
-            }
-        });
-    });
-
-    proc.on("exit", async () => {
-        log.success(
-            `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
-        );
-        console.log();
-
-        pjson.versions["firefox-display"] = version;
-        pjson.versions["firefox"] = version.split("b")[0];
-
-        writeFileSync(
-            resolve(process.cwd(), "package.json"),
-            JSON.stringify(pjson, null, 4)
-        );
-
-        await writeMetadata();
-
-        removeSync(resolve(cwd, ".dotbuild", "engines", name));
-    });
+    })
 };
 
 export const download = async (

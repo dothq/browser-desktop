@@ -11,9 +11,8 @@ import { resolve } from "path";
 import readline from "readline";
 import { log } from "..";
 import {
-    COMMON_DIR,
-    PATCHES_DIR,
-    PATCH_ARGS,
+    BROWSER_DIR,
+    COMMON_DIR, PATCH_ARGS,
     SRC_DIR
 } from "../constants";
 import { copyManual } from "../utils";
@@ -297,7 +296,7 @@ class Patch {
     }) {
         this.name = name;
         this.action = action || "";
-        this.src = src || resolve(PATCHES_DIR, name);
+        this.src = src || resolve(BROWSER_DIR, name);
         this.type = type;
         this.status = status;
         this.markers = markers;

@@ -1,12 +1,11 @@
 import { writeFileSync } from "fs";
 import {
-    copySync,
-    ensureDirSync,
-    readdirSync
+    ensureDirSync
 } from "fs-extra";
+import { sync } from "glob";
 import { resolve } from "path";
 import { bin_name, log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { BROWSER_DIR, SRC_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
@@ -18,11 +17,6 @@ const importManual = async (
     minimal?: boolean,
     noIgnore?: boolean
 ) => {
-    copySync(
-        resolve(process.cwd(), "browser"),
-        resolve(SRC_DIR, "dot")
-    );
-
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );
@@ -79,7 +73,10 @@ const importPatchFiles = async (
     minimal?: boolean,
     noIgnore?: boolean
 ) => {
-    let patches = readdirSync(PATCHES_DIR);
+    let patches = sync("**/*.patch", {
+        nodir: true,
+        cwd: BROWSER_DIR
+    })
 
     patches = patches.filter((p) => p !== ".index");
 

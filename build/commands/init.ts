@@ -13,8 +13,6 @@ export const init = async (directory: Command) => {
         process.exit(0);
     }
 
-    log.info(`Initialising through Git...`);
-
     const cwd = process.cwd();
 
     const dir = resolve(
@@ -54,7 +52,7 @@ export const init = async (directory: Command) => {
     );
     await dispatch(
         "git",
-        ["add", "-f", "."],
+        ["add", "-v", "-f", "."],
         dir as string
     );
     await dispatch(
