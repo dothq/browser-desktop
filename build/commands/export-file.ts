@@ -1,5 +1,6 @@
 import execa from "execa";
 import { createWriteStream, existsSync } from "fs";
+import { ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
 import { BROWSER_DIR, SRC_DIR } from "../constants";
@@ -27,16 +28,26 @@ export const exportFile = async (file: string) => {
         }
     );
     const name =
-        file.replace(/\//g, "-").replace(/\./g, "-") +
+        file.split("/")[file.replace(/\./g, "-").split("/").length-1].replace(/\./g, "-") +
         ".patch";
 
+    const patchPath = (
+        file.replace(/\./g, "-")
+    ).split("/").slice(0,-1);
+
+    ensureDirSync(
+        resolve(
+            BROWSER_DIR,
+            ...patchPath
+        )
+    )
+    
     proc.stdout?.pipe(
         createWriteStream(
             resolve(
                 BROWSER_DIR,
-                ...(
-                    file.replace(/\./g, "-") + ".patch"
-                ).split("/")
+                ...patchPath,
+                name
             )
         )
     );
