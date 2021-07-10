@@ -2,11 +2,11 @@ import execa from "execa";
 import { existsSync } from "fs";
 import { resolve } from "path";
 import { bin_name, log } from "..";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 
 export const melonPackage = async () => {
-    if (existsSync(SRC_DIR)) {
-        const artifactPath = resolve(SRC_DIR, "mach");
+    if (existsSync(ENGINE_DIR)) {
+        const artifactPath = resolve(ENGINE_DIR, "mach");
 
         if (existsSync(artifactPath)) {
             const args = ["package"];
@@ -23,7 +23,7 @@ export const melonPackage = async () => {
         } else {
             log.error(
                 `Cannot binary with name \`mach\` in ${resolve(
-                    SRC_DIR
+                    ENGINE_DIR
                 )}`
             );
         }

@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import execa from "execa";
 import {
-    ensureDirSync,
     existsSync,
     rmdirSync,
     rmSync,
@@ -10,12 +9,7 @@ import {
 import { resolve } from "path";
 import readline from "readline";
 import { log } from "..";
-import {
-    BROWSER_DIR,
-    COMMON_DIR,
-    PATCH_ARGS,
-    SRC_DIR
-} from "../constants";
+import { ENGINE_DIR, PATCH_ARGS, SRC_DIR } from "../constants";
 import { copyManual } from "../utils";
 
 class Patch {
@@ -42,18 +36,6 @@ class Patch {
                 switch (this.action) {
                     case "copy":
                         if (typeof this.src == "string") {
-                            if (
-                                !existsSync(
-                                    resolve(
-                                        COMMON_DIR,
-                                        this.src
-                                    )
-                                )
-                            )
-                                return log.error(
-                                    `We were unable to copy the file or directory \`${this.src}\` as it doesn't exist in the common directory.`
-                                );
-
                             copyManual(
                                 this.src,
                                 this.options.noIgnore
@@ -62,34 +44,6 @@ class Patch {
 
                         if (Array.isArray(this.src)) {
                             this.src.forEach((i) => {
-                                if (
-                                    !existsSync(
-                                        resolve(
-                                            COMMON_DIR,
-                                            i
-                                        )
-                                    )
-                                )
-                                    return log.error(
-                                        `We were unable to copy the file or directory \`${i}\` as it doesn't exist in the common directory.`
-                                    );
-
-                                if (
-                                    statSync(
-                                        resolve(
-                                            COMMON_DIR,
-                                            i
-                                        )
-                                    ).isDirectory()
-                                ) {
-                                    ensureDirSync(
-                                        resolve(
-                                            COMMON_DIR,
-                                            i
-                                        )
-                                    );
-                                }
-
                                 copyManual(
                                     i,
                                     this.options.noIgnore
@@ -103,7 +57,7 @@ class Patch {
                             if (
                                 !existsSync(
                                     resolve(
-                                        SRC_DIR,
+                                        ENGINE_DIR,
                                         this.src
                                     )
                                 )
@@ -115,21 +69,21 @@ class Patch {
                             if (
                                 statSync(
                                     resolve(
-                                        SRC_DIR,
+                                        ENGINE_DIR,
                                         this.src
                                     )
                                 ).isDirectory()
                             ) {
                                 rmdirSync(
                                     resolve(
-                                        SRC_DIR,
+                                        ENGINE_DIR,
                                         this.src
                                     )
                                 );
                             } else {
                                 rmSync(
                                     resolve(
-                                        SRC_DIR,
+                                        ENGINE_DIR,
                                         this.src
                                     )
                                 );
@@ -141,7 +95,7 @@ class Patch {
                                 if (
                                     !existsSync(
                                         resolve(
-                                            SRC_DIR,
+                                            ENGINE_DIR,
                                             i
                                         )
                                     )
@@ -153,21 +107,21 @@ class Patch {
                                 if (
                                     statSync(
                                         resolve(
-                                            SRC_DIR,
+                                            ENGINE_DIR,
                                             i
                                         )
                                     ).isDirectory()
                                 ) {
                                     rmdirSync(
                                         resolve(
-                                            SRC_DIR,
+                                            ENGINE_DIR,
                                             i
                                         )
                                     );
                                 } else {
                                     rmSync(
                                         resolve(
-                                            SRC_DIR,
+                                            ENGINE_DIR,
                                             i
                                         ),
                                         { force: true }
@@ -198,7 +152,7 @@ class Patch {
                             ...PATCH_ARGS,
                             this.src as any
                         ],
-                        { cwd: SRC_DIR }
+                        { cwd: ENGINE_DIR }
                     );
                 } catch (e) {
                     null;
@@ -211,7 +165,7 @@ class Patch {
                         ...PATCH_ARGS,
                         this.src as any
                     ],
-                    { cwd: SRC_DIR }
+                    { cwd: ENGINE_DIR }
                 );
 
                 if (exitCode == 0) res(true);
@@ -297,7 +251,7 @@ class Patch {
     }) {
         this.name = name;
         this.action = action || "";
-        this.src = src || resolve(BROWSER_DIR, name);
+        this.src = src || resolve(SRC_DIR, name);
         this.type = type;
         this.status = status;
         this.markers = markers;

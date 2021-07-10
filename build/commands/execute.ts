@@ -1,10 +1,10 @@
 import { existsSync } from "fs";
 import { log } from "..";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 import { dispatch } from "../utils";
 
 export const execute = async (_: any, cmd: any[]) => {
-    if (existsSync(SRC_DIR)) {
+    if (existsSync(ENGINE_DIR)) {
         if (!cmd || cmd.length == 0)
             log.error(
                 "You need to specify a command to run."
@@ -19,7 +19,7 @@ export const execute = async (_: any, cmd: any[]) => {
                 args.length !== 0 ? ` ` : ``
             }${args.join(" ")}\` in \`src\`...`
         );
-        dispatch(bin, args, SRC_DIR, true);
+        dispatch(bin, args, ENGINE_DIR, true);
     } else {
         log.error(`Unable to locate src directory.`);
     }

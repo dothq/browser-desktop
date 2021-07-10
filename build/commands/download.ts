@@ -11,7 +11,7 @@ import ora from "ora";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 import { getLatestFF, writeMetadata } from "../utils";
 import { downloadArtifacts } from "./download-artifacts";
 
@@ -59,9 +59,9 @@ const unpack = async (name: string, version: string) => {
     initProgressText = `Unpacking Firefox...`;
 
     try {
-        rmdirSync(SRC_DIR);
+        rmdirSync(ENGINE_DIR);
     } catch (e) {}
-    ensureDirSync(SRC_DIR);
+    ensureDirSync(ENGINE_DIR);
 
     let tarProc = execa("tar", [
         "--transform",

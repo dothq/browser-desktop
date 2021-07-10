@@ -1,6 +1,6 @@
 import { bin_name } from "..";
 import { log } from "../";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 import { dispatch } from "../utils";
 
 export const bootstrap = async () => {
@@ -16,6 +16,6 @@ export const bootstrap = async () => {
     await dispatch(
         `./mach`,
         ["bootstrap", ...args],
-        SRC_DIR
+        ENGINE_DIR
     );
 };

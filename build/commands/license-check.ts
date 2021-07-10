@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { readdirSync, readFileSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { ENGINE_DIR, PATCHES_DIR } from "../constants";
 
 const ignoredExt = [".json", ".bundle.js"];
 
@@ -30,7 +30,7 @@ export const licenseCheck = async () => {
 
     originalPaths.forEach((p) => {
         const data = readFileSync(
-            resolve(SRC_DIR, p),
+            resolve(ENGINE_DIR, p),
             "utf-8"
         );
         const headerRegion = data

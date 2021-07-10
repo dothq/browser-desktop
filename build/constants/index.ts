@@ -15,8 +15,8 @@ export const PATCH_ARGS = [
     "--verbose"
 ];
 
-export const SRC_DIR = resolve(process.cwd(), "engine");
-export const BROWSER_DIR = resolve(process.cwd(), "src");
+export const ENGINE_DIR = resolve(process.cwd(), "engine");
+export const SRC_DIR = resolve(process.cwd(), "src");
 export const PATCHES_DIR = resolve(
     process.cwd(),
     "patches"
@@ -35,12 +35,12 @@ export let CONFIG_GUESS: any = null;
 try {
     CONFIG_GUESS = execa.commandSync(
         "./build/autoconf/config.guess",
-        { cwd: SRC_DIR }
+        { cwd: ENGINE_DIR }
     ).stdout;
 } catch (e) {}
 
 export const OBJ_DIR = resolve(
-    SRC_DIR,
+    ENGINE_DIR,
     `obj-${CONFIG_GUESS}`
 );
 

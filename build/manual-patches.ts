@@ -1,54 +1,25 @@
+import { sync } from "glob";
+import { SRC_DIR } from "./constants";
 import { IPatch } from "./interfaces/patch";
 
-const manualPatches: IPatch[] = [
-    {
-        name: "branding",
-        action: "copy",
-        src: "browser/branding/dot"
-    },
-    {
-        name: "dotprotocol",
-        action: "copy",
-        src: "toolkit/components/dotprotocol"
-    },
-    {
-        name: "engines",
-        action: "copy",
-        src: [
-            "browser/components/search/extensions/ddg",
-            "browser/components/search/extensions/ecosia",
-            "browser/components/search/extensions/bing",
-            "browser/components/search/extensions/google",
-            "browser/components/search/extensions/qwant",
-            "browser/components/search/extensions/startpage"
-        ]
-    },
-    {
-        name: "themes",
-        action: "copy",
-        src: [
-            "toolkit/mozapps/extensions/default-theme",
-            "browser/themes/addons/fusion",
-            "browser/themes/addons/light",
-            "browser/themes/addons/dark",
+let files = sync("**/*", {
+    nodir: true,
+    cwd: SRC_DIR
+})
+    .filter(f => !(f.endsWith(".patch") || f.split("/").includes("node_modules")))
 
-            "toolkit/mozapps/extensions/content/default-theme.svg",
-            "toolkit/mozapps/extensions/content/firefox-compact-dark.svg",
-            "toolkit/mozapps/extensions/content/firefox-compact-light.svg",
-            "toolkit/mozapps/extensions/content/firefox-compact-fusion.svg"
-        ]
-    },
-    {
-        name: "icons",
-        action: "copy",
-        src: [
-            "other-licenses/7zstub/firefox/setup.ico",
-            "toolkit/mozapps/update/updater/updater.ico",
-            "toolkit/mozapps/update/updater/updater.png",
+const manualPatches: IPatch[] = [];
 
-            "layout/generic/broken-image.svg"
-        ]
+files.map(i => {
+    const group = i.split("/")[0];
+
+    if (!manualPatches.find(m => m.name == group)) {
+        manualPatches.push({
+            name: group,
+            action: "copy",
+            src: files.filter(f => f.split("/")[0] == group)
+        })
     }
-];
+});
 
 export default manualPatches;

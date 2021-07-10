@@ -1,7 +1,7 @@
 import { existsSync, readdirSync } from "fs";
 import { resolve } from "path";
 import { bin_name, log } from "..";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 import { dispatch } from "../utils";
 
 const chromeUI = [
@@ -23,7 +23,7 @@ export const run = async (chrome?: string) => {
             );
     }
 
-    const dirs = readdirSync(SRC_DIR);
+    const dirs = readdirSync(ENGINE_DIR);
     const objDirname: any = dirs.find((dir) => {
         return dir.startsWith("obj-");
     });
@@ -34,7 +34,7 @@ export const run = async (chrome?: string) => {
         );
     }
 
-    const objDir = resolve(SRC_DIR, objDirname);
+    const objDir = resolve(ENGINE_DIR, objDirname);
 
     if (existsSync(objDir)) {
         dispatch(
@@ -44,7 +44,7 @@ export const run = async (chrome?: string) => {
                     ? ["-chrome", chromePkg.uri]
                     : []
             ),
-            SRC_DIR,
+            ENGINE_DIR,
             true,
             true
         );
