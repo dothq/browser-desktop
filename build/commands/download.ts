@@ -26,15 +26,24 @@ const unpack = async (name: string, version: string) => {
 
     try {
         rmdirSync(SRC_DIR);
-    } catch (e) { };
+    } catch (e) {}
     ensureDirSync(SRC_DIR);
 
-    await execa("tar", ["--transform", "s,firefox-89.0,engine,", `--show-transformed`, "-xf", resolve(cwd, ".dotbuild", "engines", name)]);
+    await execa("tar", [
+        "--transform",
+        "s,firefox-89.0,engine,",
+        `--show-transformed`,
+        "-xf",
+        resolve(cwd, ".dotbuild", "engines", name)
+    ]);
 
     if (process.env.CI_SKIP_INIT)
         return log.info("Skipping initialisation.");
 
-    const proc = execa(`./${bin_name}`, ["init", "engine"]);
+    const proc = execa(`./${bin_name}`, [
+        "init",
+        "engine"
+    ]);
 
     (proc.stdout as any).on("data", (data: any) => {
         const d = data.toString();
@@ -76,7 +85,9 @@ const unpack = async (name: string, version: string) => {
 
         await writeMetadata();
 
-        removeSync(resolve(cwd, ".dotbuild", "engines", name));
+        removeSync(
+            resolve(cwd, ".dotbuild", "engines", name)
+        );
     });
 };
 
@@ -107,12 +118,8 @@ export const download = async (
     log.info(`Locating Firefox release ${version}...`);
 
     ensureDirSync(
-        resolve(
-            process.cwd(),
-            `.dotbuild`,
-            `engines`
-        )
-    )
+        resolve(process.cwd(), `.dotbuild`, `engines`)
+    );
 
     if (
         existsSync(
