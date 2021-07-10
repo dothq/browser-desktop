@@ -1,5 +1,9 @@
 import { writeFileSync } from "fs";
-import { copySync, ensureDirSync, readdirSync } from "fs-extra";
+import {
+    copySync,
+    ensureDirSync,
+    readdirSync
+} from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 import { PATCHES_DIR, SRC_DIR } from "../constants";
@@ -15,14 +19,8 @@ const importManual = async (
     noIgnore?: boolean
 ) => {
     copySync(
-        resolve(
-            process.cwd(),
-            "browser"
-        ),
-        resolve(
-            SRC_DIR,
-            "dot"
-        ),
+        resolve(process.cwd(), "browser"),
+        resolve(SRC_DIR, "dot")
     );
 
     log.info(
