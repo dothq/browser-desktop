@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "es2020",   
+    "module": "commonjs", 
+    "strict": true,                    
+    "esModuleInterop": true,             
+    "skipLibCheck": true,                   
+    "forceConsistentCasingInFileNames": true ,
+    "outDir": "dist",
+    "jsx": "react"
+  }
+}

@@ -1,0 +1,82 @@
+html {
+    min-width: 500px;
+    min-height: 100px;
+    overflow: clip;
+}
+
+body {
+    margin: 0;
+}
+
+body, :root {
+    font: message-box;
+    background-color: var(--lwt-accent-color);
+    color: var(--lwt-text-color);
+    overflow: clip;
+
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#browser {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#browser-tabs-stack {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    background-color: var(--lwt-accent-color);
+    flex: 1;
+}
+
+#browser-tabs-stack browser {
+    align-self: auto;
+    min-width: auto;
+    min-height: auto;
+    width: var(--split, 100%);
+    height: 100%;
+}
+
+#page-status {
+    position: absolute;
+    bottom: 0;
+    background-color: var(--lwt-accent-color);
+    height: 26px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    pointer-events: none;    
+}
+
+.page-status-side-left {
+    border-top-right-radius: 8px;
+    left: 0;
+}
+
+.page-status-side-right {
+    border-top-left-radius: 8px;
+    right: 0;
+}
+
+button {
+    -moz-window-dragging: no-drag;
+}
+
+.loading-spin-animation {
+    animation: 1.5s loading-throbber-spin infinite linear;
+}
+
+@keyframes loading-throbber-spin {
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(1turn);
+    }
+}

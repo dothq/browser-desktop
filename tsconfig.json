@@ -63,6 +63,8 @@
     "exclude": [
         "node_modules/**/*",
         "firefox-*/**/*",
+        "gecko",
+        "engine/**/*",
         "src"
     ]
 }

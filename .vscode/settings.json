@@ -14,7 +14,7 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "files.exclude": {
         "**/node_modules": true,
-        "**/.dotbuild": true
+        "**/.dotbuild": false
     },
     "gitmoji.showEmojiCode": true,
     "gitmoji.additionalEmojis": [

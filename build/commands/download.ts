@@ -1,14 +1,15 @@
 import axios from "axios";
 import execa from "execa";
 import fs, {
-    appendFileSync,
     existsSync,
+    rmdirSync,
     writeFileSync
 } from "fs";
-import { moveSync, removeSync } from "fs-extra";
+import { ensureDirSync, removeSync } from "fs-extra";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
+import { SRC_DIR } from "../constants";
 import { getLatestFF, writeMetadata } from "../utils";
 import { downloadArtifacts } from "./download-artifacts";
 
@@ -22,28 +23,18 @@ const unpack = async (name: string, version: string) => {
     }
 
     log.info(`Unpacking Firefox...`);
-    await execa("tar", ["-xvf", name, "-C", cwd]);
 
-    moveSync(
-        resolve(cwd, `firefox-${version.split("b")[0]}`),
-        resolve(cwd, "src"),
-        { overwrite: true }
-    );
+    try {
+        rmdirSync(SRC_DIR);
+    } catch (e) { };
+    ensureDirSync(SRC_DIR);
 
-    appendFileSync(
-        resolve(cwd, "src", ".gitignore"),
-        "\n\n# Imported files"
-    );
-
-    appendFileSync(
-        resolve(cwd, "src", ".gitignore"),
-        "*.rej"
-    );
+    await execa("tar", ["--transform", "s,firefox-89.0,engine,", `--show-transformed`, "-xf", resolve(cwd, ".dotbuild", "engines", name)]);
 
     if (process.env.CI_SKIP_INIT)
         return log.info("Skipping initialisation.");
 
-    const proc = execa(`./${bin_name}`, ["init", "src"]);
+    const proc = execa(`./${bin_name}`, ["init", "engine"]);
 
     (proc.stdout as any).on("data", (data: any) => {
         const d = data.toString();
@@ -85,7 +76,7 @@ const unpack = async (name: string, version: string) => {
 
         await writeMetadata();
 
-        removeSync(name);
+        removeSync(resolve(cwd, ".dotbuild", "engines", name));
     });
 };
 
@@ -115,10 +106,20 @@ export const download = async (
 
     log.info(`Locating Firefox release ${version}...`);
 
+    ensureDirSync(
+        resolve(
+            process.cwd(),
+            `.dotbuild`,
+            `engines`
+        )
+    )
+
     if (
         existsSync(
             resolve(
                 process.cwd(),
+                `.dotbuild`,
+                `engines`,
                 `firefox-${version.split("b")[0]}`
             )
         )
@@ -146,6 +147,8 @@ export const download = async (
         fs.existsSync(
             resolve(
                 process.cwd(),
+                `.dotbuild`,
+                `engines`,
                 "firefox",
                 version.split("b")[0]
             )
@@ -173,7 +176,12 @@ export const download = async (
     const length = headers["content-length"];
 
     const writer = fs.createWriteStream(
-        resolve(process.cwd(), filename)
+        resolve(
+            process.cwd(),
+            `.dotbuild`,
+            `engines`,
+            filename
+        )
     );
 
     let receivedBytes = 0;

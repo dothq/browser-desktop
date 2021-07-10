@@ -6,8 +6,8 @@ node_modules
 package-lock.json
 *.tar.xz
 firefox
-src/**/*
-src/
+engine/**/*
+engine
 .DS_Store
 *.tar
 *.tar.bz2
