@@ -31,7 +31,14 @@ export const exportFile = async (file: string) => {
         ".patch";
 
     proc.stdout?.pipe(
-        createWriteStream(resolve(BROWSER_DIR, ...(file.replace(/\./g, "-") + ".patch").split("/")))
+        createWriteStream(
+            resolve(
+                BROWSER_DIR,
+                ...(
+                    file.replace(/\./g, "-") + ".patch"
+                ).split("/")
+            )
+        )
     );
     log.info(`Wrote "${name}" to patches directory.`);
     console.log();
