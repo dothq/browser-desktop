@@ -15,7 +15,10 @@ export const PATCH_ARGS = [
     "--verbose"
 ];
 
-export const ENGINE_DIR = resolve(process.cwd(), "engine");
+export const ENGINE_DIR = resolve(
+    process.cwd(),
+    "engine"
+);
 export const SRC_DIR = resolve(process.cwd(), "src");
 export const PATCHES_DIR = resolve(
     process.cwd(),

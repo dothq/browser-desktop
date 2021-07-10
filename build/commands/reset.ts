@@ -41,7 +41,8 @@ export const reset = async () => {
                                     );
 
                                     if (
-                                        path !== ENGINE_DIR
+                                        path !==
+                                        ENGINE_DIR
                                     ) {
                                         log.info(
                                             `Deleting ${src}...`

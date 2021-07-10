@@ -24,7 +24,9 @@ export const fixLineEndings = async () => {
                 .split(" b/")[0];
 
             if (
-                existsSync(resolve(ENGINE_DIR, originalPath))
+                existsSync(
+                    resolve(ENGINE_DIR, originalPath)
+                )
             ) {
                 dispatch(
                     "dos2unix",

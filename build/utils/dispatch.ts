@@ -5,7 +5,10 @@ const handle = (data: any, killOnError?: boolean) => {
     const d = data.toString();
 
     d.split("\n").forEach((line: any) => {
-        if (line.length !== 0) log.info(line.replace(/\d{1,5}:\d\d\.\d\d /g, ""));
+        if (line.length !== 0)
+            log.info(
+                line.replace(/\d{1,5}:\d\d\.\d\d /g, "")
+            );
     });
 
     if (killOnError) {

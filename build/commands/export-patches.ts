@@ -204,13 +204,7 @@ export const exportPatches = async () => {
     console.log();
 
     copySync(
-        resolve(
-            ENGINE_DIR,
-            "dot"
-        ),
-        resolve(
-            process.cwd(),
-            "browser"
-        ),
+        resolve(ENGINE_DIR, "dot"),
+        resolve(process.cwd(), "browser")
     );
 };

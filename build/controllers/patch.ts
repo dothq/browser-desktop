@@ -9,7 +9,11 @@ import {
 import { resolve } from "path";
 import readline from "readline";
 import { log } from "..";
-import { ENGINE_DIR, PATCH_ARGS, SRC_DIR } from "../constants";
+import {
+    ENGINE_DIR,
+    PATCH_ARGS,
+    SRC_DIR
+} from "../constants";
 import { copyManual } from "../utils";
 
 class Patch {
