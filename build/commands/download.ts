@@ -60,7 +60,7 @@ const unpack = async (name: string, version: string) => {
 
     try {
         rmdirSync(SRC_DIR);
-    } catch (e) { };
+    } catch (e) {}
     ensureDirSync(SRC_DIR);
 
     let tarProc = execa("tar", ["--transform", "s,firefox-89.0,engine,", `--show-transformed`, "-xf", resolve(cwd, ".dotbuild", "engines", name)]);
@@ -133,12 +133,8 @@ export const download = async (
     log.info(`Locating Firefox release ${version}...`);
 
     ensureDirSync(
-        resolve(
-            process.cwd(),
-            `.dotbuild`,
-            `engines`
-        )
-    )
+        resolve(process.cwd(), `.dotbuild`, `engines`)
+    );
 
     if (
         existsSync(
