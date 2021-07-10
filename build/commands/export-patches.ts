@@ -203,7 +203,14 @@ export const exportPatches = async () => {
     await exportManual(SRC_DIR);
     console.log();
 
-    // log.info("Exporting added files...");
-    // await exportFlag("A", cwd, actions);
-    // console.log();
+    copySync(
+        resolve(
+            SRC_DIR,
+            "dot"
+        ),
+        resolve(
+            process.cwd(),
+            "browser"
+        ),
+    );
 };

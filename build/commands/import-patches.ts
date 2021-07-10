@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { ensureDirSync, readdirSync } from "fs-extra";
+import { copySync, ensureDirSync, readdirSync } from "fs-extra";
 import { resolve } from "path";
 import { bin_name, log } from "..";
 import { PATCHES_DIR, SRC_DIR } from "../constants";
@@ -14,6 +14,17 @@ const importManual = async (
     minimal?: boolean,
     noIgnore?: boolean
 ) => {
+    copySync(
+        resolve(
+            process.cwd(),
+            "browser"
+        ),
+        resolve(
+            SRC_DIR,
+            "dot"
+        ),
+    );
+
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );

@@ -7,30 +7,6 @@ const manualPatches: IPatch[] = [
         src: "browser/branding/dot"
     },
     {
-        name: "dotui",
-        action: "copy",
-        src: [
-            "browser/themes/shared/dotui",
-            "browser/themes/windows/dotui",
-            "browser/themes/osx/dotui",
-            "browser/themes/linux/dotui"
-        ]
-    },
-    {
-        name: "about:history",
-        action: "copy",
-        src: [
-            "browser/components/abouthistory",
-            "browser/actors/AboutHistoryChild.jsm",
-            "browser/actors/AboutHistoryParent.jsm"
-        ]
-    },
-    {
-        name: "preferences",
-        action: "copy",
-        src: "browser/components/preferences/new"
-    },
-    {
         name: "dotprotocol",
         action: "copy",
         src: "toolkit/components/dotprotocol"
@@ -66,51 +42,11 @@ const manualPatches: IPatch[] = [
         name: "icons",
         action: "copy",
         src: [
-            "browser/themes/shared/icons/spell-check.svg",
-            "browser/themes/shared/icons/qr-code.svg",
-            "browser/themes/shared/icons/certificate.svg",
-            "browser/themes/shared/icons/cookies.svg",
-
-            "browser/themes/shared/notification-icons/javascript.svg",
-            "browser/themes/shared/notification-icons/location.svg",
-
             "other-licenses/7zstub/firefox/setup.ico",
             "toolkit/mozapps/update/updater/updater.ico",
             "toolkit/mozapps/update/updater/updater.png",
 
             "layout/generic/broken-image.svg"
-        ]
-    },
-    {
-        name: "extensions",
-        action: "copy",
-        src: [
-            "browser/extensions/shield",
-            "browser/extensions/qrcodes",
-            "browser/extensions/ntp"
-        ]
-    },
-    {
-        name: "l10n",
-        action: "copy",
-        src: [
-            "browser/locales/en-US/browser/qr-codes.ftl",
-            "browser/locales/en-US/browser/aboutPreferences.ftl",
-            "browser/locales/en-US/browser/aboutHistory.ftl",
-            "browser/locales/en-US/browser/onboarding.ftl"
-        ]
-    },
-    {
-        name: "sidebars",
-        action: "copy",
-        src: ["browser/components/sidebars"]
-    },
-    {
-        name: "onboarding",
-        action: "copy",
-        src: [
-            "browser/components/onboarding",
-            "browser/themes/shared/onboarding-icons"
         ]
     }
 ];
