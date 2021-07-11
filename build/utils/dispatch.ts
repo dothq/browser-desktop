@@ -25,13 +25,6 @@ export const dispatch = (
     killOnError?: boolean
 ) => {
     return new Promise((resolve, reject) => {
-        if (!noLog)
-            log.info(
-                `Starting child "${cmd} ${args?.join(
-                    " "
-                )}".`
-            );
-
         const proc = execa(cmd, args, {
             cwd: cwd ? cwd : process.cwd(),
             env: process.env
@@ -48,12 +41,6 @@ export const dispatch = (
         );
 
         proc.on("exit", () => {
-            if (!noLog)
-                log.info(
-                    `Done with "${cmd} ${args?.join(
-                        " "
-                    )}".`
-                );
             resolve(true);
         });
     });
