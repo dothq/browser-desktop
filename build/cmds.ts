@@ -136,6 +136,7 @@ export const commands: Cmd[] = [
     },
     {
         cmd: "run [chrome]",
+        aliases: ["r", "open"],
         description: "Run the browser.",
         controller: run
     },
