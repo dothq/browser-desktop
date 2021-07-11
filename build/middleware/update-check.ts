@@ -14,7 +14,9 @@ export const updateCheck = async () => {
 
     if (data) {
         let version =
-            Object.keys(data)[Object.keys(data).length - 1];
+            Object.keys(data)[
+                Object.keys(data).length - 1
+            ];
 
         if (firefoxVersion && version !== firefoxVersion)
             log.warning(
