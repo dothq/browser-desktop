@@ -81,9 +81,6 @@ jobs:
 
       - name: Build
         run: |
-          cd src
-          ./mach bootstrap --application-choice browser --no-interactive
-          cd ..
           MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
       - name: Package
         run: |
