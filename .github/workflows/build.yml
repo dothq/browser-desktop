@@ -54,9 +54,10 @@ jobs:
           npm i typescript
           sudo apt-get update --fix-missing
           sudo apt-get update
-          sudo apt-get install dos2unix
+          sudo apt-get install dos2unix yasm
           rustup install ${{ needs.build-data.outputs.rust_version }}
           rustup default ${{ needs.build-data.outputs.rust_version }}
+          cargo install sccache
       - name: Download workspace
         run: |
           ./melon download
