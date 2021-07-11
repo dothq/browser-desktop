@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=builddate::$(date +"%Y-%m-%d")"
   linux-64:
     name: 🐧 Linux (64-bit)
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [build-data]
     env:
       CI_SKIP_INIT: true
