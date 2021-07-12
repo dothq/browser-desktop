@@ -1,5 +1,5 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5cbf717792955b92c555ab17f865f0b7488017a1 100644
+index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..26bd284a740b7acd92e001a380d2d4fec245b4bf 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
 @@ -1183,6 +1183,11 @@
@@ -38,7 +38,25 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5cbf717792955b92c555ab17f865f0b7
    mirror: always
  
  - name: network.cookie.thirdparty.sessionOnly
-@@ -9356,6 +9361,12 @@
+@@ -9331,6 +9336,17 @@
+   value: true
+   mirror: always
+ 
++- name: privacy.resistFingerprinting.randomVendor
++  type: RelaxedAtomicBool
++  value: true
++  mirror: always
++
++- name: privacy.resistFingerprinting.audioAPINoise
++  type: RelaxedAtomicBool
++  value: true
++  mirror: always
++
++
+ # The log level for browser console messages logged in RFPHelper.jsm. Change to
+ # 'All' and restart to see the messages.
+ - name: privacy.resistFingerprinting.jsmloglevel
+@@ -9356,6 +9372,12 @@
    value: 480
    mirror: always
  
@@ -51,7 +69,7 @@ index f9befc42b426f5cca8fbb1f1ad2e2583b28f476d..5cbf717792955b92c555ab17f865f0b7
  # Anti-tracking permission expiration.
  - name: privacy.restrict3rdpartystorage.expiration
    type: uint32_t
-@@ -9752,6 +9763,16 @@
+@@ -9752,6 +9774,16 @@
    value: false
    mirror: always
  
