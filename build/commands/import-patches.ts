@@ -12,6 +12,11 @@ const importManual = async (
     minimal?: boolean,
     noIgnore?: boolean
 ) => {
+    // Build userchrome before importing patches
+    log.info("Building chrome...");
+    await dispatch("yarn", [], "./src/dot");
+    await dispatch("yarn", ["compile"], "./src/dot");
+
     log.info(
         `Applying ${manualPatches.length} manual patches...`
     );
