@@ -86,6 +86,7 @@ jobs:
           MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
       - name: Package
         run: |
+          export MACH_USE_SYSTEM_PYTHON=1
           cd src
           ./mach package
           cd ..
