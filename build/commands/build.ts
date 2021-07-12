@@ -113,6 +113,11 @@ const genericBuild = async (os: string) => {
         `If you get any dependency errors, try running |${bin_name} bootstrap|.`
     );
 
+    log.info("Building chrome...");
+    await dispatch("yarn", [], "./src/dot");
+    await dispatch("yarn", ["compile"], "./src/dot");
+
+    log.info("Building browser core...");
     await dispatch(`./mach`, ["build"], ENGINE_DIR);
 };
 
