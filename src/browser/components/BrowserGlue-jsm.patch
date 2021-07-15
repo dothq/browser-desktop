@@ -1,0 +1,14 @@
+diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
+index 858e24b8f91089545c84847f66714fea033b4b48..9947598baddf81fe4f08ec26a7683d1fe4a952d2 100644
+--- a/browser/components/BrowserGlue.jsm
++++ b/browser/components/BrowserGlue.jsm
+@@ -1238,7 +1238,8 @@ BrowserGlue.prototype = {
+     os.addObserver(this, "handlersvc-store-initialized");
+ 
+     ActorManagerParent.addJSProcessActors(JSPROCESSACTORS);
+-    ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
++    // This is called in the dot browser chrome, doing it here just adds pain 
++    // ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
+ 
+     this._flashHangCount = 0;
+     this._firstWindowReady = new Promise(
