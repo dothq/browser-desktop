@@ -487,9 +487,10 @@ jobs:
         run: |
           npm i typescript
           brew install dos2unix
+          brew instal gnu-tar terminal-notifier watchman
           rustup install ${{ needs.build-data.outputs.rust_version }}
           rustup default ${{ needs.build-data.outputs.rust_version }}
-
+          cargo install sccache
       - name: Download workspace
         run: |
           ./melon download
@@ -515,14 +516,13 @@ jobs:
 
       - name: Build
         run: |
-          cd src
-          ./mach bootstrap --application-choice browser --no-interactive
-          cd ..
+          export MACH_USE_SYSTEM_PYTHON=1
           MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
 
       - name: Package
         run: |
           cd src
+          export MACH_USE_SYSTEM_PYTHON=1
           ./mach package
           cd ..
 
