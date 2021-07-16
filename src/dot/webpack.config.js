@@ -1,6 +1,5 @@
 const { resolve } = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { glob } = require("glob");
 
@@ -39,10 +38,6 @@ module.exports = {
         extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            filename: "browser.html",
-            template: "browser.template.html"
-        }),
         new MiniCssExtractPlugin(),
         new CleanWebpackPlugin()
     ],

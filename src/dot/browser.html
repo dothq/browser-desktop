@@ -8,7 +8,7 @@
 <html id="browser-window" chromemargin="0,2,2,2">
 <head>
   <title data-l10n-id="browser-main-window-title"></title>
-  <%= htmlWebpackPlugin.tags.headTags %>
+  <link rel="stylesheet" href="build/browser.css"></link>
 </head>
 <body>
   <div id="browser"></div>
@@ -16,6 +16,6 @@
 
   <popupset id="mainPopupSet"></popupset>
 
-  <%= htmlWebpackPlugin.tags.bodyTags %>
+  <script src="build/browser.js"></script>
 </body>
 </html>

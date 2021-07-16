@@ -4,6 +4,5 @@
 
 browser.jar:
 % content dot %content/dot/ contentaccessible=yes
-    content/dot/browser.html (dist/browser.html)
-    content/dot/skin (themes/**/**)
+    content/dot/browser.html (browser.html)
     content/dot/build (dist/**/**)
