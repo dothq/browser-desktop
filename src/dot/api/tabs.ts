@@ -1,18 +1,17 @@
-import { action, observable } from "mobx";
 import { ITab, Tab } from "../models/Tab";
 export class TabsAPI {
-    @observable public list: Tab[] = [];
+    public list: Tab[] = [];
 
-    @observable public selectedTabId: number = -1;
+    public selectedTabId: number = -1;
 
-    @observable public tabFilters = new Map();
-    @observable public tabListeners = new Map();
+    public tabFilters = new Map();
+    public tabListeners = new Map();
 
     public get selectedTab() {
         return this.get(this.selectedTabId);
     }
 
-    @action public create(data: ITab) {
+    public create(data: ITab) {
         const tab = new Tab(data);
         
         if(tab) {

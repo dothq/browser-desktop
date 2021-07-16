@@ -1,4 +1,3 @@
-import { computed, observable } from "mobx";
 import { dot } from "../api";
 import { Cc, ChromeUtils, Ci, E10SUtils, Services } from "../modules";
 import { MozURI } from "../types/uri";
@@ -9,24 +8,18 @@ export interface ITab {
 }
 
 export class Tab {
-    @observable
     public id: number;
 
-    @observable
     public background: boolean;
 
-    @observable
     public state: 'loading' | 'idle' | 'unknown' = 'unknown';
 
-    @computed
     public get url() {
         return this.webContents.currentURI.spec;
     }
 
-    @observable
     public canGoBack: boolean = false;
     
-    @observable
     public canGoForward: boolean = false;
 
     public updateNavigationState() {
@@ -34,13 +27,10 @@ export class Tab {
         this.canGoForward = this.webContents.canGoForward;
     }
 
-    @observable
     public title: string = "";
 
-    @observable
     public faviconURL: any;
 
-    @observable
     public webContents: any;
 
     constructor({
