@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { dot } from "../app";
+import { dot } from "../api";
 
 export class TitlebarAPI extends EventEmitter {
     get nativeTitlebarEnabled() {

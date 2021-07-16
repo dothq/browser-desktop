@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "target": "es2020",   
-    "module": "commonjs", 
-    "strict": true,                    
-    "esModuleInterop": true,             
-    "skipLibCheck": true,                   
-    "forceConsistentCasingInFileNames": true ,
-    "outDir": "dist",
-    "jsx": "react"
-  }
+    "target": "esnext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "node_modules" 
+  ]
 }

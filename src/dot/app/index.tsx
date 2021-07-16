@@ -2,11 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import React from "react";
-import { render } from "react-dom";
+import { MountableElement, render } from "solid-js/web";
 import { Browser } from "./Browser";
 
 render(
-    <Browser />,
-    document.getElementById("browser")
+    () => <Browser />,
+    document.getElementById("browser") as MountableElement
 );

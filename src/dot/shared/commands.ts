@@ -1,4 +1,4 @@
-import { dot } from "../app";
+import { dot } from "../api";
 
 export const commands: any = {
    "Browser:GoBack": () => dot.tabs.selectedTab?.goBack(),

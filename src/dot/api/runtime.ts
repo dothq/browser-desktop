@@ -1,8 +1,8 @@
-import { dot } from "../app";
-import { ActorManagerParent, AppConstants, ChromeUtils, Ci, LightweightThemeConsumer, Services } from "../modules";
-import { WELCOME_SCREEN_URL } from "../shared/tab";
 import { EventEmitter } from "events";
+import { dot } from "../api";
+import { ActorManagerParent, AppConstants, ChromeUtils, Ci, Services } from "../modules";
 import { windowActors } from "../modules/glue";
+import { WELCOME_SCREEN_URL } from "../shared/tab";
 
 export class RuntimeAPI extends EventEmitter {
     public QueryInterface = ChromeUtils.generateQI(["nsIXULBrowserWindow"])
@@ -41,8 +41,8 @@ export class RuntimeAPI extends EventEmitter {
         
     }
 
-    public async onBeforeBrowserQuit() {
-        await dot.window.onWindowStateUpdated();
+    public onBeforeBrowserQuit() {
+        dot.window.onWindowStateUpdated();
     }
 
     public setOverLink(status: string) {

@@ -1,6 +1,6 @@
-import { dot } from "../app";
+import { computed, observable } from "mobx";
+import { dot } from "../api";
 import { Cc, ChromeUtils, Ci, E10SUtils, Services } from "../modules";
-import { observable, computed } from "mobx";
 import { MozURI } from "../types/uri";
 
 export interface ITab {
@@ -9,23 +9,38 @@ export interface ITab {
 }
 
 export class Tab {
+    @observable
     public id: number;
 
+    @observable
     public background: boolean;
 
+    @observable
     public state: 'loading' | 'idle' | 'unknown' = 'unknown';
 
+    @computed
     public get url() {
         return this.webContents.currentURI.spec;
     }
 
-    public get navigationState() {
-        return {
-            goBack: this.webContents.canGoBack,
-            goForward: this.webContents.canGoForward
-        }
+    @observable
+    public canGoBack: boolean = false;
+    
+    @observable
+    public canGoForward: boolean = false;
+
+    public updateNavigationState() {
+        this.canGoBack = this.webContents.canGoBack;
+        this.canGoForward = this.webContents.canGoForward;
     }
 
+    @observable
+    public title: string = "";
+
+    @observable
+    public faviconURL: any;
+
+    @observable
     public webContents: any;
 
     constructor({
@@ -81,7 +96,7 @@ export class Tab {
 
         this.background = !!background;
 
-        const { id: tabId, webContents: { webProgress } } = this;
+        const { id: tabId, webContents: { webProgress }, updateNavigationState } = this;
 
         const progressListener = {
             onStateChange(webProgress: any, request: any, flags: number, status: any) {
@@ -96,6 +111,8 @@ export class Tab {
                 loadingBtn.style.display = webProgress.isLoadingDocument
                     ? ""
                     : "none";
+                
+                () => updateNavigationState();
 
                 console.log("onStateChange", webProgress, request, flags, status);
             },
@@ -162,6 +179,22 @@ export class Tab {
             // We'll be creating a new listener, so destroy the old one.
             oldListener = null; 
         });
+
+        this.webContents.addEventListener("pagetitlechanged", (event: any) => {
+            if (this.state !== "idle") return;
+
+            // Ignore empty title changes on internal pages. This prevents the title
+            // from changing while Fluent is populating the (initially-empty) title
+            // element.
+            if (
+                !browser.contentTitle &&
+                browser.contentPrincipal.isSystemPrincipal
+            ) return;
+
+            if (this.title == browser.contentTitle) return;
+
+            this.title = browser.contentTitle;
+        })
 
         return this;
     }

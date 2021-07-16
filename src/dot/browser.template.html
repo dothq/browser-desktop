@@ -8,13 +8,14 @@
 <html id="browser-window" chromemargin="0,2,2,2">
 <head>
   <title data-l10n-id="browser-main-window-title"></title>
-  <link rel="stylesheet" href="chrome://dot/content/skin/browser.css" type="text/css" media="all" />
+  <%= htmlWebpackPlugin.tags.headTags %>
 </head>
 <body>
   <div id="browser"></div>
-  <div id="browser-tabs-stack">
-    
-  </div>
-  <script src="chrome://dot/content/bundle.js"></script>
+  <div id="browser-tabs-stack"></div>
+
+  <popupset id="mainPopupSet"></popupset>
+
+  <%= htmlWebpackPlugin.tags.bodyTags %>
 </body>
 </html>

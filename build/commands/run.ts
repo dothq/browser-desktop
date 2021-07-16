@@ -4,25 +4,7 @@ import { bin_name, log } from "..";
 import { ENGINE_DIR } from "../constants";
 import { dispatch } from "../utils";
 
-const chromeUI = [
-    {
-        id: `dotui`,
-        uri: `chrome://dot/content/browser.xhtml`
-    }
-];
-
 export const run = async (chrome?: string) => {
-    var chromePkg;
-
-    if (chrome) {
-        chromePkg = chromeUI.find((c) => c.id == chrome);
-
-        if (!chromePkg)
-            throw new Error(
-                `Unable to locate chrome package named \`${chrome}\`.`
-            );
-    }
-
     const dirs = readdirSync(ENGINE_DIR);
     const objDirname: any = dirs.find((dir) => {
         return dir.startsWith("obj-");
@@ -40,8 +22,8 @@ export const run = async (chrome?: string) => {
         dispatch(
             "./mach",
             ["run"].concat(
-                chromePkg
-                    ? ["-chrome", chromePkg.uri]
+                chrome
+                    ? ["-chrome", chrome]
                     : []
             ),
             ENGINE_DIR,

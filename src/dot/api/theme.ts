@@ -2,19 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { dot } from "../app";
+import { dot } from "../api";
 import { ChromeUtils, Services } from "../modules";
 
 const { LightweightThemeManager } = ChromeUtils.import(
     "resource://gre/modules/LightweightThemeManager.jsm"
 );
 
-const { AddonManager } = ChromeUtils.import(
-    "resource://gre/modules/AddonManager.jsm"
-);
-
 const { ThemeVariableMap } = ChromeUtils.defineModuleGetter(
-    this,
+    window,
     "ThemeVariableMap",
     "resource:///modules/ThemeVariableMap.jsm"
 );
@@ -235,7 +231,8 @@ export class ThemeAPI {
         this._currentTheme = this.isSystemDarkMode && themeData.darkTheme
             ? themeData.darkTheme 
             : themeData.theme;
-        this._currentThemeId = this._currentTheme.id;
+
+        this._currentThemeId = themeData.theme.id;
         this._currentThemeExperiments = this._currentTheme.experimental;
 
         const mapped = [...ThemeVariableMap, ...toolkitVariableMap].map((i: any) => {

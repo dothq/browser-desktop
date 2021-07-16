@@ -1,6 +1,8 @@
+import { symlinkSync } from "fs-extra";
 import { sync } from "glob";
+import { resolve } from "path";
 import { bin_name, log } from "..";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR, SRC_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
@@ -18,6 +20,16 @@ const importManual = async (
 
     if (!minimal) console.log();
 
+    try {
+        symlinkSync(
+            resolve(SRC_DIR, "dot"),
+            resolve(ENGINE_DIR, "dot"),
+            "dir"
+        );
+    } catch (e) {
+
+    }
+    
     await delay(500);
 
     return new Promise(async (res, rej) => {
@@ -73,7 +85,7 @@ const importPatchFiles = async (
         cwd: SRC_DIR
     });
 
-    patches = patches.filter((p) => p !== ".index");
+    patches = patches.filter((p) => p !== ".index").filter((p) => !p.includes("node_modules"));
 
     log.info(`Applying ${patches.length} patch files...`);
 

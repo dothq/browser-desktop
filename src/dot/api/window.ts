@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { dot } from "../app";
+import { dot } from "../api";
 import { ChromeUtils } from "../modules";
 
 const { OS } = ChromeUtils.import("resource://gre/modules/osfile.jsm");

@@ -106,14 +106,14 @@ const dockerBuild = async (os: string) => {
     await container.wait();
 };
 
-const genericBuild = async (os: string) => {
+const genericBuild = async (os: string, tier: string) => {
     log.info(`Building for "${os}"...`);
 
     log.warning(
         `If you get any dependency errors, try running |${bin_name} bootstrap|.`
     );
 
-    await dispatch(`./mach`, ["build"], ENGINE_DIR);
+    await dispatch(`./mach`, ["build"].concat(tier ? [tier] : []), ENGINE_DIR);
 };
 
 const parseDate = (d: number) => {
@@ -152,22 +152,18 @@ interface Options {
 }
 
 export const build = async (
-    os: string,
+    tier: string,
     options: Options
 ) => {
     let d = Date.now();
 
-    if (os) {
-        // Docker build
+    // Host build
 
+    const prettyHost =
+        platform[process.platform as any];
+
+    if (BUILD_TARGETS.includes(prettyHost)) {
         let arch = "64bit";
-
-        if (!BUILD_TARGETS.includes(os))
-            return log.error(
-                `We do not support "${os}" builds right now.\nWe only currently support ${JSON.stringify(
-                    BUILD_TARGETS
-                )}.`
-            );
 
         if (options.arch) {
             if (!ARCHITECTURE.includes(options.arch))
@@ -181,45 +177,12 @@ export const build = async (
             else arch = options.arch;
         }
 
-        applyConfig(os, options.arch);
+        applyConfig(prettyHost, options.arch);
 
         setTimeout(async () => {
-            await dockerBuild(os).then((_) => success(d));
-        }, 2500);
-    } else {
-        // Host build
-
-        const prettyHost =
-            platform[process.platform as any];
-
-        if (BUILD_TARGETS.includes(prettyHost)) {
-            let arch = "64bit";
-
-            if (options.arch) {
-                if (!ARCHITECTURE.includes(options.arch))
-                    return log.error(
-                        `We do not support "${
-                            options.arch
-                        }" build right now.\nWe only currently support ${JSON.stringify(
-                            ARCHITECTURE
-                        )}.`
-                    );
-                else arch = options.arch;
-            }
-
-            applyConfig(prettyHost, options.arch);
-
-            setTimeout(async () => {
-                await genericBuild(prettyHost).then((_) =>
-                    success(d)
-                );
-            }, 2500);
-        } else {
-            return log.error(
-                `We do not support "${prettyHost}" builds right now.\nWe only currently support ${JSON.stringify(
-                    BUILD_TARGETS
-                )}.`
+            await genericBuild(prettyHost, tier).then((_) =>
+                success(d)
             );
-        }
+        }, 2500);
     }
 };

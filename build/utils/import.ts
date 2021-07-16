@@ -1,6 +1,5 @@
 import {
-    appendFileSync,
-    copySync,
+    appendFileSync, ensureSymlink,
     readFileSync
 } from "fs-extra";
 import { resolve } from "path";
@@ -15,7 +14,7 @@ export const copyManual = (
     noIgnore?: boolean
 ) => {
     try {
-        copySync(
+        ensureSymlink(
             resolve(SRC_DIR, ...getChunked(name)),
             resolve(ENGINE_DIR, ...getChunked(name))
         );
