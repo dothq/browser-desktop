@@ -22,9 +22,7 @@ export const run = async (chrome?: string) => {
         dispatch(
             "./mach",
             ["run"].concat(
-                chrome
-                    ? ["-chrome", chrome]
-                    : []
+                chrome ? ["-chrome", chrome] : []
             ),
             ENGINE_DIR,
             true,

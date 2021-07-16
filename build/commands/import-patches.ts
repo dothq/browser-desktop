@@ -26,10 +26,8 @@ const importManual = async (
             resolve(ENGINE_DIR, "dot"),
             "dir"
         );
-    } catch (e) {
+    } catch (e) {}
 
-    }
-    
     await delay(500);
 
     return new Promise(async (res, rej) => {
@@ -85,7 +83,9 @@ const importPatchFiles = async (
         cwd: SRC_DIR
     });
 
-    patches = patches.filter((p) => p !== ".index").filter((p) => !p.includes("node_modules"));
+    patches = patches
+        .filter((p) => p !== ".index")
+        .filter((p) => !p.includes("node_modules"));
 
     log.info(`Applying ${patches.length} patch files...`);
 

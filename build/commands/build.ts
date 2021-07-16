@@ -113,7 +113,11 @@ const genericBuild = async (os: string, tier: string) => {
         `If you get any dependency errors, try running |${bin_name} bootstrap|.`
     );
 
-    await dispatch(`./mach`, ["build"].concat(tier ? [tier] : []), ENGINE_DIR);
+    await dispatch(
+        `./mach`,
+        ["build"].concat(tier ? [tier] : []),
+        ENGINE_DIR
+    );
 };
 
 const parseDate = (d: number) => {
@@ -159,8 +163,7 @@ export const build = async (
 
     // Host build
 
-    const prettyHost =
-        platform[process.platform as any];
+    const prettyHost = platform[process.platform as any];
 
     if (BUILD_TARGETS.includes(prettyHost)) {
         let arch = "64bit";
@@ -180,8 +183,8 @@ export const build = async (
         applyConfig(prettyHost, options.arch);
 
         setTimeout(async () => {
-            await genericBuild(prettyHost, tier).then((_) =>
-                success(d)
+            await genericBuild(prettyHost, tier).then(
+                (_) => success(d)
             );
         }, 2500);
     }

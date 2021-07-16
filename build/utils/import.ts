@@ -1,5 +1,6 @@
 import {
-    appendFileSync, ensureSymlink,
+    appendFileSync,
+    ensureSymlink,
     readFileSync
 } from "fs-extra";
 import { resolve } from "path";
