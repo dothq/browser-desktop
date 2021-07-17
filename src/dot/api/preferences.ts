@@ -66,6 +66,25 @@ export class PreferencesAPI {
         return typeof(data) == "undefined";
     }
 
+    public observe(
+        id: string,
+        callback: (...args: any[]) => void,
+        immediate?: boolean
+    ) {
+        const observerCallback = (...observerArgs: any[]) => {
+            const newValue = this.get(id);
+
+            return callback(newValue, ...observerArgs)
+        }
+
+        if (immediate && immediate == true) observerCallback([]);
+
+        Services.prefs.addObserver(
+            id,
+            observerCallback
+        )
+    }
+
     public getType(id: string, initialData?: any) {
         const data = initialData ? initialData : this.get(id);
         const dataType = typeof (data);
