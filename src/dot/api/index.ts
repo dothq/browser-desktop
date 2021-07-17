@@ -2,6 +2,7 @@ export * from './console';
 export * from './dev';
 export * from './extensions';
 export * from './menu';
+export * from './preferences';
 export * from './runtime';
 export * from './tabs';
 export * from './theme';
@@ -14,6 +15,7 @@ import {
     DevAPI,
     ExtensionsAPI,
     MenuAPI,
+    PreferencesAPI,
     RuntimeAPI,
     TabsAPI,
     ThemeAPI,
@@ -27,6 +29,7 @@ class Dot {
     public tabs = new TabsAPI();
     public theme = new ThemeAPI();
     public extensions = new ExtensionsAPI();
+    public prefs = new PreferencesAPI();
     public menu = new MenuAPI();
     public dev = new DevAPI();
     public runtime = new RuntimeAPI();
