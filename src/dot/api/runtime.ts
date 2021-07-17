@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
-import { ActorManagerParent, AppConstants, ChromeUtils, Ci, Services } from "../modules";
+import { ActorManagerParent, ChromeUtils, Ci } from "../modules";
 import { windowActors } from "../modules/glue";
 import { WELCOME_SCREEN_URL } from "../shared/tab";
 
@@ -30,9 +30,18 @@ export class RuntimeAPI extends EventEmitter {
             url: WELCOME_SCREEN_URL
         });
 
-        dot.window.addWindowClass(AppConstants.platform);
-        dot.window.addWindowClass(Services.locale.requestedLocale);
-        dot.window.toggleWindowAttribute("lang", Services.locale.requestedLocale);
+        dot.window.addWindowClass(dot.utilities.platform);
+        dot.window.addWindowClass(dot.utilities.browserLanguage);
+        dot.window.toggleWindowAttribute("lang", dot.utilities.browserLanguage);
+
+        dot.prefs.observe(
+            "dot.window.nativecontrols.enabled",
+            (value: boolean) => {
+                if (value) dot.window.addWindowClass("native-window-controls")
+                else dot.window.removeWindowClass("native-window-controls")
+            },
+            true
+        );
 
         dot.theme.load();
     }
