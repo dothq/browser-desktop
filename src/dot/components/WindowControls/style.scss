@@ -1,0 +1,42 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+#browser.tabs-in-titlebar .titlebar-buttonbox-container {
+    display: flex;
+    padding: 0 4px;
+    height: 100%;
+}
+
+#browser.tabs-in-titlebar .titlebar-buttonbox-container .titlebar-buttonbox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#browser:not(.tabs-in-titlebar) .titlebar-buttonbox-container {
+    display: none;
+}
+
+.titlebar-buttonbox-container .titlebar-button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#browser.tabs-in-titlebar.native-window-controls {
+    .titlebar-buttonbox-container .titlebar-min {
+        appearance: auto;
+        -moz-default-appearance: -moz-window-button-minimize;
+    }
+
+    .titlebar-buttonbox-container .titlebar-max {
+        appearance: auto;
+        -moz-default-appearance: -moz-window-button-maximize;
+    }
+
+    .titlebar-buttonbox-container .titlebar-close {
+        appearance: auto;
+        -moz-default-appearance: -moz-window-button-close;
+    }
+}
