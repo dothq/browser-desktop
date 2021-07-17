@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { AppConstants, Services } from "../modules";
 import { commands } from "../shared/commands";
 
 export class UtilitiesAPI extends EventEmitter {
@@ -14,6 +15,18 @@ export class UtilitiesAPI extends EventEmitter {
             this._pageStatusEl.style.opacity = value.length == 0 ? "0" : "1";
             this._pageStatusEl.innerText = value;
         }
+    }
+
+    public get platform() {
+        return AppConstants.platform == "macosx"
+                ? "macos"
+                : AppConstants.platform == "win"
+                    ? "windows"
+                    : AppConstants.platform
+    }
+
+    public get browserLanguage() {
+        return Services.locale.requestedLocale
     }
 
     public doCommand(command: string) {
