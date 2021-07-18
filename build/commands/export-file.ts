@@ -45,8 +45,12 @@ export const exportFile = async (file: string) => {
 
     if (proc.stdout.length >= 8000) {
         log.warning("");
-        log.warning(`Exported patch is over 8000 characters. This patch may become hard to manage in the future.`);
-        log.warning(`We recommend trying to decrease your patch size by making minimal edits to the source.`)
+        log.warning(
+            `Exported patch is over 8000 characters. This patch may become hard to manage in the future.`
+        );
+        log.warning(
+            `We recommend trying to decrease your patch size by making minimal edits to the source.`
+        );
         log.warning("");
         await delay(2000);
     }
@@ -54,7 +58,7 @@ export const exportFile = async (file: string) => {
     writeFileSync(
         resolve(SRC_DIR, ...patchPath, name),
         proc.stdout
-    )
+    );
     log.info(`Wrote "${name}" to patches directory.`);
     console.log();
 };
