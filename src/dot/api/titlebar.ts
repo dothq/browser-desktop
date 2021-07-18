@@ -3,7 +3,7 @@ import { dot } from "../api";
 
 export class TitlebarAPI extends EventEmitter {
     get nativeTitlebarEnabled() {
-        return !dot.window.windowClass.has("tabs-in-titlebar");
+        return !!document.documentElement.getAttribute("chromemargin");
     }
 
     set nativeTitlebarEnabled(allowed: boolean) {

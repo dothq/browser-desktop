@@ -10,6 +10,8 @@ const { FileUtils } = ChromeUtils.import(
 export class WindowAPI extends EventEmitter {
     public windowClass = new Set();
 
+    private _windowStateCache: any = {};
+
     public get windowState() {
         const { width, height } = document.documentElement.getBoundingClientRect();
         const { mozInnerScreenX: x, mozInnerScreenY: y } = window;
@@ -19,7 +21,7 @@ export class WindowAPI extends EventEmitter {
             ? "hidden"
             : "shown"
 
-        return {
+        const state = {
             width,
             height,
             x,
@@ -27,6 +29,13 @@ export class WindowAPI extends EventEmitter {
             sizemode,
             titlebar
         };
+
+        if (this._windowStateCache && this._windowStateCache == state) {
+            return this._windowStateCache
+        } else {
+            this._windowStateCache = state;
+            return state;
+        }
     }
 
     public async onWindowStateUpdated() {
@@ -49,22 +58,26 @@ export class WindowAPI extends EventEmitter {
     }
 
     public async updateWindowState() {
-        const data = await OS.File.read(FileUtils.getDir("ProfLD", [
-            "window.json"
-        ]).path, { encoding: "utf-8" });
+        try {
+            const data = await OS.File.read(FileUtils.getDir("ProfLD", [
+                "window.json"
+            ]).path, { encoding: "utf-8" });
 
-        const windowState = JSON.parse(data);
+            const windowState = JSON.parse(data);
 
-        const { width, height, x, y, sizemode, titlebar } = windowState;
+            const { width, height, x, y, sizemode, titlebar } = windowState;
 
-        if (sizemode == "maximised") this.maximise(true);
-        else {
-            window.resizeTo(width, height);
-            window.moveTo(x, y);
+            if (sizemode == "maximised") this.maximise(true);
+            else {
+                window.resizeTo(width, height);
+                window.moveTo(x, y);
+            }
+
+            if (titlebar == "shown") dot.titlebar.nativeTitlebarEnabled = true;
+            else dot.titlebar.nativeTitlebarEnabled = false;
+        } catch (e) {
+            await this.onWindowStateUpdated();
         }
-
-        if (titlebar == "shown") dot.titlebar.nativeTitlebarEnabled = true;
-        else dot.titlebar.nativeTitlebarEnabled = false;
     }
 
     public minimise() {
@@ -82,7 +95,9 @@ export class WindowAPI extends EventEmitter {
         window.close();
     }
 
-    public addWindowClass(name: string) {
+    public addWindowClass(name: string, condition?: boolean) {
+        if (typeof(condition) == "boolean" && condition == false) return;
+
         document.getElementById("browser")?.classList.add(name);
         this.windowClass.add(name);
     }
@@ -90,6 +105,15 @@ export class WindowAPI extends EventEmitter {
     public removeWindowClass(name: string) {
         document.getElementById("browser")?.classList.remove(name);
         this.windowClass.delete(name);
+    }
+
+    public removeWindowClassByNamespace(prefix: string) {
+        document.getElementById("browser")?.classList.forEach(i => {
+            if (i.startsWith(prefix)) {
+                document.getElementById("browser")?.classList.remove(i);
+                this.windowClass.delete(i);
+            }
+        });
     }
 
     public toggleWindowAttribute(key: string, value: string, initialValue?: boolean) {

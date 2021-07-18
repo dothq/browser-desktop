@@ -7,6 +7,8 @@ import { WELCOME_SCREEN_URL } from "../shared/tab";
 export class RuntimeAPI extends EventEmitter {
     public QueryInterface = ChromeUtils.generateQI(["nsIXULBrowserWindow"])
 
+    private _windowStateInt;
+
     public onBeforeBrowserInit() {
         window.docShell
             .treeOwner
@@ -32,6 +34,7 @@ export class RuntimeAPI extends EventEmitter {
 
         dot.window.addWindowClass(dot.utilities.platform);
         dot.window.addWindowClass(dot.utilities.browserLanguage);
+        dot.window.addWindowClass("tabs-in-titlebar", dot.titlebar.nativeTitlebarEnabled);
         dot.window.toggleWindowAttribute("lang", dot.utilities.browserLanguage);
 
         dot.prefs.observe(
@@ -47,11 +50,13 @@ export class RuntimeAPI extends EventEmitter {
     }
 
     public onAfterBrowserPaint() {
-        
+        dot.window.onWindowStateUpdated();
     }
 
     public onBeforeBrowserQuit() {
         dot.window.onWindowStateUpdated();
+
+        clearInterval(this._windowStateInt);
     }
 
     public setOverLink(status: string) {
@@ -64,5 +69,9 @@ export class RuntimeAPI extends EventEmitter {
         this.on("before-browser-window-init", this.onBeforeBrowserInit);
         this.on("browser-window-init", this.onBrowserStartup);
         this.on("before-browser-window-quit", this.onBeforeBrowserQuit);
+
+        this._windowStateInt = setInterval(() => {
+            dot.window.onWindowStateUpdated();
+        }, 10000);
     }
 }

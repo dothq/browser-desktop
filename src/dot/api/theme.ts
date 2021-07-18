@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { dot } from "../api";
-import { ChromeUtils, Services } from "../modules";
+import { AddonManager, ChromeUtils, Services } from "../modules";
 
 const { LightweightThemeManager } = ChromeUtils.import(
     "resource://gre/modules/LightweightThemeManager.jsm"
@@ -221,60 +221,72 @@ export class ThemeAPI {
         return this._currentThemeId;
     }
 
-    load() {
+    public load() {
         const { themeData } = LightweightThemeManager;
 
         if (this._currentThemeId) {
+            dot.window.removeWindowClassByNamespace("theme-");
             dot.window.addWindowClass(`theme-${this._currentThemeId}`);
         }
-        
-        this._currentTheme = this.isSystemDarkMode && themeData.darkTheme
-            ? themeData.darkTheme 
-            : themeData.theme;
 
-        this._currentThemeId = themeData.theme.id;
-        this._currentThemeExperiments = this._currentTheme.experimental;
+        if (themeData.theme) {
+            this._currentTheme = this.isSystemDarkMode && themeData.darkTheme
+                ? themeData.darkTheme 
+                : themeData.theme;
 
-        const mapped = [...ThemeVariableMap, ...toolkitVariableMap].map((i: any) => {
-            return { variable: i[0], data: i[1] }
-        });
+            this._currentThemeId = themeData.theme.id;
+            this._currentThemeExperiments = this._currentTheme.experimental;
 
-        for (const [key, value] of Object.entries(this._currentTheme)) {
-            if (
-                key == "experimental" ||
-                key == "id" ||
-                key == "version"
-            ) continue;
+            const mapped = [...ThemeVariableMap, ...toolkitVariableMap].map((i: any) => {
+                return { variable: i[0], data: i[1] }
+            });
 
-            const index = mapped.findIndex(({ data }: { data: any }) =>
-                data.lwtProperty == key
-            );
+            for (const [key, value] of Object.entries(this._currentTheme)) {
+                if (
+                    key == "experimental" ||
+                    key == "id" ||
+                    key == "version"
+                ) continue;
 
-            if(mapped[index]) {
-                const { variable } = mapped[index];
+                const index = mapped.findIndex(({ data }: { data: any }) =>
+                    data.lwtProperty == key
+                );
 
-                document.documentElement.style.setProperty(
-                    variable.replace(/_/g, "-"),
-                    `${value}`
-                )
-            } else {
-                document.documentElement.style.setProperty(
-                    "--" + key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`).replace(/_/g, "-"),
-                    `${value}`
-                )
+                if(mapped[index]) {
+                    const { variable } = mapped[index];
+
+                    document.documentElement.style.setProperty(
+                        variable.replace(/_/g, "-"),
+                        `${value}`
+                    )
+                } else {
+                    document.documentElement.style.setProperty(
+                        "--" + key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`).replace(/_/g, "-"),
+                        `${value}`
+                    )
+                }
             }
-        }
 
-        if (this._currentThemeExperiments) {
-            for (const [key, value] of Object.entries(this._currentThemeExperiments.colors)) {
-                document.documentElement.style.setProperty(
-                    `--` + key.replace(/_/g, "-").toLowerCase(),
-                    `${value}`
-                )
-            };
-        }
+            if (this._currentThemeExperiments) {
+                for (const [key, value] of Object.entries(this._currentThemeExperiments.colors)) {
+                    document.documentElement.style.setProperty(
+                        `--` + key.replace(/_/g, "-").toLowerCase(),
+                        `${value}`
+                    )
+                };
+            }
 
-        dot.window.addWindowClass(`theme-${this._currentThemeId}`);
+            dot.window.addWindowClass(`theme-${this._currentThemeId}`);
+        } else {
+            this.setTheme("")
+            throw new Error("Unable to load ThemeAPI. themeData was not available.");
+        }
+    }
+
+    public async setTheme(id: string) {
+        const addon = await AddonManager.getAddonByID(id);
+
+        addon.enable();
     }
 
     constructor() {

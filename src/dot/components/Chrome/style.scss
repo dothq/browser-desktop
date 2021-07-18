@@ -20,12 +20,19 @@
 
 #navigation-bar #navigation-bar-container {
     display: flex;
-    padding: 6px;
-    gap: 2px;
+    gap: 4px;
+    padding: 0 6px;
+    align-items: center;
     flex: 1;
 }
 
 #tab-bar {
+    display: flex;
+    align-items: center;
     height: 40px;
     background-color: var(--lwt-accent-color);
+}
+
+#new-tab-button {
+    margin-inline-start: 6px;
 }

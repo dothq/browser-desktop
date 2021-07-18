@@ -4,7 +4,7 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "compile": "rm -rf ./dist/ && webpack && cp -r ../../src/dot/dist ."
+    "compile": "rm -rf ./dist/ && webpack && cp -r ../../src/dot/dist . 2>/dev/null || :"
   },
   "dependencies": {
     "babel-preset-solid": "^1.0.1",

@@ -1,0 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+#tabbrowser-tabs {
+    height: 40px;
+    display: contents;
+}
+
+#tabbrowser-tabs .tabbrowser-tab:last-of-type::after {
+    content: "";
+    width: 1px;
+    background-color: rgba(143, 143, 143, 0.3);
+    margin: 8px 0;
+}

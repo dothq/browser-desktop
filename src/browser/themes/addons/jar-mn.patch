@@ -1,0 +1,22 @@
+diff --git a/browser/themes/addons/jar.mn b/browser/themes/addons/jar.mn
+index 5aa122b2ab38838daf4d08782f7651c107ef8b4b..3bf052af32f2e8c01a4aa196613e374cc99a6a66 100644
+--- a/browser/themes/addons/jar.mn
++++ b/browser/themes/addons/jar.mn
+@@ -5,9 +5,6 @@
+ browser.jar:
+ %  resource builtin-themes %content/builtin-themes/
+ 
+-  content/builtin-themes/alpenglow                 (alpenglow/*.svg)
+-  content/builtin-themes/alpenglow/manifest.json   (alpenglow/manifest.json)
+-
+   content/builtin-themes/dark                      (dark/*.svg)
+   content/builtin-themes/dark                      (dark/*.css)
+   content/builtin-themes/dark/manifest.json        (dark/manifest.json)
+@@ -15,3 +12,7 @@ browser.jar:
+   content/builtin-themes/light                     (light/*.svg)
+   content/builtin-themes/light                     (light/*.css)
+   content/builtin-themes/light/manifest.json       (light/manifest.json)
++
++  content/builtin-themes/fusion                    (fusion/*.svg)
++  content/builtin-themes/fusion                     (fusion/*.css)
++  content/builtin-themes/fusion/manifest.json      (fusion/manifest.json)

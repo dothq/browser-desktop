@@ -1,22 +1,32 @@
 import { ContextMenuProps } from "../menus";
+import { Menu } from "../models/Menu";
 
 export class MenuAPI {
-    private loadedMenus: ContextMenuProps[] = []
+    public list: Menu[] = []
 
     public register(data: ContextMenuProps) {
-        if (!data.element) throw new Error("Menu must have a element attached.");
+        const menu = new Menu(data.id);
 
-        this.loadedMenus.push(data);
+        this.list.push(menu);
     }
 
     public get(menuId: string) {
-        return this.loadedMenus.find(menu => menu.id == menuId);
+        return this.list.find(menu => menu.id == menuId);
     }
 
-    public open(menuId: string) {
+    public open(menuId: string, x?: number, y?: number) {
         const menu = this.get(menuId);
-        if (!menu || !menu.element) return;
+        
+        if (menu) {
+            menu.open(x || 0, y || 0);
+        }
+    }
 
-        menu?.element.setAttribute("open", "true");
+    public close(menuId: string) {
+        const menu = this.get(menuId);
+        
+        if (menu) {
+            menu.close();
+        }
     }
 }

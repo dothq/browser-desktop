@@ -30,7 +30,6 @@ export class UtilitiesAPI extends EventEmitter {
     }
 
     public doCommand(command: string) {
-        console.log(command)
         return commands[command]();
     }
 

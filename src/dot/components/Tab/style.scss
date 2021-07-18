@@ -1,0 +1,97 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.tabbrowser-tab {
+    max-width: 250px;
+    max-height: 40px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+.tabbrowser-tab .tab-background,
+.tabbrowser-tab .tab-content {
+    height: 100%;
+    width: 100%;
+}
+
+.tabbrowser-tab .tab-background {
+    position: absolute;
+    display: flex;
+}
+
+.tabbrowser-tab[active] .tab-background {
+    background-color: var(--toolbar-bgcolor);
+}
+
+.tabbrowser-tab .tab-content {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    padding-left: 12px;
+    padding-right: 10px;
+}
+
+.tabbrowser-tab .tab-content {
+    .tab-icon-stack {
+        width: 16px;
+        height: 16px;
+        margin-inline-end: 10px;
+        background-color: white;
+        border-radius: 100px;
+    }
+
+    .tab-label-container {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        color: var(--lwt-tab-text);
+    }
+    
+    .tab-close-button {
+        display: flex;
+        width: 22px;
+        height: 22px;
+        align-items: center;
+        justify-content: center;
+
+        .toolbarbutton-icon {
+            width: inherit;
+            height: inherit;
+            margin: 0;
+            padding: 0;
+            background-size: 12px;
+        }
+    }
+}
+
+.tabbrowser-tab .tab-content .tab-label-container {
+    flex: 1;
+}
+
+.tabbrowser-tab[active] .tab-background {
+    &::before,
+    &::after {
+        content: "";
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' fill='none'%3E%3Cpath d='M0 8L0.000396729 4.63277e-05L8 0C3.58173 0 0 3.58173 0 8Z' fill='white'/%3E%3C/svg%3E");
+        width: 10px;
+        height: 10px;
+        position: relative;
+        mask-size: cover;
+        display: flex;
+        top: 0px;
+        background-color: var(--toolbar-bgcolor);
+    }
+
+    &::before {
+        left: 0;
+    }
+
+    &::after {
+        right: -10px;
+        margin-left: auto;
+    }
+}

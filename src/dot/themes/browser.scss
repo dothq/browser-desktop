@@ -1,44 +1,51 @@
 html {
-    min-width: 500px;
-    min-height: 100px;
-    overflow: clip;
+  min-width: 500px;
+  min-height: 100px;
+  overflow: clip;
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
-body, :root {
-    font: message-box;
-    background-color: var(--lwt-accent-color);
-    color: var(--lwt-text-color);
-    overflow: clip;
+body,
+:root {
+  font: message-box;
+  background-color: var(--lwt-accent-color);
+  color: var(--lwt-text-color);
+  overflow: clip;
 
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 #browser {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 #browser-tabs-stack {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    background-color: var(--lwt-accent-color);
-    flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  background-color: var(--lwt-accent-color);
+  flex: 1;
+  border-top: 1px solid var(--chrome-content-separator-color);
 }
 
 #browser-tabs-stack browser {
-    align-self: auto;
-    min-width: auto;
-    min-height: auto;
-    width: var(--split, 100%);
-    height: 100%;
+  align-self: auto;
+  min-width: auto;
+  min-height: auto;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+#mainPopupSet {
+  height: 0px;
 }

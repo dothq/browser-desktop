@@ -1,3 +1,4 @@
+export * from './browsers';
 export * from './console';
 export * from './dev';
 export * from './extensions';
@@ -11,6 +12,7 @@ export * from './utilities';
 export * from './window';
 
 import {
+    BrowsersAPI,
     ConsoleAPI,
     DevAPI,
     ExtensionsAPI,
@@ -36,6 +38,8 @@ class Dot {
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
     public window = new WindowAPI();
+    
+    public browsersPrivate = new BrowsersAPI();
 
     constructor() {
         this.runtime.emit("before-browser-window-init");

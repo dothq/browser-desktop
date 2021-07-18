@@ -1,5 +1,5 @@
 import { dot } from "../api";
-import { Cc, ChromeUtils, Ci, E10SUtils, Services } from "../modules";
+import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { MozURI } from "../types/uri";
 
 export interface ITab {
@@ -37,12 +37,7 @@ export class Tab {
         url,
         background
     }: ITab) {
-        let browser: HTMLElement | any = document.createXULElement("browser");
-
-        this.webContents = browser;
-        this.id = this.webContents.browserId;
-
-        const attributes = {
+        const browser = dot.browsersPrivate.create({
             type: "content",
             context: "contentAreaContextMenu",
             tooltip: "aHTMLTooltip",
@@ -51,38 +46,17 @@ export class Tab {
             message: true,
             messagemanagergroup: "browsers",
             remote: true,
-            maychangeremoteness: true
-        }
+            maychangeremoteness: true,
+            
+            background: !!background
+        })
 
-        for(const [key, val] of Object.entries(attributes)) {
-            this.webContents.setAttribute(key, val.toString());
-        }
-        
-        let oa = E10SUtils.predictOriginAttributes({ browser: this.webContents });
-    
-        const { useRemoteTabs } = window.docShell.QueryInterface(Ci.nsILoadContext);
-        const remoteType = E10SUtils.getRemoteTypeForURI(
-            url.spec,
-            useRemoteTabs /* is multi process browser */,
-            false /* fission */,
-            E10SUtils.DEFAULT_REMOTE_TYPE,
-            null,
-            oa
-        );
-
-        this.webContents.setAttribute(
-            "remoteType",
-            remoteType
-        );
-
-        const tabsStack = document.getElementById("browser-tabs-stack");
-        tabsStack?.appendChild(this.webContents);
+        this.webContents = browser;
+        this.id = this.webContents.browserId;
 
         if(!background) dot.tabs.selectedTabId = this.id;
 
         this.goto(url);
-
-        tabsStack?.style.setProperty(`--split`, `${100 / (dot.tabs.list.length + 1)}%`)
 
         this.background = !!background;
 
@@ -95,12 +69,6 @@ export class Tab {
                 if (url == "about:blank") {
                   return;
                 };
-
-                const loadingBtn: any = document.getElementById("loading-button");
-
-                loadingBtn.style.display = webProgress.isLoadingDocument
-                    ? ""
-                    : "none";
                 
                 () => updateNavigationState();
 
@@ -184,6 +152,10 @@ export class Tab {
             if (this.title == browser.contentTitle) return;
 
             this.title = browser.contentTitle;
+        });
+
+        this.webContents.addEventListener("contextmenu", (event: MouseEvent) => {
+            dot.menu.get("context-navigation")?.toggle(event);
         })
 
         return this;
