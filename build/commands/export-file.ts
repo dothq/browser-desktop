@@ -1,9 +1,10 @@
 import execa from "execa";
-import { createWriteStream, existsSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import { ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
 import { ENGINE_DIR, SRC_DIR } from "../constants";
+import { delay } from "../utils";
 
 export const exportFile = async (file: string) => {
     log.info(`Exporting ${file}...`);
@@ -13,7 +14,7 @@ export const exportFile = async (file: string) => {
             `File ${file} could not be found in engine directory. Check the path for any mistakes and try again.`
         );
 
-    const proc = execa(
+    const proc = await execa(
         "git",
         [
             "diff",
@@ -42,11 +43,18 @@ export const exportFile = async (file: string) => {
 
     ensureDirSync(resolve(SRC_DIR, ...patchPath));
 
-    proc.stdout?.pipe(
-        createWriteStream(
-            resolve(SRC_DIR, ...patchPath, name)
-        )
-    );
+    if (proc.stdout.length >= 8000) {
+        log.warning("");
+        log.warning(`Exported patch is over 8000 characters. This patch may become hard to manage in the future.`);
+        log.warning(`We recommend trying to decrease your patch size by making minimal edits to the source.`)
+        log.warning("");
+        await delay(2000);
+    }
+
+    writeFileSync(
+        resolve(SRC_DIR, ...patchPath, name),
+        proc.stdout
+    )
     log.info(`Wrote "${name}" to patches directory.`);
     console.log();
 };
