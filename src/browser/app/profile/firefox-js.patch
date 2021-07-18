@@ -1,8 +1,8 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index 064d0338199982996d269a5685a1d164b2920c0d..99bdea04adbfc02879805ad50edd6f1b49ca0a3d 100644
+index 064d0338199982996d269a5685a1d164b2920c0d..2eb96075a2ded12d610131e49f0008e279e62768 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
-@@ -2551,3 +2551,111 @@ pref("first-startup.timeout", 30000);
+@@ -2551,3 +2551,114 @@ pref("first-startup.timeout", 30000);
  // are expected to go away once a standardized alternative becomes
  // available.
  pref("svg.context-properties.content.allowed-domains", "profile.accounts.firefox.com,profile.stage.mozaws.net");
@@ -114,11 +114,7 @@ index 064d0338199982996d269a5685a1d164b2920c0d..99bdea04adbfc02879805ad50edd6f1b
 +pref("sidebar.pinned", false);
 +pref("sidebar.selected", "");
 +pref("sidebar.startItems", "");
-+pref("sidebar.endItems", "");
 +
-+// Experiments
-+pref("browser.preferences.webuiexperience.enabled", false);
-+
-+// Support Links
-+pref("app.support.baseURL", "https://support.dothq.co/%LOCALE%/desktop/%OSLOWER%/%DOTVERSION%/");
++// dot.*
++pref("dot.window.nativecontrols.enabled", true);
 \ No newline at end of file
