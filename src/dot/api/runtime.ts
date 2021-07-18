@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
+import { store } from "../app/store";
 import { ActorManagerParent, ChromeUtils, Ci } from "../modules";
 import { windowActors } from "../modules/glue";
 import { WELCOME_SCREEN_URL } from "../shared/tab";
@@ -28,9 +29,12 @@ export class RuntimeAPI extends EventEmitter {
     public onBrowserStartup() {
         dot.window.updateWindowState();
 
-        dot.tabs.create({
-            url: WELCOME_SCREEN_URL
-        });
+        store.dispatch({
+            type: "TAB_CREATE",
+            payload: {
+                url: WELCOME_SCREEN_URL
+            }
+        })
 
         dot.window.addWindowClass(dot.utilities.platform);
         dot.window.addWindowClass(dot.utilities.browserLanguage);

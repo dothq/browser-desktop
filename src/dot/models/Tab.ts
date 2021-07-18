@@ -1,9 +1,9 @@
 import { dot } from "../api";
-import { Cc, ChromeUtils, Ci } from "../modules";
+import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { MozURI } from "../types/uri";
 
 export interface ITab {
-    url: MozURI,
+    url: string,
     background?: boolean
 }
 
@@ -16,6 +16,10 @@ export class Tab {
 
     public get url() {
         return this.webContents.currentURI.spec;
+    }
+
+    public get active() {
+        return dot.tabs.selectedTabId == this.id;
     }
 
     public canGoBack: boolean = false;
@@ -49,24 +53,29 @@ export class Tab {
             maychangeremoteness: true,
             
             background: !!background
-        }, url.spec);
+        }, Services.io.newURI(url));
 
         this.webContents = browser;
         this.id = this.webContents.browserId;
 
         this.background = !!background;
 
-        const { id: tabId, webContents: { webProgress }, updateNavigationState } = this;
+        const tab = this;
 
         const progressListener = {
             onStateChange(webProgress: any, request: any, flags: number, status: any) {
+                if (!request) return;
+
                 const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
 
                 if (url == "about:blank") {
                   return;
                 };
                 
-                () => updateNavigationState();
+                () => tab.updateNavigationState();
+
+                if (request.isLoadingDocument) tab.state = "loading"
+                else tab.state = "idle"
 
                 console.log("onStateChange", webProgress, request, flags, status);
             },
@@ -88,7 +97,7 @@ export class Tab {
 
                 console.log(location.spec);
         
-                dot.titlebar.emit(`page-location-change`, tabId);
+                dot.titlebar.emit(`page-location-change`, tab.id);
             },
 
             QueryInterface: ChromeUtils.generateQI([
@@ -105,7 +114,7 @@ export class Tab {
         dot.tabs.tabListeners.set(this.id, progressListener);
         dot.tabs.tabFilters.set(this.id, filter);
 
-        webProgress.addProgressListener(
+        tab.webContents.webProgress.addProgressListener(
             filter,
             Ci.nsIWebProgress.NOTIFY_ALL
         );
@@ -157,8 +166,8 @@ export class Tab {
         return this;
     }
 
-    goto(uri: MozURI) {
-        dot.browsersPrivate.goto(this.id, uri.spec);
+    goto(uri: MozURI, options?: any) {
+        dot.browsersPrivate.goto(this.id, uri, options);
     }
 
     goBack() {
@@ -175,5 +184,14 @@ export class Tab {
         };
 
         this.webContents.reloadWithFlags(flags);
+    }
+
+    destroy() {
+        this.webContents.destroy();
+        this.webContents.remove();
+    }
+
+    select() {
+        dot.browsersPrivate.select(this.id);
     }
 }

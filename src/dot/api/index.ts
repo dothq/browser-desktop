@@ -27,6 +27,8 @@ import {
 } from ".";
 import { exportPublic } from "../shared/globals";
 class Dot {
+    public browsersPrivate = new BrowsersAPI();
+
     public titlebar = new TitlebarAPI();
     public tabs = new TabsAPI();
     public theme = new ThemeAPI();
@@ -38,8 +40,6 @@ class Dot {
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
     public window = new WindowAPI();
-    
-    public browsersPrivate = new BrowsersAPI();
 
     constructor() {
         this.runtime.emit("before-browser-window-init");

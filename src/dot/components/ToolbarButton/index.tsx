@@ -1,3 +1,4 @@
+import React from "react";
 import { dot } from "../../api";
 
 export const ToolbarButton = ({
@@ -28,7 +29,7 @@ export const ToolbarButton = ({
             `.trim()}
             onClick={command ? () => dot.utilities.doCommand(command) : onClick}
         >
-            <i className={"toolbarbutton-icon"} style={{ "background-image": `url(${image})` }} />
+            <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
 
             <label className={"toolbarbutton-text"}>
                 {children}

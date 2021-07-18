@@ -11,7 +11,7 @@
 #navigation-bar {
     display: flex;
     -moz-window-dragging: drag;
-    background-color: var(--toolbar-bgcolor);
+    background-color: var(--lwt-accent-color);
     color: var(--toolbar-color);
     position: relative;
     height: 40px;
@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     height: 40px;
-    background-color: var(--lwt-accent-color);
+    background-color: var(--toolbar-bgcolor);
 }
 
 #new-tab-button {

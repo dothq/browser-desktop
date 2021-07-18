@@ -1,8 +1,15 @@
+import React from "react"
+import { store } from "../../app/store"
+import { Tab } from "../../models/Tab"
 import { ToolbarButton } from "../ToolbarButton"
 
-export const BrowserTab = ({ active }: { active?: boolean }) => {
+export const BrowserTab = ({ tab }: { tab: Tab }) => {
     return (
-        <div className={"tabbrowser-tab"} attr:active={active}>
+        <div
+            className={"tabbrowser-tab"}
+            data-active={tab.active}
+            onMouseDown={() => store.dispatch({ type: "TAB_SELECT", payload: tab.id })}
+        >
             <div className={"tab-background"}></div>
 
             <div className={"tab-content"}>
@@ -11,7 +18,10 @@ export const BrowserTab = ({ active }: { active?: boolean }) => {
                 </i>
 
                 <span className={"tab-label-container"}>
-                    <label className={"tab-text tab-label"}>New Tab</label>
+                    <label className={"tab-text tab-label"}>{tab.title
+                        ? tab.title
+                        : "Untitled"
+                    }</label>
                 </span>
 
                 <ToolbarButton

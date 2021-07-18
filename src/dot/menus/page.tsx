@@ -1,3 +1,4 @@
+import React from "react";
 import { dot } from "../api";
 import { ContextMenu } from "../components/ContextMenu";
 

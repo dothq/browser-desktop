@@ -1,4 +1,4 @@
-import { MountableElement, Portal } from "solid-js/web"
+import React from "react"
 import { PageContextMenu } from "./page"
 
 export interface ContextMenuProps {
@@ -7,8 +7,8 @@ export interface ContextMenuProps {
 
 export const ContextMenus = () => {
     return (
-        <Portal mount={document.getElementById("mainPopupSet") as MountableElement}>
+        <>
             <PageContextMenu />
-        </Portal>
+        </>
     )
 }

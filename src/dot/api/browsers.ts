@@ -1,4 +1,5 @@
 import { Ci, E10SUtils, Services } from "../modules";
+import { MozURI } from "../types/uri";
 
 class BrowserOptions {
     constructor(private mod: BrowsersAPI, private id: number) {
@@ -40,12 +41,18 @@ export class BrowsersAPI {
         maychangeremoteness: true
     }
 
-    public create(attributes: { [key: string]: any }, url?: string) {
+    public get aboutBlankURI(): MozURI {
+        return Services.io.newURI("about:blank")
+    }
+
+    public create(attributes: { [key: string]: any }, url?: MozURI) {
         const browser: any = document.createXULElement("browser");
 
         attributes = { ...this.DEFAULT_ATTRIBUTES, ...attributes };
 
         for (const [key, value] of Object.entries(attributes)) {
+            if (key == "background") continue;
+
             browser.setAttribute(key, value);
         }
 
@@ -60,7 +67,7 @@ export class BrowsersAPI {
         browser.options = new BrowserOptions(this, id);
         browser.id = `browser-panel-${id}`;
 
-        this.goto(id, url || "about:blank");
+        this.goto(id, url || this.aboutBlankURI);
         this.initBrowser(browser);
 
         // background tabs won't be selected after creation
@@ -96,24 +103,27 @@ export class BrowsersAPI {
         if (this.previousId !== -1) {
             const previousBrowser: any = this.get(this.previousId);
 
-            previousBrowser.style.display = "";   
+            previousBrowser.removeAttribute("selected");
         }
 
         this.selectedId = id;
         this.previousId = this.selectedId;
 
         if (newBrowser) {
-            newBrowser.style.display = "flex";
+            newBrowser.setAttribute("selected", "");
         }
 
         this.tabStack?.setAttribute("selectedId", id.toString());
     }
 
-    public goto(id: number, url: string) {
+    public goto(id: number, url: MozURI, options?: any) {
         const browser: any = this.get(id);
 
-        const triggeringPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
-        browser.loadURI(url, { triggeringPrincipal }); 
+        const triggeringPrincipal = options && options.triggeringPrincipal
+            ? options.triggeringPrincipal
+            : Services.scriptSecurityManager.getSystemPrincipal();
+        
+        browser.loadURI(url.spec, { ...options, triggeringPrincipal }); 
     }
 
     private initBrowser(browser: any) {

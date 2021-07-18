@@ -1,3 +1,2 @@
-import { Services } from "../modules";
 
-export const WELCOME_SCREEN_URL = Services.io.newURI("about:newtab");
+export const WELCOME_SCREEN_URL = "https://web.tabliss.io";

@@ -2,6 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import React from "react"
+import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
+import { Tab } from "../../models/Tab"
 import { Searchbar } from "../Searchbar"
 import { Spring } from "../Spring"
 import { BrowserTab } from "../Tab"
@@ -10,6 +13,10 @@ import { ToolbarButton } from "../ToolbarButton"
 import { WindowControls } from "../WindowControls"
 
 export const Chrome = () => {
+    const count = useBrowserSelector((s: any) => s.counter.value)
+    const tabs = useBrowserSelector((s: any) => s.tabs)
+    const dispatch = useBrowserDispatch()
+
     return (
         <div id={"navigator-toolbox"}>
             <nav id={"navigation-bar"}>
@@ -31,6 +38,10 @@ export const Chrome = () => {
                     <Searchbar />
                     <Spring />
 
+                    <a onClick={() => dispatch({ type: "COUNTER_INCREMENT" })}>
+                        Count: {count}
+                    </a>
+
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/inspect.svg"}
                         command={"Browser:LaunchBrowserToolbox"}
@@ -44,8 +55,9 @@ export const Chrome = () => {
             </nav>
             <nav id={"tab-bar"}>
                 <Tabs>
-                    <BrowserTab active />
-                    <BrowserTab />
+                    {tabs.list.map((tab: Tab) => (
+                        <BrowserTab key={tab.id} tab={tab} />
+                    ))}
                 </Tabs>
                 
                 <ToolbarButton

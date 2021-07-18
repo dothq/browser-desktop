@@ -41,9 +41,21 @@ body,
   align-self: auto;
   min-width: auto;
   min-height: auto;
-  width: 100%;
-  height: 100%;
+  width: 0px;
+  height: 0px;
   display: none;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -14865840597856;
+}
+
+#browser-tabs-stack browser[selected] {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    pointer-events: all;
+    z-index: unset;
 }
 
 #mainPopupSet {
