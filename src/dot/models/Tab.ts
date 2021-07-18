@@ -1,5 +1,5 @@
 import { dot } from "../api";
-import { Cc, ChromeUtils, Ci, Services } from "../modules";
+import { Cc, ChromeUtils, Ci } from "../modules";
 import { MozURI } from "../types/uri";
 
 export interface ITab {
@@ -49,14 +49,10 @@ export class Tab {
             maychangeremoteness: true,
             
             background: !!background
-        })
+        }, url.spec);
 
         this.webContents = browser;
         this.id = this.webContents.browserId;
-
-        if(!background) dot.tabs.selectedTabId = this.id;
-
-        this.goto(url);
 
         this.background = !!background;
 
@@ -162,9 +158,7 @@ export class Tab {
     }
 
     goto(uri: MozURI) {
-        let triggeringPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
-
-        this.webContents.loadURI(uri.spec, { triggeringPrincipal });
+        dot.browsersPrivate.goto(this.id, uri.spec);
     }
 
     goBack() {

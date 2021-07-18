@@ -1,8 +1,11 @@
+import { dot } from ".";
 import { ITab, Tab } from "../models/Tab";
 export class TabsAPI {
     public list: Tab[] = [];
 
-    public selectedTabId: number = -1;
+    public get selectedTabId() {
+        return dot.browsersPrivate.selectedId;
+    }
 
     public tabFilters = new Map();
     public tabListeners = new Map();
