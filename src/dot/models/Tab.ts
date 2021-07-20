@@ -38,6 +38,19 @@ export class Tab {
         this.canGoForward = this.webContents.canGoForward;
     }
 
+    public get pageState():
+        'search' |
+        'info' |
+        'warning' |
+        'built-in' |
+        'http' |
+        'https' |
+        'https-unsecure' |
+        'file'
+    {
+        return 'search';
+    }
+
     public title: string = "";
 
     public faviconUrl: any = PlacesUtils.favicons.defaultFavicon.spec;
