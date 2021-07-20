@@ -6,10 +6,3 @@
     height: 40px;
     display: contents;
 }
-
-#tabbrowser-tabs .tabbrowser-tab:last-of-type::after {
-    content: "";
-    width: 1px;
-    background-color: rgba(143, 143, 143, 0.3);
-    margin: 8px 0;
-}

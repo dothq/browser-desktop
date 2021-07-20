@@ -119,3 +119,16 @@
         margin-left: auto;
     }
 }
+
+.tabbrowser-tab::after {
+    content: "";
+    width: 1px;
+    background-color: rgba(143, 143, 143, 0.3);
+    margin: 8px 0;
+}
+
+.tabbrowser-tab[data-active="true"]:last-of-type::after,
+.tabbrowser-tab[data-active="true"]:first-of-type::after,
+.tabbrowser-tab[data-next-active="true"]::after {
+    opacity: 0;
+}

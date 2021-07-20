@@ -55,8 +55,15 @@ export const Chrome = () => {
             </nav>
             <nav id={"tab-bar"}>
                 <Tabs>
-                    {tabs.list.map((tab: Tab) => (
-                        <BrowserTab key={tab.id} tab={tab} />
+                    {tabs.list.map((tab: Tab, index: number) => (
+                        <BrowserTab
+                            key={tab.id}
+                            tab={tab}
+                            nextIsActive={tabs.list[index + 1]
+                                ? tabs.list[index + 1].active
+                                : false
+                            }
+                        />
                     ))}
                 </Tabs>
                 

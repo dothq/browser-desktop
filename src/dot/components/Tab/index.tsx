@@ -3,11 +3,12 @@ import { store } from "../../app/store"
 import { Tab } from "../../models/Tab"
 import { ToolbarButton } from "../ToolbarButton"
 
-export const BrowserTab = ({ tab }: { tab: Tab }) => {
+export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: boolean }) => {
     return (
         <div
             className={"tabbrowser-tab"}
             data-active={tab.active}
+            data-next-active={nextIsActive}
             onMouseDown={() => store.dispatch({ type: "TAB_SELECT", payload: tab.id })}
         >
             <div className={"tab-background"}></div>
