@@ -1,9 +1,11 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { Tab } from '../../../models/Tab';
-import { closeTabAction, navigateTabAction, updateStateTabAction, updateTitleTabAction } from '../actions/tabs';
+import { closeTabAction, navigateTabAction, updateFaviconTabAction, updateStateTabAction, updateTitleTabAction } from '../actions/tabs';
 
 interface TabsState {
     list: Tab[],
+
+    get selectedTab(): Tab | undefined;
 
     getTabById(id: number): Tab | undefined;
     getTabIndexById(id: number): number;
@@ -17,6 +19,10 @@ interface TabsState {
 
 const initialState: TabsState = {
     list: [],
+
+    get selectedTab() {
+        return this.getTabById(this.selectedId)
+    },
 
     getTabById(id: number) {
         return this.list.find(tab => tab.id == id);
@@ -66,6 +72,8 @@ export const tabsReducer = createReducer(
         TAB_UPDATE_TITLE: (store, action: AnyAction) => updateTitleTabAction(store, action.payload),
 
         TAB_UPDATE_STATE: (store, action: AnyAction) => updateStateTabAction(store, action.payload),
+
+        TAB_UPDATE_FAVICON: (store, action: AnyAction) => updateFaviconTabAction(store, action.payload),
 
         SELECTED_TAB_CLOSE: (store, action: AnyAction) => closeTabAction(store, store.selectedId),
         

@@ -58,3 +58,12 @@ export const updateStateTabAction = (store: any, payload: any) => {
 
     store.update(id, { state });
 }
+
+export const updateFaviconTabAction = (store: any, payload: any) => {
+    const {
+        id,
+        faviconUrl
+    } = payload;
+
+    store.update(id, { faviconUrl });
+}

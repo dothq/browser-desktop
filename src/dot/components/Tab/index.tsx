@@ -16,15 +16,17 @@ export const BrowserTab = ({ tab }: { tab: Tab }) => {
                 <i
                     className={"tab-icon-stack"}
                     data-state={tab.state}
-                    style={{ backgroundImage: `url(page-icon:${tab.url})` }}
+                    style={{
+                        backgroundImage: `url(${tab.faviconUrl})`
+                    }}
                 ></i>
 
                 <span className={"tab-label-container"}>
-                    <label className={"tab-text tab-label"}>{tab.state == "loading"
-                        ? "Loading..."
-                        : tab.state == "idle" && tab.title
-                            ? tab.title
-                            : "Untitled"}</label>
+                    <label className={"tab-text tab-label"}>{tab.title
+                        ? tab.title
+                        : tab.url == "about:blank" && tab.state == "loading"
+                            ? "Loading…"
+                            : tab.url}</label>
                 </span>
 
                 <ToolbarButton

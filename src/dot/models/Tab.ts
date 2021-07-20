@@ -3,6 +3,12 @@ import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { MozURI } from "../types/uri";
 
+const { PlacesUtils } = ChromeUtils.defineModuleGetter(
+  window,
+  "PlacesUtils",
+  "resource://gre/modules/PlacesUtils.jsm"
+);
+
 export interface ITab {
     url: string,
     background?: boolean
@@ -34,7 +40,7 @@ export class Tab {
 
     public title: string = "";
 
-    public faviconURL: any;
+    public faviconUrl: any = PlacesUtils.favicons.defaultFavicon.spec;
 
     public webContents: any;
 
