@@ -1,15 +1,21 @@
-import React from "react"
+import React from "react";
+import { useBrowserSelector } from "../../app/store/hooks";
+import { Identity } from "../Identity";
 
 export const Searchbar = () => {
-    return (
+    const tab = useBrowserSelector((s: any) => s.tabs.selectedTab);
+
+    if(tab) return (
         <div id={"urlbar"}>
             <div id={"urlbar-background"}></div>
 
             <div id={"urlbar-input-container"}>
-                <span className={"identity-box"}>
-                    <i className={"identity-icon"}></i>
-                </span>
+                <Identity type={tab.pageState} />
+
+                <label>{tab.url}</label>
             </div>
         </div>
     )
+
+    return <></>
 }
