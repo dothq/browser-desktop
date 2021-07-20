@@ -1,8 +1,7 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { ActorManagerParent, ChromeUtils, Ci } from "../modules";
-import { windowActors } from "../modules/glue";
+import { ChromeUtils, Ci } from "../modules";
 import { WELCOME_SCREEN_URL } from "../shared/tab";
 
 export class RuntimeAPI extends EventEmitter {
@@ -23,7 +22,7 @@ export class RuntimeAPI extends EventEmitter {
             .getInterface(Ci.nsIAppWindow)
             .XULBrowserWindow;
 
-        ActorManagerParent.addJSWindowActors(windowActors);
+        // ActorManagerParent.addJSWindowActors(windowActors);
     }
 
     public onBrowserStartup() {

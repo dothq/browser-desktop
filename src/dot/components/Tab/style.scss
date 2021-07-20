@@ -49,8 +49,11 @@
         width: 16px;
         height: 16px;
         margin-inline-end: 10px;
-        background-color: white;
-        border-radius: 100px;
+        background-size: cover;
+    }
+
+    .tab-icon-stack[data-state="loading"] {
+        background-image: url(chrome://browser/skin/tabbrowser/tab-loading@2x.png) !important;
     }
 
     .tab-label-container {

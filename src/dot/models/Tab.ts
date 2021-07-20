@@ -1,4 +1,5 @@
 import { dot } from "../api";
+import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { MozURI } from "../types/uri";
 
@@ -74,10 +75,20 @@ export class Tab {
                 
                 () => tab.updateNavigationState();
 
-                if (request.isLoadingDocument) tab.state = "loading"
-                else tab.state = "idle"
+                let state = "unknown";
 
-                console.log("onStateChange", webProgress, request, flags, status);
+                if (request.isLoadingDocument) state = "loading"
+                else state = "idle"
+
+                store.dispatch({
+                    type: "TAB_UPDATE_STATE",
+                    payload: {
+                        id: tab.id,
+                        state
+                    }
+                });
+
+                console.log("onStateChange", webProgress, request.loadInfo, flags, status);
             },
 
             onLocationChange(progress: any, request: any, location: MozURI, flags: number) {
@@ -156,12 +167,22 @@ export class Tab {
 
             if (this.title == browser.contentTitle) return;
 
-            this.title = browser.contentTitle;
+            store.dispatch({
+                type: "TAB_UPDATE_TITLE",
+                payload: {
+                    id: this.id,
+                    title: browser.contentTitle
+                }
+            });
         });
 
         this.webContents.addEventListener("contextmenu", (event: MouseEvent) => {
             dot.menu.get("context-navigation")?.toggle(event);
-        })
+        });
+
+        this.webContents.addEventListener("DOMLinkAdded", (event: any) => {
+            console.log("DOMLinkAdded", event);
+        });
 
         return this;
     }

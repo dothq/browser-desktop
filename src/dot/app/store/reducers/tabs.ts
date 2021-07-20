@@ -1,13 +1,18 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 import { Tab } from '../../../models/Tab';
-import { closeTabAction, navigateTabAction } from '../actions/tabs';
+import { closeTabAction, navigateTabAction, updateStateTabAction, updateTitleTabAction } from '../actions/tabs';
 
 interface TabsState {
     list: Tab[],
 
     getTabById(id: number): Tab | undefined;
+    getTabIndexById(id: number): number;
+
+    update(id: number, data: { [key: string]: any }): void;
 
     selectedId: number
+
+    generation: number
 }
 
 const initialState: TabsState = {
@@ -17,7 +22,22 @@ const initialState: TabsState = {
         return this.list.find(tab => tab.id == id);
     },
 
-    selectedId: -1
+    getTabIndexById(id: number) {
+        return this.list.findIndex(tab => tab.id == id);
+    },
+
+    update(id: number, data: { [key: string]: any }) {
+        const tab: any = this.getTabById(id);
+
+        for (const [key, value] of Object.entries(data)) {
+            tab[key] = value;
+        }
+
+        this.generation = Number(!this.generation);
+    },
+
+    selectedId: -1,
+    generation: 0
 }
 
 export const tabsReducer = createReducer(
@@ -43,12 +63,24 @@ export const tabsReducer = createReducer(
 
         TAB_NAVIGATE: (store, action: AnyAction) => navigateTabAction(store, action.payload),
 
+        TAB_UPDATE_TITLE: (store, action: AnyAction) => updateTitleTabAction(store, action.payload),
+
+        TAB_UPDATE_STATE: (store, action: AnyAction) => updateStateTabAction(store, action.payload),
+
         SELECTED_TAB_CLOSE: (store, action: AnyAction) => closeTabAction(store, store.selectedId),
         
         SELECTED_TAB_NAVIGATE: (
             store,
             action: AnyAction
         ) => navigateTabAction(store, {
+            ...action.payload,
+            id: store.selectedId
+        }),
+
+        SELECTED_TAB_UPDATE_TITLE: (
+            store,
+            action: AnyAction
+        ) => updateTitleTabAction(store, {
             ...action.payload,
             id: store.selectedId
         }),

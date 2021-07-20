@@ -63,6 +63,7 @@ export const Chrome = () => {
                 <ToolbarButton
                     id={"new-tab-button"}
                     image={"chrome://dot/content/skin/icons/add.svg"}
+                    command={"Browser:NewTab"}
                 />
             </nav>
         </div>
