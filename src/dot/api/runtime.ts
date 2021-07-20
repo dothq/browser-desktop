@@ -1,7 +1,8 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { ChromeUtils, Ci } from "../modules";
+import { ActorManagerParent, ChromeUtils, Ci } from "../modules";
+import { windowActors } from "../modules/glue";
 import { WELCOME_SCREEN_URL } from "../shared/tab";
 
 export class RuntimeAPI extends EventEmitter {
@@ -22,7 +23,7 @@ export class RuntimeAPI extends EventEmitter {
             .getInterface(Ci.nsIAppWindow)
             .XULBrowserWindow;
 
-        // ActorManagerParent.addJSWindowActors(windowActors);
+        ActorManagerParent.addJSWindowActors(windowActors);
     }
 
     public onBrowserStartup() {
@@ -69,12 +70,14 @@ export class RuntimeAPI extends EventEmitter {
     constructor() {
         super();
 
-        this.on("before-browser-window-init", this.onBeforeBrowserInit);
-        this.on("browser-window-init", this.onBrowserStartup);
+        this.once("before-browser-window-init", this.onBeforeBrowserInit);
+        this.once("browser-window-init", this.onBrowserStartup);
         this.on("before-browser-window-quit", this.onBeforeBrowserQuit);
 
         this._windowStateInt = setInterval(() => {
-            dot.window.onWindowStateUpdated();
+            try {
+                dot.window.onWindowStateUpdated();
+            } catch(e) {}
         }, 10000);
     }
 }
