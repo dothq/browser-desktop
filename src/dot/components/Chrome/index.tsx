@@ -23,15 +23,23 @@ export const Chrome = () => {
                 <div id={"navigation-bar-container"}>
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/back.svg"}
+                        disabled={tabs.selectedTab?.canGoBack}
+                        command={"Browser:GoBack"}
                     />
 
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/forward.svg"}
-                        disabled={true}
+                        disabled={tabs.selectedTab?.canGoForward}
+                        command={"Browser:GoForward"}
                     />
 
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/reload.svg"}
+                    />
+
+                    <ToolbarButton
+                        image={"chrome://dot/content/skin/icons/inspect.svg"}
+                        command={"Browser:LaunchBrowserToolbox"}
                     />
 
                     <Spring />
@@ -43,8 +51,8 @@ export const Chrome = () => {
                     </a>
 
                     <ToolbarButton
-                        image={"chrome://dot/content/skin/icons/inspect.svg"}
-                        command={"Browser:LaunchBrowserToolbox"}
+                        image={"chrome://dot/content/skin/icons/settings.svg"}
+                        onClick={() => dispatch({ type: "TAB_CREATE_INTERNAL", payload: { id: "settings" } })}
                     />
 
                     <ToolbarButton

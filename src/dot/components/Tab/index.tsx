@@ -16,9 +16,10 @@ export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: bool
             <div className={"tab-content"}>
                 <i
                     className={"tab-icon-stack"}
-                    data-state={tab.state}
                     style={{
-                        backgroundImage: `url(${tab.faviconUrl})`
+                        backgroundImage: tab.state == "idle"
+                            ? `url(${tab.faviconUrl})`
+                            : `url(chrome://browser/skin/tabbrowser/tab-loading@2x.png)`
                     }}
                 ></i>
 

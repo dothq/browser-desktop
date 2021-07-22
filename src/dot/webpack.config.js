@@ -8,7 +8,11 @@ const scss = glob.sync(resolve(__dirname, "{,!(node_modules)/**}", "*.scss"));
 module.exports = {
     target: "web",
     entry: {
-        browser: ["./app/index.tsx", ...scss]
+        browser: [
+            "./app/index.tsx",
+            "./resources/settings/index.tsx",
+            ...scss
+        ]
     },
     mode: "development",
     devtool: "inline-source-map",

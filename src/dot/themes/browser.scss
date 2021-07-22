@@ -18,6 +18,8 @@ body,
   height: 100vh;
   display: flex;
   flex-direction: column;
+
+  font-size: 13px;
 }
 
 #browser {
@@ -26,7 +28,8 @@ body,
   flex-direction: column;
 }
 
-#browser-tabs-stack {
+#browser-tabs-stack,
+#internal-browser-tabs-stack {
   width: 100%;
   height: 100%;
   display: flex;
@@ -35,6 +38,10 @@ body,
   background-color: var(--lwt-accent-color);
   flex: 1;
   border-top: 1px solid var(--chrome-content-separator-color);
+}
+
+#internal-browser-tabs-stack {
+  display: none;
 }
 
 #browser-tabs-stack browser {

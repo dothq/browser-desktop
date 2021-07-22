@@ -1,0 +1,27 @@
+.searchbar-button {
+    min-width: 38px;
+    -moz-context-properties: fill, fill-opacity;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: var(--lwt-toolbar-field-color);
+    font-size: 14px;
+    appearance: none;
+}
+
+.searchbar-button .searchbar-button-icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    background-size: cover;
+    fill-opacity: 0.9;
+}
+
+.searchbar-button:hover {
+    background-color: #7e7e7e21;
+}
+
+.searchbar-button:active {
+    background-color: #7e7e7e2f;
+}

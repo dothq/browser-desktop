@@ -3,12 +3,6 @@ import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { MozURI } from "../types/uri";
 
-const { PlacesUtils } = ChromeUtils.defineModuleGetter(
-  window,
-  "PlacesUtils",
-  "resource://gre/modules/PlacesUtils.jsm"
-);
-
 export interface ITab {
     url: string,
     background?: boolean
@@ -21,9 +15,15 @@ export class Tab {
 
     public state: 'loading' | 'idle' | 'unknown' = 'unknown';
 
-    public get url() {
-        return this.webContents.currentURI.spec;
-    }
+    public url = "about:blank";
+
+    public urlParts = {
+        scheme: "about:",
+        host: "blank",
+        domain: null,
+        path: null,
+        internal: true
+    };
 
     public get active() {
         return dot.tabs.selectedTabId == this.id;
@@ -33,12 +33,24 @@ export class Tab {
     
     public canGoForward: boolean = false;
 
-    public updateNavigationState() {
-        this.canGoBack = this.webContents.canGoBack;
-        this.canGoForward = this.webContents.canGoForward;
+    public bookmarked: boolean = false;
+
+    public bookmark() {
+        console.log("stub");
     }
 
-    public get pageState():
+    public updateNavigationState() {
+        store.dispatch({
+            type: "TAB_UPDATE_NAVIGATION_STATE",
+            payload: {
+                id: this.id,
+                canGoBack: this.webContents.canGoBack,
+                canGoForward: this.webContents.canGoForward
+            }
+        })
+    }
+
+    public pageState:
         'search' |
         'info' |
         'warning' |
@@ -46,14 +58,12 @@ export class Tab {
         'http' |
         'https' |
         'https-unsecure' |
-        'file'
-    {
-        return 'search';
-    }
+        'extension' |
+        'file' = "search"
 
     public title: string = "";
 
-    public faviconUrl: any = PlacesUtils.favicons.defaultFavicon.spec;
+    public faviconUrl: any;
 
     public webContents: any;
 
@@ -111,21 +121,74 @@ export class Tab {
             },
 
             onLocationChange(progress: any, request: any, location: MozURI, flags: number) {
-                const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
-
-                if (!progress.isTopLevel) {
-                    return;
-                }
-                // Ignore events that don't change the document
-                if (flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SAME_DOCUMENT) {
-                    return;
-                }
+                if (!progress.isTopLevel) return;
+                
                 // Ignore the initial about:blank, unless about:blank is requested
-                if (location.spec == "about:blank" && url != "about:blank") {
-                    return;
+                if (request) {
+                    const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
+                    if (location.spec == "about:blank" && url != "about:blank") return;
                 }
 
-                console.log(location.spec);
+                const whitelistedSchemes = [
+                    "http",
+                    "https",
+                    "ws",
+                    "wss",
+                    "file",
+                    "ftp",
+                    "moz-extension",
+                    "chrome",
+                    "resource",
+                    "moz",
+                    "moz-icon",
+                    "moz-gio"
+                ]
+
+                const isHttp = location.scheme.startsWith("http");
+                const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
+                const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
+                const noTrailingPath = location.pathQueryRef.replace(/\/*$/, "");
+
+                let pageState = "search";
+
+                if(location.scheme == "https") pageState = "https"
+                else if (location.scheme == "http") pageState = "http"
+                else if (location.scheme == "moz-extension") pageState = "extension"
+                else if (
+                    location.scheme == "about" ||
+                    location.scheme == "data"
+                ) pageState = "info"
+                else if (
+                    location.scheme == "file" ||
+                    location.scheme == "chrome" ||
+                    location.scheme == "resource"
+                ) pageState = "file"
+
+                const scheme = whitelistedSchemes.includes(location.scheme)
+                    ? `${location.scheme}://`
+                    : `${location.scheme}:`
+
+                store.dispatch({
+                    type: "TAB_UPDATE",
+                    payload: {
+                        id: tab.id,
+                        url: location.spec,
+                        pageState,
+                        urlParts: {
+                            scheme,
+                            domain: notWhitelisted
+                                ? location.pathQueryRef
+                                : rootDomain,
+                            host: notWhitelisted
+                                ? ""
+                                : location.host.replace(rootDomain, ""),
+                            path: notWhitelisted
+                                ? ""
+                                : noTrailingPath,
+                            internal: !isHttp
+                        }
+                    }
+                });
         
                 dot.titlebar.emit(`page-location-change`, tab.id);
             },
@@ -197,10 +260,6 @@ export class Tab {
 
         this.webContents.addEventListener("contextmenu", (event: MouseEvent) => {
             dot.menu.get("context-navigation")?.toggle(event);
-        });
-
-        this.webContents.addEventListener("DOMLinkAdded", (event: any) => {
-            console.log("DOMLinkAdded", event);
         });
 
         return this;

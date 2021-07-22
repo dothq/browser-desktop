@@ -221,7 +221,22 @@ export class ThemeAPI {
         return this._currentThemeId;
     }
 
+    public startWatchingAccent() {
+        dot.prefs.observe(
+            "dot.ui.accent_colour",
+            (value: string) => {
+                const cleansedValue = value.replace(/ /g, "").toLowerCase();
+
+                dot.window.removeWindowClassByNamespace("accent-colour-")
+                dot.window.addWindowClass(`accent-colour-${cleansedValue}`)
+            },
+            true
+        );
+    }
+
     public load() {
+        this.startWatchingAccent();
+
         const { themeData } = LightweightThemeManager;
 
         if (this._currentThemeId) {

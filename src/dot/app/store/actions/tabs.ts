@@ -41,6 +41,20 @@ export const navigateTabAction = (store: any, payload: any) => {
     }
 }
 
+export const bookmarkTabAction = (store: any, payload: any) => {
+    const {
+        id
+    } = payload;
+    
+    const tab = store.getTabById(id);
+  
+    if (tab) {
+        tab.bookmark();
+    
+        store.update(id, { bookmarked: true });
+    }
+}
+
 export const updateTitleTabAction = (store: any, payload: any) => {
     const {
         id,
@@ -48,6 +62,16 @@ export const updateTitleTabAction = (store: any, payload: any) => {
     } = payload;
 
     store.update(id, { title });
+}
+
+export const updateUrlTabAction = (store: any, payload: any) => {
+    const {
+        id,
+        url,
+        urlParts
+    } = payload;
+
+    store.update(id, { url, urlParts });
 }
 
 export const updateStateTabAction = (store: any, payload: any) => {
@@ -66,4 +90,14 @@ export const updateFaviconTabAction = (store: any, payload: any) => {
     } = payload;
 
     store.update(id, { faviconUrl });
+}
+
+export const updateNavigationStateAction = (store: any, payload: any) => {
+    const {
+        id,
+        canGoBack,
+        canGoForward
+    } = payload;
+
+    store.update(id, { canGoBack, canGoForward });
 }

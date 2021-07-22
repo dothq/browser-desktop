@@ -50,10 +50,9 @@
         height: 16px;
         margin-inline-end: 10px;
         background-size: cover;
-    }
-
-    .tab-icon-stack[data-state="loading"] {
-        background-image: url(chrome://browser/skin/tabbrowser/tab-loading@2x.png) !important;
+        background-image: url(chrome://dot/content/skin/icons/default-favicon.svg);
+        -moz-context-properties: fill, fill-opacity;
+        fill: currentColor;
     }
 
     .tab-label-container {
@@ -85,7 +84,7 @@
             height: inherit;
             margin: 0;
             padding: 0;
-            background-size: 12px;
+            background-size: 10px;
         }
     }
 }

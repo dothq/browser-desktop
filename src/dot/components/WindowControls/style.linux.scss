@@ -30,11 +30,11 @@
     }
 
     .titlebar-buttonbox-container .titlebar-close:hover {
-        background-color: $danger;
+        background-color: $accent-red;
     }
 
     .titlebar-buttonbox-container .titlebar-close:active {
-        background-color: darken($danger, 5%);
+        background-color: darken($accent-red, 5%);
     }
 
     .titlebar-buttonbox-container .titlebar-min {

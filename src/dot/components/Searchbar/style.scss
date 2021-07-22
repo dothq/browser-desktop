@@ -4,12 +4,94 @@
 
 #urlbar {
     border-radius: 12px;
-    background-color: var(--lwt-toolbar-field-focus);
     height: 32px;
     width: 100%;
     -moz-window-dragging: no-drag;
+    position: relative;
+}
+
+#urlbar #urlbar-background {
+    background-color: rgb(20, 20, 27);
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+#urlbar #urlbar-input-container {
+    display: flex;
+    height: 32px;
+    padding: 0px;
+    position: absolute;
+    width: 100%;
+}
+
+#urlbar #urlbar-input-container #page-action-buttons {
+    display: flex;
+}
+
+#urlbar #urlbar-input-container #identity-box,
+#urlbar #urlbar-input-container #page-action-buttons {
+    padding: 2px;
 }
 
 #urlbar[open] {
     background-color: var(--button-hover-bgcolor);
-} 
+}
+
+#urlbar-input-container {
+    #urlbar-input {
+        width: 100%;
+        height: 100%;
+        padding: 0px 2px;
+        position: relative;
+        cursor: text;
+    }
+
+    #urlbar-input-box {
+        appearance: none;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: var(--lwt-toolbar-field-color);
+        height: 100%;
+        width: 100%;
+        background-color: #14141b;
+        padding: 0;
+        z-index: 10;
+        position: absolute;
+
+        &::placeholder {
+            color: var(--lwt-toolbar-field-color);
+            opacity: 0.5;
+        }
+    }
+
+    #urlbar-input-url {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        cursor: text;
+        user-select: none;
+        font-size: 14px;
+        position: absolute;
+        background-color: #14141b;
+
+        .scheme, .host, .path {
+            opacity: 0.5;
+        }
+
+        .scheme[data-hide-protocol="true"] {
+            display: none;
+        }
+
+        :hover {
+            background-image: linear-gradient();
+        }
+    }
+}
+
+#star-button-box.starred .searchbar-button-icon {
+    fill: var(--dot-ui-accent-colour);
+}

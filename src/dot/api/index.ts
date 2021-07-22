@@ -31,9 +31,9 @@ class Dot {
 
     public titlebar = new TitlebarAPI();
     public tabs = new TabsAPI();
+    public prefs = new PreferencesAPI();
     public theme = new ThemeAPI();
     public extensions = new ExtensionsAPI();
-    public prefs = new PreferencesAPI();
     public menu = new MenuAPI();
     public dev = new DevAPI();
     public runtime = new RuntimeAPI();

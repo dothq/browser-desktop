@@ -1,4 +1,5 @@
 import React from "react"
+import { SearchbarButton } from "../SearchbarButton"
 
 export const Identity = ({ type }: {
     type: 'search' |
@@ -8,12 +9,10 @@ export const Identity = ({ type }: {
         'http' |
         'https' |
         'https-unsecure' |
+        'extension' |
         'file'
 }) => {
     return (
-        <span id={"identity-box"} className={type}>
-            <i className={"identity-icon"}></i>
-            <label className={"identity-label"}></label>
-        </span>
+        <SearchbarButton id={"identity-icon-box"} className={type} />
     )
 }

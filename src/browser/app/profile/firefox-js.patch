@@ -1,8 +1,8 @@
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index 064d0338199982996d269a5685a1d164b2920c0d..2eb96075a2ded12d610131e49f0008e279e62768 100644
+index 064d0338199982996d269a5685a1d164b2920c0d..eadfcc866fb87cc694f6a25fcf159b91da6999e6 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
-@@ -2551,3 +2551,114 @@ pref("first-startup.timeout", 30000);
+@@ -2551,3 +2551,115 @@ pref("first-startup.timeout", 30000);
  // are expected to go away once a standardized alternative becomes
  // available.
  pref("svg.context-properties.content.allowed-domains", "profile.accounts.firefox.com,profile.stage.mozaws.net");
@@ -117,4 +117,5 @@ index 064d0338199982996d269a5685a1d164b2920c0d..2eb96075a2ded12d610131e49f0008e2
 +
 +// dot.*
 +pref("dot.window.nativecontrols.enabled", true);
++pref("dot.ui.accent_colour", "blue");
 \ No newline at end of file

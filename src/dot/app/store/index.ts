@@ -1,5 +1,4 @@
 import { combineReducers, compose, createStore } from '@reduxjs/toolkit';
-import devToolsEnhancer from 'remote-redux-devtools';
 import { exportPublic } from '../../shared/globals';
 import { counterReducer } from './reducers/counter';
 import { tabsReducer } from './reducers/tabs';
@@ -15,7 +14,7 @@ const configureStore = (preloadedState?: any) => {
         root,
         {},
         compose(
-            devToolsEnhancer({ hostname: "127.0.0.1", port: 3855, realtime: true })
+            
         )
     )
 
