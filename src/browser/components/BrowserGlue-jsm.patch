@@ -1,18 +1,26 @@
 diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
-index 858e24b8f91089545c84847f66714fea033b4b48..d6c04d7846c8da4f18ef7796ef1c51f7276821e5 100644
+index 858e24b8f91089545c84847f66714fea033b4b48..b721d502ba0a6244ff502d3e77d32a0407898d98 100644
 --- a/browser/components/BrowserGlue.jsm
 +++ b/browser/components/BrowserGlue.jsm
-@@ -1238,7 +1238,8 @@ BrowserGlue.prototype = {
+@@ -7,6 +7,7 @@ var EXPORTED_SYMBOLS = [
+   "BrowserGlue",
+   "ContentPermissionPrompt",
+   "DefaultBrowserCheck",
++  "JSWINDOWACTORS"
+ ];
+ 
+ const { XPCOMUtils } = ChromeUtils.import(
+@@ -1238,7 +1239,8 @@ BrowserGlue.prototype = {
      os.addObserver(this, "handlersvc-store-initialized");
  
      ActorManagerParent.addJSProcessActors(JSPROCESSACTORS);
 -    ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
-+    // This is called in the dot browser chrome, doing it here just adds pain 
++    /* This is now handled in dot/modules/glue.ts */
 +    // ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
  
      this._flashHangCount = 0;
      this._firstWindowReady = new Promise(
-@@ -1366,22 +1367,22 @@ BrowserGlue.prototype = {
+@@ -1366,22 +1368,22 @@ BrowserGlue.prototype = {
  
      SessionStore.init();
  
