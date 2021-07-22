@@ -77,6 +77,10 @@
         font-size: 14px;
         position: absolute;
         background-color: #14141b;
+        white-space: nowrap;
+        overflow: hidden;
+        width: inherit;
+        mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text) 30px);
 
         .scheme, .host, .path {
             opacity: 0.5;
