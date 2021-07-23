@@ -59,53 +59,6 @@ const applyConfig = (os: string, arch: string) => {
     });
 };
 
-const dockerBuild = async (os: string) => {
-    const dockerfile = `configs/${os}/${os}.dockerfile`;
-    const image_name = `db-${os}-build`;
-
-    log.info(`Building Dockerfile for "${os}"...`);
-    await dispatch("docker", [
-        "build",
-        `configs/${os}`,
-        "-f",
-        dockerfile,
-        "-t",
-        image_name
-    ]);
-
-    const docker = new Docker();
-
-    const container = await docker.createContainer({
-        Image: image_name,
-        Tty: true,
-        Volumes: {
-            "/worker": {},
-            "/worker/build": {}
-        },
-        HostConfig: {
-            Binds: [
-                `${ENGINE_DIR}:/worker/build`,
-                `${resolve(process.cwd())}:/worker`
-            ]
-        }
-    });
-
-    container.attach(
-        {
-            stream: true,
-            stdin: true,
-            stdout: true,
-            stderr: true
-        },
-        (e, out) => {
-            if (out) out.pipe(process.stdout);
-        }
-    );
-
-    await container.start();
-    await container.wait();
-};
-
 const genericBuild = async (os: string, tier: string) => {
     log.info(`Building for "${os}"...`);
 
