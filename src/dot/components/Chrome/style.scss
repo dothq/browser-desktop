@@ -16,6 +16,7 @@
     position: relative;
     height: 44px;
     justify-content: space-between;
+    z-index: 2;
 }
 
 #navigation-bar #navigation-bar-container {
@@ -31,8 +32,18 @@
     align-items: center;
     height: 36px;
     background-color: var(--toolbar-bgcolor);
+    overflow: hidden;
+    margin-top: -36px;
+    transition: 0.15s margin-top;
+    z-index: 1;
 }
 
-#new-tab-button {
-    margin-inline-start: 6px;
+#browser.tabs-visible {
+    #tab-bar {
+        margin-top: 0px;
+    }
+
+    #new-tab-button {
+        margin-inline-start: 6px;
+    }
 }

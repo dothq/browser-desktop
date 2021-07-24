@@ -8,7 +8,7 @@ import { WELCOME_SCREEN_URL } from "../shared/tab";
 export class RuntimeAPI extends EventEmitter {
     public QueryInterface = ChromeUtils.generateQI(["nsIXULBrowserWindow"])
 
-    private _windowStateInt;
+    private _windowStateInt: NodeJS.Timeout;
 
     public onBeforeBrowserInit() {
         window.docShell
@@ -41,6 +41,10 @@ export class RuntimeAPI extends EventEmitter {
         dot.window.addWindowClass("tabs-in-titlebar", dot.titlebar.nativeTitlebarEnabled);
         dot.window.toggleWindowAttribute("lang", dot.utilities.browserLanguage);
 
+        store.subscribe(() => {
+            dot.tabs.maybeHideTabs();
+        })
+
         dot.prefs.observe(
             "dot.window.nativecontrols.enabled",
             (value: boolean) => {
@@ -51,6 +55,7 @@ export class RuntimeAPI extends EventEmitter {
         );
 
         dot.theme.load();
+        dot.tabs.maybeHideTabs();
     }
 
     public onAfterBrowserPaint() {
@@ -77,7 +82,7 @@ export class RuntimeAPI extends EventEmitter {
         this._windowStateInt = setInterval(() => {
             try {
                 dot.window.onWindowStateUpdated();
-            } catch(e) {}
+            } catch (e) { }
         }, 10000);
     }
 }

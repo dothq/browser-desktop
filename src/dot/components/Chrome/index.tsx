@@ -5,6 +5,7 @@
 import React from "react"
 import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
 import { Tab } from "../../models/Tab"
+import { NewTabButton } from "../NewTabButton"
 import { Searchbar } from "../Searchbar"
 import { Spring } from "../Spring"
 import { BrowserTab } from "../Tab"
@@ -13,7 +14,7 @@ import { ToolbarButton } from "../ToolbarButton"
 import { WindowControls } from "../WindowControls"
 
 export const Chrome = () => {
-    const count = useBrowserSelector((s: any) => s.counter.value)
+    const ui = useBrowserSelector((s: any) => s.ui)
     const tabs = useBrowserSelector((s: any) => s.tabs)
     const dispatch = useBrowserDispatch()
 
@@ -37,18 +38,16 @@ export const Chrome = () => {
                         image={"chrome://dot/content/skin/icons/reload.svg"}
                     />
 
-                    <ToolbarButton
-                        image={"chrome://dot/content/skin/icons/inspect.svg"}
-                        command={"Browser:LaunchBrowserToolbox"}
-                    />
+                    <NewTabButton variant={"navigation-bar"} />
 
                     <Spring />
                     <Searchbar />
                     <Spring />
 
-                    <a onClick={() => dispatch({ type: "COUNTER_INCREMENT" })}>
-                        Count: {count}
-                    </a>
+                    <ToolbarButton
+                        image={"chrome://dot/content/skin/icons/inspect.svg"}
+                        command={"Browser:LaunchBrowserToolbox"}
+                    />
 
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/settings.svg"}
@@ -74,12 +73,8 @@ export const Chrome = () => {
                         />
                     ))}
                 </Tabs>
-                
-                <ToolbarButton
-                    id={"new-tab-button"}
-                    image={"chrome://dot/content/skin/icons/add.svg"}
-                    command={"Browser:NewTab"}
-                />
+
+                <NewTabButton variant={"tab-bar"} />
             </nav>
         </div>
     )
