@@ -52,7 +52,7 @@ export class WindowAPI extends EventEmitter {
             await OS.File.writeAtomic(windowStore.path, data, {
                 tmpPath: `${windowStore.path}.tmp`,
             });
-        } catch(e) {
+        } catch (e) {
             throw e;
         }
     }
@@ -96,7 +96,7 @@ export class WindowAPI extends EventEmitter {
     }
 
     public addWindowClass(name: string, condition?: boolean) {
-        if (typeof(condition) == "boolean" && condition == false) return;
+        if (typeof (condition) == "boolean" && condition == false) return;
 
         document.getElementById("browser")?.classList.add(name);
         this.windowClass.add(name);
@@ -105,6 +105,11 @@ export class WindowAPI extends EventEmitter {
     public removeWindowClass(name: string) {
         document.getElementById("browser")?.classList.remove(name);
         this.windowClass.delete(name);
+    }
+
+    public toggleWindowClass(name: string, condition: boolean) {
+        if (condition) this.addWindowClass(name);
+        else this.removeWindowClass(name);
     }
 
     public removeWindowClassByNamespace(prefix: string) {
