@@ -1,4 +1,3 @@
-import Docker from "dockerode";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { bin_name, log } from "..";
@@ -124,8 +123,7 @@ export const build = async (
         if (options.arch) {
             if (!ARCHITECTURE.includes(options.arch))
                 return log.error(
-                    `We do not support "${
-                        options.arch
+                    `We do not support "${options.arch
                     }" build right now.\nWe only currently support ${JSON.stringify(
                         ARCHITECTURE
                     )}.`

@@ -25,6 +25,8 @@ export const dispatch = (
     killOnError?: boolean
 ) => {
     return new Promise((resolve, reject) => {
+        process.env.MACH_USE_SYSTEM_PYTHON = "true";
+
         const proc = execa(cmd, args, {
             cwd: cwd ? cwd : process.cwd(),
             env: process.env
