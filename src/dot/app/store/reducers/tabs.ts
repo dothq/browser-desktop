@@ -56,14 +56,14 @@ export const tabsReducer = createReducer(
     {
         TAB_CREATE: (store, action: AnyAction) => {
             if (action.payload.internal) {
-                return console.warn("Use TAB_CREATE_INTERNAL instead of TAB_CREATE for internal pages.")    
+                return console.warn("Use TAB_CREATE_INTERNAL instead of TAB_CREATE for internal pages.")
             }
 
             const tab = new Tab(action.payload);
 
             if (tab) {
                 store.list.push(tab);
-                
+
                 if (!action.payload.background) {
                     store.selectedId = tab.id;
                 }
@@ -113,7 +113,7 @@ export const tabsReducer = createReducer(
         TAB_UPDATE_NAVIGATION_STATE: (store, action: AnyAction) => updateNavigationStateAction(store, action.payload),
 
         SELECTED_TAB_CLOSE: (store, action: AnyAction) => closeTabAction(store, store.selectedId),
-        
+
         SELECTED_TAB_NAVIGATE: (
             store,
             action: AnyAction
