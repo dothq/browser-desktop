@@ -8,6 +8,7 @@
     color: var(--lwt-toolbar-field-color);
     font-size: 14px;
     appearance: none;
+    transition: 0.15s background-color;
 }
 
 .searchbar-button .searchbar-button-icon {

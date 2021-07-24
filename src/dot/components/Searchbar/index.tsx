@@ -4,6 +4,8 @@ import { Identity } from "../Identity";
 import { SearchbarButton } from "../SearchbarButton";
 
 export const Searchbar = () => {
+    const [searchBarHovered, setSearchBarHovered] = React.useState(false);
+
     const tabs = useBrowserSelector(s => s.tabs);
 
     const searchBoxRef = React.useRef<any>();
@@ -14,7 +16,7 @@ export const Searchbar = () => {
 
     return (
         <div id={"urlbar"}>
-            <div id={"urlbar-background"}></div>
+            <div id={"urlbar-background"} data-hovered={searchBarHovered}></div>
 
             <div id={"urlbar-input-container"}>
                 <div id={"identity-box"}>
@@ -23,7 +25,11 @@ export const Searchbar = () => {
                     } />
                 </div>
 
-                <div id={"urlbar-input"}>
+                <div
+                    id={"urlbar-input"}
+                    onMouseOver={() => setSearchBarHovered(true)}
+                    onMouseLeave={() => setSearchBarHovered(false)}
+                >
                     <div id={"urlbar-input-url"}>
                         <span
                             className={"scheme"}

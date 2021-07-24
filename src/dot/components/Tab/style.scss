@@ -24,14 +24,15 @@
     display: flex;
     position: relative;
     animation: 0.1s tabbrowser-tab-open forwards;
+    transition: 0.15s background-color;
+}
+
+.tabbrowser-tab[data-active="true"] {
+    z-index: 1;
 }
 
 .tabbrowser-tab:hover {
     background-color: #76767624;
-}
-
-.tabbrowser-tab:active {
-    background-color: #7676764f;
 }
 
 .tabbrowser-tab .tab-background,
@@ -120,7 +121,7 @@
         display: flex;
         top: 0px;
         background-color: var(--lwt-accent-color);
-        z-index: 9;
+        z-index: 0;
     }
 
     &::before {

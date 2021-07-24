@@ -17,6 +17,11 @@
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    transition: 0.3s background-color;
+
+    &[data-hovered="true"] {
+        background-color: color-mix(in srgb, rgb(20, 20, 27) 85%, black);
+    }
 }
 
 #urlbar #urlbar-input-container {
@@ -57,7 +62,6 @@
         color: var(--lwt-toolbar-field-color);
         height: 100%;
         width: 100%;
-        background-color: #14141b;
         padding: 0;
         z-index: 10;
         position: absolute;
@@ -76,7 +80,6 @@
         user-select: none;
         font-size: 14px;
         position: absolute;
-        background-color: #14141b;
         white-space: nowrap;
         overflow: hidden;
         width: inherit;

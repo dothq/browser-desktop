@@ -24,6 +24,10 @@ a.toolbar-button {
     }
 }
 
+a.toolbar-button .toolbarbutton-icon {
+    transition: 0.15s background-color;
+}
+
 a.toolbar-button.toolbar-button-has-image:not(:hover, :active) .toolbarbutton-icon {
     background-color: transparent;
 }
