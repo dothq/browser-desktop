@@ -1,12 +1,11 @@
 import { combineReducers, compose, createStore } from '@reduxjs/toolkit';
 import { exportPublic } from '../../shared/globals';
-import { counterReducer } from './reducers/counter';
 import { tabsReducer } from './reducers/tabs';
+import { uiReducer } from './reducers/ui';
 
 const configureStore = (preloadedState?: any) => {
     const root = combineReducers({
-        counter: counterReducer,
-
+        ui: uiReducer,
         tabs: tabsReducer
     })
 
@@ -14,7 +13,7 @@ const configureStore = (preloadedState?: any) => {
         root,
         {},
         compose(
-            
+
         )
     )
 
