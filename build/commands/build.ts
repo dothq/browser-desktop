@@ -123,7 +123,8 @@ export const build = async (
         if (options.arch) {
             if (!ARCHITECTURE.includes(options.arch))
                 return log.error(
-                    `We do not support "${options.arch
+                    `We do not support "${
+                        options.arch
                     }" build right now.\nWe only currently support ${JSON.stringify(
                         ARCHITECTURE
                     )}.`
