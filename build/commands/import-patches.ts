@@ -1,8 +1,6 @@
-import { symlinkSync } from "fs-extra";
 import { sync } from "glob";
-import { resolve } from "path";
 import { bin_name, log } from "..";
-import { ENGINE_DIR, SRC_DIR } from "../constants";
+import { SRC_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
@@ -19,14 +17,6 @@ const importManual = async (
     );
 
     if (!minimal) console.log();
-
-    try {
-        symlinkSync(
-            resolve(SRC_DIR, "dot"),
-            resolve(ENGINE_DIR, "dot"),
-            "dir"
-        );
-    } catch (e) {}
 
     await delay(500);
 
