@@ -49,9 +49,12 @@ export const bookmarkTabAction = (store: any, payload: any) => {
     const tab = store.getTabById(id);
 
     if (tab) {
-        tab.bookmark();
+        const bookmarked = tab.bookmarked;
 
-        store.update(id, { bookmarked: true });
+        if (bookmarked) tab.unBookmark();
+        else tab.bookmark();
+
+        store.update(id, { bookmarked: !bookmarked });
     }
 }
 
@@ -100,8 +103,6 @@ export const updateNavigationStateAction = (store: any, payload: any) => {
         canGoBack,
         canGoForward
     } = payload;
-
-    console.log("updatenavigationstateaction", id, canGoBack, canGoForward);
 
     store.update(id, { canGoBack, canGoForward });
 }
