@@ -18,7 +18,6 @@
 
 .tabbrowser-tab {
     max-width: 0px;
-    max-height: 40px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -76,14 +75,14 @@
         height: 100%;
         display: flex;
         align-items: center;
-        color: var(--lwt-tab-text);
+        color: var(--lwt-tab-text, var(--lwt-text-color));
         user-select: none;
         overflow: hidden;
 
         .tab-label {
             white-space: nowrap;
             overflow: hidden;
-            mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text) 30px);
+            mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text, var(--lwt-text-color)) 30px);
             width: 100%;
         }
     }
