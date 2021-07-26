@@ -35,7 +35,7 @@ body,
   display: flex;
   flex-direction: row;
   gap: 4px;
-  background-color: var(--lwt-accent-color);
+  background-color: -moz-default-background-color;
   flex: 1;
   border-top: 1px solid var(--chrome-content-separator-color);
 }
