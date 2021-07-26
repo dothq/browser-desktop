@@ -54,12 +54,12 @@ export class BrowsersAPI {
     }
 
     public create(attributes: { [key: string]: any }, url?: MozURI) {
-        if (attributes.internal) return this.createInternal(attributes, url);
-        
+        if (attributes.internal) return this.createInternal(attributes);
+
         return this.createPublic(attributes, url);
     }
 
-    private createInternal(attributes: { [key: string]: any }, url?: MozURI) {
+    private createInternal(attributes: { [key: string]: any }) {
         const matched = this.internalBrowsers.find(browser => browser.id == attributes.id);
 
         if (matched) {
@@ -102,7 +102,7 @@ export class BrowsersAPI {
         this.tabStack?.appendChild(browser);
 
         const { browserId: id } = browser;
-        
+
         this.browsers.set(id, browser);
 
         browser.options = new BrowserOptions(this, id);
@@ -141,7 +141,7 @@ export class BrowsersAPI {
 
         const newBrowser: any = this.get(id);
 
-        if(!newBrowser) return console.error(`Unable to switch browser with id "${id}" as it does not exist.`)
+        if (!newBrowser) return console.error(`Unable to switch browser with id "${id}" as it does not exist.`)
 
         if (this.previousId !== -1) {
             try {
@@ -149,7 +149,7 @@ export class BrowsersAPI {
 
                 previousBrowser.removeAttribute("selected");
             } catch (e) {
-                
+
             }
         }
 
@@ -174,7 +174,7 @@ export class BrowsersAPI {
                     tab.style.display = "none";
                 }
             );
-    
+
         browser.style.display = "";
 
         if (this.tabStack) this.tabStack.style.display = "none";
@@ -187,13 +187,13 @@ export class BrowsersAPI {
         const triggeringPrincipal = options && options.triggeringPrincipal
             ? options.triggeringPrincipal
             : Services.scriptSecurityManager.getSystemPrincipal();
-        
-        browser.loadURI(url.spec, { ...options, triggeringPrincipal }); 
+
+        browser.loadURI(url.spec, { ...options, triggeringPrincipal });
     }
 
     private initBrowser(browser: any) {
         let oa = E10SUtils.predictOriginAttributes({ browser });
-    
+
         const { useRemoteTabs } = window.docShell.QueryInterface(Ci.nsILoadContext);
         const remoteType = E10SUtils.getRemoteTypeForURI(
             browser.currentURI.spec,
