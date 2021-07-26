@@ -32,6 +32,16 @@ export class Tab {
                 state
             }
         });
+
+        if (state == "loading") {
+            store.dispatch({
+                type: "TAB_UPDATE_FAVICON",
+                payload: {
+                    id: this.id,
+                    faviconUrl: ""
+                }
+            });
+        }
     }
 
     public url = "about:blank";
@@ -59,7 +69,11 @@ export class Tab {
     public bookmarked: boolean = false;
 
     public bookmark() {
-        console.log("stub");
+        console.log("stub - bookmark");
+    }
+
+    public unBookmark() {
+        console.log("stub - unbookmark");
     }
 
     public updateNavigationState() {
@@ -160,6 +174,8 @@ export class Tab {
     }
 
     public reload(flags?: number) {
+        this.state = "loading"; // start loading
+
         if (!flags) {
             flags = Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
         };
@@ -208,7 +224,6 @@ export class Tab {
     }
 
     public onStateChange(id: number, webProgress: any, request: any, flags: number, status: any) {
-        console.log("onstatechange", id);
         if (!request) return;
 
         const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
@@ -229,10 +244,19 @@ export class Tab {
                 state
             }
         });
+
+        if (state == "loading") {
+            store.dispatch({
+                type: "TAB_UPDATE_FAVICON",
+                payload: {
+                    id,
+                    faviconUrl: ""
+                }
+            });
+        }
     }
 
     public onLocationChange(id: number, webProgress: any, request: any, location: MozURI, flags: any) {
-        console.log("onLocationChange", id);
         if (!webProgress.isTopLevel) return;
 
         // Ignore the initial about:blank, unless about:blank is requested
