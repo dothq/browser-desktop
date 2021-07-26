@@ -86,11 +86,7 @@ export const Searchbar = () => {
                     <input
                         id={"urlbar-input-box"}
                         placeholder={"Search using DuckDuckGo or enter address"}
-                        value={
-                            (tabs.getTabById(tabs.selectedId)?.pageState || "search") == "search"
-                                ? ""
-                                : searchBarValue
-                        }
+                        value={searchBarValue}
                         ref={searchBoxRef}
                         onChange={onSearchBoxChange}
                         onFocus={() => {
