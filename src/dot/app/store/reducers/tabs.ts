@@ -47,8 +47,6 @@ const initialState: TabsState = {
             } catch (e) {
 
             }
-
-            console.log(key, value.toString().substr(0, 40), tab[key].toString().substr(0, 40))
         }
 
         this.generation = Number(!this.generation);
