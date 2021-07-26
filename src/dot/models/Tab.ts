@@ -97,9 +97,14 @@ export class Tab {
             type: "TAB_UPDATE_TITLE",
             payload: {
                 id: this.id,
-                title
+                title,
+                noInvalidate: true
             }
         });
+    }
+
+    public isNewTab() {
+        return this.url == WELCOME_SCREEN_URL_PARSED.spec;
     }
 
     public faviconUrl: any;
@@ -118,7 +123,6 @@ export class Tab {
 
         this.webContents = browser;
         this.id = this.webContents.browserId;
-
         this.background = !!background;
 
         this.createProgressListener();
@@ -175,7 +179,13 @@ export class Tab {
 
     public createProgressListener() {
         const progressListener = {
-            ...this,
+            onStateChange: (webProgress: any, request: any, flags: number, status: any) => {
+                this.onStateChange(this.id, webProgress, request, flags, status);
+            },
+
+            onLocationChange: (webProgress: any, request: any, location: MozURI, flags: any) => {
+                this.onLocationChange(this.id, webProgress, request, location, flags);
+            },
 
             QueryInterface: ChromeUtils.generateQI([
                 "nsIWebProgressListener",
@@ -197,26 +207,41 @@ export class Tab {
         );
     }
 
-    public onStateChange(webProgress: any, request: any, flags: number, status: any) {
+    public onStateChange(id: number, webProgress: any, request: any, flags: number, status: any) {
+        console.log("onstatechange", id);
         if (!request) return;
 
         const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
         if (url == "about:blank") return;
 
-        () => this.updateNavigationState();
+        dot.tabs.get(id)?.updateNavigationState();
 
-        if (request.isLoadingDocument) this.state = "loading"
-        else this.state = "idle"
+        let state = "unknown";
+
+        if (request.isLoadingDocument) state = "loading"
+        else if (!request.isLoadingDocument) state = "idle"
+        else state = "unknown"
+
+        store.dispatch({
+            type: "TAB_UPDATE_STATE",
+            payload: {
+                id,
+                state
+            }
+        });
     }
 
-    public onLocationChange(progress: any, request: any, location: MozURI, flags: number) {
-        if (!progress.isTopLevel) return;
+    public onLocationChange(id: number, webProgress: any, request: any, location: MozURI, flags: any) {
+        console.log("onLocationChange", id);
+        if (!webProgress.isTopLevel) return;
 
         // Ignore the initial about:blank, unless about:blank is requested
         if (request) {
             const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
             if (location.spec == "about:blank" && url != "about:blank") return;
         }
+
+        dot.tabs.get(id)?.updateNavigationState();
 
         const isHttp = location.scheme.startsWith("http");
         const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
@@ -246,7 +271,7 @@ export class Tab {
         store.dispatch({
             type: "TAB_UPDATE",
             payload: {
-                id: this.id,
+                id,
                 url: location.spec,
                 pageState,
                 urlParts: {
@@ -273,8 +298,8 @@ export class Tab {
     }
 
     public onBrowserRemoteChange(event: any) {
-        let { id } = event.originalTarget;
-        let tab: any = dot.tabs.get(id);
+        let { browserId } = event.originalTarget;
+        let tab: any = dot.tabs.get(browserId);
         if (!tab) {
             return;
         }
@@ -286,8 +311,8 @@ export class Tab {
         tab.dispatchEvent(evt);
 
         // Unhook our progress listener.
-        let filter = dot.tabs.tabFilters.get(id);
-        let oldListener = dot.tabs.tabListeners.get(id);
+        let filter = dot.tabs.tabFilters.get(browserId);
+        let oldListener = dot.tabs.tabListeners.get(browserId);
 
         this.webContents.webProgress.removeProgressListener(filter);
         filter.removeProgressListener(oldListener);
@@ -296,21 +321,20 @@ export class Tab {
         oldListener = null;
     }
 
-    public onPageTitleChange() {
-        if (this.state !== "idle") return;
+    public onPageTitleChange(event: any) {
+        let { browserId } = event.originalTarget;
+        let tab = dot.tabs.get(browserId);
 
-        const browser = this.webContents;
+        if (!tab) return;
 
         // Ignore empty title changes on internal pages. This prevents the title
         // from changing while Fluent is populating the (initially-empty) title
         // element.
         if (
-            !browser.contentTitle &&
-            browser.contentPrincipal.isSystemPrincipal
+            !tab.webContents.contentTitle &&
+            tab.webContents.contentPrincipal.isSystemPrincipal
         ) return;
 
-        if (this.title == browser.contentTitle) return;
-
-        this.title = browser.contentTitle;
+        tab.title = tab.webContents.contentTitle;
     }
 }
