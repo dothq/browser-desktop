@@ -16,6 +16,11 @@ $accent-gray: rgb(141, 141, 141);
     --dot-ui-accent-colour-lighter: color-mix(in srgb, var(--dot-ui-accent-colour) 50%, white);
 }
 
+*::selection {
+    background-color: var(--dot-ui-accent-colour);
+    color: white;
+}
+
 #browser.accent-colour-red {
     --dot-ui-accent-colour: #{$accent-red};
 }
