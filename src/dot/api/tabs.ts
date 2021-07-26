@@ -7,14 +7,16 @@ export class TabsAPI {
     public list: Tab[] = [];
 
     public get selectedTabId() {
-        return dot.browsersPrivate.selectedId;
+        const { tabs } = store.getState();
+
+        return tabs.selectedId;
     }
 
     public tabFilters = new Map();
     public tabListeners = new Map();
 
     public get selectedTab() {
-        return this.get(this.selectedTabId);
+        return this.get(store.getState().tabs.selectedId)
     }
 
     public create(data: ITab) {
@@ -28,7 +30,9 @@ export class TabsAPI {
     }
 
     public get(id: number) {
-        return this.list.find(tab => tab.id == id);
+        const { tabs } = store.getState();
+
+        return tabs.getTabById(id);
     }
 
     public maybeHideTabs() {
