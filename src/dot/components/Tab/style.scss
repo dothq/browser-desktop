@@ -47,7 +47,7 @@
 }
 
 .tabbrowser-tab[data-active="true"] .tab-background {
-    background-color: var(--lwt-accent-color);
+    background-color: var(--toolbar-bgcolor);
 }
 
 .tabbrowser-tab .tab-content {
@@ -120,7 +120,7 @@
         mask-size: cover;
         display: flex;
         top: 0px;
-        background-color: var(--lwt-accent-color);
+        background-color: var(--toolbar-bgcolor);
         z-index: 0;
     }
 

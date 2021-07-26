@@ -11,16 +11,21 @@
 }
 
 #urlbar #urlbar-background {
-    background-color: rgb(20, 20, 27);
+    background-color: rgba(120, 120, 120, 0.1);
     position: absolute;
     z-index: 0;
     width: 100%;
     height: 100%;
     border-radius: 8px;
-    transition: 0.3s background-color;
+    transition: 0.3s background-color, 0.3s box-shadow;
 
     &[data-hovered="true"] {
-        background-color: color-mix(in srgb, rgb(20, 20, 27) 85%, black);
+        background-color: color-mix(in srgb, rgba(120, 120, 120, 0.1) 95%, gray);
+    }
+
+    &[data-focused="true"] {
+        background-color: var(--toolbar-bgcolor) !important;
+        box-shadow: 0px 0px 0px 2px var(--dot-ui-accent-colour);
     }
 }
 
@@ -42,7 +47,7 @@
 }
 
 #urlbar[open] {
-    background-color: var(--button-hover-bgcolor);
+    background-color: var(--button-hover-bgcolor, var(--toolbarbutton-hover-background));
 }
 
 #urlbar-input-container {
@@ -52,6 +57,10 @@
         padding: 0px 2px;
         position: relative;
         cursor: text;
+        background-color: transparent;
+        transition: 0.3s opacity;
+        overflow: hidden;
+        mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text, var(--lwt-text-color)) 30px);
     }
 
     #urlbar-input-box {
@@ -64,7 +73,9 @@
         width: 100%;
         padding: 0;
         z-index: 10;
+        background-color: transparent;
         position: absolute;
+        opacity: 0.7;
 
         &::placeholder {
             color: var(--lwt-toolbar-field-color);
@@ -82,19 +93,22 @@
         position: absolute;
         white-space: nowrap;
         overflow: hidden;
-        width: inherit;
-        mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text) 30px);
 
-        .scheme, .host, .path {
+        & > * {
+            transition: 0.1s max-width;
+            overflow: hidden;
+        }
+
+        .scheme, .host, .path, .query, .hash {
             opacity: 0.5;
         }
 
-        .scheme[data-hide-protocol="true"] {
-            display: none;
+        .scheme {
+            max-width: 100px;
         }
 
-        :hover {
-            background-image: linear-gradient();
+        .scheme[data-hide-protocol="true"] {
+            max-width: 0px;
         }
     }
 }

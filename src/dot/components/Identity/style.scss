@@ -44,3 +44,15 @@
 #identity-icon-box.extension .searchbar-button-icon {
     background-image: url(chrome://dot/content/skin/icons/identity/extension.svg);
 }
+
+#identity-icon-box.built-in {
+    padding: 0px 12px;
+
+    .searchbar-button-icon {
+        background-image: url(chrome://branding/content/icon64.png);
+    }
+
+    .searchbar-button-label {
+        margin-inline-start: 10px;
+    }
+}

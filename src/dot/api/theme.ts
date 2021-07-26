@@ -6,13 +6,13 @@ import { dot } from "../api";
 import { AddonManager, ChromeUtils, Services } from "../modules";
 
 const { LightweightThemeManager } = ChromeUtils.import(
-    "resource://gre/modules/LightweightThemeManager.jsm"
+  "resource://gre/modules/LightweightThemeManager.jsm"
 );
 
 const { ThemeVariableMap } = ChromeUtils.defineModuleGetter(
-    window,
-    "ThemeVariableMap",
-    "resource:///modules/ThemeVariableMap.jsm"
+  window,
+  "ThemeVariableMap",
+  "resource:///modules/ThemeVariableMap.jsm"
 );
 
 const toolkitVariableMap = [
@@ -200,122 +200,121 @@ const toolkitVariableMap = [
 ];
 
 function _isColorDark(r: number, g: number, b: number) {
-    return 0.2125 * r + 0.7154 * g + 0.0721 * b <= 110;
+  return 0.2125 * r + 0.7154 * g + 0.0721 * b <= 110;
 }
 
 export class ThemeAPI {
-    public isSystemDarkMode = false;
+  public isSystemDarkMode = false;
 
-    private _currentTheme: any = null;
-    private _currentThemeExperiments: any = null;
-    private _currentThemeId = null;
+  private _currentTheme: any = null;
+  private _currentThemeExperiments: any = null;
+  private _currentThemeId = null;
 
-    private _darkModeMediaQuery: MediaQueryList;
+  private _darkModeMediaQuery: MediaQueryList;
 
-    get theme() {
-        return this._currentTheme;
+  get theme() {
+    return this._currentTheme;
+  }
+
+  get themeId() {
+    if (!this._currentThemeId) return null;
+    return this._currentThemeId;
+  }
+
+  public startWatchingAccent() {
+    dot.prefs.observe(
+      "dot.ui.accent_colour",
+      (value: string) => {
+        const cleansedValue = value.replace(/ /g, "").toLowerCase();
+
+        dot.window.removeWindowClassByNamespace("accent-colour-")
+        dot.window.addWindowClass(`accent-colour-${cleansedValue}`)
+      },
+      true
+    );
+  }
+
+  public load() {
+    this.startWatchingAccent();
+
+    const { themeData } = LightweightThemeManager;
+
+    if (this._currentThemeId) {
+      dot.window.removeWindowClassByNamespace("theme-");
+      dot.window.addWindowClass(`theme-${this._currentThemeId}`);
     }
 
-    get themeId() {
-        if(!this._currentThemeId) return null;
-        return this._currentThemeId;
-    }
+    if (themeData.theme) {
+      this._currentTheme = this.isSystemDarkMode && themeData.darkTheme
+        ? themeData.darkTheme
+        : themeData.theme;
 
-    public startWatchingAccent() {
-        dot.prefs.observe(
-            "dot.ui.accent_colour",
-            (value: string) => {
-                const cleansedValue = value.replace(/ /g, "").toLowerCase();
+      this._currentThemeId = themeData.theme.id;
+      this._currentThemeExperiments = this._currentTheme.experimental;
 
-                dot.window.removeWindowClassByNamespace("accent-colour-")
-                dot.window.addWindowClass(`accent-colour-${cleansedValue}`)
-            },
-            true
+      const mapped = [...ThemeVariableMap, ...toolkitVariableMap].map((i: any) => {
+        return { variable: i[0], data: i[1] }
+      });
+
+      for (const [key, value] of Object.entries(this._currentTheme)) {
+        if (
+          key == "experimental" ||
+          key == "id" ||
+          key == "version"
+        ) continue;
+
+        const index = mapped.findIndex(({ data }: { data: any }) =>
+          data.lwtProperty == key
         );
-    }
 
-    public load() {
-        this.startWatchingAccent();
+        if (mapped[index]) {
+          const { variable } = mapped[index];
 
-        const { themeData } = LightweightThemeManager;
-
-        if (this._currentThemeId) {
-            dot.window.removeWindowClassByNamespace("theme-");
-            dot.window.addWindowClass(`theme-${this._currentThemeId}`);
-        }
-
-        if (themeData.theme) {
-            this._currentTheme = this.isSystemDarkMode && themeData.darkTheme
-                ? themeData.darkTheme 
-                : themeData.theme;
-
-            this._currentThemeId = themeData.theme.id;
-            this._currentThemeExperiments = this._currentTheme.experimental;
-
-            const mapped = [...ThemeVariableMap, ...toolkitVariableMap].map((i: any) => {
-                return { variable: i[0], data: i[1] }
-            });
-
-            for (const [key, value] of Object.entries(this._currentTheme)) {
-                if (
-                    key == "experimental" ||
-                    key == "id" ||
-                    key == "version"
-                ) continue;
-
-                const index = mapped.findIndex(({ data }: { data: any }) =>
-                    data.lwtProperty == key
-                );
-
-                if(mapped[index]) {
-                    const { variable } = mapped[index];
-
-                    document.documentElement.style.setProperty(
-                        variable.replace(/_/g, "-"),
-                        `${value}`
-                    )
-                } else {
-                    document.documentElement.style.setProperty(
-                        "--" + key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`).replace(/_/g, "-"),
-                        `${value}`
-                    )
-                }
-            }
-
-            if (this._currentThemeExperiments) {
-                for (const [key, value] of Object.entries(this._currentThemeExperiments.colors)) {
-                    document.documentElement.style.setProperty(
-                        `--` + key.replace(/_/g, "-").toLowerCase(),
-                        `${value}`
-                    )
-                };
-            }
-
-            dot.window.addWindowClass(`theme-${this._currentThemeId}`);
+          document.documentElement.style.setProperty(
+            variable.replace(/_/g, "-"),
+            `${value}`
+          )
         } else {
-            this.setTheme("")
-            throw new Error("Unable to load ThemeAPI. themeData was not available.");
+          document.documentElement.style.setProperty(
+            "--" + key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`).replace(/_/g, "-"),
+            `${value}`
+          )
         }
-    }
+      }
 
-    public async setTheme(id: string) {
-        const addon = await AddonManager.getAddonByID(id);
+      if (this._currentThemeExperiments) {
+        for (const [key, value] of Object.entries(this._currentThemeExperiments.colors)) {
+          document.documentElement.style.setProperty(
+            `--` + key.replace(/_/g, "-").toLowerCase(),
+            `${value}`
+          )
+        };
+      }
 
-        addon.enable();
+      dot.window.addWindowClass(`theme-${this._currentThemeId}`);
+    } else {
+      this.setTheme(Services.builtInThemes.DEFAULT_THEME_ID);
     }
+  }
 
-    constructor() {
-        this._darkModeMediaQuery = window.matchMedia("(-moz-system-dark-theme)");
-        this.isSystemDarkMode = this._darkModeMediaQuery.matches;
-        this._darkModeMediaQuery.addEventListener("change", ({ matches }) => {
-            this.isSystemDarkMode = matches;
-            this.load();
-        });
-    
-        /* Listen for theme changes and reinit */
-        Services.obs.addObserver(
-            () => this.load(), 
-            "lightweight-theme-styling-update"
-        );
-    }
+  public async setTheme(id: string) {
+    const addon = await AddonManager.getAddonByID(id);
+
+    addon.enable();
+  }
+
+  constructor() {
+    this._darkModeMediaQuery = window.matchMedia("(-moz-system-dark-theme)");
+    this.isSystemDarkMode = this._darkModeMediaQuery.matches;
+    this._darkModeMediaQuery.addEventListener("change", ({ matches }) => {
+      this.isSystemDarkMode = matches;
+      this.load();
+    });
+
+    /* Listen for theme changes and reinit */
+    Services.obs.addObserver(
+      () => this.load(),
+      "lightweight-theme-styling-update"
+    );
+  }
 }

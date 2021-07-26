@@ -11,7 +11,7 @@
 #navigation-bar {
     display: flex;
     -moz-window-dragging: drag;
-    background-color: var(--lwt-accent-color);
+    background-color: var(--toolbar-bgcolor);
     color: var(--toolbar-color);
     position: relative;
     height: 44px;
@@ -31,7 +31,7 @@
     display: flex;
     align-items: center;
     height: 36px;
-    background-color: var(--toolbar-bgcolor);
+    background-color: var(--lwt-accent-color);
     overflow: hidden;
     margin-top: -36px;
     transition: 0.15s margin-top;

@@ -1,6 +1,7 @@
 import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
+import { WELCOME_SCREEN_URL_PARSED } from "../shared/tab";
 import { MozURI } from "../types/uri";
 
 export interface ITab {
@@ -18,10 +19,12 @@ export class Tab {
     public url = "about:blank";
 
     public urlParts = {
-        scheme: "about:",
-        host: "blank",
+        scheme: null,
+        host: null,
         domain: null,
         path: null,
+        query: null,
+        hash: null,
         internal: true
     };
 
@@ -30,7 +33,7 @@ export class Tab {
     }
 
     public canGoBack: boolean = false;
-    
+
     public canGoForward: boolean = false;
 
     public bookmarked: boolean = false;
@@ -81,7 +84,7 @@ export class Tab {
             messagemanagergroup: "browsers",
             remote: true,
             maychangeremoteness: true,
-            
+
             background: !!background
         }, Services.io.newURI(url));
 
@@ -99,9 +102,9 @@ export class Tab {
                 const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
 
                 if (url == "about:blank") {
-                  return;
+                    return;
                 };
-                
+
                 () => tab.updateNavigationState();
 
                 let state = "unknown";
@@ -122,7 +125,7 @@ export class Tab {
 
             onLocationChange(progress: any, request: any, location: MozURI, flags: number) {
                 if (!progress.isTopLevel) return;
-                
+
                 // Ignore the initial about:blank, unless about:blank is requested
                 if (request) {
                     const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
@@ -147,17 +150,18 @@ export class Tab {
                 const isHttp = location.scheme.startsWith("http");
                 const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
                 const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
-                const noTrailingPath = location.pathQueryRef.replace(/\/*$/, "");
+                const noTrailingPath = location.filePath.replace(/\/*$/, "");
 
-                let pageState = "search";
+                let pageState = "info";
 
-                if(location.scheme == "https") pageState = "https"
+                if (location.spec == WELCOME_SCREEN_URL_PARSED.spec)
+                    pageState = "search"
+                else if (location.scheme == "https") pageState = "https"
                 else if (location.scheme == "http") pageState = "http"
                 else if (location.scheme == "moz-extension") pageState = "extension"
                 else if (
-                    location.scheme == "about" ||
-                    location.scheme == "data"
-                ) pageState = "info"
+                    location.scheme == "about"
+                ) pageState = "built-in"
                 else if (
                     location.scheme == "file" ||
                     location.scheme == "chrome" ||
@@ -185,11 +189,17 @@ export class Tab {
                             path: notWhitelisted
                                 ? ""
                                 : noTrailingPath,
+                            query: notWhitelisted
+                                ? ""
+                                : location.query ? "?" + location.query : "",
+                            hash: notWhitelisted
+                                ? ""
+                                : location.ref ? "#" + location.ref : "",
                             internal: !isHttp
                         }
                     }
                 });
-        
+
                 dot.titlebar.emit(`page-location-change`, tab.id);
             },
 
@@ -216,9 +226,9 @@ export class Tab {
             let { id } = event.originalTarget;
             let tab: any = dot.tabs.get(id);
             if (!tab) {
-              return;
+                return;
             }
-    
+
             // Dispatch the `BeforeTabRemotenessChange` event, allowing other code
             // to react to this tab's process switch.
             let evt = document.createEvent("Events");
@@ -233,7 +243,7 @@ export class Tab {
             filter.removeProgressListener(oldListener);
 
             // We'll be creating a new listener, so destroy the old one.
-            oldListener = null; 
+            oldListener = null;
         });
 
         this.webContents.addEventListener("pagetitlechanged", (event: any) => {
@@ -278,7 +288,7 @@ export class Tab {
     }
 
     reload(flags?: number) {
-        if(!flags) {
+        if (!flags) {
             flags = Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
         };
 

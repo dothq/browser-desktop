@@ -1,22 +1,46 @@
 import React from "react";
+import { store } from "../../app/store";
 import { useBrowserSelector } from "../../app/store/hooks";
 import { Identity } from "../Identity";
 import { SearchbarButton } from "../SearchbarButton";
 
 export const Searchbar = () => {
     const [searchBarHovered, setSearchBarHovered] = React.useState(false);
+    const [searchBarFocused, setSearchBarFocused] = React.useState(false);
+    const [searchBarMockVisible, setSearchBarMockVisible] = React.useState(true);
+
+    const [searchBarValue, setSearchBarValue] = React.useState("");
 
     const tabs = useBrowserSelector(s => s.tabs);
 
     const searchBoxRef = React.useRef<any>();
 
     const onSearchBoxChange = (e: any) => {
-        searchBoxRef.current.value = e.target.value;
+        setSearchBarValue(e.target.value);
     }
+
+    store.subscribe(() => {
+        const state = store.getState();
+        const currentTab = store.getState().tabs.getTabById(state.tabs.selectedId);
+
+        if (!currentTab) return;
+
+        if (currentTab.pageState == "search") {
+            setSearchBarMockVisible(false);
+            return setSearchBarValue("");
+        } else {
+            setSearchBarMockVisible(true);
+            return setSearchBarValue(currentTab.url);
+        }
+    })
 
     return (
         <div id={"urlbar"}>
-            <div id={"urlbar-background"} data-hovered={searchBarHovered}></div>
+            <div
+                id={"urlbar-background"}
+                data-hovered={searchBarHovered}
+                data-focused={searchBarFocused}
+            ></div>
 
             <div id={"urlbar-input-container"}>
                 <div id={"identity-box"}>
@@ -27,27 +51,60 @@ export const Searchbar = () => {
 
                 <div
                     id={"urlbar-input"}
-                    onMouseOver={() => setSearchBarHovered(true)}
-                    onMouseLeave={() => setSearchBarHovered(false)}
+                    onMouseOver={() => {
+                        setSearchBarHovered(true)
+                        setSearchBarMockVisible(false)
+                    }}
+                    onMouseLeave={() => {
+                        setSearchBarHovered(false)
+                        setSearchBarMockVisible(true)
+                    }}
                 >
-                    <div id={"urlbar-input-url"}>
+                    <div
+                        id={"urlbar-input-url"}
+                        style={{
+                            opacity: searchBarFocused || (tabs.getTabById(tabs.selectedId)?.pageState || "search") == "search"
+                                ? 0
+                                : 1
+                        }}
+                    >
                         <span
                             className={"scheme"}
-                            data-hide-protocol={!tabs.getTabById(tabs.selectedId)?.urlParts.internal}
+                            data-hide-protocol={
+                                !tabs.getTabById(tabs.selectedId)?.urlParts.internal &&
+                                !searchBarHovered
+                            }
                         >
                             {tabs.getTabById(tabs.selectedId)?.urlParts.scheme}
                         </span>
                         <span className={"host"}>{tabs.getTabById(tabs.selectedId)?.urlParts.host}</span>
                         <span className={"domain"}>{tabs.getTabById(tabs.selectedId)?.urlParts.domain}</span>
                         <span className={"path"}>{tabs.getTabById(tabs.selectedId)?.urlParts.path}</span>
+                        <span className={"query"}>{tabs.getTabById(tabs.selectedId)?.urlParts.query}</span>
+                        <span className={"hash"}>{tabs.getTabById(tabs.selectedId)?.urlParts.hash}</span>
                     </div>
                     <input
                         id={"urlbar-input-box"}
                         placeholder={"Search using DuckDuckGo or enter address"}
-                        value={tabs.getTabById(tabs.selectedId)?.url || ""}
+                        value={
+                            (tabs.getTabById(tabs.selectedId)?.pageState || "search") == "search"
+                                ? ""
+                                : searchBarValue
+                        }
                         ref={searchBoxRef}
                         onChange={onSearchBoxChange}
-                        style={{ display: "none" }}
+                        onFocus={() => {
+                            setSearchBarFocused(true);
+                        }}
+                        onMouseUp={() => {
+                            searchBoxRef.current.setSelectionRange(0, searchBoxRef.current.value.length);
+                        }}
+                        onBlur={() => setSearchBarFocused(false)}
+                        style={{
+                            opacity: searchBarFocused || (tabs.getTabById(tabs.selectedId)?.pageState || "search") == "search"
+                                ? 1
+                                : 0
+                        }}
                     ></input>
                 </div>
 

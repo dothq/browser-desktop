@@ -20,9 +20,9 @@
 }
 
 .searchbar-button:hover {
-    background-color: #7e7e7e21;
+    background-color: var(--button-hover, var(--toolbarbutton-hover-background));
 }
 
 .searchbar-button:active {
-    background-color: #7e7e7e2f;
+    background-color: var(--button-active, var(--toolbarbutton-active-background));
 }
