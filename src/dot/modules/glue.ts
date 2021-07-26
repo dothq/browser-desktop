@@ -1,14 +1,14 @@
 import { ChromeUtils } from ".";
 
 const { JSWINDOWACTORS } = ChromeUtils.defineModuleGetter(
-  window,
-  "JSWINDOWACTORS",
-  "resource:///modules/BrowserGlue.jsm"
+    window,
+    "JSWINDOWACTORS",
+    "resource:///modules/BrowserGlue.jsm"
 );
 
 export const windowActors = {
     ...JSWINDOWACTORS,
-    
+
     LinkHandler: {
         parent: {
             moduleURI: "chrome://dot/content/actors/LinkHandlerParent.jsm",
@@ -21,6 +21,22 @@ export const windowActors = {
                 DOMLinkChanged: {},
                 pageshow: {},
                 pagehide: {},
+            },
+        },
+
+        messageManagerGroups: ["browsers"],
+    },
+
+    BrowserTab: {
+        parent: {
+            moduleURI: "chrome://dot/content/actors/BrowserTabParent.jsm",
+        },
+        child: {
+            moduleURI: "resource:///actors/BrowserTabChild.jsm",
+
+            events: {
+                DOMWindowCreated: {},
+                MozAfterPaint: {},
             },
         },
 
