@@ -16,13 +16,7 @@ export class TitlebarAPI extends EventEmitter {
         }
     }
 
-    public onPageLocationChange(tabId: number) {
-        console.log(tabId)
-    }
-
     constructor() {
         super();
-
-        this.on("page-location-change", this.onPageLocationChange)
     }
 }
