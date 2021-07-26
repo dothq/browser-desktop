@@ -298,9 +298,26 @@ export class ThemeAPI {
   }
 
   public async setTheme(id: string) {
-    const addon = await AddonManager.getAddonByID(id);
+    await this.awaitAddonManagerStartup();
 
+    const addon = await AddonManager.getAddonByID(id);
     addon.enable();
+  }
+
+  public async awaitAddonManagerStartup() {
+    if (AddonManager.isReady) {
+      // Already started up, nothing to do
+      return true;
+    }
+
+    // Wait until AddonManager is ready to accept calls
+    return new Promise(resolve => {
+      AddonManager.addManagerListener({
+        onStartup() {
+          resolve(true);
+        },
+      });
+    });
   }
 
   constructor() {
