@@ -1,6 +1,7 @@
 import {
     appendFileSync,
-    ensureSymlink, readFileSync,
+    ensureSymlink,
+    readFileSync,
     readlinkSync
 } from "fs-extra";
 import { resolve } from "path";
@@ -16,8 +17,14 @@ export const copyManual = (
     noIgnore?: boolean
 ) => {
     try {
-        if (!readlinkSync(resolve(ENGINE_DIR, ...getChunked(name)))) {
-            rimraf.sync(resolve(ENGINE_DIR, ...getChunked(name)));
+        if (
+            !readlinkSync(
+                resolve(ENGINE_DIR, ...getChunked(name))
+            )
+        ) {
+            rimraf.sync(
+                resolve(ENGINE_DIR, ...getChunked(name))
+            );
         }
 
         ensureSymlink(
