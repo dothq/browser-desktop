@@ -12,7 +12,7 @@
     display: flex;
     -moz-window-dragging: drag;
     background-color: var(--toolbar-bgcolor);
-    color: var(--toolbar-color);
+    color: var(--toolbar-color, var(--lwt-text-color));
     position: relative;
     height: 44px;
     justify-content: space-between;
