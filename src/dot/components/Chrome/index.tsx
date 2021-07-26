@@ -24,18 +24,23 @@ export const Chrome = () => {
                 <div id={"navigation-bar-container"}>
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/back.svg"}
-                        disabled={tabs.selectedTab?.canGoBack}
+                        disabled={!tabs.getTabById(tabs.selectedId)?.canGoBack}
                         command={"Browser:GoBack"}
                     />
 
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/forward.svg"}
-                        disabled={tabs.selectedTab?.canGoForward}
+                        disabled={!tabs.getTabById(tabs.selectedId)?.canGoForward}
                         command={"Browser:GoForward"}
                     />
 
                     <ToolbarButton
-                        image={"chrome://dot/content/skin/icons/reload.svg"}
+                        image={
+                            tabs.getTabById(tabs.selectedId)?.state == "loading" && !tabs.getTabById(tabs.selectedId)?.isNewTab()
+                                ? "chrome://dot/content/skin/icons/close.svg"
+                                : "chrome://dot/content/skin/icons/reload.svg"
+                        }
+                        command={"Browser:Reload"}
                     />
 
                     <NewTabButton variant={"navigation-bar"} />

@@ -9,7 +9,7 @@ export const closeTabAction = (store: any, id: number) => {
         if (store.list[index - 1]) {
             store.list.splice(index, 1);
             tab.destroy();
-            
+
             store.selectedId = store.list[index - 1].id;
         } else if (store.list[index + 1]) {
             store.list.splice(index, 1);
@@ -28,7 +28,7 @@ export const navigateTabAction = (store: any, payload: any) => {
         url,
         triggeringPrincipal
     } = payload;
-    
+
     const tab = store.getTabById(id);
 
     if (tab) {
@@ -45,12 +45,12 @@ export const bookmarkTabAction = (store: any, payload: any) => {
     const {
         id
     } = payload;
-    
+
     const tab = store.getTabById(id);
-  
+
     if (tab) {
         tab.bookmark();
-    
+
         store.update(id, { bookmarked: true });
     }
 }
@@ -58,10 +58,11 @@ export const bookmarkTabAction = (store: any, payload: any) => {
 export const updateTitleTabAction = (store: any, payload: any) => {
     const {
         id,
-        title
+        title,
+        noInvalidate
     } = payload;
 
-    store.update(id, { title });
+    store.update(id, { title, noInvalidate });
 }
 
 export const updateUrlTabAction = (store: any, payload: any) => {
@@ -77,10 +78,11 @@ export const updateUrlTabAction = (store: any, payload: any) => {
 export const updateStateTabAction = (store: any, payload: any) => {
     const {
         id,
-        state
+        state,
+        noInvalidate
     } = payload;
 
-    store.update(id, { state });
+    store.update(id, { state, noInvalidate });
 }
 
 export const updateFaviconTabAction = (store: any, payload: any) => {
@@ -98,6 +100,8 @@ export const updateNavigationStateAction = (store: any, payload: any) => {
         canGoBack,
         canGoForward
     } = payload;
+
+    console.log("updatenavigationstateaction", id, canGoBack, canGoForward);
 
     store.update(id, { canGoBack, canGoForward });
 }

@@ -35,10 +35,20 @@ const initialState: TabsState = {
     },
 
     update(id: number, data: { [key: string]: any }) {
+        if (data.noInvalidate) return this.generation = Number(!this.generation);;
+
+        delete data.noInvalidate;
+
         const tab: any = this.getTabById(id);
 
         for (const [key, value] of Object.entries(data)) {
-            tab[key] = value;
+            try {
+                tab[key] = value;
+            } catch (e) {
+
+            }
+
+            console.log(key, value.toString().substr(0, 40), tab[key].toString().substr(0, 40))
         }
 
         this.generation = Number(!this.generation);
