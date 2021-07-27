@@ -8,10 +8,13 @@ body {
   margin: 0;
 }
 
+html, body {
+  border-radius: var(--window-roundness) var(--window-roundness) 0px 0px;
+} 
+
 body,
 :root {
   font: message-box;
-  background-color: var(--lwt-accent-color);
   color: var(--lwt-text-color);
   overflow: clip;
 
