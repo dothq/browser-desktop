@@ -1,4 +1,10 @@
-// Recreated from Services.io.newURI
+/**
+ * Recreated from `Services.io.newURI()`. Can be created using that method.
+ *
+ * ```ts
+ * const url: MozURI = Services.io.newURI("http://example.com/");
+ * ```
+ */
 export interface MozURI {
     asciiHost: string
     asciiHostPort: string
