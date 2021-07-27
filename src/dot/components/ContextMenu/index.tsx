@@ -1,7 +1,6 @@
 import React from "react"
-import { ContextMenuProps } from "../../menus"
 
-export const ContextMenu = ({ id, children }: ContextMenuProps & { children: any }) => {
+export const ContextMenu = ({ id, children }: { id: string, children: any }) => {
     return (
         <menu id={id}>
             {children}
