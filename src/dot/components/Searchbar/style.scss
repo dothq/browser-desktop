@@ -104,7 +104,7 @@
         }
 
         .scheme {
-            max-width: 100px;
+            max-width: var(--searchbar-scheme-width, 100px);
         }
 
         .scheme[data-hide-protocol="true"] {
