@@ -151,11 +151,6 @@ export class Tab {
             this.onPageTitleChange
         );
 
-        this.webContents.addEventListener(
-            "contextmenu",
-            (event: MouseEvent) => dot.menu.get("context-navigation")?.toggle(event)
-        );
-
         return this;
     }
 
