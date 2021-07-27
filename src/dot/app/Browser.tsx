@@ -3,13 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
+import { Portal } from 'react-portal';
 import { Chrome } from "../components/Chrome";
+import { PageMenu } from "../menus/page";
 
 export const Browser = () => {
     return (
         <>
             <Chrome />
-            {/* <ContextMenus /> */}
+
+            <Portal node={document && document.getElementById("mainPopupSet")}>
+                <PageMenu />
+            </Portal>
         </>
     );
 };
