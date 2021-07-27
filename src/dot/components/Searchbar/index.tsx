@@ -6,6 +6,14 @@ import { Services } from "../../modules";
 import { Identity } from "../Identity";
 import { SearchbarButton } from "../SearchbarButton";
 
+/**
+ * A string for the url for a search engine. `%query%` will be replaced with the search
+ * query.
+ *
+ * TODO: Make this a setting available to the end user
+ */
+const searchEngine = 'https://duckduckgo.com/?q=%query%'
+
 export const Searchbar = () => {
     const [searchBarHovered, setSearchBarHovered] = React.useState(false);
     const [searchBarFocused, setSearchBarFocused] = React.useState(false);
@@ -110,24 +118,27 @@ export const Searchbar = () => {
                                 const containsDots = /\./.test(searchBarValue);
                                 const containsProtocol = /((https)|(http)|(file)):\/\//.test(searchBarValue);
 
+                                if (!dot.tabs.selectedTab) {
+                                    console.error('Cannot change the url when no tab is selected')
+                                    return
+                                }
+
                                 // If the input does not contain a space and contains
                                 // a dot, it is a url
                                 if (!containsSpace && containsDots) {
-                                    if (dot.tabs.selectedTab) {
-                                        let url
+                                    let url
 
-                                        if (containsProtocol) {
-                                            url = searchBarValue
-                                        } else {
-                                            url = `https://${searchBarValue}`
-                                        }
-
-                                        dot.tabs.selectedTab.goto(Services.io.newURI(url))
+                                    if (containsProtocol) {
+                                        url = searchBarValue
                                     } else {
-                                        console.error('Cannot change the url when no tab is selected')
+                                        url = `https://${searchBarValue}`
                                     }
+
+                                    dot.tabs.selectedTab.goto(Services.io.newURI(url))
                                 } else {
-                                    console.log('Submission is a search query')
+                                    dot.tabs.selectedTab.goto(Services.io.newURI(
+                                        searchEngine.replace('%query%', searchBarValue.replace(/(\s)/g, '+'))
+                                    ))
                                 }
                             }
                         }}
