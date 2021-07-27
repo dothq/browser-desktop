@@ -1,6 +1,8 @@
 import React from "react";
+import { dot } from "../../api";
 import { store } from "../../app/store";
 import { useBrowserSelector } from "../../app/store/hooks";
+import { Services } from "../../modules";
 import { Identity } from "../Identity";
 import { SearchbarButton } from "../SearchbarButton";
 
@@ -100,6 +102,34 @@ export const Searchbar = () => {
                             opacity: searchBarFocused || (tabs.getTabById(tabs.selectedId)?.pageState || "search") == "search"
                                 ? 1
                                 : 0
+                        }}
+                        onKeyDown={event => {
+                            if (event.key == "Enter") {
+                                // Logic for handling navigation
+                                const containsSpace = /\s/.test(searchBarValue);
+                                const containsDots = /\./.test(searchBarValue);
+                                const containsProtocol = /((https)|(http)|(file)):\/\//.test(searchBarValue);
+
+                                // If the input does not contain a space and contains
+                                // a dot, it is a url
+                                if (!containsSpace && containsDots) {
+                                    if (dot.tabs.selectedTab) {
+                                        let url
+
+                                        if (containsProtocol) {
+                                            url = searchBarValue
+                                        } else {
+                                            url = `https://${searchBarValue}`
+                                        }
+
+                                        dot.tabs.selectedTab.goto(Services.io.newURI(url))
+                                    } else {
+                                        console.error('Cannot change the url when no tab is selected')
+                                    }
+                                } else {
+                                    console.log('Submission is a search query')
+                                }
+                            }
                         }}
                     ></input>
                 </div>
