@@ -270,7 +270,7 @@ export class Tab {
         const isHttp = location.scheme.startsWith("http");
         const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
         const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
-        const noTrailingPath = location.filePath.replace(/\/*$/, "");
+        const noTrailingPath = location.query.length == 0 ? location.filePath.replace(/\/*$/, "") : location.filePath;
 
         let pageState = "info";
 
