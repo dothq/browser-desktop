@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { AppConstants, Services } from "../modules";
+import { AppConstants, Cc, Ci, Services } from "../modules";
 import { commands } from "../shared/commands";
 
 export class UtilitiesAPI extends EventEmitter {
@@ -27,6 +27,12 @@ export class UtilitiesAPI extends EventEmitter {
 
     public get browserLanguage() {
         return Services.locale.requestedLocale
+    }
+
+    public get linuxDesktopEnvironment() {
+        if (this.platform !== "linux") return "";
+
+        return this.getEnv("XDG_CURRENT_DESKTOP");
     }
 
     public doCommand(command: string) {
@@ -57,6 +63,14 @@ export class UtilitiesAPI extends EventEmitter {
         } else {
             return false
         }
+    }
+
+    public getEnv(name: string) {
+        const env = Cc["@mozilla.org/process/environment;1"].getService(
+            Ci.nsIEnvironment
+        );
+
+        return env.get(name);
     }
 
     constructor() {
