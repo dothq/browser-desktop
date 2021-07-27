@@ -42,6 +42,9 @@ const initialState: TabsState = {
         const tab: any = this.getTabById(id);
 
         for (const [key, value] of Object.entries(data)) {
+            // no point rerendering same data
+            if (tab[key] == value) return;
+
             try {
                 tab[key] = value;
             } catch (e) {
