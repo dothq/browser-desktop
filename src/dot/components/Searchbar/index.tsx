@@ -101,9 +101,13 @@ export const Searchbar = () => {
                         onChange={onSearchBoxChange}
                         onFocus={() => {
                             setSearchBarFocused(true);
-                        }}
-                        onMouseUp={() => {
-                            searchBoxRef.current.setSelectionRange(0, searchBoxRef.current.value.length);
+
+                            // This used to be in `onMouseUp` but that is just a
+                            // bad time. Also firefox appears to only do it on
+                            // focus by default so that is the way we are doing it
+                            // Delaying this will stop the user from anciently
+                            // clearing focus
+                            setTimeout(() => searchBoxRef.current.setSelectionRange(0, searchBoxRef.current.value.length), 50);
                         }}
                         onBlur={() => setSearchBarFocused(false)}
                         style={{
@@ -139,6 +143,11 @@ export const Searchbar = () => {
                                     dot.tabs.selectedTab.goto(Services.io.newURI(
                                         searchEngine.replace('%query%', searchBarValue.replace(/(\s)/g, '+'))
                                     ))
+                                }
+
+                                // Unfocus the input
+                                if (document?.activeElement) {
+                                    (document.activeElement as any).blur()
                                 }
                             }
                         }}
