@@ -7,12 +7,12 @@ import { Identity } from "../Identity";
 import { SearchbarButton } from "../SearchbarButton";
 
 /**
- * A string for the url for a search engine. `%query%` will be replaced with the search
+ * A string for the url for a search engine. `%s` will be replaced with the search
  * query.
  *
  * TODO: Make this a setting available to the end user
  */
-const searchEngine = 'https://duckduckgo.com/?q=%query%'
+const searchEngine = 'https://duckduckgo.com/?q=%s'
 
 export const Searchbar = () => {
     const [searchBarHovered, setSearchBarHovered] = React.useState(false);
@@ -107,7 +107,10 @@ export const Searchbar = () => {
                             // focus by default so that is the way we are doing it
                             // Delaying this will stop the user from anciently
                             // clearing focus
-                            setTimeout(() => searchBoxRef.current.setSelectionRange(0, searchBoxRef.current.value.length), 50);
+                            setTimeout(() => searchBoxRef.current.setSelectionRange(
+                                0,
+                                searchBoxRef.current.value.length
+                            ), 50);
                         }}
                         onBlur={() => setSearchBarFocused(false)}
                         style={{
@@ -141,7 +144,7 @@ export const Searchbar = () => {
                                     dot.tabs.selectedTab.goto(Services.io.newURI(url))
                                 } else {
                                     dot.tabs.selectedTab.goto(Services.io.newURI(
-                                        searchEngine.replace('%query%', searchBarValue.replace(/(\s)/g, '+'))
+                                        searchEngine.replace('%s', searchBarValue.replace(/(\s)/g, '+'))
                                     ))
                                 }
 
