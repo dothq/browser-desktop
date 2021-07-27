@@ -226,31 +226,68 @@ export class Tab {
     public onStateChange(id: number, webProgress: any, request: any, flags: number, status: any) {
         if (!request) return;
 
-        const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
-        if (url == "about:blank") return;
-
         dot.tabs.get(id)?.updateNavigationState();
 
-        let state = "unknown";
+        const shouldShowLoader = (request: any) => {
+            // We don't want to show tab loaders for about:* urls
+            if (
+                request instanceof Ci.nsIChannel &&
+                request.originalURI.schemeIs("about")
+            ) return false;
 
-        if (request.isLoadingDocument) state = "loading"
-        else if (!request.isLoadingDocument) state = "idle"
-        else state = "unknown"
+            return true;
+        }
 
-        store.dispatch({
-            type: "TAB_UPDATE_STATE",
-            payload: {
-                id,
-                state
+        const {
+            STATE_START,
+            STATE_IS_NETWORK,
+            STATE_RESTORING,
+            STATE_STOP
+        } = Ci.nsIWebProgressListener;
+
+        if (
+            flags & STATE_START &&
+            flags & STATE_IS_NETWORK
+        ) {
+            if (shouldShowLoader(request)) {
+                if (
+                    !(flags & STATE_RESTORING) &&
+                    webProgress &&
+                    webProgress.isTopLevel
+                ) {
+                    // having two dispatches probably isn't best
+                    // merge these two in future maybe?
+
+                    // started loading
+                    store.dispatch({
+                        type: "TAB_UPDATE_STATE",
+                        payload: {
+                            id,
+                            state: "loading"
+                        }
+                    });
+
+                    // remove the favicon during loading
+                    // we don't want it flickering about during the load
+                    store.dispatch({
+                        type: "TAB_UPDATE_FAVICON",
+                        payload: {
+                            id,
+                            faviconUrl: ""
+                        }
+                    });
+                }
             }
-        });
-
-        if (state == "loading") {
+        } else if (
+            flags & STATE_STOP &&
+            flags & STATE_IS_NETWORK
+        ) {
+            // finished loading
             store.dispatch({
-                type: "TAB_UPDATE_FAVICON",
+                type: "TAB_UPDATE_STATE",
                 payload: {
                     id,
-                    faviconUrl: ""
+                    state: "idle"
                 }
             });
         }
