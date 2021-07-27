@@ -1,14 +1,58 @@
 import React from "react"
-import { PageContextMenu } from "./page"
+import { ContextMenu } from "../components/ContextMenu"
+import { ContextMenuItem } from "../components/ContextMenuItem"
 
-export interface ContextMenuProps {
-    id: string
+export type MenuType = 'normal' | 'separator' | 'checkbox' | 'radio'
+
+// Translations between macOS -> other OSes
+//    - Ctrl <-> Cmd
+//    - Shift <-> Option
+//    - Alt <-> Control
+//    - Super <-> Cmd
+export type MenuHotkey = 'Ctrl' |
+    'Shift' |
+    'Alt' |
+    'Super' |
+    string
+
+export interface MenuItem {
+    id: string,
+
+    label: string,
+    icon?: string,
+    hotkey?: MenuHotkey[],
+    type?: MenuType,
+
+    visible?: boolean,
+    disabled?: boolean,
+
+    click?: (...args: any[]) => void,
+    hover?: (...args: any[]) => void,
+
+    submenu?: MenuItem[]
 }
 
-export const ContextMenus = () => {
-    return (
-        <>
-            <PageContextMenu />
-        </>
-    )
+export class Menu {
+    static buildFromTemplate(template: {
+        id: string,
+        menu: MenuItem[],
+        iconPrefix?: string
+    }) {
+        const M = () => (
+            <ContextMenu id={template.id} key={template.id}>
+                {template.menu.map(menuitem => (
+                    <ContextMenuItem
+                        {...menuitem}
+                        key={menuitem.id}
+                        icon={template.iconPrefix
+                            ? `${template.iconPrefix}${menuitem.icon}`
+                            : menuitem.icon
+                        }
+                    />
+                ))}
+            </ContextMenu>
+        )
+
+        return M;
+    }
 }
