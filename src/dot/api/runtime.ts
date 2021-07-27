@@ -34,12 +34,25 @@ export class RuntimeAPI extends EventEmitter {
             payload: {
                 url: WELCOME_SCREEN_URL
             }
-        })
+        });
+
+        dot.tabs.maybeHideTabs();
 
         dot.window.addWindowClass(dot.utilities.platform);
         dot.window.addWindowClass(dot.utilities.browserLanguage);
         dot.window.addWindowClass("tabs-in-titlebar", dot.titlebar.nativeTitlebarEnabled);
         dot.window.toggleWindowAttribute("lang", dot.utilities.browserLanguage);
+
+        // We should support rounded corners on more DEs, but Ubuntu's Unity is
+        // is the only one that definitely supports it.
+        const isUbuntu = dot.utilities.linuxDesktopEnvironment
+            .toLowerCase()
+            .includes("unity");
+
+        document.documentElement.style.setProperty(
+            "--window-roundness",
+            (isUbuntu ? 4 : 0) + "px"
+        );
 
         store.subscribe(() => {
             dot.tabs.maybeHideTabs();
@@ -55,7 +68,6 @@ export class RuntimeAPI extends EventEmitter {
         );
 
         dot.theme.load();
-        dot.tabs.maybeHideTabs();
     }
 
     public onAfterBrowserPaint() {
