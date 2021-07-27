@@ -35,7 +35,7 @@ export class TabsAPI {
         return tabs.getTabById(id);
     }
 
-    public maybeHideTabs() {
+    public maybeHideTabs(firstInteraction?: boolean) {
         const state = store.getState();
 
         const firstTab = state.tabs.list[0];
@@ -49,7 +49,7 @@ export class TabsAPI {
         ) {
             return;
         } else if (
-            firstTab.state == "idle" &&
+            (firstInteraction ? firstTab.state == "idle" : true) &&
             tabUri.spec !== "about:blank"
         ) {
             // everything should have loaded by now

@@ -36,7 +36,7 @@ export class RuntimeAPI extends EventEmitter {
             }
         });
 
-        dot.tabs.maybeHideTabs();
+        dot.tabs.maybeHideTabs(true);
 
         dot.window.addWindowClass(dot.utilities.platform);
         dot.window.addWindowClass(dot.utilities.browserLanguage);
