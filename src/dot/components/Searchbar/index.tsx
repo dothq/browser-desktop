@@ -24,6 +24,7 @@ export const Searchbar = () => {
     const tabs = useBrowserSelector(s => s.tabs);
 
     const searchBoxRef = React.useRef<any>();
+    const urlSchemeRef = React.useRef<any>();
 
     const onSearchBoxChange = (e: any) => {
         setSearchBarValue(e.target.value);
@@ -34,6 +35,11 @@ export const Searchbar = () => {
         const currentTab = store.getState().tabs.getTabById(state.tabs.selectedId);
 
         if (!currentTab) return;
+
+        urlSchemeRef.current.style.setProperty(
+            "--searchbar-scheme-width",
+            `${urlSchemeRef.current.scrollWidth}px`
+        );
 
         if (currentTab.pageState == "search") {
             setSearchBarMockVisible(false);
@@ -84,6 +90,7 @@ export const Searchbar = () => {
                                 !tabs.getTabById(tabs.selectedId)?.urlParts.internal &&
                                 !searchBarHovered
                             }
+                            ref={urlSchemeRef}
                         >
                             {tabs.getTabById(tabs.selectedId)?.urlParts.scheme}
                         </span>
