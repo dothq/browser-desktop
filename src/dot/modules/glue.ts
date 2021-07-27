@@ -42,4 +42,19 @@ export const windowActors = {
 
         messageManagerGroups: ["browsers"],
     },
+
+    ContextMenu: {
+        parent: {
+            moduleURI: "chrome://dot/content/actors/ContextMenuParent.jsm",
+        },
+
+        child: {
+            moduleURI: "resource:///actors/ContextMenuChild.jsm",
+            events: {
+                contextmenu: { mozSystemGroup: true },
+            },
+        },
+
+        allFrames: true,
+    },
 };
