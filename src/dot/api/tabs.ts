@@ -44,13 +44,28 @@ export class TabsAPI {
         const tabUri = Services.io.newURI(firstTab.url);
 
         if (
-            state.tabs.list.length <= 1 && // at least 1 tab open
-            tabUri.equals(WELCOME_SCREEN_URL_PARSED) && // that tab is the ntp
-            dot.prefs.get("dot.tabs.autohide.enabled", true) // we have autohide enabled
+            firstTab.state == "loading" &&
+            tabUri.spec == "about:blank"
         ) {
-            dot.window.removeWindowClass("tabs-visible"); // hide tabs
+            return;
+        } else if (
+            firstTab.state == "idle" &&
+            tabUri.spec !== "about:blank"
+        ) {
+            // everything should have loaded by now
+
+            if (
+                state.tabs.list.length <= 1 && // at least 1 tab open
+                tabUri.equals(WELCOME_SCREEN_URL_PARSED) && // that tab is the ntp
+                dot.prefs.get("dot.tabs.autohide.enabled", true) // we have autohide enabled
+            ) {
+                dot.window.removeWindowClass("tabs-visible"); // hide tabs
+            } else {
+                dot.window.addWindowClass("tabs-visible"); // show tabs
+            }
         } else {
-            dot.window.addWindowClass("tabs-visible"); // show tabs
+            // still not ready
+            return;
         }
     }
 }
