@@ -3,6 +3,7 @@ import { dot } from "../../api";
 import { store } from "../../app/store";
 import { useBrowserSelector } from "../../app/store/hooks";
 import { Services } from "../../modules";
+import { formatToParts } from "../../shared/url";
 import { Identity } from "../Identity";
 import { SearchbarButton } from "../SearchbarButton";
 
@@ -20,6 +21,15 @@ export const Searchbar = () => {
     const [searchBarMockVisible, setSearchBarMockVisible] = React.useState(true);
 
     const [searchBarValue, setSearchBarValue] = React.useState("");
+    const [searchBarUrlParts, setSearchBarUrlParts] = React.useState({
+        scheme: null,
+        host: null,
+        domain: null,
+        path: null,
+        query: null,
+        hash: null,
+        internal: true
+    });
 
     const tabs = useBrowserSelector(s => s.tabs);
 
@@ -45,10 +55,19 @@ export const Searchbar = () => {
             setSearchBarMockVisible(false);
             return setSearchBarValue("");
         } else {
-            setSearchBarMockVisible(true);
             return setSearchBarValue(currentTab.url);
         }
     })
+
+    React.useEffect(() => {
+        const parts = formatToParts(searchBarValue);
+
+        setSearchBarMockVisible(true);
+
+        if (parts) {
+            setSearchBarUrlParts(parts as any);
+        }
+    }, [searchBarValue])
 
     return (
         <div id={"urlbar"}>
@@ -69,11 +88,9 @@ export const Searchbar = () => {
                     id={"urlbar-input"}
                     onMouseOver={() => {
                         setSearchBarHovered(true)
-                        setSearchBarMockVisible(false)
                     }}
                     onMouseLeave={() => {
                         setSearchBarHovered(false)
-                        setSearchBarMockVisible(true)
                     }}
                 >
                     <div
@@ -87,18 +104,19 @@ export const Searchbar = () => {
                         <span
                             className={"scheme"}
                             data-hide-protocol={
-                                !tabs.getTabById(tabs.selectedId)?.urlParts.internal &&
+                                searchBarMockVisible &&
+                                !searchBarUrlParts.internal &&
                                 !searchBarHovered
                             }
                             ref={urlSchemeRef}
                         >
-                            {tabs.getTabById(tabs.selectedId)?.urlParts.scheme}
+                            {searchBarMockVisible ? searchBarUrlParts.scheme : ""}
                         </span>
-                        <span className={"host"}>{tabs.getTabById(tabs.selectedId)?.urlParts.host}</span>
-                        <span className={"domain"}>{tabs.getTabById(tabs.selectedId)?.urlParts.domain}</span>
-                        <span className={"path"}>{tabs.getTabById(tabs.selectedId)?.urlParts.path}</span>
-                        <span className={"query"}>{tabs.getTabById(tabs.selectedId)?.urlParts.query}</span>
-                        <span className={"hash"}>{tabs.getTabById(tabs.selectedId)?.urlParts.hash}</span>
+                        <span className={"host"}>{searchBarMockVisible ? searchBarUrlParts.host : ""}</span>
+                        <span className={"domain"}>{searchBarMockVisible ? searchBarUrlParts.domain : ""}</span>
+                        <span className={"path"}>{searchBarMockVisible ? searchBarUrlParts.path : ""}</span>
+                        <span className={"query"}>{searchBarMockVisible ? searchBarUrlParts.query : ""}</span>
+                        <span className={"hash"}>{searchBarMockVisible ? searchBarUrlParts.hash : ""}</span>
                     </div>
                     <input
                         id={"urlbar-input-box"}

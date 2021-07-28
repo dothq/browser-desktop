@@ -2,7 +2,7 @@ import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { WELCOME_SCREEN_URL_PARSED } from "../shared/tab";
-import { whitelistedSchemes } from "../shared/url";
+import { formatToParts } from "../shared/url";
 import { MozURI } from "../types/uri";
 
 export interface ITab {
@@ -299,11 +299,6 @@ export class Tab {
 
         dot.tabs.get(id)?.updateNavigationState();
 
-        const isHttp = location.scheme.startsWith("http");
-        const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
-        const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
-        const noTrailingPath = location.query.length == 0 ? location.filePath.replace(/\/*$/, "") : location.filePath;
-
         let pageState = "info";
 
         if (location.spec == WELCOME_SCREEN_URL_PARSED.spec)
@@ -320,9 +315,9 @@ export class Tab {
             location.scheme == "resource"
         ) pageState = "file"
 
-        const scheme = whitelistedSchemes.includes(location.scheme)
-            ? `${location.scheme}://`
-            : `${location.scheme}:`
+        if (location.spec == "about:blank") pageState = "info";
+
+        const urlParts = formatToParts(location.spec);
 
         store.dispatch({
             type: "TAB_UPDATE",
@@ -330,25 +325,7 @@ export class Tab {
                 id,
                 url: location.spec,
                 pageState,
-                urlParts: {
-                    scheme,
-                    domain: notWhitelisted
-                        ? location.pathQueryRef
-                        : rootDomain,
-                    host: notWhitelisted
-                        ? ""
-                        : location.host.replace(rootDomain, ""),
-                    path: notWhitelisted
-                        ? ""
-                        : noTrailingPath,
-                    query: notWhitelisted
-                        ? ""
-                        : location.query ? "?" + location.query : "",
-                    hash: notWhitelisted
-                        ? ""
-                        : location.ref ? "#" + location.ref : "",
-                    internal: !isHttp
-                }
+                urlParts
             }
         });
     }
