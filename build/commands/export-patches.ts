@@ -31,7 +31,8 @@ const getFiles = async (flags: string, cwd: string) => {
         [
             "ls-files",
             `-${flags.toLowerCase()}`,
-            "--ignored",
+            "-i",
+            "-o",
             "--exclude-standard"
         ],
         { cwd }
@@ -187,6 +188,9 @@ export const exportPatches = async () => {
 
     log.info(`Wiping patches directory...`);
     console.log();
+    // TODO: Replace this with fs.rmSync(path, { recursive: true }) when node 12 is deprecated
+    // This function has been depriciated, however its replacement was only available
+    // from v14.14.0 onwards (https://nodejs.org/dist/latest-v16.x/docs/api/fs.html#fs_fs_rmsync_path_options)
     rmdirSync(PATCHES_DIR, { recursive: true });
     mkdirSync(PATCHES_DIR);
     writeFileSync(resolve(PATCHES_DIR, ".index"), "");

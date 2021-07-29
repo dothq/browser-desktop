@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=builddate::$(date +"%Y-%m-%d")"
   linux-64:
     name: 🐧 Linux (64-bit)
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [build-data]
     env:
       CI_SKIP_INIT: true
@@ -54,9 +54,10 @@ jobs:
           npm i typescript
           sudo apt-get update --fix-missing
           sudo apt-get update
-          sudo apt-get install dos2unix
+          sudo apt-get install dos2unix yasm nasm build-essential libgtk2.0-dev libpython3-dev m4 uuid libasound2-dev libcurl4-openssl-dev libdbus-1-dev libdrm-dev libdbus-glib-1-dev libdbus-glib-1-dev libgtk-3-dev libpulse-dev libx11-xcb-dev libxt-dev xvfb
           rustup install ${{ needs.build-data.outputs.rust_version }}
           rustup default ${{ needs.build-data.outputs.rust_version }}
+          cargo install sccache
       - name: Download workspace
         run: |
           ./melon download
@@ -81,12 +82,11 @@ jobs:
 
       - name: Build
         run: |
-          cd src
-          ./mach bootstrap --application-choice browser --no-interactive
-          cd ..
+          export MACH_USE_SYSTEM_PYTHON=1
           MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
       - name: Package
         run: |
+          export MACH_USE_SYSTEM_PYTHON=1
           cd src
           ./mach package
           cd ..
@@ -487,9 +487,10 @@ jobs:
         run: |
           npm i typescript
           brew install dos2unix
+          brew instal gnu-tar terminal-notifier watchman nasm yasm
           rustup install ${{ needs.build-data.outputs.rust_version }}
           rustup default ${{ needs.build-data.outputs.rust_version }}
-
+          cargo install sccache
       - name: Download workspace
         run: |
           ./melon download
@@ -515,14 +516,13 @@ jobs:
 
       - name: Build
         run: |
-          cd src
-          ./mach bootstrap --application-choice browser --no-interactive
-          cd ..
+          export MACH_USE_SYSTEM_PYTHON=1
           MOZ_SOURCE_CHANGESET=${{ github.sha }} ./melon build
 
       - name: Package
         run: |
           cd src
+          export MACH_USE_SYSTEM_PYTHON=1
           ./mach package
           cd ..
 
