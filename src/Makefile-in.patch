@@ -1,0 +1,16 @@
+diff --git a/Makefile.in b/Makefile.in
+index 9ceb4c20f75f99059ee3d8f9db442c3de052591c..6f3213f7b5323cf9d75ec34c746f3fff404a6f75 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -142,6 +142,11 @@ recurse_android-archive-geckoview:
+ 	GRADLE_INVOKED_WITHIN_MACH_BUILD=1 $(topsrcdir)/mach --log-no-times android archive-geckoview
+ endif
+ 
++recurse_frontend:
++	@echo 'dot/app'
++	$(topsrcdir)/mach yarn --silent --cwd=$(topsrcdir)/dot/ install
++	$(topsrcdir)/mach yarn --silent --cwd=$(topsrcdir)/dot/ run compile
++
+ ifdef MOZ_WIDGET_TOOLKIT
+ ifdef ENABLE_TESTS
+ # Additional makefile targets to call automated test suites

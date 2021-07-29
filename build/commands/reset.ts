@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { confirm } from "promptly";
 import rimraf from "rimraf";
 import { bin_name, log } from "..";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 import { IPatch } from "../interfaces/patch";
 import manualPatches from "../manual-patches";
 
@@ -24,7 +24,7 @@ export const reset = async () => {
                     await execa(
                         "git",
                         ["checkout", "."],
-                        { cwd: SRC_DIR }
+                        { cwd: ENGINE_DIR }
                     );
 
                     manualPatches.forEach(
@@ -36,12 +36,13 @@ export const reset = async () => {
                                     typeof src == "string"
                                 ) {
                                     const path = resolve(
-                                        SRC_DIR,
+                                        ENGINE_DIR,
                                         src
                                     );
 
                                     if (
-                                        path !== SRC_DIR
+                                        path !==
+                                        ENGINE_DIR
                                     ) {
                                         log.info(
                                             `Deleting ${src}...`
@@ -62,13 +63,13 @@ export const reset = async () => {
                                     src.forEach((i) => {
                                         const path =
                                             resolve(
-                                                SRC_DIR,
+                                                ENGINE_DIR,
                                                 i
                                             );
 
                                         if (
                                             path !==
-                                            SRC_DIR
+                                            ENGINE_DIR
                                         ) {
                                             log.info(
                                                 `Deleting ${i}...`
@@ -104,7 +105,7 @@ export const reset = async () => {
                                 "'!*.orig'",
                                 "--dry-run"
                             ],
-                            { cwd: SRC_DIR }
+                            { cwd: ENGINE_DIR }
                         );
 
                     const { stdout: rejFiles } =
@@ -116,7 +117,7 @@ export const reset = async () => {
                                 "'!*.rej'",
                                 "--dry-run"
                             ],
-                            { cwd: SRC_DIR }
+                            { cwd: ENGINE_DIR }
                         );
 
                     origFiles
@@ -143,17 +144,17 @@ export const reset = async () => {
                     Array.from(leftovers).forEach(
                         (f: any) => {
                             const path = resolve(
-                                SRC_DIR,
+                                ENGINE_DIR,
                                 f
                             );
 
-                            if (path !== SRC_DIR) {
+                            if (path !== ENGINE_DIR) {
                                 log.info(
                                     `Deleting ${f}...`
                                 );
 
                                 rimraf.sync(
-                                    resolve(SRC_DIR, f)
+                                    resolve(ENGINE_DIR, f)
                                 );
                             }
                         }

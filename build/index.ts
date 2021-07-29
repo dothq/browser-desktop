@@ -3,7 +3,7 @@ import commander, { Command } from "commander";
 import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { commands } from "./cmds";
-import { SRC_DIR } from "./constants";
+import { ENGINE_DIR } from "./constants";
 import Log from "./log";
 import { shaCheck } from "./middleware/sha-check";
 import { updateCheck } from "./middleware/update-check";
@@ -25,7 +25,7 @@ let reportedFFVersion;
 if (
     existsSync(
         resolve(
-            SRC_DIR,
+            ENGINE_DIR,
             "browser",
             "config",
             "version.txt"
@@ -34,7 +34,7 @@ if (
 ) {
     const version = readFileSync(
         resolve(
-            SRC_DIR,
+            ENGINE_DIR,
             "browser",
             "config",
             "version.txt"

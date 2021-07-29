@@ -1,0 +1,30 @@
+diff --git a/tools/mach_commands.py b/tools/mach_commands.py
+index 3b340bf891fd249754cfedb96bbb948f1a544de2..f9a16ad4e6f69afeda07c21df23b4057e7da37ff 100644
+--- a/tools/mach_commands.py
++++ b/tools/mach_commands.py
+@@ -484,6 +484,25 @@ class NodeCommands(MachCommandBase):
+             ensure_exit_code=False,  # Don't throw on non-zero exit code.
+         )
+ 
++    @Command(
++        "yarn",
++        category="devenv",
++        description="Run the yarn executable from the NodeJS used for building.",
++    )
++    @CommandArgument("args", nargs=argparse.REMAINDER)
++    def yarn(self, args):
++        from mozbuild.nodeutil import find_yarn_executable
++
++        # Avoid logging the command
++        self.log_manager.terminal_handler.setLevel(logging.CRITICAL)
++
++        yarn_path, _ = find_yarn_executable()
++
++        return self.run_process(
++            [yarn_path] + args,
++            pass_thru=True,  # Avoid eating yarn output/error messages
++            ensure_exit_code=False,  # Don't throw on non-zero exit code.
++        )
+ 
+ def logspam_create_parser(subcommand):
+     # Create the logspam command line parser.

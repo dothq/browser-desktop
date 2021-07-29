@@ -1,0 +1,51 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+a.toolbar-button {
+    width: calc(40px - 6px * 2);
+    height: 40px;
+    appearance: none;
+    color: currentColor;
+    border: none;
+    display: flex;
+    -moz-window-dragging: no-drag;
+
+    &:focus-visible {
+        outline: 2px solid #00DDFF;
+    }
+
+    &:hover .toolbarbutton-icon {
+        background-color: var(--button-hover, var(--toolbarbutton-hover-background));
+    }
+
+    &:active .toolbarbutton-icon {
+        background-color: var(--button-active, var(--toolbarbutton-active-background));
+    }
+}
+
+a.toolbar-button .toolbarbutton-icon {
+    transition: 0.15s background-color;
+}
+
+a.toolbar-button.toolbar-button-has-image:not(:hover, :active) .toolbarbutton-icon {
+    background-color: transparent;
+}
+
+a.toolbar-button[disabled],
+a.toolbar-button.toolbar-button-disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+a.toolbar-button.toolbar-button-has-image .toolbarbutton-icon {
+    background-size: 14px;
+    -moz-context-properties: fill, fill-opacity;
+    fill: currentColor;
+    padding: 6px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 6px;
+    margin: 6px 0px;
+    width: inherit;
+}

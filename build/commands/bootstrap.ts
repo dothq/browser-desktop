@@ -3,7 +3,7 @@
 import distro from "linus";
 import { bin_name } from "..";
 import { log } from "../";
-import { SRC_DIR } from "../constants";
+import { ENGINE_DIR } from "../constants";
 import { dispatch } from "../utils";
 import { pacmanInstall } from "./bootstrap/arch";
 
@@ -31,7 +31,7 @@ export const bootstrap = async () => {
         await dispatch(
             `./mach`,
             ["bootstrap", ...args],
-            SRC_DIR
+            ENGINE_DIR
         );
     }
 };

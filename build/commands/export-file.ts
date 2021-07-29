@@ -1,37 +1,63 @@
 import execa from "execa";
-import { createWriteStream, existsSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
+import { ensureDirSync } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { ENGINE_DIR, SRC_DIR } from "../constants";
+import { delay } from "../utils";
 
 export const exportFile = async (file: string) => {
     log.info(`Exporting ${file}...`);
 
-    if (!existsSync(resolve(SRC_DIR, file)))
+    if (!existsSync(resolve(ENGINE_DIR, file)))
         throw new Error(
-            `File ${file} could not be found in src directory. Check the path for any mistakes and try again.`
+            `File ${file} could not be found in engine directory. Check the path for any mistakes and try again.`
         );
 
-    const proc = execa(
+    const proc = await execa(
         "git",
         [
             "diff",
             "--src-prefix=a/",
             "--dst-prefix=b/",
             "--full-index",
-            resolve(SRC_DIR, file)
+            resolve(ENGINE_DIR, file)
         ],
         {
-            cwd: SRC_DIR,
+            cwd: ENGINE_DIR,
             stripFinalNewline: false
         }
     );
     const name =
-        file.replace(/\//g, "-").replace(/\./g, "-") +
-        ".patch";
+        file
+            .split("/")
+            [
+                file.replace(/\./g, "-").split("/")
+                    .length - 1
+            ].replace(/\./g, "-") + ".patch";
 
-    proc.stdout?.pipe(
-        createWriteStream(resolve(PATCHES_DIR, name))
+    const patchPath = file
+        .replace(/\./g, "-")
+        .split("/")
+        .slice(0, -1);
+
+    ensureDirSync(resolve(SRC_DIR, ...patchPath));
+
+    if (proc.stdout.length >= 8000) {
+        log.warning("");
+        log.warning(
+            `Exported patch is over 8000 characters. This patch may become hard to manage in the future.`
+        );
+        log.warning(
+            `We recommend trying to decrease your patch size by making minimal edits to the source.`
+        );
+        log.warning("");
+        await delay(2000);
+    }
+
+    writeFileSync(
+        resolve(SRC_DIR, ...patchPath, name),
+        proc.stdout
     );
     log.info(`Wrote "${name}" to patches directory.`);
     console.log();

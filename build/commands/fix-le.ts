@@ -5,7 +5,7 @@ import {
 } from "fs-extra";
 import { resolve } from "path";
 import { log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { ENGINE_DIR, PATCHES_DIR } from "../constants";
 import { dispatch } from "../utils";
 
 export const fixLineEndings = async () => {
@@ -24,12 +24,14 @@ export const fixLineEndings = async () => {
                 .split(" b/")[0];
 
             if (
-                existsSync(resolve(SRC_DIR, originalPath))
+                existsSync(
+                    resolve(ENGINE_DIR, originalPath)
+                )
             ) {
                 dispatch(
                     "dos2unix",
                     [originalPath],
-                    SRC_DIR
+                    ENGINE_DIR
                 ).then(async (_) => {
                     await dispatch(
                         "dos2unix",

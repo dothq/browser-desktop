@@ -3,7 +3,7 @@ import { existsSync, statSync } from "fs";
 import { resolve } from "path";
 import rimraf from "rimraf";
 import { log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { ENGINE_DIR, PATCHES_DIR } from "../constants";
 
 interface Options {
     keep?: boolean;
@@ -41,7 +41,7 @@ export const discard = async (
             );
         }
     } else {
-        if (!existsSync(resolve(SRC_DIR, file)))
+        if (!existsSync(resolve(ENGINE_DIR, file)))
             throw new Error(
                 `File ${file} could not be found in src directory. Check the path for any mistakes and try again.`
             );
@@ -60,7 +60,7 @@ export const discard = async (
         const { stdout, exitCode } = await execa(
             "git",
             ["apply", "-R", "-p", "1", patchFile],
-            { cwd: SRC_DIR }
+            { cwd: ENGINE_DIR }
         );
 
         if (exitCode == 0) {

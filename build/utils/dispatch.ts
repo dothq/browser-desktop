@@ -5,7 +5,10 @@ const handle = (data: any, killOnError?: boolean) => {
     const d = data.toString();
 
     d.split("\n").forEach((line: any) => {
-        if (line.length !== 0) log.info(line);
+        if (line.length !== 0)
+            log.info(
+                line.replace(/\s\d{1,5}:\d\d\.\d\d /g, "")
+            );
     });
 
     if (killOnError) {
@@ -22,12 +25,7 @@ export const dispatch = (
     killOnError?: boolean
 ) => {
     return new Promise((resolve, reject) => {
-        if (!noLog)
-            log.info(
-                `Starting child "${cmd} ${args?.join(
-                    " "
-                )}".`
-            );
+        process.env.MACH_USE_SYSTEM_PYTHON = "true";
 
         const proc = execa(cmd, args, {
             cwd: cwd ? cwd : process.cwd(),
@@ -45,12 +43,6 @@ export const dispatch = (
         );
 
         proc.on("exit", () => {
-            if (!noLog)
-                log.info(
-                    `Done with "${cmd} ${args?.join(
-                        " "
-                    )}".`
-                );
             resolve(true);
         });
     });

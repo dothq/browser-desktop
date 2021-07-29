@@ -1,0 +1,3 @@
+XPCOM_MANIFESTS += [
+    "components.conf",
+]

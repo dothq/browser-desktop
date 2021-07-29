@@ -12,8 +12,8 @@ import { resolve } from "path";
 import { log } from "..";
 import {
     COMMON_DIR,
-    PATCHES_DIR,
-    SRC_DIR
+    ENGINE_DIR,
+    PATCHES_DIR
 } from "../constants";
 import manualPatches from "../manual-patches";
 
@@ -196,18 +196,19 @@ export const exportPatches = async () => {
     writeFileSync(resolve(PATCHES_DIR, ".index"), "");
 
     log.info("Exporting modified files...");
-    await exportModified(PATCHES_DIR, SRC_DIR);
+    await exportModified(PATCHES_DIR, ENGINE_DIR);
     console.log();
 
     log.info("Exporting deleted files...");
-    await exportFlag("D", SRC_DIR, actions);
+    await exportFlag("D", ENGINE_DIR, actions);
     console.log();
 
     log.info("Exporting manual patches...");
-    await exportManual(SRC_DIR);
+    await exportManual(ENGINE_DIR);
     console.log();
 
-    // log.info("Exporting added files...");
-    // await exportFlag("A", cwd, actions);
-    // console.log();
+    copySync(
+        resolve(ENGINE_DIR, "dot"),
+        resolve(process.cwd(), "browser")
+    );
 };

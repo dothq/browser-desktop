@@ -1,18 +1,43 @@
 import axios from "axios";
+import chalk from "chalk";
 import execa from "execa";
 import fs, {
-    appendFileSync,
     existsSync,
+    rmdirSync,
     writeFileSync
 } from "fs";
-import { moveSync, removeSync } from "fs-extra";
+import { ensureDirSync, removeSync } from "fs-extra";
+import ora from "ora";
 import { homedir } from "os";
 import { posix, resolve, sep } from "path";
 import { bin_name, log } from "..";
+import { ENGINE_DIR } from "../constants";
 import { getLatestFF, writeMetadata } from "../utils";
 import { downloadArtifacts } from "./download-artifacts";
 
 const pjson = require("../../package.json");
+
+let initProgressText = "Initialising...";
+let initProgress: any = ora({
+    text: `Initialising...`,
+    prefixText: chalk.blueBright.bold("00:00:00"),
+    spinner: {
+        frames: [""]
+    },
+    indent: 0
+});
+
+const onData = (data: any) => {
+    const d = data.toString();
+
+    d.split("\n").forEach((line: any) => {
+        if (line.trim().length !== 0) {
+            let t = line.split(" ");
+            t.shift();
+            initProgressText = t.join(" ");
+        }
+    });
+};
 
 const unpack = async (name: string, version: string) => {
     let cwd = process.cwd().split(sep).join(posix.sep);
@@ -21,71 +46,77 @@ const unpack = async (name: string, version: string) => {
         cwd = "./";
     }
 
-    log.info(`Unpacking Firefox...`);
-    await execa("tar", ["-xvf", name, "-C", cwd]);
+    initProgress.start();
 
-    moveSync(
-        resolve(cwd, `firefox-${version.split("b")[0]}`),
-        resolve(cwd, "src"),
-        { overwrite: true }
-    );
+    setInterval(() => {
+        if (initProgress) {
+            initProgress.text = initProgressText;
+            initProgress.prefixText =
+                chalk.blueBright.bold(log.getDiff());
+        }
+    }, 100);
 
-    appendFileSync(
-        resolve(cwd, "src", ".gitignore"),
-        "\n\n# Imported files"
-    );
+    initProgressText = `Unpacking Firefox...`;
 
-    appendFileSync(
-        resolve(cwd, "src", ".gitignore"),
-        "*.rej"
-    );
+    try {
+        rmdirSync(ENGINE_DIR);
+    } catch (e) {}
+    ensureDirSync(ENGINE_DIR);
 
-    if (process.env.CI_SKIP_INIT)
-        return log.info("Skipping initialisation.");
+    let tarProc = execa("tar", [
+        "--transform",
+        "s,firefox-89.0,engine,",
+        `--show-transformed`,
+        "-xf",
+        resolve(cwd, ".dotbuild", "engines", name)
+    ]);
 
-    const proc = execa(`./${bin_name}`, ["init", "src"]);
+    (tarProc.stdout as any).on("data", onData);
+    (tarProc.stdout as any).on("error", onData);
 
-    (proc.stdout as any).on("data", (data: any) => {
-        const d = data.toString();
+    tarProc.on("exit", () => {
+        if (process.env.CI_SKIP_INIT)
+            return log.info("Skipping initialisation.");
 
-        d.split("\n").forEach((line: any) => {
-            if (line.length !== 0) {
-                let t = line.split(" ");
-                t.shift();
-                log.info(t.join(" "));
-            }
+        const initProc = execa(`./${bin_name}`, [
+            "init",
+            "engine"
+        ]);
+
+        (initProc.stdout as any).on("data", onData);
+        (initProc.stdout as any).on("error", onData);
+
+        initProc.on("exit", async () => {
+            initProgressText = "";
+            initProgress.stop();
+            initProgress = null;
+
+            await new Promise((resolve) =>
+                setTimeout(resolve, 5000)
+            );
+
+            log.success(
+                `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
+            );
+            console.log();
+
+            pjson.versions["firefox-display"] = version;
+            pjson.versions["firefox"] =
+                version.split("b")[0];
+
+            writeFileSync(
+                resolve(process.cwd(), "package.json"),
+                JSON.stringify(pjson, null, 4)
+            );
+
+            await writeMetadata();
+
+            removeSync(
+                resolve(cwd, ".dotbuild", "engines", name)
+            );
+
+            process.exit(0);
         });
-    });
-
-    (proc.stdout as any).on("error", (data: any) => {
-        const d = data.toString();
-
-        d.split("\n").forEach((line: any) => {
-            if (line.length !== 0) {
-                let t = line.split(" ");
-                t.shift();
-                log.info(t.join(" "));
-            }
-        });
-    });
-
-    proc.on("exit", async () => {
-        log.success(
-            `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
-        );
-        console.log();
-
-        pjson.versions["firefox-display"] = version;
-        pjson.versions["firefox"] = version.split("b")[0];
-
-        writeFileSync(
-            resolve(process.cwd(), "package.json"),
-            JSON.stringify(pjson, null, 4)
-        );
-
-        await writeMetadata();
-
-        removeSync(name);
     });
 };
 
@@ -115,10 +146,16 @@ export const download = async (
 
     log.info(`Locating Firefox release ${version}...`);
 
+    ensureDirSync(
+        resolve(process.cwd(), `.dotbuild`, `engines`)
+    );
+
     if (
         existsSync(
             resolve(
                 process.cwd(),
+                `.dotbuild`,
+                `engines`,
                 `firefox-${version.split("b")[0]}`
             )
         )
@@ -146,6 +183,8 @@ export const download = async (
         fs.existsSync(
             resolve(
                 process.cwd(),
+                `.dotbuild`,
+                `engines`,
                 "firefox",
                 version.split("b")[0]
             )
@@ -173,7 +212,12 @@ export const download = async (
     const length = headers["content-length"];
 
     const writer = fs.createWriteStream(
-        resolve(process.cwd(), filename)
+        resolve(
+            process.cwd(),
+            `.dotbuild`,
+            `engines`,
+            filename
+        )
     );
 
     let receivedBytes = 0;

@@ -1,0 +1,58 @@
+$accent-red: rgb(246, 66, 66);
+$accent-orange: rgb(254, 146, 52);
+$accent-yellow: rgb(253, 205, 58);
+$accent-green: rgb(48, 208, 44);
+$accent-blue: rgb(37, 110, 245);
+$accent-dark-blue: rgb(44, 61, 208);
+$accent-purple: rgb(116, 44, 208);
+$accent-pink: rgb(195, 44, 208);
+$accent-gray: rgb(141, 141, 141);
+
+:root {
+    --dot-ui-primary: #{$accent-blue};
+    --dot-ui-success: #{$accent-green};
+    --dot-ui-danger: #{$accent-red};
+
+    --dot-ui-accent-colour-lighter: color-mix(in srgb, var(--dot-ui-accent-colour) 50%, white);
+}
+
+*::selection {
+    background-color: var(--dot-ui-accent-colour);
+    color: white;
+}
+
+#browser.accent-colour-red {
+    --dot-ui-accent-colour: #{$accent-red};
+}
+
+#browser.accent-colour-orange {
+    --dot-ui-accent-colour: #{$accent-orange};
+}
+
+#browser.accent-colour-yellow {
+    --dot-ui-accent-colour: #{$accent-yellow};
+}
+
+#browser.accent-colour-green {
+    --dot-ui-accent-colour: #{$accent-green};
+}
+
+#browser.accent-colour-blue {
+    --dot-ui-accent-colour: #{$accent-blue};
+}
+
+#browser.accent-colour-dark-blue {
+    --dot-ui-accent-colour: #{$accent-dark-blue};
+}
+
+#browser.accent-colour-purple {
+    --dot-ui-accent-colour: #{$accent-purple};
+}
+
+#browser.accent-colour-pink {
+    --dot-ui-accent-colour: #{$accent-pink};
+}
+
+#browser.accent-colour-gray {
+    --dot-ui-accent-colour: #{$accent-gray};
+}

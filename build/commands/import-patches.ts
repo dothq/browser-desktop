@@ -1,8 +1,6 @@
-import { writeFileSync } from "fs";
-import { ensureDirSync, readdirSync } from "fs-extra";
-import { resolve } from "path";
+import { sync } from "glob";
 import { bin_name, log } from "..";
-import { PATCHES_DIR, SRC_DIR } from "../constants";
+import { SRC_DIR } from "../constants";
 import Patch from "../controllers/patch";
 import manualPatches from "../manual-patches";
 import { delay, dispatch } from "../utils";
@@ -70,9 +68,14 @@ const importPatchFiles = async (
     minimal?: boolean,
     noIgnore?: boolean
 ) => {
-    let patches = readdirSync(PATCHES_DIR);
+    let patches = sync("**/*.patch", {
+        nodir: true,
+        cwd: SRC_DIR
+    });
 
-    patches = patches.filter((p) => p !== ".index");
+    patches = patches
+        .filter((p) => p !== ".index")
+        .filter((p) => !p.includes("node_modules"));
 
     log.info(`Applying ${patches.length} patch files...`);
 
@@ -123,21 +126,6 @@ export const importPatches = async (
     type: string,
     args: Args
 ) => {
-    ensureDirSync(
-        resolve(SRC_DIR, "browser", "app", "dot")
-    );
-
-    writeFileSync(
-        resolve(
-            SRC_DIR,
-            "browser",
-            "app",
-            "dot",
-            "version.txt"
-        ),
-        dot
-    );
-
     if (type) {
         if (type == "manual")
             await importManual(args.minimal);

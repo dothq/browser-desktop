@@ -1,0 +1,73 @@
+html {
+  min-width: 500px;
+  min-height: 100px;
+  overflow: clip;
+}
+
+body {
+  margin: 0;
+}
+
+html, body {
+  border-radius: var(--window-roundness) var(--window-roundness) 0px 0px;
+} 
+
+body,
+:root {
+  font: message-box;
+  color: var(--lwt-text-color);
+  overflow: clip;
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  font-size: 13px;
+}
+
+#browser {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#browser-tabs-stack,
+#internal-browser-tabs-stack {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  background-color: -moz-default-background-color;
+  flex: 1;
+  border-top: 1px solid var(--chrome-content-separator-color);
+}
+
+#internal-browser-tabs-stack {
+  display: none;
+}
+
+#browser-tabs-stack browser {
+  align-self: auto;
+  min-width: auto;
+  min-height: auto;
+  width: 0px;
+  height: 0px;
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -14865840597856;
+}
+
+#browser-tabs-stack browser[selected] {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    pointer-events: all;
+    z-index: unset;
+}
+
+#mainPopupSet {
+  height: 0px;
+}

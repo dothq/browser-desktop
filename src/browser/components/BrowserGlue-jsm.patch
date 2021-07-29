@@ -1,0 +1,61 @@
+diff --git a/browser/components/BrowserGlue.jsm b/browser/components/BrowserGlue.jsm
+index 858e24b8f91089545c84847f66714fea033b4b48..b721d502ba0a6244ff502d3e77d32a0407898d98 100644
+--- a/browser/components/BrowserGlue.jsm
++++ b/browser/components/BrowserGlue.jsm
+@@ -7,6 +7,7 @@ var EXPORTED_SYMBOLS = [
+   "BrowserGlue",
+   "ContentPermissionPrompt",
+   "DefaultBrowserCheck",
++  "JSWINDOWACTORS"
+ ];
+ 
+ const { XPCOMUtils } = ChromeUtils.import(
+@@ -1238,7 +1239,8 @@ BrowserGlue.prototype = {
+     os.addObserver(this, "handlersvc-store-initialized");
+ 
+     ActorManagerParent.addJSProcessActors(JSPROCESSACTORS);
+-    ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
++    /* This is now handled in dot/modules/glue.ts */
++    // ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
+ 
+     this._flashHangCount = 0;
+     this._firstWindowReady = new Promise(
+@@ -1366,22 +1368,22 @@ BrowserGlue.prototype = {
+ 
+     SessionStore.init();
+ 
+-    AddonManager.maybeInstallBuiltinAddon(
+-      "firefox-compact-light@mozilla.org",
+-      "1.2",
+-      "resource://builtin-themes/light/"
+-    );
+-    AddonManager.maybeInstallBuiltinAddon(
+-      "firefox-compact-dark@mozilla.org",
+-      "1.2",
+-      "resource://builtin-themes/dark/"
+-    );
+-
+-    AddonManager.maybeInstallBuiltinAddon(
+-      "firefox-alpenglow@mozilla.org",
+-      "1.4",
+-      "resource://builtin-themes/alpenglow/"
+-    );
++    // AddonManager.maybeInstallBuiltinAddon(
++    //   "firefox-compact-light@mozilla.org",
++    //   "1.2",
++    //   "resource://builtin-themes/light/"
++    // );
++    // AddonManager.maybeInstallBuiltinAddon(
++    //   "firefox-compact-dark@mozilla.org",
++    //   "1.2",
++    //   "resource://builtin-themes/dark/"
++    // );
++
++    // AddonManager.maybeInstallBuiltinAddon(
++    //   "firefox-alpenglow@mozilla.org",
++    //   "1.4",
++    //   "resource://builtin-themes/alpenglow/"
++    // );
+ 
+     if (AppConstants.MOZ_NORMANDY) {
+       Normandy.init();

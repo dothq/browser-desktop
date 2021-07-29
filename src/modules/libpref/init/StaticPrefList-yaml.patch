@@ -1,0 +1,23 @@
+diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
+index b4b2dc76427c0240eb461570937d8dce181be091..a6f6d3f7da5b4f356bc73502cd31f40879a824c5 100644
+--- a/modules/libpref/init/StaticPrefList.yaml
++++ b/modules/libpref/init/StaticPrefList.yaml
+@@ -9880,6 +9880,18 @@
+   value: true
+   mirror: always
+ 
++# Assigns random noise data to navigator.vendor.
++- name: privacy.resistFingerprinting.randomVendor
++  type: RelaxedAtomicBool
++  value: true
++  mirror: always
++
++# Adds subtle noise to audio to prevent fingerprinting.
++- name: privacy.resistFingerprinting.audioAPINoise
++  type: RelaxedAtomicBool
++  value: true
++  mirror: always
++
+ # The log level for browser console messages logged in RFPHelper.jsm. Change to
+ # 'All' and restart to see the messages.
+ - name: privacy.resistFingerprinting.jsmloglevel

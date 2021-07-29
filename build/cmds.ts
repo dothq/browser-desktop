@@ -68,7 +68,7 @@ export const commands: Cmd[] = [
     {
         cmd: "execute",
         description:
-            "Execute a command inside the src directory.",
+            "Execute a command inside the engine directory.",
         controller: execute
     },
     {
@@ -136,6 +136,7 @@ export const commands: Cmd[] = [
     },
     {
         cmd: "run [chrome]",
+        aliases: ["r", "open"],
         description: "Run the browser.",
         controller: run
     },

@@ -1,0 +1,49 @@
+diff --git a/dom/base/Navigator.cpp b/dom/base/Navigator.cpp
+index b21d872fba4a79c946d0b1501585b911f29d4e94..f8bcc84c110fc5ac47f09c36a09d14b71e643824 100644
+--- a/dom/base/Navigator.cpp
++++ b/dom/base/Navigator.cpp
+@@ -69,6 +69,7 @@
+ #include "nsComponentManagerUtils.h"
+ #include "nsICookieManager.h"
+ #include "nsICookieService.h"
++#include "nsIRandomGenerator.h"
+ #include "nsIHttpChannel.h"
+ #ifdef ENABLE_MARIONETTE
+ #  include "nsIMarionette.h"
+@@ -115,6 +116,12 @@
+ 
+ #include "mozilla/intl/LocaleService.h"
+ 
++#include "mozilla/Logging.h"
++
++using mozilla::LogLevel;
++
++static mozilla::LazyLogModule sLogger("navigator");
++
+ namespace mozilla::dom {
+ 
+ static const nsLiteralCString kVibrationPermissionType = "vibration"_ns;
+@@ -450,7 +457,22 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
+   CopyASCIItoUTF16(oscpu, aOSCPU);
+ }
+ 
+-void Navigator::GetVendor(nsAString& aVendor) { aVendor.Truncate(); }
++void Navigator::GetVendor(nsAString& aVendor) {
++  aVendor.Truncate();
++
++  if (MOZ_LIKELY(StaticPrefs::privacy_resistFingerprinting_randomVendor())) {
++    // Create the random generator
++    nsCOMPtr<nsIRandomGenerator> rg =
++        do_GetService("@mozilla.org/security/random-generator;1");
++
++    // Create a temporary variable for the random vendor
++    unsigned char* randomBytes;
++    // Fills it with random characters
++    rg->GenerateRandomBytes(16, &randomBytes);
++    // sends that to the vendor string
++    aVendor.AppendASCII(reinterpret_cast<const char*>(randomBytes));
++  }
++}
+ 
+ void Navigator::GetVendorSub(nsAString& aVendorSub) { aVendorSub.Truncate(); }
+ 
