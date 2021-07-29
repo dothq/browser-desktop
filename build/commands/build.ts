@@ -24,16 +24,29 @@ const applyConfig = async (os: string, arch: string) => {
         "utf-8"
     );
 
-    const changesetPrefix = commonConfig.split("\n")
-        .find(ln => ln.startsWith("export MOZ_SOURCE_CHANGESET="));
+    const changesetPrefix = commonConfig
+        .split("\n")
+        .find((ln) =>
+            ln.startsWith("export MOZ_SOURCE_CHANGESET=")
+        );
 
-    const changeset = changesetPrefix?.replace(/export MOZ_SOURCE_CHANGESET=/, "");
+    const changeset = changesetPrefix?.replace(
+        /export MOZ_SOURCE_CHANGESET=/,
+        ""
+    );
 
-    const { stdout: gitSha } = await execa("git", ["rev-parse", "HEAD"]);
+    const { stdout: gitSha } = await execa("git", [
+        "rev-parse",
+        "HEAD"
+    ]);
 
-    console.log(changeset, gitSha)
+    console.log(changeset, gitSha);
 
-    if (changeset) commonConfig = commonConfig.replace(changeset, gitSha);
+    if (changeset)
+        commonConfig = commonConfig.replace(
+            changeset,
+            gitSha
+        );
 
     writeFileSync(
         resolve(CONFIGS_DIR, "common", "mozconfig"),
@@ -140,7 +153,8 @@ export const build = async (
         if (options.arch) {
             if (!ARCHITECTURE.includes(options.arch))
                 return log.error(
-                    `We do not support "${options.arch
+                    `We do not support "${
+                        options.arch
                     }" build right now.\nWe only currently support ${JSON.stringify(
                         ARCHITECTURE
                     )}.`
