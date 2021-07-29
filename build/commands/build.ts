@@ -1,3 +1,4 @@
+import execa from "execa";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { bin_name, log } from "..";
@@ -15,12 +16,28 @@ const platform: any = {
     linux: "linux"
 };
 
-const applyConfig = (os: string, arch: string) => {
+const applyConfig = async (os: string, arch: string) => {
     log.info("Applying mozconfig...");
 
-    const commonConfig = readFileSync(
+    let commonConfig = readFileSync(
         resolve(CONFIGS_DIR, "common", "mozconfig"),
         "utf-8"
+    );
+
+    const changesetPrefix = commonConfig.split("\n")
+        .find(ln => ln.startsWith("export MOZ_SOURCE_CHANGESET="));
+
+    const changeset = changesetPrefix?.replace(/export MOZ_SOURCE_CHANGESET=/, "");
+
+    const { stdout: gitSha } = await execa("git", ["rev-parse", "HEAD"]);
+
+    console.log(changeset, gitSha)
+
+    if (changeset) commonConfig = commonConfig.replace(changeset, gitSha);
+
+    writeFileSync(
+        resolve(CONFIGS_DIR, "common", "mozconfig"),
+        commonConfig
     );
 
     const osConfig = readFileSync(
@@ -123,8 +140,7 @@ export const build = async (
         if (options.arch) {
             if (!ARCHITECTURE.includes(options.arch))
                 return log.error(
-                    `We do not support "${
-                        options.arch
+                    `We do not support "${options.arch
                     }" build right now.\nWe only currently support ${JSON.stringify(
                         ARCHITECTURE
                     )}.`
