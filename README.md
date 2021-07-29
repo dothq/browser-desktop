@@ -38,7 +38,7 @@
 
 ## 🚀 Foreword
 
-Dot Browser is proud to be powered by Firefox and Gecko.
+Dot Browser is proud to be powered by Gecko.
 
 There are a plethora of Chromium based browsers available and introducing competition is unique, healthy, and necessary in the browser space.
 
