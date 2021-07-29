@@ -24,6 +24,7 @@ jobs:
           echo "::set-output name=dotversion::$(cat package.json | sed -n 's|.*"firefox-display": "\([^"]*\)".*|\1|p')"
           echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
           echo "::set-output name=builddate::$(date +"%Y-%m-%d")"
+          echo "::set-output name=status::failure"
   linux-64:
     name: 🐧 Linux (64-bit)
     runs-on: ubuntu-20.04
