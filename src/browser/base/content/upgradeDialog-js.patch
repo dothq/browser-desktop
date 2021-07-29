@@ -1,0 +1,19 @@
+diff --git a/browser/base/content/upgradeDialog.js b/browser/base/content/upgradeDialog.js
+index c1259b37f5fc93b0affed5b6d01b7fbac5054bf6..5edf53ddae7f2d88d93e9ff8ec871b5d27d0b21b 100644
+--- a/browser/base/content/upgradeDialog.js
++++ b/browser/base/content/upgradeDialog.js
+@@ -63,10 +63,10 @@ const SCREEN_STRINGS = [
+ 
+ // Themes that can be selected by the button with matching index.
+ const THEME_IDS = [
+-  "default-theme@mozilla.org",
+-  "firefox-compact-light@mozilla.org",
+-  "firefox-compact-dark@mozilla.org",
+-  "firefox-alpenglow@mozilla.org",
++  Services.builtInThemes.DEFAULT_THEME_ID,
++  Services.builtInThemes.LIGHT_THEME_ID,
++  Services.builtInThemes.DARK_THEME_ID,
++  Services.builtInThemes.FUSION_THEME_ID,
+ ];
+ 
+ // Callbacks to run when the dialog closes (both from this file or externally).

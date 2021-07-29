@@ -1,0 +1,32 @@
+diff --git a/toolkit/mozapps/extensions/content/aboutaddons.js b/toolkit/mozapps/extensions/content/aboutaddons.js
+index 2beb23784fd9bd4a0d0a9c90c575ad57e470e46f..a910ce04196756c422a1c3d27d8596e4b6130f53 100644
+--- a/toolkit/mozapps/extensions/content/aboutaddons.js
++++ b/toolkit/mozapps/extensions/content/aboutaddons.js
+@@ -32,7 +32,7 @@ XPCOMUtils.defineLazyGetter(this, "brandBundle", () => {
+     "chrome://branding/locale/brand.properties"
+   );
+ });
+-XPCOMUtils.defineLazyGetter(this, "extBundle", function() {
++XPCOMUtils.defineLazyGetter(this, "extBundle", function () {
+   return Services.strings.createBundle(
+     "chrome://mozapps/locale/extensions/extensions.properties"
+   );
+@@ -86,15 +86,15 @@ const EXTENSION_ICON_URL =
+   "chrome://mozapps/skin/extensions/extensionGeneric.svg";
+ const BUILTIN_THEME_PREVIEWS = new Map([
+   [
+-    "default-theme@mozilla.org",
++    Services.builtInThemes.DEFAULT_THEME_ID,
+     "chrome://mozapps/content/extensions/default-theme.svg",
+   ],
+   [
+-    "firefox-compact-light@mozilla.org",
++    Services.builtInThemes.LIGHT_THEME_ID,
+     "chrome://mozapps/content/extensions/firefox-compact-light.svg",
+   ],
+   [
+-    "firefox-compact-dark@mozilla.org",
++    Services.builtInThemes.DARK_THEME_ID,
+     "chrome://mozapps/content/extensions/firefox-compact-dark.svg",
+   ],
+   [

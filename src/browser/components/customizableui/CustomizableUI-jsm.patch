@@ -1,0 +1,358 @@
+diff --git a/browser/components/customizableui/CustomizableUI.jsm b/browser/components/customizableui/CustomizableUI.jsm
+index 3d35513f7800166dcbe7622228c66ffb20ca2dfa..34b31e9956f2fb1e409b6cfb86621482f6d92c6c 100644
+--- a/browser/components/customizableui/CustomizableUI.jsm
++++ b/browser/components/customizableui/CustomizableUI.jsm
+@@ -25,7 +25,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
+   HomePage: "resource:///modules/HomePage.jsm",
+ });
+ 
+-XPCOMUtils.defineLazyGetter(this, "gWidgetsBundle", function() {
++XPCOMUtils.defineLazyGetter(this, "gWidgetsBundle", function () {
+   const kUrl =
+     "chrome://browser/locale/customizableui/customizableWidgets.properties";
+   return Services.strings.createBundle(kUrl);
+@@ -52,7 +52,7 @@ XPCOMUtils.defineLazyPreferenceGetter(
+   false
+ );
+ 
+-const kDefaultThemeID = "default-theme@mozilla.org";
++const kDefaultThemeID = Services.builtInThemes.DEFAULT_THEME_ID;
+ 
+ const kSpecialWidgetPfx = "customizableui-special-";
+ 
+@@ -256,7 +256,7 @@ var CustomizableUIInternal = {
+       "forward-button",
+       "stop-reload-button",
+       gProtonToolbarEnabled &&
+-      Services.policies.isAllowed("removeHomeButtonByDefault")
++        Services.policies.isAllowed("removeHomeButtonByDefault")
+         ? null
+         : "home-button",
+       "spring",
+@@ -618,7 +618,7 @@ var CustomizableUIInternal = {
+         pocketPreviouslyInUrl = persistedPageActionsData.idsInUrlbar.includes(
+           "pocket"
+         );
+-      } catch (e) {}
++      } catch (e) { }
+       if (navbarPlacements && pocketPreviouslyInUrl) {
+         // Pocket's new home is next to the downloads button, or the next best spot.
+         let newPosition =
+@@ -1166,9 +1166,9 @@ var CustomizableUIInternal = {
+               node.setAttribute("removable", false);
+               log.debug(
+                 "Adding non-removable widget to placements of " +
+-                  aArea +
+-                  ": " +
+-                  node.id
++                aArea +
++                ": " +
++                node.id
+               );
+               gPlacements.get(aArea).push(node.id);
+               gDirty = true;
+@@ -1273,9 +1273,9 @@ var CustomizableUIInternal = {
+       if (widget.instances.has(document)) {
+         log.debug(
+           "An instance of widget " +
+-            aWidgetId +
+-            " already exists in this " +
+-            "document. Reusing."
++          aWidgetId +
++          " already exists in this " +
++          "document. Reusing."
+         );
+         return [CustomizableUI.PROVIDER_API, widget.instances.get(document)];
+       }
+@@ -1492,9 +1492,9 @@ var CustomizableUIInternal = {
+     if (!props) {
+       throw new Error(
+         "Expected area " +
+-          aArea +
+-          " to have a properties Map " +
+-          "associated with it."
++        aArea +
++        " to have a properties Map " +
++        "associated with it."
+       );
+     }
+ 
+@@ -1684,7 +1684,7 @@ var CustomizableUIInternal = {
+       this.isSpecialWidget(aId1) &&
+       this.isSpecialWidget(aId2) &&
+       aId1.match(/spring|spacer|separator/)[0] ==
+-        aId2.match(/spring|spacer|separator/)[0]
++      aId2.match(/spring|spacer|separator/)[0]
+     );
+   },
+ 
+@@ -1810,8 +1810,8 @@ var CustomizableUIInternal = {
+       if (!node || !(node instanceof aDocument.defaultView.XULElement)) {
+         log.error(
+           "Custom widget with id " +
+-            aWidget.id +
+-            " does not return a valid node"
++          aWidget.id +
++          " does not return a valid node"
+         );
+       }
+     } else {
+@@ -1862,10 +1862,10 @@ var CustomizableUIInternal = {
+         } else {
+           log.error(
+             "Key element with id '" +
+-              aWidget.shortcutId +
+-              "' for widget '" +
+-              aWidget.id +
+-              "' not found!"
++            aWidget.shortcutId +
++            "' for widget '" +
++            aWidget.id +
++            "' not found!"
+           );
+         }
+       }
+@@ -1908,8 +1908,8 @@ var CustomizableUIInternal = {
+       if (viewbutton) {
+         log.debug(
+           "Widget " +
+-            aWidget.id +
+-            " has a view. Auto-registering event handlers."
++          aWidget.id +
++          " has a view. Auto-registering event handlers."
+         );
+ 
+         if (aWidget.source == CustomizableUI.SOURCE_BUILTIN) {
+@@ -2590,9 +2590,9 @@ var CustomizableUIInternal = {
+ 
+       log.debug(
+         "Placements for " +
+-          aArea +
+-          ":\n\t" +
+-          gPlacements.get(aArea).join("\n\t")
++        aArea +
++        ":\n\t" +
++        gPlacements.get(aArea).join("\n\t")
+       );
+ 
+       gRestoring = false;
+@@ -2924,9 +2924,9 @@ var CustomizableUIInternal = {
+       if (typeof aData[prop] != "string") {
+         log.error(
+           "Missing required property '" +
+-            prop +
+-            "' in normalizeWidget: " +
+-            aData.id
++          prop +
++          "' in normalizeWidget: " +
++          aData.id
+         );
+         return null;
+       }
+@@ -2963,10 +2963,10 @@ var CustomizableUIInternal = {
+     } else if (!widget.removable) {
+       log.error(
+         "Widget '" +
+-          widget.id +
+-          "' is not removable but does not specify " +
+-          "a valid defaultArea. That's not possible; it must specify a " +
+-          "valid defaultArea as well."
++        widget.id +
++        "' is not removable but does not specify " +
++        "a valid defaultArea. That's not possible; it must specify a " +
++        "valid defaultArea as well."
+       );
+       return null;
+     }
+@@ -3000,9 +3000,9 @@ var CustomizableUIInternal = {
+       if (typeof aData.viewId != "string") {
+         log.error(
+           "Expected a string for widget " +
+-            widget.id +
+-            " viewId, but got " +
+-            aData.viewId
++          widget.id +
++          " viewId, but got " +
++          aData.viewId
+         );
+         return null;
+       }
+@@ -3026,7 +3026,7 @@ var CustomizableUIInternal = {
+       aWidget[aEventName] = null;
+       return;
+     }
+-    aWidget[aEventName] = function(...aArgs) {
++    aWidget[aEventName] = function (...aArgs) {
+       try {
+         // Don't copy the function to the normalized widget object, instead
+         // keep it on the original object provided to the API so that
+@@ -3179,7 +3179,7 @@ var CustomizableUIInternal = {
+         kPrefAutoHideDownloadsButton
+       );
+       gUIStateBeforeReset.newElementCount = gNewElementCount;
+-    } catch (e) {}
++    } catch (e) { }
+ 
+     Services.prefs.clearUserPref(kPrefCustomizationState);
+     Services.prefs.clearUserPref(kPrefDrawInTitlebar);
+@@ -3472,13 +3472,13 @@ var CustomizableUIInternal = {
+           if (defaultCollapsed !== null && nondefaultState) {
+             log.debug(
+               "Found " +
+-                areaId +
+-                " had non-default toolbar visibility" +
+-                "(expected " +
+-                defaultCollapsed +
+-                ", was " +
+-                collapsed +
+-                ")"
++              areaId +
++              " had non-default toolbar visibility" +
++              "(expected " +
++              defaultCollapsed +
++              ", was " +
++              collapsed +
++              ")"
+             );
+             return false;
+           }
+@@ -3486,11 +3486,11 @@ var CustomizableUIInternal = {
+       }
+       log.debug(
+         "Checking default state for " +
+-          areaId +
+-          ":\n" +
+-          currentPlacements.join(",") +
+-          "\nvs.\n" +
+-          defaultPlacements.join(",")
++        areaId +
++        ":\n" +
++        currentPlacements.join(",") +
++        "\nvs.\n" +
++        defaultPlacements.join(",")
+       );
+ 
+       if (currentPlacements.length != defaultPlacements.length) {
+@@ -3504,12 +3504,12 @@ var CustomizableUIInternal = {
+         ) {
+           log.debug(
+             "Found " +
+-              currentPlacements[i] +
+-              " in " +
+-              areaId +
+-              " where " +
+-              defaultPlacements[i] +
+-              " was expected!"
++            currentPlacements[i] +
++            " in " +
++            areaId +
++            " where " +
++            defaultPlacements[i] +
++            " was expected!"
+           );
+           return false;
+         }
+@@ -4694,7 +4694,7 @@ function WidgetGroupWrapper(aWidget) {
+ 
+   this.__defineGetter__("provider", () => CustomizableUI.PROVIDER_API);
+ 
+-  this.__defineSetter__("disabled", function(aValue) {
++  this.__defineSetter__("disabled", function (aValue) {
+     aValue = !!aValue;
+     aWidget.disabled = aValue;
+     for (let [, instance] of aWidget.instances) {
+@@ -4724,7 +4724,7 @@ function WidgetGroupWrapper(aWidget) {
+     return wrapper;
+   };
+ 
+-  this.__defineGetter__("instances", function() {
++  this.__defineGetter__("instances", function () {
+     // Can't use gBuildWindows here because some areas load lazily:
+     let placement = CustomizableUIInternal.getPlacementOfWidget(aWidget.id);
+     if (!placement) {
+@@ -4738,7 +4738,7 @@ function WidgetGroupWrapper(aWidget) {
+     return Array.from(buildAreas, node => this.forWindow(node.ownerGlobal));
+   });
+ 
+-  this.__defineGetter__("areaType", function() {
++  this.__defineGetter__("areaType", function () {
+     let areaProps = gAreas.get(aWidget.currentArea);
+     return areaProps && areaProps.get("type");
+   });
+@@ -4770,11 +4770,11 @@ function WidgetSingleWrapper(aWidget, aNode) {
+   }
+ 
+   this.__defineGetter__("disabled", () => aNode.disabled);
+-  this.__defineSetter__("disabled", function(aValue) {
++  this.__defineSetter__("disabled", function (aValue) {
+     aNode.disabled = !!aValue;
+   });
+ 
+-  this.__defineGetter__("anchor", function() {
++  this.__defineGetter__("anchor", function () {
+     let anchorId;
+     // First check for an anchor for the area:
+     let placement = CustomizableUIInternal.getPlacementOfWidget(aWidget.id);
+@@ -4793,7 +4793,7 @@ function WidgetSingleWrapper(aWidget, aNode) {
+     return aNode;
+   });
+ 
+-  this.__defineGetter__("overflowed", function() {
++  this.__defineGetter__("overflowed", function () {
+     return aNode.getAttribute("overflowedItem") == "true";
+   });
+ 
+@@ -4845,7 +4845,7 @@ function XULWidgetGroupWrapper(aWidgetId) {
+     return wrapper;
+   };
+ 
+-  this.__defineGetter__("areaType", function() {
++  this.__defineGetter__("areaType", function () {
+     let placement = CustomizableUIInternal.getPlacementOfWidget(aWidgetId);
+     if (!placement) {
+       return null;
+@@ -4855,7 +4855,7 @@ function XULWidgetGroupWrapper(aWidgetId) {
+     return areaProps && areaProps.get("type");
+   });
+ 
+-  this.__defineGetter__("instances", function() {
++  this.__defineGetter__("instances", function () {
+     return Array.from(gBuildWindows, wins => this.forWindow(wins[0]));
+   });
+ 
+@@ -4877,7 +4877,7 @@ function XULWidgetSingleWrapper(aWidgetId, aNode, aDocument) {
+   // If we keep a strong ref, the weak ref will never die, so null it out:
+   aDocument = null;
+ 
+-  this.__defineGetter__("node", function() {
++  this.__defineGetter__("node", function () {
+     // If we've set this to null (further down), we're sure there's nothing to
+     // be gotten here, so bail out early:
+     if (!weakDoc) {
+@@ -4911,7 +4911,7 @@ function XULWidgetSingleWrapper(aWidgetId, aNode, aDocument) {
+     return null;
+   });
+ 
+-  this.__defineGetter__("anchor", function() {
++  this.__defineGetter__("anchor", function () {
+     let anchorId;
+     // First check for an anchor for the area:
+     let placement = CustomizableUIInternal.getPlacementOfWidget(aWidgetId);
+@@ -4929,7 +4929,7 @@ function XULWidgetSingleWrapper(aWidgetId, aNode, aDocument) {
+       : node;
+   });
+ 
+-  this.__defineGetter__("overflowed", function() {
++  this.__defineGetter__("overflowed", function () {
+     let node = this.node;
+     if (!node) {
+       return false;
+@@ -5310,7 +5310,7 @@ OverflowableToolbar.prototype = {
+           if (
+             win.closed ||
+             this._moveItemsBackToTheirOriginHandle !=
+-              moveItemsBackToTheirOriginHandle
++            moveItemsBackToTheirOriginHandle
+           ) {
+             log.debug(
+               "Window closed or _moveItemsBackToTheirOrigin called again."
