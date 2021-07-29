@@ -184,6 +184,8 @@ const exportManual = async (cwd: string) => {
 };
 
 export const exportPatches = async () => {
+    throw new Error("export-patches has been deprecated in favour of export-file. This change has been made to limit the amount of active patches we have in the tree.");
+
     let actions: any[] = [];
 
     log.info(`Wiping patches directory...`);
