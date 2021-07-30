@@ -21,7 +21,7 @@ jobs:
                   git config --global user.email "72629236+dothq-robot@users.noreply.github.com"
 
             - name: Install dependencies
-              run: cd browser-desktop && yarn
+              run: cd browser-desktop/src/dot && yarn
 
             - name: Test
-              run: cd browser-desktop && yarn test
+              run: cd browser-desktop/src/dot && yarn test
