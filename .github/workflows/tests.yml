@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    prettier:
+    test:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -23,5 +23,5 @@ jobs:
             - name: Install dependencies
               run: cd browser-desktop && yarn
 
-            - name: Format
+            - name: Test
               run: cd browser-desktop && yarn test
