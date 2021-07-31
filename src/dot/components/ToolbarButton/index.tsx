@@ -19,15 +19,15 @@ export const ToolbarButton = ({
     disabled?: boolean
 }) => {
     return (
-        <a 
-            id={id} 
+        <a
+            id={id}
             className={`
                 toolbar-button
                 ${disabled ? `toolbar-button-disabled` : ``}
                 ${!!image ? `toolbar-button-has-image` : ``}
                 ${className ? className : ``}
             `.trim()}
-            onClick={() => command ? dot.utilities.doCommand(command) : onClick}
+            onClick={() => (command ? dot.utilities.doCommand(command) : onClick)}
         >
             <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
 
