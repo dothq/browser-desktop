@@ -16,9 +16,9 @@ export type MenuHotkey = 'Ctrl' |
     string
 
 export interface MenuItem {
-    id: string,
+    id?: string,
 
-    label: string,
+    label?: string,
     icon?: string,
     hotkey?: MenuHotkey[],
     type?: MenuType,
@@ -40,10 +40,10 @@ export class Menu {
     }) {
         const M = () => (
             <ContextMenu id={template.id} key={template.id}>
-                {template.menu.map(menuitem => (
+                {template.menu.map((menuitem, index) => (
                     <ContextMenuItem
                         {...menuitem}
-                        key={menuitem.id}
+                        key={menuitem.id || `${menuitem.type || "normal"}-${index}`}
                         icon={template.iconPrefix
                             ? `${template.iconPrefix}${menuitem.icon}`
                             : menuitem.icon
