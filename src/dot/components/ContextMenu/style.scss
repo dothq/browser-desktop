@@ -6,17 +6,15 @@ menu {
     display: flex;
     flex-direction: column;
     background-color: var(--toolbar-bgcolor);
-    border-radius: 12px;
-    padding: 8px 0;
-    transition: 0.4s transform cubic-bezier(.68, -0.55, 0, 1.67), 0.15s opacity;
+    border-radius: 8px;
+    padding: 6px 0;
+    gap: 1px;
+    transition: 0.15s opacity;
 
     opacity: 0;
-    transform: scale(0);
-    transform-origin: top left;
 
     margin: 0;
-    min-width: 250px;
-    height: 250px;
+    min-width: 300px;
 
     z-index: 1348755674;
 }
@@ -28,5 +26,4 @@ menu[open] {
     top: var(--menu-y);
 
     opacity: 1;
-    transform: scale(1);
 }
