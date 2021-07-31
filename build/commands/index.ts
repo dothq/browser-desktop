@@ -15,3 +15,4 @@ export * from "./reset";
 export * from "./run";
 export * from "./set-branch";
 export * from "./status";
+export * from "./test";

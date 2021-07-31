@@ -15,7 +15,8 @@ import {
     reset,
     run,
     setBranch,
-    status
+    status,
+    test
 } from "./commands";
 import { Cmd } from "./types";
 
@@ -150,5 +151,11 @@ export const commands: Cmd[] = [
         description:
             "Status and files changed for src directory.",
         controller: status
+    },
+    {
+        cmd: "test",
+        description:
+            "Run the test suite for Dot Browser.",
+        controller: test
     }
 ];
