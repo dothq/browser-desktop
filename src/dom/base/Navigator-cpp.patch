@@ -1,5 +1,5 @@
 diff --git a/dom/base/Navigator.cpp b/dom/base/Navigator.cpp
-index b21d872fba4a79c946d0b1501585b911f29d4e94..f8bcc84c110fc5ac47f09c36a09d14b71e643824 100644
+index b21d872fba4a79c946d0b1501585b911f29d4e94..4d1c86d470370195aea005c4b030acec59ca4e05 100644
 --- a/dom/base/Navigator.cpp
 +++ b/dom/base/Navigator.cpp
 @@ -69,6 +69,7 @@
@@ -23,7 +23,7 @@ index b21d872fba4a79c946d0b1501585b911f29d4e94..f8bcc84c110fc5ac47f09c36a09d14b7
  namespace mozilla::dom {
  
  static const nsLiteralCString kVibrationPermissionType = "vibration"_ns;
-@@ -450,7 +457,22 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
+@@ -450,17 +457,51 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
    CopyASCIItoUTF16(oscpu, aOSCPU);
  }
  
@@ -45,5 +45,37 @@ index b21d872fba4a79c946d0b1501585b911f29d4e94..f8bcc84c110fc5ac47f09c36a09d14b7
 +  }
 +}
  
- void Navigator::GetVendorSub(nsAString& aVendorSub) { aVendorSub.Truncate(); }
+-void Navigator::GetVendorSub(nsAString& aVendorSub) { aVendorSub.Truncate(); }
++void Navigator::GetVendorSub(nsAString& aVendorSub) {
++  aVendorSub.Truncate();
++
++  if (MOZ_LIKELY(StaticPrefs::privacy_resistFingerprinting_randomVendor())) {
++    // Create the random generator
++    nsCOMPtr<nsIRandomGenerator> rg =
++        do_GetService("@mozilla.org/security/random-generator;1");
++
++    // Create a temporary variable for the random vendor
++    unsigned char* randomBytes;
++    // Fills it with random characters
++    rg->GenerateRandomBytes(16, &randomBytes);
++    // sends that to the vendor string
++    aVendorSub.AppendASCII(reinterpret_cast<const char*>(randomBytes));
++  }
++}
  
+ void Navigator::GetProduct(nsAString& aProduct) {
+   aProduct.AssignLiteral("Gecko");
+ }
+ 
+ void Navigator::GetProductSub(nsAString& aProductSub) {
+-  // Legacy build date hardcoded for backward compatibility (bug 776376)
+-  aProductSub.AssignLiteral(LEGACY_UA_GECKO_TRAIL);
++  if (MOZ_LIKELY(StaticPrefs::privacy_resistFingerprinting_useCommonGeckoBuildDate())) {
++    aProductSub.AssignLiteral("20030107");
++  } else {
++    // Legacy build date hardcoded for backward compatibility (bug 776376)
++    aProductSub.AssignLiteral(LEGACY_UA_GECKO_TRAIL);
++  }
+ }
+ 
+ nsMimeTypeArray* Navigator::GetMimeTypes(ErrorResult& aRv) {
