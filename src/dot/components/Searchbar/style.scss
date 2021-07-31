@@ -41,6 +41,10 @@
     display: flex;
 }
 
+#urlbar #urlbar-input-container #identity-box {
+    min-width: max-content;
+}
+
 #urlbar #urlbar-input-container #identity-box,
 #urlbar #urlbar-input-container #page-action-buttons {
     padding: 2px;
