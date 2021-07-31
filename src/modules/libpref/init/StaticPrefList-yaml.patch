@@ -1,8 +1,8 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index b4b2dc76427c0240eb461570937d8dce181be091..a6f6d3f7da5b4f356bc73502cd31f40879a824c5 100644
+index b4b2dc76427c0240eb461570937d8dce181be091..f9707ea783f0f3114f66e1f1129bccfb382a5103 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
-@@ -9880,6 +9880,18 @@
+@@ -9880,6 +9880,24 @@
    value: true
    mirror: always
  
@@ -14,6 +14,12 @@ index b4b2dc76427c0240eb461570937d8dce181be091..a6f6d3f7da5b4f356bc73502cd31f408
 +
 +# Adds subtle noise to audio to prevent fingerprinting.
 +- name: privacy.resistFingerprinting.audioAPINoise
++  type: RelaxedAtomicBool
++  value: true
++  mirror: always
++
++# Use Chrome's Gecko build date to blend in.
++- name: privacy.resistFingerprinting.useCommonGeckoBuildDate
 +  type: RelaxedAtomicBool
 +  value: true
 +  mirror: always
