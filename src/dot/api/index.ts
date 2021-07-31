@@ -2,7 +2,7 @@ export * from './browsers';
 export * from './console';
 export * from './dev';
 export * from './extensions';
-export * from './menu';
+export * from './menus';
 export * from './preferences';
 export * from './runtime';
 export * from './tabs';
@@ -16,7 +16,7 @@ import {
     ConsoleAPI,
     DevAPI,
     ExtensionsAPI,
-    MenuAPI,
+    MenusAPI,
     PreferencesAPI,
     RuntimeAPI,
     TabsAPI,
@@ -34,7 +34,7 @@ class Dot {
     public prefs = new PreferencesAPI();
     public theme = new ThemeAPI();
     public extensions = new ExtensionsAPI();
-    public menu = new MenuAPI();
+    public menus = new MenusAPI();
     public dev = new DevAPI();
     public runtime = new RuntimeAPI();
     public utilities = new UtilitiesAPI();
@@ -47,7 +47,17 @@ class Dot {
         window.addEventListener("DOMContentLoaded", () => {
             this.runtime.emit("browser-window-init");
         });
-        
+
+        window.addEventListener(
+            "focus",
+            () => this.runtime.emit("browser-window-focus")
+        );
+
+        window.addEventListener(
+            "blur",
+            () => this.runtime.emit("browser-window-blur")
+        );
+
         window.addEventListener("unload", async (event) => {
             await this.window.onWindowStateUpdated();
 
