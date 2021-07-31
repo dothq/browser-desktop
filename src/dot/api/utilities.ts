@@ -1,9 +1,12 @@
+import { useID } from "@dothq/id";
 import { EventEmitter } from "events";
 import { AppConstants, Cc, Ci, Services } from "../modules";
 import { commands } from "../shared/commands";
 
 export class UtilitiesAPI extends EventEmitter {
     private _pageStatusEl = document.getElementById("page-status");
+
+    public canPopupAutohide: boolean = true;
 
     public get pageStatus() {
         if (!this._pageStatusEl) return "";
@@ -71,6 +74,10 @@ export class UtilitiesAPI extends EventEmitter {
         );
 
         return env.get(name);
+    }
+
+    public makeID(rounds?: number) {
+        return useID(rounds || 4);
     }
 
     constructor() {
