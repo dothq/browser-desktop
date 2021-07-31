@@ -67,6 +67,21 @@ export class RuntimeAPI extends EventEmitter {
             true
         );
 
+        dot.prefs.observe(
+            "ui.popup.disable_autohide",
+            (value: boolean) => {
+                dot.utilities.canPopupAutohide = !value;
+            },
+            true
+        );
+
+        dot.browsersPrivate.tabStack?.addEventListener(
+            "mousedown",
+            () => {
+                dot.menus.clear()
+            }
+        );
+
         dot.theme.load();
     }
 
@@ -80,6 +95,14 @@ export class RuntimeAPI extends EventEmitter {
         clearInterval(this._windowStateInt);
     }
 
+    public onBrowserFocus() {
+
+    }
+
+    public onBrowserBlur() {
+        dot.menus.clear();
+    }
+
     public setOverLink(status: string) {
         dot.utilities.emit("page-status-changed", status);
     }
@@ -89,6 +112,10 @@ export class RuntimeAPI extends EventEmitter {
 
         this.once("before-browser-window-init", this.onBeforeBrowserInit);
         this.once("browser-window-init", this.onBrowserStartup);
+
+        this.on("browser-window-focus", this.onBrowserFocus);
+        this.on("browser-window-blur", this.onBrowserBlur);
+
         this.on("before-browser-window-quit", this.onBeforeBrowserQuit);
 
         this._windowStateInt = setInterval(() => {
