@@ -25,12 +25,28 @@ class ContextMenuParent extends JSWindowActorParent {
 
         const tabs = win.store.getState().tabs;
 
-        dot.menus.update("context-navigation", "context-forward", {
-            disabled: !tabs.getTabById(tabs.selectedId).canGoForward
-        });
+        const {
+            canGoBack,
+            canGoForward,
+            bookmarked
+        } = tabs.getTabById(tabs.selectedId);
 
         dot.menus.update("context-navigation", "context-back", {
-            disabled: !tabs.getTabById(tabs.selectedId).canGoBack
+            disabled: !canGoBack
+        });
+
+        dot.menus.update("context-navigation", "context-forward", {
+            disabled: !canGoForward
+        });
+
+        dot.menus.update("context-navigation", "context-bookmarkpage", {
+            label: bookmarked
+                ? "Edit Bookmark…"
+                : "Bookmark",
+            icon: `chrome://dot/content/skin/icons/` + (bookmarked
+                ? "bookmark-filled.svg"
+                : "actions/new-bookmark.svg"),
+            iconColour: bookmarked ? `var(--dot-ui-accent-colour)` : ``
         });
 
         dot.menus.open(
