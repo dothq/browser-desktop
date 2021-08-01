@@ -56,15 +56,17 @@ export const PageMenu = Menu.buildFromTemplate({
         separator,
         {
             id: "context-savepage",
-            label: "Save As…",
+            label: "Save As…"
         },
         {
             id: "context-print",
             label: "Print…",
+            icon: "print.svg"
         },
         {
             id: "context-screenshot",
             label: "Screenshot…",
+            icon: "screenshot.svg"
         },
         separator,
         {
