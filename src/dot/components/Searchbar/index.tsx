@@ -46,6 +46,11 @@ export const Searchbar = () => {
 
         if (!currentTab) return;
 
+        urlSchemeRef.current.style.setProperty(
+            "--searchbar-scheme-width",
+            `${urlSchemeRef.current.scrollWidth}px`
+        );
+
         if (currentTab.pageState == "search") {
             setSearchBarMockVisible(false);
             return setSearchBarValue("");
