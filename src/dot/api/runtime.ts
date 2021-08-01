@@ -75,13 +75,6 @@ export class RuntimeAPI extends EventEmitter {
             true
         );
 
-        dot.browsersPrivate.tabStack?.addEventListener(
-            "mousedown",
-            () => {
-                dot.menus.clear()
-            }
-        );
-
         dot.theme.load();
     }
 
