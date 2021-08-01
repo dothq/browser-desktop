@@ -20,6 +20,7 @@ export interface MenuItem {
 
     label?: string,
     icon?: string,
+    iconColour?: string,
     hotkey?: MenuHotkey[],
     type?: MenuType,
 
