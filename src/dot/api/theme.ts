@@ -227,8 +227,12 @@ export class ThemeAPI {
       (value: string) => {
         const cleansedValue = value.replace(/ /g, "").toLowerCase();
 
-        dot.window.removeWindowClassByNamespace("accent-colour-")
-        dot.window.addWindowClass(`accent-colour-${cleansedValue}`)
+        dot.window.removeWindowClassByNamespace("accent-colour-", document.documentElement)
+        dot.window.addWindowClass(
+          `accent-colour-${cleansedValue}`,
+          true,
+          document.documentElement
+        )
       },
       true
     );

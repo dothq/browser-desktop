@@ -95,27 +95,33 @@ export class WindowAPI extends EventEmitter {
         window.close();
     }
 
-    public addWindowClass(name: string, condition?: boolean) {
+    public addWindowClass(name: string, condition?: boolean, target?: HTMLElement) {
         if (typeof (condition) == "boolean" && condition == false) return;
 
-        document.getElementById("browser")?.classList.add(name);
+        const element = target ? target : document.getElementById("browser");
+
+        element?.classList.add(name);
         this.windowClass.add(name);
     }
 
-    public removeWindowClass(name: string) {
-        document.getElementById("browser")?.classList.remove(name);
+    public removeWindowClass(name: string, target?: HTMLElement) {
+        const element = target ? target : document.getElementById("browser");
+
+        element?.classList.remove(name);
         this.windowClass.delete(name);
     }
 
-    public toggleWindowClass(name: string, condition: boolean) {
-        if (condition) this.addWindowClass(name);
-        else this.removeWindowClass(name);
+    public toggleWindowClass(name: string, condition: boolean, target?: HTMLElement) {
+        if (condition) this.addWindowClass(name, condition, target);
+        else this.removeWindowClass(name, target);
     }
 
-    public removeWindowClassByNamespace(prefix: string) {
-        document.getElementById("browser")?.classList.forEach(i => {
+    public removeWindowClassByNamespace(prefix: string, target?: HTMLElement) {
+        const element = target ? target : document.getElementById("browser");
+
+        element?.classList.forEach(i => {
             if (i.startsWith(prefix)) {
-                document.getElementById("browser")?.classList.remove(i);
+                element?.classList.remove(i);
                 this.windowClass.delete(i);
             }
         });
