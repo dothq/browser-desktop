@@ -69,6 +69,7 @@ export class MenusAPI {
                 visible,
                 label,
                 icon,
+                iconColour,
                 hotkey
             } = data;
 
@@ -90,6 +91,13 @@ export class MenusAPI {
                     "contextmenu-item-icon"
                 )[0] as any)
                     .style.backgroundImage = `url(${icon})`;
+            }
+
+            if (typeof (iconColour) !== "undefined") {
+                (item.getElementsByClassName(
+                    "contextmenu-item-icon"
+                )[0] as any)
+                    .style.fill = iconColour;
             }
 
             if (typeof (hotkey) !== "undefined") {
