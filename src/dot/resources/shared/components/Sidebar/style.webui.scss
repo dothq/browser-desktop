@@ -1,0 +1,25 @@
+aside.webui-sidebar {
+    min-width: 418px;
+    max-width: 418px;
+
+    width: 418px; /* 418 I'm a Teapot */
+    height: 100%;
+
+    background-color: var(--toolbar-bgcolor);
+    color: currentColor;
+    transition: 0.3s background-color, 0.3s color;
+}
+
+div.webui-sidebar-container {
+    padding: 42px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 42px * 2);
+}
+
+h1.webui-sidebar-title {
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 24px;
+}

@@ -1,0 +1,44 @@
+.dot-ui-checkbox {
+    display: flex;
+    align-items: center;
+
+    .dot-ui-checkbox-input {
+        width: 22px;
+        height: 22px;
+        border-radius: 8px;
+        appearance: none;
+        border: none;
+        outline: none;
+        border: 2px solid gray;
+        margin: 0;
+
+        &[checked]:hover {
+            background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 10%);
+        }
+    
+        &[checked]:active {
+            background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 20%);
+        }
+    
+        &:focus {
+            outline: 3px solid var(--dot-ui-accent-colour);
+            outline-offset: 3px;
+        }
+    }
+
+    .dot-ui-checkbox-input[checked] {
+        background-color: var(--dot-ui-accent-colour);
+        background-image: url(chrome://dot/content/skin/icons/check.svg);
+        -moz-context-properties: fill;
+        fill: white;
+        background-size: 16px;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .dot-ui-checkbox-label {
+        user-select: none;
+        cursor: default;
+        margin-inline-start: 10px;
+    }
+}

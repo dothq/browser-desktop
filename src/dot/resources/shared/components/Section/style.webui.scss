@@ -1,0 +1,14 @@
+.webui-section {
+    display: flex;
+    flex-direction: column;
+    max-width: 750px;
+    margin: 72px 0 72px 72px;
+    width: 100%;
+    color: currentColor;
+}
+
+h1.webui-section-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
