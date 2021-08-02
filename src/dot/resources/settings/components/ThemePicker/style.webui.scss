@@ -1,0 +1,89 @@
+.settings-themepicker {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+
+    .settings-themepicker-item {
+        min-width: 76px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+
+        &[data-selected="true"] {
+            .settings-themepicker-item-image::after {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        &:hover {
+            .settings-themepicker-item-label {
+                opacity: 1;
+            }
+
+            & > .settings-themepicker-item-image::after {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        &:active > .settings-themepicker-item-image::after {
+            transform: scale(0.8);
+            opacity: 1;
+        }
+
+        .settings-themepicker-item-image {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 0px 1px #8080803b;
+            position: relative;
+
+            &::after {
+                content: "";
+                width: 28px;
+                height: 28px;
+                border-radius: 28px;
+                background-color: #fff;
+                background-image: url(chrome://dot/content/skin/icons/check.svg);
+                -moz-context-properties: fill;
+                fill: var(--dot-ui-accent-colour-light);
+                position: absolute;
+                right: -8px;
+                bottom: -6px;
+                transform: scale(0);
+                opacity: 0;
+                transition: 0.15s transform, 0.1s opacity;
+                background-position: center;
+                background-repeat: no-repeat;
+                box-shadow: 0 3.2px 7.2px 0 rgba(0,0,0,.132),0 .6px 1.8px 0 rgba(0,0,0,.108);
+            }
+        }
+
+        .settings-themepicker-item-label {
+            margin-top: 14px;
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.8;
+            text-align: center;
+            transition: 0.2s opacity;
+        }
+
+        .settings-themepicker-item-image.add-theme {
+            background-color: transparent;
+            background-image: url(chrome://dot/content/skin/icons/add.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+            -moz-context-properties: fill;
+            fill: currentColor;
+            background-size: 16px;
+
+            &::after {
+                display: none;
+            }
+        }
+    }
+}
