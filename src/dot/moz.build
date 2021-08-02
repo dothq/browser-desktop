@@ -10,6 +10,10 @@ DIRS += [
     "shared"
 ]
 
+JS_PREFERENCE_PP_FILES += [
+    "config/profile.js",
+]
+
 for var in ("MOZ_APP_NAME", "MOZ_MACBUNDLE_NAME"):
     DEFINES[var] = CONFIG[var]
 
