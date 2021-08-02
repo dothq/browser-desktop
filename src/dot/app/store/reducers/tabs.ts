@@ -26,12 +26,12 @@ const initialState: TabsState = {
 
     selectedTab: undefined,
 
-    getTabById(id: number) {
-        return this.list.find(tab => tab.id == id);
+    getTabById(id: number | string) {
+        return this.list.find((tab: Tab | InternalTab) => tab.id == id);
     },
 
-    getTabIndexById(id: number) {
-        return this.list.findIndex(tab => tab.id == id);
+    getTabIndexById(id: number | string) {
+        return this.list.findIndex((tab: Tab | InternalTab) => tab.id == id);
     },
 
     update(id: number, data: { [key: string]: any }) {

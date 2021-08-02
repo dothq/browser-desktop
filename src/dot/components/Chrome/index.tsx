@@ -56,7 +56,7 @@ export const Chrome = () => {
 
                     <ToolbarButton
                         image={"chrome://dot/content/skin/icons/settings.svg"}
-                        onClick={() => dispatch({ type: "TAB_CREATE_INTERNAL", payload: { id: "settings" } })}
+                        command={"Browser:OpenPreferences"}
                     />
 
                     <ToolbarButton

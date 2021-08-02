@@ -9,6 +9,7 @@ export interface ITab {
     url: string,
     background?: boolean,
     internal?: boolean
+    id?: string
 }
 
 export class Tab {
@@ -128,15 +129,19 @@ export class Tab {
     constructor({
         url,
         background,
-        internal
+        internal,
+        id
     }: ITab) {
         const browser = dot.browsersPrivate.create({
             background: !!background,
-            internal: this.internal || false
+            internal,
+            id: internal && id
         }, internal ? undefined : Services.io.newURI(url));
 
         this.webContents = browser;
-        this.id = this.webContents.browserId;
+        this.id = internal
+            ? browser.id
+            : this.webContents.browserId;
         this.background = !!background;
 
         this.createProgressListener();

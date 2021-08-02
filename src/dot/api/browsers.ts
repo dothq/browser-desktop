@@ -66,6 +66,8 @@ export class BrowsersAPI {
             return matched.select();
         }
 
+        console.log(`#${attributes.id}`)
+
         const browser: any = this.internalTabStack?.querySelector(`#${attributes.id}`);
 
         if (browser) {
@@ -79,8 +81,10 @@ export class BrowsersAPI {
             if (!attributes.background) {
                 this.selectedInternalId = id;
 
-                this.select(id);
+                this.select(id, true);
             }
+
+            return { id };
         } else {
             console.error(`No internal UI found by the id "${attributes.id}".`)
         }
@@ -119,9 +123,18 @@ export class BrowsersAPI {
     }
 
     public get(id: number) {
-        let browser = this.tabStack?.querySelector(`#browser-panel-${id}`);
+        let browser;
+        let internalBrowser;
+
+        try {
+            browser = this.tabStack?.querySelector(`#browser-panel-${id}`);
+            internalBrowser = this.internalTabStack?.querySelector(`#${id}`);
+        } catch (e) {
+
+        }
 
         if (browser) return browser;
+        else if (internalBrowser) return internalBrowser;
         else throw new Error(`Browser with id '${id}' not found.`);
     }
 
@@ -169,13 +182,13 @@ export class BrowsersAPI {
         if (!browser) return;
 
         if (this.internalTabStack)
-            Array.from(this.internalTabStack.childNodes).forEach(
+            Array.from(this.internalTabStack.querySelectorAll("div")).forEach(
                 (tab: any) => {
-                    tab.style.display = "none";
+                    if (tab) browser.removeAttribute("selected");
                 }
             );
 
-        browser.style.display = "";
+        browser.setAttribute("selected", "");
 
         if (this.tabStack) this.tabStack.style.display = "none";
         if (this.internalTabStack) this.internalTabStack.style.display = "flex";
