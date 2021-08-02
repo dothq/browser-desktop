@@ -8,7 +8,7 @@
     color: var(--lwt-toolbar-field-color);
     font-size: 14px;
     appearance: none;
-    transition: 0.15s background-color;
+    transition: 0.15s background-color, 0.3s color;
 }
 
 .searchbar-button .searchbar-button-icon {
@@ -16,6 +16,7 @@
     height: 14px;
     fill: currentColor;
     background-size: cover;
+    transition: 0.3s fill;
 }
 
 .searchbar-button:hover {

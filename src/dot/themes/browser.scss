@@ -41,10 +41,21 @@ body,
   background-color: -moz-default-background-color;
   flex: 1;
   border-top: 1px solid var(--chrome-content-separator-color);
+  overflow: hidden;
+  transition: 0.3s border-top;
 }
 
 #internal-browser-tabs-stack {
   display: none;
+}
+
+#internal-browser-tabs-stack div {
+  display: none;
+}
+
+#internal-browser-tabs-stack div[selected] {
+  width: 100%;
+  display: flex;
 }
 
 #browser-tabs-stack browser {

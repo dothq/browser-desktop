@@ -10,10 +10,7 @@ a.toolbar-button {
     border: none;
     display: flex;
     -moz-window-dragging: no-drag;
-
-    &:focus-visible {
-        outline: 2px solid #00DDFF;
-    }
+    transition: 0.3s color;
 
     &:hover .toolbarbutton-icon {
         background-color: var(--button-hover, var(--toolbarbutton-hover-background));
