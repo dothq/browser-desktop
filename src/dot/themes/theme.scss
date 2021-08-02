@@ -1,58 +1,81 @@
-$accent-red: rgb(246, 66, 66);
-$accent-orange: rgb(254, 146, 52);
-$accent-yellow: rgb(253, 205, 58);
-$accent-green: rgb(48, 208, 44);
-$accent-blue: rgb(37, 110, 245);
-$accent-dark-blue: rgb(44, 61, 208);
-$accent-purple: rgb(116, 44, 208);
-$accent-pink: rgb(195, 44, 208);
-$accent-gray: rgb(141, 141, 141);
+@import '_colours.scss';
 
 :root {
     --dot-ui-primary: #{$accent-blue};
     --dot-ui-success: #{$accent-green};
     --dot-ui-danger: #{$accent-red};
+}
 
-    --dot-ui-accent-colour-lighter: color-mix(in srgb, var(--dot-ui-accent-colour) 50%, white);
+:root.theme-is-dark {
+    --dot-ui-accent-colour: var(--dot-ui-accent-colour-dark) !important;
+    --dot-ui-accent-colour-text: #{$accent-black} !important;
+}
+
+:root.theme-is-light {
+    --dot-ui-accent-colour: var(--dot-ui-accent-colour-light) !important;
+    --dot-ui-accent-colour-text: #{$accent-white} !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root.theme-is-dynamic:not(.theme-is-light, .theme-is-dark) {
+        --dot-ui-accent-colour: var(--dot-ui-accent-colour-dark);
+        --dot-ui-accent-colour-text: #{$accent-black};
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root.theme-is-dynamic:not(.theme-is-light, .theme-is-dark) {
+        --dot-ui-accent-colour: var(--dot-ui-accent-colour-light);
+        --dot-ui-accent-colour-text: #{$accent-white};
+    }
 }
 
 *::selection {
     background-color: var(--dot-ui-accent-colour);
-    color: white;
+    color: var(--dot-ui-accent-colour-text);
 }
 
 :root.accent-colour-red {
-    --dot-ui-accent-colour: #{$accent-red};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-red, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-red};
 }
 
 :root.accent-colour-orange {
-    --dot-ui-accent-colour: #{$accent-orange};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-orange, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-orange};
 }
 
 :root.accent-colour-yellow {
-    --dot-ui-accent-colour: #{$accent-yellow};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-yellow, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-yellow};
 }
 
 :root.accent-colour-green {
-    --dot-ui-accent-colour: #{$accent-green};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-green, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-green};
 }
 
 :root.accent-colour-blue {
-    --dot-ui-accent-colour: #{$accent-blue};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-blue, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-blue};
 }
 
-:root.accent-colour-dark-blue {
-    --dot-ui-accent-colour: #{$accent-dark-blue};
+:root.accent-colour-indigo {
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-indigo, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-indigo};
 }
 
 :root.accent-colour-purple {
-    --dot-ui-accent-colour: #{$accent-purple};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-purple, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-purple};
 }
 
 :root.accent-colour-pink {
-    --dot-ui-accent-colour: #{$accent-pink};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-pink, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-pink};
 }
 
 :root.accent-colour-gray {
-    --dot-ui-accent-colour: #{$accent-gray};
+    --dot-ui-accent-colour-dark: #{mix(white, $accent-gray, 50%)};
+    --dot-ui-accent-colour-light: #{$accent-gray};
 }
