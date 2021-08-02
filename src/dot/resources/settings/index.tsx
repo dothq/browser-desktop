@@ -1,12 +1,13 @@
 import React from "react";
-import { render } from "react-dom";
-import { Settings } from "./root";
+import { WebUI } from "../shared/components/WebUI";
+import { webUIRender } from "../shared/mount";
+import { SectionRenderer } from "./components/SectionRenderer";
+import { Sidebar } from "./components/Sidebar";
 
-const mount: any = document.getElementById("settings");
+export const Settings = webUIRender("settings",
+    <WebUI>
+        <Sidebar />
 
-mount?.attachShadow({ mode: "open" })
-
-render(
-    <Settings />,
-    mount?.shadowRoot
+        <SectionRenderer />
+    </WebUI>
 );
