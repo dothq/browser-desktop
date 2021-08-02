@@ -1,12 +1,14 @@
 import { combineReducers, compose, createStore } from '@reduxjs/toolkit';
 import { exportPublic } from '../../shared/globals';
+import { settingsReducer } from './reducers/settings';
 import { tabsReducer } from './reducers/tabs';
 import { uiReducer } from './reducers/ui';
 
 const configureStore = (preloadedState?: any) => {
     const root = combineReducers({
         ui: uiReducer,
-        tabs: tabsReducer
+        tabs: tabsReducer,
+        settings: settingsReducer
     })
 
     const store = createStore(
