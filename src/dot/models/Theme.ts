@@ -5,6 +5,8 @@ import { ExtensionTheme } from "../types/theme";
 interface ThemeProps {
     id: string,
     type: 'extension' | 'custom',
+    name: string,
+    iconURL?: string,
     theme: ExtensionTheme,
     darkTheme?: ExtensionTheme | null,
     experiments?: any
@@ -13,6 +15,8 @@ interface ThemeProps {
 export class Theme {
     public id: string;
     public type: 'extension' | 'custom';
+    public name: string;
+    public iconURL: string;
     public active: boolean = false;
 
     public theme: ExtensionTheme;
@@ -53,13 +57,15 @@ export class Theme {
         }
     }
 
-    constructor({ id, type, theme, darkTheme, experiments }: ThemeProps) {
+    constructor({ id, type, name, iconURL, theme, darkTheme, experiments }: ThemeProps) {
         if (!id) throw new Error(`Badly formatted theme: 'id' was not found.`);
         if (!type) throw new Error(`Badly formatted theme: 'type' was not found and was not of type 'extension' or 'custom'.`);
         if (!theme) throw new Error(`Badly formatted theme: 'theme' was not found.`);
 
         this.id = id;
         this.type = type;
+        this.name = name;
+        this.iconURL = iconURL || "";
 
         this.theme = theme;
         this.darkTheme = darkTheme || null;

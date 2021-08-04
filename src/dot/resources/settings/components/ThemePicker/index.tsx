@@ -1,6 +1,5 @@
 import React from "react";
 import { dot } from "../../../../api";
-import { AddonManager } from "../../../../modules";
 import { ThemePickerStorePromo } from "../ThemePickerStorePromo";
 
 export const ThemePicker = () => {
@@ -10,10 +9,7 @@ export const ThemePicker = () => {
     React.useEffect(() => {
         setSelected(dot.theme.currentThemeId as any);
 
-        AddonManager.getAddonsByTypes(["theme"])
-            .then((addons: any) => {
-                setThemes(addons);
-            });
+        setThemes(Array.from(dot.theme.themes as any).map((x: any) => x[1]) as any);
     }, [])
 
     return (
@@ -24,19 +20,19 @@ export const ThemePicker = () => {
                     className={"settings-themepicker-item"}
                     data-selected={selected == theme.id}
                     onClick={() => {
-                        theme.enable()
+                        theme.set()
                         setSelected(theme.id);
                     }}
                 >
                     <i
                         className={"settings-themepicker-item-image"}
                         style={{
-                            backgroundImage: `url(${theme.iconURL})`
+                            backgroundImage: theme.iconURL ? `url(${theme.iconURL})` : ``
                         }}
                     ></i>
 
                     <label className={"settings-themepicker-item-label"}>
-                        {theme.name}
+                        {theme.name || "Untitled"}
                     </label>
                 </a>
             ))}

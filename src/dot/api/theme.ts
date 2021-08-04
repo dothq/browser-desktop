@@ -32,7 +32,9 @@ export class ThemeAPI {
 
   private _darkModeMediaQuery: MediaQueryList;
 
-  public updateAccentColour(value: string) {
+  public updateAccentColour(value?: string) {
+    if (!value) value = dot.prefs.get("dot.ui.accent_colour") as string;
+
     const cleansedValue = value.replace(/ /g, "").toLowerCase();
 
     dot.window.removeWindowClassByNamespace("accent-colour-", document.documentElement)
@@ -54,6 +56,8 @@ export class ThemeAPI {
       id = dot.prefs.get("dot.ui.theme", Services.builtInThemes.DEFAULT_THEME_ID) as string;
     }
 
+    console.debug(`ThemesAPI: Changing theme to theme with ID ${id}`)
+
     const theme = this.themes.get(id);
 
     if (theme) {
@@ -61,6 +65,9 @@ export class ThemeAPI {
 
       dot.prefs.set("dot.ui.theme", theme.id);
       this.currentThemeId = theme.id;
+
+      this.updateAccentColour();
+      this.determineDarkness();
     } else {
       console.error(`ThemesAPI: Unable to locate theme with ID ${id}`);
       this.load(Services.builtInThemes.DEFAULT_THEME_ID);
@@ -78,9 +85,11 @@ export class ThemeAPI {
 
         const theme = new Theme({
           id: addon.id,
+          name: addon.name,
+          iconURL: addon.iconURL,
           type: "extension",
           theme: migrated,
-          experiments: manifest.theme_experiment ? manifest.theme_experiment : null
+          experiments: manifest.theme_experiment ? manifest.theme_experiment : null,
         });
 
         if (theme) {

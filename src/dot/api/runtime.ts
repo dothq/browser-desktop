@@ -30,6 +30,10 @@ export class RuntimeAPI extends EventEmitter {
         dot.window.updateWindowState();
 
         dot.theme.load();
+        dot.prefs.observe(
+            "dot.ui.accent_colour",
+            (value: string) => dot.theme.updateAccentColour(value)
+        );
 
         store.dispatch({
             type: "TAB_CREATE",
