@@ -1,4 +1,5 @@
 import React from "react";
+import { dot } from "../../../../api";
 import { AddonManager } from "../../../../modules";
 import { ThemePickerStorePromo } from "../ThemePickerStorePromo";
 
@@ -7,10 +8,11 @@ export const ThemePicker = () => {
     const [selected, setSelected] = React.useState("");
 
     React.useEffect(() => {
+        setSelected(dot.theme.currentThemeId as any);
+
         AddonManager.getAddonsByTypes(["theme"])
             .then((addons: any) => {
                 setThemes(addons);
-                setSelected(addons.find((a: any) => a.isActive).id);
             });
     }, [])
 

@@ -2,7 +2,7 @@
     display: flex;
     gap: 36px;
     flex-wrap: wrap;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 
     .settings-themepicker-item {
         min-width: 76px;
@@ -11,6 +11,7 @@
         justify-content: center;
         text-align: center;
         position: relative;
+        cursor: pointer;
 
         &[data-selected="true"] {
             .settings-themepicker-item-image::after {
@@ -28,11 +29,21 @@
                 transform: scale(1);
                 opacity: 1;
             }
+
+            .add-theme {
+                background-color: #8080800d !important;
+            }
         }
 
         &:active > .settings-themepicker-item-image::after {
             transform: scale(0.8);
             opacity: 1;
+        }
+
+        &:active {
+            .add-theme {
+                background-color: #80808021 !important;
+            }
         }
 
         .settings-themepicker-item-image {
@@ -80,6 +91,7 @@
             -moz-context-properties: fill;
             fill: currentColor;
             background-size: 16px;
+            transition: 0.3s background-color;
 
             &::after {
                 display: none;
