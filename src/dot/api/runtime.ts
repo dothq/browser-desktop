@@ -29,6 +29,8 @@ export class RuntimeAPI extends EventEmitter {
     public onBrowserStartup() {
         dot.window.updateWindowState();
 
+        dot.theme.load();
+
         store.dispatch({
             type: "TAB_CREATE",
             payload: {
@@ -74,8 +76,6 @@ export class RuntimeAPI extends EventEmitter {
             },
             true
         );
-
-        dot.theme.load();
     }
 
     public onAfterBrowserPaint() {

@@ -3,389 +3,120 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { dot } from "../api";
+import { Theme } from "../models/Theme";
 import { AddonManager, ChromeUtils, Services } from "../modules";
+import { EMOJI_REGEX } from "../shared/regex";
+import { toRGB, _isColorDark } from "../shared/theme";
+import { ExtensionTheme } from "../types/theme";
 
-const { LightweightThemeManager } = ChromeUtils.import(
-  "resource://gre/modules/LightweightThemeManager.jsm"
-);
-
-const { ThemeVariableMap } = ChromeUtils.defineModuleGetter(
-  window,
-  "ThemeVariableMap",
-  "resource:///modules/ThemeVariableMap.jsm"
-);
-
-const toolkitVariableMap = [
-  [
-    "--lwt-accent-color",
-    {
-      lwtProperty: "accentcolor",
-      processColor(rgbaChannels: any, element: any) {
-        if (!rgbaChannels || rgbaChannels.a == 0) {
-          return "white";
-        }
-        // Remove the alpha channel
-        const { r, g, b } = rgbaChannels;
-        return `rgb(${r}, ${g}, ${b})`;
-      },
-    },
-  ],
-  [
-    "--lwt-text-color",
-    {
-      lwtProperty: "textcolor",
-      processColor(rgbaChannels: any, element: any) {
-        if (!rgbaChannels) {
-          rgbaChannels = { r: 0, g: 0, b: 0 };
-        }
-        // Remove the alpha channel
-        const { r, g, b } = rgbaChannels;
-        element.setAttribute(
-          "lwthemetextcolor",
-          _isColorDark(r, g, b) ? "dark" : "bright"
-        );
-        return `rgba(${r}, ${g}, ${b})`;
-      },
-    },
-  ],
-  [
-    "--arrowpanel-background",
-    {
-      lwtProperty: "popup",
-    },
-  ],
-  [
-    "--arrowpanel-color",
-    {
-      lwtProperty: "popup_text",
-      processColor(rgbaChannels: any, element: any) {
-        const disabledColorVariable = "--panel-disabled-color";
-        const descriptionColorVariable = "--panel-description-color";
-
-        if (!rgbaChannels) {
-          element.removeAttribute("lwt-popup-brighttext");
-          element.style.removeProperty(disabledColorVariable);
-          element.style.removeProperty(descriptionColorVariable);
-          return null;
-        }
-
-        let { r, g, b, a } = rgbaChannels;
-
-        if (_isColorDark(r, g, b)) {
-          element.removeAttribute("lwt-popup-brighttext");
-        } else {
-          element.setAttribute("lwt-popup-brighttext", "true");
-        }
-
-        element.style.setProperty(
-          disabledColorVariable,
-          `rgba(${r}, ${g}, ${b}, 0.5)`
-        );
-        element.style.setProperty(
-          descriptionColorVariable,
-          `rgba(${r}, ${g}, ${b}, 0.7)`
-        );
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-      },
-    },
-  ],
-  [
-    "--arrowpanel-border-color",
-    {
-      lwtProperty: "popup_border",
-    },
-  ],
-  [
-    "--lwt-toolbar-field-background-color",
-    {
-      lwtProperty: "toolbar_field",
-    },
-  ],
-  [
-    "--lwt-toolbar-field-color",
-    {
-      lwtProperty: "toolbar_field_text",
-      processColor(rgbaChannels: any, element: any) {
-        if (!rgbaChannels) {
-          element.removeAttribute("lwt-toolbar-field-brighttext");
-          return null;
-        }
-        const { r, g, b, a } = rgbaChannels;
-        if (_isColorDark(r, g, b)) {
-          element.removeAttribute("lwt-toolbar-field-brighttext");
-        } else {
-          element.setAttribute("lwt-toolbar-field-brighttext", "true");
-        }
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-      },
-    },
-  ],
-  [
-    "--lwt-toolbar-field-border-color",
-    {
-      lwtProperty: "toolbar_field_border",
-    },
-  ],
-  [
-    "--lwt-toolbar-field-focus",
-    {
-      lwtProperty: "toolbar_field_focus",
-      fallbackProperty: "toolbar_field",
-      processColor(rgbaChannels: any, element: any, propertyOverrides: any) {
-        // Ensure minimum opacity as this is used behind address bar results.
-        if (!rgbaChannels) {
-          propertyOverrides.set("toolbar_field_text_focus", "black");
-          return "white";
-        }
-        const min_opacity = 0.9;
-        let { r, g, b, a } = rgbaChannels;
-        if (a < min_opacity) {
-          propertyOverrides.set(
-            "toolbar_field_text_focus",
-            _isColorDark(r, g, b) ? "white" : "black"
-          );
-          return `rgba(${r}, ${g}, ${b}, ${min_opacity})`;
-        }
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-      },
-    },
-  ],
-  [
-    "--lwt-toolbar-field-focus-color",
-    {
-      lwtProperty: "toolbar_field_text_focus",
-      fallbackProperty: "toolbar_field_text",
-      processColor(rgbaChannels: any, element: any) {
-        if (!rgbaChannels) {
-          element.removeAttribute("lwt-toolbar-field-focus-brighttext");
-          return null;
-        }
-        const { r, g, b, a } = rgbaChannels;
-        if (_isColorDark(r, g, b)) {
-          element.removeAttribute("lwt-toolbar-field-focus-brighttext");
-        } else {
-          element.setAttribute("lwt-toolbar-field-focus-brighttext", "true");
-        }
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-      },
-    },
-  ],
-  [
-    "--toolbar-field-focus-border-color",
-    {
-      lwtProperty: "toolbar_field_border_focus",
-    },
-  ],
-  [
-    "--lwt-toolbar-field-highlight",
-    {
-      lwtProperty: "toolbar_field_highlight",
-      processColor(rgbaChannels: any, element: any) {
-        if (!rgbaChannels) {
-          element.removeAttribute("lwt-selection");
-          return null;
-        }
-        element.setAttribute("lwt-selection", "true");
-        const { r, g, b, a } = rgbaChannels;
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-      },
-    },
-  ],
-  [
-    "--lwt-toolbar-field-highlight-text",
-    {
-      lwtProperty: "toolbar_field_highlight_text",
-    },
-  ],
-];
-
-function _isColorDark(r: number, g: number, b: number) {
-  return 0.2125 * r + 0.7154 * g + 0.0721 * b <= 110;
-}
-
-const hexToRGB = (hex: string) => {
-  if (hex.length !== 6) return [255, 255, 255];
-
-  const parts = hex.match(/.{1,2}/g);
-
-  if (!parts) return [255, 255, 255];
-
-  return [
-    parseInt(parts[0], 16),
-    parseInt(parts[1], 16),
-    parseInt(parts[2], 16)
-  ];
-}
-
-const hslToRGB = (h: number, s: number, l: number) => {
-  var r, g, b;
-
-  if (s == 0) {
-    r = g = b = l; // achromatic
-  } else {
-    const hue2rgb = (p: number, q: number, t: number) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
-    }
-
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-
-    r = hue2rgb(p, q, h + 1 / 3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1 / 3);
-  }
-
-  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-}
-
-const toRGB = (colour: string): number[] => {
-  let type: 'hex' | 'hsl' | 'rgb' | undefined;
-
-  if (colour.startsWith("#")) type = "hex";
-  else if (colour.match(/0[xX][0-9a-fA-F]+/)) type = "hex";
-  else if (colour.startsWith("rgb")) type = "rgb";
-  else if (colour.startsWith("hsl")) type = "hsl";
-  else {
-    return [255, 255, 255];
-  }
-
-  switch (type) {
-    case "hex":
-      return hexToRGB(colour.replace(/#/, ""));
-    case "rgb":
-      return colour
-        .replace(/rgb\(/g, "")
-        .replace(/\)/g, "")
-        .split(",")
-        .map(i => parseInt(i));
-    case "hsl":
-      const hsl = colour
-        .replace(/rgb\(/g, "")
-        .replace(/\)/g, "")
-        .split(",")
-        .map(i => parseInt(i));
-
-      const h = hsl[0];
-      const s = hsl[1];
-      const l = hsl[2];
-
-      return hslToRGB(h, s, l);
-    default:
-      return [255, 255, 255];
-  }
-}
+const { OS } = ChromeUtils.import("resource://gre/modules/osfile.jsm");
+const { FileUtils } = ChromeUtils.import(
+  "resource://gre/modules/FileUtils.jsm"
+)
 
 export class ThemeAPI {
+  public themes: Map<string, Theme> = new Map();
+
   public isSystemDarkMode = false;
   public isThemeDynamic: boolean = false;
 
-  private _currentTheme: any = null;
-  private _currentThemeExperiments: any = null;
-  private _currentThemeId = null;
+  public currentThemeId: string = "";
+
+  public get currentTheme() {
+    const { theme, darkTheme }: any = this.themes.get(this.currentThemeId);
+
+    return this.isSystemDarkMode && darkTheme
+      ? darkTheme
+      : theme;
+  }
 
   private _darkModeMediaQuery: MediaQueryList;
 
-  get theme() {
-    return this._currentTheme;
+  public updateAccentColour(value: string) {
+    const cleansedValue = value.replace(/ /g, "").toLowerCase();
+
+    dot.window.removeWindowClassByNamespace("accent-colour-", document.documentElement)
+    dot.window.addWindowClass(
+      `accent-colour-${cleansedValue}`,
+      true,
+      document.documentElement
+    )
   }
 
-  get themeId() {
-    if (!this._currentThemeId) return null;
-    return this._currentThemeId;
-  }
+  public async load(id?: string) {
+    // Wait for the AddonManager to load
+    await this.awaitAddonManagerStartup();
 
-  public startWatchingAccent() {
-    dot.prefs.observe(
-      "dot.ui.accent_colour",
-      (value: string) => {
-        const cleansedValue = value.replace(/ /g, "").toLowerCase();
+    // Wait for the browser to load in all the themes
+    await this.loadThemes();
 
-        dot.window.removeWindowClassByNamespace("accent-colour-", document.documentElement)
-        dot.window.addWindowClass(
-          `accent-colour-${cleansedValue}`,
-          true,
-          document.documentElement
-        )
-      },
-      true
-    );
-  }
-
-  public load() {
-    this.startWatchingAccent();
-
-    const { themeData } = LightweightThemeManager;
-
-    if (this._currentThemeId) {
-      dot.window.removeWindowClassByNamespace("theme-");
-      dot.window.addWindowClass(`theme-${this._currentThemeId}`);
+    if (!id) {
+      id = dot.prefs.get("dot.ui.theme", Services.builtInThemes.DEFAULT_THEME_ID) as string;
     }
 
-    if (themeData.theme) {
-      this._currentTheme = this.isSystemDarkMode && themeData.darkTheme
-        ? themeData.darkTheme
-        : themeData.theme;
+    const theme = this.themes.get(id);
 
-      this._currentThemeId = themeData.theme.id;
-      this._currentThemeExperiments = this._currentTheme.experimental;
+    if (theme) {
+      theme.set();
 
-      this.isThemeDynamic = !!themeData.darkTheme;
+      dot.prefs.set("dot.ui.theme", theme.id);
+      this.currentThemeId = theme.id;
+    } else {
+      console.error(`ThemesAPI: Unable to locate theme with ID ${id}`);
+      this.load(Services.builtInThemes.DEFAULT_THEME_ID);
+    }
+  }
 
-      const mapped = [...ThemeVariableMap, ...toolkitVariableMap].map((i: any) => {
-        return { variable: i[0], data: i[1] }
-      });
+  public async loadThemes() {
+    return new Promise(async resolve => {
+      const addons = await AddonManager.getAddonsByTypes(["theme"]);
 
-      for (const [key, value] of Object.entries(this._currentTheme)) {
-        if (
-          key == "experimental" ||
-          key == "id" ||
-          key == "version"
-        ) continue;
+      for await (const addon of addons) {
+        const manifest: any = await dot.extensions.loadManifest(addon.id);
 
-        const index = mapped.findIndex(({ data }: { data: any }) =>
-          data.lwtProperty == key
-        );
+        const migrated = this.migrateOldThemeKeysIfNeeded(manifest.theme.colors);
 
-        if (mapped[index]) {
-          const { variable } = mapped[index];
+        const theme = new Theme({
+          id: addon.id,
+          type: "extension",
+          theme: migrated,
+          experiments: manifest.theme_experiment ? manifest.theme_experiment : null
+        });
 
-          document.documentElement.style.setProperty(
-            variable.replace(/_/g, "-"),
-            `${value}`
-          )
-        } else {
-          document.documentElement.style.setProperty(
-            "--" + key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`).replace(/_/g, "-"),
-            `${value}`
-          )
+        if (theme) {
+          if (!this.themes.has(addon.id)) {
+            this.themes.set(addon.id, theme);
+          }
+
+          console.debug(`ThemesAPI: Loaded WebExtension theme with ID ${addon.id}`);
         }
       }
 
-      if (this._currentThemeExperiments) {
-        for (const [key, value] of Object.entries(this._currentThemeExperiments.colors)) {
-          document.documentElement.style.setProperty(
-            `--` + key.replace(/_/g, "-").toLowerCase(),
-            `${value}`
-          )
-        };
+      const customThemes = this.customThemesPath.directoryEntries;
+
+      for await (const customTheme of customThemes) {
+        const data = await OS.File.read(customTheme.path, { encoding: "utf-8" });
+        const json = JSON.parse(data);
+
+        const theme = new Theme({
+          ...json,
+          theme: this.migrateOldThemeKeysIfNeeded(json.theme),
+          darkTheme: json.darkTheme
+            ? this.migrateOldThemeKeysIfNeeded(json.Darktheme)
+            : null
+        });
+
+        if (theme) {
+          if (!this.themes.has(json.id)) {
+            this.themes.set(json.id, theme);
+          }
+
+          console.debug(`ThemesAPI: Loaded custom theme with ID ${json.id}`);
+        }
       }
 
-      this.determineDarkness();
-    } else {
-      this.setTheme(Services.builtInThemes.DEFAULT_THEME_ID);
-    }
-  }
-
-  public async setTheme(id: string) {
-    await this.awaitAddonManagerStartup();
-
-    const addon = await AddonManager.getAddonByID(id);
-    addon.enable();
+      resolve(true);
+    })
   }
 
   public async awaitAddonManagerStartup() {
@@ -416,8 +147,8 @@ export class ThemeAPI {
     };
 
     const points = [
-      this.theme.toolbarColor,
-      this.theme.accentcolor
+      this.currentTheme.toolbarColor,
+      this.currentTheme.accentcolor
     ];
 
     for (const point of points) {
@@ -438,6 +169,73 @@ export class ThemeAPI {
       }
     }
   }
+
+  public migrateOldThemeKeysIfNeeded(oldData: any): ExtensionTheme {
+    const freshTheme: ExtensionTheme = {};
+
+    for (const [key, value] of Object.entries(oldData)) {
+      switch (key) {
+        case "accentcolor":
+          freshTheme.frame = `${value}`;
+          break;
+        case "accentcolorInactive":
+          freshTheme.frame_inactive = `${value}`;
+          break;
+        case "textcolor":
+          freshTheme.tab_background_text = `${value}`;
+          break;
+        case "toolbarColor":
+          freshTheme.toolbar = `${value}`;
+          break;
+        case "bookmark_text":
+          freshTheme.toolbar_text = `${value}`;
+          break;
+        case "icon_color":
+          freshTheme.icons = `${value}`;
+          break;
+        case "icon_attention_color":
+          freshTheme.icons_attention = `${value}`;
+          break;
+        default:
+          (freshTheme as any)[key] = `${value}`;
+          break;
+      }
+    }
+
+    return freshTheme;
+  }
+
+  public async createTheme(name: string, data: object) {
+    const id = name
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9 ]/g, "")
+      .replace(EMOJI_REGEX, "")
+      .split(" ")
+      .filter(a => a.length)
+      .join("-") + `-${dot.utilities.makeID(2)}`;
+
+    await OS.File.makeDir(this.customThemesPath.path, { ignoreExisting: true });
+
+    const themePath = FileUtils.getFile("ProfLD", [
+      "themes",
+      `${id}.json`
+    ]).path;
+
+    const theme = this.migrateOldThemeKeysIfNeeded(data);
+
+    this.load(id);
+
+    return OS.File.writeAtomic(themePath, JSON.stringify({
+      id,
+      name,
+      type: "custom",
+      theme
+    }, null, 2), {
+      encoding: "utf-8",
+    });
+  }
+
+  public customThemesPath = FileUtils.getDir("ProfLD", ["themes"]);
 
   constructor() {
     this._darkModeMediaQuery = window.matchMedia("(-moz-system-dark-theme)");
