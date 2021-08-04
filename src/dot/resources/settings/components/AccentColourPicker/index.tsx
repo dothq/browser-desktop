@@ -33,7 +33,7 @@ export const AccentColourPicker = () => {
                     data-selected={selected == colour}
                     key={colour}
                     href={"#"}
-                    onClick={() => dot.prefs.set("dot.ui.accent_colour", colour)}
+                    onMouseDown={() => dot.prefs.set("dot.ui.accent_colour", colour)}
                 ></a>
             ))}
         </div>
