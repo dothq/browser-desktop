@@ -1,44 +1,55 @@
 .dot-ui-checkbox {
     display: flex;
-    align-items: center;
 
     .dot-ui-checkbox-input {
-        width: 22px;
-        height: 22px;
-        border-radius: 8px;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
         appearance: none;
         border: none;
         outline: none;
-        border: 2px solid gray;
+        border: 2px solid #D2D4D7;
         margin: 0;
 
-        &[checked]:hover {
+        &[value="true"]:hover {
             background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 10%);
         }
     
-        &[checked]:active {
+        &[value="true"]:active {
             background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 20%);
         }
+
+        &[value="false"]:hover {
+            border-color: #959494;
+        }
     
-        &:focus {
-            outline: 3px solid var(--dot-ui-accent-colour);
-            outline-offset: 3px;
+        &[value="false"]:active {
+            border-color: #757575;
         }
     }
 
-    .dot-ui-checkbox-input[checked] {
+    .dot-ui-checkbox-input[value="true"] {
         background-color: var(--dot-ui-accent-colour);
         background-image: url(chrome://dot/content/skin/icons/check.svg);
         -moz-context-properties: fill;
-        fill: white;
-        background-size: 16px;
+        fill: var(--dot-ui-accent-colour-icon);
+        background-size: 14px;
         background-repeat: no-repeat;
         background-position: center;
+        border: 2px solid transparent;
     }
 
     .dot-ui-checkbox-label {
         user-select: none;
         cursor: default;
-        margin-inline-start: 10px;
+        margin-inline-start: 12px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
     }
+}
+
+.dot-ui-checkbox.is-spaced {
+    margin: 12px 0;
 }

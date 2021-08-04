@@ -1,9 +1,24 @@
-import React from "react"
+import React from "react";
 
-export const Checkbox = ({ id, label, primary }: { id: string, label?: string, primary?: boolean }) => {
+export const Checkbox = ({ id, label, primary, checked, spaced }: { id: string, label?: string | any, primary?: boolean, checked?: boolean, spaced?: boolean }) => {
+    const [isChecked, setChecked] = React.useState(Boolean(checked));
+
     return (
-        <a className={`dot-ui-checkbox ${primary ? `dot-ui-checkbox-primary` : ``}`}>
-            <input className={"dot-ui-checkbox-input"} type="checkbox" id={id}></input>
+        <a
+            className={`dot-ui-checkbox 
+                ${primary ? `is-primary` : ``}
+                ${spaced ? `is-spaced` : ``}
+            `}
+        >
+            <input
+                className={"dot-ui-checkbox-input"}
+                type="checkbox"
+                id={id}
+                value={isChecked as any}
+                onClick={() => {
+                    setChecked(!isChecked)
+                }}
+            ></input>
 
             <label htmlFor={id} className={"dot-ui-checkbox-label"}>
                 {label}
