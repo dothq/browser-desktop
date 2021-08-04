@@ -32,6 +32,9 @@ export class PreferencesAPI {
         if (data == undefined) throw new Error("Payload must be set.")
 
         const oldData = this.get(id);
+
+        if (oldData == data) return;
+
         let type = this.getType(id, data);
         let payload = data;
 
