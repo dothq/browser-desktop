@@ -2,7 +2,8 @@
     display: flex;
     gap: 36px;
     flex-wrap: wrap;
-    margin-bottom: 28px;
+    margin-bottom: 12px;
+    align-items: flex-start;
 
     .settings-themepicker-item {
         min-width: 76px;
@@ -12,6 +13,7 @@
         text-align: center;
         position: relative;
         cursor: pointer;
+        align-items: center;
 
         &[data-selected="true"] {
             .settings-themepicker-item-image::after {
@@ -81,6 +83,9 @@
             opacity: 0.8;
             text-align: center;
             transition: 0.2s opacity;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .settings-themepicker-item-image.add-theme {
