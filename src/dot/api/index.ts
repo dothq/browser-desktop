@@ -5,6 +5,7 @@ export * from './extensions';
 export * from './menus';
 export * from './preferences';
 export * from './runtime';
+export * from './settings';
 export * from './tabs';
 export * from './theme';
 export * from './titlebar';
@@ -19,6 +20,7 @@ import {
     MenusAPI,
     PreferencesAPI,
     RuntimeAPI,
+    SettingsAPI,
     TabsAPI,
     ThemeAPI,
     TitlebarAPI,
@@ -26,6 +28,7 @@ import {
     WindowAPI
 } from ".";
 import { exportPublic } from "../shared/globals";
+
 class Dot {
     public browsersPrivate = new BrowsersAPI();
 
@@ -39,6 +42,7 @@ class Dot {
     public runtime = new RuntimeAPI();
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
+    public settings = new SettingsAPI();
     public window = new WindowAPI();
 
     constructor() {
