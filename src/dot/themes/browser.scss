@@ -29,8 +29,9 @@ body,
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--lwt-accent-color);
   border-bottom: 1px solid var(--chrome-content-separator-color, transparent);
-  transition: 0.3s border-bottom;
+  transition: 0.3s background-color, 0.3s border-bottom;
 }
 
 #browser-tabs-stack,
