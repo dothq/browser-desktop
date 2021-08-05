@@ -6,7 +6,7 @@ import { dot } from "../api";
 import { Theme } from "../models/Theme";
 import { AddonManager, ChromeUtils, Services } from "../modules";
 import { EMOJI_REGEX } from "../shared/regex";
-import { toRGB, _isColorDark } from "../shared/theme";
+import { ThemeVariableMap, toRGB, _isColorDark } from "../shared/theme";
 import { ExtensionTheme } from "../types/theme";
 
 const { OS } = ChromeUtils.import("resource://gre/modules/osfile.jsm");
@@ -18,16 +18,23 @@ export class ThemeAPI {
   public themes: Map<string, Theme> = new Map();
 
   public isSystemDarkMode = false;
-  public isThemeDynamic: boolean = false;
+
+  public get isThemeDynamic() {
+    return this.current?.isDynamic
+  }
 
   public currentThemeId: string = "";
 
   public get currentTheme() {
-    const { theme, darkTheme }: any = this.themes.get(this.currentThemeId);
+    const { theme, darkTheme }: any = this.current;
 
     return this.isSystemDarkMode && darkTheme
       ? darkTheme
       : theme;
+  }
+
+  public get current() {
+    return this.themes.get(this.currentThemeId);
   }
 
   private _darkModeMediaQuery: MediaQueryList;
@@ -61,6 +68,8 @@ export class ThemeAPI {
     const theme = this.themes.get(id);
 
     if (theme) {
+      this.resetThemeVariables();
+
       theme.set();
 
       dot.prefs.set("dot.ui.theme", theme.id);
@@ -81,14 +90,21 @@ export class ThemeAPI {
       for await (const addon of addons) {
         const manifest: any = await dot.extensions.loadManifest(addon.id);
 
-        const migrated = this.migrateOldThemeKeysIfNeeded(manifest.theme.colors);
+        const migratedTheme = this.migrateOldThemeKeysIfNeeded(manifest.theme.colors);
+        const migratedDarkTheme = manifest.dark_theme
+          ? this.migrateOldThemeKeysIfNeeded(manifest.dark_theme.colors)
+          : null;
 
         const theme = new Theme({
           id: addon.id,
+
           name: addon.name,
           iconURL: addon.iconURL,
           type: "extension",
-          theme: migrated,
+
+          theme: migratedTheme,
+          darkTheme: migratedDarkTheme,
+
           experiments: manifest.theme_experiment ? manifest.theme_experiment : null,
         });
 
@@ -156,8 +172,8 @@ export class ThemeAPI {
     };
 
     const points = [
-      this.currentTheme.toolbarColor,
-      this.currentTheme.accentcolor
+      this.currentTheme.toolbar,
+      this.currentTheme.frame
     ];
 
     for (const point of points) {
@@ -212,6 +228,12 @@ export class ThemeAPI {
     }
 
     return freshTheme;
+  }
+
+  public resetThemeVariables() {
+    ThemeVariableMap.forEach(({ variable }) => {
+      document.documentElement.style.removeProperty(variable);
+    })
   }
 
   public async createTheme(name: string, data: object) {
