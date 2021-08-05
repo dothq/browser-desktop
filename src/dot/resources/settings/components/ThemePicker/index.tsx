@@ -20,7 +20,7 @@ export const ThemePicker = () => {
                     className={"settings-themepicker-item"}
                     data-selected={selected == theme.id}
                     onClick={() => {
-                        theme.set()
+                        dot.theme.load(theme.id);
                         setSelected(theme.id);
                     }}
                 >
