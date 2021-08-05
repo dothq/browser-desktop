@@ -21,7 +21,7 @@ export class ExtensionsAPI {
 
     public async loadManifest(id: string) {
         return new Promise(async (resolve, reject) => {
-            const addon = await AddonManager.getAddonByID("dark@themes.dothq.co");
+            const addon = await AddonManager.getAddonByID(id);
 
             const manifestPath = addon.getResourceURI("manifest.json").spec;
 
