@@ -5,12 +5,20 @@ import { ThemePickerStorePromo } from "../ThemePickerStorePromo";
 export const ThemePicker = () => {
     const [themes, setThemes] = React.useState([]);
     const [selected, setSelected] = React.useState("");
+    const [generation, setGeneration] = React.useState(0);
 
     React.useEffect(() => {
-        setSelected(dot.theme.currentThemeId as any);
+        setSelected(dot.settings.currentThemeId);
 
-        setThemes(Array.from(dot.theme.themes as any).map((x: any) => x[1]) as any);
-    }, [])
+        setThemes(
+            dot.settings.getThemes()
+        );
+    }, [generation]);
+
+    const newTheme = async () => {
+        await dot.settings.createNewTheme();
+        setGeneration(generation + 2);
+    }
 
     return (
         <div className={"settings-themepicker"}>
@@ -37,7 +45,7 @@ export const ThemePicker = () => {
                 </a>
             ))}
 
-            <a className={"settings-themepicker-item"}>
+            <a className={"settings-themepicker-item"} onClick={async () => await newTheme()}>
                 <i className={"settings-themepicker-item-image add-theme"}></i>
 
                 <label className={"settings-themepicker-item-label"}>
@@ -45,7 +53,7 @@ export const ThemePicker = () => {
                 </label>
             </a>
 
-            <ThemePickerStorePromo />
+            {themes.length <= 3 && <ThemePickerStorePromo />}
         </div>
     )
 }
