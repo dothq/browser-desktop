@@ -17,7 +17,10 @@ export class Theme {
     public type: 'extension' | 'custom';
     public name: string;
     public iconURL: string;
-    public active: boolean = false;
+
+    public get active() {
+        return dot.theme.currentThemeId == this.id;
+    }
 
     public theme: ExtensionTheme;
     public darkTheme: ExtensionTheme | null;
