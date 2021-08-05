@@ -11,17 +11,18 @@
     justify-content: center;
     cursor: default;
 
+    &.just-label { 
+        padding: 0;
+        min-width: auto;
+        width: 36px !important;
+    }
+
     &:hover {
         background-color: var(--toolbarbutton-hover-background);
     }
 
     &:active {
         background-color: var(--toolbarbutton-active-background);
-    }
-
-    &:focus {
-        outline: 3px solid var(--dot-ui-accent-colour);
-        outline-offset: 3px;
     }
 
     .dot-ui-button-icon {
@@ -35,7 +36,7 @@
     }
 
     .dot-ui-button-label {
-        font-weight: 500;
+        font-weight: 600;
         font-size: 12px;
         user-select: none;
         cursor: default;
@@ -52,5 +53,28 @@
 
     &:active {
         background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 20%);
+    }
+
+    &:focus {
+        outline: 3px solid var(--dot-ui-accent-colour);
+        outline-offset: 3px;
+    }
+}
+
+.dot-ui-button.dot-ui-button-danger {
+    background-color: var(--dot-ui-danger);
+    color: white;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--dot-ui-danger) 100%, #7a7a7a 10%);
+    }
+
+    &:active {
+        background-color: color-mix(in srgb, var(--dot-ui-danger) 100%, #7a7a7a 20%);
+    }
+
+    &:focus {
+        outline: 3px solid var(--dot-ui-danger);
+        outline-offset: 3px;
     }
 }
