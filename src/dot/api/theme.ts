@@ -256,14 +256,17 @@ export class ThemeAPI {
 
     this.load(id);
 
-    return OS.File.writeAtomic(themePath, JSON.stringify({
+    OS.File.writeAtomic(themePath, JSON.stringify({
       id,
       name,
       type: "custom",
+      creation_time: (new Date()).toISOString(),
       theme
     }, null, 2), {
       encoding: "utf-8",
     });
+
+    return id;
   }
 
   public customThemesPath = FileUtils.getDir("ProfLD", ["themes"]);
