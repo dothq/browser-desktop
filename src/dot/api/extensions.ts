@@ -1,6 +1,7 @@
 import { AddonManager, ChromeUtils } from "../modules";
 import { builtInExtensions } from "../shared/built-in";
 import { COMMENT_REGEX } from "../shared/regex";
+import { ExtensionManifest } from "../types/manifest";
 
 const { NetUtil } = ChromeUtils.import(
     "resource://gre/modules/NetUtil.jsm"
@@ -19,7 +20,7 @@ export class ExtensionsAPI {
         }
     }
 
-    public async loadManifest(id: string) {
+    public async loadManifest(id: string): Promise<ExtensionManifest> {
         return new Promise(async (resolve, reject) => {
             const addon = await AddonManager.getAddonByID(id);
 
