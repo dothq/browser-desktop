@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/dothq/browser-desktop">
-    <img src="https://raw.githubusercontent.com/dothq/browser-desktop/nightly/src/browser/branding/dot/default256.png" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/dothq/browser-desktop/nightly/src/dot/branding/default256.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Dot Browser</h3>
