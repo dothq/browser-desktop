@@ -2,6 +2,7 @@ const { resolve } = require("path");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { glob } = require("glob");
+const FluentPlugin = require("./fluent.webpack.plugin");
 
 const scss = glob.sync(resolve(__dirname, "{,!(node_modules)/**}", "*.scss"));
 
@@ -54,6 +55,17 @@ module.exports = {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
             },
+            {
+                test: /\.js/,
+                include: /@fluent[\\/](bundle|langneg|syntax|react|sequence)[\\/]/,
+                type: "javascript/auto",
+            },
+            {
+                test: /\.ftl$/,
+                use: [
+                    "fluent-loader"
+                ]
+            }
         ],
     },
     resolve: {
@@ -63,7 +75,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new FluentPlugin()
     ],
     output: {
         filename: "[name].js",

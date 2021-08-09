@@ -5,12 +5,15 @@
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
+import { L10nProvider } from "../l10n";
 import { Browser } from "./Browser";
 import { store } from "./store";
 
 render(
     <Provider store={store}>
-        <Browser />
+        <L10nProvider>
+            <Browser />
+        </L10nProvider>
     </Provider>,
     document.getElementById("browser")
 );
