@@ -67,7 +67,7 @@
         background-size: cover;
         background-image: url(chrome://dot/content/skin/icons/default-favicon.svg);
         -moz-context-properties: fill, fill-opacity;
-        fill: currentColor;
+        fill: var(--lwt-tab-text, var(--lwt-text-color));
     }
 
     .tab-label-container {
@@ -145,4 +145,19 @@
 .tabbrowser-tab[data-active="true"]:first-of-type::after,
 .tabbrowser-tab[data-next-active="true"]::after {
     opacity: 0;
+}
+
+// We only want the badge to show when the tab isn't focused
+.tabbrowser-tab:not([data-active="true"])[data-badge="true"] {
+    .tab-content .tab-icon-stack::after {
+        content: "";
+        display: flex;
+        width: 7px;
+        height: 7px;
+        background-color: var(--dot-ui-accent-colour);
+        border-radius: 12px;
+        right: -2px;
+        position: absolute;
+        top: -2px;
+    }
 }

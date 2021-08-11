@@ -38,7 +38,7 @@ a.toolbar-button.toolbar-button-disabled {
 a.toolbar-button.toolbar-button-has-image .toolbarbutton-icon {
     background-size: 14px;
     -moz-context-properties: fill, fill-opacity;
-    fill: currentColor;
+    fill: var(--toolbarbutton-icon-fill);
     padding: 6px;
     background-repeat: no-repeat;
     background-position: center;

@@ -14,7 +14,7 @@
 .searchbar-button .searchbar-button-icon {
     width: 14px;
     height: 14px;
-    fill: currentColor;
+    fill: var(--toolbarbutton-icon-fill);
     background-size: cover;
     transition: 0.3s fill;
 }
