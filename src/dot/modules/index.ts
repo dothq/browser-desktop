@@ -15,7 +15,7 @@ export const ChromeUtils = {
 };
 
 const include = (moduleUri: string) => {
-    const moduleName = moduleUri.split("/")[moduleUri.split("/").length-1].split(".")[0];
+    const moduleName = moduleUri.split("/")[moduleUri.split("/").length - 1].split(".")[0];
 
     const mod = ChromeUtils.import(moduleUri);
     const data = mod[moduleName];
@@ -48,3 +48,7 @@ export const { LightweightThemeConsumer } = include(
 export const { E10SUtils } = include("resource://gre/modules/E10SUtils.jsm");
 export const { ActorManagerParent } = include("resource://gre/modules/ActorManagerParent.jsm");
 export const { AddonManager } = include("resource://gre/modules/AddonManager.jsm");
+
+export const { BrowserWindowTracker } = include(
+    "resource:///modules/BrowserWindowTracker.jsm"
+);
