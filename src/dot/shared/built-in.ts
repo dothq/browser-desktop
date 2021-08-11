@@ -10,12 +10,6 @@ export const builtInExtensions = [
         version: 1.2,
         mount: "resource://builtin-themes/dark/",
         type: "theme"
-    },
-    {
-        id: "fusion@themes.dothq.co",
-        version: 1.0,
-        mount: "resource://builtin-themes/fusion/",
-        type: "theme"
     }
 ]
 
