@@ -7,7 +7,8 @@ menu {
     flex-direction: column;
     background-color: var(--toolbar-bgcolor);
     border-radius: 8px;
-    padding: 6px 0;
+    padding: 6px;
+    align-items: center;
     gap: 1px;
     transition: 0.15s opacity;
     box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132), 

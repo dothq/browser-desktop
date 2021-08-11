@@ -2,7 +2,9 @@
     min-height: 36px;
     display: flex;
     align-items: center;
-    padding: 0px 18px;
+    padding: 0px 12px;
+    border-radius: 6px;
+    width: calc(100% - 12px * 2);
 
     .contextmenu-item-icon {
         width: 14px;
@@ -44,10 +46,12 @@
 
 .contextmenu-separator {
     display: flex;
-    width: 100%;
+    width: calc(100% - (12px / 2) * 2);
     height: 1px;
     border: none;
     outline: none;
     background-color: var(--arrowpanel-border-color);
     margin: 0.5rem 0;
+    align-items: center;
+    justify-content: center;
 }
