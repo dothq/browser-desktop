@@ -136,4 +136,59 @@ export class WindowAPI extends EventEmitter {
 
         document.getElementById("browser")?.toggleAttribute(key, initialValue);
     }
+
+    public onAppCommand(event: any) {
+        switch (event.command) {
+            case "Back":
+                dot.utilities.doCommand("Browser:GoBack");
+                break;
+            case "Forward":
+                dot.utilities.doCommand("Browser:GoForward");
+                break;
+            case "Reload":
+                dot.utilities.doCommand("Browser:Reload");
+                break;
+            case "Stop":
+                dot.utilities.doCommand("Browser:Stop");
+                break;
+            case "Search":
+                // todo
+                break;
+            case "Bookmarks":
+                // todo
+                break;
+            case "Home":
+                dot.utilities.doCommand("Browser:Home");
+                break;
+            case "New":
+                dot.utilities.doCommand("Browser:NewTab");
+                break;
+            case "Close":
+                // todo
+                break;
+            case "Find":
+                // todo
+                break;
+            case "Help":
+                // todo
+                break;
+            case "Open":
+                // todo
+                break;
+            case "Print":
+                // todo
+                break;
+            case "Save":
+                // todo
+                break;
+            case "SendMail":
+                // todo
+                break;
+            default:
+                return;
+        }
+
+        event.stopPropagation();
+        event.preventDefault();
+    }
 }
