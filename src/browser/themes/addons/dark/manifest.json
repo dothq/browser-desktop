@@ -15,11 +15,11 @@
   "theme": {
     "colors": {
       "tab_background_text": "rgb(255, 255, 255)",
-      "icons": "rgb(255, 255, 255, 0.7)",
+      "icons": "rgb(255, 255, 255, 0.95)",
       "frame": "rgb(38, 38, 38)",
       "popup": "rgb(36, 36, 36)",
       "popup_text": "rgb(249, 249, 250)",
-      "popup_border": "rgb(39, 39, 43)",
+      "popup_border": "rgb(48, 48, 53)",
       "tab_line": "rgb(0, 0, 0, 0)",
       "toolbar": "rgb(26, 26, 26)",
       "toolbar_bottom_separator": "rgb(41, 41, 41)",
