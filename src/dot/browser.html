@@ -5,7 +5,7 @@
 -->
 <!DOCTYPE html>
 
-<html id="browser-window" chromemargin="0,2,2,2">
+<html id="browser-window" chromemargin="0,2,2,2" windowtype="navigator:browser">
 
 <head>
   <title data-l10n-id="browser-main-window-title"></title>
@@ -20,7 +20,9 @@
     <div id="settings"></div>
   </div>
 
-  <popupset id="mainPopupSet"></popupset>
+  <popupset id="mainPopupSet">
+    <div id="window-modal-mount"></div>
+  </popupset>
 
   <script src="build/browser.js"></script>
 </body>
