@@ -63,8 +63,6 @@ export class ThemeAPI {
       id = dot.prefs.get("dot.ui.theme", Services.builtInThemes.DEFAULT_THEME_ID) as string;
     }
 
-    console.debug(`ThemesAPI: Changing theme to theme with ID ${id}`)
-
     const theme = this.themes.get(id);
 
     if (theme) {
@@ -84,6 +82,9 @@ export class ThemeAPI {
   }
 
   public async loadThemes() {
+    // the themes directory won't exist on first startup
+    await OS.File.makeDir(this.customThemesPath.path, { ignoreExisting: true });
+
     return new Promise(async resolve => {
       const addons = await AddonManager.getAddonsByTypes(["theme"]);
 
@@ -112,8 +113,6 @@ export class ThemeAPI {
           if (!this.themes.has(addon.id)) {
             this.themes.set(addon.id, theme);
           }
-
-          console.debug(`ThemesAPI: Loaded WebExtension theme with ID ${addon.id}`);
         }
       }
 
@@ -135,8 +134,6 @@ export class ThemeAPI {
           if (!this.themes.has(json.id)) {
             this.themes.set(json.id, theme);
           }
-
-          console.debug(`ThemesAPI: Loaded custom theme with ID ${json.id}`);
         }
       }
 
