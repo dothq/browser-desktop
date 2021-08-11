@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { ActorManagerParent, ChromeUtils, Ci } from "../modules";
+import { ActorManagerParent, BrowserWindowTracker, ChromeUtils, Ci } from "../modules";
 import { windowActors } from "../modules/glue";
 import { WELCOME_SCREEN_URL } from "../shared/tab";
 
@@ -41,6 +41,8 @@ export class RuntimeAPI extends EventEmitter {
                 url: WELCOME_SCREEN_URL
             }
         });
+
+        BrowserWindowTracker.track(window);
 
         dot.tabs.maybeHideTabs(true);
 
