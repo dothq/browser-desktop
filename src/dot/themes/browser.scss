@@ -47,6 +47,31 @@ body,
   transition: 0.3s border-top;
 }
 
+.browserSidebarContainer,
+.browserContainer {
+  display: flex;
+  width: 100%;
+}
+
+.browserContainer .browserStack {
+  flex: 1000;
+}
+
+.browserStack browser {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.devtools-toolbox-side-iframe[src="about:devtools-toolbox"] {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  visibility: visible !important;
+  pointer-events: all !important;
+  z-index: 0 !important;
+}
+
 #internal-browser-tabs-stack {
   display: none;
 }
@@ -60,7 +85,7 @@ body,
   display: flex;
 }
 
-#browser-tabs-stack browser {
+#browser-tabs-stack .browserSidebarContainer {
   align-self: auto;
   min-width: auto;
   min-height: auto;
@@ -72,13 +97,13 @@ body,
   z-index: -14865840597856;
 }
 
-#browser-tabs-stack browser[selected] {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    visibility: visible;
-    pointer-events: all;
-    z-index: unset;
+#browser-tabs-stack .browserSidebarContainer[selected] {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  visibility: visible;
+  pointer-events: all;
+  z-index: unset;
 }
 
 #mainPopupSet {
@@ -87,4 +112,12 @@ body,
 
 label {
   cursor: inherit;
+}
+
+hr:not(.contextmenu-separator) {
+  width: 1px;
+  border: none;
+  color: transparent;
+  margin: 0;
+  background-color: var(--chrome-content-separator-color) !important;
 }

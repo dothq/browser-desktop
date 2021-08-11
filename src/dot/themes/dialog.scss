@@ -1,0 +1,91 @@
+.ui-modal-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    &[data-type="window"] {
+        -moz-window-dragging: drag;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        background-color: #00000080;
+        z-index: -1;
+    }
+
+    .ui-modal-dialog-container {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--toolbar-bgcolor);
+        padding: 22px;
+        border-radius: 18px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+        margin: 2.5rem 0;
+        user-select: none;
+        min-width: 370px;
+        min-height: 150px;
+        max-width: 500px;
+        width: max-content;
+        height: max-content;
+    }
+}
+
+.ui-modal-dialog-container {
+    transform-origin: center;
+    transition: transform 0.2s ease-in-out 0s;
+
+    @keyframes modal-open {
+        0% {
+            transform: rotateX(90deg);
+            opacity: 0;
+        }
+        25% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    .modal-title-text {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        width: inherit;
+        -moz-window-dragging: no-drag;
+    }
+
+    .modal-body-text {
+        margin: 8px 0;
+        font-size: 13px;
+        font-weight: 400;
+        white-space: break-spaces;
+        opacity: 0.8;
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: var(--toolbar-bgcolor);
+        user-select: text;
+        -moz-window-dragging: no-drag;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex: 1;
+        -moz-window-dragging: no-drag;
+    }
+}
