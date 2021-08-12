@@ -1,7 +1,6 @@
 export * from './browsers';
 export * from './console';
 export * from './dev';
-export * from './events';
 export * from './extensions';
 export * from './menus';
 export * from './preferences';
@@ -31,12 +30,10 @@ import {
     WindowAPI
 } from ".";
 import { exportPublic } from "../shared/globals";
-import { EventsAPI } from './events';
 
 class Dot {
     public browsersPrivate = new BrowsersAPI();
 
-    public events = new EventsAPI();
     public titlebar = new TitlebarAPI();
     public tabs = new TabsAPI();
     public prefs = new PreferencesAPI();
