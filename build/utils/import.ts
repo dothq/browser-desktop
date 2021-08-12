@@ -1,6 +1,8 @@
 import {
     appendFileSync,
     ensureSymlink,
+    existsSync,
+    lstatSync,
     readFileSync,
     readlinkSync
 } from "fs-extra";
@@ -18,6 +20,12 @@ export const copyManual = (
 ) => {
     try {
         if (
+            existsSync(
+                resolve(ENGINE_DIR, ...getChunked(name))
+            ) &&
+            lstatSync(
+                resolve(ENGINE_DIR, ...getChunked(name))
+            ).isDirectory() &&
             !readlinkSync(
                 resolve(ENGINE_DIR, ...getChunked(name))
             )
@@ -51,6 +59,7 @@ export const copyManual = (
 
         return;
     } catch (e) {
+        console.error(e);
         return e;
     }
 };
