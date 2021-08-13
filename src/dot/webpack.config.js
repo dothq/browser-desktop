@@ -61,10 +61,10 @@ module.exports = {
                 type: "javascript/auto",
             },
             {
-                test: /\.ftl$/,
-                use: [
-                    "fluent-loader"
-                ]
+                test: /\.ftl/,
+                exclude: /node_modules/,
+                use: "fluent-loader"
+
             }
         ],
     },

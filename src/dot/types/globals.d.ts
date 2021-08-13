@@ -1,3 +1,5 @@
+declare module '*.ftl'
+
 interface Document {
     createXULElement: (element: string) => HTMLElement;
 }

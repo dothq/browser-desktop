@@ -1,3 +1,5 @@
+declare module '*.ftl'
+
 import enGB from "./en-GB.ftl";
 import enUS from "./en-US.ftl";
 
