@@ -1,3 +1,4 @@
+import { dot } from ".";
 import { InternalBrowser } from "../models/InternalBrowser";
 import { Ci, E10SUtils, Services } from "../modules";
 import { MozURI } from "../types/uri";
@@ -91,6 +92,15 @@ export class BrowsersAPI {
     }
 
     private createPublic(attributes: { [key: string]: any }, url?: MozURI) {
+        const browserSidebarContainer = document.createElement("div");
+        browserSidebarContainer.classList.add("browserSidebarContainer");
+
+        const browserContainer = document.createElement("div");
+        browserContainer.classList.add("browserContainer");
+
+        const browserStack = document.createElement("div");
+        browserStack.classList.add("browserStack");
+
         const browser: any = document.createXULElement("browser");
 
         attributes = { ...this.DEFAULT_ATTRIBUTES, ...attributes };
@@ -103,7 +113,10 @@ export class BrowsersAPI {
 
         // IMPORTANT! This should happen before we call anything on the browser.
         // this.get(id) depends on the browser being available in tabStack.
-        this.tabStack?.appendChild(browser);
+        browserStack.appendChild(browser);
+        browserContainer.appendChild(browserStack);
+        browserSidebarContainer.appendChild(browserContainer);
+        this.tabStack?.appendChild(browserSidebarContainer);
 
         const { browserId: id } = browser;
 
@@ -159,8 +172,9 @@ export class BrowsersAPI {
         if (this.previousId !== -1) {
             try {
                 const previousBrowser: any = this.get(this.previousId);
+                const previousContainer = dot.tabs.getPanel(previousBrowser);
 
-                previousBrowser.removeAttribute("selected");
+                previousContainer.removeAttribute("selected");
             } catch (e) {
 
             }
@@ -170,7 +184,9 @@ export class BrowsersAPI {
         this.previousId = this.selectedId;
 
         if (newBrowser) {
-            newBrowser.setAttribute("selected", "");
+            const browserContainer = dot.tabs.getPanel(newBrowser);
+
+            browserContainer.setAttribute("selected", "");
         }
 
         this.tabStack?.setAttribute("selectedId", id.toString());
