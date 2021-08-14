@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { Localized } from "@fluent/react"
 import React from "react"
 import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
 import { Tab } from "../../models/Tab"
+import { MenuPopper } from "../MenuPopper"
 import { NewTabButton } from "../NewTabButton"
 import { Searchbar } from "../Searchbar"
 import { Spring } from "../Spring"
@@ -44,10 +44,6 @@ export const Chrome = () => {
                         command={"Browser:Reload"}
                     />
 
-                    <Localized id={"test"}>
-                        <h1>testing without fluent</h1>
-                    </Localized>
-
                     <NewTabButton variant={"navigation-bar"} />
 
                     <Spring />
@@ -64,9 +60,11 @@ export const Chrome = () => {
                         command={"Browser:OpenPreferences"}
                     />
 
-                    <ToolbarButton
-                        image={"chrome://dot/content/skin/icons/more.svg"}
-                    />
+                    <MenuPopper menu={"AppMenu"}>
+                        <ToolbarButton
+                            image={"chrome://dot/content/skin/icons/more.svg"}
+                        />
+                    </MenuPopper>
                 </div>
                 <WindowControls />
             </nav>
