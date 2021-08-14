@@ -1,9 +1,14 @@
+import EventEmitter from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import { WELCOME_SCREEN_URL_PARSED } from "../shared/tab";
 import { formatToParts } from "../shared/url";
 import { MozURI } from "../types/uri";
+
+const { DevToolsShim } = ChromeUtils.import(
+    "chrome://devtools-startup/content/DevToolsShim.jsm"
+);
 
 export interface ITab {
     url: string,
@@ -12,7 +17,7 @@ export interface ITab {
     id?: string
 }
 
-export class Tab {
+export class Tab extends EventEmitter {
     public id: number;
 
     public background: boolean;
@@ -88,6 +93,13 @@ export class Tab {
         })
     }
 
+    public toggleDevTools(target: any) {
+        return DevToolsShim.inspectNode(
+            this,
+            target
+        );
+    }
+
     public pageState:
         'search' |
         'info' |
@@ -126,12 +138,21 @@ export class Tab {
 
     public webContents: any;
 
+    // this is here for compatibility with devtools
+    public get linkedBrowser() {
+        return this.webContents;
+    }
+
+    public tagName = "tab"
+
     constructor({
         url,
         background,
         internal,
         id
     }: ITab) {
+        super();
+
         const browser = dot.browsersPrivate.create({
             background: !!background,
             internal,
@@ -143,6 +164,8 @@ export class Tab {
             ? browser.id
             : this.webContents.browserId;
         this.background = !!background;
+
+        if (internal) return this;
 
         this.createProgressListener();
 
@@ -185,6 +208,8 @@ export class Tab {
     }
 
     public destroy() {
+        this.emit("TabClose");
+
         this.webContents.destroy();
         this.webContents.remove();
     }
@@ -224,7 +249,7 @@ export class Tab {
     }
 
     public onStateChange(id: number, webProgress: any, request: any, flags: number, status: any) {
-        if (!request) return;
+        if (!request) return console.log("request is null, ignoring state change");
 
         dot.tabs.get(id)?.updateNavigationState();
 
@@ -336,6 +361,8 @@ export class Tab {
     }
 
     public onBrowserRemoteChange(event: any) {
+        this.emit("TabRemotenessChange");
+
         let { browserId } = event.originalTarget;
         let tab: any = dot.tabs.get(browserId);
         if (!tab) {
@@ -374,5 +401,17 @@ export class Tab {
         ) return;
 
         tab.title = tab.webContents.contentTitle;
+    }
+
+    public addEventListener(event: string | symbol, listener: (...args: any[]) => void) {
+        this.addListener(event, listener);
+    }
+
+    public get ownerGlobal() {
+        return this.webContents.ownerGlobal;
+    }
+
+    public get ownerDocument() {
+        return this.webContents.ownerDocument;
     }
 }
