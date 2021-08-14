@@ -8,3 +8,4 @@ browser.jar:
     content/dot/build (dist/**/**)
     content/dot/skin (themes/**/**)
     content/dot/actors (actors/**/**)
+    content/dot/l10n (l10n/**/**)
