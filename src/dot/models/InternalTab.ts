@@ -24,6 +24,8 @@ export class InternalTab extends Tab {
             id
         });
 
+        this.state = "idle";
+
         this.init(id);
     }
 
