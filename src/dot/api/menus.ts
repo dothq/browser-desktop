@@ -1,5 +1,10 @@
+import React from "react";
+import ReactDOM from "react-dom";
 import { dot } from ".";
-import { MenuItem } from "../menus";
+import { MenuContext, TemplatedMenu } from "../menus";
+import { MenuItem } from "../menus/components";
+import { componentsRegistry } from "../menus/components/registry";
+import { templatesRegistry } from "../menus/templates/registry";
 
 interface MenuRect {
     x: number
@@ -7,105 +12,141 @@ interface MenuRect {
 }
 
 export class MenusAPI {
-    public visibleMenu: string | undefined;
+    public visibleMenu: HTMLDivElement | undefined;
+    public visibleMenuId: string | undefined;
 
-    public open(id: string, bounds: MenuRect) {
-        const menu = this.get(id);
+    public templates = templatesRegistry;
+    public components = componentsRegistry;
 
-        menu.style.setProperty(
-            "--menu-x",
-            bounds.x.toString() + "px"
-        );
+    public create(template: string | Partial<MenuItem>[], bounds: MenuRect, context: MenuContext) {
+        const type = typeof (template);
 
-        menu.style.setProperty(
-            "--menu-y",
-            bounds.y.toString() + "px"
-        );
+        if (type == "string") {
+            if (!(this.templates as any)[template as string]) {
+                return console.error(`Menu with id "${template}" not found.`);
+            }
 
-        menu.setAttribute("open", "true");
+            const temp: TemplatedMenu = new (this.templates as any)[template as string];
+            const userLayout = dot.prefs.get(temp.layoutPref);
 
-        this.visibleMenu = id;
+            const layout: MenuItem[] = userLayout
+                ? userLayout
+                : temp.defaultLayout;
+
+            const children: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
+
+            layout.forEach((item: any) => {
+                const isClass = !!(item as any).prototype;
+
+                if (isClass) item = new item({ ...context });
+
+                const untypedItem = (item as any);
+
+                if (item.type == "separator") {
+                    return children.push(React.createElement(
+                        "hr",
+                        { className: "contextmenu-separator" }
+                    ));
+                }
+
+                const props: any = {
+                    id: item.id,
+                    className: "contextmenu-item",
+                    onClick: (...args: any[]) => {
+                        if (item.onClick) item.onClick(...args);
+
+                        dot.menus.clear(true);
+                    }
+                }
+
+                if (untypedItem.disabled !== null) {
+                    props["data-disabled"] = untypedItem.disabled
+                }
+
+                if (untypedItem.visible !== null) {
+                    props["data-visible"] = untypedItem.visible
+                }
+
+                const itemIcon = React.createElement("i", {
+                    className: "contextmenu-item-icon",
+                    style: { backgroundImage: `url(${(item.iconPrefix || "")}${item.icon})` }
+                });
+
+                const itemLabel = React.createElement("label", {
+                    className: "contextmenu-item-label"
+                }, item.label);
+
+                const itemKeybind = React.createElement("label", {
+                    className: "contextmenu-item-keybind",
+                    style: {
+                        display: !item.hotkey ? "none" : ""
+                    }
+                }, item.hotkey?.toString());
+
+                const itemContainer = React.createElement(
+                    "div",
+                    props,
+                    itemIcon,
+                    itemLabel,
+                    itemKeybind
+                );
+
+                children.push(itemContainer);
+            });
+
+            const menuContainer = React.createElement(
+                "menu",
+                {
+                    id: temp.id
+                },
+                ...children
+            );
+
+            const menuMount = document.createElement("div");
+
+            document.getElementById("mainPopupSet")?.appendChild(menuMount);
+
+            ReactDOM.render(
+                menuContainer,
+                menuMount
+            );
+
+            const {
+                width: winWidth,
+                height: winHeight
+            } = document.documentElement.getBoundingClientRect();
+
+            const {
+                scrollWidth: menuWidth,
+                scrollHeight: menuHeight
+            } = (document.getElementById(temp.id) as any);
+
+            document.getElementById(temp.id)?.style.setProperty(
+                "--menu-x", `${bounds.x >= (winWidth - menuWidth)
+                    ? bounds.x - menuWidth
+                    : bounds.x}px`
+            );
+
+            document.getElementById(temp.id)?.style.setProperty(
+                "--menu-y", `${bounds.y >= (winHeight - menuHeight)
+                    ? bounds.y - menuHeight
+                    : bounds.y}px`
+            );
+
+            document.getElementById(temp.id)?.setAttribute("open", "true");
+
+            this.visibleMenu = menuMount;
+            this.visibleMenuId = temp.id;
+
+            return temp;
+        }
     }
 
     public clear(force?: boolean) {
         if (!this.visibleMenu || !dot.utilities.canPopupAutohide && !force) return;
 
-        const menu = document.getElementById(this.visibleMenu);
-
-        if (menu) {
-            menu.style.setProperty(
-                "--menu-x",
-                "0px"
-            );
-
-            menu.style.setProperty(
-                "--menu-y",
-                "0px"
-            );
-
-            menu.removeAttribute("open");
-
-            this.visibleMenu = undefined;
-        }
-    }
-
-    public get(id: string) {
-        const menu = document.getElementById(id);
-
-        if (menu) {
-            return menu;
-        } else {
-            throw new Error(`Menu with id "${id}" could not be found.`);
-        }
-    }
-
-    public update(menuId: string, itemId: string, data: Partial<MenuItem>) {
-        const menu = this.get(menuId);
-        const item = menu.querySelector(`#${itemId}`);
-
-        if (item) {
-            const {
-                disabled,
-                visible,
-                label,
-                icon,
-                iconColour,
-                hotkey
-            } = data;
-
-            if (typeof (disabled) !== "undefined") {
-                item.setAttribute("data-disabled", disabled.toString())
-            }
-
-            if (typeof (visible) !== "undefined") {
-                item.setAttribute("data-visible", visible.toString())
-            }
-
-            if (typeof (label) !== "undefined") {
-                item.getElementsByClassName("contextmenu-item-label")[0]
-                    .textContent = label;
-            }
-
-            if (typeof (icon) !== "undefined") {
-                (item.getElementsByClassName(
-                    "contextmenu-item-icon"
-                )[0] as any)
-                    .style.backgroundImage = `url(${icon})`;
-            }
-
-            if (typeof (iconColour) !== "undefined") {
-                (item.getElementsByClassName(
-                    "contextmenu-item-icon"
-                )[0] as any)
-                    .style.fill = iconColour;
-            }
-
-            if (typeof (hotkey) !== "undefined") {
-                item.getElementsByClassName("contextmenu-item-keybind")[0]
-                    .textContent = hotkey.join("+");
-            }
-        } else {
-            throw new Error(`Menu item with id "${itemId}" could not be found.`);
-        }
+        ReactDOM.unmountComponentAtNode(this.visibleMenu);
+        this.visibleMenu.outerHTML = "";
+        this.visibleMenu = undefined;
     }
 }
