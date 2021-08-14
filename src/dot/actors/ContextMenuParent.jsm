@@ -18,46 +18,14 @@ class ContextMenuParent extends JSWindowActorParent {
             return dot.menus.clear();
         }
 
-        const { clientX, clientY } = message.data.context;
+        const { clientX: x, clientY: y } = message.data.context;
 
         const chromeHeight = win.document.body.getBoundingClientRect().height -
             dot.browsersPrivate.tabStack.getBoundingClientRect().height
 
-        const tabs = win.store.getState().tabs;
+        message.data.context.tabId = message.target.browsingContext.browserId;
 
-        const {
-            canGoBack,
-            canGoForward,
-            bookmarked
-        } = tabs.getTabById(tabs.selectedId);
-
-        dot.menus.update("context-navigation", "context-back", {
-            disabled: !canGoBack
-        });
-
-        dot.menus.update("context-navigation", "context-forward", {
-            disabled: !canGoForward
-        });
-
-        dot.menus.update("context-navigation", "context-bookmarkpage", {
-            label: bookmarked
-                ? "Edit Bookmark…"
-                : "Bookmark",
-            icon: `chrome://dot/content/skin/icons/` + (bookmarked
-                ? "bookmark-filled.svg"
-                : "actions/new-bookmark.svg"),
-            iconColour: bookmarked ? `var(--dot-ui-accent-colour)` : ``
-        });
-
-        dot.menus.open(
-            "context-navigation",
-            {
-                x: clientX,
-                y: clientY + chromeHeight
-            }
-        );
-
-        console.log(message);
+        dot.menus.create("PageMenu", { x, y: y + chromeHeight }, message.data.context);
     }
 
     hiding() {
