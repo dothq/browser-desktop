@@ -3,18 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
-import { Portal } from 'react-portal';
 import { Chrome } from "../components/Chrome";
-import { PageMenu } from "../menus/page";
+import { useBrowserSelector } from "./store/hooks";
 
 export const Browser = () => {
-    return (
-        <>
-            <Chrome />
+    const ui = useBrowserSelector((s: any) => s.ui)
 
-            <Portal node={document && document.getElementById("mainPopupSet")}>
-                <PageMenu />
-            </Portal>
-        </>
-    );
+    return <Chrome />;
 };
