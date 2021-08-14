@@ -12,6 +12,10 @@ export class TabsAPI {
         return tabs.selectedId;
     }
 
+    public get tabContainer() {
+        return document.getElementById("tabbrowser-tabs");
+    }
+
     public tabFilters = new Map();
     public tabListeners = new Map();
 
@@ -66,6 +70,37 @@ export class TabsAPI {
         } else {
             // still not ready
             return;
+        }
+    }
+
+    public getBrowserContainer(browserEl: any) {
+        /*
+            .browserContainer - up another (second parentElement)
+                .browserStack - up one (first parentElement)
+                    <browser> - we are here
+        */
+        const supposedContainer = browserEl.parentElement.parentElement;
+
+        if (supposedContainer.classList.contains("browserContainer")) {
+            return supposedContainer;
+        } else {
+            return null;
+        }
+    }
+
+    public getPanel(browserEl: any) {
+        const supposedContainer = this.getBrowserContainer(browserEl);
+
+        if (supposedContainer) {
+            const panel = supposedContainer.parentElement;
+
+            if (panel.classList.contains("browserSidebarContainer")) {
+                return panel;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
     }
 }
