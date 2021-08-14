@@ -16,6 +16,7 @@
     "@fluent/react": "^0.13.1",
     "@reduxjs/toolkit": "^1.6.1",
     "document.contains": "^1.0.2",
+    "fluent-loader": "^1.0.1",
     "query-selector-shadow-dom": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
