@@ -9,6 +9,14 @@ export class ViewPageSource extends MenuItem {
         return dot.tabs.get(this.tabId);
     }
 
+    public onClick() {
+        const url = this.tab?.url;
+
+        dot.tabs.create({
+            url: `view-source:${url}`
+        })
+    }
+
     constructor({ tabId }: { tabId: number }) {
         super({
             id: "context-viewsource",

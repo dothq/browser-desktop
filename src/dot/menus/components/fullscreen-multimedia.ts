@@ -1,7 +1,7 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
 
-export class Speed extends MenuItem {
+export class Fullscreen extends MenuItem {
     public tabId: number;
     public fullscreen: boolean;
 

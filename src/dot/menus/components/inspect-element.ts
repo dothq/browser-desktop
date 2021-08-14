@@ -16,6 +16,7 @@ export class InspectElement extends MenuItem {
             category: "development",
 
             label: "Inspect",
+            icon: "inspect.svg",
             description: "Open the DevTools for the current page.",
 
             hotkey: new Hotkey("Ctrl", "Shift", "I")

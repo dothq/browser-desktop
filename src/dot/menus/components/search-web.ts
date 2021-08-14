@@ -1,6 +1,6 @@
 import { MenuItem } from ".";
+import { trunc } from "..";
 import { dot } from "../../api";
-import { trunc } from "../common";
 
 export class SearchWebFor extends MenuItem {
     public tabId: number;

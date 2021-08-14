@@ -1,4 +1,3 @@
-import React from "react";
 import { dot } from "../../api";
 import { Hotkey } from "../hotkey";
 
@@ -31,34 +30,6 @@ export class MenuItem {
 
     public description?: string;
     public category?: string;
-
-    public render() {
-        const icon = React.createElement("i", {
-            className: "contextmenu-item-icon",
-            style: {
-                backgroundImage: `url(${this.iconPrefix || ""}${this.icon})`
-            }
-        });
-
-        const label = React.createElement("label", {
-            className: "contextmenu-item-label"
-        }, this.label);
-
-        let children = [icon, label];
-
-        if (this.hotkey) {
-            children = children.concat(
-                React.createElement("label", {
-                    className: "contextmenu-item-keybind"
-                }, this.hotkey?.toString())
-            );
-        }
-
-        const container = React.createElement("div", {
-            id: this.id,
-            className: "contextmenu-item"
-        }, children);
-    }
 
     constructor(args: Partial<MenuItem>) {
         for (const [key, value] of Object.entries(args)) {

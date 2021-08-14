@@ -10,7 +10,7 @@ export class GoForward extends MenuItem {
     }
 
     public get disabled() {
-        return this.tab?.webContents.canGoForward || true;
+        return !this.tab?.canGoForward;
     }
 
     public onClick() {

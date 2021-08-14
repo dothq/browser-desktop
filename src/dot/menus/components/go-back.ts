@@ -10,7 +10,7 @@ export class GoBack extends MenuItem {
     }
 
     public get disabled() {
-        return this.tab?.webContents.canGoBack || true;
+        return !this.tab?.canGoBack;
     }
 
     public onClick() {
