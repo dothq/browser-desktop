@@ -1,0 +1,52 @@
+diff --git a/browser/actors/ContextMenuChild.jsm b/browser/actors/ContextMenuChild.jsm
+index a286eafe0f6d9543049e055f6cec83fbb634e6c3..371cc414f4fb83752dac3d4a52eef17164114e80 100644
+--- a/browser/actors/ContextMenuChild.jsm
++++ b/browser/actors/ContextMenuChild.jsm
+@@ -50,8 +50,8 @@ class ContextMenuChild extends JSWindowActorChild {
+     if (!actor) {
+       throw new Error(
+         "Can't find ContextMenu actor for browsing context with " +
+-          "ID: " +
+-          browsingContext.id
++        "ID: " +
++        browsingContext.id
+       );
+     }
+     return actor.getTarget(message, key);
+@@ -572,15 +572,15 @@ class ContextMenuChild extends JSWindowActorChild {
+ 
+         try {
+           contentType = props.get("type", Ci.nsISupportsCString).data;
+-        } catch (e) {}
++        } catch (e) { }
+ 
+         try {
+           contentDisposition = props.get(
+             "content-disposition",
+             Ci.nsISupportsCString
+           ).data;
+-        } catch (e) {}
+-      } catch (e) {}
++        } catch (e) { }
++      } catch (e) { }
+     }
+ 
+     let selectionInfo = SelectionUtils.getSelectionDetails(this.contentWindow);
+@@ -764,6 +764,8 @@ class ContextMenuChild extends JSWindowActorChild {
+     context.timeStamp = aEvent.timeStamp;
+     context.screenX = aEvent.screenX;
+     context.screenY = aEvent.screenY;
++    context.clientX = aEvent.clientX;
++    context.clientY = aEvent.clientY;
+     context.mozInputSource = aEvent.mozInputSource;
+ 
+     let node = aEvent.composedTarget;
+@@ -1133,7 +1135,7 @@ class ContextMenuChild extends JSWindowActorChild {
+               context.principal.checkMayLoad(context.linkURI, true);
+               context.linkDownload = elem.download;
+             }
+-          } catch (ex) {}
++          } catch (ex) { }
+         }
+ 
+         // Background image?  Don't bother if we've already found a
