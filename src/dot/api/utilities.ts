@@ -1,12 +1,20 @@
 import { useID } from "@dothq/id";
 import { EventEmitter } from "events";
-import { AppConstants, Cc, Ci, Services } from "../modules";
+import { AppConstants, Cc, ChromeUtils, Ci, Services } from "../modules";
 import { commands } from "../shared/commands";
+
+const { NetUtil } = ChromeUtils.import(
+    "resource://gre/modules/NetUtil.jsm"
+);
 
 export class UtilitiesAPI extends EventEmitter {
     private _pageStatusEl = document.getElementById("page-status");
 
     public canPopupAutohide: boolean = true;
+
+    public availableLanguages: string[] = [];
+
+    public ftl: { [key: string]: any } = {};
 
     public get pageStatus() {
         if (!this._pageStatusEl) return "";
@@ -29,13 +37,39 @@ export class UtilitiesAPI extends EventEmitter {
     }
 
     public get browserLanguage() {
-        return Services.locale.requestedLocale
+        return this.browserLanguages[0]
+    }
+
+    public get browserLanguages() {
+        return Services.locale.webExposedLocales
     }
 
     public get linuxDesktopEnvironment() {
         if (this.platform !== "linux") return "";
 
         return this.getEnv("XDG_CURRENT_DESKTOP");
+    }
+
+    public fetchLocale(locale: string) {
+        return new Promise((resolve, reject) => {
+            NetUtil.asyncFetch({
+                uri: `chrome://dot/content/build/${locale}.ftl`,
+                loadUsingSystemPrincipal: true
+            }, (inputStream: any, status: any) => {
+                try {
+                    const data: string = NetUtil.readInputStreamToString(
+                        inputStream,
+                        inputStream.available(),
+                        { charset: "utf-8" }
+                    );
+
+                    resolve(data);
+                } catch (e) {
+                    console.error(e);
+                    reject(null);
+                }
+            });
+        })
     }
 
     public doCommand(command: string) {
