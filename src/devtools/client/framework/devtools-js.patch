@@ -1,0 +1,51 @@
+diff --git a/devtools/client/framework/devtools.js b/devtools/client/framework/devtools.js
+index 0bc730a99e4560e748c36088c638dd25a9c7bf98..51f919bcab37fefe148d06f9e44ee4f709a6f742 100644
+--- a/devtools/client/framework/devtools.js
++++ b/devtools/client/framework/devtools.js
+@@ -175,8 +175,8 @@ DevTools.prototype = {
+       const { Deprecated } = require("resource://gre/modules/Deprecated.jsm");
+       Deprecated.warning(
+         "Deprecation WARNING: gDevTools.unregisterTool(tool) is " +
+-          "deprecated. You should unregister a tool using its toolId: " +
+-          "gDevTools.unregisterTool(toolId)."
++        "deprecated. You should unregister a tool using its toolId: " +
++        "gDevTools.unregisterTool(toolId)."
+       );
+       toolId = tool.id;
+     }
+@@ -428,7 +428,7 @@ DevTools.prototype = {
+    * @param {Object} state
+    *                 A SessionStore state object that gets modified by reference
+    */
+-  saveDevToolsSession: function(state) {
++  saveDevToolsSession: function (state) {
+     state.browserConsole = BrowserConsoleManager.getBrowserConsoleSessionState();
+     state.browserToolbox = BrowserToolboxLauncher.getBrowserToolboxSessionState();
+   },
+@@ -436,7 +436,7 @@ DevTools.prototype = {
+   /**
+    * Restore the devtools session state as provided by SessionStore.
+    */
+-  restoreDevToolsSession: async function({ browserConsole, browserToolbox }) {
++  restoreDevToolsSession: async function ({ browserConsole, browserToolbox }) {
+     if (browserToolbox) {
+       BrowserToolboxLauncher.init();
+     }
+@@ -717,7 +717,7 @@ DevTools.prototype = {
+    * Note that is will end up being cached in WebExtension codebase, via
+    * DevToolsExtensionPageContextParent.getDevToolsCommands.
+    */
+-  createCommandsForTabForWebExtension: function(tab) {
++  createCommandsForTabForWebExtension: function (tab) {
+     return CommandsFactory.forTab(tab);
+   },
+ 
+@@ -725,7 +725,7 @@ DevTools.prototype = {
+    * Compatibility layer for web-extensions. Used by DevToolsShim for
+    * toolkit/components/extensions/ext-c-toolkit.js
+    */
+-  openBrowserConsole: function() {
++  openBrowserConsole: function () {
+     const {
+       BrowserConsoleManager,
+     } = require("devtools/client/webconsole/browser-console-manager");

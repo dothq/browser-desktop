@@ -1,0 +1,13 @@
+diff --git a/devtools/client/framework/toolbox-host-manager.js b/devtools/client/framework/toolbox-host-manager.js
+index e8ba4e1548deb378b43a6d0c2c4982084b4ca45d..5a9bbb927ff32544fb8f7d7f72cc975150dd6dc3 100644
+--- a/devtools/client/framework/toolbox-host-manager.js
++++ b/devtools/client/framework/toolbox-host-manager.js
+@@ -117,7 +117,7 @@ ToolboxHostManager.prototype = {
+     return toolbox;
+   },
+ 
+-  setMinWidthWithZoom: function() {
++  setMinWidthWithZoom: function () {
+     const zoomValue = parseFloat(Services.prefs.getCharPref(ZOOM_VALUE_PREF));
+ 
+     if (isNaN(zoomValue)) {

@@ -1,0 +1,171 @@
+diff --git a/devtools/server/actors/root.js b/devtools/server/actors/root.js
+index 78b2fc2e94be8783c7e0c9be32233586056c6909..b767a9fdeec582f67528f9604774edf98140ae97 100644
+--- a/devtools/server/actors/root.js
++++ b/devtools/server/actors/root.js
+@@ -101,7 +101,7 @@ loader.lazyRequireGetter(
+  * iteration: alliterative lazy live lists.
+  */
+ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+-  initialize: function(conn, parameters) {
++  initialize: function (conn, parameters) {
+     protocol.Actor.prototype.initialize.call(this, conn);
+ 
+     this._parameters = parameters;
+@@ -124,8 +124,8 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+       // Services.prefs is undefined in xpcshell tests.
+       workerConsoleApiMessagesDispatchedToMainThread: Services.prefs
+         ? Services.prefs.getBoolPref(
+-            "dom.worker.console.dispatch_events_to_main_thread"
+-          )
++          "dom.worker.console.dispatch_events_to_main_thread"
++        )
+         : true,
+       // @backward-compat { version 86 } ThreadActor.attach no longer pauses the thread,
+       //                                 so that we no longer have to resume.
+@@ -138,7 +138,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+   /**
+    * Return a 'hello' packet as specified by the Remote Debugging Protocol.
+    */
+-  sayHello: function() {
++  sayHello: function () {
+     return {
+       from: this.actorID,
+       applicationType: this.applicationType,
+@@ -148,7 +148,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     };
+   },
+ 
+-  forwardingCancelled: function(prefix) {
++  forwardingCancelled: function (prefix) {
+     return {
+       from: this.actorID,
+       type: "forwardingCancelled",
+@@ -159,7 +159,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+   /**
+    * Destroys the actor from the browser window.
+    */
+-  destroy: function() {
++  destroy: function () {
+     protocol.Actor.prototype.destroy.call(this);
+ 
+     /* Tell the live lists we aren't watching any more. */
+@@ -215,7 +215,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+    * Gets the "root" form, which lists all the global actors that affect the entire
+    * browser.
+    */
+-  getRoot: function() {
++  getRoot: function () {
+     // Create global actors
+     if (!this._globalActorPool) {
+       this._globalActorPool = new LazyPool(this.conn);
+@@ -235,7 +235,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+    * Handles the listTabs request. The actors will survive until at least
+    * the next listTabs request.
+    */
+-  listTabs: async function() {
++  listTabs: async function () {
+     const tabList = this._parameters.tabList;
+     if (!tabList) {
+       throw {
+@@ -269,7 +269,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     return tabDescriptorActors;
+   },
+ 
+-  getTab: async function({ outerWindowID, tabId }) {
++  getTab: async function ({ outerWindowID, tabId }) {
+     const tabList = this._parameters.tabList;
+     if (!tabList) {
+       throw {
+@@ -304,7 +304,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     return descriptorActor;
+   },
+ 
+-  onTabListChanged: function() {
++  onTabListChanged: function () {
+     this.conn.send({ from: this.actorID, type: "tabListChanged" });
+     /* It's a one-shot notification; no need to watch any more. */
+     this._parameters.tabList.onListChanged = null;
+@@ -320,7 +320,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+    *            retrieving addons from a remote device, because the raw iconURL might not
+    *            be accessible on the client.
+    */
+-  listAddons: async function(option) {
++  listAddons: async function (option) {
+     const addonList = this._parameters.addonList;
+     if (!addonList) {
+       throw {
+@@ -350,12 +350,12 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     return addonTargetActors;
+   },
+ 
+-  onAddonListChanged: function() {
++  onAddonListChanged: function () {
+     this.conn.send({ from: this.actorID, type: "addonListChanged" });
+     this._parameters.addonList.onListChanged = null;
+   },
+ 
+-  listWorkers: function() {
++  listWorkers: function () {
+     const workerList = this._parameters.workerList;
+     if (!workerList) {
+       throw {
+@@ -387,12 +387,12 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     });
+   },
+ 
+-  onWorkerListChanged: function() {
++  onWorkerListChanged: function () {
+     this.conn.send({ from: this.actorID, type: "workerListChanged" });
+     this._parameters.workerList.onListChanged = null;
+   },
+ 
+-  listServiceWorkerRegistrations: function() {
++  listServiceWorkerRegistrations: function () {
+     const registrationList = this._parameters.serviceWorkerRegistrationList;
+     if (!registrationList) {
+       throw {
+@@ -421,7 +421,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     });
+   },
+ 
+-  onServiceWorkerRegistrationListChanged: function() {
++  onServiceWorkerRegistrationListChanged: function () {
+     this.conn.send({
+       from: this.actorID,
+       type: "serviceWorkerRegistrationListChanged",
+@@ -429,7 +429,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     this._parameters.serviceWorkerRegistrationList.onListChanged = null;
+   },
+ 
+-  listProcesses: function() {
++  listProcesses: function () {
+     const { processList } = this._parameters;
+     if (!processList) {
+       throw {
+@@ -459,7 +459,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+     return [...this._processDescriptorActorPool.poolChildren()];
+   },
+ 
+-  onProcessListChanged: function() {
++  onProcessListChanged: function () {
+     this.conn.send({ from: this.actorID, type: "processListChanged" });
+     this._parameters.processList.onListChanged = null;
+   },
+@@ -538,7 +538,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+    * Remove the extra actor (added by ActorRegistry.addGlobalActor or
+    * ActorRegistry.addTargetScopedActor) name |name|.
+    */
+-  removeActorByName: function(name) {
++  removeActorByName: function (name) {
+     if (name in this._extraActors) {
+       const actor = this._extraActors[name];
+       if (this._globalActorPool.has(actor.actorID)) {
+@@ -565,7 +565,7 @@ exports.RootActor = protocol.ActorClassWithSpec(rootSpec, {
+  *
+  * Note that this request is only used by tests.
+  */
+-exports.RootActor.prototype.requestTypes.echo = function(request) {
++exports.RootActor.prototype.requestTypes.echo = function (request) {
+   /*
+    * Request packets are frozen. Copy request, so that
+    * DevToolsServerConnection.onPacket can attach a 'from' property.

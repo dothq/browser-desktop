@@ -1,0 +1,67 @@
+diff --git a/devtools/shared/security/prompt.js b/devtools/shared/security/prompt.js
+index e46311ed4e8a1b0f426540b9358d8eac6b2b6171..9dfd7988c7197fd4b676014f9b07ffbe722c46bb 100644
+--- a/devtools/shared/security/prompt.js
++++ b/devtools/shared/security/prompt.js
+@@ -14,6 +14,7 @@ loader.lazyRequireGetter(
+ );
+ 
+ const { LocalizationHelper } = require("devtools/shared/l10n");
++const { AuthenticationResult } = require("./auth");
+ const L10N = new LocalizationHelper(
+   "devtools/shared/locales/debugger.properties"
+ );
+@@ -66,7 +67,7 @@ Client.defaultSendOOB = ({ authResult, oob }) => {
+       const win = xulWindow.docShell.domWindow;
+       win.addEventListener(
+         "load",
+-        function() {
++        function () {
+           if (
+             win.document.documentElement.getAttribute("id") != "commonDialog"
+           ) {
+@@ -79,7 +80,7 @@ Client.defaultSendOOB = ({ authResult, oob }) => {
+         { once: true }
+       );
+     },
+-    onCloseWindow() {},
++    onCloseWindow() { },
+   };
+   Services.wm.addListener(windowListener);
+ 
+@@ -147,24 +148,20 @@ Server.defaultAllowConnection = ({ client, server }) => {
+     prompt.BUTTON_POS_1 * prompt.BUTTON_TITLE_CANCEL +
+     prompt.BUTTON_POS_2 * prompt.BUTTON_TITLE_IS_STRING +
+     prompt.BUTTON_POS_1_DEFAULT;
+-  const result = prompt.confirmEx(
+-    null,
++
++  const win = Services.wm.getMostRecentBrowserWindow();
++
++  const { dot } = win;
++
++  return dot.prompt.alert(
++    "window",
+     title,
+     msg,
+-    flags,
+-    null,
+-    null,
+-    disableButton,
+-    null,
+-    { value: false }
+-  );
+-  if (result === 0) {
+-    return AuthenticationResult.ALLOW;
+-  }
+-  if (result === 2) {
+-    return AuthenticationResult.DISABLE_ALL;
+-  }
+-  return AuthenticationResult.DENY;
++    "Allow",
++    "Deny"
++  ).then(result => {
++    return result ? AuthenticationResult.ALLOW : AuthenticationResult.DENY;
++  })
+ };
+ 
+ /**
