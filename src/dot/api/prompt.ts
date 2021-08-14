@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from ".";
 import { Button } from "../components/Button";
+import { Cc, Ci } from "../modules";
 
 export class PromptAPI {
     public alert(
@@ -98,7 +99,7 @@ export class PromptAPI {
                 {
                     className: "ui-modal-dialog",
                     style: {
-                        zIndex: type == "tab" ? 0 : 9999,
+                        zIndex: type == "tab" ? 0 : 99999999999,
                         top: (type == "tab" ? rect.top : 0) + "px"
                     },
                     "data-type": type
@@ -110,6 +111,14 @@ export class PromptAPI {
                 box,
                 mount
             );
+
+            this.beep();
         })
+    }
+
+    private beep() {
+        Cc["@mozilla.org/sound;1"]
+            .createInstance(Ci.nsISound)
+            .beep()
     }
 }
