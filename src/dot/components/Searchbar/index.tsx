@@ -137,10 +137,13 @@ export const Searchbar = () => {
                             // focus by default so that is the way we are doing it
                             // Delaying this will stop the user from anciently
                             // clearing focus
-                            setTimeout(() => searchBoxRef.current.setSelectionRange(
-                                0,
-                                searchBoxRef.current.value.length
-                            ), 50);
+                            setTimeout(() => {
+                                searchBoxRef.current.setSelectionRange(
+                                    0,
+                                    searchBoxRef.current.value.length,
+                                    'backward'
+                                )
+                            }, 50);
                         }}
                         onBlur={() => setSearchBarFocused(false)}
                         style={{
@@ -160,6 +163,11 @@ export const Searchbar = () => {
                                     return
                                 }
 
+                                // Unfocus the input
+                                if (document?.activeElement) {
+                                    (document.activeElement as any).blur()
+                                }
+
                                 // If the input does not contain a space and contains
                                 // a dot, it is a url
                                 if (!containsSpace && containsDots) {
@@ -176,11 +184,6 @@ export const Searchbar = () => {
                                     dot.tabs.selectedTab.goto(Services.io.newURI(
                                         searchEngine.replace('%s', searchBarValue.replace(/(\s)/g, '+'))
                                     ))
-                                }
-
-                                // Unfocus the input
-                                if (document?.activeElement) {
-                                    (document.activeElement as any).blur()
                                 }
                             }
                         }}
