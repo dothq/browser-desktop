@@ -14,6 +14,10 @@ JS_PREFERENCE_PP_FILES += [
     "config/profile.js",
 ]
 
+XPCOM_MANIFESTS += [
+    "about/components.conf",
+]
+
 for var in ("MOZ_APP_NAME", "MOZ_MACBUNDLE_NAME"):
     DEFINES[var] = CONFIG[var]
 
