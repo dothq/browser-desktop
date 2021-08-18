@@ -30,18 +30,70 @@ const recursiveIssuer = (m, c) => {
     return false;
 }
 
+const webuiEntry = {
+    newtab: "./resources/newtab/start-page.tsx"
+}
+
+let entry = {};
+let cacheGroups = {};
+
+Object.entries(webuiEntry).forEach(([key, value]) => {
+    entry[key] = [
+        value,
+        ...glob.sync(
+            resolve(
+                __dirname,
+                value.substring(0, value.lastIndexOf("/")),
+                "{,!(node_modules)/**}",
+                `*.scss`
+            )
+        ).map(x => x.replace(__dirname, "."))
+    ];
+
+    cacheGroups[`${key}Styles`] = {
+        name: `${key}.chunk`,
+        test: (m, c, entry = key) =>
+            m.constructor.name === "CssModule" &&
+            recursiveIssuer(m, c) === entry,
+        chunks: "all",
+        enforce: true,
+    };
+})
+
+entry = {
+    ...entry,
+    browser: [
+        "./app/index.tsx",
+        ...browser_styles
+    ],
+    webui: [
+        ...webui_styles
+    ]
+};
+
+cacheGroups = {
+    ...cacheGroups,
+    browserStyles: {
+        name: "browser.chunk",
+        test: (m, c, entry = "browser") =>
+            m.constructor.name === "CssModule" &&
+            recursiveIssuer(m, c) === entry,
+        chunks: "all",
+        enforce: true,
+    },
+    webuiStyles: {
+        name: "webui.chunk",
+        test: (m, c, entry = "webui") =>
+            m.constructor.name === "CssModule" &&
+            recursiveIssuer(m, c) === entry,
+        chunks: "all",
+        enforce: true,
+    }
+};
+
 module.exports = {
     target: "web",
-    entry: {
-        browser: [
-            "./app/index.tsx",
-            "./resources/settings/index.tsx",
-            ...browser_styles
-        ],
-        webui: [
-            ...webui_styles
-        ]
-    },
+    entry,
     mode: "development",
     devtool: "inline-source-map",
     module: {
@@ -84,24 +136,7 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            cacheGroups: {
-                browserStyles: {
-                    name: "browser.chunk",
-                    test: (m, c, entry = "browser") =>
-                        m.constructor.name === "CssModule" &&
-                        recursiveIssuer(m, c) === entry,
-                    chunks: "all",
-                    enforce: true,
-                },
-                webuiStyles: {
-                    name: "webui.chunk",
-                    test: (m, c, entry = "webui") =>
-                        m.constructor.name === "CssModule" &&
-                        recursiveIssuer(m, c) === entry,
-                    chunks: "all",
-                    enforce: true,
-                },
-            },
+            cacheGroups
         },
     },
 };
