@@ -1,0 +1,60 @@
+.widget-topsites {
+    display: flex;
+    gap: 10px;
+
+    .widget-topsite {
+        display: flex;
+        flex-direction: column;
+        width: 102px;
+        height: 88px;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        transition: 0.3s transform;
+
+        &:hover {
+            transform: scale(1.1);
+
+            .widget-topsite-title {
+                color: rgba(255, 255, 255, 0.8);
+            }
+
+            .widget-topsite-icon {
+                background-color: rgba(255, 255, 255, 0.125);
+            }
+        }
+
+        .widget-topsite-icon {
+            width: 46px;
+            height: 46px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(80px);
+            border-radius: 46px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s background-color;
+
+            &::after {
+                content: "";
+                width: 20px;
+                height: 20px;
+                display: flex;
+                background-image: var(--topsite-icon, url(chrome://dot/content/skin/icons/defaultFavicon.svg));
+            }
+        }
+
+        .widget-topsite-title {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 90px;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 8px;
+            text-align: center;
+            overflow: hidden;
+            transition: 0.3s color;
+        }
+    }
+}
