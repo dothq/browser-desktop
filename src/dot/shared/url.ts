@@ -15,7 +15,7 @@ export const whitelistedSchemes = [
     "moz-gio"
 ]
 
-export const formatToParts = (url: string) => {
+export const formatToParts = (url: string): void | {scheme: string, domain: string, host: string, path: string, query: string, hash: string, internal: boolean} => {
     let location;
 
     try {
@@ -24,32 +24,36 @@ export const formatToParts = (url: string) => {
         return;
     }
 
-    const isHttp = location.scheme.startsWith("http");
-    const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
-    const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
-    const noTrailingPath = location.query.length == 0 ? location.filePath.replace(/\/*$/, "") : location.filePath;
+    try {
+        const isHttp = location.scheme.startsWith("http");
+        const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
+        const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
+        const noTrailingPath = location.query.length == 0 ? location.filePath.replace(/\/*$/, "") : location.filePath;
 
-    const scheme = whitelistedSchemes.includes(location.scheme)
-        ? `${location.scheme}://`
-        : `${location.scheme}:`
+        const scheme = whitelistedSchemes.includes(location.scheme)
+            ? `${location.scheme}://`
+            : `${location.scheme}:`
 
-    return {
-        scheme,
-        domain: notWhitelisted
-            ? location.pathQueryRef
-            : rootDomain,
-        host: notWhitelisted
-            ? ""
-            : location.host.replace(rootDomain, ""),
-        path: notWhitelisted
-            ? ""
-            : noTrailingPath,
-        query: notWhitelisted
-            ? ""
-            : location.query ? "?" + location.query : "",
-        hash: notWhitelisted
-            ? ""
-            : location.ref ? "#" + location.ref : "",
-        internal: !isHttp
-    };
+        return {
+            scheme,
+            domain: notWhitelisted
+                ? location.pathQueryRef
+                : rootDomain,
+            host: notWhitelisted
+                ? ""
+                : location.host.replace(rootDomain, ""),
+            path: notWhitelisted
+                ? ""
+                : noTrailingPath,
+            query: notWhitelisted
+                ? ""
+                : location.query ? "?" + location.query : "",
+            hash: notWhitelisted
+                ? ""
+                : location.ref ? "#" + location.ref : "",
+            internal: !isHttp
+        };
+    } catch (e) {
+        return;
+    }
 }
