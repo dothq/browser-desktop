@@ -50,7 +50,9 @@ export class Tab extends EventEmitter {
         }
     }
 
-    public url = "about:blank";
+    public get url() {
+        return this.webContents.currentURI.spec;
+    };
 
     public urlParts = {
         scheme: null,
@@ -361,13 +363,19 @@ export class Tab extends EventEmitter {
     }
 
     public onBrowserRemoteChange(event: any) {
-        this.emit("TabRemotenessChange");
-
         let { browserId } = event.originalTarget;
         let tab: any = dot.tabs.get(browserId);
         if (!tab) {
             return;
         }
+
+        store.dispatch({
+            type: "TAB_UPDATE_FAVICON",
+            payload: {
+                id: browserId,
+                faviconUrl: ""
+            }
+        });
 
         // Dispatch the `BeforeTabRemotenessChange` event, allowing other code
         // to react to this tab's process switch.
