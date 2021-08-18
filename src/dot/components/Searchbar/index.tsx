@@ -21,7 +21,15 @@ export const Searchbar = () => {
     const [searchBarMockVisible, setSearchBarMockVisible] = React.useState(true);
 
     const [searchBarValue, setSearchBarValue] = React.useState("");
-    const [searchBarUrlParts, setSearchBarUrlParts] = React.useState({
+    const [searchBarUrlParts, setSearchBarUrlParts] = React.useState<{
+        scheme: string | null,
+        domain: string | null,
+        host: string | null,
+        path: string | null,
+        query: string | null,
+        hash: string | null,
+        internal: boolean
+     }>({
         scheme: null,
         host: null,
         domain: null,
@@ -71,6 +79,16 @@ export const Searchbar = () => {
 
         if (parts) {
             setSearchBarUrlParts(parts as any);
+        } else {
+            setSearchBarUrlParts({
+                scheme: '',
+                domain: searchBarValue,
+                host: '',
+                path: '',
+                query: '',
+                hash: '',
+                internal: true
+            })
         }
     }, [searchBarValue])
 
