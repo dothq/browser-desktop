@@ -3,7 +3,7 @@ import { dot } from "../api";
 import { store } from "../app/store";
 import { ActorManagerParent, BrowserWindowTracker, ChromeUtils, Ci } from "../modules";
 import { windowActors } from "../modules/glue";
-import { WELCOME_SCREEN_URL } from "../shared/tab";
+import { NEW_TAB_URL } from "../shared/tab";
 
 export class RuntimeAPI extends EventEmitter {
     public QueryInterface = ChromeUtils.generateQI(["nsIXULBrowserWindow"])
@@ -38,7 +38,7 @@ export class RuntimeAPI extends EventEmitter {
         store.dispatch({
             type: "TAB_CREATE",
             payload: {
-                url: WELCOME_SCREEN_URL
+                url: NEW_TAB_URL
             }
         });
 

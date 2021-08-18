@@ -2,7 +2,7 @@ import { dot } from ".";
 import { store } from "../app/store";
 import { ITab, Tab } from "../models/Tab";
 import { Services } from "../modules";
-import { WELCOME_SCREEN_URL_PARSED } from "../shared/tab";
+import { NEW_TAB_URL_PARSED } from "../shared/tab";
 export class TabsAPI {
     public list: Tab[] = [];
 
@@ -60,7 +60,7 @@ export class TabsAPI {
 
             if (
                 state.tabs.list.length <= 1 && // at least 1 tab open
-                tabUri.equals(WELCOME_SCREEN_URL_PARSED) && // that tab is the ntp
+                tabUri.equals(NEW_TAB_URL_PARSED) && // that tab is the ntp
                 dot.prefs.get("dot.tabs.autohide.enabled", true) // we have autohide enabled
             ) {
                 dot.window.removeWindowClass("tabs-visible"); // hide tabs

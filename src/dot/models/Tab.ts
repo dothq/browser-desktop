@@ -2,7 +2,7 @@ import EventEmitter from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
-import { WELCOME_SCREEN_URL_PARSED } from "../shared/tab";
+import { NEW_TAB_URL_PARSED } from "../shared/tab";
 import { formatToParts } from "../shared/url";
 import { MozURI } from "../types/uri";
 
@@ -133,7 +133,7 @@ export class Tab extends EventEmitter {
     }
 
     public isNewTab() {
-        return this.url == WELCOME_SCREEN_URL_PARSED.spec;
+        return this.url == NEW_TAB_URL_PARSED.spec;
     }
 
     public faviconUrl: any;
@@ -333,7 +333,7 @@ export class Tab extends EventEmitter {
 
         let pageState = "info";
 
-        if (location.spec == WELCOME_SCREEN_URL_PARSED.spec)
+        if (location.spec == NEW_TAB_URL_PARSED.spec)
             pageState = "search"
         else if (location.scheme == "https") pageState = "https"
         else if (location.scheme == "http") pageState = "http"

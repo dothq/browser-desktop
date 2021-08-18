@@ -1,6 +1,6 @@
 import { MenuItem } from ".";
 import { store } from "../../app/store";
-import { WELCOME_SCREEN_URL } from "../../shared/tab";
+import { NEW_TAB_URL } from "../../shared/tab";
 import { Hotkey } from "../hotkey";
 
 export class NewTab extends MenuItem {
@@ -8,7 +8,7 @@ export class NewTab extends MenuItem {
         return store.dispatch({
             type: "TAB_CREATE",
             payload: {
-                url: WELCOME_SCREEN_URL
+                url: NEW_TAB_URL
             }
         });
     }

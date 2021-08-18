@@ -1,6 +1,6 @@
 import { dot } from "../api";
 import { store } from "../app/store";
-import { WELCOME_SCREEN_URL } from "./tab";
+import { NEW_TAB_URL } from "./tab";
 
 export const commands: any = {
    "Browser:GoBack": () => dot.tabs.selectedTab?.goBack(),
@@ -15,7 +15,7 @@ export const commands: any = {
 
    "Browser:NewTab": () => store.dispatch({
       type: "TAB_CREATE", payload: {
-         url: WELCOME_SCREEN_URL
+         url: NEW_TAB_URL
       }
    }),
 
