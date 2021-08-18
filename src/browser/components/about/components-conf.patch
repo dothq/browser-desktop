@@ -1,0 +1,13 @@
+diff --git a/browser/components/about/components.conf b/browser/components/about/components.conf
+index 77c65857999563fdda54ed7e15ff62fa035cda7d..ff0a4992e5ebca512c9afcaad420f0abe1f0dd62 100644
+--- a/browser/components/about/components.conf
++++ b/browser/components/about/components.conf
+@@ -13,7 +13,7 @@ pages = [
+     'logins',
+     'loginsimportreport',
+     'newinstall',
+-    'newtab',
++    # 'newtab', // moved to dot/about/components.conf
+     'ion',
+     'pocket-home',
+     'pocket-saved',
