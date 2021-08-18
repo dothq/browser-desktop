@@ -8,7 +8,9 @@ export const ToolbarButton = ({
     onClick,
     command,
     className,
-    disabled
+    disabled,
+    menu,
+    menuCtx
 }: {
     image?: string
     children?: any
@@ -17,7 +19,24 @@ export const ToolbarButton = ({
     command?: string
     className?: any
     disabled?: boolean
+    menu?: string
+    menuCtx?: any
 }) => {
+    const onTBClick = () => {
+        if (command) dot.utilities.doCommand(command);
+        if (onClick) onClick();
+
+        if (menu) {
+            if (dot.menus.visibleMenu) return dot.menus.clear(true);
+
+            dot.menus.create(
+                menu,
+                { el: document.getElementById(id) },
+                menuCtx || {}
+            );
+        }
+    }
+
     return (
         <a
             id={id}
@@ -27,7 +46,7 @@ export const ToolbarButton = ({
                 ${!!image ? `toolbar-button-has-image` : ``}
                 ${className ? className : ``}
             `.trim()}
-            onClick={() => (command ? dot.utilities.doCommand(command) : onClick)}
+            onClick={onTBClick}
         >
             <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
 

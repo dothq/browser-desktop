@@ -5,7 +5,6 @@
 import React from "react"
 import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
 import { Tab } from "../../models/Tab"
-import { MenuPopper } from "../MenuPopper"
 import { NewTabButton } from "../NewTabButton"
 import { Searchbar } from "../Searchbar"
 import { Spring } from "../Spring"
@@ -60,11 +59,11 @@ export const Chrome = () => {
                         command={"Browser:OpenPreferences"}
                     />
 
-                    <MenuPopper menu={"AppMenu"}>
-                        <ToolbarButton
-                            image={"chrome://dot/content/skin/icons/more.svg"}
-                        />
-                    </MenuPopper>
+                    <ToolbarButton
+                        id={"application-menu-button"}
+                        image={"chrome://dot/content/skin/icons/more.svg"}
+                        menu={"AppMenu"}
+                    />
                 </div>
                 <WindowControls />
             </nav>

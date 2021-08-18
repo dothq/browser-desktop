@@ -46,3 +46,7 @@ a.toolbar-button.toolbar-button-has-image .toolbarbutton-icon {
     margin: 6px 0px;
     width: inherit;
 }
+
+a.toolbar-button[menu-open="true"] > .toolbarbutton-icon {
+    background-color: var(--toolbarbutton-active-background) !important;
+}
