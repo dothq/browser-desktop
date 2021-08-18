@@ -9,3 +9,5 @@ browser.jar:
     content/dot/skin (themes/**/**)
     content/dot/actors (actors/**/**)
     content/dot/l10n (l10n/**/**)
+    content/dot/resources (resources/**/**)
+    content/dot/about (about/**/**)
