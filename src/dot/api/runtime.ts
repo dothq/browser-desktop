@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { ActorManagerParent, BrowserWindowTracker, ChromeUtils, Ci } from "../modules";
+import { ActorManagerParent, BrowserWindowTracker, ChromeUtils, Ci, Services } from "../modules";
 import { windowActors } from "../modules/glue";
 import { NEW_TAB_URL } from "../shared/tab";
 
@@ -102,8 +102,25 @@ export class RuntimeAPI extends EventEmitter {
         dot.menus.clear();
     }
 
-    public setOverLink(status: string) {
-        dot.utilities.emit("page-status-changed", status);
+    public setOverLink(url: string) {
+        if (url) {
+            url = Services.textToSubURI.unEscapeURIForUI(url);
+
+            // Encode bidirectional formatting characters.
+            // (RFC 3987 sections 3.2 and 4.1 paragraph 6)
+            url = url.replace(
+                /[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g,
+                encodeURIComponent
+            );
+        }
+
+        store.dispatch({
+            type: "TAB_UPDATE",
+            payload: {
+                id: dot.tabs.selectedTabId,
+                pageStatus: url
+            }
+        });
     }
 
     constructor() {
