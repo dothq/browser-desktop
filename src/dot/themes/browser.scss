@@ -62,6 +62,41 @@ body,
   height: 100%;
 }
 
+.browserContainer .browserStatus {
+  position: absolute;
+  bottom: 0;
+  padding: 2px 4px;
+  background-color: var(--toolbar-bgcolor);
+  border-top: 1px solid;
+  border-color: var(--chrome-content-separator-color);
+  opacity: 0;
+  transition: 0.2s opacity;
+
+  &[data-visible="true"] {
+    opacity: 1;
+  }
+
+  &[data-side="left"] {
+    border-top-right-radius: 6px;
+    border-right: 1px solid var(--chrome-content-separator-color);
+    left: 0;
+  }
+
+  &[data-side="right"] {
+    border-top-left-radius: 6px;
+    border-left: 1px solid var(--chrome-content-separator-color);
+    right: 0;
+  }
+
+  &[data-inset="true"] {
+    border-radius: 6px;
+    border: 1px solid var(--chrome-content-separator-color);
+    margin-bottom: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}
+
 .devtools-toolbox-side-iframe[src="about:devtools-toolbox"] {
   width: 100% !important;
   height: 100% !important;

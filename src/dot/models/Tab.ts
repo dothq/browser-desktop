@@ -70,7 +70,29 @@ export class Tab extends EventEmitter {
     public canGoBack: boolean = false;
     public canGoForward: boolean = false;
 
-    public pageStatus: string | undefined = "";
+    private _pageStatus: string | undefined = "";
+
+    public get pageStatus() {
+        return this._pageStatus;
+    }
+
+    public set pageStatus(url: string | undefined) {
+        this._pageStatus = url;
+
+        const container = dot.tabs.getBrowserContainer(this.webContents);
+        const status = container.querySelector(".browserStatus");
+
+        if (url) {
+            status.innerText = url;
+            status.setAttribute("data-visible", "true");
+        } else {
+            status.removeAttribute("data-visible");
+
+            setTimeout(() => {
+                status.setAttribute("data-side", "left");
+            }, 200); // this should be updated with the fade in transition amount
+        }
+    }
 
     public bookmarked: boolean = false;
 

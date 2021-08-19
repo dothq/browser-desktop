@@ -50,6 +50,20 @@ export class BrowsersAPI {
         const browserSidebarContainer = document.createElement("div");
         browserSidebarContainer.classList.add("browserSidebarContainer");
 
+        const browserStatus = document.createElement("div");
+        browserStatus.classList.add("browserStatus");
+        browserStatus.setAttribute("data-side", "left");
+
+        browserStatus.addEventListener("mouseover", () => {
+            const currentSide = browserStatus.getAttribute("data-side");
+
+            if (currentSide == "left") {
+                browserStatus.setAttribute("data-side", "right");
+            } else {
+                browserStatus.setAttribute("data-side", "left");
+            }
+        });
+
         const browserContainer = document.createElement("div");
         browserContainer.classList.add("browserContainer");
 
@@ -69,7 +83,10 @@ export class BrowsersAPI {
         // IMPORTANT! This should happen before we call anything on the browser.
         // this.get(id) depends on the browser being available in tabStack.
         browserStack.appendChild(browser);
+
         browserContainer.appendChild(browserStack);
+        browserContainer.appendChild(browserStatus);
+
         browserSidebarContainer.appendChild(browserContainer);
         this.tabStack?.appendChild(browserSidebarContainer);
 
