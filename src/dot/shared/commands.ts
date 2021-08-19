@@ -19,11 +19,7 @@ export const commands: any = {
       }
    }),
 
-   "Browser:OpenPreferences": () => store.dispatch({
-      type: "TAB_CREATE_INTERNAL", payload: {
-         id: "settings"
-      }
-   }),
+   "Browser:OpenPreferences": () => { },
 
    "Browser:LaunchBrowserToolbox": () => dot.dev.launchBrowserToolbox()
 }
