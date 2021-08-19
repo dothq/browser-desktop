@@ -41,6 +41,9 @@
                 height: 20px;
                 display: flex;
                 background-image: var(--topsite-icon, url(chrome://dot/content/skin/icons/defaultFavicon.svg));
+                background-size: cover;
+                -moz-context-properties: fill;
+                fill: white;
             }
         }
 
