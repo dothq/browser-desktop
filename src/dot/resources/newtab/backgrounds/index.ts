@@ -28,38 +28,31 @@ export const backgrounds = [
         }
     },
     {
-        id: "blur-city",
+        id: "sunset-mountains",
         author: {
-            name: "Thong Vo",
-            url: "https://unsplash.com/@titi_wanderer"
+            name: "Gantas Vaičiulėnas",
+            url: "https://unsplash.com/@gantas"
         }
     },
     {
-        id: "lake",
+        id: "rocky-village",
         author: {
-            name: "Ales Krivec",
-            url: "https://unsplash.com/@aleskrivec"
+            name: "Kym Ellis",
+            url: "https://unsplash.com/@kymellis"
         }
     },
     {
-        id: "night-city",
+        id: "lighthouse-sea",
         author: {
-            name: "Riku Lu",
-            url: "https://unsplash.com/@riku"
+            name: "Ebba Thoresson",
+            url: "https://unsplash.com/@momentsbyebba"
         }
     },
     {
-        id: "path",
+        id: "colourful-blobs",
         author: {
-            name: "Beata Ratuszniak",
-            url: "https://unsplash.com/@beataratuszniak"
-        }
-    },
-    {
-        id: "road",
-        author: {
-            name: "Karsten Würth",
-            url: "https://unsplash.com/@karsten_wuerth"
+            name: "SIMON LEE",
+            url: "https://unsplash.com/@simonppt"
         }
     }
 ];
