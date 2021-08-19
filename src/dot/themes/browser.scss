@@ -71,6 +71,10 @@ body,
   border-color: var(--chrome-content-separator-color);
   opacity: 0;
   transition: 0.2s opacity;
+  max-width: calc(100vw - 4px * 2 - 1px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   &[data-visible="true"] {
     opacity: 1;
@@ -94,6 +98,7 @@ body,
     margin-bottom: 12px;
     margin-left: 12px;
     margin-right: 12px;
+    padding: 4px 8px;
   }
 }
 
