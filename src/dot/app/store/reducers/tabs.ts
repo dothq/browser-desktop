@@ -1,5 +1,4 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
-import { InternalTab } from '../../../models/InternalTab';
 import { Tab } from '../../../models/Tab';
 import { bookmarkTabAction, closeTabAction, navigateTabAction, updateFaviconTabAction, updateNavigationStateAction, updateStateTabAction, updateTitleTabAction, updateUrlTabAction } from '../actions/tabs';
 
@@ -27,11 +26,11 @@ const initialState: TabsState = {
     selectedTab: undefined,
 
     getTabById(id: number | string) {
-        return this.list.find((tab: Tab | InternalTab) => tab.id == id);
+        return this.list.find((tab: Tab) => tab.id == id);
     },
 
     getTabIndexById(id: number | string) {
-        return this.list.findIndex((tab: Tab | InternalTab) => tab.id == id);
+        return this.list.findIndex((tab: Tab) => tab.id == id);
     },
 
     update(id: number, data: { [key: string]: any }) {
@@ -66,10 +65,6 @@ export const tabsReducer = createReducer(
     initialState,
     {
         TAB_CREATE: (store, action: AnyAction) => {
-            if (action.payload.internal) {
-                return console.warn("Use TAB_CREATE_INTERNAL instead of TAB_CREATE for internal pages.")
-            }
-
             const tab = new Tab(action.payload);
 
             if (tab) {
@@ -80,15 +75,6 @@ export const tabsReducer = createReducer(
                 }
             }
         },
-
-        TAB_CREATE_INTERNAL: (store, action: AnyAction) => {
-            const tab = new InternalTab(action.payload);
-
-            if (tab) {
-                store.list.push(tab);
-            }
-        },
-
 
         TAB_CLOSE: (store, action: AnyAction) => closeTabAction(store, action.payload),
 

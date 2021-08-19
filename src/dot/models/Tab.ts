@@ -12,8 +12,7 @@ const { DevToolsShim } = ChromeUtils.import(
 
 export interface ITab {
     url: string,
-    background?: boolean,
-    internal?: boolean
+    background?: boolean
     id?: string
 }
 
@@ -64,15 +63,14 @@ export class Tab extends EventEmitter {
         internal: true
     };
 
-    public internal: boolean = false;
-
     public get active() {
         return dot.tabs.selectedTabId == this.id;
     }
 
     public canGoBack: boolean = false;
-
     public canGoForward: boolean = false;
+
+    public pageStatus: string | undefined = "";
 
     public bookmarked: boolean = false;
 
@@ -150,24 +148,18 @@ export class Tab extends EventEmitter {
     constructor({
         url,
         background,
-        internal,
         id
     }: ITab) {
         super();
 
         const browser = dot.browsersPrivate.create({
             background: !!background,
-            internal,
-            id: internal && id
-        }, internal ? undefined : Services.io.newURI(url));
+            id
+        }, Services.io.newURI(url));
 
         this.webContents = browser;
-        this.id = internal
-            ? browser.id
-            : this.webContents.browserId;
+        this.id = this.webContents.browserId;
         this.background = !!background;
-
-        if (internal) return this;
 
         this.createProgressListener();
 

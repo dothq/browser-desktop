@@ -1,5 +1,4 @@
 import { dot } from ".";
-import { InternalBrowser } from "../models/InternalBrowser";
 import { Ci, E10SUtils, Services } from "../modules";
 import { MozURI } from "../types/uri";
 
@@ -23,19 +22,12 @@ class BrowserOptions {
 
 export class BrowsersAPI {
     public browsers: Map<number, HTMLElement> = new Map();
-    public internalBrowsers: InternalBrowser[] = [];
 
     public selectedId: number = -1;
     public previousId: number = -1;
 
-    public selectedInternalId: number = -1;
-
     public get tabStack() {
         return document.getElementById("browser-tabs-stack");
-    }
-
-    public get internalTabStack() {
-        return document.getElementById("internal-browser-tabs-stack");
     }
 
     public DEFAULT_ATTRIBUTES = {
@@ -55,43 +47,6 @@ export class BrowsersAPI {
     }
 
     public create(attributes: { [key: string]: any }, url?: MozURI) {
-        if (attributes.internal) return this.createInternal(attributes);
-
-        return this.createPublic(attributes, url);
-    }
-
-    private createInternal(attributes: { [key: string]: any }) {
-        const matched = this.internalBrowsers.find(browser => browser.id == attributes.id);
-
-        if (matched) {
-            return matched.select();
-        }
-
-        console.log(`#${attributes.id}`)
-
-        const browser: any = this.internalTabStack?.querySelector(`#${attributes.id}`);
-
-        if (browser) {
-            const id = this.internalBrowsers.length + 1;
-
-            browser.setAttribute(
-                "pageid",
-                id.toString()
-            );
-
-            if (!attributes.background) {
-                this.selectedInternalId = id;
-
-                this.select(id, true);
-            }
-
-            return { id };
-        } else {
-            console.error(`No internal UI found by the id "${attributes.id}".`)
-        }
-    }
-
-    private createPublic(attributes: { [key: string]: any }, url?: MozURI) {
         const browserSidebarContainer = document.createElement("div");
         browserSidebarContainer.classList.add("browserSidebarContainer");
 
@@ -137,17 +92,14 @@ export class BrowsersAPI {
 
     public get(id: number) {
         let browser;
-        let internalBrowser;
 
         try {
             browser = this.tabStack?.querySelector(`#browser-panel-${id}`);
-            internalBrowser = this.internalTabStack?.querySelector(`#${id}`);
         } catch (e) {
 
         }
 
         if (browser) return browser;
-        else if (internalBrowser) return internalBrowser;
         else throw new Error(`Browser with id '${id}' not found.`);
     }
 
@@ -162,9 +114,7 @@ export class BrowsersAPI {
         browser = null;
     }
 
-    public select(id: number, internal?: boolean) {
-        if (internal) return this.internalSelect(id);
-
+    public select(id: number) {
         const newBrowser: any = this.get(id);
 
         if (!newBrowser) return console.error(`Unable to switch browser with id "${id}" as it does not exist.`)
@@ -190,24 +140,6 @@ export class BrowsersAPI {
         }
 
         this.tabStack?.setAttribute("selectedId", id.toString());
-    }
-
-    public internalSelect(id: number) {
-        const browser: any = this.internalTabStack?.querySelector(`[pageid="${id}"]`);
-
-        if (!browser) return;
-
-        if (this.internalTabStack)
-            Array.from(this.internalTabStack.querySelectorAll("div")).forEach(
-                (tab: any) => {
-                    if (tab) browser.removeAttribute("selected");
-                }
-            );
-
-        browser.setAttribute("selected", "");
-
-        if (this.tabStack) this.tabStack.style.display = "none";
-        if (this.internalTabStack) this.internalTabStack.style.display = "flex";
     }
 
     public goto(id: number, url: MozURI, options?: any) {
