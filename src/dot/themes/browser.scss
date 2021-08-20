@@ -65,12 +65,13 @@ body,
 .browserContainer .browserStatus {
   position: absolute;
   bottom: 0;
-  padding: 2px 4px;
+  padding: 3px 6px;
   background-color: var(--toolbar-bgcolor);
   border-top: 1px solid;
   border-color: var(--chrome-content-separator-color);
   opacity: 0;
-  transition: 0.2s opacity;
+  transition: 0.2s opacity 0.2s;
+  color: color-mix(in srgb, currentColor 85%, gray);
   max-width: calc(100vw - 4px * 2 - 1px);
   overflow: hidden;
   white-space: nowrap;
