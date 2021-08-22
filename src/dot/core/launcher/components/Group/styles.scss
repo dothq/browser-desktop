@@ -1,0 +1,19 @@
+.launcher-result-group {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 18px;
+
+    .launcher-result-group-heading {
+        font-size: 14px;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin: 0;
+    }
+
+    .launcher-result-group-contents {
+        display: flex;
+        gap: 2px;
+        flex-direction: column;
+        z-index: 1;
+    }
+}

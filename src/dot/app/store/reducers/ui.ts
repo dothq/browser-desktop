@@ -1,6 +1,7 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
 
 interface TabsState {
+    launcherVisible: boolean,
     menuitems: {
         id: string,
         menu: any[],
@@ -9,7 +10,8 @@ interface TabsState {
 }
 
 const initialState: TabsState = {
-    menuitems: null
+    menuitems: null,
+    launcherVisible: false
 }
 
 export const uiReducer = createReducer(
@@ -18,6 +20,10 @@ export const uiReducer = createReducer(
         UI_SET_MENU: (store, action: AnyAction) => {
             store.menuitems = action.payload;
             console.log(action.payload);
+        },
+
+        UI_TOGGLE_LAUNCHER: (store, action: AnyAction) => {
+            store.launcherVisible = action.payload;
         }
     }
 );
