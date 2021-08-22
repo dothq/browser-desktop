@@ -57,4 +57,21 @@ export const windowActors = {
 
         allFrames: true,
     },
+
+    LightweightTheme: {
+        child: {
+            moduleURI: "chrome://dot/content/actors/LightweightThemeChild.jsm",
+            events: {
+                pageshow: { mozSystemGroup: true },
+                DOMContentLoaded: {},
+            },
+        },
+
+        matches: [
+            "about:config"
+        ],
+
+        includeChrome: true,
+        allFrames: true,
+    },
 };
