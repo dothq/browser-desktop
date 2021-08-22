@@ -2,6 +2,7 @@ export * from './browsers';
 export * from './console';
 export * from './dev';
 export * from './extensions';
+export * from './keybinds';
 export * from './menus';
 export * from './preferences';
 export * from './prompt';
@@ -17,8 +18,7 @@ import {
     BrowsersAPI,
     ConsoleAPI,
     DevAPI,
-    ExtensionsAPI,
-    MenusAPI,
+    ExtensionsAPI, KeybindsAPI, MenusAPI,
     PreferencesAPI,
     PromptAPI,
     RuntimeAPI,
@@ -43,6 +43,7 @@ class Dot {
     public dev = new DevAPI();
     public prompt = new PromptAPI();
     public runtime = new RuntimeAPI();
+    public keybinds = new KeybindsAPI();
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
     public settings = new SettingsAPI();
