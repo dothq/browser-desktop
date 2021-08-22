@@ -1,0 +1,14 @@
+.navigator-statusbar {
+    width: calc(100% - 6px * 2);
+    height: 30px;
+    display: flex;
+    gap: 6px;
+    padding: 0px 6px;
+    position: absolute;
+    bottom: 0;
+    background-color: var(--toolbar-bgcolor);
+    max-height: 30px;
+    transition: 0.3s max-height;
+    align-items: center;
+    border-top: 1px solid var(--chrome-content-separator-color);
+}
