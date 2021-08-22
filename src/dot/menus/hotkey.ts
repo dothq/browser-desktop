@@ -23,6 +23,7 @@ export type Key =
     "PageDown" |
     "PageUp" |
     "Backspace" |
+    "Space" |
     "Clear" |
     "Copy" |
     "CrSel" |
