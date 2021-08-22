@@ -12,14 +12,3 @@ export const builtInExtensions = [
         type: "theme"
     }
 ]
-
-export const builtInPageFavicons: { [key: string]: string } = {
-    settings: "chrome://dot/content/skin/icons/settings.svg"
-}
-
-export const builtInPageTitles: { [key: string]: string } = {
-    settings: "Settings"
-}
-
-// privilaged built in pages will have access to the accent colour
-export const builtInPrivilaged = ["settings"];
