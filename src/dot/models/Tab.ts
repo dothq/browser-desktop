@@ -50,6 +50,12 @@ export class Tab extends EventEmitter {
     }
 
     public get url() {
+        // tab might be dead
+        if (
+            !this.webContents ||
+            !this.webContents.currentURI
+        ) return "about:blank";
+
         return this.webContents.currentURI.spec;
     };
 
@@ -158,6 +164,8 @@ export class Tab extends EventEmitter {
 
     public faviconUrl: any;
 
+    public isClosing: boolean = false;
+
     public webContents: any;
 
     // this is here for compatibility with devtools
@@ -226,8 +234,34 @@ export class Tab extends EventEmitter {
     public destroy() {
         this.emit("TabClose");
 
+        const tabsIndex = dot.tabs.list.findIndex(x => x.id == this.id);
+        let browserContainer = dot.tabs.getBrowserContainer(this.webContents).parentNode;
+
+        store.dispatch({
+            type: "TAB_KILL",
+            payload: this.id
+        });
+
         this.webContents.destroy();
         this.webContents.remove();
+        browserContainer.remove();
+
+        if (dot.tabs.list.length == 0) {
+            return window.close();
+        }
+
+        /*
+            Current Tab Index: 1
+            Next Tab Index: 2 (1 + 1)
+            Tabs Length: 3
+            Result: new index (2) is less than or equal to the tabs length (3)
+                    so we just change the selected tab to the next tab along
+        */
+        // if ((tabsIndex + 1) <= dot.tabs.list.length) {
+
+        // }
+
+        // if ((tabsIndex + 1))
     }
 
     public select() {
