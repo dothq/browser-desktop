@@ -25,6 +25,28 @@ body,
   font-size: 13px;
 }
 
+.ui-container {
+  display: flex;
+  justify-content: center;
+}
+
+html.statusbar {
+  .browserStatus {
+    display: none;
+  }
+
+  #browser-tabs-stack {
+    margin-bottom: 30px;
+  }
+}
+
+html:not(.statusbar) {
+  .navigator-statusbar {
+    max-height: 0px;
+    border: none;
+  }
+}
+
 #browser {
   width: 100%;
   display: flex;
@@ -43,7 +65,8 @@ body,
   background-color: -moz-default-background-color;
   flex: 1;
   overflow: hidden;
-  transition: 0.3s border-top;
+  transition: 0.3s border-top, 0.3s margin-bottom;
+  margin-bottom: 0px;
 }
 
 .browserSidebarContainer,
@@ -76,6 +99,9 @@ body,
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.05);
+  cursor: default;
+  user-select: none;
 
   &[data-visible="true"] {
     opacity: 1;
