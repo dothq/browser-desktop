@@ -68,13 +68,20 @@ export class ThemeAPI {
     if (theme) {
       this.resetThemeVariables();
 
-      theme.set();
+      const variableMapped = theme.set();
 
       dot.prefs.set("dot.ui.theme", theme.id);
       this.currentThemeId = theme.id;
 
       this.updateAccentColour();
       this.determineDarkness();
+
+      const windowId = document?.defaultView?.docShell.outerWindowID;
+
+      if (windowId) Services.ppmm.sharedData.set(
+        `dot-theme-${windowId}`,
+        variableMapped
+      );
     } else {
       console.error(`ThemesAPI: Unable to locate theme with ID ${id}`);
       this.load(Services.builtInThemes.DEFAULT_THEME_ID);
