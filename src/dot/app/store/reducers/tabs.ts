@@ -109,6 +109,13 @@ export const tabsReducer = createReducer(
 
         TAB_UPDATE_NAVIGATION_STATE: (store, action: AnyAction) => updateNavigationStateAction(store, action.payload),
 
+        TAB_KILL: (store, action: AnyAction) => {
+            store.list = [
+                ...store.list.slice(0, action.payload),
+                ...store.list.slice(action.payload + 1)
+            ]
+        },
+
         SELECTED_TAB_CLOSE: (store, action: AnyAction) => closeTabAction(store, store.selectedId),
 
         SELECTED_TAB_NAVIGATE: (

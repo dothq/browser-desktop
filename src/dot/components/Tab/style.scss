@@ -16,14 +16,35 @@
     }
 }
 
+@keyframes tabbrowser-tab-close {
+    0% {
+        max-width: 250px;
+        opacity: 1;
+    }
+    10% {
+        opacity: 0;
+    }
+    100% {
+        max-width: 0px;
+        opacity: 0;
+    }
+}
+
 .tabbrowser-tab {
     max-width: 0px;
     width: 100%;
     height: 100%;
     display: flex;
     position: relative;
-    animation: 0.1s tabbrowser-tab-open forwards;
     transition: 0.15s background-color;
+
+    &[data-closing="false"] {
+        animation: 0.1s tabbrowser-tab-open forwards;
+    }
+
+    &[data-closing="true"] {
+        animation: 0.1s tabbrowser-tab-close forwards;
+    }
 }
 
 .tabbrowser-tab[data-active="true"] {
@@ -43,6 +64,7 @@
 .tabbrowser-tab .tab-background {
     position: absolute;
     display: flex;
+    transition: 0.3s background-color;
 }
 
 .tabbrowser-tab[data-active="true"] .tab-background {
@@ -61,13 +83,20 @@
 
 .tabbrowser-tab .tab-content {
     .tab-icon-stack {
-        width: 16px;
+        width: 26px;
         height: 16px;
-        margin-inline-end: 10px;
-        background-size: cover;
+        background-size: 16px;
+        background-position: left;
+        background-repeat: no-repeat;
         background-image: url(chrome://dot/content/skin/icons/default-favicon.svg);
         -moz-context-properties: fill, fill-opacity;
         fill: var(--lwt-tab-text, var(--lwt-text-color));
+        max-width: 26px;
+        transition: 0.15s max-width;
+
+        &[data-icon-hidden="true"] {
+            max-width: 0px;
+        }
     }
 
     .tab-label-container {
@@ -121,6 +150,7 @@
         top: 0px;
         background-color: var(--toolbar-bgcolor);
         z-index: 0;
+        transition: 0.3s background-color;
     }
 
     &::before {
