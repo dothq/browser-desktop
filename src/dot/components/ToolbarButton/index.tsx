@@ -6,6 +6,8 @@ export const ToolbarButton = ({
     children,
     id,
     onClick,
+    onMouseDown,
+    onMouseUp,
     command,
     className,
     disabled,
@@ -16,6 +18,8 @@ export const ToolbarButton = ({
     children?: any
     id?: any
     onClick?: any
+    onMouseDown?: any
+    onMouseUp?: any
     command?: string
     className?: any
     disabled?: boolean
@@ -47,6 +51,8 @@ export const ToolbarButton = ({
                 ${className ? className : ``}
             `.trim()}
             onClick={onTBClick}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
         >
             <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
 
