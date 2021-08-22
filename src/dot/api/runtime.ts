@@ -82,6 +82,17 @@ export class RuntimeAPI extends EventEmitter {
             },
             true
         );
+
+        dot.prefs.observe(
+            "dot.ui.statusbar.enabled",
+            (value: boolean) => {
+                const className = "statusbar";
+
+                if (value) dot.window.addWindowClass(className, true, document.documentElement);
+                else dot.window.removeWindowClass(className, document.documentElement);
+            },
+            true
+        );
     }
 
     public onAfterBrowserPaint() {
