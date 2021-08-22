@@ -4,7 +4,9 @@ import { ITab, Tab } from "../models/Tab";
 import { Services } from "../modules";
 import { NEW_TAB_URL_PARSED } from "../shared/tab";
 export class TabsAPI {
-    public list: Tab[] = [];
+    public get list() {
+        return store.getState().tabs.list;
+    }
 
     public get selectedTabId() {
         const { tabs } = store.getState();
