@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Sidebar } from "./components/Sidebar";
 
 export const Settings = () => {
     return (
@@ -12,7 +13,9 @@ export const Settings = () => {
 export const Config = () => {
     return (
         <>
-            about:config
+            <Sidebar title={"Config"}>
+
+            </Sidebar>
         </>
     )
 }
