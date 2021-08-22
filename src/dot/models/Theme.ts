@@ -38,6 +38,8 @@ export class Theme {
             ? this.darkTheme
             : this.theme;
 
+        let returnValue: any = {};
+
         for (let [key, value] of Object.entries(themeData)) {
             if (
                 key == "experimental" ||
@@ -56,10 +58,14 @@ export class Theme {
                     variable.replace(/_/g, "-"),
                     value.toString()
                 )
+
+                returnValue[variable.replace(/_/g, "-")] = value.toString();
             } else {
                 console.info(`ThemeAPI: Ignoring colour property "${key}" in theme with ID ${this.id}.`)
             }
         }
+
+        return returnValue;
     }
 
     constructor({ id, type, name, iconURL, theme, darkTheme, experiments, creation_time }: ThemeProps) {
