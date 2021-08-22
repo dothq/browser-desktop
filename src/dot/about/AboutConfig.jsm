@@ -39,7 +39,9 @@ class AboutConfig {
         this.classDescription = "about:config";
         this.classID = Components.ID("4104f884-b26e-465a-a204-bebe268187fc");
 
-        this.flags = nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT |
+        this.flags = nsIAboutModule.URI_MUST_LOAD_IN_CHILD |
+            nsIAboutModule.URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
+            nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT |
             nsIAboutModule.ALLOW_SCRIPT;
     }
 }
