@@ -38,6 +38,7 @@ export class AppMenu extends TemplatedMenu {
                 ________________,
                 Settings,
                 Help,
+                ________________,
                 Quit
             ]
         })
