@@ -1,7 +1,25 @@
 diff --git a/modules/libpref/init/StaticPrefList.yaml b/modules/libpref/init/StaticPrefList.yaml
-index b4b2dc76427c0240eb461570937d8dce181be091..f9707ea783f0f3114f66e1f1129bccfb382a5103 100644
+index b4b2dc76427c0240eb461570937d8dce181be091..eb5a3cce756835ec402ad8b00c9a20211a411b33 100644
 --- a/modules/libpref/init/StaticPrefList.yaml
 +++ b/modules/libpref/init/StaticPrefList.yaml
+@@ -4777,7 +4777,7 @@
+ # the pref we'll eventually flip to deploy WebRender to the target population.
+ - name: gfx.webrender.all
+   type: bool
+-  value: false
++  value: true
+   mirror: once
+ 
+ - name: gfx.webrender.enabled
+@@ -6592,7 +6592,7 @@
+ # Is support for CSS backdrop-filter enabled?
+ - name: layout.css.backdrop-filter.enabled
+   type: bool
+-  value: false
++  value: true
+   mirror: always
+ 
+ # Should stray control characters be rendered visibly?
 @@ -9880,6 +9880,24 @@
    value: true
    mirror: always
