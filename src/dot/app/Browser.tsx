@@ -4,10 +4,18 @@
 
 import React from "react";
 import { Chrome } from "../components/Chrome";
+import { Launcher } from "../core/launcher";
+import { Statusbar } from "../core/statusbar";
 import { useBrowserSelector } from "./store/hooks";
 
 export const Browser = () => {
     const ui = useBrowserSelector((s: any) => s.ui)
 
-    return <Chrome />;
+    return (
+        <div className={"ui-container"}>
+            <Chrome />
+            <Launcher />
+            <Statusbar />
+        </div>
+    );
 };
