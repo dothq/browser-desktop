@@ -13,6 +13,7 @@ export type Key =
     "Symbol" |
     "SymbolLock" |
     "Enter" |
+    "Esc" |
     "Tab" |
     "ArrowDown" |
     "ArrowUp" |
@@ -48,6 +49,8 @@ export type Key =
     "Play" |
     "Props" |
     "Select" |
+    "Equal" |
+    "Minus" |
     "ZoomIn" |
     "ZoomOut" |
     "BrightnessDown" |
@@ -173,6 +176,9 @@ export type Key =
     "X" |
     "Y" |
     "Z" |
+    "+" |
+    "-" |
+    "=" |
     "AudioBalanceLeft" |
     "AudioBalanceRight" |
     "AudioBassBoostDown" |
