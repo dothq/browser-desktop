@@ -40,7 +40,11 @@ export const Chrome = () => {
                                 ? "chrome://dot/content/skin/icons/close.svg"
                                 : "chrome://dot/content/skin/icons/reload.svg"
                         }
-                        command={"Browser:Reload"}
+                        command={
+                            tabs.getTabById(tabs.selectedId)?.state == "idle" || tabs.getTabById(tabs.selectedId)?.isNewTab()
+                                ? "Browser:Reload"
+                                : "Browser:Stop"
+                        }
                     />
 
                     <NewTabButton variant={"navigation-bar"} />

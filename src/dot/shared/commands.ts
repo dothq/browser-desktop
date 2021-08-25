@@ -6,6 +6,7 @@ export const commands: any = {
    "Browser:GoBack": () => dot.tabs.selectedTab?.goBack(),
    "Browser:GoForward": () => dot.tabs.selectedTab?.goForward(),
    "Browser:Reload": () => dot.tabs.selectedTab?.reload(),
+   "Browser:Stop": () => dot.tabs.selectedTab?.stop(),
 
    "Browser:Bookmark": () => store.dispatch({
       type: "TAB_BOOKMARK", payload: {
@@ -15,7 +16,9 @@ export const commands: any = {
 
    "Browser:NewTab": () => store.dispatch({
       type: "TAB_CREATE", payload: {
-         url: NEW_TAB_URL
+         url: NEW_TAB_URL,
+         title: "New Tab",
+         initialIconHidden: true
       }
    }),
 
