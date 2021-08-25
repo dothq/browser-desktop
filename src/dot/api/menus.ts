@@ -20,14 +20,16 @@ const buildMenu = (item: any, context: any) => {
         );
     }
 
+    const onItemClick = (...args: any[]) => {
+        if (item.onClick) item.onClick(...args);
+
+        dot.menus.clear(true);
+    }
+
     const props: any = {
         id: item.id,
         className: "contextmenu-item",
-        onClick: (...args: any[]) => {
-            if (item.onClick) item.onClick(...args);
-
-            dot.menus.clear(true);
-        }
+        onMouseUp: onItemClick
     }
 
     if (item.disabled !== null) {
