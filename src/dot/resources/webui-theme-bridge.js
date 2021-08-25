@@ -1,3 +1,10 @@
+"use static";
+
+window.Services = ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+window.XPCOMUtils = ChromeUtils.import(
+    "resource://gre/modules/XPCOMUtils.jsm"
+).XPCOMUtils;
+
 (async () => {
     let oldThemeData;
 
