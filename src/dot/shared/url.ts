@@ -15,7 +15,7 @@ export const whitelistedSchemes = [
     "moz-gio"
 ]
 
-export const formatToParts = (url: string): void | {scheme: string, domain: string, host: string, path: string, query: string, hash: string, internal: boolean} => {
+export const formatToParts = (url: string): void | { scheme: string, domain: string, host: string, path: string, query: string, hash: string, internal: boolean } => {
     let location;
 
     try {
@@ -56,4 +56,9 @@ export const formatToParts = (url: string): void | {scheme: string, domain: stri
     } catch (e) {
         return;
     }
+}
+
+export const predefinedFavicons: any = {
+    settings: "chrome://dot/content/skin/icons/settings.svg",
+    config: "chrome://dot/content/skin/icons/settings.svg"
 }
