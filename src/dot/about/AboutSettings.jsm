@@ -39,8 +39,7 @@ class AboutSettings {
         this.classDescription = "about:settings";
         this.classID = Components.ID("f0d1277e-8934-4438-acf3-030fd0ecc139");
 
-        this.flags = nsIAboutModule.URI_SAFE_FOR_UNTRUSTED_CONTENT |
-            nsIAboutModule.ALLOW_SCRIPT;
+        this.flags = nsIAboutModule.ALLOW_SCRIPT;
     }
 }
 
