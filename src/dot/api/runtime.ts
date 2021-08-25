@@ -3,7 +3,6 @@ import { dot } from "../api";
 import { store } from "../app/store";
 import { ActorManagerParent, BrowserWindowTracker, ChromeUtils, Ci, Services } from "../modules";
 import { windowActors } from "../modules/glue";
-import { NEW_TAB_URL } from "../shared/tab";
 
 export class RuntimeAPI extends EventEmitter {
     public QueryInterface = ChromeUtils.generateQI(["nsIXULBrowserWindow"])
@@ -35,12 +34,7 @@ export class RuntimeAPI extends EventEmitter {
             (value: string) => dot.theme.updateAccentColour(value)
         );
 
-        store.dispatch({
-            type: "TAB_CREATE",
-            payload: {
-                url: NEW_TAB_URL
-            }
-        });
+        dot.utilities.doCommand("Browser:NewTab");
 
         BrowserWindowTracker.track(window);
 
@@ -93,6 +87,8 @@ export class RuntimeAPI extends EventEmitter {
             },
             true
         );
+
+        Services.obs.notifyObservers(window, "extensions-late-startup");
     }
 
     public onAfterBrowserPaint() {
