@@ -8,6 +8,7 @@ export * from './preferences';
 export * from './prompt';
 export * from './runtime';
 export * from './settings';
+export * from './storage';
 export * from './tabs';
 export * from './theme';
 export * from './titlebar';
@@ -18,17 +19,21 @@ import {
     BrowsersAPI,
     ConsoleAPI,
     DevAPI,
-    ExtensionsAPI, KeybindsAPI, MenusAPI,
+    ExtensionsAPI,
+    KeybindsAPI,
+    MenusAPI,
     PreferencesAPI,
     PromptAPI,
     RuntimeAPI,
     SettingsAPI,
+    StorageAPI,
     TabsAPI,
     ThemeAPI,
     TitlebarAPI,
     UtilitiesAPI,
     WindowAPI
 } from ".";
+import { Search } from '../core/search';
 import { exportPublic } from "../shared/globals";
 
 class Dot {
@@ -42,7 +47,9 @@ class Dot {
     public menus = new MenusAPI();
     public dev = new DevAPI();
     public prompt = new PromptAPI();
+    public search = new Search();
     public runtime = new RuntimeAPI();
+    public storage = new StorageAPI();
     public keybinds = new KeybindsAPI();
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
