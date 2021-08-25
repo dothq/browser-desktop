@@ -1,17 +1,12 @@
 import React from "react"
 import { store } from "../../app/store"
 import { Tab } from "../../models/Tab"
-import { hideFaviconFor } from "../../shared/tab"
 import { ToolbarButton } from "../ToolbarButton"
 
 export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: boolean }) => {
-    const [closing, setClosing] = React.useState(false);
-
     const onCloseClick = (event: MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
-
-        setClosing(true);
 
         tab.destroy();
     }
@@ -21,7 +16,7 @@ export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: bool
             className={"tabbrowser-tab"}
             data-active={tab.active}
             data-next-active={nextIsActive}
-            data-closing={closing}
+            data-closing={tab.isClosing}
             onMouseDown={() => store.dispatch({ type: "TAB_SELECT", payload: tab.id })}
         >
             <div className={"tab-background"}></div>
@@ -29,7 +24,7 @@ export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: bool
             <div className={"tab-content"}>
                 <i
                     className={"tab-icon-stack"}
-                    data-icon-hidden={hideFaviconFor.includes(tab.url)}
+                    data-icon-hidden={tab.initialIconHidden}
                     style={{
                         backgroundImage: tab.state == "idle"
                             ? tab.faviconUrl ? `url(${tab.faviconUrl})` : ``
