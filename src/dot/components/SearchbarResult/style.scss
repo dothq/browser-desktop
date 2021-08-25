@@ -1,0 +1,52 @@
+.urlbar-result {
+    display: flex;
+    height: 36px;
+    border-radius: 0px;
+    width: calc(100% - 18px * 2);
+    align-items: center;
+    padding: 0px 18px;
+    transition: 0.1s background-color;
+    user-select: none;
+
+    &:hover {
+        background-color: var(--toolbarbutton-hover-background);
+    }
+
+    &:active {
+        background-color: var(--toolbarbutton-active-background);
+    }
+
+    &[data-active="true"] {
+        background-color: var(--toolbarbutton-hover-background) !important;
+    }
+
+    .urlbar-result-icon {
+        width: 12px;
+        height: 12px;
+        -moz-context-properties: fill, fill-opacity;
+        fill: currentColor;
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-inline-end: 16px;
+    }
+
+    .urlbar-result-title-group {
+        display: flex;
+        align-items: flex-start;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        padding: 6px 0;
+        
+        .urlbar-result-title {
+            font-size: 14px;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .urlbar-result-subtitle {
+            font-size: 12px;
+            opacity: 0.5;
+        }
+    }
+}
