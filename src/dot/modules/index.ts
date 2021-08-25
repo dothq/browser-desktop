@@ -52,3 +52,5 @@ export const { AddonManager } = include("resource://gre/modules/AddonManager.jsm
 export const { BrowserWindowTracker } = include(
     "resource:///modules/BrowserWindowTracker.jsm"
 );
+
+export const { NetUtil } = include("resource://gre/modules/NetUtil.jsm");
