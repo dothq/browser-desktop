@@ -1,6 +1,6 @@
 import { dot } from ".";
 import { store } from "../app/store";
-import { ITab, Tab } from "../models/Tab";
+import { Tab } from "../models/Tab";
 import { Services } from "../modules";
 import { NEW_TAB_URL_PARSED } from "../shared/tab";
 export class TabsAPI {
@@ -25,7 +25,7 @@ export class TabsAPI {
         return this.get(store.getState().tabs.selectedId)
     }
 
-    public create(data: ITab) {
+    public create(data: Partial<Tab>) {
         const tab = new Tab(data);
 
         if (tab) {

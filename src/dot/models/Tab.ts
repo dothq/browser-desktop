@@ -2,8 +2,9 @@ import EventEmitter from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
+import { zoomManager } from "../services/zoom";
 import { NEW_TAB_URL_PARSED } from "../shared/tab";
-import { formatToParts } from "../shared/url";
+import { formatToParts, predefinedFavicons } from "../shared/url";
 import { MozURI } from "../types/uri";
 
 const { DevToolsShim } = ChromeUtils.import(
@@ -139,7 +140,7 @@ export class Tab extends EventEmitter {
         'extension' |
         'file' = "search"
 
-    private _title: string = "";
+    public _title: string = "";
 
     public get title() {
         return this._title;
@@ -159,8 +160,22 @@ export class Tab extends EventEmitter {
     }
 
     public isNewTab() {
-        return this.url == NEW_TAB_URL_PARSED.spec;
+        return this.url.startsWith("about:");
     }
+
+    public get zoom() {
+        return zoomManager.getZoomOfTab(this.id);
+    }
+
+    public set zoom(zoom: number) {
+        zoomManager.setZoomForTab(this.id, zoom);
+    }
+
+    public get zoomManager() {
+        return zoomManager;
+    }
+
+    public initialIconHidden: boolean = false;
 
     public faviconUrl: any;
 
@@ -175,21 +190,28 @@ export class Tab extends EventEmitter {
 
     public tagName = "tab"
 
-    constructor({
-        url,
-        background,
-        id
-    }: ITab) {
+    constructor(args: Partial<Tab>) {
         super();
 
+        const parsed = Services.io.newURI(args.url);
+
         const browser = dot.browsersPrivate.create({
-            background: !!background,
-            id
-        }, Services.io.newURI(url));
+            background: !!args.background,
+            id: args.id
+        }, parsed);
 
         this.webContents = browser;
         this.id = this.webContents.browserId;
-        this.background = !!background;
+        this.background = !!args.background;
+        this.initialIconHidden = !!args.initialIconHidden;
+        this._title = args.title ? args.title : "";
+
+        if (
+            parsed.scheme == "about" &&
+            predefinedFavicons[parsed.pathQueryRef]
+        ) {
+            this.faviconUrl = predefinedFavicons[parsed.pathQueryRef];
+        }
 
         this.createProgressListener();
 
@@ -231,8 +253,21 @@ export class Tab extends EventEmitter {
         this.updateNavigationState();
     }
 
+    public stop() {
+        this.webContents.stop();
+        this.updateNavigationState();
+    }
+
     public destroy() {
         this.emit("TabClose");
+
+        store.dispatch({
+            type: "TAB_UPDATE",
+            payload: {
+                id: this.id,
+                isClosing: true
+            }
+        });
 
         const tabsIndex = dot.tabs.list.findIndex(x => x.id == this.id);
         let browserContainer = dot.tabs.getBrowserContainer(this.webContents).parentNode;
@@ -246,7 +281,9 @@ export class Tab extends EventEmitter {
         this.webContents.remove();
         browserContainer.remove();
 
-        if (dot.tabs.list.length == 0) {
+        const filteredList = dot.tabs.list.filter(x => !x.isClosing);
+
+        if (filteredList.length == 0) {
             return window.close();
         }
 
@@ -268,14 +305,65 @@ export class Tab extends EventEmitter {
         dot.browsersPrivate.select(this.id);
     }
 
+    public emit(event: string | symbol, ...args: any[]): boolean {
+        console.debug(`Tab ${this.id} dispatched: ${String(event)}`, ...args);
+
+        return super.emit(event, ...args);
+    }
+
     public createProgressListener() {
         const progressListener = {
             onStateChange: (webProgress: any, request: any, flags: number, status: any) => {
                 this.onStateChange(this.id, webProgress, request, flags, status);
+
+                this.emit(
+                    "state-change",
+                    webProgress,
+                    request,
+                    flags,
+                    status
+                );
             },
 
             onLocationChange: (webProgress: any, request: any, location: MozURI, flags: any) => {
                 this.onLocationChange(this.id, webProgress, request, location, flags);
+
+                this.emit(
+                    "location-change",
+                    webProgress,
+                    request,
+                    location,
+                    flags
+                );
+            },
+
+            onContentBlockingEvent: (webProgress: any, request: any, event: any, isSimulated: boolean) => {
+                this.emit(
+                    "content-blocked",
+                    webProgress,
+                    request,
+                    event,
+                    isSimulated
+                );
+            },
+
+            onProgressChange: (
+                webProgress: any,
+                request: any,
+                curProgress: number,
+                maxProgress: number,
+                curTotalProgress: number,
+                maxTotalProgress: number
+            ) => {
+                this.emit(
+                    "progress-change",
+                    webProgress,
+                    request,
+                    curProgress,
+                    maxProgress,
+                    curTotalProgress,
+                    maxTotalProgress
+                );
             },
 
             QueryInterface: ChromeUtils.generateQI([
@@ -354,8 +442,7 @@ export class Tab extends EventEmitter {
                 }
             }
         } else if (
-            flags & STATE_STOP &&
-            flags & STATE_IS_NETWORK
+            flags & STATE_STOP
         ) {
             // finished loading
             store.dispatch({
@@ -425,11 +512,7 @@ export class Tab extends EventEmitter {
             }
         });
 
-        // Dispatch the `BeforeTabRemotenessChange` event, allowing other code
-        // to react to this tab's process switch.
-        let evt = document.createEvent("Events");
-        evt.initEvent("BeforeTabRemotenessChange", true, false);
-        tab.dispatchEvent(evt);
+        this.emit("remote-changed");
 
         // Unhook our progress listener.
         let filter = dot.tabs.tabFilters.get(browserId);
