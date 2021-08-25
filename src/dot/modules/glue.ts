@@ -68,10 +68,27 @@ export const windowActors = {
         },
 
         matches: [
-            "about:config"
+            "about:*"
         ],
 
         includeChrome: true,
         allFrames: true,
+    },
+
+    ThemeMeta: {
+        parent: {
+            moduleURI: "chrome://dot/content/actors/ThemeMetaParent.jsm",
+        },
+        child: {
+            moduleURI: "chrome://dot/content/actors/ThemeMetaChild.jsm",
+
+            events: {
+                DOMMetaAdded: {},
+                DOMMetaChanged: {},
+                DOMMetaRemoved: {},
+            },
+        },
+
+        messageManagerGroups: ["browsers"],
     },
 };
