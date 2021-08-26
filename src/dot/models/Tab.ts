@@ -269,6 +269,12 @@ export class Tab extends EventEmitter {
             }
         });
 
+        const filteredList = dot.tabs.list.filter(x => !x.isClosing);
+
+        // close early because there is no need to destroy a browser
+        // that will be destroyed on window close 
+        if (filteredList.length == 0) return window.close();
+
         const tabsIndex = dot.tabs.list.findIndex(x => x.id == this.id);
         let browserContainer = dot.tabs.getBrowserContainer(this.webContents).parentNode;
 
@@ -280,12 +286,6 @@ export class Tab extends EventEmitter {
         this.webContents.destroy();
         this.webContents.remove();
         browserContainer.remove();
-
-        const filteredList = dot.tabs.list.filter(x => !x.isClosing);
-
-        if (filteredList.length == 0) {
-            return window.close();
-        }
 
         /*
             Current Tab Index: 1
