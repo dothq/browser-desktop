@@ -7,4 +7,11 @@ interface Document {
 interface Window {
     docShell: any;
     XULBrowserWindow: any;
+    windowState: number;
+    STATE_MAXIMIZED: number;
+    STATE_MINIMIZED: number;
+    STATE_NORMAL: number;
+    STATE_FULLSCREEN: number;
+    content: any;
+    openDialog: any;
 }

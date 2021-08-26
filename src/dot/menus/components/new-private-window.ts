@@ -1,9 +1,10 @@
 import { MenuItem } from ".";
+import { dot } from "../../api";
 import { Hotkey } from "../hotkey";
 
 export class NewPrivateWindow extends MenuItem {
     public onClick() {
-
+        dot.window.openNew({ type: "private" });
     }
 
     constructor() {
