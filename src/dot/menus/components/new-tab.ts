@@ -1,16 +1,10 @@
 import { MenuItem } from ".";
-import { store } from "../../app/store";
-import { NEW_TAB_URL } from "../../shared/tab";
+import { dot } from "../../api";
 import { Hotkey } from "../hotkey";
 
 export class NewTab extends MenuItem {
     public onClick() {
-        return store.dispatch({
-            type: "TAB_CREATE",
-            payload: {
-                url: NEW_TAB_URL
-            }
-        });
+        dot.utilities.doCommand("Browser:NewTab")
     }
 
     constructor() {

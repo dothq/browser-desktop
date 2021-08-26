@@ -2,6 +2,10 @@ import { MenuItem } from ".";
 import { Hotkey } from "../hotkey";
 
 export class Quit extends MenuItem {
+    public onClick() {
+        window.close();
+    }
+
     constructor() {
         super({
             id: "context-quit",
