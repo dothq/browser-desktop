@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
-import { ChromeUtils } from "../modules";
+import { AppConstants, ChromeUtils } from "../modules";
 
 const { OS } = ChromeUtils.import("resource://gre/modules/osfile.jsm");
 const { FileUtils } = ChromeUtils.import(
@@ -11,6 +11,80 @@ export class WindowAPI extends EventEmitter {
     public windowClass = new Set();
 
     private _windowStateCache: any = {};
+
+    public openNew({
+        type,
+        remote,
+        fission
+    }: {
+        type?: 'normal' | 'private',
+        remote?: boolean,
+        fission?: boolean
+    }) {
+        let args = "";
+        const isBrowserNavigator = document.documentElement.getAttribute("windowtype")
+            == "navigator:browser";
+        let extraFeatures = "";
+
+        if (type == "private") {
+            extraFeatures = ",private";
+            args = "about:privatebrowsing";
+        } else {
+            extraFeatures = ",non-private";
+        }
+
+        if (remote) {
+            extraFeatures += ",remote";
+        } else if (remote === false) {
+            extraFeatures += ",non-remote";
+        }
+
+        if (fission) {
+            extraFeatures += ",fission";
+        } else if (fission === false) {
+            extraFeatures += ",non-fission";
+        }
+
+        // Maximised
+        if (window.windowState == 1) extraFeatures += ",suppressanimation";
+
+        let win: Window;
+
+        if (
+            window &&
+            isBrowserNavigator &&
+            window.content &&
+            window.content.document
+        ) {
+            const charSet = window.content.document.characterSet;
+            const charSetArg = `charset=${charSet}`;
+
+            win = window.openDialog(
+                AppConstants.BROWSER_CHROME_URL,
+                "_blank",
+                "chrome,all,dialog=no" + extraFeatures,
+                args,
+                charSetArg
+            );
+        } else {
+            win = window.openDialog(
+                AppConstants.BROWSER_CHROME_URL,
+                "_blank",
+                "chrome,all,dialog=no" + extraFeatures,
+                args
+            );
+        }
+
+        win.addEventListener(
+            "MozAfterPaint",
+            () => {
+                console.log("Started another browser process.")
+            },
+            { once: true }
+        );
+
+        return win;
+    }
 
     public get windowState() {
         const { width, height } = document.documentElement.getBoundingClientRect();

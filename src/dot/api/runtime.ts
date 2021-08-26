@@ -22,7 +22,12 @@ export class RuntimeAPI extends EventEmitter {
             .getInterface(Ci.nsIAppWindow)
             .XULBrowserWindow;
 
-        ActorManagerParent.addJSWindowActors(windowActors);
+        try {
+            ActorManagerParent.addJSWindowActors(windowActors);
+        } catch (e) {
+            if (e.name == "NotSupportedError") return;
+            throw e;
+        }
     }
 
     public onBrowserStartup() {
