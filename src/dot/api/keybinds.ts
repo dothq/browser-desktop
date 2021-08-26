@@ -40,6 +40,8 @@ export class KeybindsAPI {
 
         // Esc
         this.addKeybind(["Esc"], () => {
+            if (dot.menus.visibleMenu) return dot.menus.clear();
+
             if (dot.tabs.selectedTab?.state == "loading") {
                 dot.utilities.doCommand("Browser:Stop")
             }
