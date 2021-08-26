@@ -5,6 +5,7 @@
 import React from "react"
 import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
 import { Tab } from "../../models/Tab"
+import { openMenuAt } from "../../shared/menu"
 import { NewTabButton } from "../NewTabButton"
 import { Searchbar } from "../Searchbar"
 import { Spring } from "../Spring"
@@ -19,7 +20,11 @@ export const Chrome = () => {
     const dispatch = useBrowserDispatch()
 
     return (
-        <div id={"navigator-toolbox"}>
+        <div id={"navigator-toolbox"} onContextMenu={(e) => openMenuAt({
+            name: "WindowMenu",
+            bounds: [e.clientX, e.clientY],
+            ctx: {}
+        })}>
             <nav id={"navigation-bar"}>
                 <div id={"navigation-bar-container"}>
                     <ToolbarButton
