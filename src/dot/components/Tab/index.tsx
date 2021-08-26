@@ -1,6 +1,7 @@
 import React from "react"
 import { store } from "../../app/store"
 import { Tab } from "../../models/Tab"
+import { openMenuAt } from "../../shared/menu"
 import { ToolbarButton } from "../ToolbarButton"
 
 export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: boolean }) => {
@@ -17,7 +18,19 @@ export const BrowserTab = ({ tab, nextIsActive }: { tab: Tab, nextIsActive: bool
             data-active={tab.active}
             data-next-active={nextIsActive}
             data-closing={tab.isClosing}
-            onMouseDown={() => store.dispatch({ type: "TAB_SELECT", payload: tab.id })}
+            onMouseDown={(e) => {
+                if (e.button == 0) store.dispatch({ type: "TAB_SELECT", payload: tab.id });
+            }}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                openMenuAt({
+                    name: "TabMenu",
+                    bounds: [e.clientX, e.clientY],
+                    ctx: { tabId: tab.id }
+                });
+            }}
         >
             <div className={"tab-background"}></div>
 
