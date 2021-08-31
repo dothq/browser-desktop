@@ -1,0 +1,63 @@
+.ui-popup-dialog {
+    position: absolute;
+    z-index: 1348755675;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 0 8px;
+    align-items: center;
+    user-select: none;
+    min-width: 400px;
+    background-color: var(--toolbar-bgcolor);
+    box-shadow: 
+        0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 
+        0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108), 
+        0px 0px 0px 1px var(--arrowpanel-border-color);
+
+    .ui-popup-dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 46px;
+        border-bottom: 1px solid var(--arrowpanel-border-color);
+    }
+}
+
+.ui-popup-dialog-header .ui-popup-dialog-header-title {
+    font-weight: 600;
+    margin: 0;
+    width: 100%;
+    font-size: inherit;
+    display: flex;
+    justify-content: center;
+}
+
+.ui-popup-dialog-item {
+    width: calc(100% - 14px * 2);
+    height: 46px;
+    display: flex;
+    align-items: center;
+    padding: 0px 14px;
+    align-items: center;
+
+    .ui-popup-dialog-item-icon {
+        width: 16px;
+        height: 16px;
+        -moz-context-properties: fill, fill-opacity;
+        fill: currentColor;
+        margin-inline-end: 12px;
+    }
+
+    .ui-popup-dialog-item-titles {
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .ui-popup-dialog-item-title {
+            font-size: inherit;
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+}
