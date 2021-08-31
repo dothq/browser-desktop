@@ -2,6 +2,7 @@ import EventEmitter from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
+import IdentityManager from "../services/identity";
 import { zoomManager } from "../services/zoom";
 import { NEW_TAB_URL_PARSED } from "../shared/tab";
 import { formatToParts, predefinedFavicons } from "../shared/url";
@@ -51,14 +52,18 @@ export class Tab extends EventEmitter {
     }
 
     public get url() {
+        return this.urlParsed.spec;
+    };
+
+    public get urlParsed(): MozURI {
         // tab might be dead
         if (
             !this.webContents ||
             !this.webContents.currentURI
-        ) return "about:blank";
+        ) return Services.io.newURI("about:blank");
 
-        return this.webContents.currentURI.spec;
-    };
+        return this.webContents.currentURI;
+    }
 
     public urlParts = {
         scheme: null,
@@ -180,6 +185,12 @@ export class Tab extends EventEmitter {
     public faviconUrl: any;
 
     public isClosing: boolean = false;
+
+    public contentState: any;
+
+    public get identityManager() {
+        return new IdentityManager(this);
+    }
 
     public webContents: any;
 
@@ -364,6 +375,21 @@ export class Tab extends EventEmitter {
                     curTotalProgress,
                     maxTotalProgress
                 );
+            },
+
+            onSecurityChange: (
+                webProgress: any,
+                request: any,
+                state: any
+            ) => {
+                this.contentState = state;
+
+                this.emit(
+                    "security-change",
+                    webProgress,
+                    request,
+                    state
+                )
             },
 
             QueryInterface: ChromeUtils.generateQI([
