@@ -1,7 +1,9 @@
 import React from "react";
 import { dot } from "../../api";
+import { SiteIdentityDialog } from "../../core/site-identity";
 import { Services } from "../../modules";
 import { MozURI } from "../../types/uri";
+import { Identity } from "../Identity";
 
 interface State {
     // 0: normal
@@ -9,6 +11,7 @@ interface State {
     // 2: focused
     mouseState: 0 | 1 | 2;
     isEmpty: boolean;
+    identityDialogOpen: boolean;
 }
 
 interface Props {
@@ -24,7 +27,10 @@ export class Searchbar extends React.Component<Props> {
     public state: State = {
         mouseState: 0,
         isEmpty: true,
+        identityDialogOpen: false
     }
+
+    public identityDialog = new SiteIdentityDialog();
 
     public get tab() {
         return dot.tabs.get(this.props.tabId);
@@ -148,6 +154,24 @@ export class Searchbar extends React.Component<Props> {
         hash.semihide = true;
     }
 
+    public onIdentityClick() {
+        if (this.identityDialog.opened) {
+            this.setState({ ...this.state, identityDialogOpen: false });
+
+            return this.identityDialog.close();
+        }
+
+        this.identityDialog.openAtElement(
+            document.getElementById("identity-icon-box"),
+            { tab: this.tab }
+        );
+
+        this.setState({
+            ...this.state,
+            identityDialogOpen: true
+        });
+    }
+
     public render() {
         return (
             <div id={"urlbar"}>
@@ -159,30 +183,26 @@ export class Searchbar extends React.Component<Props> {
 
                 <div id={"urlbar-input-container"}>
                     <div id={"identity-box"}>
-                        <Identity type={
-                            "search"
-                        } />
+                        <Identity
+                            onClick={() => this.onIdentityClick()}
+                            selected={this.state.identityDialogOpen}
+                            type={"search"} />
                     </div>
 
                     <div
                         id={"urlbar-input"}
-                        onMouseOver={() => setSearchBarHovered(true)}
-                        onMouseLeave={() => setSearchBarHovered(false)}
                     >
                         <div
                             id={"urlbar-input-url"}
                             style={{
-                                opacity: searchBarFocused
+                                opacity: true
                                     ? 0
                                     : 1
                             }}
                         >
                             <span
                                 className={"scheme"}
-                                data-hide-protocol={
-                                    searchBarMockVisible &&
-                                    !searchBarHovered
-                                }
+                                data-hide-protocol={true}
                             >
                                 { }
                             </span>
@@ -196,48 +216,13 @@ export class Searchbar extends React.Component<Props> {
                             id={"urlbar-input-box"}
                             placeholder={"Search using DuckDuckGo or enter address"}
                             style={{
-                                opacity: searchBarFocused
+                                opacity: true
                                     ? 1
                                     : 0
                             }}
                         ></input>
                     </div>
-
-                    {/* <div id={"page-action-buttons"}>
-                    <SearchbarButton
-                        id={"star-button-box"}
-                        icon={tabs.getTabById(tabs.selectedId)?.bookmarked
-                            ? "chrome://dot/content/skin/icons/bookmark-filled.svg"
-                            : "chrome://dot/content/skin/icons/actions/new-bookmark.svg"
-                        }
-                        command={"Browser:Bookmark"}
-                        className={tabs.getTabById(tabs.selectedId)?.bookmarked ? "starred" : ""}
-                    />
-
-                    <SearchbarButton
-                        id={"more-button-box"}
-                        icon={"chrome://dot/content/skin/icons/more.svg"}
-                    />
-                </div> */}
                 </div>
-
-                {/* <div
-                id="urlbar-popout"
-                data-open={urlbarPopupVisible && !!searchBarValue.length}
-                style={({
-                    "--urlbar-popup-height": `${urlbarPopupHeight + 8}px`
-                } as any)}
-            >
-                <div className={"urlbar-popout-container"} ref={urlbarPopupContainerRef}>
-                    {suggestions?.map(suggestion => (
-                        <SearchbarResult
-                            {...suggestion}
-                            key={suggestion.id}
-                            active={false}
-                        />
-                    ))}
-                </div>
-            </div> */}
             </div>
         )
     }
