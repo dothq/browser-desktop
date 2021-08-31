@@ -55,7 +55,7 @@ export const Chrome = () => {
                     <NewTabButton variant={"navigation-bar"} />
 
                     <Spring />
-                    <Searchbar />
+                    <Searchbar tabId={tabs.selectedId} />
                     <Spring />
 
                     <ToolbarButton
