@@ -1,4 +1,4 @@
-import { Services } from "../modules";
+import { AboutPagesUtils, Services } from "../modules";
 
 export const whitelistedSchemes = [
     "http",
@@ -62,3 +62,7 @@ export const predefinedFavicons: any = {
     settings: "chrome://dot/content/skin/icons/settings.svg",
     config: "chrome://dot/content/skin/icons/settings.svg"
 }
+
+export const visibleAboutUrls = AboutPagesUtils.visibleAboutUrls.map((url: string) => {
+    return Services.io.newURI(url).pathQueryRef;
+})
