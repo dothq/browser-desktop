@@ -5,7 +5,7 @@ const labels: any = {
     "built-in": "Dot Browser"
 }
 
-export const Identity = ({ type }: {
+export const Identity = ({ type, onClick, selected }: {
     type: 'search' |
     'info' |
     'warning' |
@@ -14,13 +14,17 @@ export const Identity = ({ type }: {
     'https' |
     'https-unsecure' |
     'extension' |
-    'file'
+    'file',
+    onClick?: any
+    selected?: boolean
 }) => {
     return (
         <SearchbarButton
             id={"identity-icon-box"}
             className={type}
             label={labels[type] ? labels[type] : ""}
+            onClick={onClick}
+            selected={selected}
         />
     )
 }
