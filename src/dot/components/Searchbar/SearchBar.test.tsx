@@ -4,6 +4,6 @@ import { Searchbar } from '.'
 
 describe('UI Search Bar', () => {
     test('Render', async () => {
-        render(<Searchbar />)
+        render(<Searchbar tabId={0} />)
     })
 })
