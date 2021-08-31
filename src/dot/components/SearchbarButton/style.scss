@@ -9,6 +9,10 @@
     font-size: 14px;
     appearance: none;
     transition: 0.15s background-color, 0.3s color;
+
+    &[data-selected="true"] {
+        background-color: var(--button-active, var(--toolbarbutton-active-background)) !important;
+    }
 }
 
 .searchbar-button .searchbar-button-icon {
