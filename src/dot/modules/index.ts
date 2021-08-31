@@ -54,3 +54,15 @@ export const { BrowserWindowTracker } = include(
 );
 
 export const { NetUtil } = include("resource://gre/modules/NetUtil.jsm");
+
+export const { AboutPagesUtils } = include(
+    "resource://gre/modules/AboutPagesUtils.jsm"
+);
+
+export const { PrivateBrowsingUtils } = include(
+    "resource://gre/modules/PrivateBrowsingUtils.jsm"
+);
+
+export const { SitePermissions } = include(
+    "resource:///modules/SitePermissions.jsm"
+)
