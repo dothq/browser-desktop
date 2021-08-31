@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
-import { AppConstants, ChromeUtils } from "../modules";
+import { AppConstants, ChromeUtils, PrivateBrowsingUtils } from "../modules";
 
 const { OS } = ChromeUtils.import("resource://gre/modules/osfile.jsm");
 const { FileUtils } = ChromeUtils.import(
@@ -84,6 +84,10 @@ export class WindowAPI extends EventEmitter {
         );
 
         return win;
+    }
+
+    public isPrivate() {
+        return PrivateBrowsingUtils.isWindowPrivate(window);
     }
 
     public get windowState() {
