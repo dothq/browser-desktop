@@ -4,16 +4,8 @@
 
 menu {
     display: flex;
-    flex-direction: column;
-    background-color: var(--toolbar-bgcolor);
     border-radius: 8px;
-    padding: 6px;
-    align-items: center;
-    gap: 1px;
     transition: 0.15s opacity;
-    box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132), 
-        0 1.2px 3.6px 0 rgba(0,0,0,.108), 
-        0px 0px 0px 1px var(--arrowpanel-border-color);
     opacity: 0;
     margin: 0;
     min-width: 300px;
@@ -21,7 +13,11 @@ menu {
     position: absolute;
     pointer-events: none;
     user-select: none;
+    padding: 0;
     visibility: hidden;
+    box-shadow: 0 6.4px 14.4px 0 rgba(0,0,0,.132), 
+        0 1.2px 3.6px 0 rgba(0,0,0,.108), 
+        0px 0px 0px 1px var(--arrowpanel-border-color);
 }
 
 menu[open] {
@@ -30,4 +26,30 @@ menu[open] {
     pointer-events: all;
     opacity: 1;
     visibility: visible;
+}
+
+.menu-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(12px);
+    background-color: color-mix(in srgb, transparent 100%, var(--toolbar-bgcolor) 90%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='300' height='300' fill='none'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' stitchTiles='stitch' baseFrequency='0.75'%3E%3C/feTurbulence%3E%3C/filter%3E%3Crect width='300' height='300' style=''%3E%3C/rect%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.5'%3E%3C/rect%3E%3C/svg%3E");
+    background-blend-mode: overlay;
+    z-index: -1;
+    display: flex;
+    border-radius: inherit;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    align-items: center;
+    gap: 1px;
+    width: 100%;
+    max-height: calc(99.9% - var(--menu-y) - calc(6px * 2));
+    overflow-y: auto;
 }

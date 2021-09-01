@@ -115,12 +115,28 @@ export class MenusAPI {
             })
         }
 
+        const menuScrollbox = React.createElement(
+            "div",
+            {
+                className: "menu-container"
+            },
+            ...children
+        )
+
+        const menuBackground = React.createElement(
+            "div",
+            {
+                className: "menu-background"
+            }
+        )
+
         const menuContainer = React.createElement(
             "menu",
             {
                 id
             },
-            ...children
+            menuBackground,
+            menuScrollbox
         );
 
         const menuMount = document.createElement("div");
