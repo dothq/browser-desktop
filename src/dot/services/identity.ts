@@ -1,6 +1,7 @@
 import { dot } from "../api";
 import { Tab } from "../models/Tab";
 import { Ci, NetUtil, Services, SitePermissions } from "../modules";
+import { NEW_TAB_URL_PARSED } from "../shared/tab";
 import { visibleAboutUrls } from "../shared/url";
 
 class IdentityManager {
@@ -266,6 +267,54 @@ class IdentityManager {
         data.issuer = certificate.issuerOrganization || certificate.issuerCommonName;
 
         return data;
+    }
+
+    public getIdentityStrings() {
+        let msg = "";
+        let icon = "";
+
+        switch (this.identity.connection) {
+            case 0:
+            case 7:
+                msg = `Your connection to ${this.identityHost} is not secure. Entering personal information like logins, passwords and banking information may leave it open to attackers.`
+                icon = "http"
+                break;
+            case 1:
+                msg = `This is a secure Dot Browser page.`
+                icon = "info"
+                break;
+            case 2:
+                msg = `This is a secure extension page.`
+                icon = "extension"
+                break;
+            case 3:
+                msg = `This page is stored on your computer.`
+                icon = "file"
+                break;
+            case 4:
+            case 5:
+            case 6:
+                msg = `Your connection is secure.`
+                icon = "https"
+                break;
+            case 8:
+                msg = `Secure connection is not available.`
+                icon = "http"
+                break;
+            default:
+                msg = `Your connection to ${this.identityHost} is not secure.`
+                icon = "http"
+                break;
+        }
+
+        if (this.url.specIgnoringRef == NEW_TAB_URL_PARSED.spec) {
+            icon = "search"
+        }
+
+        return {
+            msg,
+            icon
+        }
     }
 
     public get identity() {

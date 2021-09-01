@@ -12,6 +12,8 @@ interface State {
     mouseState: 0 | 1 | 2;
     isEmpty: boolean;
     identityDialogOpen: boolean;
+    identityMsg: string;
+    identityIcon: string;
 }
 
 interface Props {
@@ -27,7 +29,9 @@ export class Searchbar extends React.Component<Props> {
     public state: State = {
         mouseState: 0,
         isEmpty: true,
-        identityDialogOpen: false
+        identityDialogOpen: false,
+        identityMsg: "",
+        identityIcon: ""
     }
 
     public identityDialog = new SiteIdentityDialog();
@@ -152,6 +156,14 @@ export class Searchbar extends React.Component<Props> {
 
         queryParams.semihide = true;
         hash.semihide = true;
+
+        const data = this.tab?.identityManager.getIdentityStrings();
+
+        this.setState({
+            ...this.state,
+            identityMsg: data?.msg,
+            identityIcon: data?.icon
+        })
     }
 
     public onIdentityClick() {
@@ -168,7 +180,7 @@ export class Searchbar extends React.Component<Props> {
 
         this.setState({
             ...this.state,
-            identityDialogOpen: true
+            identityDialogOpen: true,
         });
     }
 
@@ -186,7 +198,7 @@ export class Searchbar extends React.Component<Props> {
                         <Identity
                             onClick={() => this.onIdentityClick()}
                             selected={this.state.identityDialogOpen}
-                            type={"search"} />
+                            type={this.state.identityIcon} />
                     </div>
 
                     <div
