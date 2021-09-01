@@ -523,7 +523,7 @@ export class Tab extends EventEmitter {
         });
     }
 
-    public onBrowserRemoteChange(event: any) {
+    public onBrowserRemoteChange = (event: any) => {
         let { browserId } = event.originalTarget;
         let tab: any = dot.tabs.get(browserId);
         if (!tab) {
