@@ -8,7 +8,7 @@
     align-items: center;
     user-select: none;
     min-width: 400px;
-    background-color: var(--toolbar-bgcolor);
+    background-color: var(--arrowpanel-background);
     box-shadow: 
         0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 
         0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108), 
@@ -42,8 +42,9 @@
     align-items: center;
 
     .ui-popup-dialog-item-icon {
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
+        background-size: cover;
         -moz-context-properties: fill, fill-opacity;
         fill: currentColor;
         margin-inline-end: 12px;

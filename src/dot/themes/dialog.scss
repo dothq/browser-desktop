@@ -26,7 +26,7 @@
     .ui-modal-dialog-container {
         display: flex;
         flex-direction: column;
-        background-color: var(--toolbar-bgcolor);
+        background-color: var(--arrowpanel-background);
         padding: 22px;
         border-radius: 18px;
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
@@ -74,7 +74,7 @@
         opacity: 0.8;
         max-height: 200px;
         overflow-y: auto;
-        background-color: var(--toolbar-bgcolor);
+        background-color: var(--arrowpanel-background);
         user-select: text;
         -moz-window-dragging: no-drag;
     }
