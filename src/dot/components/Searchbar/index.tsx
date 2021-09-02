@@ -1,5 +1,6 @@
 import React from "react";
 import { dot } from "../../api";
+import { store } from "../../app/store";
 import { SiteIdentityDialog } from "../../core/site-identity";
 import { Services } from "../../modules";
 import { MozURI } from "../../types/uri";
@@ -71,25 +72,11 @@ export class Searchbar extends React.Component<Props> {
     public constructor(props: Props) {
         super(props);
 
-        this.tab?.addEventListener(
-            "location-change",
-            this.onLocationChange.bind(this)
-        );
+        store.subscribe(() => this.onLocationChange())
     }
 
-    public onLocationChange(
-        webProgress: any,
-        request: any,
-        location: MozURI,
-        flags: number
-    ) {
-        const {
-            scheme,
-            host,
-            filePath,
-            query,
-            ref // aka hash
-        } = location;
+    public onLocationChange() {
+        const parsed = (this.tab?.urlParsed as MozURI);
 
         let protocol: Partial<SearchbarPart> = {};
         let subdomain: Partial<SearchbarPart> = {};
@@ -100,26 +87,26 @@ export class Searchbar extends React.Component<Props> {
 
         // Locator schemes are schemes which end with ://
         // Examples of these are http, https, moz-extension and chrome
-        if (this.knownLocatorSchemes.includes(scheme)) {
-            protocol.content = `${scheme}://`
+        if (this.knownLocatorSchemes.includes(parsed.scheme)) {
+            protocol.content = `${parsed.scheme}://`
             protocol.semihide = true;
 
             // Only http schemes should have their hosts resolved
-            if (this.isHttp(scheme)) {
+            if (this.isHttp(parsed.scheme)) {
                 // Try to resolve the base domain of the host
                 try {
-                    const domainName = Services.eTLD.getBaseDomainFromHost(host);
+                    const domainName = Services.eTLD.getBaseDomainFromHost(parsed.host);
 
                     // The subdomain is the host without the domain name
                     // Example: example.mysite.com
                     // The domain name is "mysite.com"
                     // So to get the subdomain we just split the host at "mysite.com"
                     // Leaving us with "example." as the subdomain
-                    subdomain.content = host.split(domainName)[0];
+                    subdomain.content = parsed.host.split(domainName)[0];
                     hostname.content = domainName;
                 } catch (e) {
                     // That didn't work so let's just use our hacky domain thing
-                    hostname.content = this.useHackyDomain(host);
+                    hostname.content = this.useHackyDomain(parsed.host);
                 }
 
                 // We do this so it is clear what is the URL
@@ -133,17 +120,17 @@ export class Searchbar extends React.Component<Props> {
                 // chrome://dot/content/browser.html
                 //         [dot] is the host
                 //            [/content/browser.html] is the path
-                hostname.content = host;
+                hostname.content = parsed.host;
             }
 
             // filePath excludes query and hash as we handle that later
-            path.content = filePath;
+            path.content = parsed.filePath;
             path.semihide = true;
         } else {
-            protocol.content = `${scheme}:`
+            protocol.content = `${parsed.scheme}:`
             protocol.semihide = false;
 
-            hostname.content = filePath;
+            hostname.content = parsed.filePath;
             hostname.semihide = false;
 
             // We can skip the path for non locator schemes
@@ -151,8 +138,8 @@ export class Searchbar extends React.Component<Props> {
         }
 
         // All scheme types have query and hash
-        queryParams.content = query ? `?${query}` : undefined;
-        hash.content = ref ? `#${ref}` : undefined;
+        queryParams.content = parsed.query ? `?${parsed.query}` : undefined;
+        hash.content = parsed.ref ? `#${parsed.ref}` : undefined;
 
         queryParams.semihide = true;
         hash.semihide = true;
