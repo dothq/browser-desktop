@@ -8,7 +8,10 @@
     align-items: center;
     user-select: none;
     min-width: 400px;
-    background-color: var(--arrowpanel-background);
+    background-color: color-mix(in srgb, var(--arrowpanel-background) 90%, transparent 100%);
+    backdrop-filter: blur(12px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='300' height='300' fill='none'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' stitchTiles='stitch' baseFrequency='0.75'%3E%3C/feTurbulence%3E%3C/filter%3E%3Crect width='300' height='300' style=''%3E%3C/rect%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.5'%3E%3C/rect%3E%3C/svg%3E");
+    background-blend-mode: overlay;
     box-shadow: 
         0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 
         0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108), 
