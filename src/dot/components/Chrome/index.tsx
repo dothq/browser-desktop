@@ -41,12 +41,12 @@ export const Chrome = () => {
 
                     <ToolbarButton
                         image={
-                            tabs.getTabById(tabs.selectedId)?.state == "loading" && !tabs.getTabById(tabs.selectedId)?.isNewTab()
+                            tabs.getTabById(tabs.selectedId)?.state == "loading" && !tabs.getTabById(tabs.selectedId)?.identityManager.isAboutUI
                                 ? "chrome://dot/content/skin/icons/close.svg"
                                 : "chrome://dot/content/skin/icons/reload.svg"
                         }
                         command={
-                            tabs.getTabById(tabs.selectedId)?.state == "idle" || tabs.getTabById(tabs.selectedId)?.isNewTab()
+                            tabs.getTabById(tabs.selectedId)?.state == "idle" || tabs.getTabById(tabs.selectedId)?.identityManager.isAboutUI
                                 ? "Browser:Reload"
                                 : "Browser:Stop"
                         }

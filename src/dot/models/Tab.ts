@@ -4,8 +4,7 @@ import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import IdentityManager from "../services/identity";
 import { zoomManager } from "../services/zoom";
-import { NEW_TAB_URL_PARSED } from "../shared/tab";
-import { formatToParts, predefinedFavicons } from "../shared/url";
+import { predefinedFavicons } from "../shared/url";
 import { MozURI } from "../types/uri";
 
 const { DevToolsShim } = ChromeUtils.import(
@@ -64,16 +63,6 @@ export class Tab extends EventEmitter {
 
         return this.webContents.currentURI;
     }
-
-    public urlParts = {
-        scheme: null,
-        host: null,
-        domain: null,
-        path: null,
-        query: null,
-        hash: null,
-        internal: true
-    };
 
     public get active() {
         return dot.tabs.selectedTabId == this.id;
@@ -134,17 +123,6 @@ export class Tab extends EventEmitter {
         );
     }
 
-    public pageState:
-        'search' |
-        'info' |
-        'warning' |
-        'built-in' |
-        'http' |
-        'https' |
-        'https-unsecure' |
-        'extension' |
-        'file' = "search"
-
     public _title: string = "";
 
     public get title() {
@@ -162,10 +140,6 @@ export class Tab extends EventEmitter {
                 noInvalidate: true
             }
         });
-    }
-
-    public isNewTab() {
-        return this.url.startsWith("about:");
     }
 
     public get zoom() {
@@ -491,36 +465,6 @@ export class Tab extends EventEmitter {
         }
 
         dot.tabs.get(id)?.updateNavigationState();
-
-        let pageState = "info";
-
-        if (location.spec == NEW_TAB_URL_PARSED.spec)
-            pageState = "search"
-        else if (location.scheme == "https") pageState = "https"
-        else if (location.scheme == "http") pageState = "http"
-        else if (location.scheme == "moz-extension") pageState = "extension"
-        else if (
-            location.scheme == "about"
-        ) pageState = "built-in"
-        else if (
-            location.scheme == "file" ||
-            location.scheme == "chrome" ||
-            location.scheme == "resource"
-        ) pageState = "file"
-
-        if (location.spec == "about:blank") pageState = "info";
-
-        const urlParts = formatToParts(location.spec);
-
-        store.dispatch({
-            type: "TAB_UPDATE",
-            payload: {
-                id,
-                url: location.spec,
-                pageState,
-                urlParts
-            }
-        });
     }
 
     public onBrowserRemoteChange = (event: any) => {
@@ -538,13 +482,13 @@ export class Tab extends EventEmitter {
             }
         });
 
-        this.emit("remote-changed");
+        tab.emit("remote-changed");
 
         // Unhook our progress listener.
         let filter = dot.tabs.tabFilters.get(browserId);
         let oldListener = dot.tabs.tabListeners.get(browserId);
 
-        this.webContents.webProgress.removeProgressListener(filter);
+        tab.webContents.webProgress.removeProgressListener(filter);
         filter.removeProgressListener(oldListener);
 
         // We'll be creating a new listener, so destroy the old one.
