@@ -7,6 +7,7 @@ import { visibleAboutUrls } from "../shared/url";
 class IdentityManager {
     private tab: Tab;
 
+    public CONNECTION_UNSET = -1;
     public CONNECTION_NOT_SECURE = 0;
     public CONNECTION_CHROME = 1;
     public CONNECTION_WEB_EXTENSION = 2;
@@ -274,36 +275,35 @@ class IdentityManager {
         let icon = "";
 
         switch (this.identity.connection) {
-            case 0:
-            case 7:
+            case this.CONNECTION_NOT_SECURE:
+            case this.CONNECTION_CERT_ERROR:
                 msg = `Your connection to ${this.identityHost} is not secure. Entering personal information like logins, passwords and banking information may leave it open to attackers.`
                 icon = "http"
                 break;
-            case 1:
+            case this.CONNECTION_CHROME:
                 msg = `This is a secure Dot Browser page.`
                 icon = "info"
                 break;
-            case 2:
+            case this.CONNECTION_WEB_EXTENSION:
                 msg = `This is a secure extension page.`
                 icon = "extension"
                 break;
-            case 3:
+            case this.CONNECTION_LOCAL_FILE:
                 msg = `This page is stored on your computer.`
                 icon = "file"
                 break;
-            case 4:
-            case 5:
-            case 6:
+            case this.CONNECTION_SECURE_WITH_EV:
+            case this.CONNECTION_SECURE_WITH_CERT_OVERRIDE:
+            case this.CONNECTION_SECURE:
                 msg = `Your connection is secure.`
                 icon = "https"
                 break;
-            case 8:
+            case this.CONNECTION_HTTPS_ONLY_ERROR:
                 msg = `Secure connection is not available.`
                 icon = "http"
                 break;
             default:
-                msg = `Your connection to ${this.identityHost} is not secure.`
-                icon = "http"
+                icon = "search"
                 break;
         }
 
@@ -318,7 +318,7 @@ class IdentityManager {
     }
 
     public get identity() {
-        let connection = this.CONNECTION_NOT_SECURE;
+        let connection = this.CONNECTION_UNSET;
 
         if (this.isAboutUI) {
             connection = this.CONNECTION_CHROME;
