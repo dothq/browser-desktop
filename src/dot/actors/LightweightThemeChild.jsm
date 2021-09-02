@@ -13,8 +13,6 @@ class LightweightThemeChild extends JSWindowActorChild {
     constructor() {
         super();
 
-        console.log(this.contentWindow)
-
         Services.cpmm.sharedData.addEventListener("change", this);
     }
 
