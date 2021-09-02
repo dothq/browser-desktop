@@ -1,6 +1,8 @@
 import {
     appendFileSync,
-    ensureSymlink, lstatSync, readFileSync
+    ensureSymlink,
+    lstatSync,
+    readFileSync
 } from "fs-extra";
 import { resolve } from "path";
 import rimraf from "rimraf";
@@ -18,14 +20,20 @@ export const copyManual = (
         try {
             if (
                 !lstatSync(
-                    resolve(ENGINE_DIR, ...getChunked(name))
+                    resolve(
+                        ENGINE_DIR,
+                        ...getChunked(name)
+                    )
                 ).isSymbolicLink()
             ) {
                 rimraf.sync(
-                    resolve(ENGINE_DIR, ...getChunked(name))
+                    resolve(
+                        ENGINE_DIR,
+                        ...getChunked(name)
+                    )
                 );
             }
-        } catch(e) {}
+        } catch (e) {}
 
         ensureSymlink(
             resolve(SRC_DIR, ...getChunked(name)),
@@ -52,7 +60,7 @@ export const copyManual = (
         return;
     } catch (e) {
         console.log(e);
-        process.exit(0)
+        process.exit(0);
         // return e;
     }
 };
