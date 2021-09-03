@@ -112,17 +112,15 @@ module.exports = {
                 test: /\.js/,
                 include: /@fluent[\\/](bundle|langneg|syntax|react|sequence)[\\/]/,
                 type: "javascript/auto",
-            },
-            {
-                test: /\.ftl/,
-                exclude: /node_modules/,
-                use: "fluent-loader"
-
             }
         ],
     },
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
+        fallback: {
+            path: false,
+            fs: false
+        }
     },
     plugins: [
         new MiniCssExtractPlugin({
@@ -139,5 +137,5 @@ module.exports = {
         splitChunks: {
             cacheGroups
         },
-    },
+    }
 };
