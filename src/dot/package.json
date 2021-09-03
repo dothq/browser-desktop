@@ -10,14 +10,12 @@
     "test:dev": "yarn test --watch"
   },
   "dependencies": {
+    "@dothq/fluent": "^1.0.7",
     "@dothq/id": "^1.0.1",
     "@fluent/bundle": "^0.16.1",
-    "@fluent/langneg": "^0.5.2",
-    "@fluent/react": "^0.13.1",
     "@reduxjs/toolkit": "^1.6.1",
     "dexie": "^3.0.3",
     "document.contains": "^1.0.2",
-    "fluent-loader": "^1.0.1",
     "hotkeys-js": "^3.8.7",
     "mathjs": "^9.4.4",
     "query-selector-shadow-dom": "^1.0.0",
@@ -49,7 +47,6 @@
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^6.2.0",
-    "fluent-loader": "^1.0.1",
     "glob": "^7.1.7",
     "import-glob-loader": "^1.1.0",
     "jest": "^27.0.6",
