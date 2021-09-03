@@ -12,7 +12,8 @@ export const ToolbarButton = ({
     className,
     disabled,
     menu,
-    menuCtx
+    menuCtx,
+    title
 }: {
     image?: string
     children?: any
@@ -25,6 +26,7 @@ export const ToolbarButton = ({
     disabled?: boolean
     menu?: string
     menuCtx?: any
+    title?: string
 }) => {
     const onTBClick = () => {
         if (command) dot.utilities.doCommand(command);
@@ -50,9 +52,10 @@ export const ToolbarButton = ({
                 ${!!image ? `toolbar-button-has-image` : ``}
                 ${className ? className : ``}
             `.trim()}
-            onClick={onTBClick}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
+            onClick={disabled ? () => { } : onTBClick}
+            onMouseDown={disabled ? () => { } : onMouseDown}
+            onMouseUp={disabled ? () => { } : onMouseUp}
+            title={title}
         >
             <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
 
