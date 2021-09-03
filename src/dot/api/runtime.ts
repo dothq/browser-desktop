@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { ActorManagerParent, BrowserWindowTracker, ChromeUtils, Ci, Services } from "../modules";
+import { ActorManagerParent, BrowserWindowTracker, Cc, ChromeUtils, Ci, Services } from "../modules";
 import { windowActors } from "../modules/glue";
 
 export class RuntimeAPI extends EventEmitter {
@@ -136,6 +136,26 @@ export class RuntimeAPI extends EventEmitter {
                 pageStatus: url
             }
         });
+    }
+
+    public showTooltip(x: number, y: number, data: string, direction: string) {
+        if (
+            Cc["@mozilla.org/widget/dragservice;1"]
+                .getService(Ci.nsIDragService)
+                .getCurrentSession()
+        ) {
+            return;
+        }
+
+        let el: any = document.getElementById("aHTMLTooltip");
+        el.label = data;
+        el.style.direction = direction;
+        el.openPopupAtScreen(x, y, false, null);
+    }
+
+    public hideTooltip() {
+        let el: any = document.getElementById("aHTMLTooltip");
+        el.hidePopup();
     }
 
     constructor() {
