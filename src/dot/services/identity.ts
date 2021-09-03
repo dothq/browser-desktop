@@ -277,7 +277,7 @@ class IdentityManager {
         switch (this.identity.connection) {
             case this.CONNECTION_NOT_SECURE:
             case this.CONNECTION_CERT_ERROR:
-                msg = `Your connection to ${this.identityHost} is not secure. Entering personal information like logins, passwords and banking information may leave it open to attackers.`
+                msg = `Your connection is not secure.`
                 icon = "http"
                 break;
             case this.CONNECTION_CHROME:
@@ -341,9 +341,9 @@ class IdentityManager {
             this.isBlockedErrorPage
         ) {
             connection = this.CONNECTION_NOT_SECURE;
-        } else if (this.isLocalResource) {
-            connection = this.CONNECTION_LOCAL_FILE;
-        }
+        } // else if (this.isLocalResource) {
+        //     connection = this.CONNECTION_LOCAL_FILE;
+        // }
 
         let cipherStrength = this.CIPHER_STRENGTH_NORMAL;
 
