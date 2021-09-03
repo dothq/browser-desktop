@@ -4,6 +4,7 @@
 
 import React from "react"
 import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
+import { L } from "../../core/l10n/react"
 import { Tab } from "../../models/Tab"
 import { openMenuAt } from "../../shared/menu"
 import { NewTabButton } from "../NewTabButton"
@@ -27,30 +28,36 @@ export const Chrome = () => {
         })}>
             <nav id={"navigation-bar"}>
                 <div id={"navigation-bar-container"}>
-                    <ToolbarButton
-                        image={"chrome://dot/content/skin/icons/back.svg"}
-                        disabled={!tabs.getTabById(tabs.selectedId)?.canGoBack}
-                        command={"Browser:GoBack"}
-                    />
+                    <L id={"navigation-back-button"}>
+                        <ToolbarButton
+                            image={"chrome://dot/content/skin/icons/back.svg"}
+                            disabled={!tabs.getTabById(tabs.selectedId)?.canGoBack}
+                            command={"Browser:GoBack"}
+                        />
+                    </L>
 
-                    <ToolbarButton
-                        image={"chrome://dot/content/skin/icons/forward.svg"}
-                        disabled={!tabs.getTabById(tabs.selectedId)?.canGoForward}
-                        command={"Browser:GoForward"}
-                    />
+                    <L id={"navigation-forward-button"}>
+                        <ToolbarButton
+                            image={"chrome://dot/content/skin/icons/forward.svg"}
+                            disabled={!tabs.getTabById(tabs.selectedId)?.canGoForward}
+                            command={"Browser:GoForward"}
+                        />
+                    </L>
 
-                    <ToolbarButton
-                        image={
-                            tabs.getTabById(tabs.selectedId)?.state == "loading" && !tabs.getTabById(tabs.selectedId)?.identityManager.isAboutUI
-                                ? "chrome://dot/content/skin/icons/close.svg"
-                                : "chrome://dot/content/skin/icons/reload.svg"
-                        }
-                        command={
-                            tabs.getTabById(tabs.selectedId)?.state == "idle" || tabs.getTabById(tabs.selectedId)?.identityManager.isAboutUI
-                                ? "Browser:Reload"
-                                : "Browser:Stop"
-                        }
-                    />
+                    <L id={"navigation-reload-button"}>
+                        <ToolbarButton
+                            image={
+                                tabs.getTabById(tabs.selectedId)?.state == "loading" && !tabs.getTabById(tabs.selectedId)?.identityManager.isAboutUI
+                                    ? "chrome://dot/content/skin/icons/close.svg"
+                                    : "chrome://dot/content/skin/icons/reload.svg"
+                            }
+                            command={
+                                tabs.getTabById(tabs.selectedId)?.state == "idle" || tabs.getTabById(tabs.selectedId)?.identityManager.isAboutUI
+                                    ? "Browser:Reload"
+                                    : "Browser:Stop"
+                            }
+                        />
+                    </L>
 
                     <NewTabButton variant={"navigation-bar"} />
 
