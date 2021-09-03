@@ -15,6 +15,7 @@ interface State {
     identityDialogOpen: boolean;
     identityMsg: string;
     identityIcon: string;
+    parts: SearchbarPart[]
 }
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
 }
 
 interface SearchbarPart {
+    id: string;
     semihide: boolean;
     content: string;
 }
@@ -32,7 +34,8 @@ export class Searchbar extends React.Component<Props> {
         isEmpty: true,
         identityDialogOpen: false,
         identityMsg: "",
-        identityIcon: ""
+        identityIcon: "",
+        parts: []
     }
 
     public identityDialog = new SiteIdentityDialog();
@@ -78,18 +81,20 @@ export class Searchbar extends React.Component<Props> {
     public onLocationChange() {
         const parsed = (this.tab?.urlParsed as MozURI);
 
-        let protocol: Partial<SearchbarPart> = {};
-        let subdomain: Partial<SearchbarPart> = {};
-        let hostname: Partial<SearchbarPart> = {};
-        let path: Partial<SearchbarPart> = {};
-        let queryParams: Partial<SearchbarPart> = {};
-        let hash: Partial<SearchbarPart> = {};
+        if (!parsed) return;
+
+        let scheme: Partial<SearchbarPart> = { id: "scheme" };
+        let subdomain: Partial<SearchbarPart> = { id: "host" };
+        let hostname: Partial<SearchbarPart> = { id: "domain" };
+        let path: Partial<SearchbarPart> = { id: "path" };
+        let queryParams: Partial<SearchbarPart> = { id: "query" };
+        let hash: Partial<SearchbarPart> = { id: "hash" };
 
         // Locator schemes are schemes which end with ://
         // Examples of these are http, https, moz-extension and chrome
         if (this.knownLocatorSchemes.includes(parsed.scheme)) {
-            protocol.content = `${parsed.scheme}://`
-            protocol.semihide = true;
+            scheme.content = `${parsed.scheme}://`
+            scheme.semihide = true;
 
             // Only http schemes should have their hosts resolved
             if (this.isHttp(parsed.scheme)) {
@@ -124,11 +129,11 @@ export class Searchbar extends React.Component<Props> {
             }
 
             // filePath excludes query and hash as we handle that later
-            path.content = parsed.filePath;
+            path.content = parsed.filePath.replace(/^\/{1}$/, "");
             path.semihide = true;
         } else {
-            protocol.content = `${parsed.scheme}:`
-            protocol.semihide = false;
+            scheme.content = `${parsed.scheme}:`
+            scheme.semihide = false;
 
             hostname.content = parsed.filePath;
             hostname.semihide = false;
@@ -149,7 +154,15 @@ export class Searchbar extends React.Component<Props> {
         this.setState({
             ...this.state,
             identityMsg: data?.msg,
-            identityIcon: data?.icon
+            identityIcon: data?.icon,
+            parts: [
+                { ...scheme },
+                { ...subdomain },
+                { ...hostname },
+                { ...path },
+                { ...queryParams },
+                { ...hash }
+            ]
         })
     }
 
@@ -194,24 +207,20 @@ export class Searchbar extends React.Component<Props> {
                         <div
                             id={"urlbar-input-url"}
                             style={{
-                                opacity: true
-                                    ? 0
-                                    : 1
+                                opacity: 1
                             }}
                         >
-                            <span
-                                className={"scheme"}
-                                data-hide-protocol={true}
-                            >
-                                { }
-                            </span>
-                            <span className={"host"}></span>
-                            <span className={"domain"}></span>
-                            <span className={"path"}></span>
-                            <span className={"query"}></span>
-                            <span className={"hash"}></span>
+                            {this.state.parts.map(part => (
+                                <span
+                                    className={part.id}
+                                    key={part.id}
+                                    style={{ opacity: part.semihide ? 0.5 : 1 }}
+                                >
+                                    {part.content}
+                                </span>
+                            ))}
                         </div>
-                        <input
+                        {/* <input
                             id={"urlbar-input-box"}
                             placeholder={"Search using DuckDuckGo or enter address"}
                             style={{
@@ -219,7 +228,7 @@ export class Searchbar extends React.Component<Props> {
                                     ? 1
                                     : 0
                             }}
-                        ></input>
+                        ></input> */}
                     </div>
                 </div>
             </div>
