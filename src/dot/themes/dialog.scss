@@ -45,18 +45,16 @@
 
 .ui-modal-dialog-container {
     transform-origin: center;
-    transition: transform 0.2s ease-in-out 0s;
+    will-change: transform;
+    animation: 0.15s modal-open cubic-bezier(0,.85,.3,1);
 
     @keyframes modal-open {
         0% {
-            transform: rotateX(90deg);
+            transform: translate(0px, 12px) scale(0.95);
             opacity: 0;
         }
-        25% {
-            opacity: 1;
-        }
         100% {
-            transform: rotateX(0deg);
+            transform: translate(0px, 0px) scale(1);
             opacity: 1;
         }
     }
