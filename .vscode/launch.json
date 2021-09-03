@@ -8,13 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Build and Run Dot Browser",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "skipFiles": ["<node_internals>/**"],
             "program": ".vscode/melon-proxy.js",
-            "args": [
-                "buildrun"
-            ]
+            "args": ["buildrun"]
         }
     ]
 }
