@@ -66,3 +66,6 @@ export const { PrivateBrowsingUtils } = include(
 export const { SitePermissions } = include(
     "resource:///modules/SitePermissions.jsm"
 )
+
+export const { OS } = include("resource://gre/modules/osfile.jsm");
+export const { FileUtils } = include("resource://gre/modules/FileUtils.jsm")
