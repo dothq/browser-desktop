@@ -95,6 +95,8 @@ export class Tab extends EventEmitter {
         }
     }
 
+    public pinned: boolean = false;
+
     public bookmarked: boolean = false;
 
     public bookmark() {
@@ -387,7 +389,7 @@ export class Tab extends EventEmitter {
     }
 
     public onStateChange(id: number, webProgress: any, request: any, flags: number, status: any) {
-        if (!request) return console.log("request is null, ignoring state change");
+        if (!request) return;
 
         dot.tabs.get(id)?.updateNavigationState();
 
@@ -467,7 +469,7 @@ export class Tab extends EventEmitter {
         dot.tabs.get(id)?.updateNavigationState();
     }
 
-    public onBrowserRemoteChange = (event: any) => {
+    public onBrowserRemoteChange(event: any) {
         let { browserId } = event.originalTarget;
         let tab: any = dot.tabs.get(browserId);
         if (!tab) {
