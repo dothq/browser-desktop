@@ -9,7 +9,11 @@ export const SiteIdentityMainScreen = ({ tab }: { tab: Tab }) => {
 
     return (
         <PopupScreen title={`Site information for ${manager.identityHost}`}>
-            <PopupItem icon={`identity/${data.icon}`} title={data.msg} />
+            <PopupItem
+                icon={`identity/${data.icon}`}
+                title={data.msg}
+                colour={data.colour}
+            />
         </PopupScreen>
     )
 }

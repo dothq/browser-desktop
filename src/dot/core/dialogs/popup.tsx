@@ -29,17 +29,18 @@ export const PopupScreen = ({ title, children }: { title: string, children?: any
     )
 }
 
-export const PopupItem = ({ icon, title, subtitle }: { icon?: string, title: string, subtitle?: string }) => {
+export const PopupItem = ({ icon, title, subtitle, colour }: { icon?: string, title: string, subtitle?: string, colour?: string }) => {
     return (
         <a className={"ui-popup-dialog-item"}>
             <i
                 className={"ui-popup-dialog-item-icon"}
                 style={{
-                    backgroundImage: `url(chrome://dot/content/skin/icons/${icon}.svg)`
+                    backgroundImage: `url(chrome://dot/content/skin/icons/${icon}.svg)`,
+                    fill: colour || ""
                 }}
             ></i>
 
-            <div className={"ui-popup-dialog-item-titles"}>
+            <div className={"ui-popup-dialog-item-titles"} style={{ color: colour || "" }}>
                 <h1 className={"ui-popup-dialog-item-title"}>
                     {title}
                 </h1>
