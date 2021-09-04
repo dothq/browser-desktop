@@ -273,6 +273,7 @@ class IdentityManager {
     public getIdentityStrings() {
         let msg = "";
         let icon = "";
+        let colour = "";
 
         switch (this.identity.connection) {
             case this.CONNECTION_NOT_SECURE:
@@ -297,6 +298,7 @@ class IdentityManager {
             case this.CONNECTION_SECURE:
                 msg = `Your connection is secure.`
                 icon = "https"
+                colour = "rgb(3, 134, 0)"
                 break;
             case this.CONNECTION_HTTPS_ONLY_ERROR:
                 msg = `Secure connection is not available.`
@@ -313,7 +315,8 @@ class IdentityManager {
 
         return {
             msg,
-            icon
+            icon,
+            colour
         }
     }
 
