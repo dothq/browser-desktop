@@ -10,6 +10,7 @@
     "test:dev": "yarn test --watch"
   },
   "dependencies": {
+    "@billjs/event-emitter": "^1.0.3",
     "@dothq/fluent": "^1.0.7",
     "@dothq/id": "^1.0.1",
     "@fluent/bundle": "^0.16.1",
