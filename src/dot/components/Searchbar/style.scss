@@ -101,16 +101,7 @@
         overflow: hidden;
 
         & > * {
-            transition: 0.1s max-width;
             overflow: hidden;
-        }
-
-        .scheme {
-            max-width: 0px;
-        }
-
-        &:hover > .scheme {
-            max-width: var(--searchbar-scheme-width, 100px);
         }
     }
 }
