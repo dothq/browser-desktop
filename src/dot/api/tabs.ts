@@ -1,7 +1,8 @@
 import { dot } from ".";
 import { store } from "../app/store";
 import { Tab } from "../models/Tab";
-import { Services } from "../modules";
+import { Ci, Services } from "../modules";
+import { TabProgressListener } from "../services/progress";
 import { NEW_TAB_URL_PARSED } from "../shared/tab";
 export class TabsAPI {
     public get list() {
@@ -104,5 +105,71 @@ export class TabsAPI {
         } else {
             return null;
         }
+    }
+
+    public constructor() {
+        addEventListener("WillChangeBrowserRemoteness", (event: any) => {
+            let { browserId } = event.originalTarget;
+            let tab: Tab | undefined = this.get(browserId);
+            if (!tab) {
+                return;
+            }
+
+            store.dispatch({
+                type: "TAB_UPDATE",
+                payload: {
+                    id: browserId,
+                    faviconUrl: "",
+                    initialIconHidden: false
+                }
+            });
+
+            tab.emit("remote-changed");
+
+            // Unhook our progress listener.
+            let filter = this.tabFilters.get(browserId);
+            let oldListener = this.tabListeners.get(browserId);
+
+            tab.webContents.webProgress.removeProgressListener(filter);
+            filter.removeProgressListener(oldListener);
+
+            // We'll be creating a new listener, so destroy the old one.
+            oldListener = null;
+
+            tab.webContents.addEventListener(
+                "DidChangeBrowserRemoteness",
+                (event: any) => {
+                    const progressListener = new TabProgressListener(
+                        browserId
+                    );
+
+                    this.tabListeners.set(browserId, progressListener);
+                    filter.addProgressListener(
+                        progressListener,
+                        Ci.nsIWebProgress.NOTIFY_ALL
+                    );
+
+                    tab?.webContents.webProgress.addProgressListener(
+                        filter,
+                        Ci.nsIWebProgress.NOTIFY_ALL
+                    );
+
+                    if (tab?.webContents.isRemoteBrowser) {
+                        store.dispatch({
+                            type: "TAB_UPDATE",
+                            payload: {
+                                id: browserId,
+                                crashed: false
+                            }
+                        });
+                    }
+
+                    event = document.createEvent("Events");
+                    event.initEvent("TabRemotenessChange", true, false);
+                    tab?.webContents.dispatchEvent(event);
+                },
+                { once: true }
+            );
+        })
     }
 }

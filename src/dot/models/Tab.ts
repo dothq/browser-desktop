@@ -3,6 +3,7 @@ import { dot } from "../api";
 import { store } from "../app/store";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import IdentityManager from "../services/identity";
+import { TabProgressListener } from "../services/progress";
 import { zoomManager } from "../services/zoom";
 import { predefinedFavicons } from "../shared/url";
 import { MozURI } from "../types/uri";
@@ -41,10 +42,11 @@ export class Tab extends EventEmitter {
 
         if (state == "loading") {
             store.dispatch({
-                type: "TAB_UPDATE_FAVICON",
+                type: "TAB_UPDATE",
                 payload: {
                     id: this.id,
-                    faviconUrl: ""
+                    faviconUrl: "",
+                    initialIconHidden: false
                 }
             });
         }
@@ -203,20 +205,32 @@ export class Tab extends EventEmitter {
         this.createProgressListener();
 
         this.webContents.addEventListener(
-            "WillChangeBrowserRemoteness",
-            this.onBrowserRemoteChange
+            "pagetitlechanged",
+            this.onPageTitleChange
         );
 
         this.webContents.addEventListener(
-            "pagetitlechanged",
-            this.onPageTitleChange
+            "DOMWindowClose",
+            this.onRequestTabClose
         );
 
         return this;
     }
 
-    public goto(uri: MozURI, options?: any) {
-        dot.browsersPrivate.goto(this.id, uri, options);
+    public goto(uri: MozURI | string, options?: any) {
+        let parsed: MozURI;
+
+        if (!(uri instanceof Ci.nsIURI)) {
+            try {
+                parsed = Services.io.newURI(uri)
+            } catch (e) {
+                throw e;
+            }
+        } else {
+            parsed = uri as MozURI;
+        }
+
+        dot.browsersPrivate.goto(this.id, parsed, options);
     }
 
     public goBack() {
@@ -299,84 +313,13 @@ export class Tab extends EventEmitter {
     }
 
     public createProgressListener() {
-        const progressListener = {
-            onStateChange: (webProgress: any, request: any, flags: number, status: any) => {
-                this.onStateChange(this.id, webProgress, request, flags, status);
-
-                this.emit(
-                    "state-change",
-                    webProgress,
-                    request,
-                    flags,
-                    status
-                );
-            },
-
-            onLocationChange: (webProgress: any, request: any, location: MozURI, flags: any) => {
-                this.onLocationChange(this.id, webProgress, request, location, flags);
-
-                this.emit(
-                    "location-change",
-                    webProgress,
-                    request,
-                    location,
-                    flags
-                );
-            },
-
-            onContentBlockingEvent: (webProgress: any, request: any, event: any, isSimulated: boolean) => {
-                this.emit(
-                    "content-blocked",
-                    webProgress,
-                    request,
-                    event,
-                    isSimulated
-                );
-            },
-
-            onProgressChange: (
-                webProgress: any,
-                request: any,
-                curProgress: number,
-                maxProgress: number,
-                curTotalProgress: number,
-                maxTotalProgress: number
-            ) => {
-                this.emit(
-                    "progress-change",
-                    webProgress,
-                    request,
-                    curProgress,
-                    maxProgress,
-                    curTotalProgress,
-                    maxTotalProgress
-                );
-            },
-
-            onSecurityChange: (
-                webProgress: any,
-                request: any,
-                state: any
-            ) => {
-                this.contentState = state;
-
-                this.emit(
-                    "security-change",
-                    webProgress,
-                    request,
-                    state
-                )
-            },
-
-            QueryInterface: ChromeUtils.generateQI([
-                "nsIWebProgressListener",
-                "nsISupportsWeakReference",
-            ]),
-        }
-
         let filter = Cc[
             "@mozilla.org/appshell/component/browser-status-filter;1"
         ].createInstance(Ci.nsIWebProgress);
+
+        const progressListener = new TabProgressListener(
+            this.id
+        );
 
         filter.addProgressListener(progressListener, Ci.nsIWebProgress.NOTIFY_ALL);
         dot.tabs.tabListeners.set(this.id, progressListener);
@@ -386,115 +329,6 @@ export class Tab extends EventEmitter {
             filter,
             Ci.nsIWebProgress.NOTIFY_ALL
         );
-    }
-
-    public onStateChange(id: number, webProgress: any, request: any, flags: number, status: any) {
-        if (!request) return;
-
-        dot.tabs.get(id)?.updateNavigationState();
-
-        const shouldShowLoader = (request: any) => {
-            // We don't want to show tab loaders for about:* urls
-            if (
-                request instanceof Ci.nsIChannel &&
-                request.originalURI.schemeIs("about")
-            ) return false;
-
-            return true;
-        }
-
-        const {
-            STATE_START,
-            STATE_IS_NETWORK,
-            STATE_RESTORING,
-            STATE_STOP
-        } = Ci.nsIWebProgressListener;
-
-        if (
-            flags & STATE_START &&
-            flags & STATE_IS_NETWORK
-        ) {
-            if (shouldShowLoader(request)) {
-                if (
-                    !(flags & STATE_RESTORING) &&
-                    webProgress &&
-                    webProgress.isTopLevel
-                ) {
-                    // having two dispatches probably isn't best
-                    // merge these two in future maybe?
-
-                    // started loading
-                    store.dispatch({
-                        type: "TAB_UPDATE_STATE",
-                        payload: {
-                            id,
-                            state: "loading"
-                        }
-                    });
-
-                    // remove the favicon during loading
-                    // we don't want it flickering about during the load
-                    store.dispatch({
-                        type: "TAB_UPDATE_FAVICON",
-                        payload: {
-                            id,
-                            faviconUrl: ""
-                        }
-                    });
-                }
-            }
-        } else if (
-            flags & STATE_STOP
-        ) {
-            // finished loading
-            store.dispatch({
-                type: "TAB_UPDATE_STATE",
-                payload: {
-                    id,
-                    state: "idle"
-                }
-            });
-        }
-    }
-
-    public onLocationChange(id: number, webProgress: any, request: any, location: MozURI, flags: any) {
-        if (!webProgress.isTopLevel) return;
-
-        // Ignore the initial about:blank, unless about:blank is requested
-        if (request) {
-            const url = request.QueryInterface(Ci.nsIChannel).originalURI.spec;
-            if (location.spec == "about:blank" && url != "about:blank") return;
-        }
-
-        dot.tabs.get(id)?.updateNavigationState();
-    }
-
-    public onBrowserRemoteChange(event: any) {
-        let { browserId } = event.originalTarget;
-        let tab: any = dot.tabs.get(browserId);
-        if (!tab) {
-            return;
-        }
-
-        store.dispatch({
-            type: "TAB_UPDATE_FAVICON",
-            payload: {
-                id: browserId,
-                faviconUrl: ""
-            }
-        });
-
-        tab.emit("remote-changed");
-
-        // Unhook our progress listener.
-        let filter = dot.tabs.tabFilters.get(browserId);
-        let oldListener = dot.tabs.tabListeners.get(browserId);
-
-        tab.webContents.webProgress.removeProgressListener(filter);
-        filter.removeProgressListener(oldListener);
-
-        // We'll be creating a new listener, so destroy the old one.
-        oldListener = null;
     }
 
     public onPageTitleChange(event: any) {
@@ -512,6 +346,27 @@ export class Tab extends EventEmitter {
         ) return;
 
         tab.title = tab.webContents.contentTitle;
+    }
+
+    public onRequestTabClose(event: any) {
+        let browser = event.target;
+
+        if (!browser.isRemoteBrowser) {
+            if (!event.isTrusted) return;
+
+            browser = event.target.docShell.chromeEventHandler;
+        }
+
+        let { browserId } = browser;
+
+        if (dot.tabs.list.length == 1) return window.close();
+
+        const tab = dot.tabs.get(browserId);
+        if (tab) {
+            tab.destroy();
+
+            event.preventDefault();
+        }
     }
 
     public addEventListener(event: string | symbol, listener: (...args: any[]) => void) {
