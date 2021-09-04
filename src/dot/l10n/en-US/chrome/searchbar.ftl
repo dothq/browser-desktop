@@ -1,0 +1,1 @@
+searchbar-input-placeholder = Search using { $engineName } or enter address
