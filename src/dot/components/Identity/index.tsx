@@ -1,10 +1,6 @@
 import React from "react"
 import { SearchbarButton } from "../SearchbarButton"
 
-const labels: any = {
-    "built-in": "Dot Browser"
-}
-
 export const Identity = ({ type, onClick, selected, title }: {
     type: string,
     onClick?: any,
@@ -15,7 +11,7 @@ export const Identity = ({ type, onClick, selected, title }: {
         <SearchbarButton
             id={"identity-icon-box"}
             className={type}
-            label={labels[type] ? labels[type] : ""}
+            title={title}
             onClick={onClick}
             selected={selected}
         />
