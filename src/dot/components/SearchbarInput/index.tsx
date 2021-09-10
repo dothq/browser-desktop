@@ -3,6 +3,7 @@ import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
 import { l10n } from "../../core/l10n";
 import { Services } from "../../modules";
+import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
 
 interface Props {
@@ -164,7 +165,7 @@ export class SearchbarInput extends React.Component<Props> {
             }
 
             // filePath excludes query and hash as we handle that later
-            path.content = parsed.filePath.replace(/^\/{1}$/, "");
+            path.content = parsed.filePath;
             path.semihide = true;
         } else {
             scheme.content = `${parsed.scheme}:`
@@ -181,6 +182,20 @@ export class SearchbarInput extends React.Component<Props> {
         queryParams.content = parsed.query ? `?${parsed.query}` : undefined;
         hash.content = parsed.ref ? `#${parsed.ref}` : undefined;
 
+        if (this.knownLocatorSchemes.includes(parsed.scheme)) {
+            // Remove the trailing slash if we don't have queryParams or hash
+            // As the URL makes more sense looking like hostname.com/?example=1#hash
+            // instead of hostname.com?example=1#hash
+            if (
+                (
+                    !parsed.query.length &&
+                    !parsed.ref.length
+                ) && path.content
+            ) {
+                path.content = path.content?.replace(/^\/{1}$/, "")
+            }
+        }
+
         queryParams.semihide = true;
         hash.semihide = true;
 
@@ -194,6 +209,10 @@ export class SearchbarInput extends React.Component<Props> {
         ]);
 
         this.value = parsed.spec;
+
+        if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
+            this.searchType = SearchInput.Real
+        }
     }
 
     public onTabReload() {
