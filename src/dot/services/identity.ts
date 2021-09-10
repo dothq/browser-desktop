@@ -298,7 +298,7 @@ class IdentityManager {
             case this.CONNECTION_SECURE:
                 msg = `Your connection is secure.`
                 icon = "https"
-                colour = "rgb(3, 134, 0)"
+                colour = "rgb(9, 193, 87)"
                 break;
             case this.CONNECTION_HTTPS_ONLY_ERROR:
                 msg = `Secure connection is not available.`
