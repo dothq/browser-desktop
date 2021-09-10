@@ -68,4 +68,8 @@ export const { SitePermissions } = include(
 )
 
 export const { OS } = include("resource://gre/modules/osfile.jsm");
-export const { FileUtils } = include("resource://gre/modules/FileUtils.jsm")
+export const { FileUtils } = include("resource://gre/modules/FileUtils.jsm");
+
+export const { SiteDataManager } = include(
+    "resource:///modules/SiteDataManager.jsm"
+);
