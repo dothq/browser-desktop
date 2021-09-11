@@ -5,10 +5,23 @@
     .launcher-result-group-heading {
         font-size: 14px;
         margin: 0;
-        font-weight: 400;
-        opacity: 0.75;
+        font-weight: 600;
+        opacity: 0.5;
         margin-bottom: 1rem;
         padding: 0 18px;
+        text-transform: capitalize;
+        display: flex;
+        align-items: center;
+
+        &::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            display: flex;
+            margin-inline-end: 8px;
+            background-image: var(--group-icon);
+            background-size: cover;
+        }
     }
 
     .launcher-result-group-contents {

@@ -54,10 +54,12 @@ export const Launcher = () => {
 
     const ref = React.createRef<HTMLInputElement>();
     const scrollableRef = React.createRef<HTMLDivElement>();
+    const launcherPopupRef = React.createRef<HTMLDivElement>();
 
     const [expanded, setExpanded] = React.useState(false);
 
     const [highlightY, setHighlightY] = React.useState(0);
+    const [highlightTop, setHighlightTop] = React.useState(0);
     const [active, setActive] = React.useState("");
 
     const checkValue = () => {
@@ -167,6 +169,10 @@ export const Launcher = () => {
 
         const bounds = element.getBoundingClientRect();
         setHighlightY(bounds.top);
+
+        const launcherBounds = launcherPopupRef.current?.getBoundingClientRect();
+        const scrollerTop = scrollableRef.current?.scrollTop;
+        setHighlightTop((launcherBounds?.top || 0) - (scrollerTop || 0))
     }, [active])
 
     return (
@@ -190,6 +196,7 @@ export const Launcher = () => {
                 >
                     <div
                         className={"launcher-popup"}
+                        ref={launcherPopupRef}
                     >
                         <div className={"launcher-popup-input"}>
                             <i className={"launcher-popup-input-icon"}></i>
@@ -238,7 +245,10 @@ export const Launcher = () => {
 
                             <div
                                 className={"launcher-popup-results-container-highlight"}
-                                style={{ transform: `translateY(${highlightY}px)` }}
+                                style={{
+                                    transform: `translateY(${highlightY}px)`,
+                                    top: `calc(-${highlightTop}px - 56px)`
+                                }}
                             ></div>
                         </div>
                     </div>
