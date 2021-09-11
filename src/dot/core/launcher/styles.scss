@@ -107,12 +107,10 @@
         flex-direction: column;
         gap: 18px;
         border-radius: 0px 0px 16px 16px;
-        padding: 0px 18px;
         border-top: 1px solid rgba(0, 0, 0, 0.05);
-        padding-top: 1rem;
+        padding: 1rem 0;
         position: relative;
         overflow-y: auto;
-        height: 400px;
 
         .launcher-popup-results-container-highlight {
             width: calc(100% - 10px * 2);

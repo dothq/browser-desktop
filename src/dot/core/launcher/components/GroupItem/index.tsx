@@ -4,17 +4,19 @@ export const GroupItem = ({
     title,
     subtitle,
     icon,
+    id,
     active,
-    onMouseOver
+    onMouseEnter
 }: {
     title: string,
     subtitle?: string,
     icon: any,
+    id?: any
     active?: boolean,
-    onMouseOver?: any
+    onMouseEnter?: any
 }) => {
     return (
-        <a className={"launcher-result-group-item"} onMouseOver={onMouseOver}>
+        <a id={id} className={"launcher-result-group-item"} onMouseEnter={onMouseEnter} data-active={active}>
             <i className={"launcher-result-group-item-icon"} style={{
                 backgroundImage: `url(${icon})`
             }} />
