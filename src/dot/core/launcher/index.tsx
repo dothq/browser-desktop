@@ -40,7 +40,8 @@ const animation: Partial<Record<TransitionStatus, any>> = {
     },
     exited: {
         opacity: 0,
-        transform: "scale(0.95)"
+        transform: "scale(0.95)",
+        display: "none"
     }
 }
 
@@ -61,6 +62,8 @@ export const Launcher = () => {
     const [highlightY, setHighlightY] = React.useState(0);
     const [highlightTop, setHighlightTop] = React.useState(0);
     const [active, setActive] = React.useState("");
+
+    const [persistedValue, setPersistedValue] = React.useState<any>();
 
     const checkValue = () => {
         if (!ref.current || !ui.launcherVisible) return;
@@ -143,24 +146,20 @@ export const Launcher = () => {
                             type: "UI_TOGGLE_LAUNCHER",
                             payload: false
                         })
-                    }, 300);
+                    }, 200);
                 }
             }
         })
     }, []);
 
-    React.useEffect(() => {
+    const onMount = () => {
+        // As we're unmounting the launcher on exit, we need to load in the persisted
+        // search value so it doesn't interrupt your search
+        if (persistedValue && ref.current) ref.current.value = persistedValue;
+
         checkValue();
-
-        const firstCategoryId = Object.keys(stubData)[0];
-        const firstItemInCategoryId = (stubData as any)[firstCategoryId][0].id;
-
-        setActive(
-            `${firstCategoryId}-${firstItemInCategoryId}`
-        )
-
         ref.current?.focus();
-    }, [ui.launcherVisible]);
+    }
 
     React.useEffect(() => {
         const element = document.getElementById(`result-${active}`);
@@ -179,20 +178,32 @@ export const Launcher = () => {
         <Transition
             in={ui.launcherVisible}
             timeout={200}
-            onEntered={() => setTimeout(() => {
-                setExpanded(true)
-            }, 200)}
+            unmountOnExit={true}
+            onExiting={() => setPersistedValue(ref.current?.value)}
+            onEntered={() => {
+                onMount();
+
+                setTimeout(() => {
+                    setExpanded(true)
+
+                    const firstCategoryId = Object.keys(stubData)[0];
+                    const firstItemInCategoryId = (stubData as any)[firstCategoryId][0].id;
+
+                    setActive(
+                        `${firstCategoryId}-${firstItemInCategoryId}`
+                    )
+                }, 200)
+            }}
         >
             {stage => (
                 <div
                     className={"launcher-wrapper"}
                     style={{
-                        display: (stage == "exited" && !ui.launcherVisible)
-                            ? "none"
-                            : "",
                         ...animation[stage]
                     }}
                     data-expanded={expanded}
+                    onMouseDown={() => ref.current?.focus()}
+                    onMouseUp={() => ref.current?.focus()}
                 >
                     <div
                         className={"launcher-popup"}
@@ -206,6 +217,8 @@ export const Launcher = () => {
                                 type="text"
                                 ref={ref}
                                 onChange={checkValue}
+                                /* Never loose focus with this one simple trick */
+                                onBlur={() => ref.current?.focus()}
                                 autoFocus
                                 placeholder={"Search the web, links, commands and browsing data"}
                             ></input>
@@ -247,7 +260,8 @@ export const Launcher = () => {
                                 className={"launcher-popup-results-container-highlight"}
                                 style={{
                                     transform: `translateY(${highlightY}px)`,
-                                    top: `calc(-${highlightTop}px - 56px)`
+                                    top: `calc(-${highlightTop}px - 56px)`,
+                                    transition: stage == "entered" ? "" : "none !important"
                                 }}
                             ></div>
                         </div>
