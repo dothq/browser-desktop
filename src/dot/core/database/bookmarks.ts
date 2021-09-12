@@ -14,29 +14,14 @@ export class BookmarksDatabase extends BaseDatabase {
         super({
             name: "bookmarks",
             version: 1,
-            schema: [
-                "id",
-                "title",
-                "url",
-                "parent_id",
-                "added_date",
-                "last_mod_date"
-            ]
+            schema: {
+                id: ["TEXT"],
+                title: ["TEXT"],
+                url: ["TEXT"],
+                parent_id: ["TEXT", "NOT NULL"],
+                date_created: ["INT"],
+                date_modified: ["INT"]
+            }
         });
-    }
-
-    public async create({ id, title, url, parent_id, added_date, last_mod_date }: Partial<Schema>) {
-        return await this.db.add({
-            id,
-            title,
-            url,
-            parent_id,
-            added_date,
-            last_mod_date
-        }, id);
-    }
-
-    public async getById(id: string) {
-        return await this.db.get({ id });
     }
 }

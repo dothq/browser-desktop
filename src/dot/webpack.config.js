@@ -1,5 +1,6 @@
+const webpack = require("webpack");
 const { resolve } = require("path");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { glob } = require("glob");
 const FluentPlugin = require("./fluent.webpack.plugin");
@@ -127,7 +128,10 @@ module.exports = {
             filename: "[name].css"
         }),
         new CleanWebpackPlugin(),
-        new FluentPlugin()
+        new FluentPlugin(),
+        new webpack.ProvidePlugin({
+            Buffer: ["buffer", "Buffer"],
+        })
     ],
     output: {
         filename: "[name].js",

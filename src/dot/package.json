@@ -12,6 +12,7 @@
   "dependencies": {
     "@billjs/event-emitter": "^1.0.3",
     "@dothq/id": "^1.0.1",
+    "@dothq/sqb": "^1.0.2",
     "@fluent/bundle": "^0.16.1",
     "@reduxjs/toolkit": "^1.6.1",
     "hotkeys-js": "^3.8.7",

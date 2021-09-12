@@ -77,3 +77,11 @@ export const { SiteDataManager } = include(
 export const { Sqlite } = include(
     "resource://gre/modules/Sqlite.jsm"
 )
+
+export const { AsyncShutdown } = include(
+    "resource://gre/modules/AsyncShutdown.jsm"
+)
+
+export const { PageThumbs } = include(
+    "resource://gre/modules/PageThumbs.jsm"
+)
