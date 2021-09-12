@@ -51,4 +51,5 @@ a.toolbar-button.toolbar-button-has-image .toolbarbutton-icon {
 
 a.toolbar-button[menu-open="true"] > .toolbarbutton-icon {
     background-color: var(--toolbarbutton-active-background) !important;
+    pointer-events: none !important; /* This is so clicking the menu opener while active doesn't make the menu reopen */
 }

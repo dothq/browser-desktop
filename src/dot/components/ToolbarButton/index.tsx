@@ -31,10 +31,16 @@ export const ToolbarButton = ({
     const onTBClick = () => {
         if (command) dot.utilities.doCommand(command);
         if (onClick) onClick();
+    }
+
+    const onTBMouseDown = () => {
+        if (onMouseDown) onMouseDown();
+    }
+
+    const onTBMouseUp = () => {
+        if (onMouseUp) onMouseUp();
 
         if (menu) {
-            if (dot.menus.visibleMenu) return dot.menus.clear(true);
-
             dot.menus.create(
                 menu,
                 { el: document.getElementById(id) },
@@ -53,8 +59,8 @@ export const ToolbarButton = ({
                 ${className ? className : ``}
             `.trim()}
             onClick={disabled ? () => { } : onTBClick}
-            onMouseDown={disabled ? () => { } : onMouseDown}
-            onMouseUp={disabled ? () => { } : onMouseUp}
+            onMouseDown={disabled ? () => { } : onTBMouseDown}
+            onMouseUp={disabled ? () => { } : onTBMouseUp}
             title={title}
         >
             <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />

@@ -233,6 +233,7 @@ export class MenusAPI {
         this.visibleMenu = undefined;
 
         if (this.elementOpener) {
+            this.elementOpener?.removeAttribute("menu-open");
             this.elementOpener = undefined;
         }
     }
