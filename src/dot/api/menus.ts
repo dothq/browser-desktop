@@ -141,6 +141,13 @@ export class MenusAPI {
 
         const menuMount = document.createElement("div");
 
+        menuMount.style.position = "absolute";
+        menuMount.style.width = "100%";
+        menuMount.style.height = "100%";
+        menuMount.style.top = "0";
+        menuMount.style.left = "0";
+        menuMount.style.zIndex = "999999999999999999999";
+
         document.getElementById("mainPopupSet")?.appendChild(menuMount);
 
         ReactDOM.render(
@@ -195,6 +202,26 @@ export class MenusAPI {
             this.elementOpener.setAttribute("menu-open", "true");
         }
 
+        if (this.visibleMenu) {
+            this.visibleMenu.addEventListener("mousedown", (e: any) => {
+                if (!dot.utilities.canPopupAutohide) return;
+
+                if (
+                    this.visibleMenu &&
+                    !this.visibleMenu?.childNodes[0].contains(e.target)
+                ) {
+                    this.visibleMenu.style.opacity = "0";
+                    this.elementOpener?.removeAttribute("menu-open");
+                }
+            })
+
+            this.visibleMenu.addEventListener("mouseup", (e: any) => {
+                if (!this.visibleMenu?.childNodes[0].contains(e.target)) {
+                    this.clear();
+                }
+            })
+        }
+
         return temp;
     }
 
@@ -206,7 +233,6 @@ export class MenusAPI {
         this.visibleMenu = undefined;
 
         if (this.elementOpener) {
-            this.elementOpener.removeAttribute("menu-open");
             this.elementOpener = undefined;
         }
     }

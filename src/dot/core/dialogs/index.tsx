@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { PopupContainer } from "./popup";
+import { dot } from "../../api";
+import { PopupDialog } from "./dialog";
 
 export class UIDialog {
     public currentScreen: number = -1;
@@ -18,18 +19,44 @@ export class UIDialog {
     public open(x: number, y: number, ctx?: any) {
         const box = document.createElement("div");
 
-        const Screen = this.screens[this.currentScreen];
+        box.style.position = "absolute";
+        box.style.width = "100%";
+        box.style.height = "100%";
+        box.style.top = "0";
+        box.style.left = "0";
+        box.style.zIndex = "999999999999999999999";
 
         if (screen) {
             ReactDOM.render(
-                <PopupContainer x={x} y={y}>
-                    <Screen {...ctx || {}} />
-                </PopupContainer>,
+                <PopupDialog
+                    x={x}
+                    y={y}
+                    ctx={ctx}
+                    screens={this.screens}
+                    initialScreen={this.currentScreen}
+                />,
                 box
             )
 
             document.getElementById("mainPopupSet")?.appendChild(box);
             this.renderedTo = box;
+
+            this.renderedTo.addEventListener("mousedown", (e: any) => {
+                if (!dot.utilities.canPopupAutohide) return;
+
+                if (
+                    this.renderedTo &&
+                    !this.renderedTo?.childNodes[0].contains(e.target)
+                ) {
+                    (this.renderedTo as HTMLDivElement).style.opacity = "0";
+                }
+            })
+
+            this.renderedTo.addEventListener("mouseup", (e: any) => {
+                if (!this.renderedTo?.childNodes[0].contains(e.target)) {
+                    this.close();
+                }
+            })
         }
     }
 
@@ -46,6 +73,8 @@ export class UIDialog {
     }
 
     public close() {
+        if (!dot.utilities.canPopupAutohide) return;
+
         if (this.renderedTo) {
             ReactDOM.unmountComponentAtNode(this.renderedTo as Element);
             this.renderedTo.outerHTML = "";
