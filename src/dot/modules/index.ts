@@ -73,3 +73,7 @@ export const { FileUtils } = include("resource://gre/modules/FileUtils.jsm");
 export const { SiteDataManager } = include(
     "resource:///modules/SiteDataManager.jsm"
 );
+
+export const { Sqlite } = include(
+    "resource://gre/modules/Sqlite.jsm"
+)
