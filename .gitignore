@@ -12,3 +12,6 @@ engine
 *.tar
 *.tar.bz2
 yarn-error.log
+
+# Ignore custom mozbuild files placed in the root directory
+/mozconfig
