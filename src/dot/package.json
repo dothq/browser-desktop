@@ -40,7 +40,7 @@
     "@types/react-redux": "^7.1.18",
     "@types/react-transition-group": "^4.4.2",
     "babel-loader": "^8.2.2",
-    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "clean-webpack-plugin": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^6.2.0",
     "glob": "^7.1.7",
