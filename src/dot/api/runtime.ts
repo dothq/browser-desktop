@@ -24,7 +24,7 @@ export class RuntimeAPI extends EventEmitter {
 
         try {
             ActorManagerParent.addJSWindowActors(windowActors);
-        } catch (e) {
+        } catch (e: any) {
             if (e.name == "NotSupportedError") return;
             throw e;
         }
