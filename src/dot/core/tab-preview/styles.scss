@@ -1,0 +1,17 @@
+.tabbrowser-tab-preview {
+    position: relative;
+    top: 0;
+
+    .tabbrowser-tab-preview-container {
+        display: flex;
+        padding: 18px;
+        width: calc(100% - 18px * 2);
+        height: 100%;
+        flex-direction: column; 
+        gap: 6px;
+        
+        .page-url {
+            opacity: 0.5;
+        }
+    }
+}

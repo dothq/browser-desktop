@@ -11,3 +11,5 @@ browser.jar:
     content/dot/l10n (l10n/**/**)
     content/dot/resources (resources/**/**)
     content/dot/about (about/**/**)
+    content/dot/webui (core/webui/**/**)
+    content/dot/newtab (core/newtab/**/**)

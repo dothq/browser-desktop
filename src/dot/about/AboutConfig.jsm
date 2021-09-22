@@ -34,7 +34,7 @@ class AboutConfig {
 
     constructor() {
         this.uri = Services.io.newURI(
-            "chrome://dot/content/resources/settings/aboutconfig.html"
+            "chrome://dot/content/webui/config/config.html"
         );
         this.classDescription = "about:config";
         this.classID = Components.ID("4104f884-b26e-465a-a204-bebe268187fc");

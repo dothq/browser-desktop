@@ -1,0 +1,16 @@
+.webui-sidebar-search {
+    display: flex;
+
+    &:focus-within {
+        background-color: transparent;
+        box-shadow: 0px 0px 4px var(--dot-ui-accent-colour);
+    }
+
+    .search-icon {
+        background-image: url(chrome://dot/content/skin/icons/search.svg);
+        width: 14px;
+        height: 14px;
+        -moz-context-properties: fill, fill-opacity;
+        fill: currentColor;
+    }
+}

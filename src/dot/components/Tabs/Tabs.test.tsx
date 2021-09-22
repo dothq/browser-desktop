@@ -4,7 +4,7 @@ import { Tabs } from '.'
 
 describe('UI Tab', () => {
     test('Render', async () => {
-        render(<Tabs><span>Inner text</span></Tabs>)
+        render(<Tabs></Tabs>)
 
         expect(await screen.findByText(/Inner text/)).toBeInTheDocument()
     })

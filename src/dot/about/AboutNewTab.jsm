@@ -34,7 +34,7 @@ class AboutNewTab {
 
     constructor() {
         this.uri = Services.io.newURI(
-            "chrome://dot/content/resources/newtab/start-page.html"
+            "chrome://dot/content/newtab/start-page.html"
         );
         this.classDescription = "about:newtab";
         this.classID = Components.ID("526d0db5-2f51-4a89-bcef-b6f9d7101abe");

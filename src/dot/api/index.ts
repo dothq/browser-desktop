@@ -7,7 +7,6 @@ export * from './menus';
 export * from './preferences';
 export * from './prompt';
 export * from './runtime';
-export * from './settings';
 export * from './storage';
 export * from './tabs';
 export * from './theme';
@@ -25,7 +24,6 @@ import {
     PreferencesAPI,
     PromptAPI,
     RuntimeAPI,
-    SettingsAPI,
     StorageAPI,
     TabsAPI,
     ThemeAPI,
@@ -36,7 +34,7 @@ import {
 import { Search } from '../core/search';
 import { exportPublic } from "../shared/globals";
 
-class Dot {
+export class Dot {
     public browsersPrivate = new BrowsersAPI();
 
     public titlebar = new TitlebarAPI();
@@ -53,7 +51,6 @@ class Dot {
     public keybinds = new KeybindsAPI();
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
-    public settings = new SettingsAPI();
     public window = new WindowAPI();
 
     constructor() {

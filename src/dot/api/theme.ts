@@ -37,6 +37,10 @@ export class ThemeAPI {
     return this.themes.get(this.currentThemeId);
   }
 
+  public get accentColour() {
+    return dot.prefs.get("dot.ui.accent_colour", "blue");
+  }
+
   private _darkModeMediaQuery: MediaQueryList;
 
   public updateAccentColour(value?: string) {
@@ -86,6 +90,39 @@ export class ThemeAPI {
       console.error(`ThemesAPI: Unable to locate theme with ID ${id}`);
       this.load(Services.builtInThemes.DEFAULT_THEME_ID);
     }
+  }
+
+  public makeThemeVariables(id: string) {
+    const theme = this.themes.get(id);
+    if (!theme) throw new Error(`Theme with ID ${id} does not exist.`);
+
+    let returnValue: Record<string, string> = {};
+
+    const themeData = dot.theme.isSystemDarkMode && theme.darkTheme
+      ? theme.darkTheme
+      : theme.theme;
+
+    for (let [key, value] of Object.entries(themeData)) {
+      if (
+        key == "experimental" ||
+        key == "id" ||
+        key == "version"
+      ) continue;
+
+      const index = ThemeVariableMap.findIndex(({ data }: { data: any }) =>
+        data.lwtProperty == key
+      );
+
+      if (ThemeVariableMap[index]) {
+        const { variable } = ThemeVariableMap[index];
+
+        returnValue[variable.replace(/_/g, "-")] = value.toString();
+      } else {
+        console.info(`ThemeAPI: Ignoring colour property "${key}" in theme with ID ${id}.`)
+      }
+    }
+
+    return returnValue;
   }
 
   public async loadThemes() {

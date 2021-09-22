@@ -39,6 +39,7 @@ pref("browser.onboarding.enabled", false);
 pref("experiments.enabled", false);
 pref("network.allow-experiments", false);
 pref("browser.discovery.enabled", false);
+pref("services.settings.server", "");
 
 // Disable Safebrowsing
 // todo: Swap out Safe Browsing for open-source alternative

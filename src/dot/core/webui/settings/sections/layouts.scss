@@ -1,0 +1,24 @@
+.settings-layout-switch {
+    width: 100%;
+    height: 34px;
+    display: flex;
+    align-items: center;
+}
+
+.settings-layout-titles {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    
+    h1 {
+        font-weight: 500;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    p {
+        font-weight: normal;
+        font-size: 12px;
+        opacity: 0.6;
+    }
+}

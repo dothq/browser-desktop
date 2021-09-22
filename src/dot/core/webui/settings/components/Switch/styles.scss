@@ -1,0 +1,50 @@
+.settings-switch {
+    display: flex;
+
+    &:active {
+        .settings-switch-pop {
+            min-width: 20px !important;
+        }
+    }
+
+    &[data-checked="true"] {
+        .settings-switch-cover {
+            background-color: blue;
+            
+            .settings-switch-pop {
+                transform: translateX(calc(100% - 2px));
+                left: 0px;
+            }
+        }
+    }
+
+    &[data-checked="false"] {
+        .settings-switch-cover {
+            background-color: gray;
+            
+            .settings-switch-pop {
+                transform: translateX(0px);
+            }
+        }
+    }
+
+    .settings-switch-cover {
+        border-radius: 100px;
+        width: 42px;
+        height: 24px;
+        padding: 4px;
+        transition: 0.2s background-color;
+        position: relative;
+
+        .settings-switch-pop {
+            display: flex;
+            width: 16px;
+            height: 16px;
+            border-radius: 100px;
+            background-color: white;
+            min-width: 16px;
+            transition: 0.2s all;
+            position: absolute;
+        }
+    }
+}

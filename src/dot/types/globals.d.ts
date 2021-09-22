@@ -1,3 +1,4 @@
+
 declare module '*.ftl'
 
 interface Document {
@@ -14,4 +15,8 @@ interface Window {
     STATE_FULLSCREEN: number;
     content: any;
     openDialog: any;
+    windowRoot: {
+        ownerGlobal: Window
+    };
+    dot: any
 }

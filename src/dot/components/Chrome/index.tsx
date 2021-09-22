@@ -3,22 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react"
-import { useBrowserDispatch, useBrowserSelector } from "../../app/store/hooks"
+import { useBrowserSelector } from "../../app/store/hooks"
 import { L } from "../../core/l10n/react"
-import { Tab } from "../../models/Tab"
 import { openMenuAt } from "../../shared/menu"
 import { NewTabButton } from "../NewTabButton"
 import { Searchbar } from "../Searchbar"
 import { Spring } from "../Spring"
-import { BrowserTab } from "../Tab"
 import { Tabs } from "../Tabs"
 import { ToolbarButton } from "../ToolbarButton"
 import { WindowControls } from "../WindowControls"
 
 export const Chrome = () => {
-    const ui = useBrowserSelector((s: any) => s.ui)
     const tabs = useBrowserSelector((s: any) => s.tabs)
-    const dispatch = useBrowserDispatch()
 
     return (
         <div id={"navigator-toolbox"} onContextMenu={(e) => openMenuAt({
@@ -84,18 +80,7 @@ export const Chrome = () => {
                 <WindowControls />
             </nav>
             <nav id={"tab-bar"}>
-                <Tabs>
-                    {tabs.list.map((tab: Tab, index: number) => (
-                        <BrowserTab
-                            key={tab.id}
-                            tab={tab}
-                            nextIsActive={tabs.list[index + 1]
-                                ? tabs.list[index + 1].active
-                                : false
-                            }
-                        />
-                    ))}
-                </Tabs>
+                <Tabs />
 
                 <NewTabButton variant={"tab-bar"} />
             </nav>

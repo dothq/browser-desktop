@@ -32,8 +32,9 @@ const recursiveIssuer = (m, c) => {
 }
 
 const webuiEntry = {
-    newtab: "./resources/newtab/start-page.tsx",
-    settings: "./resources/settings/settings.tsx"
+    newtab: "./core/newtab/start-page.tsx",
+    settings: "./core/webui/settings/settings.tsx",
+    config: "./core/webui/config/config.tsx"
 }
 
 let entry = {};

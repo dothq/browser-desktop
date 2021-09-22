@@ -1,9 +1,64 @@
 import React from "react"
+import { Transition } from "react-transition-group"
+import { useBrowserSelector } from "../../app/store/hooks"
+import { TabPreview } from "../../core/tab-preview"
+import { Tab } from "../../models/Tab"
+import { BrowserTab } from "../Tab"
 
-export const Tabs = ({ children }: { children: any }) => {
+export const Tabs = () => {
+    const tabs = useBrowserSelector((s: any) => s.tabs)
+
+    const [tabPreviewVisible, setTabPreviewVisible] = React.useState(false);
+    const [tabPreviewX, setTabPreviewX] = React.useState(0);
+    const [tabPreviewAssosiate, setTabPreviewAssosiate] = React.useState<Tab>();
+
+    let mouseEventInt: NodeJS.Timeout;
+
+    const onTabMouseEnter = (tab: Tab) => {
+        clearTimeout(mouseEventInt);
+
+        const tabElement = document.getElementById(`tab-${tab.id}`);
+
+        if (tabElement) {
+            const bounds = tabElement.getBoundingClientRect();
+
+            setTabPreviewX(bounds.left);
+        }
+
+        mouseEventInt = setTimeout(() => {
+            setTabPreviewVisible(true);
+            setTabPreviewAssosiate(tab);
+        }, 200);
+    }
+
+    const onTabMouseLeave = () => {
+        clearTimeout(mouseEventInt);
+        setTabPreviewVisible(false);
+    }
+
     return (
-        <div id={"tabbrowser-tabs"}>
-            {children}
+        <div id={"tabbrowser-tabs"} onMouseLeave={onTabMouseLeave}>
+            <Transition in={tabPreviewVisible} timeout={200}>
+                {stage => (
+                    <TabPreview
+                        tab={tabPreviewAssosiate}
+                        stage={stage}
+                        x={tabPreviewX}
+                    />
+                )}
+            </Transition>
+
+            {tabs.list.map((tab: Tab, index: number) => (
+                <BrowserTab
+                    key={tab.id}
+                    tab={tab}
+                    onMouseEnter={() => onTabMouseEnter(tab)}
+                    nextIsActive={tabs.list[index + 1]
+                        ? tabs.list[index + 1].active
+                        : false
+                    }
+                />
+            ))}
         </div>
     )
 }

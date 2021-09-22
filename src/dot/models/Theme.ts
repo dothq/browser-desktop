@@ -1,5 +1,4 @@
 import { dot } from "../api";
-import { ThemeVariableMap } from "../shared/theme";
 import { ExtensionTheme } from "../types/theme";
 
 interface ThemeProps {
@@ -34,39 +33,21 @@ export class Theme {
     public set() {
         dot.window.removeWindowClassByNamespace("theme-");
 
-        const themeData = dot.theme.isSystemDarkMode && this.darkTheme
-            ? this.darkTheme
-            : this.theme;
+        const variables = dot.theme.makeThemeVariables(
+            this.id
+        );
 
-        let returnValue: any = {};
-
-        for (let [key, value] of Object.entries(themeData)) {
-            if (
-                key == "experimental" ||
-                key == "id" ||
-                key == "version"
-            ) continue;
-
-            const index = ThemeVariableMap.findIndex(({ data }: { data: any }) =>
-                data.lwtProperty == key
-            );
-
-            if (ThemeVariableMap[index]) {
-                const { variable } = ThemeVariableMap[index];
-
-                document.documentElement.style.setProperty(
-                    variable.replace(/_/g, "-"),
-                    value.toString()
-                )
-
-                returnValue[variable.replace(/_/g, "-")] = value.toString();
-            } else {
-                console.info(`ThemeAPI: Ignoring colour property "${key}" in theme with ID ${this.id}.`)
-            }
+        for (const [key, value] of Object.entries(variables)) {
+            document.documentElement.style.setProperty(
+                key,
+                value
+            )
         }
 
-        return returnValue;
+        return variables;
     }
+
+
 
     constructor({ id, type, name, iconURL, theme, darkTheme, experiments, creation_time }: ThemeProps) {
         if (!id) throw new Error(`Badly formatted theme: 'id' was not found.`);
