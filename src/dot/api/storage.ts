@@ -1,5 +1,5 @@
-import { BookmarksDatabase } from "../core/database/bookmarks";
+// import { BookmarksDatabase } from "../core/database/bookmarks";
 
 export class StorageAPI {
-    public bookmarks = new BookmarksDatabase();
+    // public bookmarks = new BookmarksDatabase();
 }
