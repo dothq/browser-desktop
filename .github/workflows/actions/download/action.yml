@@ -4,5 +4,6 @@ runs:
   using: "composite"
   steps:
     - name: Download upstream repository
+      shell: bash
       run: |
         ./melon download

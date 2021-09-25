@@ -4,5 +4,6 @@ runs:
   using: "composite"
   steps:
     - name: Import patches
+      shell: bash
       run: |
         ./melon import --minimal

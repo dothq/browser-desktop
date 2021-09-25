@@ -4,5 +4,6 @@ runs:
   using: "composite"
   steps:
     - name: Build Information
+      shell: bash
       run: |
         cat configs/linux/mozconfig

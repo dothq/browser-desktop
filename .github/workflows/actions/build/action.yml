@@ -8,5 +8,6 @@ runs:
   using: "composite"
   steps:
     - name: Build
+      shell: bash
       run: |
         python3 ${{ inputs.target }}.py

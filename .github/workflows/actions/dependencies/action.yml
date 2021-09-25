@@ -8,5 +8,6 @@ runs:
   using: "composite"
   steps:
     - name: Install dependencies
+      shell: bash
       run: |
         python3 ${{ inputs.target }}.py

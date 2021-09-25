@@ -4,6 +4,7 @@ runs:
   using: "composite"
   steps:
     - name: Free up space
+      shell: bash
       run: |
         sudo rm -rf /usr/share/dotnet
         sudo rm -rf /opt/ghc
