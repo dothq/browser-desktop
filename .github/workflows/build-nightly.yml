@@ -32,18 +32,18 @@ jobs:
       SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/linux-free-space@v1
-      - uses: actions/build-information@v1
-      - uses: actions/setup-git@v1
-      - uses: actions/dependencies@v1
+      - uses: dothq/linux-free-space@v1
+      - uses: dothq/build-information@v1
+      - uses: dothq/setup-git@v1
+      - uses: dothq/dependencies@v1
         with:
           target: linux
-      - uses: actions/download@v1
-      - uses: actions/import@v1
-      - uses: actions/build@v1
+      - uses: dothq/download@v1
+      - uses: dothq/import@v1
+      - uses: dothq/build@v1
         with:
           target: linux
-      - uses: actions/package@v1
+      - uses: dothq/package@v1
         with:
           target: linux
 
