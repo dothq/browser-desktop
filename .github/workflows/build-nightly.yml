@@ -32,18 +32,18 @@ jobs:
       SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
-      - uses: dothq/linux-free-space@v1
-      - uses: dothq/build-information@v1
-      - uses: dothq/setup-git@v1
-      - uses: dothq/dependencies@v1
+      - uses: ./.github/workflows/actions/linux-free-space
+      - uses: ./.github/workflows/actions/build-information
+      - uses: ./.github/workflows/actions/setup-git
+      - uses: ./.github/workflows/actions/dependencies
         with:
           target: linux
-      - uses: dothq/download@v1
-      - uses: dothq/import@v1
-      - uses: dothq/build@v1
+      - uses: ./.github/workflows/actions/download
+      - uses: ./.github/workflows/actions/import
+      - uses: ./.github/workflows/actions/build
         with:
           target: linux
-      - uses: dothq/package@v1
+      - uses: ./.github/workflows/actions/package
         with:
           target: linux
 
