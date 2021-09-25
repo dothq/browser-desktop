@@ -1,0 +1,12 @@
+name: "Install dependencies" 
+description: "Install the required dependencies for the build"
+inputs:
+  target:
+    description: 'Build target'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      run: |
+        python3 ${{ inputs.target }}.py

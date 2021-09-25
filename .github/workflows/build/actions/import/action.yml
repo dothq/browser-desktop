@@ -1,0 +1,8 @@
+name: "Import patches" 
+description: "Import patches into upstream"
+runs:
+  using: "composite"
+  steps:
+    - name: Import patches
+      run: |
+        ./melon import --minimal

@@ -1,0 +1,8 @@
+name: "Package" 
+description: "Package the browser into a nice little package"
+runs:
+  using: "composite"
+  steps:
+    - name: Package
+      run: |
+        python3 ${{ inputs.target }}.py

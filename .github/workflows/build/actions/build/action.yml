@@ -1,0 +1,12 @@
+name: "Build" 
+description: "Builds the browser"
+inputs:
+  target:
+    description: 'Build target'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Build
+      run: |
+        python3 ${{ inputs.target }}.py

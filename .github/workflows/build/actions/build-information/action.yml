@@ -1,0 +1,8 @@
+name: "Build Information" 
+description: "Logs the build mozconfig"
+runs:
+  using: "composite"
+  steps:
+    - name: Build Information
+      run: |
+        cat configs/linux/mozconfig
