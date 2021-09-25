@@ -33,6 +33,7 @@ cargo_packages = (
 os.system("sudo apt-get update --fix-missing")
 
 os.system("curl https://sh.rustup.rs -sSf | sh -s -- -y")
+os.system("source $HOME/.cargo/env")
 
 os.system("rustup install 1.53.0")
 os.system("rustup default 1.53.0")
