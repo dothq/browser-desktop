@@ -3,7 +3,6 @@ import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
 import { l10n } from "../../core/l10n";
 import { Services } from "../../modules";
-import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
 
 interface Props {
@@ -210,14 +209,15 @@ export class SearchbarInput extends React.Component<Props> {
 
         this.value = parsed.spec;
 
-        if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
-            this.searchType = SearchInput.Real
-        }
+        // if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
+        //     this.searchType = SearchInput.Real
+        // }
     }
 
     public onTabReload() {
         // Reset everything
         this.inputChangedSinceOpening = false;
+        this.searchType = SearchInput.Fake;
     }
 
     public onInputFocus() {
@@ -230,21 +230,25 @@ export class SearchbarInput extends React.Component<Props> {
         // If the input value has changed since we focused it
         // We should retain the real input instead of returning
         // to the fake input.
+        //
+        // BUG: If you change state in react, only the last state change will
+        // be saved. That has caused problems and may cause more problems down
+        // the line
         if (this.inputChangedSinceOpening) {
             // Keep the real input
-            this.searchType = SearchInput.Real;
             this.inputChangedSinceOpening = true; // The input is still in the changing phase
+            this.searchType = SearchInput.Real;
         } else {
             // Return to fake input
-            this.searchType = SearchInput.Fake;
             this.inputChangedSinceOpening = false;
+            this.searchType = SearchInput.Fake;
         }
     }
 
     public onInputChange() {
     }
 
-    public onInputKeyDown(e: KeyboardEvent) {
+    public onInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         // Ignore any arrow events and enter
         // As those don't count towards the value changing
         if (
@@ -302,7 +306,11 @@ export class SearchbarInput extends React.Component<Props> {
             <>
                 <div
                     id={"urlbar-input-url"}
-                    hidden={this.searchType == SearchInput.Real}
+                    style={{ display: this.searchType == SearchInput.Real ? 'none' : 'flex' }}
+                    onClick={() => {
+                        this.searchType = SearchInput.Real;
+                        setTimeout(() => document.getElementById('urlbar-input-box')?.focus(), 10);
+                    }}
                 >
                     {this.state.parts.map(part => (
                         <span
@@ -319,12 +327,12 @@ export class SearchbarInput extends React.Component<Props> {
                     id={"urlbar-input-box"}
                     placeholder={this.state.inputPlaceholder}
                     ref={this.inputRef}
-                    hidden={this.searchType == SearchInput.Fake}
+                    style={{ display: this.searchType == SearchInput.Fake ? 'none' : 'block' }}
                     /* Events */
-                    onFocus={() => this.onInputFocus}
-                    onBlur={() => this.onInputBlur}
-                    onChange={() => this.onInputChange}
-                    onKeyDown={() => this.onInputKeyDown}
+                    onFocus={() => this.onInputFocus()}
+                    onBlur={() => this.onInputBlur()}
+                    onChange={() => this.onInputChange()}
+                    onKeyDown={e => this.onInputKeyDown(e)}
                 ></input>
             </>
         )
