@@ -33,7 +33,7 @@ cargo_packages = (
 )
 
 pip_packages = (
-    "sentry-sdk"
+    "sentry_sdk"
 )
 
 os.system("sudo pip install --upgrade {' '.join(pip_packages)}")
