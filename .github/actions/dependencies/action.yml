@@ -4,6 +4,8 @@ inputs:
   target:
     description: 'Build target'
     required: true
+env:
+  DEP_CMD: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py
 runs:
   using: "composite"
   steps:
@@ -11,6 +13,18 @@ runs:
       shell: bash
       run: sudo pip install --upgrade sentry_sdk
 
-    - name: Install dependencies
+    - name: Install apt dependencies
       shell: bash
-      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py
+      run: ${{ env.DEP_CMD }} apt
+
+    - name: Install Rust
+      shell: bash
+      run: ${{ env.DEP_CMD }} rust
+
+    - name: Install pip dependencies
+      shell: bash
+      run: ${{ env.DEP_CMD }} pip
+
+    - name: Install cargo dependencies
+      shell: bash
+      run: ${{ env.DEP_CMD }} cargo

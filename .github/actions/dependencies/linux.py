@@ -38,18 +38,34 @@ pip_packages = (
     
 )
 
-# No pip packages currently so let's just comment this out until we need it
-# run(f"sudo pip install --upgrade {' '.join(pip_packages)}")
+def install_apt_packages():
+    run("sudo apt-get update --fix-missing")
+    run(f"sudo apt-get install -y {' '.join(apt_packages)}")
 
-run("sudo apt-get update --fix-missing")
+def install_pip_packages():
+    run(f"sudo pip install --upgrade {' '.join(pip_packages)}")
 
-run("curl https://sh.rustup.rs -sSf | sh -s -- -y")
-run("chmod +x $HOME/.cargo/env")
-run("$HOME/.cargo/env")
+def install_cargo_packages():
+    run(f"sudo cargo install {' '.join(cargo_packages)}")
 
-run("rustup install 1.53.0")
-run("rustup default 1.53.0")
+def install_rust():
+    run("curl https://sh.rustup.rs -sSf | sh -s -- -y")
+    run("chmod +x $HOME/.cargo/env")
+    run("$HOME/.cargo/env")
+    run(". $HOME/.cargo/env")
 
-run(f"sudo apt-get install -y {' '.join(apt_packages)}")
+    run("rustup install 1.53.0")
+    run("rustup default 1.53.0")
 
-run(f"sudo cargo install {' '.join(cargo_packages)}")
+if len(sys.argv) > 1:
+    if sys.argv[1] == "apt":
+        install_apt_packages()
+
+    if sys.argv[1] == "rust":
+        install_rust()
+
+    if sys.argv[1] == "pip":
+        install_pip_packages()
+
+    if sys.argv[1] == "cargo":
+        install_cargo_packages()
