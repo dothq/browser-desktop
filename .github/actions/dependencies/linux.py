@@ -2,6 +2,8 @@ import os
 import subprocess
 import sys
 
+from util import run
+
 apt_packages = (
     "libpulse-dev",
     "clang",
@@ -33,12 +35,10 @@ cargo_packages = (
 )
 
 pip_packages = (
-    "sentry_sdk"
+    
 )
 
-os.system("sudo pip install --upgrade {' '.join(pip_packages)}")
-
-from util import run
+run("sudo pip install --upgrade {' '.join(pip_packages)}")
 
 run("sudo apt-get update --fix-missing")
 

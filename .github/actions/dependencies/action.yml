@@ -7,6 +7,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Install Sentry SDK
+      shell: bash
+      run: sudo pip install --upgrade sentry_sdk
+
     - name: Install dependencies
       shell: bash
       run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py
