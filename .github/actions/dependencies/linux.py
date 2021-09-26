@@ -38,7 +38,7 @@ pip_packages = (
     "sentry-sdk"
 )
 
-run("sudo pip install --upgrade {' '.join(pip_packages)}")
+os.system("sudo pip install --upgrade {' '.join(pip_packages)}")
 
 run("sudo apt-get update --fix-missing")
 
