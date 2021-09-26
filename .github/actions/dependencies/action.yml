@@ -19,9 +19,10 @@ runs:
       shell: bash
       run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py rust
 
-    - name: Install pip dependencies
-      shell: bash
-      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py pip
+    # We have no pip dependencies yet
+    # - name: Install pip dependencies
+    #   shell: bash
+    #   run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py pip
 
     - name: Install cargo dependencies
       shell: bash
