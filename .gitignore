@@ -12,6 +12,7 @@ engine
 *.tar
 *.tar.bz2
 yarn-error.log
+__pycache__
 
 # Ignore custom mozbuild files placed in the root directory
 /mozconfig
