@@ -2,8 +2,6 @@ import os
 import subprocess
 import sys
 
-from util import run
-
 apt_packages = (
     "libpulse-dev",
     "clang",
@@ -39,6 +37,8 @@ pip_packages = (
 )
 
 os.system("sudo pip install --upgrade {' '.join(pip_packages)}")
+
+from util import run
 
 run("sudo apt-get update --fix-missing")
 
