@@ -50,4 +50,7 @@ run("rustup install 1.53.0")
 run("rustup default 1.53.0")
 
 run(f"sudo apt-get install -y {' '.join(apt_packages)}")
-run(f"sudo cargo install {' '.join(apt_packages)}")
+
+cargo_bin = "$HOME/.cargo/bin/cargo"
+
+run(f"sudo {cargo_bin} install {' '.join(apt_packages)}")
