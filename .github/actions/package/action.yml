@@ -10,4 +10,4 @@ runs:
     - name: Package
       shell: bash
       run: |
-        python3 ./.github/workflows/actions/package/${{ inputs.target }}.py
+        python3 ./.github/actions/package/${{ inputs.target }}.py
