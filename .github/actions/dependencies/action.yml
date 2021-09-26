@@ -4,8 +4,6 @@ inputs:
   target:
     description: 'Build target'
     required: true
-env:
-  DEP_CMD: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py
 runs:
   using: "composite"
   steps:
@@ -15,16 +13,16 @@ runs:
 
     - name: Install apt dependencies
       shell: bash
-      run: ${{ env.DEP_CMD }} apt
+      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py apt
 
     - name: Install Rust
       shell: bash
-      run: ${{ env.DEP_CMD }} rust
+      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py rust
 
     - name: Install pip dependencies
       shell: bash
-      run: ${{ env.DEP_CMD }} pip
+      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py pip
 
     - name: Install cargo dependencies
       shell: bash
-      run: ${{ env.DEP_CMD }} cargo
+      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py cargo
