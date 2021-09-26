@@ -112,7 +112,9 @@ const genericBuild = async (os: string, tier: string) => {
     await dispatch(
         `./mach`,
         ["build"].concat(tier ? [tier] : []),
-        ENGINE_DIR
+        ENGINE_DIR,
+        false,
+        true
     );
 };
 

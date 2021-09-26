@@ -9,5 +9,4 @@ runs:
   steps:
     - name: Install dependencies
       shell: bash
-      run: |
-        python3 ./.github/actions/dependencies/${{ inputs.target }}.py
+      run: python3 ./.github/actions/dependencies/${{ inputs.target }}.py

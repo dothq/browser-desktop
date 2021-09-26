@@ -9,5 +9,4 @@ runs:
   steps:
     - name: Package
       shell: bash
-      run: |
-        python3 ./.github/actions/package/${{ inputs.target }}.py
+      run: python3 ./.github/actions/package/${{ inputs.target }}.py
