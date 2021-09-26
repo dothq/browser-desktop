@@ -3,6 +3,7 @@ import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
 import { l10n } from "../../core/l10n";
 import { Services } from "../../modules";
+import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
 
 interface Props {
@@ -198,20 +199,23 @@ export class SearchbarInput extends React.Component<Props> {
         queryParams.semihide = true;
         hash.semihide = true;
 
-        this.update("parts", [
-            { ...scheme },
-            { ...subdomain },
-            { ...hostname },
-            { ...path },
-            { ...queryParams },
-            { ...hash }
-        ]);
+        // Get around react's state issues
+        setTimeout(() =>
+            this.update("parts", [
+                { ...scheme },
+                { ...subdomain },
+                { ...hostname },
+                { ...path },
+                { ...queryParams },
+                { ...hash }
+            ])
+        , 10);
 
         this.value = parsed.spec;
 
-        // if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
-        //     this.searchType = SearchInput.Real
-        // }
+        if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
+            this.searchType = SearchInput.Real
+        }
     }
 
     public onTabReload() {
@@ -249,6 +253,10 @@ export class SearchbarInput extends React.Component<Props> {
     }
 
     public onInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.code == "Enter") {
+            this.entryCompleted()
+        }
+
         // Ignore any arrow events and enter
         // As those don't count towards the value changing
         if (
@@ -279,6 +287,40 @@ export class SearchbarInput extends React.Component<Props> {
         const value = typeof (localised) == "object" ? localised.value : localised;
 
         this.update("inputPlaceholder", value);
+    }
+
+    public entryCompleted() {
+        // Blur the input
+        this.inputRef.current?.blur();
+        setTimeout(() => this.inputFocused = false, 0); // Timeout to fix react hinkyness
+
+        this.inputChangedSinceOpening = false
+
+        // Check if it is a URL, this is a touch hacky and should be fixed later
+        const isUrl = this.value.includes("://");
+
+        const engine = dot.search
+            .providers
+            .engine
+            .currentSearchEngine;
+
+        if (isUrl) {
+            // Create a MozURI to navigate to
+            const uri: MozURI = Services.io.newURI(this.value);
+
+            setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
+        } else {
+            // Presume the default search engine is duckduckgo and search for the value
+            const uri: MozURI = Services.io.newURI(
+                engine
+                    .chrome_settings_overrides
+                    .search_provider
+                    .search_form
+                    .replace('{searchTerms}', this.value)
+            )
+
+            setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
+        }
     }
 
     constructor(props: Props) {
