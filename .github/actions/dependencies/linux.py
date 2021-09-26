@@ -1,4 +1,8 @@
 import os
+import subprocess
+import sys
+
+from util import run
 
 apt_packages = (
     "libpulse-dev",
@@ -30,13 +34,19 @@ cargo_packages = (
     "cbindgen"
 )
 
-os.system("sudo apt-get update --fix-missing")
+pip_packages = (
+    "sentry-sdk"
+)
 
-os.system("curl https://sh.rustup.rs -sSf | sh -s -- -y")
-os.system(". $HOME/.cargo/env")
+run("sudo pip install --upgrade {' '.join(pip_packages)}")
 
-os.system("rustup install 1.53.0")
-os.system("rustup default 1.53.0")
+run("sudo apt-get update --fix-missing")
 
-os.system(f"sudo apt-get install -y {' '.join(apt_packages)}")
-os.system(f"sudo cargo install {' '.join(apt_packages)}")
+run("curl https://sh.rustup.rs -sSf | sh -s -- -y")
+run(". $HOME/.cargo/env")
+
+run("rustup install 1.53.0")
+run("rustup default 1.53.0")
+
+run(f"sudo apt-get install -y {' '.join(apt_packages)}")
+run(f"sudo cargo install {' '.join(apt_packages)}")
