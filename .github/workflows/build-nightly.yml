@@ -29,7 +29,7 @@ jobs:
     name: 🐧 Linux (64-bit)
     runs-on: ubuntu-20.04
     env:
-      SHELL: /bin/sh
+      SHELL: /bin/bash
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/linux-free-space
