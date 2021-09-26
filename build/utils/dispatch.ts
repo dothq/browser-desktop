@@ -42,7 +42,12 @@ export const dispatch = (
             handle(d, killOnError)
         );
 
-        proc.on("exit", () => {
+        proc.on("exit", (code: number) => {
+            if (code !== 0) {
+                log.error("Command failed. See error above.");
+                process.exit(code);
+            }
+
             resolve(true);
         });
     });
