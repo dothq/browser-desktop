@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Transition } from "react-transition-group"
 import { useBrowserSelector } from "../../app/store/hooks"
 import { TabPreview } from "../../core/tab-preview"
@@ -35,6 +35,17 @@ export const Tabs = () => {
         clearTimeout(mouseEventInt);
         setTabPreviewVisible(false);
     }
+
+    // Show tabs if there is more than one
+    useEffect(() => {
+        const tabBar = document.getElementById("tab-bar");
+
+        if (tabs.list.length > 1) {
+            tabBar?.setAttribute('style', 'margin-top: 0;')
+        } else {
+            tabBar?.setAttribute('style', '')
+        }
+    }, [tabs])
 
     return (
         <div id={"tabbrowser-tabs"} onMouseLeave={onTabMouseLeave}>

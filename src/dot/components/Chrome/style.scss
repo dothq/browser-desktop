@@ -35,9 +35,8 @@
     background-color: var(--lwt-accent-color);
     overflow: hidden;
     margin-top: -36px;
-    transition: 0.15s margin-top;
     z-index: 1;
-    transition: 0.3s background-color, 0.3s color;
+    transition: 0.3s background-color, 0.3s color, 0.15s margin-top;
 }
 
 #browser.tabs-visible {
