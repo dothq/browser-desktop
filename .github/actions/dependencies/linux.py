@@ -29,11 +29,6 @@ apt_packages = (
     "xvfb"
 )
 
-cargo_packages = (
-    "sccache",
-    "cbindgen"
-)
-
 pip_packages = (
     
 )
@@ -44,9 +39,6 @@ def install_apt_packages():
 
 def install_pip_packages():
     run(f"sudo pip install --upgrade {' '.join(pip_packages)}")
-
-def install_cargo_packages():
-    run(f"sudo cargo install {' '.join(cargo_packages)}")
 
 def install_rust():
     run("curl https://sh.rustup.rs -sSf | sh -s -- -y")
@@ -66,6 +58,3 @@ if len(sys.argv) > 1:
 
     if sys.argv[1] == "pip":
         install_pip_packages()
-
-    if sys.argv[1] == "cargo":
-        install_cargo_packages()

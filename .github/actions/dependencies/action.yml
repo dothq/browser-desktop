@@ -24,6 +24,14 @@ runs:
     #   shell: bash
     #   run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py pip
 
-    - name: Install cargo dependencies
-      shell: bash
-      run: PYTHONPATH=.github/actions python3 ./.github/actions/dependencies/${{ inputs.target }}.py cargo
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: 
+          - "1.53.0"
+        override: true
+
+    - uses: actions-rs/cargo@v1
+      with:
+        command: install
+        args: sccache cbindgen
