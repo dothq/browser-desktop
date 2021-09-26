@@ -38,7 +38,8 @@ pip_packages = (
     
 )
 
-run(f"sudo pip install --upgrade {' '.join(pip_packages)}")
+# No pip packages currently so let's just comment this out until we need it
+# run(f"sudo pip install --upgrade {' '.join(pip_packages)}")
 
 run("sudo apt-get update --fix-missing")
 
