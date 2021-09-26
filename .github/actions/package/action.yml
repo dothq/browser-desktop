@@ -1,9 +1,13 @@
 name: "Package" 
 description: "Package the browser into a nice little package"
+inputs:
+  target:
+    description: 'Build target'
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Package
       shell: bash
       run: |
-        python3 ./.github/workflows/actions/dependencies/${{ inputs.target }}.py
+        python3 ./.github/workflows/actions/package/${{ inputs.target }}.py

@@ -32,18 +32,18 @@ jobs:
       SHELL: /bin/sh
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/workflows/actions/linux-free-space
-      - uses: ./.github/workflows/actions/build-information
-      - uses: ./.github/workflows/actions/setup-git
-      - uses: ./.github/workflows/actions/dependencies
+      - uses: ./.github/actions/linux-free-space
+      - uses: ./.github/actions/build-information
+      - uses: ./.github/actions/setup-git
+      - uses: ./.github/actions/dependencies
         with:
           target: linux
-      - uses: ./.github/workflows/actions/download
-      - uses: ./.github/workflows/actions/import
-      - uses: ./.github/workflows/actions/build
+      - uses: ./.github/actions/download
+      - uses: ./.github/actions/import
+      - uses: ./.github/actions/build
         with:
           target: linux
-      - uses: ./.github/workflows/actions/package
+      - uses: ./.github/actions/package
         with:
           target: linux
 

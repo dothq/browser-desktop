@@ -10,4 +10,4 @@ runs:
     - name: Build
       shell: bash
       run: |
-        python3 ./.github/workflows/actions/dependencies/${{ inputs.target }}.py
+        python3 ./.github/workflows/actions/build/${{ inputs.target }}.py
