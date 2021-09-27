@@ -53,10 +53,27 @@ export class SearchbarInput extends React.Component<Props> {
     }
 
     public update(key: string, val: any) {
-        this.setState({
+        // So, fun fact, when the setState function is called, it doesn't update
+        // the state immediately. It only updates the state just before the next
+        // render. This means if you call this function twice, only the last
+        // value provide will be remembered. Consider this example:
+        //
+        //```ts
+        // /* Initial state: { a: 1, b: 2 } */
+        // this.update("a", 3); // State is still { a: 1, b: 2 }
+        // this.update("b", 4); // State is still { a: 1, b: 2 }
+        //```
+        //
+        // However, because the state hasn't updated yet, the new value of a is
+        // overwritten! To bypass this, react allows you to provide a callback
+        // to the set state function, which runs on state update, solving all
+        // our problems
+        //
+        // TLDR: Don't change this next line
+        this.setState(() => ({
             ...this.state,
             [key]: val
-        })
+        }))
     }
 
     public get inputEdited() { return this.state.inputEdited }
@@ -234,18 +251,14 @@ export class SearchbarInput extends React.Component<Props> {
         // If the input value has changed since we focused it
         // We should retain the real input instead of returning
         // to the fake input.
-        //
-        // BUG: If you change state in react, only the last state change will
-        // be saved. That has caused problems and may cause more problems down
-        // the line
         if (this.inputChangedSinceOpening) {
             // Keep the real input
-            this.inputChangedSinceOpening = true; // The input is still in the changing phase
             this.searchType = SearchInput.Real;
+            this.inputChangedSinceOpening = true; // The input is still in the changing phase
         } else {
             // Return to fake input
-            this.inputChangedSinceOpening = false;
             this.searchType = SearchInput.Fake;
+            this.inputChangedSinceOpening = false;
         }
     }
 
@@ -303,19 +316,18 @@ export class SearchbarInput extends React.Component<Props> {
             .providers
             .engine
 
+        let uri: MozURI
+
         if (isUrl) {
             // Create a MozURI to navigate to
-            const uri: MozURI = Services.io.newURI(this.value);
-
-            setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
+            uri = Services.io.newURI(this.value);
         } else {
-            // Presume the default search engine is duckduckgo and search for the value
-            const uri: MozURI = Services.io.newURI(
+            uri = Services.io.newURI(
                 engine.constructSearchUrl(this.value)
             )
-
-            setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
         }
+
+        setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
     }
 
     constructor(props: Props) {
