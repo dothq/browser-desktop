@@ -216,17 +216,14 @@ export class SearchbarInput extends React.Component<Props> {
         queryParams.semihide = true;
         hash.semihide = true;
 
-        // Get around react's state issues
-        setTimeout(() =>
-            this.update("parts", [
-                { ...scheme },
-                { ...subdomain },
-                { ...hostname },
-                { ...path },
-                { ...queryParams },
-                { ...hash }
-            ])
-        , 10);
+        this.update("parts", [
+            { ...scheme },
+            { ...subdomain },
+            { ...hostname },
+            { ...path },
+            { ...queryParams },
+            { ...hash }
+        ])
 
         this.value = parsed.spec;
 
@@ -327,7 +324,7 @@ export class SearchbarInput extends React.Component<Props> {
             )
         }
 
-        setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
+        dot.browsersPrivate.goto(this.tabId, uri);
     }
 
     constructor(props: Props) {
@@ -358,6 +355,9 @@ export class SearchbarInput extends React.Component<Props> {
                     style={{ display: this.searchType == SearchInput.Real ? 'none' : 'flex' }}
                     onClick={() => {
                         this.searchType = SearchInput.Real;
+
+                        // The focus **must** be set after react has run render
+                        // this timeout allows time for react to do that
                         setTimeout(() => document.getElementById('urlbar-input-box')?.focus(), 10);
                     }}
                 >
