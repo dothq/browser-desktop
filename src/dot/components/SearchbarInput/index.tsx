@@ -302,7 +302,6 @@ export class SearchbarInput extends React.Component<Props> {
         const engine = dot.search
             .providers
             .engine
-            .currentSearchEngine;
 
         if (isUrl) {
             // Create a MozURI to navigate to
@@ -312,11 +311,7 @@ export class SearchbarInput extends React.Component<Props> {
         } else {
             // Presume the default search engine is duckduckgo and search for the value
             const uri: MozURI = Services.io.newURI(
-                engine
-                    .chrome_settings_overrides
-                    .search_provider
-                    .search_form
-                    .replace('{searchTerms}', this.value)
+                engine.constructSearchUrl(this.value)
             )
 
             setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
