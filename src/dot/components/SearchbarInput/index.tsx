@@ -297,7 +297,7 @@ export class SearchbarInput extends React.Component<Props> {
         this.inputChangedSinceOpening = false
 
         // Check if it is a URL, this is a touch hacky and should be fixed later
-        const isUrl = this.value.includes("://");
+        const isUrl = this.value.includes("://") || this.value.includes("about:");
 
         const engine = dot.search
             .providers
