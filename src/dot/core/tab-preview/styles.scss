@@ -1,15 +1,19 @@
 .tabbrowser-tab-preview {
-    position: relative;
-    top: 0;
+    position: absolute;
+    transition: 0.15s opacity, 0.15s transform;
+
+    visibility: visible;
+    margin: 8px;
+    min-width: none;
 
     .tabbrowser-tab-preview-container {
         display: flex;
         padding: 18px;
         width: calc(100% - 18px * 2);
         height: 100%;
-        flex-direction: column; 
+        flex-direction: column;
         gap: 6px;
-        
+
         .page-url {
             opacity: 0.5;
         }

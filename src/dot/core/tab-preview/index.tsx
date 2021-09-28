@@ -11,7 +11,7 @@ const animation: Partial<Record<TransitionStatus, any>> = {
     }
 }
 
-export const TabPreview = ({ tab, stage, x }: { tab: Tab | undefined, stage: TransitionStatus, x: number }) => {
+export const TabPreview = ({ tab, stage, x, y }: { tab: Tab | undefined, stage: TransitionStatus, x: number, y:number }) => {
     const [host, setHost] = React.useState(tab?.url);
 
     React.useEffect(() => {
@@ -24,6 +24,7 @@ export const TabPreview = ({ tab, stage, x }: { tab: Tab | undefined, stage: Tra
         <menu
             className={"tabbrowser-tab-preview"}
             style={{
+                top: y + 38,
                 transform: `translateX(${x}px)`,
                 ...animation[stage]
             }}

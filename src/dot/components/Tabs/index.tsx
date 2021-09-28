@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { Transition } from "react-transition-group"
 import { useBrowserSelector } from "../../app/store/hooks"
 import { TabPreview } from "../../core/tab-preview"
@@ -7,6 +7,8 @@ import { BrowserTab } from "../Tab"
 
 export const Tabs = () => {
     const tabs = useBrowserSelector((s: any) => s.tabs)
+
+    const tabsContainer = useRef<HTMLDivElement>(null)
 
     const [tabPreviewVisible, setTabPreviewVisible] = React.useState(false);
     const [tabPreviewX, setTabPreviewX] = React.useState(0);
@@ -48,13 +50,14 @@ export const Tabs = () => {
     }, [tabs])
 
     return (
-        <div id={"tabbrowser-tabs"} onMouseLeave={onTabMouseLeave}>
+        <div id={"tabbrowser-tabs"} onMouseLeave={onTabMouseLeave} ref={tabsContainer}>
             <Transition in={tabPreviewVisible} timeout={200}>
                 {stage => (
                     <TabPreview
                         tab={tabPreviewAssosiate}
                         stage={stage}
                         x={tabPreviewX}
+                        y={tabsContainer.current?.getBoundingClientRect().top || 0}
                     />
                 )}
             </Transition>
