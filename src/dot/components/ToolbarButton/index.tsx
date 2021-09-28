@@ -18,9 +18,9 @@ export const ToolbarButton = ({
     image?: string
     children?: any
     id?: any
-    onClick?: any
-    onMouseDown?: any
-    onMouseUp?: any
+    onClick?: (e: MouseEvent) => void
+    onMouseDown?: (e: MouseEvent) => void
+    onMouseUp?: (e: MouseEvent) => void
     command?: string
     className?: any
     disabled?: boolean
@@ -28,17 +28,17 @@ export const ToolbarButton = ({
     menuCtx?: any
     title?: string
 }) => {
-    const onTBClick = () => {
+    const onTBClick = (e: MouseEvent) => {
         if (command) dot.utilities.doCommand(command);
-        if (onClick) onClick();
+        if (onClick) onClick(e);
     }
 
-    const onTBMouseDown = () => {
-        if (onMouseDown) onMouseDown();
+    const onTBMouseDown = (e: MouseEvent) => {
+        if (onMouseDown) onMouseDown(e);
     }
 
-    const onTBMouseUp = () => {
-        if (onMouseUp) onMouseUp();
+    const onTBMouseUp = (e: MouseEvent) => {
+        if (onMouseUp) onMouseUp(e);
 
         if (menu) {
             dot.menus.create(
@@ -58,9 +58,9 @@ export const ToolbarButton = ({
                 ${!!image ? `toolbar-button-has-image` : ``}
                 ${className ? className : ``}
             `.trim()}
-            onClick={disabled ? () => { } : onTBClick}
-            onMouseDown={disabled ? () => { } : onTBMouseDown}
-            onMouseUp={disabled ? () => { } : onTBMouseUp}
+            onClick={disabled ? () => { } : onTBClick as any}
+            onMouseDown={disabled ? () => { } : onTBMouseDown as any}
+            onMouseUp={disabled ? () => { } : onTBMouseUp as any}
             title={title}
         >
             <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
