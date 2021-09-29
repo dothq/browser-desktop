@@ -324,7 +324,8 @@ export class SearchbarInput extends React.Component<Props> {
             )
         }
 
-        dot.browsersPrivate.goto(this.tabId, uri);
+        // If we don't give react time to update, the old url will be kept
+        setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
     }
 
     constructor(props: Props) {
