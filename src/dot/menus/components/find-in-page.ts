@@ -1,4 +1,5 @@
 import { MenuItem } from ".";
+import { dot } from "../../api";
 import { Hotkey } from "../hotkey";
 
 export class FindInPage extends MenuItem {
@@ -14,5 +15,9 @@ export class FindInPage extends MenuItem {
 
             hotkey: new Hotkey("Ctrl", "F")
         })
+    }
+
+    public onClick() {
+        dot.browsersPrivate.findInPage();
     }
 }

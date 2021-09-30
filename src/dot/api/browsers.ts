@@ -120,6 +120,13 @@ export class BrowsersAPI {
         else throw new Error(`Browser with id '${id}' not found.`);
     }
 
+    public findInPage() {
+        const browser = this.get(this.selectedId);
+        const findBar = document.createXULElement("findbar");
+
+        browser.parentNode?.appendChild(findBar)
+    }
+
     public delete(id: number) {
         let browser: any = this.get(id);
 
