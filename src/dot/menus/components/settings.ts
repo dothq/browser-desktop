@@ -1,4 +1,5 @@
 import { MenuItem } from ".";
+import { dot } from "../../api";
 
 export class Settings extends MenuItem {
     constructor() {
@@ -11,5 +12,9 @@ export class Settings extends MenuItem {
             icon: "settings.svg",
             description: "Manage browser preferences and settings."
         })
+    }
+
+    onClick() {
+        dot.utilities.doCommand("Browser:OpenPreferences")
     }
 }
