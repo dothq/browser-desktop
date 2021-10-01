@@ -1,6 +1,9 @@
 import React from "react";
+import { UICheckbox } from "../components/Checkbox";
 import { UISwitch } from "../components/Switch";
 
+// =============================================================================
+// Switch layout
 interface SwitchProps {
     text: string,
     description?: string,
@@ -32,6 +35,37 @@ class Switch extends React.Component<SwitchProps> {
     }
 }
 
+// =============================================================================
+// Checkbox layout
+
+interface CheckboxProps {
+    text: string,
+    pref: string,
+    trueVal?: string | number,
+    falseVal?: string | number
+}
+
+class Checkbox extends React.Component<CheckboxProps> {
+    public constructor(props: CheckboxProps) {
+        super(props);
+    }
+
+    public render() {
+        const {
+            text,
+            pref,
+            trueVal,
+            falseVal
+        } = this.props;
+
+        return (
+            <div className={"settings-layout-checkbox"}>
+                <UICheckbox pref={pref} trueVal={trueVal} falseVal={falseVal}>{text}</UICheckbox>
+            </div>
+        )
+    }
+}
+
 export const Layouts = {
-    Switch
+    Switch, Checkbox
 }

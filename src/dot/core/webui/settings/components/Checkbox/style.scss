@@ -1,0 +1,100 @@
+.settings-checkbox {
+    display: block;
+    position: relative;
+    padding: 2px;
+    padding-left: 24px;
+    margin-bottom: 6px;
+
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+    border-radius: 4px;
+
+    &:hover input ~ .checkmark {
+        background-color: rgba(150, 150, 150, 0.1);
+    }
+
+    &:hover ~ .checkmark {
+        background: rgb(58, 58, 255);
+    }
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &:checked ~ .checkmark {
+            background-color: blue;
+        }
+    }
+
+    .checkmark {
+        position: absolute;
+        display: grid;
+        top: 4px;
+        left: 4px;
+        height: 16px;
+        width: 16px;
+
+        border: 2px solid blue;
+        border-radius: 4px;
+        transition: background 0.2s ease-in-out;
+
+        box-sizing: border-box;
+
+        svg {
+            margin: auto;
+            color: white;
+            stroke-width: 4px;
+            stroke: white;
+
+            &.show polyline {
+                stroke-dasharray: 22;
+                animation: drawIn 0.2s ease-in-out
+                    forwards;
+            }
+
+            &.hidden polyline {
+                stroke-dasharray: 22;
+                animation: drawOut 0.2s ease-in-out
+                    forwards;
+            }
+        }
+    }
+
+    @keyframes drawIn {
+        from {
+            stroke-dashoffset: -22;
+            opacity: 1;
+        }
+        5% {
+            opacity: 0;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes drawOut {
+        from {
+            stroke-dashoffset: 0;
+        }
+        90% {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+            stroke-dashoffset: 22;
+        }
+    }
+
+    .disabled {
+        color: gray;
+
+        &:hover {
+            background: none !important;
+        }
+    }
+}
