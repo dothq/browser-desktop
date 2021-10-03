@@ -26,6 +26,9 @@ export class UISwitch extends React.Component<UISwitchProps> {
                 checked: this.props.initialValue
             })
         } else if (this.props.type == "pref") {
+            // Dynamic typechecking for prefs
+            if (!this.props.pref) throw new Error("Preference ID is required.");
+
             let type = window.dot.prefs.getType(this.props.pref);
 
             if (!type) {

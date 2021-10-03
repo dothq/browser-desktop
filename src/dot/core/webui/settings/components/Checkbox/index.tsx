@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
+import { CheckIcon } from "../check";
 
 function getType(pref: string): string | void {
     const type = window.dot.prefs.getType(pref)
@@ -69,7 +70,7 @@ export const UICheckbox: CheckboxType = ({
                 break
 
             case 'int':
-                typeCheck('number', trueVal, falseVal)
+                if (typeof trueVal !== 'number' || typeof falseVal !== 'number') throw new Error('True and false value must be a number')
                 window.dot.prefs.set(pref, newValue ? trueVal : falseVal)
                 break
 
@@ -95,19 +96,7 @@ export const UICheckbox: CheckboxType = ({
                 </div>
             </div>
             <span className={`checkmark ${disabled ? 'disabled' : ''}`}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className={value ? 'show' : 'hidden'}
-                >
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+                <CheckIcon size={10} className={value ? 'show' : 'hidden'} />
             </span>
         </label>
     );

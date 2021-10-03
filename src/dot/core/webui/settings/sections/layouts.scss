@@ -9,7 +9,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    
+
     h1 {
         font-weight: 500;
         font-size: 14px;
@@ -21,4 +21,18 @@
         font-size: 12px;
         opacity: 0.6;
     }
+}
+
+.more-themes-selector {
+    display: flex;
+
+    height: 70px;
+
+    background-color: #256EF522;
+    color: #256EF5;
+    border-radius: 8px;
+
+    flex-grow: 4;
+    justify-content: center;
+    align-items: center;
 }

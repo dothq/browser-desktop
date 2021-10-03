@@ -56,6 +56,10 @@ export class ThemeAPI {
     )
   }
 
+  /**
+   * Set the current theme applied to the browser
+   * @param id The ID of the theme you wish to set
+   */
   public async load(id?: string) {
     // Wait for the AddonManager to load
     await this.awaitAddonManagerStartup();
