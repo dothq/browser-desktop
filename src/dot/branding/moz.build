@@ -6,7 +6,7 @@
 
 DIRS += ['content', 'locales']
 
-DIST_SUBDIR = 'browser'
+DIST_SUBDIR = 'dot'
 export('DIST_SUBDIR')
 
 include('../branding-common.mozbuild')
