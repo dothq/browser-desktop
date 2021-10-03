@@ -1,8 +1,9 @@
 import { Section } from "..";
+import { Theme } from "./theme";
 
 export class Appearance extends Section {
     public children = [
-
+        Theme
     ]
 
     public constructor() {

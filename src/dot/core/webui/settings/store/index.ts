@@ -14,6 +14,8 @@ const configureStore = () => {
         ...sectionReducers
     })
 
+    console.log(root);
+
     return createStore(
         root,
         {},

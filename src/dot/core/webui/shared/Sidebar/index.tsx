@@ -13,7 +13,7 @@ const SidebarItem = ({ id, name, icon }: Section) => {
     )
 }
 
-export const Sidebar = ({ title, items }: { title: string, items: any[] }) => {
+export const Sidebar = ({ title, items, dispatch }: { title: string, items: any[], dispatch: any }) => {
     return (
         <aside className={"webui-sidebar"}>
             <header className={"webui-sidebar-header"}>
@@ -21,7 +21,7 @@ export const Sidebar = ({ title, items }: { title: string, items: any[] }) => {
             </header>
             <ul>
                 {items.map(i => (
-                    <li key={i.id}>
+                    <li key={i.id} onClick={() => dispatch({ type: 'settings/setActiveSection', payload: i.id })}>
                         <SidebarItem {...i} />
                     </li>
                 ))}
