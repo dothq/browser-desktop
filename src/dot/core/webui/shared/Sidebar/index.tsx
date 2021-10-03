@@ -1,4 +1,5 @@
 import React from "react"
+import { useDispatch } from "react-redux"
 import { Section } from "../../settings/sections"
 
 const SidebarItem = ({ id, name, icon }: Section) => {
@@ -13,7 +14,9 @@ const SidebarItem = ({ id, name, icon }: Section) => {
     )
 }
 
-export const Sidebar = ({ title, items, dispatch }: { title: string, items: any[], dispatch: any }) => {
+export const Sidebar = ({ title, items }: { title: string, items: any[] }) => {
+    const dispatch = useDispatch()
+
     return (
         <aside className={"webui-sidebar"}>
             <header className={"webui-sidebar-header"}>

@@ -22,7 +22,6 @@ class Settings extends React.Component {
         return (
             <Provider store={store}>
                 <Sidebar
-                    dispatch={store.dispatch}
                     title={"Settings"}
                     items={Object.values(sections)}
                 />
