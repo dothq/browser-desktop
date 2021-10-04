@@ -1,4 +1,5 @@
 import React from 'react'
+import { ColorSelector } from '../../../components/ColorSelector'
 import { ImageSelector } from '../../../components/ImageSelector'
 
 export const Theme = () => {
@@ -19,6 +20,8 @@ export const Theme = () => {
                     Find more themes in the theme store
                 </a>
             </ImageSelector>
+
+            <ColorSelector defaultColour={window.dot.theme.accentColour} />
         </>
     )
 }

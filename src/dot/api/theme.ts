@@ -37,8 +37,20 @@ export class ThemeAPI {
     return this.themes.get(this.currentThemeId);
   }
 
+  public accentColours = [
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'blue',
+    'indigo',
+    'purple',
+    'pink',
+    'gray'
+]
+
   public get accentColour() {
-    return dot.prefs.get("dot.ui.accent_colour", "blue");
+    return dot.prefs.get("dot.ui.accent_colour", this.accentColours[4]);
   }
 
   private _darkModeMediaQuery: MediaQueryList;
