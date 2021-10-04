@@ -47,7 +47,21 @@ export class ThemeAPI {
     'purple',
     'pink',
     'gray'
-]
+  ]
+
+  public accentHexes: {
+    [index: string]: string;
+  } = {
+    red: "#F64242",
+    orange: "#FE9333",
+    yellow: "#FDCD3A",
+    green: "#30D02C",
+    blue: "#256EF5",
+    indigo: "#2C3DD0",
+    purple: "#742CD0",
+    pink: "#C32CD0",
+    gray: "#8D8D8D"
+  }
 
   public get accentColour() {
     return dot.prefs.get("dot.ui.accent_colour", this.accentColours[4]);
