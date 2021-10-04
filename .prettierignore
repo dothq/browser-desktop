@@ -1,7 +1,8 @@
 node_modules/
 patches/
-src/
 configs/
 common/
 .dotbuild/
 .github/workflows
+engine/
+src/**/*.patch
