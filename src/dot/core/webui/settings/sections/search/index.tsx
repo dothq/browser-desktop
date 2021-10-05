@@ -1,7 +1,8 @@
 import { Section } from "..";
+import { SearchSettings } from "./settings";
 
 export class Search extends Section {
-    public children = [];
+    public children = [SearchSettings];
 
     public constructor() {
         super({
