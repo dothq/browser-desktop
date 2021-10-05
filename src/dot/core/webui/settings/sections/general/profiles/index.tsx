@@ -17,16 +17,6 @@ export class Profiles extends React.Component<ProfilesProps> {
                     trueVal={3}
                     falseVal={1}
                 />
-
-                <Layouts.Switch
-                    text={"Show Menu Bar"}
-                    description={
-                        "Makes the menu bar visible at all times."
-                    }
-                    pref={
-                        "dot.settings.test.menubar.visible"
-                    }
-                />
             </>
         );
     }

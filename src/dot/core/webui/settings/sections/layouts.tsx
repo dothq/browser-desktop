@@ -1,5 +1,6 @@
-import React from "react";
+import React, { FC } from "react";
 import { UICheckbox } from "../components/Checkbox";
+import { UISelect } from "../components/Select";
 import { UISwitch } from "../components/Switch";
 import { ControlType } from "../components/types";
 
@@ -69,7 +70,36 @@ class Checkbox extends React.Component<CheckboxProps> {
     }
 }
 
+// =============================================================================
+// Select layout
+
+const Select: FC<{
+    text: string;
+    description?: string;
+    values: {
+        /**
+         * The settings key that should be used
+         */
+        key: string | number;
+        /**
+         * The text that should be displayed
+         */
+        name: string;
+    }[];
+    pref: string;
+}> = ({ text, description, pref, values }) => (
+    <div className="settings-layout-select">
+        <div className={"settings-layout-titles"}>
+            <h1>{text}</h1>
+            {description && <p>{description}</p>}
+        </div>
+
+        <UISelect pref={pref} values={values} />
+    </div>
+);
+
 export const Layouts = {
     Switch,
-    Checkbox
+    Checkbox,
+    Select
 };
