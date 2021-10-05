@@ -19,7 +19,7 @@ export class SavePageAs extends MenuItem {
             description: "Save the current page to file.",
 
             hotkey: new Hotkey("Ctrl", "S")
-        })
+        });
 
         this.tabId = tabId;
     }

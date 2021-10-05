@@ -6,8 +6,15 @@ import { exportPublic } from "../shared/globals";
 
 export const ChromeUtils = {
     ...window.ChromeUtils,
-    defineModuleGetter(owner: any, moduleName: string, moduleUri: string) {
-        const mod = window.ChromeUtils.import(moduleUri)[moduleName];
+    defineModuleGetter(
+        owner: any,
+        moduleName: string,
+        moduleUri: string
+    ) {
+        const mod =
+            window.ChromeUtils.import(moduleUri)[
+                moduleName
+            ];
         owner[moduleName] = mod;
 
         return { [moduleName]: mod };
@@ -15,18 +22,17 @@ export const ChromeUtils = {
 };
 
 const include = (moduleUri: string) => {
-    const moduleName = moduleUri.split("/")[moduleUri.split("/").length - 1].split(".")[0];
+    const moduleName = moduleUri
+        .split("/")
+        [moduleUri.split("/").length - 1].split(".")[0];
 
     const mod = ChromeUtils.import(moduleUri);
     const data = mod[moduleName];
 
-    exportPublic(
-        moduleName,
-        data
-    )
+    exportPublic(moduleName, data);
 
     return mod;
-}
+};
 
 /*
     Only core modules should be added here.
@@ -36,8 +42,12 @@ const include = (moduleUri: string) => {
 
     Import your modules lazily in the app using ChromeUtils.import() if needed.
 */
-export const { Services } = include("resource://gre/modules/Services.jsm");
-export const { AppConstants } = include("resource://gre/modules/AppConstants.jsm");
+export const { Services } = include(
+    "resource://gre/modules/Services.jsm"
+);
+export const { AppConstants } = include(
+    "resource://gre/modules/AppConstants.jsm"
+);
 
 export const Ci = (window as any).Ci;
 export const Cc = (window as any).Cc;
@@ -45,15 +55,23 @@ export const Cc = (window as any).Cc;
 export const { LightweightThemeConsumer } = include(
     "resource://gre/modules/LightweightThemeConsumer.jsm"
 );
-export const { E10SUtils } = include("resource://gre/modules/E10SUtils.jsm");
-export const { ActorManagerParent } = include("resource://gre/modules/ActorManagerParent.jsm");
-export const { AddonManager } = include("resource://gre/modules/AddonManager.jsm");
+export const { E10SUtils } = include(
+    "resource://gre/modules/E10SUtils.jsm"
+);
+export const { ActorManagerParent } = include(
+    "resource://gre/modules/ActorManagerParent.jsm"
+);
+export const { AddonManager } = include(
+    "resource://gre/modules/AddonManager.jsm"
+);
 
 export const { BrowserWindowTracker } = include(
     "resource:///modules/BrowserWindowTracker.jsm"
 );
 
-export const { NetUtil } = include("resource://gre/modules/NetUtil.jsm");
+export const { NetUtil } = include(
+    "resource://gre/modules/NetUtil.jsm"
+);
 
 export const { AboutPagesUtils } = include(
     "resource://gre/modules/AboutPagesUtils.jsm"
@@ -65,10 +83,14 @@ export const { PrivateBrowsingUtils } = include(
 
 export const { SitePermissions } = include(
     "resource:///modules/SitePermissions.jsm"
-)
+);
 
-export const { OS } = include("resource://gre/modules/osfile.jsm");
-export const { FileUtils } = include("resource://gre/modules/FileUtils.jsm");
+export const { OS } = include(
+    "resource://gre/modules/osfile.jsm"
+);
+export const { FileUtils } = include(
+    "resource://gre/modules/FileUtils.jsm"
+);
 
 export const { SiteDataManager } = include(
     "resource:///modules/SiteDataManager.jsm"
@@ -76,12 +98,12 @@ export const { SiteDataManager } = include(
 
 export const { Sqlite } = include(
     "resource://gre/modules/Sqlite.jsm"
-)
+);
 
 export const { AsyncShutdown } = include(
     "resource://gre/modules/AsyncShutdown.jsm"
-)
+);
 
 export const { PageThumbs } = include(
     "resource://gre/modules/PageThumbs.jsm"
-)
+);

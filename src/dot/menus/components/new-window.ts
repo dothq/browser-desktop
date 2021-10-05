@@ -18,6 +18,6 @@ export class NewWindow extends MenuItem {
             description: "Create a New Window.",
 
             hotkey: new Hotkey("Ctrl", "N")
-        })
+        });
     }
 }

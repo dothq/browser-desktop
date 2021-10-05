@@ -1,7 +1,12 @@
 import EventEmitter from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { Cc, ChromeUtils, Ci, Services } from "../modules";
+import {
+    Cc,
+    ChromeUtils,
+    Ci,
+    Services
+} from "../modules";
 import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
 import { zoomManager } from "../services/zoom";
@@ -13,9 +18,9 @@ const { DevToolsShim } = ChromeUtils.import(
 );
 
 export interface ITab {
-    url: string,
-    background?: boolean
-    id?: string
+    url: string;
+    background?: boolean;
+    id?: string;
 }
 
 export class Tab extends EventEmitter {
@@ -23,13 +28,16 @@ export class Tab extends EventEmitter {
 
     public background: boolean;
 
-    private _state: 'loading' | 'idle' | 'unknown' = "loading";
+    private _state: "loading" | "idle" | "unknown" =
+        "loading";
 
     public get state() {
         return this._state;
     }
 
-    public set state(state: 'loading' | 'idle' | 'unknown') {
+    public set state(
+        state: "loading" | "idle" | "unknown"
+    ) {
         this._state = state;
 
         store.dispatch({
@@ -54,14 +62,15 @@ export class Tab extends EventEmitter {
 
     public get url() {
         return this.urlParsed.spec;
-    };
+    }
 
     public get urlParsed(): MozURI {
         // tab might be dead
         if (
             !this.webContents ||
             !this.webContents.currentURI
-        ) return Services.io.newURI("about:blank");
+        )
+            return Services.io.newURI("about:blank");
 
         return this.webContents.currentURI;
     }
@@ -82,8 +91,12 @@ export class Tab extends EventEmitter {
     public set pageStatus(url: string | undefined) {
         this._pageStatus = url;
 
-        const container = dot.tabs.getBrowserContainer(this.webContents);
-        const status = container.querySelector(".browserStatus");
+        const container = dot.tabs.getBrowserContainer(
+            this.webContents
+        );
+        const status = container.querySelector(
+            ".browserStatus"
+        );
 
         if (url) {
             status.innerText = url;
@@ -115,16 +128,14 @@ export class Tab extends EventEmitter {
             payload: {
                 id: this.id,
                 canGoBack: this.webContents.canGoBack,
-                canGoForward: this.webContents.canGoForward
+                canGoForward:
+                    this.webContents.canGoForward
             }
-        })
+        });
     }
 
     public toggleDevTools(target: any) {
-        return DevToolsShim.inspectNode(
-            this,
-            target
-        );
+        return DevToolsShim.inspectNode(this, target);
     }
 
     public _title: string = "";
@@ -177,17 +188,20 @@ export class Tab extends EventEmitter {
         return this.webContents;
     }
 
-    public tagName = "tab"
+    public tagName = "tab";
 
     constructor(args: Partial<Tab>) {
         super();
 
         const parsed = Services.io.newURI(args.url);
 
-        const browser = dot.browsersPrivate.create({
-            background: !!args.background,
-            id: args.id
-        }, parsed);
+        const browser = dot.browsersPrivate.create(
+            {
+                background: !!args.background,
+                id: args.id
+            },
+            parsed
+        );
 
         this.webContents = browser;
         this.id = this.webContents.browserId;
@@ -199,7 +213,8 @@ export class Tab extends EventEmitter {
             parsed.scheme == "about" &&
             predefinedFavicons[parsed.pathQueryRef]
         ) {
-            this.faviconUrl = predefinedFavicons[parsed.pathQueryRef];
+            this.faviconUrl =
+                predefinedFavicons[parsed.pathQueryRef];
         }
 
         this.createProgressListener();
@@ -222,7 +237,7 @@ export class Tab extends EventEmitter {
 
         if (!(uri instanceof Ci.nsIURI)) {
             try {
-                parsed = Services.io.newURI(uri)
+                parsed = Services.io.newURI(uri);
             } catch (e) {
                 throw e;
             }
@@ -230,7 +245,11 @@ export class Tab extends EventEmitter {
             parsed = uri as MozURI;
         }
 
-        dot.browsersPrivate.goto(this.id, parsed, options);
+        dot.browsersPrivate.goto(
+            this.id,
+            parsed,
+            options
+        );
     }
 
     public goBack() {
@@ -248,7 +267,7 @@ export class Tab extends EventEmitter {
 
         if (!flags) {
             flags = Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
-        };
+        }
 
         this.webContents.reloadWithFlags(flags);
         this.updateNavigationState();
@@ -270,14 +289,22 @@ export class Tab extends EventEmitter {
             }
         });
 
-        const filteredList = dot.tabs.list.filter(x => !x.isClosing);
+        const filteredList = dot.tabs.list.filter(
+            (x) => !x.isClosing
+        );
 
         // close early because there is no need to destroy a browser
-        // that will be destroyed on window close 
-        if (filteredList.length == 0) return window.close();
+        // that will be destroyed on window close
+        if (filteredList.length == 0)
+            return window.close();
 
-        const tabsIndex = dot.tabs.list.findIndex(x => x.id == this.id);
-        let browserContainer = dot.tabs.getBrowserContainer(this.webContents).parentNode;
+        const tabsIndex = dot.tabs.list.findIndex(
+            (x) => x.id == this.id
+        );
+        let browserContainer =
+            dot.tabs.getBrowserContainer(
+                this.webContents
+            ).parentNode;
 
         store.dispatch({
             type: "TAB_KILL",
@@ -306,8 +333,14 @@ export class Tab extends EventEmitter {
         dot.browsersPrivate.select(this.id);
     }
 
-    public emit(event: string | symbol, ...args: any[]): boolean {
-        console.debug(`Tab ${this.id} dispatched: ${String(event)}`, ...args);
+    public emit(
+        event: string | symbol,
+        ...args: any[]
+    ): boolean {
+        console.debug(
+            `Tab ${this.id} dispatched: ${String(event)}`,
+            ...args
+        );
 
         return super.emit(event, ...args);
     }
@@ -321,8 +354,14 @@ export class Tab extends EventEmitter {
             this.id
         );
 
-        filter.addProgressListener(progressListener, Ci.nsIWebProgress.NOTIFY_ALL);
-        dot.tabs.tabListeners.set(this.id, progressListener);
+        filter.addProgressListener(
+            progressListener,
+            Ci.nsIWebProgress.NOTIFY_ALL
+        );
+        dot.tabs.tabListeners.set(
+            this.id,
+            progressListener
+        );
         dot.tabs.tabFilters.set(this.id, filter);
 
         this.webContents.webProgress.addProgressListener(
@@ -342,8 +381,10 @@ export class Tab extends EventEmitter {
         // element.
         if (
             !tab.webContents.contentTitle &&
-            tab.webContents.contentPrincipal.isSystemPrincipal
-        ) return;
+            tab.webContents.contentPrincipal
+                .isSystemPrincipal
+        )
+            return;
 
         tab.title = tab.webContents.contentTitle;
     }
@@ -354,12 +395,14 @@ export class Tab extends EventEmitter {
         if (!browser.isRemoteBrowser) {
             if (!event.isTrusted) return;
 
-            browser = event.target.docShell.chromeEventHandler;
+            browser =
+                event.target.docShell.chromeEventHandler;
         }
 
         let { browserId } = browser;
 
-        if (dot.tabs.list.length == 1) return window.close();
+        if (dot.tabs.list.length == 1)
+            return window.close();
 
         const tab = dot.tabs.get(browserId);
         if (tab) {
@@ -369,7 +412,10 @@ export class Tab extends EventEmitter {
         }
     }
 
-    public addEventListener(event: string | symbol, listener: (...args: any[]) => void) {
+    public addEventListener(
+        event: string | symbol,
+        listener: (...args: any[]) => void
+    ) {
         this.addListener(event, listener);
     }
 

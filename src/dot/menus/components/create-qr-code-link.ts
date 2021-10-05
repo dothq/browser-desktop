@@ -15,8 +15,9 @@ export class CreateQRCodeLink extends MenuItem {
             category: "link",
 
             label: "Create QR Code of Link…",
-            description: "Creates a QR Code of the current page URL"
-        })
+            description:
+                "Creates a QR Code of the current page URL"
+        });
 
         this.tabId = tabId;
     }

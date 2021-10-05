@@ -1,9 +1,9 @@
-import React from "react"
-import { store } from "../../app/store"
-import { Tab } from "../../models/Tab"
-import { openMenuAt } from "../../shared/menu"
-import { TAB_LOADING_ICON_URL } from "../../shared/tab"
-import { ToolbarButton } from "../ToolbarButton"
+import React from "react";
+import { store } from "../../app/store";
+import { Tab } from "../../models/Tab";
+import { openMenuAt } from "../../shared/menu";
+import { TAB_LOADING_ICON_URL } from "../../shared/tab";
+import { ToolbarButton } from "../ToolbarButton";
 
 export const BrowserTab = ({
     tab,
@@ -11,17 +11,17 @@ export const BrowserTab = ({
     onMouseEnter,
     onMouseLeave
 }: {
-    tab: Tab,
-    nextIsActive: boolean,
-    onMouseEnter?: any,
-    onMouseLeave?: any
+    tab: Tab;
+    nextIsActive: boolean;
+    onMouseEnter?: any;
+    onMouseLeave?: any;
 }) => {
     const onCloseClick = (event: MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
 
         tab.destroy();
-    }
+    };
 
     return (
         <>
@@ -37,7 +37,11 @@ export const BrowserTab = ({
                 data-title={tab.title || ""}
                 data-url={tab.url || ""}
                 onMouseDown={(e) => {
-                    if (e.button == 0) store.dispatch({ type: "TAB_SELECT", payload: tab.id });
+                    if (e.button == 0)
+                        store.dispatch({
+                            type: "TAB_SELECT",
+                            payload: tab.id
+                        });
                 }}
                 onContextMenu={(e) => {
                     e.preventDefault();
@@ -55,30 +59,53 @@ export const BrowserTab = ({
                 <div className={"tab-content"}>
                     <i
                         className={"tab-icon-stack"}
-                        data-icon-hidden={tab.initialIconHidden}
+                        data-icon-hidden={
+                            tab.initialIconHidden
+                        }
                         style={{
-                            backgroundImage: tab.state == "idle"
-                                ? tab.faviconUrl ? `url(${tab.faviconUrl})` : ``
-                                : `url(${TAB_LOADING_ICON_URL})`
+                            backgroundImage:
+                                tab.state == "idle"
+                                    ? tab.faviconUrl
+                                        ? `url(${tab.faviconUrl})`
+                                        : ``
+                                    : `url(${TAB_LOADING_ICON_URL})`
                         }}
                     ></i>
 
-                    <span className={"tab-label-container"}>
-                        <label className={"tab-text tab-label"}>{tab.title
-                            ? tab.title
-                            : tab.url == "about:blank" && tab.state == "loading"
+                    <span
+                        className={"tab-label-container"}
+                    >
+                        <label
+                            className={
+                                "tab-text tab-label"
+                            }
+                        >
+                            {tab.title
+                                ? tab.title
+                                : tab.url ==
+                                      "about:blank" &&
+                                  tab.state == "loading"
                                 ? "Loading…"
-                                : tab.url}</label>
+                                : tab.url}
+                        </label>
                     </span>
 
                     <ToolbarButton
-                        className={"tab-close-button close-icon"}
-                        image={"chrome://dot/content/skin/icons/close.svg"}
-                        onMouseDown={(e: MouseEvent) => e.stopPropagation()}
-                        onMouseUp={(e: MouseEvent) => onCloseClick(e)}
+                        className={
+                            "tab-close-button close-icon"
+                        }
+                        image={
+                            "chrome://dot/content/skin/icons/close.svg"
+                        }
+                        onMouseDown={(e: MouseEvent) =>
+                            e.stopPropagation()
+                        }
+                        onMouseUp={(e: MouseEvent) =>
+                            onCloseClick(e)
+                        }
                     />
                 </div>
             </div>
         </>
-    )
-}
+    );
+};

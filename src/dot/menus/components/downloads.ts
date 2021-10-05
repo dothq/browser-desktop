@@ -10,9 +10,10 @@ export class Downloads extends MenuItem {
 
             label: "Downloads",
             icon: "download.svg",
-            description: "View all your recently downloaded files.",
+            description:
+                "View all your recently downloaded files.",
 
             hotkey: new Hotkey("Ctrl", "J")
-        })
+        });
     }
 }

@@ -11,10 +11,18 @@ export class Copy extends MenuItem {
     }
 
     public get disabled() {
-        return this.highlightedText ? this.highlightedText.length == 0 : true;
+        return this.highlightedText
+            ? this.highlightedText.length == 0
+            : true;
     }
 
-    constructor({ tabId, highlightedText }: { tabId: number, highlightedText: string }) {
+    constructor({
+        tabId,
+        highlightedText
+    }: {
+        tabId: number;
+        highlightedText: string;
+    }) {
         super({
             id: "context-copy",
             type: "item",
@@ -22,10 +30,11 @@ export class Copy extends MenuItem {
 
             label: "Copy",
             icon: "copy.svg",
-            description: "Copy highlighted text to clipboard.",
+            description:
+                "Copy highlighted text to clipboard.",
 
             hotkey: new Hotkey("Ctrl", "C")
-        })
+        });
 
         this.tabId = tabId;
         this.highlightedText = highlightedText;

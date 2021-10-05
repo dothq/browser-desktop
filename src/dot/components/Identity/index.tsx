@@ -1,11 +1,16 @@
-import React from "react"
-import { SearchbarButton } from "../SearchbarButton"
+import React from "react";
+import { SearchbarButton } from "../SearchbarButton";
 
-export const Identity = ({ type, onClick, selected, title }: {
-    type: string,
-    onClick?: any,
-    selected?: boolean,
-    title?: string
+export const Identity = ({
+    type,
+    onClick,
+    selected,
+    title
+}: {
+    type: string;
+    onClick?: any;
+    selected?: boolean;
+    title?: string;
 }) => {
     return (
         <SearchbarButton
@@ -15,5 +20,5 @@ export const Identity = ({ type, onClick, selected, title }: {
             onClick={onClick}
             selected={selected}
         />
-    )
-}
+    );
+};

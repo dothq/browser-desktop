@@ -7,7 +7,8 @@
     align-items: center;
     transition: 0.3s background-color;
 
-    &:hover, &:focus-within {
+    &:hover,
+    &:focus-within {
         background-color: rgba(255, 255, 255, 0.125);
     }
 
@@ -35,7 +36,7 @@
         font-size: 16px;
 
         &::placeholder {
-            color:rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.5);
         }
     }
 }

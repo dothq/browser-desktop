@@ -15,8 +15,9 @@ export class CopyVideoLink extends MenuItem {
             category: "multimedia",
 
             label: "Copy Video Link",
-            description: "Copies the selected video link to your clipboard."
-        })
+            description:
+                "Copies the selected video link to your clipboard."
+        });
 
         this.tabId = tabId;
     }

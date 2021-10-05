@@ -16,7 +16,7 @@ export class PlayInPiP extends MenuItem {
 
             label: "Watch in Picture-in-Picture",
             description: "Toggle Picture-in-Picture mode."
-        })
+        });
 
         this.tabId = tabId;
     }

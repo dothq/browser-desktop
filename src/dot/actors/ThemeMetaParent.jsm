@@ -10,7 +10,7 @@ class ThemeMetaParent extends JSWindowActorParent {
     receiveMessage(message) {
         switch (message.name) {
             case "Theme:ColorCollected":
-                console.log(message)
+                console.log(message);
         }
     }
 }

@@ -18,14 +18,23 @@ class ContextMenuParent extends JSWindowActorParent {
             return dot.menus.clear();
         }
 
-        const { clientX: x, clientY: y } = message.data.context;
+        const { clientX: x, clientY: y } =
+            message.data.context;
 
-        const chromeHeight = win.document.body.getBoundingClientRect().height -
-            dot.browsersPrivate.tabStack.getBoundingClientRect().height
+        const chromeHeight =
+            win.document.body.getBoundingClientRect()
+                .height -
+            dot.browsersPrivate.tabStack.getBoundingClientRect()
+                .height;
 
-        message.data.context.tabId = message.target.browsingContext.browserId;
+        message.data.context.tabId =
+            message.target.browsingContext.browserId;
 
-        dot.menus.create("PageMenu", { x, y: y + chromeHeight }, message.data.context);
+        dot.menus.create(
+            "PageMenu",
+            { x, y: y + chromeHeight },
+            message.data.context
+        );
     }
 
     hiding() {

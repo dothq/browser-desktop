@@ -15,8 +15,9 @@ export class SetDesktopBackground extends MenuItem {
             category: "image",
 
             label: "Set as Desktop Background",
-            description: "Send the selected image as your desktop background."
-        })
+            description:
+                "Send the selected image as your desktop background."
+        });
 
         this.tabId = tabId;
     }

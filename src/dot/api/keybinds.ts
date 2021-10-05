@@ -8,14 +8,17 @@ export class KeybindsAPI {
     public initted: boolean = false;
     public bindMap: any = {};
 
-    public addKeybind(keys: Key[], callback: (event: KeyboardEvent) => void) {
+    public addKeybind(
+        keys: Key[],
+        callback: (event: KeyboardEvent) => void
+    ) {
         hotkeys(keys.join("+"), callback);
     }
 
     constructor() {
         // New Tab
         this.addKeybind(["Ctrl", "T"], () => {
-            dot.utilities.doCommand("Browser:NewTab")
+            dot.utilities.doCommand("Browser:NewTab");
         });
 
         // Close Tab
@@ -25,25 +28,28 @@ export class KeybindsAPI {
 
         // Reload
         this.addKeybind(["Ctrl", "R"], () => {
-            dot.utilities.doCommand("Browser:Reload")
+            dot.utilities.doCommand("Browser:Reload");
         });
 
         // Back
         this.addKeybind(["Alt", "ArrowLeft"], () => {
-            dot.utilities.doCommand("Browser:GoBack")
+            dot.utilities.doCommand("Browser:GoBack");
         });
 
         // Forward
         this.addKeybind(["Alt", "ArrowRight"], () => {
-            dot.utilities.doCommand("Browser:GoForward")
+            dot.utilities.doCommand("Browser:GoForward");
         });
 
         // Esc
         this.addKeybind(["Esc"], () => {
-            if (dot.menus.visibleMenu) return dot.menus.clear();
+            if (dot.menus.visibleMenu)
+                return dot.menus.clear();
 
-            if (dot.tabs.selectedTab?.state == "loading") {
-                dot.utilities.doCommand("Browser:Stop")
+            if (
+                dot.tabs.selectedTab?.state == "loading"
+            ) {
+                dot.utilities.doCommand("Browser:Stop");
             }
         });
 
@@ -66,8 +72,9 @@ export class KeybindsAPI {
         this.addKeybind(["Ctrl", "Space"], () => {
             store.dispatch({
                 type: "UI_TOGGLE_LAUNCHER",
-                payload: !store.getState().ui.launcherVisible
-            })
+                payload:
+                    !store.getState().ui.launcherVisible
+            });
         });
     }
 }

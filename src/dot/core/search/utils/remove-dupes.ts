@@ -1,4 +1,7 @@
-export const removeDuplicateKV = (array: Array<any>, key: string) => {
+export const removeDuplicateKV = (
+    array: Array<any>,
+    key: string
+) => {
     const filterArr: any[] = [];
     const newArr: any[] = [];
 
@@ -10,4 +13,4 @@ export const removeDuplicateKV = (array: Array<any>, key: string) => {
     }
 
     return newArr;
-}
+};

@@ -10,7 +10,8 @@ export class ReopenClosedTab extends MenuItem {
 
             label: "Reopen closed tab",
             hotkey: new Hotkey("Ctrl", "Shift", "T"),
-            description: "Reopens the previously closed tab."
-        })
+            description:
+                "Reopens the previously closed tab."
+        });
     }
 }

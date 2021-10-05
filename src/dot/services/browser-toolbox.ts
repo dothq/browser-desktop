@@ -10,7 +10,7 @@ class BrowserToolbox {
     constructor() {
         this._launcher = ChromeUtils.import(
             "resource://devtools/client/framework/browser-toolbox/Launcher.jsm"
-        ).BrowserToolboxLauncher
+        ).BrowserToolboxLauncher;
     }
 
     launch() {

@@ -1,12 +1,12 @@
-name: "Free up space" 
+name: "Free up space"
 description: "Free up space on Ubuntu runners"
 runs:
-  using: "composite"
-  steps:
-    - name: Free up space
-      shell: bash
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /opt/ghc
-        sudo rm -rf "/usr/local/share/boost"
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+    using: "composite"
+    steps:
+        - name: Free up space
+          shell: bash
+          run: |
+              sudo rm -rf /usr/share/dotnet
+              sudo rm -rf /opt/ghc
+              sudo rm -rf "/usr/local/share/boost"
+              sudo rm -rf "$AGENT_TOOLSDIRECTORY"

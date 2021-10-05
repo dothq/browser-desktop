@@ -1,6 +1,12 @@
 import { useID } from "@dothq/id";
 import { EventEmitter } from "events";
-import { AppConstants, Cc, ChromeUtils, Ci, Services } from "../modules";
+import {
+    AppConstants,
+    Cc,
+    ChromeUtils,
+    Ci,
+    Services
+} from "../modules";
 import { commands } from "../shared/commands";
 
 const { NetUtil } = ChromeUtils.import(
@@ -8,7 +14,8 @@ const { NetUtil } = ChromeUtils.import(
 );
 
 export class UtilitiesAPI extends EventEmitter {
-    private _pageStatusEl = document.getElementById("page-status");
+    private _pageStatusEl =
+        document.getElementById("page-status");
 
     public canPopupAutohide: boolean = true;
 
@@ -23,7 +30,8 @@ export class UtilitiesAPI extends EventEmitter {
 
     public set pageStatus(value: string) {
         if (this._pageStatusEl) {
-            this._pageStatusEl.style.opacity = value.length == 0 ? "0" : "1";
+            this._pageStatusEl.style.opacity =
+                value.length == 0 ? "0" : "1";
             this._pageStatusEl.innerText = value;
         }
     }
@@ -32,16 +40,16 @@ export class UtilitiesAPI extends EventEmitter {
         return AppConstants.platform == "macosx"
             ? "macos"
             : AppConstants.platform == "win"
-                ? "windows"
-                : AppConstants.platform
+            ? "windows"
+            : AppConstants.platform;
     }
 
     public get browserLanguage() {
-        return this.browserLanguages[0]
+        return this.browserLanguages[0];
     }
 
     public get browserLanguages() {
-        return Services.locale.webExposedLocales
+        return Services.locale.webExposedLocales;
     }
 
     public get linuxDesktopEnvironment() {
@@ -52,24 +60,28 @@ export class UtilitiesAPI extends EventEmitter {
 
     public fetchLocale(locale: string) {
         return new Promise((resolve, reject) => {
-            NetUtil.asyncFetch({
-                uri: `chrome://dot/content/build/${locale}.ftl`,
-                loadUsingSystemPrincipal: true
-            }, (inputStream: any, status: any) => {
-                try {
-                    const data: string = NetUtil.readInputStreamToString(
-                        inputStream,
-                        inputStream.available(),
-                        { charset: "utf-8" }
-                    );
+            NetUtil.asyncFetch(
+                {
+                    uri: `chrome://dot/content/build/${locale}.ftl`,
+                    loadUsingSystemPrincipal: true
+                },
+                (inputStream: any, status: any) => {
+                    try {
+                        const data: string =
+                            NetUtil.readInputStreamToString(
+                                inputStream,
+                                inputStream.available(),
+                                { charset: "utf-8" }
+                            );
 
-                    resolve(data);
-                } catch (e) {
-                    console.error(e);
-                    reject(null);
+                        resolve(data);
+                    } catch (e) {
+                        console.error(e);
+                        reject(null);
+                    }
                 }
-            });
-        })
+            );
+        });
     }
 
     public doCommand(command: string) {
@@ -81,31 +93,31 @@ export class UtilitiesAPI extends EventEmitter {
     }
 
     public isJSON(data: any) {
-        if (typeof (data) == "object") return true;
+        if (typeof data == "object") return true;
 
         let jsonParsed;
 
         try {
-            jsonParsed = JSON.parse(data)
-        } catch (e) { }
+            jsonParsed = JSON.parse(data);
+        } catch (e) {}
 
         // is JSON
         if (
-            typeof (data) == "string" &&
+            typeof data == "string" &&
             jsonParsed &&
-            typeof (jsonParsed) == "object"
+            typeof jsonParsed == "object"
         ) {
             // return early
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
     }
 
     public getEnv(name: string) {
-        const env = Cc["@mozilla.org/process/environment;1"].getService(
-            Ci.nsIEnvironment
-        );
+        const env = Cc[
+            "@mozilla.org/process/environment;1"
+        ].getService(Ci.nsIEnvironment);
 
         return env.get(name);
     }
@@ -117,6 +129,9 @@ export class UtilitiesAPI extends EventEmitter {
     constructor() {
         super();
 
-        this.on("page-status-changed", this.onPageStatusChanged);
+        this.on(
+            "page-status-changed",
+            this.onPageStatusChanged
+        );
     }
 }

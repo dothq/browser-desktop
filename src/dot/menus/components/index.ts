@@ -3,7 +3,12 @@ import { Hotkey } from "../hotkey";
 
 export class MenuItem {
     public id: string = `item-${dot.utilities.makeID(2)}`;
-    public type: 'item' | 'separator' | 'submenu' | 'checkbox' | 'radio' = 'item';
+    public type:
+        | "item"
+        | "separator"
+        | "submenu"
+        | "checkbox"
+        | "radio" = "item";
 
     private _label: string = "Item";
 
@@ -24,7 +29,8 @@ export class MenuItem {
         this._icon = value;
     }
 
-    public iconPrefix?: string = "chrome://dot/content/skin/icons/"
+    public iconPrefix?: string =
+        "chrome://dot/content/skin/icons/";
     public hotkey?: Hotkey;
     public selected?: boolean;
 

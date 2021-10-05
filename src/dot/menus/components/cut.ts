@@ -11,10 +11,18 @@ export class Cut extends MenuItem {
     }
 
     public get disabled() {
-        return this.highlightedText ? this.highlightedText.length == 0 : true;
+        return this.highlightedText
+            ? this.highlightedText.length == 0
+            : true;
     }
 
-    constructor({ tabId, highlightedText }: { tabId: number, highlightedText: string }) {
+    constructor({
+        tabId,
+        highlightedText
+    }: {
+        tabId: number;
+        highlightedText: string;
+    }) {
         super({
             id: "context-cut",
             type: "item",
@@ -22,10 +30,11 @@ export class Cut extends MenuItem {
 
             label: "Cut",
             icon: "cut.svg",
-            description: "Cut highlighted text to clipboard.",
+            description:
+                "Cut highlighted text to clipboard.",
 
             hotkey: new Hotkey("Ctrl", "X")
-        })
+        });
 
         this.tabId = tabId;
         this.highlightedText = highlightedText;

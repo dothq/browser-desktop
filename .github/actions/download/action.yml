@@ -1,9 +1,9 @@
-name: "Download upstream repository" 
+name: "Download upstream repository"
 description: "Download Firefox repository"
 runs:
-  using: "composite"
-  steps:
-    - name: Download upstream repository
-      shell: bash
-      run: |
-        ./melon download
+    using: "composite"
+    steps:
+        - name: Download upstream repository
+          shell: bash
+          run: |
+              ./melon download

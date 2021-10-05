@@ -17,10 +17,11 @@ export class Paste extends MenuItem {
 
             label: "Paste",
             icon: "paste.svg",
-            description: "Paste copied text to text field.",
+            description:
+                "Paste copied text to text field.",
 
             hotkey: new Hotkey("Ctrl", "V")
-        })
+        });
 
         this.tabId = tabId;
     }

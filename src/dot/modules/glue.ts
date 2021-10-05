@@ -11,84 +11,91 @@ export const windowActors = {
 
     LinkHandler: {
         parent: {
-            moduleURI: "chrome://dot/content/actors/LinkHandlerParent.jsm",
+            moduleURI:
+                "chrome://dot/content/actors/LinkHandlerParent.jsm"
         },
         child: {
-            moduleURI: "resource:///actors/LinkHandlerChild.jsm",
+            moduleURI:
+                "resource:///actors/LinkHandlerChild.jsm",
             events: {
                 DOMHeadElementParsed: {},
                 DOMLinkAdded: {},
                 DOMLinkChanged: {},
                 pageshow: {},
-                pagehide: {},
-            },
+                pagehide: {}
+            }
         },
 
-        messageManagerGroups: ["browsers"],
+        messageManagerGroups: ["browsers"]
     },
 
     BrowserTab: {
         parent: {
-            moduleURI: "chrome://dot/content/actors/BrowserTabParent.jsm",
+            moduleURI:
+                "chrome://dot/content/actors/BrowserTabParent.jsm"
         },
         child: {
-            moduleURI: "resource:///actors/BrowserTabChild.jsm",
+            moduleURI:
+                "resource:///actors/BrowserTabChild.jsm",
 
             events: {
                 DOMWindowCreated: {},
-                MozAfterPaint: {},
-            },
+                MozAfterPaint: {}
+            }
         },
 
-        messageManagerGroups: ["browsers"],
+        messageManagerGroups: ["browsers"]
     },
 
     ContextMenu: {
         parent: {
-            moduleURI: "chrome://dot/content/actors/ContextMenuParent.jsm",
+            moduleURI:
+                "chrome://dot/content/actors/ContextMenuParent.jsm"
         },
 
         child: {
-            moduleURI: "resource:///actors/ContextMenuChild.jsm",
+            moduleURI:
+                "resource:///actors/ContextMenuChild.jsm",
             events: {
-                contextmenu: { mozSystemGroup: true },
-            },
+                contextmenu: { mozSystemGroup: true }
+            }
         },
 
-        allFrames: true,
+        allFrames: true
     },
 
     LightweightTheme: {
         child: {
-            moduleURI: "chrome://dot/content/actors/LightweightThemeChild.jsm",
+            moduleURI:
+                "chrome://dot/content/actors/LightweightThemeChild.jsm",
             events: {
                 pageshow: { mozSystemGroup: true },
-                DOMContentLoaded: {},
-            },
+                DOMContentLoaded: {}
+            }
         },
 
-        matches: [
-            "about:*"
-        ],
+        matches: ["about:*"],
 
         includeChrome: true,
-        allFrames: true,
+        allFrames: true
     },
 
     ThemeMeta: {
         parent: {
-            moduleURI: "chrome://dot/content/actors/ThemeMetaParent.jsm",
+            moduleURI:
+                "chrome://dot/content/actors/ThemeMetaParent.jsm"
         },
         child: {
-            moduleURI: "chrome://dot/content/actors/ThemeMetaChild.jsm",
+            moduleURI:
+                "chrome://dot/content/actors/ThemeMetaChild.jsm",
 
             events: {
                 DOMMetaAdded: {},
                 DOMMetaChanged: {},
-                DOMMetaRemoved: {},
-            },
+                DOMMetaRemoved: {}
+            }
         },
 
-        messageManagerGroups: ["browsers"],
-    },
+        messageManagerGroups: ["browsers"]
+    }
 };

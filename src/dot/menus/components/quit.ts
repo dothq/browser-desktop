@@ -16,6 +16,6 @@ export class Quit extends MenuItem {
             description: "Exit the browser.", // Why would you ever want to do that??
 
             hotkey: new Hotkey("Ctrl", "Q")
-        })
+        });
     }
 }

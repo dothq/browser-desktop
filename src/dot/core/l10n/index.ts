@@ -1,4 +1,7 @@
-import { FluentBundle, FluentResource } from "@fluent/bundle";
+import {
+    FluentBundle,
+    FluentResource
+} from "@fluent/bundle";
 import { dot } from "../../api";
 import { Cc, Ci } from "../../modules";
 import { exportPublic } from "../../shared/globals";
@@ -16,30 +19,35 @@ class L10n {
         let bundle = this.data[language];
 
         // Check if the bundle exists first, if it doesn't just fallback to the default language.
-        if (!bundle) bundle = this.data[this.defaultLocale];
+        if (!bundle)
+            bundle = this.data[this.defaultLocale];
         // Last resort, just return the ID of the string.
         if (!bundle) return id;
 
         const raw = bundle.getMessage(id);
 
         if (raw) {
-            if (Object.keys(raw.attributes).length !== 0) {
+            if (
+                Object.keys(raw.attributes).length !== 0
+            ) {
                 const formattedAttributes: any = {};
 
-                for (const [key, value] of Object.entries(raw.attributes)) {
-                    formattedAttributes[key] = bundle.formatPattern(
-                        value,
-                        ctx
-                    )
+                for (const [key, value] of Object.entries(
+                    raw.attributes
+                )) {
+                    formattedAttributes[key] =
+                        bundle.formatPattern(value, ctx);
                 }
 
                 return {
-                    value: raw.value ? bundle.formatPattern(
-                        raw.value,
-                        ctx
-                    ) : undefined,
+                    value: raw.value
+                        ? bundle.formatPattern(
+                              raw.value,
+                              ctx
+                          )
+                        : undefined,
                     attributes: formattedAttributes
-                }
+                };
             } else if (raw.value) {
                 return bundle.formatPattern(
                     raw.value,
@@ -49,16 +57,18 @@ class L10n {
                 return id;
             }
         } else {
-            console.error(`L10n string with id ${id} not found in ${language}.`)
+            console.error(
+                `L10n string with id ${id} not found in ${language}.`
+            );
         }
     }
 
     private async load() {
-        const dir = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
+        const dir = Cc[
+            "@mozilla.org/file/local;1"
+        ].createInstance(Ci.nsIFile);
         if (dir) {
-            dir.initWithPath(
-                getL10nDirectory()
-            );
+            dir.initWithPath(getL10nDirectory());
         }
 
         for await (const locale of dir.directoryEntries) {
@@ -68,20 +78,32 @@ class L10n {
                     locale.leafName
                 );
 
-                const bundle = new FluentBundle(locale.leafName);
+                const bundle = new FluentBundle(
+                    locale.leafName
+                );
                 const resource = new FluentResource(ftl);
-                const errors = bundle.addResource(resource);
+                const errors =
+                    bundle.addResource(resource);
 
                 if (errors.length) {
                     for (const e of errors) {
-                        console.warn(`Failed to load ${locale.leafName}`, e);
+                        console.warn(
+                            `Failed to load ${locale.leafName}`,
+                            e
+                        );
                     }
                 }
 
-                if (bundle.getMessage("language-full-name")) {
+                if (
+                    bundle.getMessage(
+                        "language-full-name"
+                    )
+                ) {
                     this.data[locale.leafName] = bundle;
                 } else {
-                    console.warn(`Failed to load ${locale.leafName} because the manifest doesn't exist or is corrupt.`)
+                    console.warn(
+                        `Failed to load ${locale.leafName} because the manifest doesn't exist or is corrupt.`
+                    );
                 }
             }
         }

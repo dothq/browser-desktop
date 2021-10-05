@@ -1,4 +1,8 @@
-import { combineReducers, compose, createStore } from "@reduxjs/toolkit";
+import {
+    combineReducers,
+    compose,
+    createStore
+} from "@reduxjs/toolkit";
 import settings from "../reducers/settings";
 import { sections } from "../sections/sections";
 
@@ -12,20 +16,14 @@ const configureStore = () => {
     const root = combineReducers({
         settings,
         ...sectionReducers
-    })
+    });
 
     console.log(root);
 
-    return createStore(
-        root,
-        {},
-        compose(
-
-        )
-    )
-}
+    return createStore(root, {}, compose());
+};
 
 export const store = configureStore();
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -15,8 +15,9 @@ export class EmailImage extends MenuItem {
             category: "image",
 
             label: "Email Image",
-            description: "Send the selected image as an email."
-        })
+            description:
+                "Send the selected image as an email."
+        });
 
         this.tabId = tabId;
     }

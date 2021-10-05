@@ -6,21 +6,25 @@
 
 const EXPORTED_SYMBOLS = ["LinkHandlerParent"];
 
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const { Services } = ChromeUtils.import(
+    "resource://gre/modules/Services.jsm"
+);
 
 ChromeUtils.defineModuleGetter(
-  this,
-  "PlacesUIUtils",
-  "resource:///modules/PlacesUIUtils.jsm"
+    this,
+    "PlacesUIUtils",
+    "resource:///modules/PlacesUIUtils.jsm"
 );
 
 class LinkHandlerParent extends JSWindowActorParent {
     get store() {
-        return this.browsingContext.top.embedderElement.ownerGlobal.store
+        return this.browsingContext.top.embedderElement
+            .ownerGlobal.store;
     }
 
     receiveMessage(aMsg) {
-        let browser = this.browsingContext.top.embedderElement;
+        let browser =
+            this.browsingContext.top.embedderElement;
         if (!browser) {
             return;
         }
@@ -51,7 +55,11 @@ class LinkHandlerParent extends JSWindowActorParent {
                     this.richIcon = aMsg.data;
                 }
 
-                this.setIconFromLink(gBrowser, browser, aMsg.data);
+                this.setIconFromLink(
+                    gBrowser,
+                    browser,
+                    aMsg.data
+                );
 
                 break;
 
@@ -64,9 +72,16 @@ class LinkHandlerParent extends JSWindowActorParent {
     }
 
     setIconFromLink(
-      gBrowser,
-      browser,
-      { pageURL, originalURL, canUseForTab, expiration, iconURL, canStoreIcon }
+        gBrowser,
+        browser,
+        {
+            pageURL,
+            originalURL,
+            canUseForTab,
+            expiration,
+            iconURL,
+            canStoreIcon
+        }
     ) {
         let faviconUrl;
         try {
@@ -80,7 +95,8 @@ class LinkHandlerParent extends JSWindowActorParent {
                 Services.scriptSecurityManager.checkLoadURIWithPrincipal(
                     browser.contentPrincipal,
                     faviconUrl,
-                    Services.scriptSecurityManager.ALLOW_CHROME
+                    Services.scriptSecurityManager
+                        .ALLOW_CHROME
                 );
             } catch (ex) {
                 return;

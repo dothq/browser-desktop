@@ -1,9 +1,9 @@
-name: "Import patches" 
+name: "Import patches"
 description: "Import patches into upstream"
 runs:
-  using: "composite"
-  steps:
-    - name: Import patches
-      shell: bash
-      run: |
-        ./melon import --minimal
+    using: "composite"
+    steps:
+        - name: Import patches
+          shell: bash
+          run: |
+              ./melon import --minimal

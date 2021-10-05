@@ -24,7 +24,7 @@ export class Reload extends MenuItem {
             description: "Reload the current page.",
 
             hotkey: new Hotkey("Ctrl", "R")
-        })
+        });
 
         this.tabId = tabId;
     }

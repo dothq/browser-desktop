@@ -17,6 +17,6 @@ export class NewPrivateWindow extends MenuItem {
             description: "Create a New Private Window.",
 
             hotkey: new Hotkey("Ctrl", "Shift", "P")
-        })
+        });
     }
 }

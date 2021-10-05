@@ -15,8 +15,9 @@ export class EmailVideo extends MenuItem {
             category: "multimedia",
 
             label: "Email Video",
-            description: "Send the selected video as an email."
-        })
+            description:
+                "Send the selected video as an email."
+        });
 
         this.tabId = tabId;
     }

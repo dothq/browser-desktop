@@ -1,5 +1,5 @@
-import React from "react"
-import { dot } from "../../api"
+import React from "react";
+import { dot } from "../../api";
 
 export const WindowControls = () => {
     return (
@@ -19,5 +19,5 @@ export const WindowControls = () => {
                 ></a>
             </div>
         </div>
-    )
-}
+    );
+};

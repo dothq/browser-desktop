@@ -9,7 +9,6 @@ export class ReloadTab extends MenuItem {
         return dot.tabs.get(this.tabId);
     }
 
-
     public onClick() {
         this.tab?.reload();
     }
@@ -25,7 +24,7 @@ export class ReloadTab extends MenuItem {
             description: "Reload the current tab.",
 
             hotkey: new Hotkey("Ctrl", "R")
-        })
+        });
 
         this.tabId = tabId;
     }

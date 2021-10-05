@@ -1,29 +1,41 @@
 import { EventEmitter } from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
-import { ActorManagerParent, BrowserWindowTracker, Cc, ChromeUtils, Ci, Services } from "../modules";
+import {
+    ActorManagerParent,
+    BrowserWindowTracker,
+    Cc,
+    ChromeUtils,
+    Ci,
+    Services
+} from "../modules";
 import { windowActors } from "../modules/glue";
 
 export class RuntimeAPI extends EventEmitter {
-    public QueryInterface = ChromeUtils.generateQI(["nsIXULBrowserWindow"])
+    public QueryInterface = ChromeUtils.generateQI([
+        "nsIXULBrowserWindow"
+    ]);
 
     private _windowStateInt: NodeJS.Timeout;
 
     public onBeforeBrowserInit() {
-        window.docShell
-            .treeOwner
+        window.docShell.treeOwner
             .QueryInterface(Ci.nsIInterfaceRequestor)
-            .getInterface(Ci.nsIAppWindow)
-            .XULBrowserWindow = this;
+            .getInterface(
+                Ci.nsIAppWindow
+            ).XULBrowserWindow = this;
 
-        window.XULBrowserWindow = window.docShell
-            .treeOwner
-            .QueryInterface(Ci.nsIInterfaceRequestor)
-            .getInterface(Ci.nsIAppWindow)
-            .XULBrowserWindow;
+        window.XULBrowserWindow =
+            window.docShell.treeOwner
+                .QueryInterface(Ci.nsIInterfaceRequestor)
+                .getInterface(
+                    Ci.nsIAppWindow
+                ).XULBrowserWindow;
 
         try {
-            ActorManagerParent.addJSWindowActors(windowActors);
+            ActorManagerParent.addJSWindowActors(
+                windowActors
+            );
         } catch (e: any) {
             if (e.name == "NotSupportedError") return;
             throw e;
@@ -36,7 +48,8 @@ export class RuntimeAPI extends EventEmitter {
         dot.theme.load();
         dot.prefs.observe(
             "dot.ui.accent_colour",
-            (value: string) => dot.theme.updateAccentColour(value)
+            (value: string) =>
+                dot.theme.updateAccentColour(value)
         );
 
         dot.utilities.doCommand("Browser:NewTab");
@@ -46,15 +59,24 @@ export class RuntimeAPI extends EventEmitter {
         dot.tabs.maybeHideTabs(true);
 
         dot.window.addWindowClass(dot.utilities.platform);
-        dot.window.addWindowClass(dot.utilities.browserLanguage);
-        dot.window.addWindowClass("tabs-in-titlebar", dot.titlebar.nativeTitlebarEnabled);
-        dot.window.toggleWindowAttribute("lang", dot.utilities.browserLanguage);
+        dot.window.addWindowClass(
+            dot.utilities.browserLanguage
+        );
+        dot.window.addWindowClass(
+            "tabs-in-titlebar",
+            dot.titlebar.nativeTitlebarEnabled
+        );
+        dot.window.toggleWindowAttribute(
+            "lang",
+            dot.utilities.browserLanguage
+        );
 
         // We should support rounded corners on more DEs, but Ubuntu's Unity is
         // is the only one that definitely supports it.
-        const isUbuntu = dot.utilities.linuxDesktopEnvironment
-            .toLowerCase()
-            .includes("unity");
+        const isUbuntu =
+            dot.utilities.linuxDesktopEnvironment
+                .toLowerCase()
+                .includes("unity");
 
         document.documentElement.style.setProperty(
             "--window-roundness",
@@ -63,13 +85,19 @@ export class RuntimeAPI extends EventEmitter {
 
         store.subscribe(() => {
             dot.tabs.maybeHideTabs();
-        })
+        });
 
         dot.prefs.observe(
             "dot.window.nativecontrols.enabled",
             (value: boolean) => {
-                if (value) dot.window.addWindowClass("native-window-controls")
-                else dot.window.removeWindowClass("native-window-controls")
+                if (value)
+                    dot.window.addWindowClass(
+                        "native-window-controls"
+                    );
+                else
+                    dot.window.removeWindowClass(
+                        "native-window-controls"
+                    );
             },
             true
         );
@@ -87,13 +115,25 @@ export class RuntimeAPI extends EventEmitter {
             (value: boolean) => {
                 const className = "statusbar";
 
-                if (value) dot.window.addWindowClass(className, true, document.documentElement);
-                else dot.window.removeWindowClass(className, document.documentElement);
+                if (value)
+                    dot.window.addWindowClass(
+                        className,
+                        true,
+                        document.documentElement
+                    );
+                else
+                    dot.window.removeWindowClass(
+                        className,
+                        document.documentElement
+                    );
             },
             true
         );
 
-        Services.obs.notifyObservers(window, "extensions-late-startup");
+        Services.obs.notifyObservers(
+            window,
+            "extensions-late-startup"
+        );
     }
 
     public onAfterBrowserPaint() {
@@ -106,9 +146,7 @@ export class RuntimeAPI extends EventEmitter {
         clearInterval(this._windowStateInt);
     }
 
-    public onBrowserFocus() {
-
-    }
+    public onBrowserFocus() {}
 
     public onBrowserBlur() {
         dot.menus.clear();
@@ -116,7 +154,10 @@ export class RuntimeAPI extends EventEmitter {
 
     public setOverLink(url: string) {
         if (url) {
-            url = Services.textToSubURI.unEscapeURIForUI(url);
+            url =
+                Services.textToSubURI.unEscapeURIForUI(
+                    url
+                );
 
             // Encode bidirectional formatting characters.
             // (RFC 3987 sections 3.2 and 4.1 paragraph 6)
@@ -138,7 +179,12 @@ export class RuntimeAPI extends EventEmitter {
         });
     }
 
-    public showTooltip(x: number, y: number, data: string, direction: string) {
+    public showTooltip(
+        x: number,
+        y: number,
+        data: string,
+        direction: string
+    ) {
         if (
             Cc["@mozilla.org/widget/dragservice;1"]
                 .getService(Ci.nsIDragService)
@@ -147,32 +193,49 @@ export class RuntimeAPI extends EventEmitter {
             return;
         }
 
-        let el: any = document.getElementById("aHTMLTooltip");
+        let el: any =
+            document.getElementById("aHTMLTooltip");
         el.label = data;
         el.style.direction = direction;
         el.openPopupAtScreen(x, y, false, null);
     }
 
     public hideTooltip() {
-        let el: any = document.getElementById("aHTMLTooltip");
+        let el: any =
+            document.getElementById("aHTMLTooltip");
         el.hidePopup();
     }
 
     constructor() {
         super();
 
-        this.once("before-browser-window-init", this.onBeforeBrowserInit);
-        this.once("browser-window-init", this.onBrowserStartup);
+        this.once(
+            "before-browser-window-init",
+            this.onBeforeBrowserInit
+        );
+        this.once(
+            "browser-window-init",
+            this.onBrowserStartup
+        );
 
-        this.on("browser-window-focus", this.onBrowserFocus);
-        this.on("browser-window-blur", this.onBrowserBlur);
+        this.on(
+            "browser-window-focus",
+            this.onBrowserFocus
+        );
+        this.on(
+            "browser-window-blur",
+            this.onBrowserBlur
+        );
 
-        this.on("before-browser-window-quit", this.onBeforeBrowserQuit);
+        this.on(
+            "before-browser-window-quit",
+            this.onBeforeBrowserQuit
+        );
 
         this._windowStateInt = setInterval(() => {
             try {
                 dot.window.onWindowStateUpdated();
-            } catch (e) { }
+            } catch (e) {}
         }, 10000);
     }
 }

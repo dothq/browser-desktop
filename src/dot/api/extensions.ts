@@ -11,7 +11,8 @@ export class ExtensionsAPI {
     private builtInExtensions = builtInExtensions;
 
     public loadBuiltInExtensions() {
-        for (const { id, version, mount } of this.builtInExtensions) {
+        for (const { id, version, mount } of this
+            .builtInExtensions) {
             AddonManager.maybeInstallBuiltinAddon(
                 id,
                 version.toString(),
@@ -20,29 +21,42 @@ export class ExtensionsAPI {
         }
     }
 
-    public async loadManifest(id: string): Promise<ExtensionManifest> {
+    public async loadManifest(
+        id: string
+    ): Promise<ExtensionManifest> {
         return new Promise(async (resolve, reject) => {
-            const addon = await AddonManager.getAddonByID(id);
+            const addon = await AddonManager.getAddonByID(
+                id
+            );
 
-            const manifestPath = addon.getResourceURI("manifest.json").spec;
+            const manifestPath = addon.getResourceURI(
+                "manifest.json"
+            ).spec;
 
-            NetUtil.asyncFetch({
-                uri: manifestPath,
-                loadUsingSystemPrincipal: true
-            }, (inputStream: any, status: any) => {
-                try {
-                    const data = NetUtil.readInputStreamToString(
-                        inputStream,
-                        inputStream.available(),
-                        { charset: "utf-8" }
-                    ).replace(COMMENT_REGEX, "$1");
+            NetUtil.asyncFetch(
+                {
+                    uri: manifestPath,
+                    loadUsingSystemPrincipal: true
+                },
+                (inputStream: any, status: any) => {
+                    try {
+                        const data =
+                            NetUtil.readInputStreamToString(
+                                inputStream,
+                                inputStream.available(),
+                                { charset: "utf-8" }
+                            ).replace(
+                                COMMENT_REGEX,
+                                "$1"
+                            );
 
-                    resolve(JSON.parse(data));
-                } catch (e) {
-                    reject(e);
+                        resolve(JSON.parse(data));
+                    } catch (e) {
+                        reject(e);
+                    }
                 }
-            });
-        })
+            );
+        });
     }
 
     constructor() {

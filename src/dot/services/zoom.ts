@@ -3,11 +3,11 @@ import { exportPublic } from "../shared/globals";
 
 class ZoomManager {
     public get min() {
-        return (dot.prefs.get("zoom.minPercent") / 100);
+        return dot.prefs.get("zoom.minPercent") / 100;
     }
 
     public get max() {
-        return (dot.prefs.get("zoom.maxPercent") / 100);
+        return dot.prefs.get("zoom.maxPercent") / 100;
     }
 
     get useNormalZoom() {
@@ -32,7 +32,10 @@ class ZoomManager {
         const tab = dot.tabs.get(id);
 
         if (tab) {
-            return this.useNormalZoom || tab.webContents.isSyntheticDocument;
+            return (
+                this.useNormalZoom ||
+                tab.webContents.isSyntheticDocument
+            );
         } else {
             return false;
         }
@@ -57,21 +60,30 @@ class ZoomManager {
         const tab = dot.tabs.get(id);
 
         if (!tab) {
-            return console.error(`Unknown tab with id ${id}.`)
+            return console.error(
+                `Unknown tab with id ${id}.`
+            );
         }
 
         if (zoom < this.min || zoom > this.max) {
-            return console.error(`Zoom level must be between ${this.min} and ${this.max}.`)
+            return console.error(
+                `Zoom level must be between ${this.min} and ${this.max}.`
+            );
         }
 
         const usesNormalZoom = this.usesNormalZoom(id);
 
-        tab.webContents.textZoom = usesNormalZoom ? 1 : zoom;
-        tab.webContents.fullZoom = !usesNormalZoom ? 1 : zoom;
+        tab.webContents.textZoom = usesNormalZoom
+            ? 1
+            : zoom;
+        tab.webContents.fullZoom = !usesNormalZoom
+            ? 1
+            : zoom;
     }
 
     get zoomValues() {
-        const values = dot.prefs.get("toolkit.zoomManager.zoomValues")
+        const values = dot.prefs
+            .get("toolkit.zoomManager.zoomValues")
             .split(",")
             .map(parseFloat);
 
@@ -89,14 +101,20 @@ class ZoomManager {
     }
 
     public enlarge() {
-        var i = this.zoomValues.indexOf(this.snap(this.currentZoom)) + 1;
+        var i =
+            this.zoomValues.indexOf(
+                this.snap(this.currentZoom)
+            ) + 1;
         if (i < this.zoomValues.length) {
             this.currentZoom = this.zoomValues[i];
         }
     }
 
     public reduce() {
-        var i = this.zoomValues.indexOf(this.snap(this.currentZoom)) - 1;
+        var i =
+            this.zoomValues.indexOf(
+                this.snap(this.currentZoom)
+            ) - 1;
         if (i >= 0) {
             this.currentZoom = this.zoomValues[i];
         }
@@ -117,7 +135,11 @@ class ZoomManager {
         var values = this.zoomValues;
         for (var i = 0; i < values.length; i++) {
             if (values[i] >= zoom) {
-                if (i > 0 && zoom - values[i - 1] < values[i] - zoom) {
+                if (
+                    i > 0 &&
+                    zoom - values[i - 1] <
+                        values[i] - zoom
+                ) {
                     i--;
                 }
                 return values[i];

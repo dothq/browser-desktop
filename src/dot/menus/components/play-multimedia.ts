@@ -13,14 +13,20 @@ export class Play extends MenuItem {
         return this.playing ? "Pause" : "Play";
     }
 
-    constructor({ tabId, playing }: { tabId: number, playing: boolean }) {
+    constructor({
+        tabId,
+        playing
+    }: {
+        tabId: number;
+        playing: boolean;
+    }) {
         super({
             id: "context-playmedia",
             type: "item",
             category: "multimedia",
 
             description: "Toggle playback of the media."
-        })
+        });
 
         this.tabId = tabId;
         this.playing = playing;

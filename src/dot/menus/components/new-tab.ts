@@ -4,7 +4,7 @@ import { Hotkey } from "../hotkey";
 
 export class NewTab extends MenuItem {
     public onClick() {
-        dot.utilities.doCommand("Browser:NewTab")
+        dot.utilities.doCommand("Browser:NewTab");
     }
 
     constructor() {
@@ -18,6 +18,6 @@ export class NewTab extends MenuItem {
             description: "Create a New Tab.",
 
             hotkey: new Hotkey("Ctrl", "T")
-        })
+        });
     }
 }

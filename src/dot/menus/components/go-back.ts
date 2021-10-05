@@ -28,7 +28,7 @@ export class GoBack extends MenuItem {
             description: "Go back to the previous page.",
 
             hotkey: new Hotkey("Alt", "ArrowLeft")
-        })
+        });
 
         this.tabId = tabId;
     }

@@ -16,8 +16,9 @@ export class CloseTabsToLeft extends MenuItem {
 
             label: "Close tabs to left",
             icon: "close-tabs-to-left.svg",
-            description: "Closes all tabs to the left of the selected tab."
-        })
+            description:
+                "Closes all tabs to the left of the selected tab."
+        });
 
         this.tabId = tabId;
     }

@@ -1,23 +1,21 @@
-import { combineReducers, compose, createStore } from '@reduxjs/toolkit';
-import { exportPublic } from '../../shared/globals';
-import { tabsReducer } from './reducers/tabs';
-import { uiReducer } from './reducers/ui';
+import {
+    combineReducers,
+    compose,
+    createStore
+} from "@reduxjs/toolkit";
+import { exportPublic } from "../../shared/globals";
+import { tabsReducer } from "./reducers/tabs";
+import { uiReducer } from "./reducers/ui";
 
 const configureStore = (preloadedState?: any) => {
     const root = combineReducers({
         ui: uiReducer,
         tabs: tabsReducer
-    })
+    });
 
-    const store = createStore(
-        root,
-        {},
-        compose(
+    const store = createStore(root, {}, compose());
 
-        )
-    )
-
-    return store
+    return store;
 };
 
 export const store = configureStore();

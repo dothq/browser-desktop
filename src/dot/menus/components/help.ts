@@ -9,9 +9,10 @@ export class Help extends MenuItem {
             category: "browser",
 
             label: "Help",
-            description: "Get help with using the browser.",
+            description:
+                "Get help with using the browser.",
 
             hotkey: new Hotkey("F1")
-        })
+        });
     }
 }

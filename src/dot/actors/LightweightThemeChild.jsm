@@ -5,27 +5,39 @@
 
 var EXPORTED_SYMBOLS = ["LightweightThemeChild"];
 
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const { Services } = ChromeUtils.import(
+    "resource://gre/modules/Services.jsm"
+);
 
 class LightweightThemeChild extends JSWindowActorChild {
-    initted = false
+    initted = false;
 
     constructor() {
         super();
 
-        Services.cpmm.sharedData.addEventListener("change", this);
+        Services.cpmm.sharedData.addEventListener(
+            "change",
+            this
+        );
     }
 
     handleEvent(event) {
         if (event.type == "change") {
-            if (event.changedKeys.includes(`dot-theme-${this.outerWindowId}`)) {
+            if (
+                event.changedKeys.includes(
+                    `dot-theme-${this.outerWindowId}`
+                )
+            ) {
                 this.push();
             }
         }
     }
 
     didDestroy() {
-        Services.cpmm.sharedData.removeEventListener("change", this);
+        Services.cpmm.sharedData.removeEventListener(
+            "change",
+            this
+        );
     }
 
     get outerWindowId() {
@@ -35,24 +47,31 @@ class LightweightThemeChild extends JSWindowActorChild {
             if (browserChild) {
                 return browserChild.chromeOuterWindowID;
             }
-        } catch (ex) { }
+        } catch (ex) {}
 
         // We don't have a message manager, so presumable we're running in a sidebar
         // in the parent process.
-        return this.contentWindow.top?.docShell?.outerWindowID;
+        return this.contentWindow.top?.docShell
+            ?.outerWindowID;
     }
 
     push() {
-        const event = Cu.cloneInto({
-            detail: {
-                data: Services.cpmm.sharedData.get(
-                    `dot-theme-${this.outerWindowId}`
-                ),
+        const event = Cu.cloneInto(
+            {
+                detail: {
+                    data: Services.cpmm.sharedData.get(
+                        `dot-theme-${this.outerWindowId}`
+                    )
+                }
             },
-        }, this.contentWindow);
+            this.contentWindow
+        );
 
         this.contentWindow.dispatchEvent(
-            new this.contentWindow.CustomEvent("theme-update", event)
+            new this.contentWindow.CustomEvent(
+                "theme-update",
+                event
+            )
         );
     }
 }

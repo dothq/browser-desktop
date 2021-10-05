@@ -13,6 +13,6 @@ export class Bookmarks extends MenuItem {
             description: "View all your saved bookmarks.",
 
             hotkey: new Hotkey("Ctrl", "B")
-        })
+        });
     }
 }

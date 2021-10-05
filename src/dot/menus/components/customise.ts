@@ -9,6 +9,6 @@ export class Customise extends MenuItem {
 
             label: "Customise",
             description: "Customise your browser."
-        })
+        });
     }
 }

@@ -36,7 +36,8 @@
     overflow: hidden;
     margin-top: -36px;
     z-index: 1;
-    transition: 0.3s background-color, 0.3s color, 0.15s margin-top;
+    transition: 0.3s background-color, 0.3s color,
+        0.15s margin-top;
 }
 
 #browser.tabs-visible {

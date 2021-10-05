@@ -1,6 +1,11 @@
 import { dot } from "../api";
 import { Tab } from "../models/Tab";
-import { Ci, NetUtil, Services, SitePermissions } from "../modules";
+import {
+    Ci,
+    NetUtil,
+    Services,
+    SitePermissions
+} from "../modules";
 import { NEW_TAB_URL_PARSED } from "../shared/tab";
 import { visibleAboutUrls } from "../shared/url";
 
@@ -35,26 +40,28 @@ class IdentityManager {
         return dot.prefs.get(
             "security.secure_connection_icon_color_gray",
             true
-        )
+        );
     }
 
     public get httpsOnlyBrowsingEnabled() {
         return dot.prefs.get(
             "dom.security.https_only_mode",
             false
-        )
+        );
     }
 
     public get httpsOnlyInPrivateBrowsingEnabled() {
         return dot.prefs.get(
             "dom.security.https_only_mode_pbm",
             false
-        )
+        );
     }
 
     public get extensionPolicy() {
         const { WebExtensionPolicy } = window as any;
-        const policy = WebExtensionPolicy.getByURI(this.url);
+        const policy = WebExtensionPolicy.getByURI(
+            this.url
+        );
 
         try {
             return policy;
@@ -67,7 +74,9 @@ class IdentityManager {
         let uri = this.tab.urlParsed;
 
         if (uri.schemeIs("view-source")) {
-            uri = Services.io.newURI(uri.spec.replace(/^view-source:/i, ""));
+            uri = Services.io.newURI(
+                uri.spec.replace(/^view-source:/i, "")
+            );
         }
 
         return uri;
@@ -81,7 +90,9 @@ class IdentityManager {
             }).URI;
 
             if (jarUrl.schemeIs("jar")) {
-                jarUrl = NetUtil.newURI(jarUrl.pathQueryRef);
+                jarUrl = NetUtil.newURI(
+                    jarUrl.pathQueryRef
+                );
             }
 
             return jarUrl.schemeIs("file");
@@ -91,14 +102,17 @@ class IdentityManager {
     }
 
     public get securityInfo() {
-        return this.tab.webContents.browsingContext.secureBrowserUI;
+        return this.tab.webContents.browsingContext
+            .secureBrowserUI;
     }
 
     public get isAboutUI() {
-        return this.url.schemeIs("about") &&
+        return (
+            this.url.schemeIs("about") &&
             visibleAboutUrls.includes(
                 this.url.pathQueryRef.split("?")[0]
             )
+        );
     }
 
     public get isExtensionPage() {
@@ -106,47 +120,56 @@ class IdentityManager {
     }
 
     public get isLocalPage() {
-        return this.url.schemeIs("file")
+        return this.url.schemeIs("file");
     }
 
     public get hasEVCertificate() {
         return (
             !this.isURLLoadedFromFile &&
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_IDENTITY_EV_TOPLEVEL
-        )
+            this.tab.contentState &
+                Ci.nsIWebProgressListener
+                    .STATE_IDENTITY_EV_TOPLEVEL
+        );
     }
 
     public get hasUserCertOverrideGesture() {
         return (
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_CERT_USER_OVERRIDDEN
-        )
+            this.tab.contentState &
+            Ci.nsIWebProgressListener
+                .STATE_CERT_USER_OVERRIDDEN
+        );
     }
 
     public get isSecureConnection() {
         return (
             !this.isURLLoadedFromFile &&
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_IS_SECURE
-        )
+            this.tab.contentState &
+                Ci.nsIWebProgressListener.STATE_IS_SECURE
+        );
     }
 
     public get isBrokenConnection() {
         return (
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_IS_BROKEN
-        )
+            this.tab.contentState &
+            Ci.nsIWebProgressListener.STATE_IS_BROKEN
+        );
     }
 
     public get hasCustomCertificate() {
         if (!this.isSecureConnection) return false;
 
-        const cert = this.securityInfo.secInfo.succeededCertChain[
-            this.securityInfo.secInfo.succeededCertChain.length - 1
-        ];
+        const cert =
+            this.securityInfo.secInfo.succeededCertChain[
+                this.securityInfo.secInfo
+                    .succeededCertChain.length - 1
+            ];
 
         return !cert.isBuiltInRoot;
     }
 
     public get certificateIssuer() {
-        return this.securityInfo.secInfo.serverCert.issuerOrganization;
+        return this.securityInfo.secInfo.serverCert
+            .issuerOrganization;
     }
 
     public isDocUriAboutPage(page: string) {
@@ -156,7 +179,7 @@ class IdentityManager {
             docURI &&
             docURI.scheme == "about" &&
             docURI.pathQueryRef.startsWith(page)
-        )
+        );
     }
 
     public get isCertErrorPage() {
@@ -178,14 +201,14 @@ class IdentityManager {
     public get isChromePage() {
         const docURI = this.tab.webContents.documentURI;
 
-        return (
-            docURI &&
-            docURI.scheme == "chrome"
-        )
+        return docURI && docURI.scheme == "chrome";
     }
 
     public get isPDFPage() {
-        return this.tab.webContents.contentPrincipal.originNoSuffix == "resource://pdf.js";
+        return (
+            this.tab.webContents.contentPrincipal
+                .originNoSuffix == "resource://pdf.js"
+        );
     }
 
     public get isSecureContext() {
@@ -197,75 +220,92 @@ class IdentityManager {
         return (
             !this.isBrokenConnection &&
             !this.isPDFPage &&
-            (
-                this.isSecureContext ||
-                this.isChromePage
-            )
-        )
+            (this.isSecureContext || this.isChromePage)
+        );
     }
 
     public get hasLoadedMixedPassiveContent() {
         return (
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_LOADED_MIXED_DISPLAY_CONTENT
-        )
+            this.tab.contentState &
+            Ci.nsIWebProgressListener
+                .STATE_LOADED_MIXED_DISPLAY_CONTENT
+        );
     }
 
     public get hasLoadedMixedActiveContent() {
         return (
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_LOADED_MIXED_ACTIVE_CONTENT
-        )
+            this.tab.contentState &
+            Ci.nsIWebProgressListener
+                .STATE_LOADED_MIXED_ACTIVE_CONTENT
+        );
     }
 
     public get hasContentFailedHTTPSOnlyUpgrade() {
         return (
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_HTTPS_ONLY_MODE_UPGRADE_FAILED
+            this.tab.contentState &
+            Ci.nsIWebProgressListener
+                .STATE_HTTPS_ONLY_MODE_UPGRADE_FAILED
         );
     }
 
     public get hasContentHTTPSOnlyUpgrade() {
         return (
-            this.tab.contentState & Ci.nsIWebProgressListener.STATE_HTTPS_ONLY_MODE_UPGRADED
+            this.tab.contentState &
+            Ci.nsIWebProgressListener
+                .STATE_HTTPS_ONLY_MODE_UPGRADED
         );
     }
 
     public get identityHost() {
         let host = this.tab.url;
 
-        if (this.tab.urlParsed.schemeIs("file")) return this.tab.urlParsed.filePath;
+        if (this.tab.urlParsed.schemeIs("file"))
+            return this.tab.urlParsed.filePath;
 
         try {
-            if (this.tab.urlParsed.host && this.tab.urlParsed.host.length) {
+            if (
+                this.tab.urlParsed.host &&
+                this.tab.urlParsed.host.length
+            ) {
                 host = this.tab.urlParsed.host;
             } else {
-                host = this.tab.urlParsed.spec.split("?")[0];
+                host =
+                    this.tab.urlParsed.spec.split("?")[0];
             }
         } catch (e) {
-            host = this.tab.urlParsed.spec.split("?")[0]
+            host = this.tab.urlParsed.spec.split("?")[0];
         }
 
         return host;
     }
 
     public getCertData() {
-        const certificate = this.securityInfo.secInfo.serverCert;
+        const certificate =
+            this.securityInfo.secInfo.serverCert;
         const data = { ...certificate };
 
         if (certificate.subjectName) {
             data.subjectNameFields = {};
-            certificate.subjectName.replace(/,[A-Z]{1,}=/g, (e: string) => {
-                return `\n${e.substr(1)}`
-            }).split("\n").forEach((i: string) => {
-                const split = i.split("=")[0];
+            certificate.subjectName
+                .replace(/,[A-Z]{1,}=/g, (e: string) => {
+                    return `\n${e.substr(1)}`;
+                })
+                .split("\n")
+                .forEach((i: string) => {
+                    const split = i.split("=")[0];
 
-                data.subjectNameFields[split[0]] = split[1];
-            })
+                    data.subjectNameFields[split[0]] =
+                        split[1];
+                });
 
             data.city = data.subjectNameFields.L;
             data.state = data.subjectNameFields.ST;
             data.country = data.subjectNameFields.C;
         }
 
-        data.issuer = certificate.issuerOrganization || certificate.issuerCommonName;
+        data.issuer =
+            certificate.issuerOrganization ||
+            certificate.issuerCommonName;
 
         return data;
     }
@@ -278,46 +318,50 @@ class IdentityManager {
         switch (this.identity.connection) {
             case this.CONNECTION_NOT_SECURE:
             case this.CONNECTION_CERT_ERROR:
-                msg = `Your connection is not secure.`
-                icon = "http"
+                msg = `Your connection is not secure.`;
+                icon = "http";
                 break;
             case this.CONNECTION_CHROME:
-                msg = `This is a secure Dot Browser page.`
-                icon = "info"
+                msg = `This is a secure Dot Browser page.`;
+                icon = "info";
                 break;
             case this.CONNECTION_WEB_EXTENSION:
-                msg = `This is a secure extension page.`
-                icon = "extension"
+                msg = `This is a secure extension page.`;
+                icon = "extension";
                 break;
             case this.CONNECTION_LOCAL_FILE:
-                msg = `This page is stored on your computer.`
-                icon = "file"
+                msg = `This page is stored on your computer.`;
+                icon = "file";
                 break;
             case this.CONNECTION_SECURE_WITH_EV:
-            case this.CONNECTION_SECURE_WITH_CERT_OVERRIDE:
+            case this
+                .CONNECTION_SECURE_WITH_CERT_OVERRIDE:
             case this.CONNECTION_SECURE:
-                msg = `Your connection is secure.`
-                icon = "https"
-                colour = "rgb(9, 193, 87)"
+                msg = `Your connection is secure.`;
+                icon = "https";
+                colour = "rgb(9, 193, 87)";
                 break;
             case this.CONNECTION_HTTPS_ONLY_ERROR:
-                msg = `Secure connection is not available.`
-                icon = "http"
+                msg = `Secure connection is not available.`;
+                icon = "http";
                 break;
             default:
-                icon = "search"
+                icon = "search";
                 break;
         }
 
-        if (this.url.specIgnoringRef == NEW_TAB_URL_PARSED.spec) {
-            icon = "search"
+        if (
+            this.url.specIgnoringRef ==
+            NEW_TAB_URL_PARSED.spec
+        ) {
+            icon = "search";
         }
 
         return {
             msg,
             icon,
             colour
-        }
+        };
     }
 
     public get identity() {
@@ -332,7 +376,8 @@ class IdentityManager {
         } else if (this.hasEVCertificate) {
             connection = this.CONNECTION_SECURE_WITH_EV;
         } else if (this.hasUserCertOverrideGesture) {
-            connection = this.CONNECTION_SECURE_WITH_CERT_OVERRIDE;
+            connection =
+                this.CONNECTION_SECURE_WITH_CERT_OVERRIDE;
         } else if (this.isSecureConnection) {
             connection = this.CONNECTION_SECURE;
         } else if (this.isCertErrorPage) {
@@ -364,26 +409,41 @@ class IdentityManager {
 
         if (
             this.httpsOnlyBrowsingEnabled ||
-            (isPrivateWindow && this.httpsOnlyInPrivateBrowsingEnabled)
+            (isPrivateWindow &&
+                this.httpsOnlyInPrivateBrowsingEnabled)
         ) {
-            let { state } = SitePermissions.getForPrincipal(
-                this.tab.webContents.contentPrincipal,
-                "https-only-load-insecure"
-            );
+            let { state } =
+                SitePermissions.getForPrincipal(
+                    this.tab.webContents.contentPrincipal,
+                    "https-only-load-insecure"
+                );
 
             if (isPrivateWindow) {
-                if (state == this.PAGE_LOADING_INSECURE_CONTENT_SESSION) {
-                    state = this.PAGE_LOADING_INSECURE_CONTENT
+                if (
+                    state ==
+                    this
+                        .PAGE_LOADING_INSECURE_CONTENT_SESSION
+                ) {
+                    state =
+                        this
+                            .PAGE_LOADING_INSECURE_CONTENT;
                 }
             }
 
-            if (state > 0) httpsOnlyStatus = this.HTTPS_ONLY_EXCEPTION;
+            if (state > 0)
+                httpsOnlyStatus =
+                    this.HTTPS_ONLY_EXCEPTION;
             else if (this.isHTTPSOnlyErrorPage) {
-                httpsOnlyStatus = this.HTTPS_ONLY_FAILED_PARENT;
-            } else if (this.hasContentFailedHTTPSOnlyUpgrade) {
-                httpsOnlyStatus = this.HTTPS_ONLY_FAILED_CHILD;
+                httpsOnlyStatus =
+                    this.HTTPS_ONLY_FAILED_PARENT;
+            } else if (
+                this.hasContentFailedHTTPSOnlyUpgrade
+            ) {
+                httpsOnlyStatus =
+                    this.HTTPS_ONLY_FAILED_CHILD;
             } else if (this.hasContentHTTPSOnlyUpgrade) {
-                httpsOnlyStatus = this.HTTPS_ONLY_UPGRADED;
+                httpsOnlyStatus =
+                    this.HTTPS_ONLY_UPGRADED;
             }
         }
 
@@ -392,8 +452,8 @@ class IdentityManager {
             cipherStrength,
             isPrivateWindow,
             httpsOnlyStatus,
-            customRoot: this.hasCustomCertificate,
-        }
+            customRoot: this.hasCustomCertificate
+        };
 
         if (this.securityInfo.secInfo) {
             let ca = {
@@ -401,13 +461,15 @@ class IdentityManager {
                 verifiedBy: "",
                 host: this.identityHost,
                 owner: ""
-            }
+            };
 
-            const certInfo = this.securityInfo.secInfo.serverCert;
+            const certInfo =
+                this.securityInfo.secInfo.serverCert;
 
             if (this.isSecureConnection) {
                 if (!this.hasUserCertOverrideGesture) {
-                    ca.verifiedBy = certInfo.issuerOrganization;
+                    ca.verifiedBy =
+                        certInfo.issuerOrganization;
                 } else {
                     ca.verifiedBy = `You`;
                 }
@@ -418,11 +480,12 @@ class IdentityManager {
 
                 const data = this.getCertData();
 
-                if (data.city) ca.supplemental += `${data.city}\n`;
+                if (data.city)
+                    ca.supplemental += `${data.city}\n`;
                 if (data.state && data.country) {
-                    ca.supplemental += `${data.state}, ${data.country}`
+                    ca.supplemental += `${data.state}, ${data.country}`;
                 } else if (data.state) {
-                    ca.supplemental += data.state
+                    ca.supplemental += data.state;
                 } else if (data.country) {
                     ca.supplemental += data.country;
                 }

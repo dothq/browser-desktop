@@ -16,7 +16,7 @@ export class PinTab extends MenuItem {
 
             label: "Pin Tab",
             description: "Pins the current tab."
-        })
+        });
 
         this.tabId = tabId;
     }

@@ -28,7 +28,7 @@ export class GoForward extends MenuItem {
             description: "Go forward to the next page.",
 
             hotkey: new Hotkey("Alt", "ArrowRight")
-        })
+        });
 
         this.tabId = tabId;
     }

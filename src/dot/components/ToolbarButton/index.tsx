@@ -15,27 +15,27 @@ export const ToolbarButton = ({
     menuCtx,
     title
 }: {
-    image?: string
-    children?: any
-    id?: any
-    onClick?: (e: MouseEvent) => void
-    onMouseDown?: (e: MouseEvent) => void
-    onMouseUp?: (e: MouseEvent) => void
-    command?: string
-    className?: any
-    disabled?: boolean
-    menu?: string
-    menuCtx?: any
-    title?: string
+    image?: string;
+    children?: any;
+    id?: any;
+    onClick?: (e: MouseEvent) => void;
+    onMouseDown?: (e: MouseEvent) => void;
+    onMouseUp?: (e: MouseEvent) => void;
+    command?: string;
+    className?: any;
+    disabled?: boolean;
+    menu?: string;
+    menuCtx?: any;
+    title?: string;
 }) => {
     const onTBClick = (e: MouseEvent) => {
         if (command) dot.utilities.doCommand(command);
         if (onClick) onClick(e);
-    }
+    };
 
     const onTBMouseDown = (e: MouseEvent) => {
         if (onMouseDown) onMouseDown(e);
-    }
+    };
 
     const onTBMouseUp = (e: MouseEvent) => {
         if (onMouseUp) onMouseUp(e);
@@ -47,27 +47,48 @@ export const ToolbarButton = ({
                 menuCtx || {}
             );
         }
-    }
+    };
 
     return (
         <a
             id={id}
             className={`
                 toolbar-button
-                ${disabled ? `toolbar-button-disabled` : ``}
-                ${!!image ? `toolbar-button-has-image` : ``}
+                ${
+                    disabled
+                        ? `toolbar-button-disabled`
+                        : ``
+                }
+                ${
+                    !!image
+                        ? `toolbar-button-has-image`
+                        : ``
+                }
                 ${className ? className : ``}
             `.trim()}
-            onClick={disabled ? () => { } : onTBClick as any}
-            onMouseDown={disabled ? () => { } : onTBMouseDown as any}
-            onMouseUp={disabled ? () => { } : onTBMouseUp as any}
+            onClick={
+                disabled ? () => {} : (onTBClick as any)
+            }
+            onMouseDown={
+                disabled
+                    ? () => {}
+                    : (onTBMouseDown as any)
+            }
+            onMouseUp={
+                disabled ? () => {} : (onTBMouseUp as any)
+            }
             title={title}
         >
-            <i className={"toolbarbutton-icon"} style={{ backgroundImage: `url(${image})` }} />
+            <i
+                className={"toolbarbutton-icon"}
+                style={{
+                    backgroundImage: `url(${image})`
+                }}
+            />
 
             <label className={"toolbarbutton-text"}>
                 {children}
             </label>
         </a>
-    )
+    );
 };

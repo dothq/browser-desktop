@@ -3,7 +3,8 @@
 
     &:focus-within {
         background-color: transparent;
-        box-shadow: 0px 0px 4px var(--dot-ui-accent-colour);
+        box-shadow: 0px 0px 4px
+            var(--dot-ui-accent-colour);
     }
 
     .search-icon {

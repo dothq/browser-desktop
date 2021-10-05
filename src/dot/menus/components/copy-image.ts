@@ -15,8 +15,9 @@ export class CopyImage extends MenuItem {
             category: "image",
 
             label: "Copy Image",
-            description: "Copies the selected image to your clipboard."
-        })
+            description:
+                "Copies the selected image to your clipboard."
+        });
 
         this.tabId = tabId;
     }

@@ -19,7 +19,8 @@ export class AppMenu extends TemplatedMenu {
         super({
             id: "context-application",
             name: "Dot Browser",
-            description: "The main application menu for the browser.",
+            description:
+                "The main application menu for the browser.",
 
             layoutPref: "dot.menus.app.layout",
             defaultLayout: [
@@ -41,6 +42,6 @@ export class AppMenu extends TemplatedMenu {
                 ________________,
                 Quit
             ]
-        })
+        });
     }
 }

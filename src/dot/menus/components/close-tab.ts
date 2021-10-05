@@ -24,7 +24,7 @@ export class CloseTab extends MenuItem {
             description: "Closes the current tab.",
 
             hotkey: new Hotkey("Ctrl", "W")
-        })
+        });
 
         this.tabId = tabId;
     }

@@ -4,5 +4,5 @@ import { General } from "./general";
 
 export const sections: Record<string, Section> = {
     general: new General(),
-    appearance: new Appearance(),
-}
+    appearance: new Appearance()
+};

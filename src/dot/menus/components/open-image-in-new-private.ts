@@ -15,8 +15,9 @@ export class OpenImageInNewPrivate extends MenuItem {
             category: "image",
 
             label: "Open Image in New Private Window",
-            description: "Opens the selected image in a New Private Window."
-        })
+            description:
+                "Opens the selected image in a New Private Window."
+        });
 
         this.tabId = tabId;
     }

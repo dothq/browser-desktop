@@ -5,14 +5,20 @@ import { PopupDialog } from "./dialog";
 
 export class UIDialog {
     public currentScreen: number = -1;
-    private screens: { [key: string]: () => JSX.Element } = {};
-    private renderedTo: HTMLDivElement | Element | null = null;
+    private screens: {
+        [key: string]: () => JSX.Element;
+    } = {};
+    private renderedTo: HTMLDivElement | Element | null =
+        null;
 
     public get opened() {
         return !!this.renderedTo;
     }
 
-    public registerScreen(id: number, element: (...args: any) => JSX.Element) {
+    public registerScreen(
+        id: number,
+        element: (...args: any) => JSX.Element
+    ) {
         this.screens[id] = element;
     }
 
@@ -36,33 +42,55 @@ export class UIDialog {
                     initialScreen={this.currentScreen}
                 />,
                 box
-            )
+            );
 
-            document.getElementById("mainPopupSet")?.appendChild(box);
+            document
+                .getElementById("mainPopupSet")
+                ?.appendChild(box);
             this.renderedTo = box;
 
-            this.renderedTo.addEventListener("mousedown", (e: any) => {
-                if (!dot.utilities.canPopupAutohide) return;
+            this.renderedTo.addEventListener(
+                "mousedown",
+                (e: any) => {
+                    if (!dot.utilities.canPopupAutohide)
+                        return;
 
-                if (
-                    this.renderedTo &&
-                    !this.renderedTo?.childNodes[0].contains(e.target)
-                ) {
-                    (this.renderedTo as HTMLDivElement).style.opacity = "0";
+                    if (
+                        this.renderedTo &&
+                        !this.renderedTo?.childNodes[0].contains(
+                            e.target
+                        )
+                    ) {
+                        (
+                            this
+                                .renderedTo as HTMLDivElement
+                        ).style.opacity = "0";
+                    }
                 }
-            })
+            );
 
-            this.renderedTo.addEventListener("mouseup", (e: any) => {
-                if (!this.renderedTo?.childNodes[0].contains(e.target)) {
-                    this.close();
+            this.renderedTo.addEventListener(
+                "mouseup",
+                (e: any) => {
+                    if (
+                        !this.renderedTo?.childNodes[0].contains(
+                            e.target
+                        )
+                    ) {
+                        this.close();
+                    }
                 }
-            })
+            );
         }
     }
 
-    public openAtElement(element: HTMLElement | null, ctx?: any) {
+    public openAtElement(
+        element: HTMLElement | null,
+        ctx?: any
+    ) {
         if (element) {
-            const bounds = element.getBoundingClientRect();
+            const bounds =
+                element.getBoundingClientRect();
 
             this.open(
                 bounds.x,
@@ -76,7 +104,9 @@ export class UIDialog {
         if (!dot.utilities.canPopupAutohide) return;
 
         if (this.renderedTo) {
-            ReactDOM.unmountComponentAtNode(this.renderedTo as Element);
+            ReactDOM.unmountComponentAtNode(
+                this.renderedTo as Element
+            );
             this.renderedTo.outerHTML = "";
             this.renderedTo = null;
         }

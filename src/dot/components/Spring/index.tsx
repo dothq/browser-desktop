@@ -1,7 +1,9 @@
-import React from "react"
+import React from "react";
 
 export const Spring = () => {
     return (
-        <br className={"chromeclass-toolbar-additional"}></br>
-    )
-}
+        <br
+            className={"chromeclass-toolbar-additional"}
+        ></br>
+    );
+};

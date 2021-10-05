@@ -20,7 +20,7 @@ export class PrintPage extends MenuItem {
             description: "Print the current page.",
 
             hotkey: new Hotkey("Ctrl", "P")
-        })
+        });
 
         this.tabId = tabId;
     }

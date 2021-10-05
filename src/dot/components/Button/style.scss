@@ -3,25 +3,30 @@
     color: currentColor;
     min-height: 36px;
     border-radius: 10px;
-    transition: 0.2s background-color, 0.2s color, 0.2s outline;
+    transition: 0.2s background-color, 0.2s color,
+        0.2s outline;
     display: flex;
     align-items: center;
     position: relative;
     justify-content: center;
     cursor: default;
 
-    &.just-label { 
+    &.just-label {
         padding: 0;
         min-width: auto;
         width: 36px !important;
     }
 
     &:hover {
-        background-color: var(--toolbarbutton-hover-background);
+        background-color: var(
+            --toolbarbutton-hover-background
+        );
     }
 
     &:active {
-        background-color: var(--toolbarbutton-active-background);
+        background-color: var(
+            --toolbarbutton-active-background
+        );
     }
 
     .dot-ui-button-icon {
@@ -47,11 +52,19 @@
     color: var(--dot-ui-accent-colour-text);
 
     &:hover {
-        background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 10%);
+        background-color: color-mix(
+            in srgb,
+            var(--dot-ui-accent-colour) 100%,
+            #7a7a7a 10%
+        );
     }
 
     &:active {
-        background-color: color-mix(in srgb, var(--dot-ui-accent-colour) 100%, #7a7a7a 20%);
+        background-color: color-mix(
+            in srgb,
+            var(--dot-ui-accent-colour) 100%,
+            #7a7a7a 20%
+        );
     }
 
     &:not(.dot-ui-no-focus):focus {
@@ -65,11 +78,19 @@
     color: white;
 
     &:hover {
-        background-color: color-mix(in srgb, var(--dot-ui-danger) 100%, #7a7a7a 10%);
+        background-color: color-mix(
+            in srgb,
+            var(--dot-ui-danger) 100%,
+            #7a7a7a 10%
+        );
     }
 
     &:active {
-        background-color: color-mix(in srgb, var(--dot-ui-danger) 100%, #7a7a7a 20%);
+        background-color: color-mix(
+            in srgb,
+            var(--dot-ui-danger) 100%,
+            #7a7a7a 20%
+        );
     }
 
     &:not(.dot-ui-no-focus):focus {

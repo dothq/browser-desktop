@@ -13,6 +13,6 @@ export class Notes extends MenuItem {
             description: "View all your saved notes.",
 
             hotkey: new Hotkey("Ctrl", "K")
-        })
+        });
     }
 }

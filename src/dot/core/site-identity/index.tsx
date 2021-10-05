@@ -4,7 +4,7 @@ import { SiteIdentitySecurityScreen } from "./security";
 
 enum SiteIdentityScreen {
     Main,
-    Security,
+    Security
 }
 
 export class SiteIdentityDialog extends UIDialog {

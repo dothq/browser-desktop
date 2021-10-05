@@ -17,7 +17,7 @@ interface State {
 }
 
 interface Props {
-    tabId: number
+    tabId: number;
 }
 
 export class Searchbar extends React.Component<Props> {
@@ -27,7 +27,7 @@ export class Searchbar extends React.Component<Props> {
         identityDialogOpen: false,
         identityIcon: "",
         identityMsg: ""
-    }
+    };
 
     public identityDialog = new SiteIdentityDialog();
 
@@ -36,13 +36,14 @@ export class Searchbar extends React.Component<Props> {
     }
 
     public onLocationChange() {
-        const strings: any = this.tab?.identityManager.getIdentityStrings();
+        const strings: any =
+            this.tab?.identityManager.getIdentityStrings();
 
         if (strings) {
             this.setState({
                 ...this.state,
                 identityIcon: strings.icon || "",
-                identityMsg: strings.msg || "",
+                identityMsg: strings.msg || ""
             });
         }
     }
@@ -53,7 +54,10 @@ export class Searchbar extends React.Component<Props> {
 
     public onIdentityClick() {
         if (this.identityDialog.opened) {
-            this.setState({ ...this.state, identityDialogOpen: false });
+            this.setState({
+                ...this.state,
+                identityDialogOpen: false
+            });
 
             return this.identityDialog.close();
         }
@@ -65,19 +69,16 @@ export class Searchbar extends React.Component<Props> {
 
         this.setState({
             ...this.state,
-            identityDialogOpen: true,
+            identityDialogOpen: true
         });
     }
 
     public componentDidMount() {
         this.onLocationChange();
 
-        ipc.on(
-            `location-change`,
-            (event: any) => {
-                this.onLocationChange()
-            }
-        );
+        ipc.on(`location-change`, (event: any) => {
+            this.onLocationChange();
+        });
     }
 
     public render() {
@@ -85,27 +86,40 @@ export class Searchbar extends React.Component<Props> {
             <div id={"urlbar"}>
                 <div
                     id={"urlbar-background"}
-                    data-hovered={this.state.mouseState == 1}
-                    data-focused={this.state.mouseState == 2}
+                    data-hovered={
+                        this.state.mouseState == 1
+                    }
+                    data-focused={
+                        this.state.mouseState == 2
+                    }
                 ></div>
 
                 <div id={"urlbar-input-container"}>
                     <div id={"identity-box"}>
                         <Identity
-                            onClick={() => this.onIdentityClick()}
-                            selected={this.state.identityDialogOpen}
+                            onClick={() =>
+                                this.onIdentityClick()
+                            }
+                            selected={
+                                this.state
+                                    .identityDialogOpen
+                            }
                             type={this.state.identityIcon}
-                            title={this.state.identityIcon}
+                            title={
+                                this.state.identityIcon
+                            }
                         />
                     </div>
 
-                    <div
-                        id={"urlbar-input"}
-                    >
-                        {this.tab && <SearchbarInput tabId={this.tab.id} />}
+                    <div id={"urlbar-input"}>
+                        {this.tab && (
+                            <SearchbarInput
+                                tabId={this.tab.id}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

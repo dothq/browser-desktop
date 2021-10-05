@@ -15,8 +15,9 @@ export class BookmarkLink extends MenuItem {
             category: "link",
 
             label: "Bookmark Link",
-            description: "Adds the selected link to your bookmarks."
-        })
+            description:
+                "Adds the selected link to your bookmarks."
+        });
 
         this.tabId = tabId;
     }

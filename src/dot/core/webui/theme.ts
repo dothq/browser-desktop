@@ -5,14 +5,15 @@ window.dot = window.windowRoot.ownerGlobal.dot;
 
     const { currentThemeId } = dot.theme;
 
-    const variables: Record<string, string> = dot.theme.makeThemeVariables(
-        currentThemeId
-    );
+    const variables: Record<string, string> =
+        dot.theme.makeThemeVariables(currentThemeId);
 
-    for (const [key, value] of Object.entries(variables)) {
+    for (const [key, value] of Object.entries(
+        variables
+    )) {
         document.documentElement.style.setProperty(
             key,
             value
-        )
+        );
     }
 })();

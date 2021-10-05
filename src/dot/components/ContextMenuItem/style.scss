@@ -36,11 +36,15 @@
     }
 
     &:hover {
-        background-color: var(--toolbarbutton-hover-background);
+        background-color: var(
+            --toolbarbutton-hover-background
+        );
     }
 
     &:active {
-        background-color: var(--toolbarbutton-active-background);
+        background-color: var(
+            --toolbarbutton-active-background
+        );
     }
 }
 

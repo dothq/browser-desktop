@@ -13,9 +13,19 @@ export const whitelistedSchemes = [
     "moz",
     "moz-icon",
     "moz-gio"
-]
+];
 
-export const formatToParts = (url: string): void | { scheme: string, domain: string, host: string, path: string, query: string, hash: string, internal: boolean } => {
+export const formatToParts = (
+    url: string
+): void | {
+    scheme: string;
+    domain: string;
+    host: string;
+    path: string;
+    query: string;
+    hash: string;
+    internal: boolean;
+} => {
     let location;
 
     try {
@@ -26,13 +36,23 @@ export const formatToParts = (url: string): void | { scheme: string, domain: str
 
     try {
         const isHttp = location.scheme.startsWith("http");
-        const rootDomain = isHttp ? Services.eTLD.getBaseDomainFromHost(location.host) : "";
-        const notWhitelisted = !whitelistedSchemes.includes(location.scheme);
-        const noTrailingPath = location.query.length == 0 ? location.filePath.replace(/\/*$/, "") : location.filePath;
+        const rootDomain = isHttp
+            ? Services.eTLD.getBaseDomainFromHost(
+                  location.host
+              )
+            : "";
+        const notWhitelisted =
+            !whitelistedSchemes.includes(location.scheme);
+        const noTrailingPath =
+            location.query.length == 0
+                ? location.filePath.replace(/\/*$/, "")
+                : location.filePath;
 
-        const scheme = whitelistedSchemes.includes(location.scheme)
+        const scheme = whitelistedSchemes.includes(
+            location.scheme
+        )
             ? `${location.scheme}://`
-            : `${location.scheme}:`
+            : `${location.scheme}:`;
 
         return {
             scheme,
@@ -42,27 +62,33 @@ export const formatToParts = (url: string): void | { scheme: string, domain: str
             host: notWhitelisted
                 ? ""
                 : location.host.replace(rootDomain, ""),
-            path: notWhitelisted
-                ? ""
-                : noTrailingPath,
+            path: notWhitelisted ? "" : noTrailingPath,
             query: notWhitelisted
                 ? ""
-                : location.query ? "?" + location.query : "",
+                : location.query
+                ? "?" + location.query
+                : "",
             hash: notWhitelisted
                 ? ""
-                : location.ref ? "#" + location.ref : "",
+                : location.ref
+                ? "#" + location.ref
+                : "",
             internal: !isHttp
         };
     } catch (e) {
         return;
     }
-}
+};
 
 export const predefinedFavicons: any = {
-    settings: "chrome://dot/content/skin/icons/settings.svg",
+    settings:
+        "chrome://dot/content/skin/icons/settings.svg",
     config: "chrome://dot/content/skin/icons/settings.svg"
-}
+};
 
-export const visibleAboutUrls = AboutPagesUtils.visibleAboutUrls.map((url: string) => {
-    return Services.io.newURI(url).pathQueryRef;
-})
+export const visibleAboutUrls =
+    AboutPagesUtils.visibleAboutUrls.map(
+        (url: string) => {
+            return Services.io.newURI(url).pathQueryRef;
+        }
+    );

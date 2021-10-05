@@ -15,8 +15,9 @@ export class OpenImageInNewTab extends MenuItem {
             category: "image",
 
             label: "Open Image in New Tab",
-            description: "Opens the selected image in a New Tab."
-        })
+            description:
+                "Opens the selected image in a New Tab."
+        });
 
         this.tabId = tabId;
     }

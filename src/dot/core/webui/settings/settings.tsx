@@ -28,11 +28,11 @@ class Settings extends React.Component {
 
                 <RenderSheet />
             </Provider>
-        )
+        );
     }
 }
 
 ReactDOM.render(
     <Settings />,
     document.getElementById("settings")
-)
+);

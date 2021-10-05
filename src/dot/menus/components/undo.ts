@@ -14,7 +14,13 @@ export class Undo extends MenuItem {
         return !this.canUndo;
     }
 
-    constructor({ tabId, canUndo }: { tabId: number, canUndo: boolean }) {
+    constructor({
+        tabId,
+        canUndo
+    }: {
+        tabId: number;
+        canUndo: boolean;
+    }) {
         super({
             id: "context-undo",
             type: "item",
@@ -25,7 +31,7 @@ export class Undo extends MenuItem {
             description: "Undo what you just typed.",
 
             hotkey: new Hotkey("Ctrl", "Z")
-        })
+        });
 
         this.tabId = tabId;
         this.canUndo = canUndo;

@@ -10,17 +10,26 @@ export class Fullscreen extends MenuItem {
     }
 
     public get label() {
-        return this.fullscreen ? "Exit Fullscreen" : "Enter Fullscreen";
+        return this.fullscreen
+            ? "Exit Fullscreen"
+            : "Enter Fullscreen";
     }
 
-    constructor({ tabId, fullscreen }: { tabId: number, fullscreen: boolean }) {
+    constructor({
+        tabId,
+        fullscreen
+    }: {
+        tabId: number;
+        fullscreen: boolean;
+    }) {
         super({
             id: "context-fullscreenmedia",
             type: "item",
             category: "multimedia",
 
-            description: "Toggle fullscreen mode of the media."
-        })
+            description:
+                "Toggle fullscreen mode of the media."
+        });
 
         this.tabId = tabId;
         this.fullscreen = fullscreen;

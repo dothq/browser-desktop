@@ -4,24 +4,35 @@
 
 "use strict";
 
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const { Services } = ChromeUtils.import(
+    "resource://gre/modules/Services.jsm"
+);
 
 const { nsIAboutModule } = Ci;
 
 class AboutConfig {
-    QueryInterface = ChromeUtils.generateQI([nsIAboutModule]);
+    QueryInterface = ChromeUtils.generateQI([
+        nsIAboutModule
+    ]);
 
     newChannel(uri, loadInfo) {
-        const chan = Services.io.newChannelFromURIWithLoadInfo(this.uri, loadInfo);
-        chan.owner = Services.scriptSecurityManager.getSystemPrincipal();
+        const chan =
+            Services.io.newChannelFromURIWithLoadInfo(
+                this.uri,
+                loadInfo
+            );
+        chan.owner =
+            Services.scriptSecurityManager.getSystemPrincipal();
         return chan;
     }
 
     get contractID() {
-        const uri = Services.io.newURI(this.classDescription);
+        const uri = Services.io.newURI(
+            this.classDescription
+        );
         const path = uri.pathQueryRef;
 
-        return `@mozilla.org/network/protocol/about;1?what=${path}`
+        return `@mozilla.org/network/protocol/about;1?what=${path}`;
     }
 
     getURIFlags() {
@@ -37,7 +48,9 @@ class AboutConfig {
             "chrome://dot/content/webui/config/config.html"
         );
         this.classDescription = "about:config";
-        this.classID = Components.ID("4104f884-b26e-465a-a204-bebe268187fc");
+        this.classID = Components.ID(
+            "4104f884-b26e-465a-a204-bebe268187fc"
+        );
 
         this.flags = nsIAboutModule.ALLOW_SCRIPT;
     }

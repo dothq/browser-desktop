@@ -2,9 +2,9 @@ import React from "react";
 
 interface Props {
     author: {
-        name: string,
-        url: string
-    }
+        name: string;
+        url: string;
+    };
 }
 
 export class Attribution extends React.Component<Props> {
@@ -17,10 +17,14 @@ export class Attribution extends React.Component<Props> {
 
         return (
             <span className={"widget-attribution bl"}>
-                Image courtesy of&nbsp;<a target={"_blank"} href={this.props.author.url}>
+                Image courtesy of&nbsp;
+                <a
+                    target={"_blank"}
+                    href={this.props.author.url}
+                >
                     {this.props.author.name}
                 </a>
             </span>
-        )
+        );
     }
 }

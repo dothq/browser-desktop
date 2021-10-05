@@ -13,11 +13,17 @@ a.toolbar-button {
     transition: 0.3s color;
 
     &:hover .toolbarbutton-icon {
-        background-color: var(--button-hover, var(--toolbarbutton-hover-background));
+        background-color: var(
+            --button-hover,
+            var(--toolbarbutton-hover-background)
+        );
     }
 
     &:active .toolbarbutton-icon {
-        background-color: var(--button-active, var(--toolbarbutton-active-background));
+        background-color: var(
+            --button-active,
+            var(--toolbarbutton-active-background)
+        );
     }
 }
 
@@ -25,7 +31,8 @@ a.toolbar-button .toolbarbutton-icon {
     transition: 0.15s background-color;
 }
 
-a.toolbar-button.toolbar-button-has-image:not(:hover, :active) .toolbarbutton-icon {
+a.toolbar-button.toolbar-button-has-image:not(:hover, :active)
+    .toolbarbutton-icon {
     background-color: transparent;
 }
 
@@ -37,7 +44,8 @@ a.toolbar-button.toolbar-button-disabled {
     }
 }
 
-a.toolbar-button.toolbar-button-has-image .toolbarbutton-icon {
+a.toolbar-button.toolbar-button-has-image
+    .toolbarbutton-icon {
     background-size: 14px;
     -moz-context-properties: fill, fill-opacity;
     fill: var(--toolbarbutton-icon-fill);
@@ -50,6 +58,8 @@ a.toolbar-button.toolbar-button-has-image .toolbarbutton-icon {
 }
 
 a.toolbar-button[menu-open="true"] > .toolbarbutton-icon {
-    background-color: var(--toolbarbutton-active-background) !important;
+    background-color: var(
+        --toolbarbutton-active-background
+    ) !important;
     pointer-events: none !important; /* This is so clicking the menu opener while active doesn't make the menu reopen */
 }

@@ -8,4 +8,4 @@ export const templatesRegistry = {
     AppMenu,
     WindowMenu,
     TabMenu
-}
+};

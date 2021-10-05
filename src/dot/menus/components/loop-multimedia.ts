@@ -9,7 +9,13 @@ export class Loop extends MenuItem {
         return dot.tabs.get(this.tabId);
     }
 
-    constructor({ tabId, looped }: { tabId: number, looped: boolean }) {
+    constructor({
+        tabId,
+        looped
+    }: {
+        tabId: number;
+        looped: boolean;
+    }) {
         super({
             id: "context-loopmedia",
             type: "checkbox",
@@ -18,7 +24,7 @@ export class Loop extends MenuItem {
             label: "Loop",
             selected: looped,
             description: "Enable looping of the media."
-        })
+        });
 
         this.tabId = tabId;
         this.looped = looped;

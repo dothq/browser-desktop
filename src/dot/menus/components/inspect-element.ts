@@ -17,10 +17,11 @@ export class InspectElement extends MenuItem {
 
             label: "Inspect",
             icon: "inspect.svg",
-            description: "Open the DevTools for the current page.",
+            description:
+                "Open the DevTools for the current page.",
 
             hotkey: new Hotkey("Ctrl", "Shift", "I")
-        })
+        });
 
         this.tabId = tabId;
     }
