@@ -50,6 +50,7 @@ We chose Gecko due to its position as the best competitor to Chromium, and becau
 
 [Download latest for Windows](https://download.dothq.co/dot/releases/windows/x86/installer)
 
+
 ### 🍎 macOS
 
 [Download latest for macOS](https://download.dothq.co/dot/releases/macos/x86/installer)
