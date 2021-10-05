@@ -6,3 +6,5 @@ common/
 .github/workflows
 engine/
 src/**/*.patch
+**/dist/
+**/firefox-branding.js

@@ -5,25 +5,31 @@
 -->
 <!DOCTYPE html>
 
-<html id="browser-window" chromemargin="0,2,2,2" windowtype="navigator:browser">
+<html
+    id="browser-window"
+    chromemargin="0,2,2,2"
+    windowtype="navigator:browser"
+>
+    <head>
+        <title
+            data-l10n-id="browser-main-window-title"
+        ></title>
+        <link
+            rel="stylesheet"
+            href="build/browser.chunk.css"
+        />
+    </head>
 
-<head>
-  <title data-l10n-id="browser-main-window-title"></title>
-  <link rel="stylesheet" href="build/browser.chunk.css">
-  </link>
-</head>
+    <body>
+        <div id="browser"></div>
+        <div id="browser-tabs-stack"></div>
 
-<body>
-  <div id="browser"></div>
-  <div id="browser-tabs-stack"></div>
+        <popupset id="mainPopupSet">
+            <div id="window-modal-mount"></div>
+        </popupset>
 
-  <popupset id="mainPopupSet">
-    <div id="window-modal-mount"></div>
-  </popupset>
+        <tooltip id="aHTMLTooltip" page="true"></tooltip>
 
-  <tooltip id="aHTMLTooltip" page="true"></tooltip>
-
-  <script src="build/browser.js"></script>
-</body>
-
+        <script src="build/browser.js"></script>
+    </body>
 </html>
