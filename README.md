@@ -28,7 +28,7 @@
       <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop.svg?type=shield"></img>
     </a>
     <a href="https://what-version-is-dot-on.vercel.app/">
-      <img src="https://what-version-is-dot-on.vercel.app/badge?4"></img>
+      <img src="https://what-version-is-dot-on.vercel.app/badge?5"></img>
     </a>
     <a href="https://liberapay.com/dothq/donate">
       <img alt="Donate using Liberapay" src="https://img.shields.io/liberapay/receives/dothq.svg?logo=liberapay">
