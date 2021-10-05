@@ -8,3 +8,4 @@ engine/
 src/**/*.patch
 **/dist/
 **/firefox-branding.js
+**/profile.js
