@@ -279,6 +279,10 @@ export class Tab extends EventEmitter {
     }
 
     public destroy() {
+        const tabIndex = dot.tabs.list.findIndex(
+            (tab) => tab.id == this.id
+        );
+
         this.emit("TabClose");
 
         store.dispatch({
@@ -314,6 +318,23 @@ export class Tab extends EventEmitter {
         this.webContents.destroy();
         this.webContents.remove();
         browserContainer.remove();
+
+        const activeTabs = dot.tabs.list.filter(
+            (tab) => tab.id != this.id
+        );
+
+        let newIndex;
+
+        if (activeTabs.length > tabIndex) {
+            newIndex = tabIndex;
+        } else {
+            newIndex = tabIndex - 1;
+        }
+
+        store.dispatch({
+            type: "TAB_SELECT",
+            payload: dot.tabs.list[newIndex].id
+        });
 
         /*
             Current Tab Index: 1

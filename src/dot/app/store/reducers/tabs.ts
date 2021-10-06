@@ -140,10 +140,9 @@ export const tabsReducer = createReducer(initialState, {
         ),
 
     TAB_KILL: (store, action: AnyAction) => {
-        store.list = [
-            ...store.list.slice(0, action.payload),
-            ...store.list.slice(action.payload + 1)
-        ];
+        store.list = store.list.filter(
+            (t) => t.id !== action.payload
+        );
     },
 
     SELECTED_TAB_CLOSE: (store, action: AnyAction) =>
