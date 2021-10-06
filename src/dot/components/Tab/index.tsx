@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { dot } from "../../api";
 import { store } from "../../app/store";
 import { Tab } from "../../models/Tab";
 import { openMenuAt } from "../../shared/menu";
@@ -16,6 +17,8 @@ export const BrowserTab = ({
     onMouseEnter?: any;
     onMouseLeave?: any;
 }) => {
+    const [drag, setDrag] = useState(false);
+
     const onCloseClick = (event: MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
@@ -25,12 +28,24 @@ export const BrowserTab = ({
 
     return (
         <>
+            {drag && (
+                <div
+                    className="dragHover"
+                    style={{
+                        width: 2,
+                        backgroundColor:
+                            "var(--dot-ui-accent-colour)"
+                    }}
+                ></div>
+            )}
+
             <div
                 id={`tab-${tab.id}`}
                 className={"tabbrowser-tab"}
                 data-active={tab.active}
                 data-next-active={nextIsActive}
                 data-closing={tab.isClosing}
+                draggable={true}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 data-id={tab.id}
@@ -51,6 +66,44 @@ export const BrowserTab = ({
                         name: "TabMenu",
                         bounds: [e.clientX, e.clientY],
                         ctx: { tabId: tab.id }
+                    });
+                }}
+                onDragStart={(e) => {
+                    e.dataTransfer.setData(
+                        "tab_id",
+                        tab.id.toString()
+                    );
+                }}
+                onDragOver={(e) => {
+                    e.preventDefault();
+                    setDrag(true);
+                }}
+                onDragExit={(e) => {
+                    e.preventDefault();
+                    setDrag(false);
+                }}
+                onDrop={(e) => {
+                    setDrag(false);
+
+                    const thisTabIndex =
+                        dot.tabs.list.findIndex(
+                            (t) => t.id == tab.id
+                        );
+
+                    const dragTabId = Number(
+                        e.dataTransfer.getData("tab_id")
+                    );
+                    const dragTabIndex =
+                        dot.tabs.list.findIndex(
+                            (t) => t.id == dragTabId
+                        );
+
+                    store.dispatch({
+                        type: "RELOCATE_TAB",
+                        payload: {
+                            oldIndex: dragTabIndex,
+                            newIndex: thisTabIndex
+                        }
                     });
                 }}
             >

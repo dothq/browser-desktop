@@ -145,6 +145,25 @@ export const tabsReducer = createReducer(initialState, {
         );
     },
 
+    /**
+     * Places a tab in front of another tab. The payload should be `{ oldIndex: number, newIndex: number }`
+     * @param store
+     * @param action
+     */
+    RELOCATE_TAB: (store, action: AnyAction) => {
+        const tab = store.list[action.payload.newIndex];
+
+        const dragTab =
+            store.list[action.payload.oldIndex];
+
+        let tabs = store.list.filter(
+            (t) => t.id !== dragTab.id
+        );
+        tabs.splice(action.payload.newIndex, 0, dragTab);
+
+        store.list = tabs;
+    },
+
     SELECTED_TAB_CLOSE: (store, action: AnyAction) =>
         closeTabAction(store, store.selectedId),
 
