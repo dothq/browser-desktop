@@ -16,8 +16,11 @@ export const PopupDialog = ({
 }) => {
     const [currentScreen, setCurrentScreen] =
         React.useState(initialScreen);
-    const [popupHeight, setPopupHeight] =
-        React.useState(0);
+    // Note that react assumes that numbers are pixel values, so there is no good
+    // reason to add px to the end of height at any time
+    const [popupHeight, setPopupHeight] = React.useState<
+        string | number
+    >("auto");
 
     const onPopupUpdate = (element: HTMLElement) => {
         setPopupHeight(element.offsetHeight);
@@ -29,7 +32,7 @@ export const PopupDialog = ({
             style={{
                 left: `${x}px`,
                 top: `${y}px`,
-                height: `${popupHeight}px`
+                height: popupHeight
             }}
         >
             {Object.entries(screens).map(
