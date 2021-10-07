@@ -112,11 +112,7 @@ export class Searchbar extends React.Component<Props> {
                     </div>
 
                     <div id={"urlbar-input"}>
-                        {this.tab && (
-                            <SearchbarInput
-                                tabId={this.tab.id}
-                            />
-                        )}
+                        {this.tab && <SearchbarInput />}
                     </div>
                 </div>
             </div>
