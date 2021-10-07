@@ -6,6 +6,8 @@ import { Services } from "../../modules";
 import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
 
+interface Props {}
+
 interface SearchbarPart {
     id: string;
     semihide: boolean;
@@ -28,7 +30,7 @@ enum SearchInput {
     Real
 }
 
-export class SearchbarInput extends React.Component {
+export class SearchbarInput extends React.Component<Props> {
     get tabId(): number {
         // return this.props.tabId;
         // Using props that don't propagate until after well after ipc messages
