@@ -395,7 +395,7 @@ export class SearchbarInput extends React.Component {
             this.onLocationChange();
         });
 
-        ipc.on(`page-reload-${props.tabId}`, () => {
+        ipc.on("page-reload", () => {
             this.onTabReload();
         });
     }

@@ -44,6 +44,8 @@ export class TabProgressListener {
             flags & STATE_IS_NETWORK
         ) {
             ipc.fire(`page-reload-${this.id}`);
+            // General event is used by the search bar because why not
+            ipc.fire("page-reload", this.id);
 
             if (shouldShowLoader(request)) {
                 if (
