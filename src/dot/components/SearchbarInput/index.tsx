@@ -33,7 +33,12 @@ enum SearchInput {
 }
 
 export class SearchbarInput extends React.Component<Props> {
-    public tabId: number;
+    get tabId(): number {
+        // return this.props.tabId;
+        // Using props that don't propagate until after well after ipc messages
+        // have been sent is a bad idea. Lets just not shall we?
+        return dot.tabs.selectedTabId;
+    }
 
     public state: State = {
         parts: [],
@@ -386,9 +391,11 @@ export class SearchbarInput extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
 
-        this.tabId = props.tabId;
-
         ipc.on(`location-change`, () => {
+            this.onLocationChange();
+        });
+
+        ipc.on("tab-change", () => {
             this.onLocationChange();
         });
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { dot } from "../../api";
 import { store } from "../../app/store";
+import { ipc } from "../../core/ipc";
 import { Tab } from "../../models/Tab";
 import { openMenuAt } from "../../shared/menu";
 import { TAB_LOADING_ICON_URL } from "../../shared/tab";
@@ -52,11 +53,17 @@ export const BrowserTab = ({
                 data-title={tab.title || ""}
                 data-url={tab.url || ""}
                 onMouseDown={(e) => {
-                    if (e.button == 0)
+                    if (e.button == 0) {
                         store.dispatch({
                             type: "TAB_SELECT",
                             payload: tab.id
                         });
+
+                        // Tell other components (e.g. the search bar) that they
+                        // should really update. We cant run this inside of
+                        // redux :(
+                        ipc.fire("tab-change", tab.id);
+                    }
                 }}
                 onContextMenu={(e) => {
                     e.preventDefault();
