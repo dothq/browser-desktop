@@ -151,8 +151,6 @@ export const tabsReducer = createReducer(initialState, {
      * @param action
      */
     RELOCATE_TAB: (store, action: AnyAction) => {
-        const tab = store.list[action.payload.newIndex];
-
         const dragTab =
             store.list[action.payload.oldIndex];
 
