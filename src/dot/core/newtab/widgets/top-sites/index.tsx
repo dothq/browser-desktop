@@ -51,7 +51,6 @@ export class TopSites extends React.Component {
                 {mockTopSites.map((site) => (
                     <a
                         className={"widget-topsite"}
-                        target={"_blank"}
                         href={site.url}
                         key={site.id}
                     >
