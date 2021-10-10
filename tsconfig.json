@@ -65,6 +65,7 @@
         "firefox-*/**/*",
         "gecko",
         "engine/**/*",
+        "engine-*/**/*",
         "src"
     ]
 }
