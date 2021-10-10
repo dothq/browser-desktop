@@ -14,7 +14,7 @@ export class ViewPageSource extends MenuItem {
 
         dot.tabs.create({
             url: `view-source:${url}`
-        })
+        });
     }
 
     constructor({ tabId }: { tabId: number }) {
@@ -24,10 +24,11 @@ export class ViewPageSource extends MenuItem {
             category: "development",
 
             label: "View Page Source",
-            description: "Open the source viewer for the current page.",
+            description:
+                "Open the source viewer for the current page.",
 
             hotkey: new Hotkey("Ctrl", "U")
-        })
+        });
 
         this.tabId = tabId;
     }

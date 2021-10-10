@@ -16,7 +16,8 @@ export class TabMenu extends TemplatedMenu {
         super({
             id: "context-tab",
             name: "Tab",
-            description: "The menu that appears when right clicking a tab.",
+            description:
+                "The menu that appears when right clicking a tab.",
 
             layoutPref: "dot.menus.tab.layout",
             defaultLayout: [
@@ -34,6 +35,6 @@ export class TabMenu extends TemplatedMenu {
                 ________________,
                 ReopenClosedTab
             ]
-        })
+        });
     }
 }

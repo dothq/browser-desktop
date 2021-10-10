@@ -9,15 +9,21 @@
     user-select: none;
 
     &:hover {
-        background-color: var(--toolbarbutton-hover-background);
+        background-color: var(
+            --toolbarbutton-hover-background
+        );
     }
 
     &:active {
-        background-color: var(--toolbarbutton-active-background);
+        background-color: var(
+            --toolbarbutton-active-background
+        );
     }
 
     &[data-active="true"] {
-        background-color: var(--toolbarbutton-hover-background) !important;
+        background-color: var(
+            --toolbarbutton-hover-background
+        ) !important;
     }
 
     .urlbar-result-icon {
@@ -37,7 +43,7 @@
         flex-direction: column;
         justify-content: center;
         padding: 6px 0;
-        
+
         .urlbar-result-title {
             font-size: 14px;
             margin: 0;

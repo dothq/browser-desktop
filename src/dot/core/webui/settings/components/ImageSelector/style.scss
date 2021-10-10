@@ -11,7 +11,8 @@
         img {
             height: 68px;
             border-radius: 8px;
-            border: 2px solid var(--sidebar-background-color);
+            border: 2px solid
+                var(--sidebar-background-color);
         }
 
         .description {
@@ -21,7 +22,9 @@
         .check {
             width: 28px;
             height: 28px;
-            background-color: var(--autocomplete-popup-highlight-background);
+            background-color: var(
+                --autocomplete-popup-highlight-background
+            );
             border-radius: 20px;
             justify-content: center;
             align-items: center;

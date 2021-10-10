@@ -7,7 +7,8 @@
     margin-top: 20vh;
     max-height: 64vh;
     background-color: var(--toolbar-bgcolor);
-    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
+    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
+        0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
     transition: 0.2s transform ease, 0.2s opacity ease;
     pointer-events: none;
     opacity: 0;
@@ -52,7 +53,7 @@
     position: relative;
     height: 56px;
     min-height: 56px;
-    
+
     .launcher-popup-input-icon {
         background-image: url(chrome://dot/content/skin/icons/search.svg);
         width: 16px;
@@ -90,7 +91,8 @@
 .launcher-popup-results {
     width: 100%;
     height: 100%;
-    transition: 0.3s opacity, 0.3s max-height, 0.3s min-height;
+    transition: 0.3s opacity, 0.3s max-height,
+        0.3s min-height;
     display: flex;
     user-select: none;
     position: relative;
@@ -117,7 +119,9 @@
             height: 46px;
             display: flex;
             margin: 0px 10px;
-            background-color: var(--toolbarbutton-hover-background);
+            background-color: var(
+                --toolbarbutton-hover-background
+            );
             border-radius: 10px;
             transition: 0.2s transform ease;
             position: absolute;

@@ -15,8 +15,9 @@ export class CheckSpelling extends MenuItem {
             category: "text",
 
             label: "Check Spelling…",
-            description: "Checks the spelling in a text field and highlights any mistakes."
-        })
+            description:
+                "Checks the spelling in a text field and highlights any mistakes."
+        });
 
         this.tabId = tabId;
     }

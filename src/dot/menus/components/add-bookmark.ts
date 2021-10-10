@@ -11,19 +11,24 @@ export class AddBookmark extends MenuItem {
     }
 
     public get label() {
-        return this.tab?.bookmarked ? "Edit Bookmark…" : "Bookmark"
+        return this.tab?.bookmarked
+            ? "Edit Bookmark…"
+            : "Bookmark";
     }
 
     public get icon() {
-        return this.tab?.bookmarked ? "bookmark-filled.svg" : "actions/new-bookmark.svg"
+        return this.tab?.bookmarked
+            ? "bookmark-filled.svg"
+            : "actions/new-bookmark.svg";
     }
 
     public onClick() {
         return store.dispatch({
-            type: "TAB_BOOKMARK", payload: {
+            type: "TAB_BOOKMARK",
+            payload: {
                 id: this.tabId
             }
-        })
+        });
     }
 
     constructor({ tabId }: { tabId: number }) {
@@ -35,7 +40,7 @@ export class AddBookmark extends MenuItem {
             description: "Bookmark the current page.",
 
             hotkey: new Hotkey("Ctrl", "D")
-        })
+        });
 
         this.tabId = tabId;
     }

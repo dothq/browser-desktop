@@ -6,31 +6,42 @@ import { Cc, Ci } from "../modules";
 
 export class PromptAPI {
     public alert(
-        type: 'window' | 'tab',
+        type: "window" | "tab",
         title: string,
         message: string,
         okLabel?: string,
         cancelLabel?: string
     ) {
         return new Promise((resolve) => {
-            const mount: any = document.getElementById("window-modal-mount");
+            const mount: any = document.getElementById(
+                "window-modal-mount"
+            );
 
             window.document.documentElement.focus();
 
-            const rect = dot.tabs.getBrowserContainer(dot.tabs.selectedTab?.webContents)
-                .getBoundingClientRect()
+            const rect = dot.tabs
+                .getBrowserContainer(
+                    dot.tabs.selectedTab?.webContents
+                )
+                .getBoundingClientRect();
 
             const onKeyPress = (e: KeyboardEvent) => {
                 if (e.key == "Escape") dispatch(false);
             };
 
-            document.addEventListener("keypress", onKeyPress);
+            document.addEventListener(
+                "keypress",
+                onKeyPress
+            );
 
             const dispatch = (result: boolean) => {
                 ReactDOM.unmountComponentAtNode(mount);
-                document.removeEventListener("keypress", onKeyPress);
+                document.removeEventListener(
+                    "keypress",
+                    onKeyPress
+                );
                 resolve(result);
-            }
+            };
 
             const h1 = React.createElement(
                 "h1",
@@ -48,15 +59,12 @@ export class PromptAPI {
                 message
             );
 
-            const okButton = React.createElement(
-                Button,
-                {
-                    label: okLabel || "OK",
-                    noFocus: true,
-                    primary: true,
-                    onClick: () => dispatch(true)
-                }
-            );
+            const okButton = React.createElement(Button, {
+                label: okLabel || "OK",
+                noFocus: true,
+                primary: true,
+                onClick: () => dispatch(true)
+            });
 
             const cancelButton = React.createElement(
                 Button,
@@ -70,23 +78,26 @@ export class PromptAPI {
             const buttonGroup = React.createElement(
                 "div",
                 {
-                    className: "modal-buttons",
+                    className: "modal-buttons"
                 },
                 cancelButton,
                 okButton
-            )
+            );
 
             const container = React.createElement(
                 "main",
                 {
-                    className: "ui-modal-dialog-container",
+                    className:
+                        "ui-modal-dialog-container",
                     style: {
-                        marginTop: (type == "window"
-                            ? rect.top - 12
-                            : 0) + "px",
-                        borderRadius: type == "tab"
-                            ? `0px 0px 18px 18px`
-                            : ``
+                        marginTop:
+                            (type == "window"
+                                ? rect.top - 12
+                                : 0) + "px",
+                        borderRadius:
+                            type == "tab"
+                                ? `0px 0px 18px 18px`
+                                : ``
                     }
                 },
                 h1,
@@ -99,26 +110,29 @@ export class PromptAPI {
                 {
                     className: "ui-modal-dialog",
                     style: {
-                        zIndex: type == "tab" ? 0 : 99999999999,
-                        top: (type == "tab" ? rect.top : 0) + "px"
+                        zIndex:
+                            type == "tab"
+                                ? 0
+                                : 99999999999,
+                        top:
+                            (type == "tab"
+                                ? rect.top
+                                : 0) + "px"
                     },
                     "data-type": type
                 },
                 container
             );
 
-            ReactDOM.render(
-                box,
-                mount
-            );
+            ReactDOM.render(box, mount);
 
             this.beep();
-        })
+        });
     }
 
     private beep() {
         Cc["@mozilla.org/sound;1"]
             .createInstance(Ci.nsISound)
-            .beep()
+            .beep();
     }
 }

@@ -17,7 +17,7 @@ export class DuplicateTab extends MenuItem {
             label: "Duplicate Tab",
             icon: "duplicate-tab.svg",
             description: "Duplicates the current tab."
-        })
+        });
 
         this.tabId = tabId;
     }

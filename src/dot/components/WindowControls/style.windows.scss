@@ -11,7 +11,10 @@
         width: 44px;
         height: 40px;
         -moz-context-properties: fill, fill-opacity;
-        fill: var(--toolbarbutton-icon-fill, currentColor);
+        fill: var(
+            --toolbarbutton-icon-fill,
+            currentColor
+        );
         background-repeat: no-repeat;
         background-position: center;
         background-size: 12px;

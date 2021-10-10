@@ -15,8 +15,9 @@ export class OpenLinkInNewPrivate extends MenuItem {
             category: "link",
 
             label: "Open Link in New Private Window",
-            description: "Opens the selected link in a New Private Window."
-        })
+            description:
+                "Opens the selected link in a New Private Window."
+        });
 
         this.tabId = tabId;
     }

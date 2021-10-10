@@ -65,7 +65,7 @@ const unpack = async (name: string, version: string) => {
 
     let tarProc = execa("tar", [
         "--transform",
-        "s,firefox-89.0,engine,",
+        `s,firefox-${pjson.versions["firefox-display"]},engine,`,
         `--show-transformed`,
         "-xf",
         resolve(cwd, ".dotbuild", "engines", name)

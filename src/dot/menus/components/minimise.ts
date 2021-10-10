@@ -14,6 +14,6 @@ export class Minimise extends MenuItem {
 
             label: "Minimise",
             description: "Minimises the open window."
-        })
+        });
     }
 }

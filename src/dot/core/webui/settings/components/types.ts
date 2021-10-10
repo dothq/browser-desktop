@@ -1,4 +1,4 @@
 export enum ControlType {
-    Preference = 'pref',
-    Loose = 'loose'
+    Preference = "pref",
+    Loose = "loose"
 }

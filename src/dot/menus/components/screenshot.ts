@@ -17,7 +17,7 @@ export class ScreenshotPage extends MenuItem {
             label: "Screenshot…",
             icon: "screenshot.svg",
             description: "Take a screenshot of the page."
-        })
+        });
 
         this.tabId = tabId;
     }

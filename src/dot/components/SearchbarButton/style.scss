@@ -11,7 +11,10 @@
     transition: 0.15s background-color, 0.3s color;
 
     &[data-selected="true"] {
-        background-color: var(--button-active, var(--toolbarbutton-active-background)) !important;
+        background-color: var(
+            --button-active,
+            var(--toolbarbutton-active-background)
+        ) !important;
     }
 }
 
@@ -24,9 +27,15 @@
 }
 
 .searchbar-button:hover {
-    background-color: var(--button-hover, var(--toolbarbutton-hover-background));
+    background-color: var(
+        --button-hover,
+        var(--toolbarbutton-hover-background)
+    );
 }
 
 .searchbar-button:active {
-    background-color: var(--button-active, var(--toolbarbutton-active-background));
+    background-color: var(
+        --button-active,
+        var(--toolbarbutton-active-background)
+    );
 }

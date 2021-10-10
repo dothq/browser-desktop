@@ -15,8 +15,9 @@ export class SaveVideoAs extends MenuItem {
             category: "multimedia",
 
             label: "Save Video As…",
-            description: "Saves the selected video to file."
-        })
+            description:
+                "Saves the selected video to file."
+        });
 
         this.tabId = tabId;
     }

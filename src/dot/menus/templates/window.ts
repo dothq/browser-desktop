@@ -13,7 +13,8 @@ export class WindowMenu extends TemplatedMenu {
         super({
             id: "context-window",
             name: "Window",
-            description: "Context menu shown when right clicking titlebars.",
+            description:
+                "Context menu shown when right clicking titlebars.",
 
             layoutPref: "dot.menus.window.layout",
             defaultLayout: [
@@ -28,6 +29,6 @@ export class WindowMenu extends TemplatedMenu {
                 ________________,
                 Quit
             ]
-        })
+        });
     }
 }

@@ -16,7 +16,7 @@ export class MuteTab extends MenuItem {
 
             label: "Mute Tab",
             description: "Mutes the current tab."
-        })
+        });
 
         this.tabId = tabId;
     }

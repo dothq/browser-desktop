@@ -1,18 +1,18 @@
-export * from './browsers';
-export * from './console';
-export * from './dev';
-export * from './extensions';
-export * from './keybinds';
-export * from './menus';
-export * from './preferences';
-export * from './prompt';
-export * from './runtime';
-export * from './storage';
-export * from './tabs';
-export * from './theme';
-export * from './titlebar';
-export * from './utilities';
-export * from './window';
+export * from "./browsers";
+export * from "./console";
+export * from "./dev";
+export * from "./extensions";
+export * from "./keybinds";
+export * from "./menus";
+export * from "./preferences";
+export * from "./prompt";
+export * from "./runtime";
+export * from "./storage";
+export * from "./tabs";
+export * from "./theme";
+export * from "./titlebar";
+export * from "./utilities";
+export * from "./window";
 
 import {
     BrowsersAPI,
@@ -31,7 +31,7 @@ import {
     UtilitiesAPI,
     WindowAPI
 } from ".";
-import { Search } from '../core/search';
+import { Search } from "../core/search";
 import { exportPublic } from "../shared/globals";
 
 export class Dot {
@@ -56,31 +56,35 @@ export class Dot {
     constructor() {
         this.runtime.emit("before-browser-window-init");
 
-        window.addEventListener("DOMContentLoaded", () => {
-            this.runtime.emit("browser-window-init");
-        });
-
         window.addEventListener(
-            "focus",
-            () => this.runtime.emit("browser-window-focus")
+            "DOMContentLoaded",
+            () => {
+                this.runtime.emit("browser-window-init");
+            }
         );
 
-        window.addEventListener(
-            "blur",
-            () => this.runtime.emit("browser-window-blur")
+        window.addEventListener("focus", () =>
+            this.runtime.emit("browser-window-focus")
+        );
+
+        window.addEventListener("blur", () =>
+            this.runtime.emit("browser-window-blur")
         );
 
         window.addEventListener(
             "AppCommand",
             (event) => this.window.onAppCommand(event),
             true
-        )
+        );
 
-        window.addEventListener("unload", async (event) => {
-            await this.window.onWindowStateUpdated();
+        window.addEventListener(
+            "unload",
+            async (event) => {
+                await this.window.onWindowStateUpdated();
 
-            return window.close();
-        })
+                return window.close();
+            }
+        );
     }
 }
 

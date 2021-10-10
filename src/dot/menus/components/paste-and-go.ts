@@ -15,8 +15,9 @@ export class PasteAndGo extends MenuItem {
             category: "edit",
 
             label: "Paste and Go",
-            description: "Pastes copied text to text field and executes action."
-        })
+            description:
+                "Pastes copied text to text field and executes action."
+        });
 
         this.tabId = tabId;
     }

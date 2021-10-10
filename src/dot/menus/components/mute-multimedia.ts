@@ -13,14 +13,21 @@ export class Mute extends MenuItem {
         return this.muted ? "Unmute" : "Mute";
     }
 
-    constructor({ tabId, muted }: { tabId: number, muted: boolean }) {
+    constructor({
+        tabId,
+        muted
+    }: {
+        tabId: number;
+        muted: boolean;
+    }) {
         super({
             id: "context-mutemedia",
             type: "item",
             category: "multimedia",
 
-            description: "Toggle mute status of the media."
-        })
+            description:
+                "Toggle mute status of the media."
+        });
 
         this.tabId = tabId;
         this.muted = muted;

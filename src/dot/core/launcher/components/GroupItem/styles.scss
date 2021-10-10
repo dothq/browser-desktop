@@ -2,14 +2,22 @@
     width: calc(100% - 28px * 2);
     height: 46px;
     display: flex;
-    color: color-mix(in srgb, currentColor 60%, transparent);
+    color: color-mix(
+        in srgb,
+        currentColor 60%,
+        transparent
+    );
     transition: 0.3s color;
     align-items: center;
     padding: 0px 28px;
 
-    &:hover, 
+    &:hover,
     &[data-active="true"] {
-        color: color-mix(in srgb, currentColor 100%, transparent);
+        color: color-mix(
+            in srgb,
+            currentColor 100%,
+            transparent
+        );
     }
 
     .launcher-result-group-item-icon {

@@ -19,7 +19,7 @@ const mockTopSites = [
     {
         id: "reddit",
         title: "Reddit",
-        url: "https://reddit.com",
+        url: "https://reddit.com"
     },
     {
         id: "figma",
@@ -31,13 +31,12 @@ const mockTopSites = [
         title: "Site",
         url: "https://example.com"
     }
-]
+];
 
 export class TopSites extends React.Component {
     public componentDidMount() {
         // We aren't in Dot Browser
-        if (typeof ((window as any).dot) == "undefined") {
-
+        if (typeof (window as any).dot == "undefined") {
         } else {
             const win: any = window;
 
@@ -49,24 +48,33 @@ export class TopSites extends React.Component {
     public render() {
         return (
             <div className={"widget-topsites bm"}>
-                {mockTopSites.map(site => (
+                {mockTopSites.map((site) => (
                     <a
                         className={"widget-topsite"}
-                        target={"_blank"}
                         href={site.url}
                         key={site.id}
                     >
                         <i
-                            className={"widget-topsite-icon"}
-                            style={{
-                                "--topsite-icon": `url(page-icon:${site.url})`
-                            } as any}
+                            className={
+                                "widget-topsite-icon"
+                            }
+                            style={
+                                {
+                                    "--topsite-icon": `url(page-icon:${site.url})`
+                                } as any
+                            }
                         ></i>
 
-                        <span className={"widget-topsite-title"}>{site.title}</span>
+                        <span
+                            className={
+                                "widget-topsite-title"
+                            }
+                        >
+                            {site.title}
+                        </span>
                     </a>
                 ))}
             </div>
-        )
+        );
     }
 }

@@ -111,11 +111,16 @@
         .tab-label {
             white-space: nowrap;
             overflow: hidden;
-            mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text, var(--lwt-text-color)) 30px);
+            mask-image: linear-gradient(
+                -90deg,
+                transparent 1px,
+                var(--lwt-tab-text, var(--lwt-text-color))
+                    30px
+            );
             width: 100%;
         }
     }
-    
+
     .tab-close-button {
         display: flex;
         width: 22px;

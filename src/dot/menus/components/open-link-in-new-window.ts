@@ -15,8 +15,9 @@ export class OpenLinkInNewWindow extends MenuItem {
             category: "link",
 
             label: "Open Link in New Window",
-            description: "Opens the selected link in a New Window."
-        })
+            description:
+                "Opens the selected link in a New Window."
+        });
 
         this.tabId = tabId;
     }

@@ -15,8 +15,9 @@ export class Delete extends MenuItem {
             category: "edit",
 
             label: "Delete",
-            description: "Deletes highlighted text in text field."
-        })
+            description:
+                "Deletes highlighted text in text field."
+        });
 
         this.tabId = tabId;
     }

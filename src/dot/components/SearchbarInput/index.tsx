@@ -6,9 +6,7 @@ import { Services } from "../../modules";
 import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
 
-interface Props {
-    tabId: number
-}
+interface Props {}
 
 interface SearchbarPart {
     id: string;
@@ -17,14 +15,14 @@ interface SearchbarPart {
 }
 
 interface State {
-    parts: SearchbarPart[],
+    parts: SearchbarPart[];
 
-    inputEdited: boolean,
-    inputFocused: boolean,
-    inputPlaceholder: string,
-    inputChangedSinceOpening: boolean,
+    inputEdited: boolean;
+    inputFocused: boolean;
+    inputPlaceholder: string;
+    inputChangedSinceOpening: boolean;
 
-    searchType: number
+    searchType: number;
 }
 
 enum SearchInput {
@@ -33,7 +31,12 @@ enum SearchInput {
 }
 
 export class SearchbarInput extends React.Component<Props> {
-    public tabId: number;
+    get tabId(): number {
+        // return this.props.tabId;
+        // Using props that don't propagate until after well after ipc messages
+        // have been sent is a bad idea. Lets just not shall we?
+        return dot.tabs.selectedTabId;
+    }
 
     public state: State = {
         parts: [],
@@ -44,7 +47,7 @@ export class SearchbarInput extends React.Component<Props> {
         inputChangedSinceOpening: false,
 
         searchType: SearchInput.Fake
-    }
+    };
 
     public inputRef = React.createRef<HTMLInputElement>();
 
@@ -73,18 +76,34 @@ export class SearchbarInput extends React.Component<Props> {
         this.setState(() => ({
             ...this.state,
             [key]: val
-        }))
+        }));
     }
 
-    public get inputEdited() { return this.state.inputEdited }
-    public set inputEdited(val: any) { this.update("inputEdited", val) }
-    public get inputFocused() { return this.state.inputFocused }
-    public set inputFocused(val: any) { this.update("inputFocused", val) }
-    public get inputChangedSinceOpening() { return this.state.inputChangedSinceOpening }
-    public set inputChangedSinceOpening(val: any) { this.update("inputChangedSinceOpening", val) }
+    public get inputEdited() {
+        return this.state.inputEdited;
+    }
+    public set inputEdited(val: any) {
+        this.update("inputEdited", val);
+    }
+    public get inputFocused() {
+        return this.state.inputFocused;
+    }
+    public set inputFocused(val: any) {
+        this.update("inputFocused", val);
+    }
+    public get inputChangedSinceOpening() {
+        return this.state.inputChangedSinceOpening;
+    }
+    public set inputChangedSinceOpening(val: any) {
+        this.update("inputChangedSinceOpening", val);
+    }
 
-    public get searchType() { return this.state.searchType }
-    public set searchType(val: any) { this.update("searchType", val) }
+    public get searchType() {
+        return this.state.searchType;
+    }
+    public set searchType(val: any) {
+        this.update("searchType", val);
+    }
 
     public get value() {
         return this.inputRef.current?.value;
@@ -110,7 +129,7 @@ export class SearchbarInput extends React.Component<Props> {
         "moz",
         "moz-icon",
         "moz-gio"
-    ]
+    ];
 
     public isHttp(scheme: string) {
         return scheme == "http" || scheme == "https";
@@ -130,41 +149,62 @@ export class SearchbarInput extends React.Component<Props> {
         // If the input is currently focused, we don't want to interrupt the state
         // of the input box. E.g. someone might be typing, and we wouldn't want to
         // reset the value of the input.
-        if (this.inputFocused || this.inputChangedSinceOpening) return;
+        if (
+            this.inputFocused ||
+            this.inputChangedSinceOpening
+        )
+            return;
 
-        const parsed = (this.tab?.urlParsed as MozURI);
+        const parsed = this.tab?.urlParsed as MozURI;
 
         if (!parsed) return;
 
-        let scheme: Partial<SearchbarPart> = { id: "scheme" };
-        let subdomain: Partial<SearchbarPart> = { id: "host" };
-        let hostname: Partial<SearchbarPart> = { id: "domain" };
+        let scheme: Partial<SearchbarPart> = {
+            id: "scheme"
+        };
+        let subdomain: Partial<SearchbarPart> = {
+            id: "host"
+        };
+        let hostname: Partial<SearchbarPart> = {
+            id: "domain"
+        };
         let path: Partial<SearchbarPart> = { id: "path" };
-        let queryParams: Partial<SearchbarPart> = { id: "query" };
+        let queryParams: Partial<SearchbarPart> = {
+            id: "query"
+        };
         let hash: Partial<SearchbarPart> = { id: "hash" };
 
         // Locator schemes are schemes which end with ://
         // Examples of these are http, https, moz-extension and chrome
-        if (this.knownLocatorSchemes.includes(parsed.scheme)) {
-            scheme.content = `${parsed.scheme}://`
+        if (
+            this.knownLocatorSchemes.includes(
+                parsed.scheme
+            )
+        ) {
+            scheme.content = `${parsed.scheme}://`;
             scheme.semihide = true;
 
             // Only http schemes should have their hosts resolved
             if (this.isHttp(parsed.scheme)) {
                 // Try to resolve the base domain of the host
                 try {
-                    const domainName = Services.eTLD.getBaseDomainFromHost(parsed.host);
+                    const domainName =
+                        Services.eTLD.getBaseDomainFromHost(
+                            parsed.host
+                        );
 
                     // The subdomain is the host without the domain name
                     // Example: example.mysite.com
                     // The domain name is "mysite.com"
                     // So to get the subdomain we just split the host at "mysite.com"
                     // Leaving us with "example." as the subdomain
-                    subdomain.content = parsed.host.split(domainName)[0];
+                    subdomain.content =
+                        parsed.host.split(domainName)[0];
                     hostname.content = domainName;
                 } catch (e) {
                     // That didn't work so let's just use our hacky domain thing
-                    hostname.content = this.useHackyDomain(parsed.host);
+                    hostname.content =
+                        this.useHackyDomain(parsed.host);
                 }
 
                 // We do this so it is clear what is the URL
@@ -185,7 +225,7 @@ export class SearchbarInput extends React.Component<Props> {
             path.content = parsed.filePath;
             path.semihide = true;
         } else {
-            scheme.content = `${parsed.scheme}:`
+            scheme.content = `${parsed.scheme}:`;
             scheme.semihide = false;
 
             hostname.content = parsed.filePath;
@@ -196,20 +236,30 @@ export class SearchbarInput extends React.Component<Props> {
         }
 
         // All scheme types have query and hash
-        queryParams.content = parsed.query ? `?${parsed.query}` : undefined;
-        hash.content = parsed.ref ? `#${parsed.ref}` : undefined;
+        queryParams.content = parsed.query
+            ? `?${parsed.query}`
+            : undefined;
+        hash.content = parsed.ref
+            ? `#${parsed.ref}`
+            : undefined;
 
-        if (this.knownLocatorSchemes.includes(parsed.scheme)) {
+        if (
+            this.knownLocatorSchemes.includes(
+                parsed.scheme
+            )
+        ) {
             // Remove the trailing slash if we don't have queryParams or hash
             // As the URL makes more sense looking like hostname.com/?example=1#hash
             // instead of hostname.com?example=1#hash
             if (
-                (
-                    !parsed.query.length &&
-                    !parsed.ref.length
-                ) && path.content
+                !parsed.query.length &&
+                !parsed.ref.length &&
+                path.content
             ) {
-                path.content = path.content?.replace(/^\/{1}$/, "")
+                path.content = path.content?.replace(
+                    /^\/{1}$/,
+                    ""
+                );
             }
         }
 
@@ -223,12 +273,12 @@ export class SearchbarInput extends React.Component<Props> {
             { ...path },
             { ...queryParams },
             { ...hash }
-        ])
+        ]);
 
         this.value = parsed.spec;
 
         if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
-            this.searchType = SearchInput.Real
+            this.searchType = SearchInput.Real;
         }
     }
 
@@ -259,12 +309,13 @@ export class SearchbarInput extends React.Component<Props> {
         }
     }
 
-    public onInputChange() {
-    }
+    public onInputChange() {}
 
-    public onInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    public onInputKeyDown(
+        e: React.KeyboardEvent<HTMLInputElement>
+    ) {
         if (e.code == "Enter") {
-            this.entryCompleted()
+            this.entryCompleted();
         }
 
         // Ignore any arrow events and enter
@@ -272,7 +323,8 @@ export class SearchbarInput extends React.Component<Props> {
         if (
             e.code.startsWith("Arrow") ||
             e.code == "Enter"
-        ) return;
+        )
+            return;
 
         // The input value has changed
         // Avoid setting the value on every key
@@ -282,10 +334,9 @@ export class SearchbarInput extends React.Component<Props> {
     }
 
     public updateInputPlaceholder() {
-        const engine = dot.search
-            .providers
-            .engine
-            .currentSearchEngine;
+        const engine =
+            dot.search.providers.engine
+                .currentSearchEngine;
 
         const engineName = engine.name;
 
@@ -294,7 +345,10 @@ export class SearchbarInput extends React.Component<Props> {
             { "engine-name": engineName }
         );
 
-        const value = typeof (localised) == "object" ? localised.value : localised;
+        const value =
+            typeof localised == "object"
+                ? localised.value
+                : localised;
 
         this.update("inputPlaceholder", value);
     }
@@ -302,18 +356,18 @@ export class SearchbarInput extends React.Component<Props> {
     public entryCompleted() {
         // Blur the input
         this.inputRef.current?.blur();
-        setTimeout(() => this.inputFocused = false, 0); // Timeout to fix react hinkyness
+        setTimeout(() => (this.inputFocused = false), 0); // Timeout to fix react hinkyness
 
-        this.inputChangedSinceOpening = false
+        this.inputChangedSinceOpening = false;
 
         // Check if it is a URL, this is a touch hacky and should be fixed later
-        const isUrl = this.value.includes("://") || this.value.includes("about:");
+        const isUrl =
+            this.value.includes("://") ||
+            this.value.includes("about:");
 
-        const engine = dot.search
-            .providers
-            .engine
+        const engine = dot.search.providers.engine;
 
-        let uri: MozURI
+        let uri: MozURI;
 
         if (isUrl) {
             // Create a MozURI to navigate to
@@ -321,31 +375,31 @@ export class SearchbarInput extends React.Component<Props> {
         } else {
             uri = Services.io.newURI(
                 engine.constructSearchUrl(this.value)
-            )
+            );
         }
 
         // If we don't give react time to update, the old url will be kept
-        setTimeout(() => dot.browsersPrivate.goto(this.tabId, uri), 10);
+        setTimeout(
+            () =>
+                dot.browsersPrivate.goto(this.tabId, uri),
+            10
+        );
     }
 
     constructor(props: Props) {
         super(props);
 
-        this.tabId = props.tabId;
+        ipc.on(`location-change`, () => {
+            this.onLocationChange();
+        });
 
-        ipc.on(
-            `location-change`,
-            () => {
-                this.onLocationChange()
-            }
-        );
+        ipc.on("tab-change", () => {
+            this.onLocationChange();
+        });
 
-        ipc.on(
-            `page-reload-${props.tabId}`,
-            () => {
-                this.onTabReload()
-            }
-        );
+        ipc.on("page-reload", () => {
+            this.onTabReload();
+        });
     }
 
     public render() {
@@ -353,20 +407,39 @@ export class SearchbarInput extends React.Component<Props> {
             <>
                 <div
                     id={"urlbar-input-url"}
-                    style={{ display: this.searchType == SearchInput.Real ? 'none' : 'flex' }}
+                    style={{
+                        display:
+                            this.searchType ==
+                            SearchInput.Real
+                                ? "none"
+                                : "flex"
+                    }}
                     onClick={() => {
-                        this.searchType = SearchInput.Real;
+                        this.searchType =
+                            SearchInput.Real;
 
                         // The focus **must** be set after react has run render
                         // this timeout allows time for react to do that
-                        setTimeout(() => document.getElementById('urlbar-input-box')?.focus(), 10);
+                        setTimeout(
+                            () =>
+                                document
+                                    .getElementById(
+                                        "urlbar-input-box"
+                                    )
+                                    ?.focus(),
+                            10
+                        );
                     }}
                 >
-                    {this.state.parts.map(part => (
+                    {this.state.parts.map((part) => (
                         <span
                             className={part.id}
                             key={part.id}
-                            style={{ opacity: part.semihide ? 0.5 : 1 }}
+                            style={{
+                                opacity: part.semihide
+                                    ? 0.5
+                                    : 1
+                            }}
                         >
                             {part.content}
                         </span>
@@ -375,16 +448,26 @@ export class SearchbarInput extends React.Component<Props> {
 
                 <input
                     id={"urlbar-input-box"}
-                    placeholder={this.state.inputPlaceholder}
+                    placeholder={
+                        this.state.inputPlaceholder
+                    }
                     ref={this.inputRef}
-                    style={{ display: this.searchType == SearchInput.Fake ? 'none' : 'block' }}
+                    style={{
+                        display:
+                            this.searchType ==
+                            SearchInput.Fake
+                                ? "none"
+                                : "block"
+                    }}
                     /* Events */
                     onFocus={() => this.onInputFocus()}
                     onBlur={() => this.onInputBlur()}
                     onChange={() => this.onInputChange()}
-                    onKeyDown={e => this.onInputKeyDown(e)}
+                    onKeyDown={(e) =>
+                        this.onInputKeyDown(e)
+                    }
                 ></input>
             </>
-        )
+        );
     }
 }

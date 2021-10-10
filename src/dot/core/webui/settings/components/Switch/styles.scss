@@ -10,7 +10,7 @@
     &[data-checked="true"] {
         .settings-switch-cover {
             background-color: blue;
-            
+
             .settings-switch-pop {
                 transform: translateX(calc(100% - 2px));
                 left: 0px;
@@ -21,7 +21,7 @@
     &[data-checked="false"] {
         .settings-switch-cover {
             background-color: gray;
-            
+
             .settings-switch-pop {
                 transform: translateX(0px);
             }

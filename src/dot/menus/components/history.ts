@@ -10,9 +10,10 @@ export class History extends MenuItem {
 
             label: "History",
             icon: "history.svg",
-            description: "View all your recently visited pages.",
+            description:
+                "View all your recently visited pages.",
 
             hotkey: new Hotkey("Ctrl", "H")
-        })
+        });
     }
 }

@@ -1,9 +1,7 @@
 import { Section } from "..";
 
 export class Experiments extends Section {
-    public children = [
-
-    ]
+    public children = [];
 
     public constructor() {
         super({
@@ -15,8 +13,8 @@ export class Experiments extends Section {
                 return window.dot.prefs.get(
                     "browser.preferences.experimental",
                     false
-                )
+                );
             }
-        })
+        });
     }
 }

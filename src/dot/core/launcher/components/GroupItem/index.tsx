@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export const GroupItem = ({
     title,
@@ -8,28 +8,48 @@ export const GroupItem = ({
     active,
     onMouseEnter
 }: {
-    title: string,
-    subtitle?: string,
-    icon: any,
-    id?: any
-    active?: boolean,
-    onMouseEnter?: any
+    title: string;
+    subtitle?: string;
+    icon: any;
+    id?: any;
+    active?: boolean;
+    onMouseEnter?: any;
 }) => {
     return (
-        <a id={id} className={"launcher-result-group-item"} onMouseEnter={onMouseEnter} data-active={active}>
-            <i className={"launcher-result-group-item-icon"} style={{
-                backgroundImage: `url(${icon})`
-            }} />
+        <a
+            id={id}
+            className={"launcher-result-group-item"}
+            onMouseEnter={onMouseEnter}
+            data-active={active}
+        >
+            <i
+                className={
+                    "launcher-result-group-item-icon"
+                }
+                style={{
+                    backgroundImage: `url(${icon})`
+                }}
+            />
 
-            <div className={"launcher-result-group-item-text"}>
+            <div
+                className={
+                    "launcher-result-group-item-text"
+                }
+            >
                 <span className={"groupitem-text-title"}>
                     {title}
                 </span>
 
-                {subtitle && <span className={"groupitem-text-subtitle"}>
-                    {subtitle}
-                </span>}
+                {subtitle && (
+                    <span
+                        className={
+                            "groupitem-text-subtitle"
+                        }
+                    >
+                        {subtitle}
+                    </span>
+                )}
             </div>
         </a>
-    )
-}
+    );
+};

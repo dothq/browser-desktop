@@ -11,7 +11,8 @@ const { BrowserWindowTracker } = ChromeUtils.import(
 
 class BrowserTabParent extends JSWindowActorParent {
     receiveMessage(message) {
-        let browser = this.browsingContext.top.embedderElement;
+        let browser =
+            this.browsingContext.top.embedderElement;
         if (!browser) {
             return;
         }

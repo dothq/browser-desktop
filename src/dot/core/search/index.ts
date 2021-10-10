@@ -1,4 +1,8 @@
-import { URL_CHROME_PATH_REGEX, URL_NAKED_REGEX, URL_WITH_PROTO_REGEX } from "../../shared/regex";
+import {
+    URL_CHROME_PATH_REGEX,
+    URL_NAKED_REGEX,
+    URL_WITH_PROTO_REGEX
+} from "../../shared/regex";
 import { CalculatorSearchProvider } from "./providers/calculator";
 import { EngineSearchProvider } from "./providers/engine";
 import { WikipediaSearchProvider } from "./providers/wikipedia";
@@ -7,7 +11,7 @@ import { removeDuplicateKV } from "./utils/remove-dupes";
 import { substituteSearchUrl } from "./utils/substitution";
 
 export interface SearchFilter {
-    term: string
+    term: string;
 }
 
 export class Search {
@@ -18,13 +22,13 @@ export class Search {
         calculator: new CalculatorSearchProvider(),
         engine: new EngineSearchProvider(),
         wikipedia: new WikipediaSearchProvider()
-    }
+    };
 
     public registeredSchemes = [
         "chrome",
         "file",
         "resource"
-    ]
+    ];
 
     public async suggest(filter: SearchFilter) {
         if (!filter.term.length) return [];
@@ -35,7 +39,7 @@ export class Search {
 
         const flags = {
             isNaked: !!filter.term.match(URL_NAKED_REGEX)
-        }
+        };
 
         const suggestion = {
             type: "search",
@@ -43,12 +47,12 @@ export class Search {
             urlFlags: {
                 isChrome: false
             }
-        }
+        };
 
         // We need to add a protocol to the domain name
         if (flags.isNaked) {
             // @todo we should upgrade this to https
-            url = `http://${url}`
+            url = `http://${url}`;
             suggestion.type = "url";
         }
 
@@ -59,7 +63,9 @@ export class Search {
             suggestion.type = "url";
 
             const protocol = url.split(":")[0];
-            const path = `/${url.substring(url.indexOf("/") + 1)}`
+            const path = `/${url.substring(
+                url.indexOf("/") + 1
+            )}`;
 
             if (protocol == "chrome") {
                 suggestion.type = "url";
@@ -78,14 +84,20 @@ export class Search {
             }
         }
 
-        const engine = this.providers.engine.currentSearchEngine;
+        const engine =
+            this.providers.engine.currentSearchEngine;
 
         if (suggestion.type == "search") {
-            const provider = engine.chrome_settings_overrides.search_provider;
+            const provider =
+                engine.chrome_settings_overrides
+                    .search_provider;
 
-            const getParams = provider.search_url_get_params.startsWith("?")
-                ? provider.search_url_get_params
-                : `?${provider.search_url_get_params}`
+            const getParams =
+                provider.search_url_get_params.startsWith(
+                    "?"
+                )
+                    ? provider.search_url_get_params
+                    : `?${provider.search_url_get_params}`;
 
             suggestion.url = substituteSearchUrl({
                 url: `${provider.search_url}${getParams}`,
@@ -99,7 +111,7 @@ export class Search {
                     url: suggestion.url,
                     icon: `chrome://dot/content/skin/icons/search.svg`
                 })
-            )
+            );
         } else if (suggestion.type == "url") {
             suggestion.url = url;
 
@@ -109,7 +121,7 @@ export class Search {
                     url: suggestion.url,
                     icon: `page-icon:${url}`
                 })
-            )
+            );
 
             results.push(
                 // We want to give the user the option to search a URL
@@ -119,11 +131,15 @@ export class Search {
                     titleSuffix: engine.name,
                     icon: `chrome://dot/content/skin/icons/search.svg`
                 })
-            )
+            );
         }
 
-        for await (const [name, provider] of Object.entries(this.providers)) {
-            const providerResults = await provider.suggest(filter);
+        for await (const [
+            name,
+            provider
+        ] of Object.entries(this.providers)) {
+            const providerResults =
+                await provider.suggest(filter);
 
             results = results.concat(providerResults);
         }

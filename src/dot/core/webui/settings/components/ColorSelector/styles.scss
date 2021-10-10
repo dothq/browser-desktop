@@ -1,0 +1,24 @@
+.colour-selector-component {
+    display: flex;
+    flex-direction: row;
+
+    gap: 14px;
+
+    .colour-circle {
+        width: 24px;
+        height: 24px;
+        border-radius: 20px;
+        color: var(--dot-ui-accent-colour-light);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .inset {
+            background-color: white;
+            border-radius: 20px;
+            width: 8px;
+            height: 8px;
+        }
+    }
+}

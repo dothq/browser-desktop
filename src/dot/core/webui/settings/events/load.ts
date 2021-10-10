@@ -7,7 +7,7 @@ export class Load extends SettingsEvent {
     }
 
     public action() {
-        console.log("loaded")
+        console.log("loaded");
 
         // Register all events on page load
         new HashChange();

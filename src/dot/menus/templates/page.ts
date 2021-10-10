@@ -31,6 +31,6 @@ export class PageMenu extends TemplatedMenu {
                 ViewPageSource,
                 InspectElement
             ]
-        })
+        });
     }
 }

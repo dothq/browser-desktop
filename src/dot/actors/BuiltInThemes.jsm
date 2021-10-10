@@ -8,31 +8,36 @@ const { XPCOMUtils } = ChromeUtils.import(
     "resource://gre/modules/XPCOMUtils.jsm"
 );
 
-var EXPORTED_SYMBOLS = ["BuiltInThemes", "getBuiltInThemes"];
+var EXPORTED_SYMBOLS = [
+    "BuiltInThemes",
+    "getBuiltInThemes"
+];
 
 var themes;
 
 class BuiltInThemes {
-    DEFAULT_THEME_ID = "dynamic@themes.dothq.co"
+    DEFAULT_THEME_ID = "dynamic@themes.dothq.co";
 
-    LIGHT_THEME_ID = "light@themes.dothq.co"
-    DARK_THEME_ID = "dark@themes.dothq.co"
-    FUSION_THEME_ID = "fusion@themes.dothq.co"
+    LIGHT_THEME_ID = "light@themes.dothq.co";
+    DARK_THEME_ID = "dark@themes.dothq.co";
+    FUSION_THEME_ID = "fusion@themes.dothq.co";
 
-    constructor() {
-
-    }
+    constructor() {}
 }
 
-XPCOMUtils.defineLazyGetter(BuiltInThemes, "Singleton", function () {
-    if (themes) {
+XPCOMUtils.defineLazyGetter(
+    BuiltInThemes,
+    "Singleton",
+    function () {
+        if (themes) {
+            return themes;
+        }
+
+        themes = new BuiltInThemes();
+
         return themes;
     }
-
-    themes = new BuiltInThemes();
-
-    return themes;
-});
+);
 
 function getBuiltInThemes() {
     return BuiltInThemes.Singleton;

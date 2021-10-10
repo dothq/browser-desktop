@@ -1,16 +1,16 @@
-name: "Build" 
+name: "Build"
 description: "Builds the browser"
 inputs:
-  target:
-    description: 'Build target'
-    required: true
+    target:
+        description: "Build target"
+        required: true
 runs:
-  using: "composite"
-  steps:
-    - name: Pre-build
-      shell: bash
-      run: cd src/dot && yarn add clean-webpack-plugin
+    using: "composite"
+    steps:
+        - name: Pre-build
+          shell: bash
+          run: cd src/dot && yarn add clean-webpack-plugin
 
-    - name: Build
-      shell: bash
-      run: PYTHONPATH=.github/actions python3 ./.github/actions/build/${{ inputs.target }}.py
+        - name: Build
+          shell: bash
+          run: PYTHONPATH=.github/actions python3 ./.github/actions/build/${{ inputs.target }}.py

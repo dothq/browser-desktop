@@ -17,7 +17,7 @@ export class ScreenshotVideo extends MenuItem {
             label: "Screenshot video…",
             icon: "screenshot.svg",
             description: "Take a screenshot of the video."
-        })
+        });
 
         this.tabId = tabId;
     }

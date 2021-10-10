@@ -10,11 +10,14 @@ export class Settings extends MenuItem {
 
             label: "Settings",
             icon: "settings.svg",
-            description: "Manage browser preferences and settings."
-        })
+            description:
+                "Manage browser preferences and settings."
+        });
     }
 
     onClick() {
-        dot.utilities.doCommand("Browser:OpenPreferences")
+        dot.utilities.doCommand(
+            "Browser:OpenPreferences"
+        );
     }
 }

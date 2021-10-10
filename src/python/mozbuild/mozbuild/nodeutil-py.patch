@@ -1,24 +1,33 @@
 diff --git a/python/mozbuild/mozbuild/nodeutil.py b/python/mozbuild/mozbuild/nodeutil.py
-index 5856227a146adce5055400ac7691a14acaf14187..369d64f5637dec1a2670a7221ad52691e4216ce3 100644
+index 95bedbcf84211643d2eebc7b0542727d671fcc7e..e4f9b2288f42a6dac91201f34df047bfd26a380a 100644
 --- a/python/mozbuild/mozbuild/nodeutil.py
 +++ b/python/mozbuild/mozbuild/nodeutil.py
-@@ -15,7 +15,7 @@ from six import PY3
+@@ -5,8 +5,8 @@
+ from __future__ import absolute_import, print_function
  
+ import os
+-import subprocess
+ import platform
++import subprocess
+ from distutils.version import StrictVersion
+ 
+ from mozboot.util import get_tools_dir
+@@ -16,6 +16,7 @@ from six import PY3
  NODE_MIN_VERSION = StrictVersion("10.23.1")
  NPM_MIN_VERSION = StrictVersion("6.14.10")
--
+ 
 +YARN_MIN_VERSION = StrictVersion("1.15.2")
  
  def find_node_paths():
      """Determines the possible paths for node executables.
-@@ -113,6 +113,10 @@ def find_npm_executable(min_version=NPM_MIN_VERSION):
+@@ -108,6 +109,10 @@ def find_npm_executable(min_version=NPM_MIN_VERSION):
      """
-     return find_executable(["npm"], min_version, True)
+     return find_executable("npm", min_version, True)
  
 +def find_yarn_executable():
 +    """Find yarn executable to run frontend build.
 +    """
-+    return find_executable(["yarn"], YARN_MIN_VERSION, True)
++    return find_executable("yarn", YARN_MIN_VERSION, True)
  
- def find_executable(names, min_version, use_node_for_version_check=False):
+ def find_executable(name, min_version, use_node_for_version_check=False):
      paths = find_node_paths()

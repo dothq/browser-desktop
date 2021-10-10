@@ -12,17 +12,27 @@ export class SearchWebFor extends MenuItem {
 
     public get label() {
         // todo(l10n): we should replace "the web" with the user's search engine
-        return `Search the web for "${trunc(this.highlightedText, 24)}"`
+        return `Search the web for "${trunc(
+            this.highlightedText,
+            24
+        )}"`;
     }
 
-    constructor({ tabId, highlightedText }: { tabId: number, highlightedText: string }) {
+    constructor({
+        tabId,
+        highlightedText
+    }: {
+        tabId: number;
+        highlightedText: string;
+    }) {
         super({
             id: "context-searchweb",
             type: "item",
             category: "text",
 
-            description: "Look up highlighted text using your default search engine."
-        })
+            description:
+                "Look up highlighted text using your default search engine."
+        });
 
         this.tabId = tabId;
         this.highlightedText = highlightedText;

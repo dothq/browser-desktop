@@ -16,8 +16,9 @@ export class CloseTabs extends MenuItem {
 
             label: "Close other tabs",
             icon: "close-tabs.svg",
-            description: "Closes all tabs except the selected one."
-        })
+            description:
+                "Closes all tabs except the selected one."
+        });
 
         this.tabId = tabId;
     }

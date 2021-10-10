@@ -15,8 +15,9 @@ export class CopyLink extends MenuItem {
             category: "link",
 
             label: "Copy Link",
-            description: "Copies the selected link to your clipboard."
-        })
+            description:
+                "Copies the selected link to your clipboard."
+        });
 
         this.tabId = tabId;
     }

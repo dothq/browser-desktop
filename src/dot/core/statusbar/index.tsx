@@ -8,8 +8,8 @@ export const Statusbar = () => {
     store.subscribe(() => {
         const { selectedTab } = dot.tabs;
 
-        setStatus(selectedTab?.pageStatus || "")
-    })
+        setStatus(selectedTab?.pageStatus || "");
+    });
 
     return (
         <div className={"navigator-statusbar"}>
@@ -17,5 +17,5 @@ export const Statusbar = () => {
                 {status}
             </span>
         </div>
-    )
-}
+    );
+};

@@ -2,8 +2,8 @@
     "name": "dot",
     "versions": {
         "dot": "0.4.0",
-        "firefox-display": "89.0",
-        "firefox": "89.0",
+        "firefox-display": "92.0",
+        "firefox": "92.0",
         "melon": "0.0.1"
     },
     "repository": "https://github.com/dothq/browser-desktop",

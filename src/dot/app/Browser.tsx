@@ -9,7 +9,7 @@ import { Statusbar } from "../core/statusbar";
 import { useBrowserSelector } from "./store/hooks";
 
 export const Browser = () => {
-    const ui = useBrowserSelector((s: any) => s.ui)
+    const ui = useBrowserSelector((s: any) => s.ui);
 
     return (
         <div className={"ui-container"}>

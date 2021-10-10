@@ -15,8 +15,9 @@ export class SaveLinkAs extends MenuItem {
             category: "link",
 
             label: "Save Link As…",
-            description: "Saves the selected link to file."
-        })
+            description:
+                "Saves the selected link to file."
+        });
 
         this.tabId = tabId;
     }

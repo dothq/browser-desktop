@@ -14,7 +14,13 @@ export class Redo extends MenuItem {
         return !this.canRedo;
     }
 
-    constructor({ tabId, canRedo }: { tabId: number, canRedo: boolean }) {
+    constructor({
+        tabId,
+        canRedo
+    }: {
+        tabId: number;
+        canRedo: boolean;
+    }) {
         super({
             id: "context-redo",
             type: "item",
@@ -25,7 +31,7 @@ export class Redo extends MenuItem {
             description: "Redo what you just typed.",
 
             hotkey: new Hotkey("Ctrl", "Shift", "Z")
-        })
+        });
 
         this.tabId = tabId;
         this.canRedo = canRedo;

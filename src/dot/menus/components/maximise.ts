@@ -7,10 +7,12 @@ export class Maximise extends MenuItem {
     }
 
     public get label() {
-        if (dot.window.windowState.sizemode == "maximised") {
-            return "Restore"
+        if (
+            dot.window.windowState.sizemode == "maximised"
+        ) {
+            return "Restore";
         } else {
-            return "Maximise"
+            return "Maximise";
         }
     }
 
@@ -21,6 +23,6 @@ export class Maximise extends MenuItem {
             category: "window",
 
             description: "Maximises the open window."
-        })
+        });
     }
 }

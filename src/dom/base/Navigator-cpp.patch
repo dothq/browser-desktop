@@ -1,36 +1,24 @@
 diff --git a/dom/base/Navigator.cpp b/dom/base/Navigator.cpp
-index b21d872fba4a79c946d0b1501585b911f29d4e94..4d1c86d470370195aea005c4b030acec59ca4e05 100644
+index 1a2bea9e1568e697f0653af7fc6cab6f38c5f930..257041c2e9c101ca68230f0e3f7b7fe8d914200c 100644
 --- a/dom/base/Navigator.cpp
 +++ b/dom/base/Navigator.cpp
-@@ -69,6 +69,7 @@
- #include "nsComponentManagerUtils.h"
- #include "nsICookieManager.h"
- #include "nsICookieService.h"
-+#include "nsIRandomGenerator.h"
- #include "nsIHttpChannel.h"
- #ifdef ENABLE_MARIONETTE
+@@ -74,6 +74,7 @@
  #  include "nsIMarionette.h"
-@@ -115,6 +116,12 @@
- 
- #include "mozilla/intl/LocaleService.h"
- 
-+#include "mozilla/Logging.h"
-+
-+using mozilla::LogLevel;
-+
-+static mozilla::LazyLogModule sLogger("navigator");
-+
- namespace mozilla::dom {
- 
- static const nsLiteralCString kVibrationPermissionType = "vibration"_ns;
-@@ -450,17 +457,51 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
+ #  include "nsIRemoteAgent.h"
+ #endif
++#include "nsIRandomGenerator.h"
+ #include "nsStreamUtils.h"
+ #include "WidgetUtils.h"
+ #include "nsIScriptError.h"
+@@ -451,17 +452,51 @@ void Navigator::GetOscpu(nsAString& aOSCPU, CallerType aCallerType,
    CopyASCIItoUTF16(oscpu, aOSCPU);
  }
  
 -void Navigator::GetVendor(nsAString& aVendor) { aVendor.Truncate(); }
 +void Navigator::GetVendor(nsAString& aVendor) {
 +  aVendor.Truncate();
-+
+ 
+-void Navigator::GetVendorSub(nsAString& aVendorSub) { aVendorSub.Truncate(); }
 +  if (MOZ_LIKELY(StaticPrefs::privacy_resistFingerprinting_randomVendor())) {
 +    // Create the random generator
 +    nsCOMPtr<nsIRandomGenerator> rg =
@@ -44,8 +32,7 @@ index b21d872fba4a79c946d0b1501585b911f29d4e94..4d1c86d470370195aea005c4b030acec
 +    aVendor.AppendASCII(reinterpret_cast<const char*>(randomBytes));
 +  }
 +}
- 
--void Navigator::GetVendorSub(nsAString& aVendorSub) { aVendorSub.Truncate(); }
++
 +void Navigator::GetVendorSub(nsAString& aVendorSub) {
 +  aVendorSub.Truncate();
 +

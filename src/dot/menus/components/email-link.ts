@@ -15,8 +15,9 @@ export class EmailLink extends MenuItem {
             category: "link",
 
             label: "Email Link",
-            description: "Send the selected link as an email."
-        })
+            description:
+                "Send the selected link as an email."
+        });
 
         this.tabId = tabId;
     }

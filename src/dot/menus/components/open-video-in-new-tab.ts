@@ -15,8 +15,9 @@ export class OpenVideoInNewTab extends MenuItem {
             category: "multimedia",
 
             label: "Open Video in New Tab",
-            description: "Opens the selected video in a New Tab."
-        })
+            description:
+                "Opens the selected video in a New Tab."
+        });
 
         this.tabId = tabId;
     }

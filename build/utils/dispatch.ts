@@ -44,7 +44,9 @@ export const dispatch = (
 
         proc.on("exit", (code: number) => {
             if (code !== 0) {
-                log.error("Command failed. See error above.");
+                log.error(
+                    "Command failed. See error above."
+                );
                 process.exit(code);
             }
 

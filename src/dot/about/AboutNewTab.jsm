@@ -4,24 +4,35 @@
 
 "use strict";
 
-const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+const { Services } = ChromeUtils.import(
+    "resource://gre/modules/Services.jsm"
+);
 
 const { nsIAboutModule } = Ci;
 
 class AboutNewTab {
-    QueryInterface = ChromeUtils.generateQI([nsIAboutModule]);
+    QueryInterface = ChromeUtils.generateQI([
+        nsIAboutModule
+    ]);
 
     newChannel(uri, loadInfo) {
-        const chan = Services.io.newChannelFromURIWithLoadInfo(this.uri, loadInfo);
-        chan.owner = Services.scriptSecurityManager.getSystemPrincipal();
+        const chan =
+            Services.io.newChannelFromURIWithLoadInfo(
+                this.uri,
+                loadInfo
+            );
+        chan.owner =
+            Services.scriptSecurityManager.getSystemPrincipal();
         return chan;
     }
 
     get contractID() {
-        const uri = Services.io.newURI(this.classDescription);
+        const uri = Services.io.newURI(
+            this.classDescription
+        );
         const path = uri.pathQueryRef;
 
-        return `@mozilla.org/network/protocol/about;1?what=${path}`
+        return `@mozilla.org/network/protocol/about;1?what=${path}`;
     }
 
     getURIFlags() {
@@ -37,9 +48,12 @@ class AboutNewTab {
             "chrome://dot/content/newtab/start-page.html"
         );
         this.classDescription = "about:newtab";
-        this.classID = Components.ID("526d0db5-2f51-4a89-bcef-b6f9d7101abe");
+        this.classID = Components.ID(
+            "526d0db5-2f51-4a89-bcef-b6f9d7101abe"
+        );
 
-        this.flags = nsIAboutModule.ALLOW_SCRIPT |
+        this.flags =
+            nsIAboutModule.ALLOW_SCRIPT |
             nsIAboutModule.ENABLE_INDEXED_DB;
     }
 }

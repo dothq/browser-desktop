@@ -2,23 +2,34 @@ import React from "react";
 import { TransitionStatus } from "react-transition-group";
 import { Tab } from "../../models/Tab";
 
-const animation: Partial<Record<TransitionStatus, any>> = {
-    entering: {
-        opacity: 0
-    },
-    entered: {
-        opacity: 1
-    }
-}
+const animation: Partial<Record<TransitionStatus, any>> =
+    {
+        entering: {
+            opacity: 0
+        },
+        entered: {
+            opacity: 1
+        }
+    };
 
-export const TabPreview = ({ tab, stage, x, y }: { tab: Tab | undefined, stage: TransitionStatus, x: number, y:number }) => {
+export const TabPreview = ({
+    tab,
+    stage,
+    x,
+    y
+}: {
+    tab: Tab | undefined;
+    stage: TransitionStatus;
+    x: number;
+    y: number;
+}) => {
     const [host, setHost] = React.useState(tab?.url);
 
     React.useEffect(() => {
         try {
-            setHost(tab?.urlParsed.host)
-        } catch (e) { }
-    }, [])
+            setHost(tab?.urlParsed.host);
+        } catch (e) {}
+    }, []);
 
     return (
         <menu
@@ -31,7 +42,11 @@ export const TabPreview = ({ tab, stage, x, y }: { tab: Tab | undefined, stage: 
         >
             <div className={"menu-background"}></div>
 
-            <div className={"tabbrowser-tab-preview-container"}>
+            <div
+                className={
+                    "tabbrowser-tab-preview-container"
+                }
+            >
                 <span className={"page-title"}>
                     {tab?.title}
                 </span>
@@ -41,5 +56,5 @@ export const TabPreview = ({ tab, stage, x, y }: { tab: Tab | undefined, stage: 
                 </span>
             </div>
         </menu>
-    )
-}
+    );
+};

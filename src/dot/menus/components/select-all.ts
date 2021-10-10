@@ -16,10 +16,11 @@ export class SelectAll extends MenuItem {
             category: "general",
 
             label: "Select All",
-            description: "Select all text on page or in text field.",
+            description:
+                "Select all text on page or in text field.",
 
             hotkey: new Hotkey("Ctrl", "A")
-        })
+        });
 
         this.tabId = tabId;
     }

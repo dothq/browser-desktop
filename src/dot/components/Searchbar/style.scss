@@ -20,12 +20,19 @@
     transition: 0.3s background-color, 0.3s box-shadow;
 
     &[data-hovered="true"] {
-        background-color: color-mix(in srgb, rgba(120, 120, 120, 0.1) 95%, gray);
+        background-color: color-mix(
+            in srgb,
+            rgba(120, 120, 120, 0.1) 95%,
+            gray
+        );
     }
 
     &[data-focused="true"] {
-        background-color: var(--toolbar-bgcolor) !important;
-        box-shadow: 0px 0px 0px 2px var(--dot-ui-accent-colour);
+        background-color: var(
+            --toolbar-bgcolor
+        ) !important;
+        box-shadow: 0px 0px 0px 2px
+            var(--dot-ui-accent-colour);
     }
 }
 
@@ -52,7 +59,10 @@
 }
 
 #urlbar[open] {
-    background-color: var(--button-hover-bgcolor, var(--toolbarbutton-hover-background));
+    background-color: var(
+        --button-hover-bgcolor,
+        var(--toolbarbutton-hover-background)
+    );
 }
 
 #urlbar-input-container {
@@ -65,7 +75,12 @@
         background-color: transparent;
         transition: 0.3s opacity;
         overflow: hidden;
-        mask-image: linear-gradient(-90deg, transparent 1px, var(--lwt-tab-text, var(--lwt-text-color)) 30px);
+        mask-image: linear-gradient(
+            -90deg,
+            transparent 1px,
+            var(--lwt-tab-text, var(--lwt-text-color))
+                30px
+        );
     }
 
     #urlbar-input-box {
@@ -118,7 +133,8 @@
     width: calc(100% + 4px);
     height: calc(100% + 4px);
     background-color: var(--toolbar-bgcolor);
-    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
+    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
+        0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
     opacity: 0;
     min-height: 0px;
     transition: 0.2s opacity, 0.2s min-height;

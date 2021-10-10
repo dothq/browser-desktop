@@ -15,8 +15,9 @@ export class SaveImageAs extends MenuItem {
             category: "image",
 
             label: "Save Image As…",
-            description: "Saves the selected image to file."
-        })
+            description:
+                "Saves the selected image to file."
+        });
 
         this.tabId = tabId;
     }

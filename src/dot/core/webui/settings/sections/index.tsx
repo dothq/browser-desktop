@@ -1,4 +1,3 @@
-
 export class Section {
     public id: string;
     public name: string;
@@ -15,10 +14,10 @@ export class Section {
     }
 
     public constructor(props: {
-        id: string,
-        name: string,
-        icon: string,
-        visible?: () => boolean
+        id: string;
+        name: string;
+        icon: string;
+        visible?: () => boolean;
     }) {
         this.id = props.id;
         this.name = props.name;

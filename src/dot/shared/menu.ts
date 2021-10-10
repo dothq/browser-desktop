@@ -6,12 +6,13 @@ export const openMenuAt = ({
     bounds,
     ctx
 }: {
-    name: string,
-    id?: string,
-    bounds?: [number, number],
-    ctx: any
+    name: string;
+    id?: string;
+    bounds?: [number, number];
+    ctx: any;
 }) => {
-    if (dot.menus.visibleMenu) return dot.menus.clear(true);
+    if (dot.menus.visibleMenu)
+        return dot.menus.clear(true);
 
     const data: any = {};
 
@@ -21,9 +22,5 @@ export const openMenuAt = ({
         data.y = bounds[1];
     }
 
-    dot.menus.create(
-        name,
-        data,
-        ctx
-    );
-}
+    dot.menus.create(name, data, ctx);
+};

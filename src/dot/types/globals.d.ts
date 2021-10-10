@@ -1,10 +1,12 @@
-import type { Dot } from '../api';
+import type { Dot } from "../api";
 
-declare module '*.ftl'
+declare module "*.ftl";
 
 declare global {
     interface Document {
-        createXULElement: (element: string) => HTMLElement;
+        createXULElement: (
+            element: string
+        ) => HTMLElement;
     }
 
     interface Window {
@@ -18,8 +20,8 @@ declare global {
         content: any;
         openDialog: any;
         windowRoot: {
-            ownerGlobal: Window
+            ownerGlobal: Window;
         };
-        dot: Dot
+        dot: Dot;
     }
 }

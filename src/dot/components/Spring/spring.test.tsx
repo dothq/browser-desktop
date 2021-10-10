@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react'
-import React from 'react'
-import { Spring } from '.'
+import { render } from "@testing-library/react";
+import React from "react";
+import { Spring } from ".";
 
-describe('UI Spring', () => {
-    test('Render', () => {
-        render(<Spring />)
-    })
-})
+describe("UI Spring", () => {
+    test("Render", () => {
+        render(<Spring />);
+    });
+});
