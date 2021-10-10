@@ -1,5 +1,5 @@
 diff --git a/browser/modules/BrowserWindowTracker.jsm b/browser/modules/BrowserWindowTracker.jsm
-index 4e0d41cb5b05b9ca2d50af8ede0b1f2d5a96ffc2..84b2df6bec6f01628ee09baadd2bb75e56ea440e 100644
+index 4e0d41cb5b05b9ca2d50af8ede0b1f2d5a96ffc2..341d607440029df045731c7d2867431db49d8d2b 100644
 --- a/browser/modules/BrowserWindowTracker.jsm
 +++ b/browser/modules/BrowserWindowTracker.jsm
 @@ -46,9 +46,9 @@ function _updateCurrentBrowsingContextID(browser) {
@@ -64,7 +64,7 @@ index 4e0d41cb5b05b9ca2d50af8ede0b1f2d5a96ffc2..84b2df6bec6f01628ee09baadd2bb75e
      _trackWindowOrder(window);
  
 -    _updateCurrentBrowsingContextID(window.gBrowser.selectedBrowser);
-+    _updateCurrentBrowsingContextID(dot.tabs.selectedTab.webContents);
++    _updateCurrentBrowsingContextID(window.dot.tabs.selectedTab.webContents);
    },
  };
  
