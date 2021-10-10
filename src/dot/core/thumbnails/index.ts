@@ -4,19 +4,19 @@ export class ThumbnailManager {
     public tab: Tab;
 
     public async 300() {
-        return await this.capture(300, 200)
+        return await this.capture(300, 200);
     }
 
     public async 600() {
-        return await this.capture(600, 400)
+        return await this.capture(600, 400);
     }
 
     public async 1200() {
-        return await this.capture(1200, 800)
+        return await this.capture(1200, 800);
     }
 
     public async 1920() {
-        return await this.capture(1920, 1080)
+        return await this.capture(1920, 1080);
     }
 
     public constructor(tab: Tab) {
@@ -28,7 +28,7 @@ export class ThumbnailManager {
             fullScale: false,
             isImage: false,
             backgroundColor: "#FFFFFF",
-            targetWidth: width,
+            targetWidth: width
         };
 
         if (this.tab.webContents.isRemoteBrowser) {
@@ -39,20 +39,23 @@ export class ThumbnailManager {
                 return null;
             }
 
-            const actor = this.tab.webContents.browsingContext.currentWindowGlobal
-                .getActor("Thumbnails");
+            const actor =
+                this.tab.webContents.browsingContext.currentWindowGlobal.getActor(
+                    "Thumbnails"
+                );
 
             const metadata = await actor.sendQuery(
                 "Browser:Thumbnail:ContentInfo",
                 args
             );
 
-            if (!metadata.width || !metadata.height) throw new Error("IMAGE_ZERO_DIMENSION");
+            if (!metadata.width || !metadata.height)
+                throw new Error("IMAGE_ZERO_DIMENSION");
 
-            const canvas = (document.createElementNS(
+            const canvas = document.createElementNS(
                 "http://www.w3.org/1999/xhtml",
                 "canvas"
-            ) as HTMLCanvasElement);
+            ) as HTMLCanvasElement;
 
             let image: any;
 
@@ -61,7 +64,7 @@ export class ThumbnailManager {
                 canvas.height = metadata.height;
 
                 image = new Image();
-                await new Promise(resolve => {
+                await new Promise((resolve) => {
                     image.onload = resolve;
                     image.src = metadata.imageData;
                 });
@@ -74,20 +77,23 @@ export class ThumbnailManager {
                     1
                 );
 
-                image = await this.tab.webContents.drawSnapshot(
-                    0,
-                    0,
-                    metadata.width,
-                    metadata.height,
-                    scale,
-                    args.backgroundColor
-                );
+                image =
+                    await this.tab.webContents.drawSnapshot(
+                        0,
+                        0,
+                        metadata.width,
+                        metadata.height,
+                        scale,
+                        args.backgroundColor
+                    );
 
                 canvas.width = width;
                 canvas.height = height;
             }
 
-            canvas.getContext("2d")?.drawImage(image, 0, 0);
+            canvas
+                .getContext("2d")
+                ?.drawImage(image, 0, 0);
 
             return canvas;
         } else {
