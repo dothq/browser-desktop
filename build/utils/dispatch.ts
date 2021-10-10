@@ -7,7 +7,7 @@ const handle = (data: any, killOnError?: boolean) => {
     d.split("\n").forEach((line: any) => {
         if (line.length !== 0)
             log.info(
-                line.replace(/\s\d{1,5}:\d\d\.\d\d /g, "")
+                line.replace(/(\s\d{1,5}:\d\d\.\d\d |\d{1,5}:\d\d\.\d\d )/g, "")
             );
     });
 
