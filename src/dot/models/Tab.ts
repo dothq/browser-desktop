@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 import { dot } from "../api";
 import { store } from "../app/store";
+import { ThumbnailManager } from "../core/thumbnails";
 import { Cc, ChromeUtils, Ci, Services } from "../modules";
 import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
@@ -156,6 +157,10 @@ export class Tab extends EventEmitter {
 
     public get zoomManager() {
         return zoomManager;
+    }
+
+    public get thumbnails() {
+        return new ThumbnailManager(this);
     }
 
     public initialIconHidden: boolean = false;
