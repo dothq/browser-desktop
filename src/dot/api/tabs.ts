@@ -124,6 +124,23 @@ export class TabsAPI {
         }
     }
 
+    public relocateTab(
+        tabToMoveId: number,
+        targetIndex: number
+    ) {
+        const dragTabIndex = dot.tabs.list.findIndex(
+            (t) => t.id == tabToMoveId
+        );
+
+        store.dispatch({
+            type: "RELOCATE_TAB",
+            payload: {
+                oldIndex: dragTabIndex,
+                newIndex: targetIndex
+            }
+        });
+    }
+
     public constructor() {
         addEventListener(
             "WillChangeBrowserRemoteness",

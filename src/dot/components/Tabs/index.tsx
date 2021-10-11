@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Transition } from "react-transition-group";
+import { dot } from "../../api";
 import { useBrowserSelector } from "../../app/store/hooks";
+import { ipc } from "../../core/ipc";
 import { TabPreview } from "../../core/tab-preview";
 import { Tab } from "../../models/Tab";
 import { BrowserTab } from "../Tab";
@@ -16,6 +18,11 @@ export const Tabs = () => {
         React.useState(0);
     const [tabPreviewAssosiate, setTabPreviewAssosiate] =
         React.useState<Tab>();
+
+    const [globalDrag, setGlobalDrag] =
+        React.useState(false);
+    const [individualDrag, setIndividualDrag] =
+        React.useState(false);
 
     let mouseEventInt: NodeJS.Timeout;
 
@@ -58,11 +65,37 @@ export const Tabs = () => {
         }
     }, [tabs]);
 
+    useEffect(() => {
+        // Listen for drag state changes
+        ipc.on("tab-drag-target-change", (drag) =>
+            setIndividualDrag(drag.data)
+        );
+    });
+
     return (
         <div
             id={"tabbrowser-tabs"}
             onMouseLeave={onTabMouseLeave}
             ref={tabsContainer}
+            onDrag={(e) => {
+                e.preventDefault();
+                setGlobalDrag(true);
+            }}
+            onDragEnd={(e) => {
+                e.preventDefault();
+                setGlobalDrag(false);
+            }}
+            onDrop={(e) => {
+                e.preventDefault();
+                setGlobalDrag(false);
+
+                dot.tabs.relocateTab(
+                    Number(
+                        e.dataTransfer.getData("tab_id")
+                    ),
+                    dot.tabs.list.length - 1
+                );
+            }}
         >
             <Transition
                 in={tabPreviewVisible}
@@ -95,6 +128,17 @@ export const Tabs = () => {
                     }
                 />
             ))}
+
+            {globalDrag && !individualDrag && (
+                <div
+                    className="dragHover"
+                    style={{
+                        width: 2,
+                        backgroundColor:
+                            "var(--dot-ui-accent-colour)"
+                    }}
+                ></div>
+            )}
         </div>
     );
 };

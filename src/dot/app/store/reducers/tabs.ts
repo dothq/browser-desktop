@@ -33,6 +33,11 @@ interface TabsState {
 
     canGoBack: boolean;
     canGoForward: boolean;
+
+    /**
+     * If an individual tab is the target of a tab drag
+     */
+    individualTabDragTarget: boolean;
 }
 
 const initialState: TabsState = {
@@ -76,7 +81,9 @@ const initialState: TabsState = {
     generation: 0,
 
     canGoBack: false,
-    canGoForward: false
+    canGoForward: false,
+
+    individualTabDragTarget: false
 };
 
 export const tabsReducer = createReducer(initialState, {
@@ -178,5 +185,12 @@ export const tabsReducer = createReducer(initialState, {
         updateTitleTabAction(store, {
             ...action.payload,
             id: store.selectedId
-        })
+        }),
+
+    INDIVIDUAL_TAB_DRAG_TARGET: (
+        store,
+        action: AnyAction
+    ) => {
+        store.individualTabDragTarget = action.payload;
+    }
 });

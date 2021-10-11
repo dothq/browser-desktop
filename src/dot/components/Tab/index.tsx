@@ -84,34 +84,57 @@ export const BrowserTab = ({
                 onDragOver={(e) => {
                     e.preventDefault();
                     setDrag(true);
+
+                    // Global store change
+                    store.dispatch({
+                        type: "INDIVIDUAL_TAB_DRAG_TARGET",
+                        payload: tab.id
+                    });
+
+                    ipc.fire(
+                        "tab-drag-target-change",
+                        true
+                    );
                 }}
                 onDragExit={(e) => {
-                    e.preventDefault();
                     setDrag(false);
+
+                    // Global store change
+                    store.dispatch({
+                        type: "INDIVIDUAL_TAB_DRAG_TARGET",
+                        payload: tab.id
+                    });
+
+                    ipc.fire(
+                        "tab-drag-target-change",
+                        false
+                    );
                 }}
                 onDrop={(e) => {
+                    e.preventDefault();
                     setDrag(false);
 
-                    const thisTabIndex =
+                    // Global store change
+                    store.dispatch({
+                        type: "INDIVIDUAL_TAB_DRAG_TARGET",
+                        payload: tab.id
+                    });
+
+                    ipc.fire(
+                        "tab-drag-target-change",
+                        false
+                    );
+
+                    dot.tabs.relocateTab(
+                        Number(
+                            e.dataTransfer.getData(
+                                "tab_id"
+                            )
+                        ),
                         dot.tabs.list.findIndex(
                             (t) => t.id == tab.id
-                        );
-
-                    const dragTabId = Number(
-                        e.dataTransfer.getData("tab_id")
+                        )
                     );
-                    const dragTabIndex =
-                        dot.tabs.list.findIndex(
-                            (t) => t.id == dragTabId
-                        );
-
-                    store.dispatch({
-                        type: "RELOCATE_TAB",
-                        payload: {
-                            oldIndex: dragTabIndex,
-                            newIndex: thisTabIndex
-                        }
-                    });
                 }}
             >
                 <div className={"tab-background"}></div>
