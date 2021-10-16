@@ -51,6 +51,13 @@ export const Tabs = () => {
         setTabPreviewVisible(false);
     };
 
+    useEffect(() => {
+        // Listen for drag state changes
+        ipc.on("tab-drag-target-change", (drag) =>
+            setIndividualDrag(drag.data)
+        );
+    });
+
     // Show tabs if there is more than one
     useEffect(() => {
         const tabBar = document.getElementById("tab-bar");
@@ -65,29 +72,25 @@ export const Tabs = () => {
         }
     }, [tabs]);
 
-    useEffect(() => {
-        // Listen for drag state changes
-        ipc.on("tab-drag-target-change", (drag) =>
-            setIndividualDrag(drag.data)
-        );
-    });
-
     return (
         <div
             id={"tabbrowser-tabs"}
             onMouseLeave={onTabMouseLeave}
             ref={tabsContainer}
-            onDrag={(e) => {
+            onDragOver={(e) => {
                 e.preventDefault();
                 setGlobalDrag(true);
             }}
-            onDragEnd={(e) => {
+            onDragExit={(e) => {
                 e.preventDefault();
                 setGlobalDrag(false);
             }}
             onDrop={(e) => {
                 e.preventDefault();
                 setGlobalDrag(false);
+                if (individualDrag) return;
+
+                if (!e.dataTransfer) return;
 
                 dot.tabs.relocateTab(
                     Number(

@@ -70,8 +70,15 @@ const initialState: TabsState = {
             if (tab[key] == value) return;
 
             try {
+                // FIXME: This dispatches an action in a reducer, which isn't allowed
+                // by redux. The following code probably wont execute correctly, if
+                // at all
                 tab[key] = value;
-            } catch (e) {}
+            } catch (e) {
+                // Are we legit just catching this error and throwing it away
+                // ignoring side effects?
+                console.warn(e);
+            }
         }
 
         this.generation = Number(!this.generation);

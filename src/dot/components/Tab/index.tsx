@@ -88,7 +88,7 @@ export const BrowserTab = ({
                     // Global store change
                     store.dispatch({
                         type: "INDIVIDUAL_TAB_DRAG_TARGET",
-                        payload: tab.id
+                        payload: true
                     });
 
                     ipc.fire(
@@ -102,7 +102,7 @@ export const BrowserTab = ({
                     // Global store change
                     store.dispatch({
                         type: "INDIVIDUAL_TAB_DRAG_TARGET",
-                        payload: tab.id
+                        payload: false
                     });
 
                     ipc.fire(
@@ -112,6 +112,7 @@ export const BrowserTab = ({
                 }}
                 onDrop={(e) => {
                     e.preventDefault();
+
                     setDrag(false);
 
                     // Global store change
