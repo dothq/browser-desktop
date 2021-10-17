@@ -1,13 +1,9 @@
 import { Section } from "..";
 
 export class ContextMenus extends Section {
-    public children = [];
+    id = "context-menus";
+    name = "Context Menus";
+    icon = "chrome://dot/content/skin/icons/menu.svg";
 
-    public constructor() {
-        super({
-            id: "context-menus",
-            name: "Context Menus",
-            icon: "chrome://dot/content/skin/icons/menu.svg"
-        });
-    }
+    public children = [];
 }

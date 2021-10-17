@@ -1,13 +1,9 @@
 import { Section } from "..";
 
 export class StartPage extends Section {
-    public children = [];
+    id = "start-page";
+    name = "Start Page";
+    icon = "chrome://dot/content/skin/icons/navigate.svg";
 
-    public constructor() {
-        super({
-            id: "start-page",
-            name: "Start Page",
-            icon: "chrome://dot/content/skin/icons/navigate.svg"
-        });
-    }
+    public children = [];
 }
