@@ -176,17 +176,7 @@ export class TabProgressListener {
         const tab = dot.tabs.get(this.id);
 
         if(tab) {
-            console.log("1", this.id, totalProgress, tab.loadingStage)
-
             if (totalProgress) {
-                console.log("2", {
-                    type: "TAB_UPDATE",
-                    payload: {
-                        id: this.id,
-                        loadingStage: "progress"
-                    }
-                })
-
                 store.dispatch({
                     type: "TAB_UPDATE",
                     payload: {
@@ -194,8 +184,6 @@ export class TabProgressListener {
                         loadingStage: "progress"
                     }
                 });
-
-                console.log("3", tab.loadingStage)
             }
         }
 
