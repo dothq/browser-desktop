@@ -34,18 +34,6 @@
     height: 36px;
     background-color: var(--lwt-accent-color);
     overflow: hidden;
-    margin-top: -36px;
     z-index: 1;
-    transition: 0.3s background-color, 0.3s color,
-        0.15s margin-top;
-}
-
-#browser.tabs-visible {
-    #tab-bar {
-        margin-top: 0px;
-    }
-
-    #new-tab-button {
-        margin-inline-start: 6px;
-    }
+    transition: 0.3s background-color, 0.3s color;
 }

@@ -2,8 +2,8 @@ import React from "react";
 
 export const Spring = () => {
     return (
-        <br
+        <div
             className={"chromeclass-toolbar-additional"}
-        ></br>
+        ></div>
     );
 };

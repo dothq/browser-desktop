@@ -87,7 +87,7 @@ const initialState: TabsState = {
 };
 
 export const tabsReducer = createReducer(initialState, {
-    TAB_CREATE: (store, action: AnyAction) => {
+    TAB_CREATE: (store, action: AnyAction): any => {
         const tab = new Tab(action.payload);
 
         if (tab) {
@@ -169,7 +169,7 @@ export const tabsReducer = createReducer(initialState, {
         store.list = tabs;
     },
 
-    SELECTED_TAB_CLOSE: (store, action: AnyAction) =>
+    SELECTED_TAB_CLOSE: (store) =>
         closeTabAction(store, store.selectedId),
 
     SELECTED_TAB_NAVIGATE: (store, action: AnyAction) =>

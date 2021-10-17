@@ -105,13 +105,12 @@ pref("general.smoothScroll.msdPhysics.slowdownMinDeltaMS", 1000);
 // Firefox Services
 pref("browser.contentblocking.report.lockwise.enabled", false);
 
-// Sidebar
-pref("sidebar.disabled", false);
-pref("sidebar.pinned", false);
-pref("sidebar.selected", "");
-pref("sidebar.startItems", "");
+// dot.ui
+pref("dot.ui.accent_colour", "blue"); // Default accent colour is blue
+pref("dot.ui.locale", ""); // If empty, use OS language
 
-// dot.*
+// dot.window
 pref("dot.window.nativecontrols.enabled", true);
-pref("dot.ui.accent_colour", "blue");
-pref("dot.tabs.autohide.enabled", true);
+
+// dot.tabs
+pref("dot.tabs.scroll_amount", 250);

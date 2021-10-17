@@ -28,5 +28,8 @@ declare global {
 }
 
 export const exportPublic = (name: string, data: any) => {
+    // Only expose APIs to Chrome windows.
+    if(window.isChromeWindow == undefined) return;
+
     (window as any)[name] = data;
 };

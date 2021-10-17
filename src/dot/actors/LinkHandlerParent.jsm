@@ -22,6 +22,11 @@ class LinkHandlerParent extends JSWindowActorParent {
             .ownerGlobal.store;
     }
 
+    get dot() {
+        return this.browsingContext.top.embedderElement
+            .ownerGlobal.dot;
+    }
+
     receiveMessage(aMsg) {
         let browser =
             this.browsingContext.top.embedderElement;
@@ -37,12 +42,22 @@ class LinkHandlerParent extends JSWindowActorParent {
             case "Link:LoadingIcon":
                 if (aMsg.data.canUseForTab) {
                     this.store.dispatch({
-                        type: "TAB_UPDATE_STATE",
+                        type: "TAB_UPDATE",
                         payload: {
                             id: browser.browserId,
-                            state: "loading"
+                            faviconUrl: null,
+                            pendingIcon: true
                         }
                     });
+
+                    console.log("Link:LoadingIcon", {
+                        type: "TAB_UPDATE",
+                        payload: {
+                            id: browser.browserId,
+                            faviconUrl: null,
+                            pendingIcon: true
+                        }
+                    })
                 }
 
                 break;
@@ -64,10 +79,27 @@ class LinkHandlerParent extends JSWindowActorParent {
                 break;
 
             case "Link:SetFailedIcon":
+                if (aMsg.data.canUseForTab) {
+                    this.clearPendingIcon(
+                        gBrowser, 
+                        browser
+                    );
+                }
+
                 break;
 
             case "Link:AddSearch":
+                console.log("OpenSearch engine available in DOM", aMsg.data);
+
                 break;
+        }
+    }
+
+    clearPendingIcon(gBrowser, browser) {
+        const tab = this.dot.tabs.get(browser.browserId);
+
+        if(tab) {
+            tab.clearPendingIcon();
         }
     }
 
@@ -90,6 +122,7 @@ class LinkHandlerParent extends JSWindowActorParent {
             Cu.reportError(ex);
             return;
         }
+
         if (faviconUrl.scheme != "data") {
             try {
                 Services.scriptSecurityManager.checkLoadURIWithPrincipal(
@@ -102,6 +135,7 @@ class LinkHandlerParent extends JSWindowActorParent {
                 return;
             }
         }
+
         if (canStoreIcon) {
             try {
                 PlacesUIUtils.loadFavicon(
@@ -118,13 +152,11 @@ class LinkHandlerParent extends JSWindowActorParent {
         }
 
         if (canUseForTab) {
-            this.store.dispatch({
-                type: "TAB_UPDATE_FAVICON",
-                payload: {
-                    id: browser.browserId,
-                    faviconUrl: faviconUrl.spec
-                }
-            });
+            const tab = this.dot.tabs.get(browser.browserId);
+
+            if(tab) {
+                tab.setIcon(iconURL, originalURL);
+            }
         }
     }
 }

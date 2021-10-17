@@ -1,4 +1,5 @@
 import type { Dot } from "../api";
+import type { BrowserAccess } from "../services/browser-access";
 
 declare module "*.ftl";
 
@@ -22,6 +23,19 @@ declare global {
         windowRoot: {
             ownerGlobal: Window;
         };
+        windowUtils: any;
         dot: Dot;
+        isChromeWindow: boolean;
+        skipNextCanClose: boolean;
+        Components: any;
+        BROWSER_NEW_TAB_URL: string;
+        arguments: any;
+        isBlankPageURL: any;
+        browserDOMWindow: BrowserAccess;
+        gFissionBrowser: boolean;
+    }
+
+    interface HTMLElement {
+        hidePopup: any
     }
 }

@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const FluentReact = require("@fluent/react/index.js");
 import { exportPublic } from "../shared/globals";
 
 export const ChromeUtils = {
@@ -13,7 +14,7 @@ export const ChromeUtils = {
     ) {
         const mod =
             window.ChromeUtils.import(moduleUri)[
-                moduleName
+            moduleName
             ];
         owner[moduleName] = mod;
 
@@ -21,10 +22,12 @@ export const ChromeUtils = {
     }
 };
 
+export const Components = window.Components;
+
 const include = (moduleUri: string) => {
     const moduleName = moduleUri
         .split("/")
-        [moduleUri.split("/").length - 1].split(".")[0];
+    [moduleUri.split("/").length - 1].split(".")[0];
 
     const mod = ChromeUtils.import(moduleUri);
     const data = mod[moduleName];
@@ -106,4 +109,20 @@ export const { AsyncShutdown } = include(
 
 export const { PageThumbs } = include(
     "resource://gre/modules/PageThumbs.jsm"
+);
+
+export const nsIBrowserHandler = Cc["@mozilla.org/browser/clh;1"].getService(
+    Ci.nsIBrowserHandler
+)
+
+exportPublic("FluentReact", FluentReact);
+
+const { XPCOMUtils } = ChromeUtils.import(
+    "resource://gre/modules/XPCOMUtils.jsm"
+);
+
+export const ReferrerInfo = Components.Constructor(
+    "@mozilla.org/referrer-info;1",
+    "nsIReferrerInfo",
+    "init"
 );

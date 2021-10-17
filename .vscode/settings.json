@@ -13,7 +13,7 @@
     },
     "javascript.updateImportsOnFileMove.enabled": "always",
     "files.exclude": {
-        "**/node_modules": true,
+        "**/node_modules": false,
         "**/.dotbuild": true
     },
     "gitmoji.showEmojiCode": true,
@@ -70,11 +70,12 @@
         }
     ],
     "git.ignoreLimitWarning": true,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "[plaintext]": {
         "editor.formatOnSave": false
     },
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
-    }
+    },
+    "svg.preview.background": "white"
 }

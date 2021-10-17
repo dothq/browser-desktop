@@ -4,6 +4,17 @@ import { ipc } from "../core/ipc";
 import { ChromeUtils, Ci } from "../modules";
 import { MozURI } from "../types/uri";
 
+const shouldShowLoader = (request: any) => {
+    // We don't want to show tab loaders for about:* urls
+    if (
+        request instanceof Ci.nsIChannel &&
+        request.originalURI.schemeIs("about")
+    )
+        return false;
+
+    return true;
+};
+
 export class TabProgressListener {
     public id: number;
 
@@ -19,30 +30,25 @@ export class TabProgressListener {
     ) {
         if (!request) return;
 
-        dot.tabs.get(this.id)?.updateNavigationState();
+        const tab = dot.tabs.get(this.id);
 
-        const shouldShowLoader = (request: any) => {
-            // We don't want to show tab loaders for about:* urls
-            if (
-                request instanceof Ci.nsIChannel &&
-                request.originalURI.schemeIs("about")
-            )
-                return false;
-
-            return true;
-        };
+        tab?.updateNavigationState();
 
         const {
             STATE_START,
             STATE_IS_NETWORK,
             STATE_RESTORING,
-            STATE_STOP
+            STATE_STOP,
+            STATE_IS_WINDOW,
+            STATE_IS_DOCUMENT
         } = Ci.nsIWebProgressListener;
 
-        if (
-            flags & STATE_START &&
-            flags & STATE_IS_NETWORK
-        ) {
+        const isStarting = flags & STATE_START;
+        const isStopped = flags & STATE_STOP;
+        const isWindow = flags & STATE_IS_WINDOW;
+        const isDocument = flags & STATE_IS_DOCUMENT;
+
+        if (isDocument && isStarting) {
             ipc.fire(`page-reload-${this.id}`);
             // General event is used by the search bar because why not
             ipc.fire("page-reload", this.id);
@@ -53,25 +59,27 @@ export class TabProgressListener {
                     webProgress &&
                     webProgress.isTopLevel
                 ) {
+                    tab?.clearPendingIcon();
+
                     // started loading
                     store.dispatch({
                         type: "TAB_UPDATE",
                         payload: {
                             id: this.id,
                             state: "loading",
-                            faviconUrl: "",
-                            initialIconHidden: false
+                            loadingStage: "busy"
                         }
                     });
                 }
             }
-        } else if (flags & STATE_STOP) {
+        } else if (isWindow && isStopped) {
             // finished loading
             store.dispatch({
-                type: "TAB_UPDATE_STATE",
+                type: "TAB_UPDATE",
                 payload: {
                     id: this.id,
-                    state: "idle"
+                    state: "idle",
+                    loadingStage: ""
                 }
             });
         }
@@ -90,21 +98,43 @@ export class TabProgressListener {
         location: MozURI,
         flags: any
     ) {
-        if (!webProgress.isTopLevel) return;
+        const tab = dot.tabs.get(this.id);
 
-        // Ignore the initial about:blank, unless about:blank is requested
-        if (request) {
-            const url = request.QueryInterface(
-                Ci.nsIChannel
-            ).originalURI.spec;
-            if (
-                location.spec == "about:blank" &&
-                url != "about:blank"
-            )
-                return;
+        const { isTopLevel } = webProgress;
+
+        const isSameDocument = !!(
+            flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SAME_DOCUMENT
+        );
+
+        if(isTopLevel) {
+            const isReload = !!(
+                flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_RELOAD
+            );
+            
+            const isErrorPage = !!(
+                flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_ERROR_PAGE
+            );
+
+            if(!isSameDocument) {
+                if(!isReload) {
+                    tab?.updateTitle();
+                }
+            }
+
+            // Ignore the initial about:blank, unless about:blank is requested
+            if (request) {
+                const url = request.QueryInterface(
+                    Ci.nsIChannel
+                ).originalURI.spec;
+                if (
+                    location.spec == "about:blank" &&
+                    url != "about:blank"
+                )
+                    return;
+            }
+
+            tab?.updateNavigationState();
         }
-
-        dot.tabs.get(this.id)?.updateNavigationState();
 
         ipc.fire(`location-change`, {
             id: this.id,
@@ -137,6 +167,38 @@ export class TabProgressListener {
         curTotalProgress: number,
         maxTotalProgress: number
     ) {
+        const totalProgress = maxTotalProgress
+            ? curTotalProgress / maxTotalProgress
+            : 0
+
+        if (!shouldShowLoader(request)) return;
+    
+        const tab = dot.tabs.get(this.id);
+
+        if(tab) {
+            console.log("1", this.id, totalProgress, tab.loadingStage)
+
+            if (totalProgress) {
+                console.log("2", {
+                    type: "TAB_UPDATE",
+                    payload: {
+                        id: this.id,
+                        loadingStage: "progress"
+                    }
+                })
+
+                store.dispatch({
+                    type: "TAB_UPDATE",
+                    payload: {
+                        id: this.id,
+                        loadingStage: "progress"
+                    }
+                });
+
+                console.log("3", tab.loadingStage)
+            }
+        }
+
         ipc.fire(`progress-change-${this.id}`, {
             webProgress,
             request,

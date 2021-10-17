@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .chromeclass-toolbar-additional {
-    min-width: 110px;
-    flex: 80;
+    min-width: 1px;
+    max-width: 112px;
+    width: 100%;
 }

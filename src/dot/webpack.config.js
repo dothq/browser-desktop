@@ -15,9 +15,9 @@ const browser_styles = scss.filter(
     (s) =>
         !s
             .split("/")
-            [s.split("/").length - 1].includes(
-                ".webui.scss"
-            )
+        [s.split("/").length - 1].includes(
+            ".webui.scss"
+        )
 );
 
 const webui_styles = scss.filter(

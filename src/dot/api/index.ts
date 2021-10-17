@@ -35,7 +35,7 @@ import { Search } from "../core/search";
 import { exportPublic } from "../shared/globals";
 
 export class Dot {
-    public browsersPrivate = new BrowsersAPI();
+    public browsersPrivate: BrowsersAPI = new BrowsersAPI();
 
     public titlebar = new TitlebarAPI();
     public tabs = new TabsAPI();
@@ -54,7 +54,11 @@ export class Dot {
     public window = new WindowAPI();
 
     constructor() {
-        this.runtime.emit("before-browser-window-init");
+        window.addEventListener(
+            "MozBeforeInitialXULLayout",
+            () => this.runtime.emit("before-browser-window-init"),
+            { once: true }
+        );
 
         window.addEventListener(
             "DOMContentLoaded",
@@ -88,5 +92,10 @@ export class Dot {
     }
 }
 
-export const dot = new Dot();
-exportPublic("dot", dot);
+export let dot: Dot;
+
+if(window.isChromeWindow !== undefined) {
+    dot = new Dot();
+
+    exportPublic("dot", dot);
+}

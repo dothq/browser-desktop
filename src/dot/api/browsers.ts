@@ -42,7 +42,8 @@ export class BrowsersAPI {
         message: true,
         messagemanagergroup: "browsers",
         remote: true,
-        maychangeremoteness: true
+        maychangeremoteness: true,
+        autoscroll: true
     };
 
     public get aboutBlankURI(): MozURI {

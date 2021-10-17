@@ -6,6 +6,7 @@
     border-radius: 12px;
     height: 32px;
     width: 100%;
+    min-width: calc(350px + 24px + 2 * 8px);
     -moz-window-dragging: no-drag;
     position: relative;
 }

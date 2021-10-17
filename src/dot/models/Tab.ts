@@ -1,18 +1,23 @@
 import EventEmitter from "events";
+import React from "react";
 import { dot } from "../api";
 import { store } from "../app/store";
+import { ipc } from "../core/ipc";
 import { ThumbnailManager } from "../core/thumbnails";
 import {
     Cc,
     ChromeUtils,
     Ci,
+    E10SUtils,
     Services
 } from "../modules";
 import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
 import { zoomManager } from "../services/zoom";
-import { predefinedFavicons } from "../shared/url";
+import { openMenuAt } from "../shared/menu";
+import { isBlankPageURL } from "../shared/url";
 import { MozURI } from "../types/uri";
+import { gFissionBrowser } from "../utils/browser";
 
 const { DevToolsShim } = ChromeUtils.import(
     "chrome://devtools-startup/content/DevToolsShim.jsm"
@@ -48,18 +53,14 @@ export class Tab extends EventEmitter {
                 state
             }
         });
-
-        if (state == "loading") {
-            store.dispatch({
-                type: "TAB_UPDATE",
-                payload: {
-                    id: this.id,
-                    faviconUrl: "",
-                    initialIconHidden: false
-                }
-            });
-        }
     }
+
+    /*
+        busy - looking up address / first connect to server
+        progress - received contents, loading scripts and media
+        <empty> - idle (we're done here)
+    */
+    public loadingStage: "busy" | "progress" | "" = "";
 
     public get url() {
         return this.urlParsed.spec;
@@ -76,9 +77,61 @@ export class Tab extends EventEmitter {
         return this.webContents.currentURI;
     }
 
+    public get host() {
+        let host = undefined;
+
+        try {
+            host = this.urlParsed.host;
+        } catch(e) {}
+
+        return host;
+    }
+
     public get active() {
         return dot.tabs.selectedTabId == this.id;
     }
+
+    public set active(val: boolean) {
+        if(val) this.select();
+    }
+
+    public get tooltip() {
+        const label = [
+            this.title
+        ]
+
+        const developerDetailsEnabled = dot.prefs.get(
+            "browser.tabs.tooltipsShowPidAndActiveness",
+            false
+        );
+
+        if(developerDetailsEnabled) {
+            const [contentPid, ...framePids] = E10SUtils.getBrowserPids(
+                this.webContents,
+                gFissionBrowser
+            );
+
+            if(contentPid) label[0] = `${label[0]} (pid ${contentPid})`;
+
+            if(gFissionBrowser) {
+                label[0] = `${label[0]} [F`;
+
+                if(framePids.length) label[0] = `${label[0]} ${framePids.join(", ")}`;
+
+                label[0] = `${label[0]}]`;
+            }
+
+            if(this.active) {
+                label[0] = `${label[0]} [A]`;
+            }
+        }
+
+        label.push(this.urlParsed.spec.split(/[?#]/)[0]);
+
+        return label.join("\n");
+    }
+
+    public hovering: boolean = false;
 
     public canGoBack: boolean = false;
     public canGoForward: boolean = false;
@@ -139,23 +192,61 @@ export class Tab extends EventEmitter {
         return DevToolsShim.inspectNode(this, target);
     }
 
-    public _title: string = "";
+    public title: string;
+    
+    public updateTitle() {
+        const browser = this.webContents;
 
-    public get title() {
-        return this._title;
-    }
+        let { currentURI, contentTitle } = browser;
 
-    public set title(title: string) {
-        this._title = title;
+        const isContentTitle = !!contentTitle;
+        if (!contentTitle) {
+            if (currentURI.displaySpec) {
+                try {
+                    contentTitle = Services.io.createExposableURI(
+                        browser.currentURI
+                    ).displaySpec;
+                } catch (ex) {
+                    contentTitle = browser.currentURI.displaySpec;
+                }
+            }
+    
+            if (contentTitle && !isBlankPageURL(contentTitle)) {
+                if (
+                    contentTitle.length > 500 && 
+                    contentTitle.match(/^data:[^,]+;base64,/)
+                ) {
+                    contentTitle = `${contentTitle.substring(0, 500)}\u2026`;
+                } else {
+                    // Try to unescape not-ASCII URIs using the current character set.
+                    try {
+                        const { characterSet } = browser;
+
+                        contentTitle = Services.textToSubURI.unEscapeNonAsciiURI(
+                            characterSet,
+                            contentTitle
+                        );
+                    } catch (e) {}
+                }
+            } else {
+                contentTitle = "Untitled";
+            }
+        }
+
+        if(!isContentTitle) {
+            contentTitle = contentTitle
+                .replace(/^[^:]+:\/\/(?:www\.)?/, "");
+        }
 
         store.dispatch({
             type: "TAB_UPDATE_TITLE",
             payload: {
                 id: this.id,
-                title,
-                noInvalidate: true
+                title: contentTitle
             }
         });
+        
+        return contentTitle;
     }
 
     public get zoom() {
@@ -177,6 +268,55 @@ export class Tab extends EventEmitter {
     public initialIconHidden: boolean = false;
 
     public faviconUrl: any;
+    public faviconLoadingPrincipal: any;
+    public pendingIcon: boolean = false;
+
+    public setIcon(
+        iconURL: string,
+        originalURL = iconURL,
+        loadingPrincipal: any
+    ) {
+        const makeString = (url: any) => (url instanceof Ci.nsIURI ? url.spec : url);
+
+        iconURL = makeString(iconURL);
+        originalURL = makeString(originalURL);
+
+        const LOCAL_PROTOCOLS = ["chrome:", "about:", "resource:", "data:"];
+
+        if (
+            iconURL &&
+            !loadingPrincipal &&
+            !LOCAL_PROTOCOLS.some(protocol => iconURL.startsWith(protocol))
+        ) {
+            console.error(
+                `Attempt to set a remote URL ${iconURL} as a tab icon without a loading principal.`
+            );
+            return;
+        }
+
+        this.webContents.mIconURL = iconURL;
+        this.faviconLoadingPrincipal = loadingPrincipal;
+
+        store.dispatch({
+            type: "TAB_UPDATE",
+            payload: {
+                id: this.id,
+                faviconUrl: iconURL,
+                pendingIcon: false
+            }
+        })
+    }
+
+    public clearPendingIcon() {
+        store.dispatch({
+            type: "TAB_UPDATE",
+            payload: {
+                id: this.id,
+                faviconUrl: "",
+                pendingIcon: false
+            }
+        })
+    }
 
     public isClosing: boolean = false;
 
@@ -184,6 +324,54 @@ export class Tab extends EventEmitter {
 
     public get identityManager() {
         return new IdentityManager(this);
+    }
+
+    public onTabMouseOver() {
+        this.hovering = true;
+    }
+
+    public onTabMouseLeave() {
+        this.hovering = false;
+    }
+
+    public onTabMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        switch(e.button) {
+            // Left click
+            case 0:
+                store.dispatch({
+                    type: "TAB_SELECT",
+                    payload: this.id
+                });
+
+                break;
+            // Middle click
+            case 1:
+                this.destroy();
+
+                break;
+            // Right click
+            case 2:
+                openMenuAt({
+                    name: "TabMenu",
+                    bounds: [e.clientX, e.clientY],
+                    ctx: { tabId: this.id }
+                });
+
+                break;
+            // Back mouse button
+            case 3:
+                this.goBack();
+
+                break;
+            // Forward mouse button
+            case 4:
+                this.goForward();
+
+                break;
+        }
     }
 
     public webContents: any;
@@ -212,27 +400,21 @@ export class Tab extends EventEmitter {
         this.id = this.webContents.browserId;
         this.background = !!args.background;
         this.initialIconHidden = !!args.initialIconHidden;
-        this._title = args.title ? args.title : "";
-
-        if (
-            parsed.scheme == "about" &&
-            predefinedFavicons[parsed.pathQueryRef]
-        ) {
-            this.faviconUrl =
-                predefinedFavicons[parsed.pathQueryRef];
-        }
+        this.title = args.title ? args.title : "";
 
         this.createProgressListener();
 
         this.webContents.addEventListener(
             "pagetitlechanged",
-            this.onPageTitleChange
+            (e: any) => this.onPageTitleChange(e)
         );
 
         this.webContents.addEventListener(
             "DOMWindowClose",
-            this.onRequestTabClose
+            (e: any) => this.onRequestTabClose(e)
         );
+
+        ipc.fire("tab-created", this.id);
 
         return this;
     }
@@ -397,22 +579,17 @@ export class Tab extends EventEmitter {
     }
 
     public onPageTitleChange(event: any) {
-        let { browserId } = event.originalTarget;
-        let tab = dot.tabs.get(browserId);
-
-        if (!tab) return;
-
         // Ignore empty title changes on internal pages. This prevents the title
         // from changing while Fluent is populating the (initially-empty) title
         // element.
         if (
-            !tab.webContents.contentTitle &&
-            tab.webContents.contentPrincipal
+            !this.webContents.contentTitle &&
+            this.webContents.contentPrincipal
                 .isSystemPrincipal
         )
             return;
 
-        tab.title = tab.webContents.contentTitle;
+        this.updateTitle();
     }
 
     public onRequestTabClose(event: any) {
@@ -425,17 +602,12 @@ export class Tab extends EventEmitter {
                 event.target.docShell.chromeEventHandler;
         }
 
-        let { browserId } = browser;
-
         if (dot.tabs.list.length == 1)
             return window.close();
 
-        const tab = dot.tabs.get(browserId);
-        if (tab) {
-            tab.destroy();
+        this.destroy();
 
-            event.preventDefault();
-        }
+        event.preventDefault();
     }
 
     public addEventListener(

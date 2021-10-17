@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
+import { RootState } from "../../app/store";
 import { useBrowserSelector } from "../../app/store/hooks";
 import { L } from "../../core/l10n/react";
 import { openMenuAt } from "../../shared/menu";
@@ -14,7 +15,7 @@ import { ToolbarButton } from "../ToolbarButton";
 import { WindowControls } from "../WindowControls";
 
 export const Chrome = () => {
-    const tabs = useBrowserSelector((s: any) => s.tabs);
+    const tabs = useBrowserSelector((s: RootState) => s.tabs);
 
     return (
         <div
@@ -84,10 +85,6 @@ export const Chrome = () => {
                         />
                     </L>
 
-                    <NewTabButton
-                        variant={"navigation-bar"}
-                    />
-
                     <Spring />
                     <Searchbar tabId={tabs.selectedId} />
                     <Spring />
@@ -123,7 +120,7 @@ export const Chrome = () => {
             <nav id={"tab-bar"}>
                 <Tabs />
 
-                <NewTabButton variant={"tab-bar"} />
+                <NewTabButton />
             </nav>
         </div>
     );
