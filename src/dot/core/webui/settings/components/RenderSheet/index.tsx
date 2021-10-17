@@ -2,6 +2,7 @@ import React from "react";
 import { Section } from "../../sections";
 import { sections } from "../../sections/sections";
 import { useSettingsSelector } from "../../store/hooks";
+import { Card } from "../Card";
 
 export const RenderSheet = () => {
     const reactiveStore = useSettingsSelector(
@@ -21,10 +22,14 @@ export const RenderSheet = () => {
 
     return (
         <div className={"settings-mount"}>
+            <h2>{section?.name}</h2>
+
             {section &&
-                section.children?.map((Child, index) => (
+                section.children?.map((child, index) => (
                     <React.Fragment key={index}>
-                        {<Child />}
+                        <Card title={child.title}>
+                            <child.element />
+                        </Card>
                     </React.Fragment>
                 ))}
         </div>

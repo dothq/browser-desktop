@@ -7,4 +7,15 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    margin: 2rem;
+
+    color: var(--lwt-text-color);
+}
+
+h2 {
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 0.7rem !important;
 }
