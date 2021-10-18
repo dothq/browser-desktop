@@ -14,6 +14,7 @@
         "@dothq/id": "^1.0.1",
         "@dothq/sqb": "^1.0.2",
         "@fluent/bundle": "^0.16.1",
+        "@fluent/react": "^0.14.0",
         "@reduxjs/toolkit": "^1.6.1",
         "mathjs": "^9.4.4",
         "react": "^17.0.2",
