@@ -132,6 +132,7 @@
             &[data-loading-stage="progress"] {
                 fill: var(--dot-ui-accent-colour);
                 fill-opacity: 1;
+                transform: scaleX(1);
             }
         }
     }
