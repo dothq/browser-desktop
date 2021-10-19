@@ -188,10 +188,6 @@ export class ThemeAPI {
 
                 returnValue[variable.replace(/_/g, "-")] =
                     value.toString();
-            } else {
-                console.info(
-                    `ThemeAPI: Ignoring colour property "${key}" in theme with ID ${id}.`
-                );
             }
         }
 
