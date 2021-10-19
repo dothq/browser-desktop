@@ -23,8 +23,8 @@ export const BrowserTab = ({ tab }: Props) => {
                 data-pinned={tab.pinned}
                 data-state={tab.state}
                 data-bookmarked={tab.bookmarked}
-                data-canGoBack={tab.canGoBack}
-                data-canGoForward={tab.canGoForward}
+                data-can-go-back={tab.canGoBack}
+                data-can-go-forward={tab.canGoForward}
                 data-zoom={tab.zoom}
                 title={tab.tooltip}
                 onMouseOver={(e) => tab.onTabMouseOver()}
@@ -58,6 +58,14 @@ export const BrowserTab = ({ tab }: Props) => {
                 <ToolbarButton
                     className={"tab-close-button"}
                     image={"chrome://dot/content/skin/icons/close.svg"}
+                    onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }}
+                    onMouseUp={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }}
                 />
             </div>
         </div>
