@@ -1,8 +1,6 @@
 import {
-    appendFileSync,
     ensureSymlink,
-    lstatSync,
-    readFileSync
+    lstatSync
 } from "fs-extra";
 import { resolve } from "path";
 import rimraf from "rimraf";
@@ -39,23 +37,6 @@ export const copyManual = (
             resolve(SRC_DIR, ...getChunked(name)),
             resolve(ENGINE_DIR, ...getChunked(name))
         );
-
-        if (!noIgnore) {
-            const gitignore = readFileSync(
-                resolve(ENGINE_DIR, ".gitignore"),
-                "utf-8"
-            );
-
-            if (
-                !gitignore.includes(
-                    getChunked(name).join("/")
-                )
-            )
-                appendFileSync(
-                    resolve(ENGINE_DIR, ".gitignore"),
-                    `\n${getChunked(name).join("/")}`
-                );
-        }
 
         return;
     } catch (e) {
