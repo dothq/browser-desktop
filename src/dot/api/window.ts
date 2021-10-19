@@ -104,6 +104,18 @@ export class WindowAPI extends EventEmitter {
         );
     }
 
+    public updateWindowTitle() {
+        try {
+            const tab = dot.tabs.selectedTab;
+
+            if(tab) {
+                document.title = `${tab.title} - Dot Browser`;
+            }
+        } catch(e) {
+            
+        }
+    }
+
     public get windowState() {
         const { width, height } =
             document.documentElement.getBoundingClientRect();

@@ -222,6 +222,8 @@ export class BrowsersAPI {
             "selectedId",
             id.toString()
         );
+
+        dot.window.updateWindowTitle();
     }
 
     public goto(id: number, url: MozURI, options?: any) {

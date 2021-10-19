@@ -136,6 +136,8 @@ export class TabProgressListener {
             tab?.updateNavigationState();
         }
 
+        dot.window.updateWindowTitle();
+
         ipc.fire(`location-change`, {
             id: this.id,
             webProgress,

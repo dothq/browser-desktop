@@ -245,6 +245,8 @@ export class Tab extends EventEmitter {
                 title: contentTitle
             }
         });
+
+        dot.window.updateWindowTitle();
         
         return contentTitle;
     }
