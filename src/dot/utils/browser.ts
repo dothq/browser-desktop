@@ -141,6 +141,8 @@ export const openTrustedLinkIn = (
     openUILinkIn(url, where, params);
 }
 
+exportPublic("openTrustedLinkIn", openTrustedLinkIn);
+
 export const openUILinkIn = (
     url: any,
     where: string,
@@ -627,6 +629,8 @@ export const openLinkIn = (
         targetBrowser.focus();
     }
 }
+
+exportPublic("openLinkIn", openLinkIn);
 
 export const BrowserOpenTab = (event: any) => {
     let where = "tab";
