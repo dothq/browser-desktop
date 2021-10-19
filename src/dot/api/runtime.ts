@@ -9,6 +9,7 @@ import {
 import { windowActors } from "../modules/glue";
 import { BrowserAccess } from "../services/browser-access";
 import StatusService from "../services/status";
+import { timers } from "../services/timers";
 import { MozURI } from "../types/uri";
 import { BrowserUIUtils } from "../utils/browser-ui";
 
@@ -23,10 +24,12 @@ export class RuntimeAPI extends EventEmitter {
     private _windowStateInt: NodeJS.Timeout;
 
     public onBeforeBrowserInit() {
-        
+
     }
 
     public onBrowserStartup() {
+        timers.start("BrowserInit");
+
         window.docShell.treeOwner
             .QueryInterface(Ci.nsIInterfaceRequestor)
             .getInterface(
@@ -136,6 +139,8 @@ export class RuntimeAPI extends EventEmitter {
             window,
             "extensions-late-startup"
         );
+
+        timers.stop("BrowserInit");
     }
 
     public onAfterBrowserPaint() {
