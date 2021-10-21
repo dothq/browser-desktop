@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-import { action, computed, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import React from "react";
 import { dot } from "../api";
 import { ipc } from "../core/ipc";
@@ -377,6 +377,8 @@ export class Tab extends EventEmitter {
 
     constructor(args: Partial<Tab>) {
         super();
+
+        makeObservable(this);
 
         const parsed = Services.io.newURI(args.url);
 
