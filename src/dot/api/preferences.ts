@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import { dot } from ".";
 import { Services } from "../modules";
 
@@ -135,5 +136,9 @@ export class PreferencesAPI {
             default:
                 return undefined;
         }
+    }
+
+    public constructor() {
+        makeAutoObservable(this);
     }
 }

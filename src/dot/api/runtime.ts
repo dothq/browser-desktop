@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { render } from "..";
 import { dot } from "../api";
 import {
     ActorManagerParent, BrowserWindowTracker,
@@ -30,6 +31,8 @@ export class RuntimeAPI extends EventEmitter {
     public onBrowserStartup() {
         timers.start("BrowserInit");
 
+        render();
+        
         window.docShell.treeOwner
             .QueryInterface(Ci.nsIInterfaceRequestor)
             .getInterface(

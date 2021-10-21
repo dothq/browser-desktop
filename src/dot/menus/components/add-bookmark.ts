@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { store } from "../../app/store";
 import { Hotkey } from "../hotkey";
 
 export class AddBookmark extends MenuItem {
@@ -23,12 +22,7 @@ export class AddBookmark extends MenuItem {
     }
 
     public onClick() {
-        return store.dispatch({
-            type: "TAB_BOOKMARK",
-            payload: {
-                id: this.tabId
-            }
-        });
+
     }
 
     constructor({ tabId }: { tabId: number }) {

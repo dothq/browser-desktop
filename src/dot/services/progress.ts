@@ -1,5 +1,4 @@
 import { dot } from "../api";
-import { store } from "../app/store";
 import { ipc } from "../core/ipc";
 import { ChromeUtils, Ci } from "../modules";
 import { MozURI } from "../types/uri";
@@ -28,11 +27,11 @@ export class TabProgressListener {
         flags: number,
         status: any
     ) {
-        if (!request) return;
-
         const tab = dot.tabs.get(this.id);
 
-        tab?.updateNavigationState();
+        if (!request || !tab) return;
+
+        tab.updateNavigationState();
 
         const {
             STATE_START,
@@ -59,29 +58,17 @@ export class TabProgressListener {
                     webProgress &&
                     webProgress.isTopLevel
                 ) {
-                    tab?.clearPendingIcon();
+                    tab.clearPendingIcon();
 
                     // started loading
-                    store.dispatch({
-                        type: "TAB_UPDATE",
-                        payload: {
-                            id: this.id,
-                            state: "loading",
-                            loadingStage: "busy"
-                        }
-                    });
+                    tab.state = "loading";
+                    tab.loadingStage = "busy";
                 }
             }
         } else if (isWindow && isStopped) {
             // finished loading
-            store.dispatch({
-                type: "TAB_UPDATE",
-                payload: {
-                    id: this.id,
-                    state: "idle",
-                    loadingStage: ""
-                }
-            });
+            tab.state = "idle";
+            tab.loadingStage = "";
         }
 
         ipc.fire(`state-change-${this.id}`, {
@@ -179,13 +166,7 @@ export class TabProgressListener {
 
         if(tab) {
             if (totalProgress) {
-                store.dispatch({
-                    type: "TAB_UPDATE",
-                    payload: {
-                        id: this.id,
-                        loadingStage: "progress"
-                    }
-                });
+                tab.loadingStage = "progress";
             }
         }
 
@@ -204,13 +185,11 @@ export class TabProgressListener {
         request: any,
         state: any
     ) {
-        store.dispatch({
-            type: "TAB_UPDATE",
-            payload: {
-                id: this.id,
-                contentState: state
-            }
-        });
+        const tab = dot.tabs.get(this.id);
+
+        if(tab) {
+            tab.contentState = state
+        }
 
         ipc.fire(`security-change-${this.id}`, {
             webProgress,

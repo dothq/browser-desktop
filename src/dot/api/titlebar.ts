@@ -1,7 +1,7 @@
-import { EventEmitter } from "events";
+import { makeAutoObservable } from "mobx";
 import { dot } from "../api";
 
-export class TitlebarAPI extends EventEmitter {
+export class TitlebarAPI {
     get nativeTitlebarEnabled() {
         return !!document.documentElement.getAttribute(
             "chromemargin"
@@ -26,6 +26,6 @@ export class TitlebarAPI extends EventEmitter {
     }
 
     constructor() {
-        super();
+        makeAutoObservable(this);
     }
 }

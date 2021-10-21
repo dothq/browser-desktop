@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from ".";
@@ -134,5 +135,9 @@ export class PromptAPI {
         Cc["@mozilla.org/sound;1"]
             .createInstance(Ci.nsISound)
             .beep();
+    }
+
+    public constructor() {
+        makeAutoObservable(this);
     }
 }

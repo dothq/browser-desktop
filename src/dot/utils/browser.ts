@@ -150,14 +150,7 @@ export const openUILinkIn = (
     postData?: any,
     referrerInfo?: any
 ) => {
-    var params;
-  
-    if (
-        window.arguments.length == 3 && 
-        typeof window.arguments[2] == "object"
-    ) {
-        params = allowThirdPartyFixup;
-    }
+    var params = allowThirdPartyFixup;
 
     if (
         !params || 
@@ -577,26 +570,23 @@ export const openLinkIn = (
                 win.isBlankPageURL(url)
             )
 
-            win.store.dispatch({
-                type: "TAB_CREATE",
-                payload: {
-                    url,
-                    referrerInfo,
-                    charset,
-                    postData,
-                    inBackground: loadInBackground,
-                    allowThirdPartyFixup,
-                    relatedToCurrent,
-                    userContextId,
-                    originPrincipal,
-                    originStoragePrincipal,
-                    triggeringPrincipal,
-                    allowInheritPrincipal,
-                    csp,
-                    focusUrlBar,
-                    openerBrowser: openerBrowser,
-                }
-            })
+            win.dot.tabs.create({
+                url,
+                referrerInfo,
+                charset,
+                postData,
+                inBackground: loadInBackground,
+                allowThirdPartyFixup,
+                relatedToCurrent,
+                userContextId,
+                originPrincipal,
+                originStoragePrincipal,
+                triggeringPrincipal,
+                allowInheritPrincipal,
+                csp,
+                focusUrlBar,
+                openerBrowser: openerBrowser,
+            });
     
             if (resolveOnNewTabCreated) {
                 resolveOnNewTabCreated(true);
@@ -632,7 +622,7 @@ export const openLinkIn = (
 
 exportPublic("openLinkIn", openLinkIn);
 
-export const BrowserOpenTab = (event: any) => {
+export const BrowserOpenTab = (event?: any) => {
     let where = "tab";
     let relatedToCurrent = false;
   
@@ -670,3 +660,49 @@ export const BrowserOpenTab = (event: any) => {
 }
 
 exportPublic("BrowserOpenTab", BrowserOpenTab);
+
+export const openPreferences = () => {  
+    let win = Services.wm.getMostRecentWindow("navigator:browser");
+    
+    if (!win) {
+        const windowArguments = Cc["@mozilla.org/array;1"].createInstance(
+            Ci.nsIMutableArray
+        );
+        
+        const supportsStringPrefURL = Cc[
+            "@mozilla.org/supports-string;1"
+        ].createInstance(Ci.nsISupportsString);
+        
+        supportsStringPrefURL.data = "about:settings";
+        windowArguments.appendElement(supportsStringPrefURL);
+    
+        win = Services.ww.openWindow(
+            null,
+            AppConstants.BROWSER_CHROME_URL,
+            "_blank",
+            "chrome,dialog=no,all",
+            windowArguments
+        );
+    } else {
+        win.dot.tabs.create({
+            url: "about:settings"
+        })
+    }
+}
+
+exportPublic("openPreferences", openPreferences);
+  
+export const openTroubleshootingPage = () => {
+    openTrustedLinkIn("about:support", "tab");
+}
+
+exportPublic("openTroubleshootingPage", openTroubleshootingPage);
+  
+export const openFeedbackPage = () => {
+    openTrustedLinkIn(
+        Services.urlFormatter.formatURLPref("app.feedback.baseURL"), 
+        "tab"
+    );
+}
+
+exportPublic("openFeedbackPage", openFeedbackPage);

@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import { dot } from ".";
 import { Ci, E10SUtils, Services } from "../modules";
 import { MozURI } from "../types/uri";
@@ -259,5 +260,9 @@ export class BrowsersAPI {
         );
 
         browser.setAttribute("remoteType", remoteType);
+    }
+
+    public constructor() {
+        makeAutoObservable(this);
     }
 }

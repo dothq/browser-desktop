@@ -1,5 +1,6 @@
 import { useID } from "@dothq/id";
 import { EventEmitter } from "events";
+import { action, computed, makeObservable, observable } from "mobx";
 import {
     AppConstants,
     Cc,
@@ -17,12 +18,15 @@ export class UtilitiesAPI extends EventEmitter {
     private _pageStatusEl =
         document.getElementById("page-status");
 
+    @observable
     public canPopupAutohide: boolean = true;
 
+    @observable
     public availableLanguages: string[] = [];
 
     public ftl: { [key: string]: any } = {};
 
+    @computed
     public get pageStatus() {
         if (!this._pageStatusEl) return "";
         return this._pageStatusEl.innerText;
@@ -36,6 +40,7 @@ export class UtilitiesAPI extends EventEmitter {
         }
     }
 
+    @computed
     public get platform() {
         return AppConstants.platform == "macosx"
             ? "macos"
@@ -44,20 +49,24 @@ export class UtilitiesAPI extends EventEmitter {
             : AppConstants.platform;
     }
 
+    @computed
     public get browserLanguage() {
         return this.browserLanguages[0];
     }
 
+    @computed
     public get browserLanguages() {
         return Services.locale.webExposedLocales;
     }
 
+    @computed
     public get linuxDesktopEnvironment() {
         if (this.platform !== "linux") return "";
 
         return this.getEnv("XDG_CURRENT_DESKTOP");
     }
 
+    @action
     public fetchLocale(locale: string) {
         return new Promise((resolve, reject) => {
             NetUtil.asyncFetch(
@@ -84,6 +93,7 @@ export class UtilitiesAPI extends EventEmitter {
         });
     }
 
+    @action
     public doCommand(command: string) {
         return commands[command]();
     }
@@ -92,6 +102,7 @@ export class UtilitiesAPI extends EventEmitter {
         this.pageStatus = status;
     }
 
+    @action
     public isJSON(data: any) {
         if (typeof data == "object") return true;
 
@@ -114,6 +125,7 @@ export class UtilitiesAPI extends EventEmitter {
         }
     }
 
+    @action
     public getEnv(name: string) {
         const env = Cc[
             "@mozilla.org/process/environment;1"
@@ -122,12 +134,15 @@ export class UtilitiesAPI extends EventEmitter {
         return env.get(name);
     }
 
+    @action
     public makeID(rounds?: number) {
         return useID(rounds || 4);
     }
 
     constructor() {
         super();
+
+        makeObservable(this);
 
         this.on(
             "page-status-changed",

@@ -13,8 +13,9 @@
     },
     "javascript.updateImportsOnFileMove.enabled": "always",
     "files.exclude": {
-        "**/node_modules": false,
-        "**/.dotbuild": true
+        "**/node_modules": true,
+        "**/.dotbuild": true,
+        "**/dist": false
     },
     "gitmoji.showEmojiCode": true,
     "gitmoji.additionalEmojis": [

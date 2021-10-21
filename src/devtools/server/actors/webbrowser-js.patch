@@ -1,5 +1,5 @@
 diff --git a/devtools/server/actors/webbrowser.js b/devtools/server/actors/webbrowser.js
-index abcc3fa19b1bd9b9fd9e29b7cc024ae231089dfa..e724fc592f29c212c05170953993ee97518429e1 100644
+index abcc3fa19b1bd9b9fd9e29b7cc024ae231089dfa..a0e3065b549f30b9ded3b29b93907d62b53b0151 100644
 --- a/devtools/server/actors/webbrowser.js
 +++ b/devtools/server/actors/webbrowser.js
 @@ -222,7 +222,7 @@ function BrowserTabList(connection) {
@@ -49,7 +49,7 @@ index abcc3fa19b1bd9b9fd9e29b7cc024ae231089dfa..e724fc592f29c212c05170953993ee97
 -    return !tab.closing;
 -  });
 +BrowserTabList.prototype._getChildren = function (window) {
-+  return window.store.getState().tabs.list.map(x => x.webContents);
++  return window.dot.tabs.list.map(x => x.webContents);
  };
  
 -BrowserTabList.prototype.getList = async function() {

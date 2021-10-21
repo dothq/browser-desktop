@@ -1,24 +1,23 @@
 import React from "react";
 import { Section } from "../../sections";
-import { sections } from "../../sections/sections";
-import { useSettingsSelector } from "../../store/hooks";
+// import { useSettingsSelector } from "../../store/hooks";
 import { Card } from "../Card";
 
 export const RenderSheet = () => {
-    const reactiveStore = useSettingsSelector(
-        (s: any) => s
-    );
+    // const reactiveStore = useSettingsSelector(
+    //     (s: any) => s
+    // );
 
     const [section, setSection] =
         React.useState<Section>();
 
-    React.useEffect(() => {
-        setSection(
-            sections[
-                reactiveStore.settings.selectedSectionId
-            ]
-        );
-    }, [reactiveStore.settings.selectedSectionId]);
+    // React.useEffect(() => {
+    //     setSection(
+    //         sections[
+    //             reactiveStore.settings.selectedSectionId
+    //         ]
+    //     );
+    // }, [reactiveStore.settings.selectedSectionId]);
 
     return (
         <div className={"settings-mount"}>

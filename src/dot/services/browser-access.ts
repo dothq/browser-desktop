@@ -80,22 +80,19 @@ export class BrowserAccess {
             "browser.tabs.loadDivertedInBackground"
         );
     
-        win.store.dispatch({
-            type: "TAB_CREATE",
-            payload: {
-                url: uri ? uri.spec : "about:blank",
-                triggeringPrincipal,
-                referrerInfo,
-                userContextId,
-                fromExternal: isExternal,
-                inBackground: loadInBackground,
-                forceNotRemote,
-                openWindowInfo,
-                openerBrowser,
-                name,
-                csp,
-                skipLoad
-            }
+        win.dot.tabs.create({
+            url: uri ? uri.spec : "about:blank",
+            triggeringPrincipal,
+            referrerInfo,
+            userContextId,
+            fromExternal: isExternal,
+            inBackground: loadInBackground,
+            forceNotRemote,
+            openWindowInfo,
+            openerBrowser,
+            name,
+            csp,
+            skipLoad
         })
 
         if (needToFocusWin || (!loadInBackground && isExternal)) {

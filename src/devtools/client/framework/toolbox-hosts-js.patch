@@ -1,5 +1,5 @@
 diff --git a/devtools/client/framework/toolbox-hosts.js b/devtools/client/framework/toolbox-hosts.js
-index 19098d7fe3ec8c3018e3594536284f4ec958574a..0471b1dba867d22df13d82698a7e067d4427ba6e 100644
+index 19098d7fe3ec8c3018e3594536284f4ec958574a..c2ce23e556b41f89a2e7904be7ce6367bb3f7a75 100644
 --- a/devtools/client/framework/toolbox-hosts.js
 +++ b/devtools/client/framework/toolbox-hosts.js
 @@ -56,16 +56,17 @@ BottomHost.prototype = {
@@ -184,7 +184,7 @@ index 19098d7fe3ec8c3018e3594536284f4ec958574a..0471b1dba867d22df13d82698a7e067d
    const browserWindow = tab.ownerDocument.defaultView;
    browserWindow.focus();
 -  browserWindow.gBrowser.selectedTab = tab;
-+  browserWindow.store.dispatch({ type: "TAB_SELECT", payload: tab.id })
++  browserWindow.dot.tabs.get(tab.id).select()
  }
  
  /**

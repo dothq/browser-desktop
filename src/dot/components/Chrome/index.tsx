@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { RootState } from "../../app/store";
-import { useBrowserSelector } from "../../app/store/hooks";
+import { dot } from "../../api";
 import { L } from "../../core/l10n/react";
 import { openMenuAt } from "../../shared/menu";
 import { NewTabButton } from "../NewTabButton";
@@ -14,9 +14,7 @@ import { Tabs } from "../Tabs";
 import { ToolbarButton } from "../ToolbarButton";
 import { WindowControls } from "../WindowControls";
 
-export const Chrome = () => {
-    const tabs = useBrowserSelector((s: RootState) => s.tabs);
-
+export const Chrome = observer(() => {
     return (
         <div
             id={"navigator-toolbox"}
@@ -36,8 +34,8 @@ export const Chrome = () => {
                                 "chrome://dot/content/skin/icons/back.svg"
                             }
                             disabled={
-                                !tabs.getTabById(
-                                    tabs.selectedId
+                                !dot.tabs.getTabById(
+                                    dot.tabs.selectedTabId
                                 )?.canGoBack
                             }
                             command={"Browser:GoBack"}
@@ -50,8 +48,8 @@ export const Chrome = () => {
                                 "chrome://dot/content/skin/icons/forward.svg"
                             }
                             disabled={
-                                !tabs.getTabById(
-                                    tabs.selectedId
+                                !dot.tabs.getTabById(
+                                    dot.tabs.selectedTabId
                                 )?.canGoForward
                             }
                             command={"Browser:GoForward"}
@@ -61,22 +59,22 @@ export const Chrome = () => {
                     <L id={"navigation-reload-button"}>
                         <ToolbarButton
                             image={
-                                tabs.getTabById(
-                                    tabs.selectedId
+                                dot.tabs.getTabById(
+                                    dot.tabs.selectedTabId
                                 )?.state == "loading" &&
-                                !tabs.getTabById(
-                                    tabs.selectedId
+                                !dot.tabs.getTabById(
+                                    dot.tabs.selectedTabId
                                 )?.identityManager
                                     .isAboutUI
                                     ? "chrome://dot/content/skin/icons/close.svg"
                                     : "chrome://dot/content/skin/icons/reload.svg"
                             }
                             command={
-                                tabs.getTabById(
-                                    tabs.selectedId
+                                dot.tabs.getTabById(
+                                    dot.tabs.selectedTabId
                                 )?.state == "idle" ||
-                                tabs.getTabById(
-                                    tabs.selectedId
+                                dot.tabs.getTabById(
+                                    dot.tabs.selectedTabId
                                 )?.identityManager
                                     .isAboutUI
                                     ? "Browser:Reload"
@@ -86,7 +84,7 @@ export const Chrome = () => {
                     </L>
 
                     <Spring />
-                    <Searchbar tabId={tabs.selectedId} />
+                    <Searchbar tabId={dot.tabs.selectedTabId} />
                     <Spring />
 
                     <ToolbarButton
@@ -124,4 +122,4 @@ export const Chrome = () => {
             </nav>
         </div>
     );
-};
+});

@@ -44,8 +44,8 @@ const recursiveIssuer = (m, c) => {
 
 const webuiEntry = {
     newtab: "./core/newtab/start-page.tsx",
-    settings: "./core/webui/settings/settings.tsx",
-    config: "./core/webui/config/config.tsx"
+    // settings: "./core/webui/settings/settings.tsx",
+    // config: "./core/webui/config/config.tsx"
 };
 
 let entry = {};
@@ -81,7 +81,7 @@ Object.entries(webuiEntry).forEach(([key, value]) => {
 
 entry = {
     ...entry,
-    browser: ["./app/index.tsx", ...browser_styles],
+    browser: ["./index.tsx", ...browser_styles],
     webui: [...webui_styles]
 };
 

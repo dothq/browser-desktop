@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { makeAutoObservable } from "mobx";
 import { dot } from "../api";
 import { Theme } from "../models/Theme";
 import {
@@ -433,6 +434,8 @@ export class ThemeAPI {
     ]);
 
     constructor() {
+        makeAutoObservable(this);
+
         this._darkModeMediaQuery = window.matchMedia(
             "(-moz-system-dark-theme)"
         );

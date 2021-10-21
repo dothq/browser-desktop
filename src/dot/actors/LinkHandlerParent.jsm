@@ -41,23 +41,12 @@ class LinkHandlerParent extends JSWindowActorParent {
         switch (aMsg.name) {
             case "Link:LoadingIcon":
                 if (aMsg.data.canUseForTab) {
-                    this.store.dispatch({
-                        type: "TAB_UPDATE",
-                        payload: {
-                            id: browser.browserId,
-                            faviconUrl: null,
-                            pendingIcon: true
-                        }
-                    });
+                    const { browserId } = browser;
 
-                    console.log("Link:LoadingIcon", {
-                        type: "TAB_UPDATE",
-                        payload: {
-                            id: browser.browserId,
-                            faviconUrl: null,
-                            pendingIcon: true
-                        }
-                    })
+                    const tab = this.dot.get(browserId)
+
+                    tab.pendingUrl = null;
+                    tab.pendingIcon = true;
                 }
 
                 break;

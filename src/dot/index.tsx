@@ -2,20 +2,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { Chrome } from "../components/Chrome";
-import { Launcher } from "../core/launcher";
-import { Statusbar } from "../core/statusbar";
-import { useBrowserSelector } from "./store/hooks";
+import ReactDOM from "react-dom";
+import { Chrome } from "./components/Chrome";
+import { Statusbar } from "./core/statusbar";
 
-export const Browser = () => {
-    const ui = useBrowserSelector((s: any) => s.ui);
-
+export const Application = observer(() => {
     return (
         <div className={"ui-container"}>
             <Chrome />
-            <Launcher />
+            {/* <Launcher /> */}
             <Statusbar />
         </div>
     );
-};
+});
+
+export const render = () => ReactDOM.render(
+    <Application />,
+    document.getElementById("browser")
+);

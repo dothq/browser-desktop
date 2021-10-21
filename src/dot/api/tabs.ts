@@ -1,18 +1,14 @@
-import { dot } from ".";
-import { store } from "../app/store";
+import { action, computed, makeObservable, observable } from "mobx";
 import { Tab } from "../models/Tab";
 import { Ci } from "../modules";
 import { TabProgressListener } from "../services/progress";
+
 export class TabsAPI {
-    public get list() {
-        return store.getState().tabs.list;
-    }
-
-    public get selectedTabId() {
-        const { tabs } = store.getState();
-
-        return tabs.selectedId;
-    }
+    @observable
+    public list: Tab[] = [];
+    
+    @observable
+    public selectedTabId = -1;
 
     public get tabContainer() {
         return document.getElementById("tabbrowser-tabs");
@@ -21,25 +17,29 @@ export class TabsAPI {
     public tabFilters = new Map();
     public tabListeners = new Map();
 
+    @computed
     public get selectedTab() {
-        return this.get(store.getState().tabs.selectedId);
+        return this.get(this.selectedTabId);
     }
 
+    @action
     public create(data: Partial<Tab>) {
         const tab = new Tab(data);
 
         if (tab) {
             this.list.push(tab);
 
-            return tab;
+            if (!data.background) {
+                this.selectedTabId = tab.id;
+            }
         }
     }
 
     public get(id: number) {
-        const { tabs } = store.getState();
-
-        return tabs.getTabById(id);
+        return this.list.find(x => x.id == id);
     }
+
+    public getTabById = this.get;
 
     public getBrowserContainer(browserEl: any) {
         /*
@@ -82,24 +82,9 @@ export class TabsAPI {
         }
     }
 
-    public relocateTab(
-        tabToMoveId: number,
-        targetIndex: number
-    ) {
-        const dragTabIndex = dot.tabs.list.findIndex(
-            (t) => t.id == tabToMoveId
-        );
-
-        store.dispatch({
-            type: "RELOCATE_TAB",
-            payload: {
-                oldIndex: dragTabIndex,
-                newIndex: targetIndex
-            }
-        });
-    }
-
     public constructor() {
+        makeObservable(this);
+
         addEventListener(
             "WillChangeBrowserRemoteness",
             (event: any) => {
@@ -154,13 +139,7 @@ export class TabsAPI {
                             tab?.webContents
                                 .isRemoteBrowser
                         ) {
-                            store.dispatch({
-                                type: "TAB_UPDATE",
-                                payload: {
-                                    id: browserId,
-                                    crashed: false
-                                }
-                            });
+                            // todo: add crashed prop to tab
                         }
 
                         event =

@@ -365,4 +365,8 @@ export class WindowAPI extends EventEmitter {
         event.stopPropagation();
         event.preventDefault();
     }
+
+    public constructor() {
+        super();
+    }
 }

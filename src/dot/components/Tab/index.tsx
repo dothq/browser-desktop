@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { Tab } from "../../models/Tab";
 import { ToolbarButton } from "../ToolbarButton";
@@ -7,7 +8,7 @@ interface Props {
     tab: Tab
 }
 
-export const BrowserTab = ({ tab }: Props) => {
+export const BrowserTab = observer(({ tab }: Props) => {
     return (
         <div className={"tabbrowser-tab-wrapper"}>
             <div 
@@ -58,11 +59,11 @@ export const BrowserTab = ({ tab }: Props) => {
                 <ToolbarButton
                     className={"tab-close-button"}
                     image={"chrome://dot/content/skin/icons/close.svg"}
-                    onMouseDown={(e) => {
+                    onMouseDown={(e: any) => {
                         e.preventDefault();
                         e.stopPropagation();
                     }}
-                    onMouseUp={(e) => {
+                    onMouseUp={(e: any) => {
                         e.preventDefault();
                         e.stopPropagation();
                     }}
@@ -70,4 +71,4 @@ export const BrowserTab = ({ tab }: Props) => {
             </div>
         </div>
     )
-}
+});

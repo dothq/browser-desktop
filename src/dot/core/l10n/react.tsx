@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { l10n } from ".";
-import { store } from "../../app/store";
 
 interface LProps {
     id: string;
@@ -42,7 +41,7 @@ export class L extends React.Component<LProps> {
     public componentDidMount() {
         this.updateState();
 
-        store.subscribe(() => this.updateState());
+        // store.subscribe(() => this.updateState());
     }
 
     public render() {

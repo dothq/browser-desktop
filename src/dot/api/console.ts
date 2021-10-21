@@ -1,6 +1,5 @@
-import { EventEmitter } from "events";
-import { InspectOptions } from "util";
-import { AppConstants, ChromeUtils } from "../modules";
+import { makeAutoObservable } from "mobx";
+import { AppConstants } from "../modules";
 
 export class ConsoleAPI {
     public debug(...data: any[]) {
@@ -54,5 +53,7 @@ export class ConsoleAPI {
         console.warn(`warn:`, callee, ...data);
     }
 
-    constructor() {}
+    constructor() {
+        makeAutoObservable(this);
+    }
 }

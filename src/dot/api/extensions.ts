@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import { AddonManager, ChromeUtils } from "../modules";
 import { builtInExtensions } from "../shared/built-in";
 import { COMMENT_REGEX } from "../shared/regex";
@@ -60,6 +61,8 @@ export class ExtensionsAPI {
     }
 
     constructor() {
+        makeAutoObservable(this);
+
         this.loadBuiltInExtensions();
     }
 }

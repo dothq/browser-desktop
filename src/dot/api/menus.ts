@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from ".";
@@ -313,5 +314,9 @@ export class MenusAPI {
             );
             this.elementOpener = undefined;
         }
+    }
+
+    public constructor() {
+        makeAutoObservable(this);
     }
 }

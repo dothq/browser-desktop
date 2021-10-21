@@ -1,7 +1,7 @@
 import EventEmitter from "events";
+import { action, computed, observable } from "mobx";
 import React from "react";
 import { dot } from "../api";
-import { store } from "../app/store";
 import { ipc } from "../core/ipc";
 import { ThumbnailManager } from "../core/thumbnails";
 import {
@@ -30,42 +30,30 @@ export interface ITab {
 }
 
 export class Tab extends EventEmitter {
+    @observable
     public id: number;
 
+    @observable
     public background: boolean;
 
-    private _state: "loading" | "idle" | "unknown" =
+    @observable
+    public state: "loading" | "idle" | "unknown" =
         "loading";
-
-    public get state() {
-        return this._state;
-    }
-
-    public set state(
-        state: "loading" | "idle" | "unknown"
-    ) {
-        this._state = state;
-
-        store.dispatch({
-            type: "TAB_UPDATE_STATE",
-            payload: {
-                id: this.id,
-                state
-            }
-        });
-    }
 
     /*
         busy - looking up address / first connect to server
         progress - received contents, loading scripts and media
         <empty> - idle (we're done here)
     */
+    @observable
     public loadingStage: "busy" | "progress" | "" = "";
 
+    @computed
     public get url() {
         return this.urlParsed.spec;
     }
 
+    @computed
     public get urlParsed(): MozURI {
         // tab might be dead
         if (
@@ -77,6 +65,7 @@ export class Tab extends EventEmitter {
         return this.webContents.currentURI;
     }
 
+    @computed
     public get host() {
         let host = undefined;
 
@@ -87,6 +76,7 @@ export class Tab extends EventEmitter {
         return host;
     }
 
+    @computed
     public get active() {
         return dot.tabs.selectedTabId == this.id;
     }
@@ -95,6 +85,7 @@ export class Tab extends EventEmitter {
         if(val) this.select();
     }
 
+    @computed
     public get tooltip() {
         const label = [
             this.title
@@ -131,13 +122,18 @@ export class Tab extends EventEmitter {
         return label.join("\n");
     }
 
+    @observable
     public hovering: boolean = false;
 
+    @observable
     public canGoBack: boolean = false;
+    
+    @observable
     public canGoForward: boolean = false;
 
     private _pageStatus: string | undefined = "";
 
+    @computed
     public get pageStatus() {
         return this._pageStatus;
     }
@@ -164,36 +160,37 @@ export class Tab extends EventEmitter {
         }
     }
 
+    @observable
     public pinned: boolean = false;
 
+    @observable
     public bookmarked: boolean = false;
 
+    @action
     public bookmark() {
         console.log("stub - bookmark");
     }
 
+    @action
     public unBookmark() {
         console.log("stub - unbookmark");
     }
 
+    @action
     public updateNavigationState() {
-        store.dispatch({
-            type: "TAB_UPDATE_NAVIGATION_STATE",
-            payload: {
-                id: this.id,
-                canGoBack: this.webContents.canGoBack,
-                canGoForward:
-                    this.webContents.canGoForward
-            }
-        });
+        this.canGoBack = this.webContents.canGoBack;
+        this.canGoForward = this.webContents.canGoForward;
     }
 
+    @action
     public toggleDevTools(target: any) {
         return DevToolsShim.inspectNode(this, target);
     }
 
+    @observable
     public title: string;
     
+    @action
     public updateTitle() {
         const browser = this.webContents;
 
@@ -238,19 +235,14 @@ export class Tab extends EventEmitter {
                 .replace(/^[^:]+:\/\/(?:www\.)?/, "");
         }
 
-        store.dispatch({
-            type: "TAB_UPDATE_TITLE",
-            payload: {
-                id: this.id,
-                title: contentTitle
-            }
-        });
+        this.title = contentTitle;
 
         dot.window.updateWindowTitle();
         
         return contentTitle;
     }
 
+    @computed
     public get zoom() {
         return zoomManager.getZoomOfTab(this.id);
     }
@@ -259,20 +251,27 @@ export class Tab extends EventEmitter {
         zoomManager.setZoomForTab(this.id, zoom);
     }
 
+    @computed
     public get zoomManager() {
         return zoomManager;
     }
 
+    @computed
     public get thumbnails() {
         return new ThumbnailManager(this);
     }
 
+    @observable
     public initialIconHidden: boolean = false;
 
+    @observable
     public faviconUrl: any;
     public faviconLoadingPrincipal: any;
+
+    @observable
     public pendingIcon: boolean = false;
 
+    @action
     public setIcon(
         iconURL: string,
         originalURL = iconURL,
@@ -298,44 +297,38 @@ export class Tab extends EventEmitter {
 
         this.webContents.mIconURL = iconURL;
         this.faviconLoadingPrincipal = loadingPrincipal;
-
-        store.dispatch({
-            type: "TAB_UPDATE",
-            payload: {
-                id: this.id,
-                faviconUrl: iconURL,
-                pendingIcon: false
-            }
-        })
+        this.faviconUrl = iconURL;
+        this.pendingIcon = false;
     }
 
+    @action
     public clearPendingIcon() {
-        store.dispatch({
-            type: "TAB_UPDATE",
-            payload: {
-                id: this.id,
-                faviconUrl: "",
-                pendingIcon: false
-            }
-        })
+        this.faviconUrl = "";
+        this.pendingIcon = false;
     }
 
+    @observable
     public isClosing: boolean = false;
 
+    @observable
     public contentState: any;
 
+    @computed
     public get identityManager() {
         return new IdentityManager(this);
     }
 
+    @action
     public onTabMouseOver() {
         this.hovering = true;
     }
 
+    @action
     public onTabMouseLeave() {
         this.hovering = false;
     }
 
+    @action
     public onTabMouseDown(e: React.MouseEvent<HTMLDivElement>) {
         e.preventDefault();
         e.stopPropagation();
@@ -343,10 +336,7 @@ export class Tab extends EventEmitter {
         switch(e.button) {
             // Left click
             case 0:
-                store.dispatch({
-                    type: "TAB_SELECT",
-                    payload: this.id
-                });
+                this.select();
 
                 break;
             // Middle click
@@ -421,6 +411,7 @@ export class Tab extends EventEmitter {
         return this;
     }
 
+    @action
     public goto(uri: MozURI | string, options?: any) {
         let parsed: MozURI;
 
@@ -441,16 +432,19 @@ export class Tab extends EventEmitter {
         );
     }
 
+    @action
     public goBack() {
         this.webContents.goBack();
         this.updateNavigationState();
     }
 
+    @action
     public goForward() {
         this.webContents.goForward();
         this.updateNavigationState();
     }
 
+    @action
     public reload(flags?: number) {
         this.state = "loading"; // start loading
 
@@ -462,11 +456,13 @@ export class Tab extends EventEmitter {
         this.updateNavigationState();
     }
 
+    @action
     public stop() {
         this.webContents.stop();
         this.updateNavigationState();
     }
 
+    @action
     public destroy() {
         const tabIndex = dot.tabs.list.findIndex(
             (tab) => tab.id == this.id
@@ -474,13 +470,7 @@ export class Tab extends EventEmitter {
 
         this.emit("TabClose");
 
-        store.dispatch({
-            type: "TAB_UPDATE",
-            payload: {
-                id: this.id,
-                isClosing: true
-            }
-        });
+        this.isClosing = true;
 
         const filteredList = dot.tabs.list.filter(
             (x) => !x.isClosing
@@ -491,18 +481,14 @@ export class Tab extends EventEmitter {
         if (filteredList.length == 0)
             return window.close();
 
-        const tabsIndex = dot.tabs.list.findIndex(
-            (x) => x.id == this.id
-        );
         let browserContainer =
             dot.tabs.getBrowserContainer(
                 this.webContents
             ).parentNode;
 
-        store.dispatch({
-            type: "TAB_KILL",
-            payload: this.id
-        });
+        dot.tabs.list = dot.tabs.list.filter(
+            (t) => t.id !== this.id
+        );
 
         this.webContents.destroy();
         this.webContents.remove();
@@ -520,10 +506,9 @@ export class Tab extends EventEmitter {
             newIndex = tabIndex - 1;
         }
 
-        store.dispatch({
-            type: "TAB_SELECT",
-            payload: dot.tabs.list[newIndex].id
-        });
+        const newTab = dot.tabs.list[newIndex];
+        
+        newTab.select();
 
         /*
             Current Tab Index: 1
@@ -539,6 +524,7 @@ export class Tab extends EventEmitter {
         // if ((tabsIndex + 1))
     }
 
+    @action
     public select() {
         dot.browsersPrivate.select(this.id);
     }

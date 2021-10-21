@@ -1,7 +1,8 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { dot } from "../../api";
 
-export const ToolbarButton = ({
+export const ToolbarButton = observer(({
     image,
     children,
     id,
@@ -91,4 +92,4 @@ export const ToolbarButton = ({
             </label>
         </a>
     );
-};
+});

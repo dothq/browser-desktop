@@ -1,6 +1,6 @@
 import { useID } from "@dothq/id";
+import { makeAutoObservable } from "mobx";
 import { dot } from ".";
-import { store } from "../app/store";
 import { zoomManager } from "../services/zoom";
 
 export enum keys {
@@ -178,6 +178,8 @@ export class KeybindsAPI {
     }
 
     constructor() {
+        makeAutoObservable(this);
+
         // New Tab
         this.addKeybind(["accel", keys.VK_T], () => {
             dot.utilities.doCommand("Browser:NewTab");
@@ -228,15 +230,6 @@ export class KeybindsAPI {
         // Zoom Reset
         this.addKeybind(["accel", keys.VK_0], () => {
             zoomManager.reset();
-        });
-
-        // Toggle Launcher
-        this.addKeybind(["accel", keys.VK_SPACE], () => {
-            store.dispatch({
-                type: "UI_TOGGLE_LAUNCHER",
-                payload:
-                    !store.getState().ui.launcherVisible
-            });
         });
     }
 }

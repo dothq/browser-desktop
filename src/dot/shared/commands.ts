@@ -1,6 +1,5 @@
 import { dot } from "../api";
-import { store } from "../app/store";
-import { NEW_TAB_URL } from "./tab";
+import { BrowserOpenTab, openPreferences } from "../utils/browser";
 
 export const commands: any = {
     "Browser:GoBack": () =>
@@ -12,30 +11,11 @@ export const commands: any = {
     "Browser:Stop": () => dot.tabs.selectedTab?.stop(),
 
     "Browser:Bookmark": () =>
-        store.dispatch({
-            type: "TAB_BOOKMARK",
-            payload: {
-                id: dot.tabs.selectedTabId
-            }
-        }),
+        console.log("todo"),
 
-    "Browser:NewTab": () =>
-        store.dispatch({
-            type: "TAB_CREATE",
-            payload: {
-                url: NEW_TAB_URL,
-                title: "New Tab",
-                initialIconHidden: true
-            }
-        }),
+    "Browser:NewTab": () => BrowserOpenTab(),
 
-    "Browser:OpenPreferences": () =>
-        store.dispatch({
-            type: "TAB_CREATE",
-            payload: {
-                url: `about:settings`
-            }
-        }),
+    "Browser:OpenPreferences": () => openPreferences(),
 
     "Browser:LaunchBrowserToolbox": () =>
         dot.dev.launchBrowserToolbox()

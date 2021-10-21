@@ -1,13 +1,12 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { useBrowserSelector } from "../../app/store/hooks";
+import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
 import { BrowserTab } from "../Tab";
 import { ToolbarButton } from "../ToolbarButton";
 import { TabsController } from "./TabsController";
 
-export const Tabs = () => {
-    const tabs = useBrowserSelector(s => s.tabs);
-
+export const Tabs = observer(() => {
     React.useEffect(() => {
         ipc.on("tab-created", () => TabsController.maybeShowScrollerButtons())
         window.addEventListener("resize", () => TabsController.maybeShowScrollerButtons())
@@ -28,7 +27,7 @@ export const Tabs = () => {
                 onMouseLeave={() => TabsController.onTabsMouseLeave()}
             >
                 <div id={"tabbrowser-tabs"}>
-                    {tabs.list.map(tab => (
+                    {dot.tabs.list.map(tab => (
                         <BrowserTab 
                             key={tab.id} 
                             tab={tab} 
@@ -43,4 +42,4 @@ export const Tabs = () => {
             />
         </>
     )
-}
+});
