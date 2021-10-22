@@ -1,7 +1,8 @@
 body {
     background-color: var(--lwt-accent-color);
     margin: 0;
-    padding: 16px;
+    // This causes padding around the browser window
+    // padding: 16px;
 
     color: var(--lwt-text-color);
     font-family: sans-serif;
