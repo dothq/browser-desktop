@@ -8,7 +8,10 @@ import { TabsController } from "./TabsController";
 
 export const Tabs = observer(() => {
     React.useEffect(() => {
-        ipc.on("tab-created", () => TabsController.maybeShowScrollerButtons())
+        ipc.on("tab-created", () => {
+            TabsController.scrollToEnd()
+            TabsController.maybeShowScrollerButtons()
+        })
         window.addEventListener("resize", () => TabsController.maybeShowScrollerButtons())
     }, [])
 

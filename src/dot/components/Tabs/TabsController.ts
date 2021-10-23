@@ -78,6 +78,16 @@ export const TabsController = {
         }
     },
 
+    scrollToEnd() {
+        const scroller = this.tabsScrollerRef.current as HTMLDivElement;
+
+        scroller.scrollTo({
+            left: 999999999,
+            top: 0,
+            behavior: "smooth"
+        });
+    },
+
     maybeShowScrollerButtons() {
         const { scrollWidth } = this.tabsScrollerRef.current as HTMLDivElement;
 
