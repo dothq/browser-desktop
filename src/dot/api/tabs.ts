@@ -1,4 +1,5 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
+import { dot } from ".";
 import { Tab } from "../models/Tab";
 import { Ci } from "../modules";
 import { TabProgressListener } from "../services/progress";
@@ -6,9 +7,10 @@ import { TabProgressListener } from "../services/progress";
 export class TabsAPI {
     @observable
     public list: Tab[] = [];
-    
-    @observable
-    public selectedTabId = -1;
+
+    public get selectedTabId() {
+        return dot.browsersPrivate.selectedId;
+    }
 
     public get tabContainer() {
         return document.getElementById("tabbrowser-tabs");
@@ -19,20 +21,14 @@ export class TabsAPI {
 
     @computed
     public get selectedTab() {
-        return this.get(this.selectedTabId);
+        return this.get(dot.browsersPrivate.selectedId);
     }
 
-    @action
     public create(data: Partial<Tab>) {
         const tab = new Tab(data);
+        this.list.push(tab);
 
-        if (tab) {
-            this.list.push(tab);
-
-            if (!data.background) {
-                this.selectedTabId = tab.id;
-            }
-        }
+        return tab;
     }
 
     public get(id: number) {

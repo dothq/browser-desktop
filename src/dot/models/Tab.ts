@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-import { action, computed, makeObservable, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
 import React from "react";
 import { dot } from "../api";
 import { ipc } from "../core/ipc";
@@ -7,9 +7,9 @@ import { ThumbnailManager } from "../core/thumbnails";
 import {
     Cc,
     ChromeUtils,
-    Ci,
-    E10SUtils,
-    Services
+    Ci, ContentCrashHandlers, E10SUtils,
+    Services,
+    SitePermissions
 } from "../modules";
 import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
@@ -48,12 +48,10 @@ export class Tab extends EventEmitter {
     @observable
     public loadingStage: "busy" | "progress" | "" = "";
 
-    @computed
     public get url() {
         return this.urlParsed.spec;
     }
 
-    @computed
     public get urlParsed(): MozURI {
         // tab might be dead
         if (
@@ -65,7 +63,6 @@ export class Tab extends EventEmitter {
         return this.webContents.currentURI;
     }
 
-    @computed
     public get host() {
         let host = undefined;
 
@@ -76,16 +73,10 @@ export class Tab extends EventEmitter {
         return host;
     }
 
-    @computed
     public get active() {
-        return dot.tabs.selectedTabId == this.id;
+        return dot.browsersPrivate.selectedId == this.id;
     }
 
-    public set active(val: boolean) {
-        if(val) this.select();
-    }
-
-    @computed
     public get tooltip() {
         const label = [
             this.title
@@ -131,9 +122,19 @@ export class Tab extends EventEmitter {
     @observable
     public canGoForward: boolean = false;
 
+    @observable
+    public audioPlaying: boolean = false;
+
+    @observable
+    public audioPlaybackBlocked: boolean = false;
+
+    @observable
+    public muted: boolean = false;
+
+    public audioPlayingRemovalInt: any;
+
     private _pageStatus: string | undefined = "";
 
-    @computed
     public get pageStatus() {
         return this._pageStatus;
     }
@@ -166,31 +167,26 @@ export class Tab extends EventEmitter {
     @observable
     public bookmarked: boolean = false;
 
-    @action
     public bookmark() {
         console.log("stub - bookmark");
     }
 
-    @action
     public unBookmark() {
         console.log("stub - unbookmark");
     }
 
-    @action
     public updateNavigationState() {
         this.canGoBack = this.webContents.canGoBack;
         this.canGoForward = this.webContents.canGoForward;
     }
 
-    @action
     public toggleDevTools(target: any) {
         return DevToolsShim.inspectNode(this, target);
     }
 
     @observable
-    public title: string;
+    public title?: string;
     
-    @action
     public updateTitle() {
         const browser = this.webContents;
 
@@ -242,7 +238,6 @@ export class Tab extends EventEmitter {
         return contentTitle;
     }
 
-    @computed
     public get zoom() {
         return zoomManager.getZoomOfTab(this.id);
     }
@@ -251,12 +246,10 @@ export class Tab extends EventEmitter {
         zoomManager.setZoomForTab(this.id, zoom);
     }
 
-    @computed
     public get zoomManager() {
         return zoomManager;
     }
 
-    @computed
     public get thumbnails() {
         return new ThumbnailManager(this);
     }
@@ -271,11 +264,10 @@ export class Tab extends EventEmitter {
     @observable
     public pendingIcon: boolean = false;
 
-    @action
     public setIcon(
         iconURL: string,
         originalURL = iconURL,
-        loadingPrincipal: any
+        loadingPrincipal?: any
     ) {
         const makeString = (url: any) => (url instanceof Ci.nsIURI ? url.spec : url);
 
@@ -301,7 +293,6 @@ export class Tab extends EventEmitter {
         this.pendingIcon = false;
     }
 
-    @action
     public clearPendingIcon() {
         this.faviconUrl = "";
         this.pendingIcon = false;
@@ -315,20 +306,19 @@ export class Tab extends EventEmitter {
 
     @computed
     public get identityManager() {
-        return new IdentityManager(this);
+        return observable(
+            new IdentityManager(this)
+        );
     }
 
-    @action
     public onTabMouseOver() {
         this.hovering = true;
     }
 
-    @action
     public onTabMouseLeave() {
         this.hovering = false;
     }
 
-    @action
     public onTabMouseDown(e: React.MouseEvent<HTMLDivElement>) {
         e.preventDefault();
         e.stopPropagation();
@@ -375,6 +365,22 @@ export class Tab extends EventEmitter {
 
     public tagName = "tab";
 
+    public eventBindings = {
+        "pagetitlechanged": this.onPageTitleChange,
+
+        "oop-browser-crashed": this.onTabCrashed,
+        "oop-browser-buildid-mismatch": this.onTabCrashed,
+
+        "DOMWindowClose": this.onRequestTabClose,
+
+        "DOMAudioPlaybackStarted": this.onAudioPlaybackStarted,
+        "DOMAudioPlaybackStopped": this.onAudioPlaybackStopped,
+        "DOMAudioPlaybackBlockStarted": this.onAudioPlaybackBlockStarted,
+        "DOMAudioPlaybackBlockStopped":  this.onAudioPlaybackBlockStopped,
+
+        "GloballyAutoplayBlocked": this.onAudioPlaybackGloballyBlocked
+    }
+
     constructor(args: Partial<Tab>) {
         super();
 
@@ -394,26 +400,22 @@ export class Tab extends EventEmitter {
         this.id = this.webContents.browserId;
         this.background = !!args.background;
         this.initialIconHidden = !!args.initialIconHidden;
-        this.title = args.title ? args.title : "";
+        
+        this.bindEvents();
+
+        if(args.title) {
+            this.title = args.title;
+        } else {
+            this.updateTitle();
+        }
 
         this.createProgressListener();
-
-        this.webContents.addEventListener(
-            "pagetitlechanged",
-            (e: any) => this.onPageTitleChange(e)
-        );
-
-        this.webContents.addEventListener(
-            "DOMWindowClose",
-            (e: any) => this.onRequestTabClose(e)
-        );
 
         ipc.fire("tab-created", this.id);
 
         return this;
     }
 
-    @action
     public goto(uri: MozURI | string, options?: any) {
         let parsed: MozURI;
 
@@ -434,19 +436,16 @@ export class Tab extends EventEmitter {
         );
     }
 
-    @action
     public goBack() {
         this.webContents.goBack();
         this.updateNavigationState();
     }
 
-    @action
     public goForward() {
         this.webContents.goForward();
         this.updateNavigationState();
     }
 
-    @action
     public reload(flags?: number) {
         this.state = "loading"; // start loading
 
@@ -458,13 +457,11 @@ export class Tab extends EventEmitter {
         this.updateNavigationState();
     }
 
-    @action
     public stop() {
         this.webContents.stop();
         this.updateNavigationState();
     }
 
-    @action
     public destroy() {
         const tabIndex = dot.tabs.list.findIndex(
             (tab) => tab.id == this.id
@@ -526,9 +523,24 @@ export class Tab extends EventEmitter {
         // if ((tabsIndex + 1))
     }
 
-    @action
     public select() {
         dot.browsersPrivate.select(this.id);
+    }
+
+    public toggleMute() {
+        if (this.audioPlaybackBlocked) {
+            this.audioPlaybackBlocked = false;
+
+            this.webContents.resumeMedia();
+        } else {
+            if (this.webContents.audioMuted) {
+                this.webContents.unmute();
+            } else {
+                this.webContents.mute();
+            }
+            
+            this.muted = this.webContents.audioMuted;
+        }
     }
 
     public emit(
@@ -569,17 +581,24 @@ export class Tab extends EventEmitter {
     }
 
     public onPageTitleChange(event: any) {
+        if (!event.isTrusted) return;
+
+        const browser = event.originalTarget;
+        const tab = dot.tabs.get(browser.browserId);
+
+        if(!tab) return;
+
         // Ignore empty title changes on internal pages. This prevents the title
         // from changing while Fluent is populating the (initially-empty) title
         // element.
         if (
-            !this.webContents.contentTitle &&
-            this.webContents.contentPrincipal
+            !browser.contentTitle &&
+            browser.contentPrincipal
                 .isSystemPrincipal
         )
             return;
 
-        this.updateTitle();
+        tab.updateTitle();
     }
 
     public onRequestTabClose(event: any) {
@@ -598,6 +617,114 @@ export class Tab extends EventEmitter {
         this.destroy();
 
         event.preventDefault();
+    }
+
+    public onTabCrashed(event: any) {
+        if (!event.isTrusted) return;
+
+        const browser = event.originalTarget;
+
+        if (!event.isTopFrame) {
+            return ContentCrashHandlers.onSubFrameCrash(
+                browser, 
+                event.childID
+            );
+        }
+
+        const isRestartRequiredCrash =
+            event.type == "oop-browser-buildid-mismatch";
+
+        if (dot.tabs.selectedTabId == browser.browserId) {
+            ContentCrashHandlers.onSelectedBrowserCrash(
+                browser,
+                isRestartRequiredCrash
+            );
+        } else {
+            ContentCrashHandlers.onBackgroundBrowserCrash(
+                browser,
+                isRestartRequiredCrash
+            );
+        }
+
+        this.audioPlaying = false;
+
+        this.setIcon(
+            browser.mIconURL,
+            browser.mIconURL
+        );
+    }
+
+    public onAudioPlaybackStarted(event: any) {
+        const browser = event.originalTarget;
+        const tab = dot.tabs.get(browser.browserId);
+
+        if (!tab) return;
+
+        clearTimeout(tab.audioPlayingRemovalInt);
+        tab.audioPlayingRemovalInt = null;
+
+        tab.audioPlaying = false;
+        tab.audioPlaying = true;
+    }
+
+    public onAudioPlaybackStopped(event: any) {
+        const browser = event.originalTarget;
+        const tab = dot.tabs.get(browser.browserId);
+
+        if (!tab) return;
+
+        if (tab.audioPlaying && !tab.muted) {
+            const removalDelay = dot.prefs.get(
+                "browser.tabs.delayHidingAudioPlayingIconMS",
+                3000
+            );
+
+            tab.audioPlayingRemovalInt = setTimeout(() => {
+                tab.audioPlaying = false;
+            }, removalDelay);
+        }
+    }
+
+    public onAudioPlaybackBlockStarted(event: any) {
+        const browser = event.originalTarget;
+        const tab = dot.tabs.get(browser.browserId);
+
+        if (!tab) return;
+
+        tab.audioPlaybackBlocked = true;
+    }
+
+    public onAudioPlaybackBlockStopped(event: any) {
+        const browser = event.originalTarget;
+        const tab = dot.tabs.get(browser.browserId);
+
+        if (!tab) return;
+
+        tab.audioPlaybackBlocked = false;
+    }
+
+    public onAudioPlaybackGloballyBlocked(event: any) {
+        const browser = event.originalTarget;
+        const tab = dot.tabs.get(browser.browserId);
+
+        if (!tab) return;
+
+        SitePermissions.setForPrincipal(
+            browser.contentPrincipal,
+            "autoplay-media",
+            SitePermissions.BLOCK,
+            SitePermissions.SCOPE_GLOBAL,
+            browser
+        );
+    }
+
+    public bindEvents() {
+        for(const [event, handler] of Object.entries(this.eventBindings)) {
+            this.webContents.addEventListener(
+                event,
+                (args: any) => handler(args)
+            )
+        }
     }
 
     public addEventListener(

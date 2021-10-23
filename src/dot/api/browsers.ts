@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { dot } from ".";
 import { Ci, E10SUtils, Services } from "../modules";
 import { MozURI } from "../types/uri";
@@ -23,11 +23,16 @@ class BrowserOptions {
 }
 
 export class BrowsersAPI {
+    @observable
     public browsers: Map<number, HTMLElement> = new Map();
 
+    @observable
     public selectedId: number = -1;
+
+    @observable
     public previousId: number = -1;
 
+    @computed
     public get tabStack() {
         return document.getElementById(
             "browser-tabs-stack"
@@ -47,10 +52,12 @@ export class BrowsersAPI {
         autoscroll: true
     };
 
+    @computed
     public get aboutBlankURI(): MozURI {
         return Services.io.newURI("about:blank");
     }
 
+    @action
     public create(
         attributes: { [key: string]: any },
         url?: MozURI
@@ -152,6 +159,7 @@ export class BrowsersAPI {
         return browser as any;
     }
 
+    @action
     public get(id: number) {
         let browser;
 
@@ -168,6 +176,7 @@ export class BrowsersAPI {
             );
     }
 
+    @action
     public findInPage() {
         const browser = this.get(this.selectedId);
         const findBar =
@@ -176,6 +185,7 @@ export class BrowsersAPI {
         browser.parentNode?.appendChild(findBar);
     }
 
+    @action
     public delete(id: number) {
         let browser: any = this.get(id);
 
@@ -187,6 +197,7 @@ export class BrowsersAPI {
         browser = null;
     }
 
+    @action
     public select(id: number) {
         const newBrowser: any = this.get(id);
 
@@ -227,6 +238,7 @@ export class BrowsersAPI {
         dot.window.updateWindowTitle();
     }
 
+    @action
     public goto(id: number, url: MozURI, options?: any) {
         const browser: any = this.get(id);
 
@@ -263,6 +275,6 @@ export class BrowsersAPI {
     }
 
     public constructor() {
-        makeAutoObservable(this);
+        makeObservable(this);
     }
 }

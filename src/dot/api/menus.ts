@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from ".";
@@ -80,9 +80,13 @@ const buildMenu = (item: any, context: any) => {
 };
 
 export class MenusAPI {
+    @observable
     public visibleMenu: HTMLDivElement | undefined;
+
+    @observable
     public visibleMenuId: string | undefined;
 
+    @observable
     public elementOpener: Element | undefined;
 
     public templates = templatesRegistry;
@@ -317,6 +321,6 @@ export class MenusAPI {
     }
 
     public constructor() {
-        makeAutoObservable(this);
+        makeObservable(this);
     }
 }

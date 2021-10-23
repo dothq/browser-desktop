@@ -43,7 +43,7 @@ class LinkHandlerParent extends JSWindowActorParent {
                 if (aMsg.data.canUseForTab) {
                     const { browserId } = browser;
 
-                    const tab = this.dot.get(browserId)
+                    const tab = this.dot.tabs.get(browserId)
 
                     tab.pendingUrl = null;
                     tab.pendingIcon = true;

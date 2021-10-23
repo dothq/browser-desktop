@@ -1,7 +1,8 @@
+import { observer } from "mobx-react";
 import React from "react";
-import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
 import { SiteIdentityDialog } from "../../core/site-identity";
+import { Tab } from "../../models/Tab";
 import { Identity } from "../Identity";
 import { SearchbarInput } from "../SearchbarInput";
 
@@ -17,9 +18,10 @@ interface State {
 }
 
 interface Props {
-    tabId: number;
+    tab: Tab;
 }
 
+@observer
 export class Searchbar extends React.Component<Props> {
     public state: State = {
         mouseState: 0,
@@ -31,13 +33,9 @@ export class Searchbar extends React.Component<Props> {
 
     public identityDialog = new SiteIdentityDialog();
 
-    public get tab() {
-        return dot.tabs.get(this.props.tabId);
-    }
-
     public onLocationChange() {
         const strings: any =
-            this.tab?.identityManager.getIdentityStrings();
+            this.props.tab.identityManager.getIdentityStrings();
 
         if (strings) {
             this.setState({
@@ -64,7 +62,7 @@ export class Searchbar extends React.Component<Props> {
 
         this.identityDialog.openAtElement(
             document.getElementById("identity-icon-box"),
-            { tab: this.tab }
+            this.props
         );
 
         this.setState({
@@ -112,7 +110,7 @@ export class Searchbar extends React.Component<Props> {
                     </div>
 
                     <div id={"urlbar-input"}>
-                        {this.tab && <SearchbarInput />}
+                        {this.props.tab && <SearchbarInput />}
                     </div>
                 </div>
             </div>

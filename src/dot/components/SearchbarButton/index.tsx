@@ -1,7 +1,8 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
 
-export const SearchbarButton = ({
+export const SearchbarButton = observer(({
     id,
     className,
     icon,
@@ -48,4 +49,4 @@ export const SearchbarButton = ({
             </label>
         </a>
     );
-};
+});

@@ -21,8 +21,8 @@ menu {
 }
 
 menu[open] {
-    left: var(--menu-x);
-    top: var(--menu-y);
+    left: calc(var(--menu-x) + 1px);
+    top: calc(var(--menu-y) + 1px);
     pointer-events: all;
     opacity: 1;
     visibility: visible;

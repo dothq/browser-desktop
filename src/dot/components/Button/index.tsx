@@ -1,6 +1,7 @@
+import { observer } from "mobx-react";
 import React from "react";
 
-export const Button = ({
+export const Button = observer(({
     label,
     icon,
     primary,
@@ -46,4 +47,4 @@ export const Button = ({
             </label>
         </a>
     );
-};
+});

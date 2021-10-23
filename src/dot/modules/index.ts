@@ -126,3 +126,7 @@ export const ReferrerInfo = Components.Constructor(
     "nsIReferrerInfo",
     "init"
 );
+
+export const { ContentCrashHandlers } = ChromeUtils.import(
+    "resource:///modules/ContentCrashHandlers.jsm"
+)

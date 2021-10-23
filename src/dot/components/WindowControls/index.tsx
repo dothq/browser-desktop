@@ -1,7 +1,8 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
 
-export const WindowControls = () => {
+export const WindowControls = observer(() => {
     return (
         <div className="titlebar-buttonbox-container">
             <div className="titlebar-buttonbox titlebar-color">
@@ -20,4 +21,4 @@ export const WindowControls = () => {
             </div>
         </div>
     );
-};
+});

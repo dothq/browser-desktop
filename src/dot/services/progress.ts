@@ -87,6 +87,8 @@ export class TabProgressListener {
     ) {
         const tab = dot.tabs.get(this.id);
 
+        if(!tab) return;
+
         const { isTopLevel } = webProgress;
 
         const isSameDocument = !!(
@@ -103,8 +105,12 @@ export class TabProgressListener {
             );
 
             if(!isSameDocument) {
+                clearTimeout(tab.audioPlayingRemovalInt);
+                tab.audioPlayingRemovalInt = null;
+                tab.audioPlaying = false;
+
                 if(!isReload) {
-                    tab?.updateTitle();
+                    tab.updateTitle();
                 }
             }
 

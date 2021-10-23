@@ -10,7 +10,7 @@ a.toolbar-button {
     border: none;
     display: flex;
     -moz-window-dragging: no-drag;
-    transition: 0.3s color;
+    transition: 0.3s color, 0.3s transform, 0s visibility 0.3s;
 
     &:hover .toolbarbutton-icon {
         background-color: var(
@@ -24,6 +24,10 @@ a.toolbar-button {
             --button-active,
             var(--toolbarbutton-active-background)
         );
+    }
+
+    &[data-hidden="true"] {
+        display: none;
     }
 }
 

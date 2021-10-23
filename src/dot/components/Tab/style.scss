@@ -92,20 +92,6 @@
         width: calc(100% - 44px);
         mask-image: linear-gradient(to left, transparent, black 2em);
     }
-
-    .tab-close-button {
-        width: 24px;
-        height: 24px;
-        margin-inline-end: 8px;
-        position: absolute;
-        right: 0;
-
-        .toolbarbutton-icon {
-            margin: 0 !important;
-            padding: 0 !important;
-            background-size: 10px !important;
-        }
-    }
 }
 
 .tab-content {
@@ -126,13 +112,11 @@
         &.loading {
             background-image: url(chrome://dot/content/skin/icons/tab/loading.svg) !important;
             fill: currentColor;
-            fill-opacity: 0.5;
-            transform: scaleX(-1);
+            fill-opacity: 0.35;
 
             &[data-loading-stage="progress"] {
                 fill: var(--dot-ui-accent-colour);
                 fill-opacity: 1;
-                transform: scaleX(1);
             }
         }
     }
@@ -143,5 +127,22 @@
         display: flex;
         align-items: center;
         white-space: nowrap;
+    }
+}
+
+.tab-actions {
+    display: flex;
+    gap: 4px;
+    margin-inline-end: 8px;
+
+    .tab-action-button {
+        width: 24px;
+        height: 24px;
+
+        .toolbarbutton-icon {
+            margin: 0 !important;
+            padding: 0 !important;
+            background-size: 10px !important;
+        }
     }
 }

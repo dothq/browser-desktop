@@ -1,7 +1,8 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
 
-export const MenuPopper = ({
+export const MenuPopper = observer(({
     children,
     menu,
     ctx
@@ -55,4 +56,4 @@ export const MenuPopper = ({
             )}
         </>
     );
-};
+});

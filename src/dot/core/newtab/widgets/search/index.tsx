@@ -1,5 +1,4 @@
 import React from "react";
-import { dot } from "../../../../api";
 
 export const Search = () => {
     const [query, setQuery] = React.useState("");
@@ -16,13 +15,13 @@ export const Search = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                        // TODO: Use the same logic as is employed by the url bar here
-                        const searchURL =
-                            dot.search.providers.engine.constructSearchUrl(
-                                query
-                            );
+                        // // TODO: Use the same logic as is employed by the url bar here
+                        // const searchURL =
+                        //     window.dot.search.providers.engine.constructSearchUrl(
+                        //         query
+                        //     );
 
-                        window.location.href = searchURL;
+                        // window.location.href = searchURL;
                     }
                 }}
             />

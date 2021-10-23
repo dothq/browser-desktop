@@ -3,14 +3,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { configure } from "mobx";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Chrome } from "./components/Chrome";
 import { Statusbar } from "./core/statusbar";
 
 configure({
-    enforceActions: "never"
+    enforceActions: "never",
+    disableErrorBoundaries: true
 });
 
 export const Application = observer(() => {

@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import React from "react";
 import { Tab } from "../../models/Tab";
 import { ToolbarButton } from "../ToolbarButton";
@@ -7,6 +7,18 @@ import { TabBackground } from "./components/TabBackground";
 interface Props {
     tab: Tab
 }
+
+const TabButton = observer((args: any) => {
+    return (
+        <ToolbarButton
+            {...args}
+            className={args.className 
+                ? `tab-action-button ${args.className}` 
+                : "tab-action-button"
+            }
+        />
+    )
+});
 
 export const BrowserTab = observer(({ tab }: Props) => {
     return (
@@ -26,6 +38,9 @@ export const BrowserTab = observer(({ tab }: Props) => {
                 data-bookmarked={tab.bookmarked}
                 data-can-go-back={tab.canGoBack}
                 data-can-go-forward={tab.canGoForward}
+                data-audio-playing={tab.audioPlaying}
+                data-audio-playback-blocked={tab.audioPlaybackBlocked}
+                data-muted={tab.muted}
                 data-zoom={tab.zoom}
                 title={tab.tooltip}
                 onMouseOver={(e) => tab.onTabMouseOver()}
@@ -56,18 +71,30 @@ export const BrowserTab = observer(({ tab }: Props) => {
                     </span>
                 </div>
 
-                <ToolbarButton
-                    className={"tab-close-button"}
-                    image={"chrome://dot/content/skin/icons/close.svg"}
-                    onMouseDown={(e: any) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }}
-                    onMouseUp={(e: any) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }}
-                />
+                <div className={"tab-actions"}>
+                    <TabButton
+                        image={tab.muted
+                            ? "chrome://dot/content/skin/icons/audio-muted.svg"
+                            : "chrome://dot/content/skin/icons/audio.svg"
+                        }
+                        onClick={() => tab.toggleMute()}
+                        hidden={!tab.audioPlaying}
+                    />
+
+                    <TabButton
+                        image={"chrome://dot/content/skin/icons/close.svg"}
+                        onMouseDown={(e: any) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }}
+                        onMouseUp={(e: any) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            tab.destroy();
+                        }}
+                    />
+                </div>
             </div>
         </div>
     )

@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
@@ -30,12 +31,13 @@ enum SearchInput {
     Real
 }
 
+@observer
 export class SearchbarInput extends React.Component<Props> {
     get tabId(): number {
         // return this.props.tabId;
         // Using props that don't propagate until after well after ipc messages
         // have been sent is a bad idea. Lets just not shall we?
-        return dot.tabs.selectedTabId;
+        return dot.browsersPrivate.selectedId;
     }
 
     public state: State = {

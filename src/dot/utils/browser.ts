@@ -128,6 +128,8 @@ export const whereToOpenLink = (
   
     return "current";
 }
+
+exportPublic("whereToOpenLink", whereToOpenLink);
   
 export const openTrustedLinkIn = (
     url: any,

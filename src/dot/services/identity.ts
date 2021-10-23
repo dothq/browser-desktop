@@ -1,3 +1,4 @@
+import { action, computed, makeObservable, observable } from "mobx";
 import { dot } from "../api";
 import { Tab } from "../models/Tab";
 import {
@@ -10,6 +11,7 @@ import { NEW_TAB_URL_PARSED } from "../shared/tab";
 import { visibleAboutUrls } from "../shared/url";
 
 class IdentityManager {
+    @observable
     private tab: Tab;
 
     public CONNECTION_UNSET = -1;
@@ -36,6 +38,7 @@ class IdentityManager {
     public PAGE_LOADING_INSECURE_CONTENT = 1; // We can load https and http resources
     public PAGE_LOADING_INSECURE_CONTENT_SESSION = 2; // We can only load https and http resources for this session
 
+    @computed
     public get useMonoLockIcon() {
         return dot.prefs.get(
             "security.secure_connection_icon_color_gray",
@@ -43,6 +46,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get httpsOnlyBrowsingEnabled() {
         return dot.prefs.get(
             "dom.security.https_only_mode",
@@ -50,6 +54,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get httpsOnlyInPrivateBrowsingEnabled() {
         return dot.prefs.get(
             "dom.security.https_only_mode_pbm",
@@ -57,6 +62,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get extensionPolicy() {
         const { WebExtensionPolicy } = window as any;
         const policy = WebExtensionPolicy.getByURI(
@@ -70,6 +76,7 @@ class IdentityManager {
         }
     }
 
+    @computed
     public get url() {
         let uri = this.tab.urlParsed;
 
@@ -82,6 +89,7 @@ class IdentityManager {
         return uri;
     }
 
+    @computed
     public get isURLLoadedFromFile() {
         try {
             let jarUrl = NetUtil.newChannel({
@@ -101,11 +109,13 @@ class IdentityManager {
         }
     }
 
+    @computed
     public get securityInfo() {
         return this.tab.webContents.browsingContext
             .secureBrowserUI;
     }
 
+    @computed
     public get isAboutUI() {
         return (
             this.url.schemeIs("about") &&
@@ -115,14 +125,17 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get isExtensionPage() {
         return !!this.extensionPolicy;
     }
 
+    @computed
     public get isLocalPage() {
         return this.url.schemeIs("file");
     }
 
+    @computed
     public get hasEVCertificate() {
         return (
             !this.isURLLoadedFromFile &&
@@ -132,6 +145,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get hasUserCertOverrideGesture() {
         return (
             this.tab.contentState &
@@ -140,6 +154,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get isSecureConnection() {
         return (
             !this.isURLLoadedFromFile &&
@@ -148,6 +163,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get isBrokenConnection() {
         return (
             this.tab.contentState &
@@ -155,8 +171,13 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get hasCustomCertificate() {
-        if (!this.isSecureConnection) return false;
+        if (
+            !this.isSecureConnection || 
+            !this.securityInfo ||
+            !this.securityInfo.secInfo
+        ) return false;
 
         const cert =
             this.securityInfo.secInfo.succeededCertChain[
@@ -167,11 +188,13 @@ class IdentityManager {
         return !cert.isBuiltInRoot;
     }
 
+    @computed
     public get certificateIssuer() {
         return this.securityInfo.secInfo.serverCert
             .issuerOrganization;
     }
 
+    @action
     public isDocUriAboutPage(page: string) {
         const docURI = this.tab.webContents.documentURI;
 
@@ -182,28 +205,34 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get isCertErrorPage() {
         return this.isDocUriAboutPage("certerror");
     }
 
+    @computed
     public get isNetErrorPage() {
         return this.isDocUriAboutPage("neterror");
     }
 
+    @computed
     public get isHTTPSOnlyErrorPage() {
         return this.isDocUriAboutPage("httpsonlyerror");
     }
 
+    @computed
     public get isBlockedErrorPage() {
         return this.isDocUriAboutPage("blocked");
     }
 
+    @computed
     public get isChromePage() {
         const docURI = this.tab.webContents.documentURI;
 
         return docURI && docURI.scheme == "chrome";
     }
 
+    @computed
     public get isPDFPage() {
         return (
             this.tab.webContents.contentPrincipal
@@ -211,10 +240,12 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get isSecureContext() {
         return this.securityInfo.isSecureContext;
     }
 
+    @computed
     // This is not the same as isLocalPage
     public get isLocalResource() {
         return (
@@ -224,6 +255,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get hasLoadedMixedPassiveContent() {
         return (
             this.tab.contentState &
@@ -232,6 +264,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get hasLoadedMixedActiveContent() {
         return (
             this.tab.contentState &
@@ -240,6 +273,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get hasContentFailedHTTPSOnlyUpgrade() {
         return (
             this.tab.contentState &
@@ -248,6 +282,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get hasContentHTTPSOnlyUpgrade() {
         return (
             this.tab.contentState &
@@ -256,6 +291,7 @@ class IdentityManager {
         );
     }
 
+    @computed
     public get identityHost() {
         let host = this.tab.url;
 
@@ -279,6 +315,7 @@ class IdentityManager {
         return host;
     }
 
+    @action
     public getCertData() {
         const certificate =
             this.securityInfo.secInfo.serverCert;
@@ -310,6 +347,7 @@ class IdentityManager {
         return data;
     }
 
+    @action
     public getIdentityStrings() {
         let msg = "";
         let icon = "";
@@ -364,6 +402,7 @@ class IdentityManager {
         };
     }
 
+    @computed
     public get identity() {
         let connection = this.CONNECTION_UNSET;
 
@@ -498,6 +537,8 @@ class IdentityManager {
     }
 
     constructor(tab: Tab) {
+        makeObservable(this);
+
         this.tab = tab;
     }
 }

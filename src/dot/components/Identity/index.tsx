@@ -1,7 +1,8 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { SearchbarButton } from "../SearchbarButton";
 
-export const Identity = ({
+export const Identity = observer(({
     type,
     onClick,
     selected,
@@ -21,4 +22,4 @@ export const Identity = ({
             selected={selected}
         />
     );
-};
+});

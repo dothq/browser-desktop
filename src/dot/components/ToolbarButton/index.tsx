@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
 
@@ -14,7 +14,8 @@ export const ToolbarButton = observer(({
     disabled,
     menu,
     menuCtx,
-    title
+    title,
+    hidden
 }: {
     image?: string;
     children?: any;
@@ -28,6 +29,7 @@ export const ToolbarButton = observer(({
     menu?: string;
     menuCtx?: any;
     title?: string;
+    hidden?: boolean;
 }) => {
     const onTBClick = (e: MouseEvent) => {
         if (command) dot.utilities.doCommand(command);
@@ -79,6 +81,7 @@ export const ToolbarButton = observer(({
                 disabled ? () => {} : (onTBMouseUp as any)
             }
             title={title}
+            data-hidden={hidden}
         >
             <i
                 className={"toolbarbutton-icon"}
