@@ -82,42 +82,53 @@
     .tab-content {
         display: flex;
         align-items: center;
-        gap: 8px;
         overflow: hidden;
         user-select: none;
         pointer-events: none;
         width: 100%;
-        padding-inline-start: 12px;
+        margin-inline-start: 12px;
         color: var(--lwt-tab-text, var(--lwt-text-color));
-        width: calc(100% - 44px);
         mask-image: linear-gradient(to left, transparent, black 2em);
     }
 }
 
 .tab-content {
-    .tab-favicon {
-        width: 16px;
-        height: 16px;
-        min-width: 16px;
-        min-height: 16px;
-        background-size: cover;
-        background-repeat: no-repeat;
-        -moz-context-properties: fill, fill-opacity;
-        fill: currentColor;
+    .tab-icon-container {
+        display: flex;
+        width: 24px;
+        min-width: 24px;
+        max-width: 24px;
+        opacity: 1;
+        margin-left: 0px;
+        transition: 0.2s margin-left 0s, 0.2s opacity 0.2s;
 
         &:not(.loading).hidden {
-            display: none;
+            margin-left: -24px;
+            opacity: 0;
+            transition: 0.2s margin-left 0.2s, 0.2s opacity 0s;
         }
-    
-        &.loading {
+
+        &.loading > .tab-favicon {
             background-image: url(chrome://dot/content/skin/icons/tab/loading.svg) !important;
             fill: currentColor;
-            fill-opacity: 0.35;
+            fill-opacity: 0.5;
 
             &[data-loading-stage="progress"] {
                 fill: var(--dot-ui-accent-colour);
                 fill-opacity: 1;
             }
+        }
+
+        .tab-favicon {
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            min-height: 16px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            -moz-context-properties: fill, fill-opacity;
+            fill: currentColor;
+    
         }
     }
 

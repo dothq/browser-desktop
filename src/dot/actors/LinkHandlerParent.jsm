@@ -45,7 +45,7 @@ class LinkHandlerParent extends JSWindowActorParent {
 
                     const tab = this.dot.tabs.get(browserId)
 
-                    tab.pendingUrl = null;
+                    tab.shouldHideIcon = true;
                     tab.pendingIcon = true;
                 }
 

@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { Tab } from "../../models/Tab";
+import { isBlankPageURL } from "../../shared/url";
 import { ToolbarButton } from "../ToolbarButton";
 import { TabBackground } from "./components/TabBackground";
 
@@ -31,7 +32,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                 data-url={tab.url}
                 data-hostname={tab.host}
                 data-id={tab.id}
-                data-favicon={tab.faviconUrl}
+                data-favicon={tab.shouldHideIcon ? null : tab.faviconUrl}
                 data-pendingicon={tab.pendingIcon}
                 data-pinned={tab.pinned}
                 data-state={tab.state}
@@ -42,6 +43,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                 data-audio-playback-blocked={tab.audioPlaybackBlocked}
                 data-muted={tab.muted}
                 data-zoom={tab.zoom}
+                data-should-hide-icon={tab.shouldHideIcon}
                 title={tab.tooltip}
                 onMouseOver={(e) => tab.onTabMouseOver()}
                 onMouseLeave={(e) => tab.onTabMouseLeave()}
@@ -52,20 +54,30 @@ export const BrowserTab = observer(({ tab }: Props) => {
                 <div 
                     className={"tab-content"}
                 >
-                    <i 
-                        className={`tab-favicon ${tab.state == "idle"
-                            ? !!(tab.faviconUrl && tab.faviconUrl) || tab.pendingIcon
-                                ? ""
-                                : "hidden"
-                            : "loading"}`}
-                        style={{
-                            backgroundImage: tab.state == "idle" && !!(tab.faviconUrl && tab.faviconUrl.length)
-                                ? `url(${tab.faviconUrl})`
-                                : ``
-                        }}
-                        data-loading-stage={tab.loadingStage.length ? tab.loadingStage : undefined}
-                    />
-
+                    <div className={`tab-icon-container ${tab.state == "idle" && !tab.pendingIcon
+                        ? !tab.shouldHideIcon || tab.pendingIcon
+                            ? ""
+                            : "hidden"
+                        : !isBlankPageURL(tab.url)
+                            ? "loading"
+                            : "hidden"}`}>
+                        <i 
+                            className={"tab-favicon"}
+                            style={{
+                                backgroundImage: tab.state == "idle"
+                                    ? `url(${tab.faviconUrl})`
+                                    : ``
+                            }}
+                            data-loading-stage={
+                                tab.pendingIcon
+                                    ? "progress"
+                                    : tab.loadingStage.length 
+                                        ? tab.loadingStage 
+                                        : undefined
+                            }
+                        />
+                    </div>
+                    
                     <span className={"tab-title"}>
                         {tab.title}
                     </span>

@@ -1,3 +1,4 @@
+import { makeObservable, observable } from "mobx";
 import { dot } from "../api";
 import { ipc } from "../core/ipc";
 import { ChromeUtils, Ci } from "../modules";
@@ -15,10 +16,27 @@ const shouldShowLoader = (request: any) => {
 };
 
 export class TabProgressListener {
+    @observable
     public id: number;
 
     public constructor(id: number) {
+        makeObservable(this);
+
         this.id = id;
+    }
+
+    public isForInitialAboutBlank(webProgress: any, flags: any, location: any) {
+        if (!webProgress.isTopLevel) return false;
+    
+        if (
+            flags & Ci.nsIWebProgressListener.STATE_STOP &&
+            !location
+        ) {
+            return true;
+        }
+    
+        const url = location ? location.spec : "";
+        return url == "about:blank";
     }
 
     public onStateChange(
@@ -69,6 +87,19 @@ export class TabProgressListener {
             // finished loading
             tab.state = "idle";
             tab.loadingStage = "";
+
+            const ignoreBlank = this.isForInitialAboutBlank(
+                webProgress,
+                flags,
+                location
+            )
+            
+            if (
+                !tab.webContents.mIconURL &&
+                !ignoreBlank
+            ) {
+                tab.clearPendingIcon();
+            }
         }
 
         ipc.fire(`state-change-${this.id}`, {
@@ -111,6 +142,14 @@ export class TabProgressListener {
 
                 if(!isReload) {
                     tab.updateTitle();
+                }
+
+                if (
+                    tab.state == "idle" &&
+                    webProgress.isLoadingDocument
+                ) {
+                    console.log("mIconURL emptied")
+                    tab.webContents.mIconURL = null;
                 }
             }
 

@@ -264,6 +264,9 @@ export class Tab extends EventEmitter {
     public faviconLoadingPrincipal: any;
 
     @observable
+    public shouldHideIcon: boolean = true;
+
+    @observable
     public pendingIcon: boolean = false;
 
     public setIcon(
@@ -292,11 +295,12 @@ export class Tab extends EventEmitter {
         this.webContents.mIconURL = iconURL;
         this.faviconLoadingPrincipal = loadingPrincipal;
         this.faviconUrl = iconURL;
+        this.shouldHideIcon = false;
         this.pendingIcon = false;
     }
 
     public clearPendingIcon() {
-        this.faviconUrl = "";
+        this.shouldHideIcon = true;
         this.pendingIcon = false;
     }
 
