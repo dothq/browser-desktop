@@ -102,6 +102,8 @@
         margin-left: 0px;
         transition: 0.2s margin-left 0s, 0.2s opacity 0.2s;
 
+        --tab-loading-icon: url(chrome://dot/content/skin/icons/tab/loading.svg);
+
         &:not(.loading).hidden {
             margin-left: -24px;
             opacity: 0;
@@ -109,7 +111,7 @@
         }
 
         &.loading > .tab-favicon {
-            background-image: url(chrome://dot/content/skin/icons/tab/loading.svg) !important;
+            background-image: var(--tab-loading-icon) !important;
             fill: currentColor;
             fill-opacity: 0.5;
 
@@ -154,6 +156,16 @@
             margin: 0 !important;
             padding: 0 !important;
             background-size: 10px !important;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tab-icon-container {
+        transition: none !important;
+
+        &.loading > .tab-favicon {
+            --tab-loading-icon: url(chrome://dot/content/skin/icons/tab/loading-static.svg);
         }
     }
 }
