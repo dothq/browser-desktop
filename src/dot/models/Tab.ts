@@ -8,8 +8,7 @@ import {
     Cc,
     ChromeUtils,
     Ci, ContentCrashHandlers, E10SUtils,
-    Services,
-    SitePermissions
+    Services, SitePermissions
 } from "../modules";
 import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
@@ -47,6 +46,9 @@ export class Tab extends EventEmitter {
     */
     @observable
     public loadingStage: "busy" | "progress" | "" = "";
+
+    @observable
+    public originalUrl: MozURI;
 
     public get url() {
         return this.urlParsed.spec;
@@ -222,7 +224,7 @@ export class Tab extends EventEmitter {
                     } catch (e) {}
                 }
             } else {
-                contentTitle = "Untitled";
+                contentTitle = "New Tab";
             }
         }
 
@@ -395,6 +397,8 @@ export class Tab extends EventEmitter {
             },
             parsed
         );
+
+        this.originalUrl = parsed;
 
         this.webContents = browser;
         this.id = this.webContents.browserId;
