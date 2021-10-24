@@ -160,7 +160,7 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include useReducedMotion {
     .tab-icon-container {
         transition: none !important;
 
