@@ -12,7 +12,7 @@ export class PromptAPI {
         message: string,
         okLabel?: string,
         cancelLabel?: string
-    ) {
+    ): Promise<boolean> {
         return new Promise((resolve) => {
             const mount: any = document.getElementById(
                 "window-modal-mount"
@@ -28,6 +28,7 @@ export class PromptAPI {
 
             const onKeyPress = (e: KeyboardEvent) => {
                 if (e.key == "Escape") dispatch(false);
+                if (e.key == "Enter") dispatch(true);
             };
 
             document.addEventListener(
