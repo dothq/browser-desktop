@@ -1,8 +1,9 @@
 import { computed, makeObservable, observable } from "mobx";
 import { dot } from ".";
 import { Tab } from "../models/Tab";
-import { Ci } from "../modules";
+import { AppConstants, Ci, Services, ShortcutUtils } from "../modules";
 import { TabProgressListener } from "../services/progress";
+import { RTL_UI } from "../utils/browser";
 
 export class TabsAPI {
     @observable
@@ -18,6 +19,17 @@ export class TabsAPI {
 
     public tabFilters = new Map();
     public tabListeners = new Map();
+
+    public systemEventBindings = {
+        "keydown": this.onBrowserKeyDown,
+        "keypress": this.onBrowserKeyPress,
+    }
+
+    public eventBindings = {
+        "framefocusrequested": this.onRequestTabFocus,
+        "sizemodechange": this.onOcclusionChange,
+        "occlusionstatechange": this.onOcclusionChange
+    }
 
     @computed
     public get selectedTab() {
@@ -78,8 +90,167 @@ export class TabsAPI {
         }
     }
 
+    public requestReplyFromFrame(event: any) {
+        if (event.defaultPrevented) return false;
+        if (event.isWaitingReplyFromRemoteContent) return true;
+        
+        if (
+            !event.isReplyEventFromRemoteContent &&
+            event.target?.isRemoteBrowser === true
+        ) {
+            event.requestReplyFromRemoteContent();
+            return true;
+        }
+        
+        return false;
+    }
+
+    public toggleCaretBrowsing() {
+        const kPrefShortcutEnabled =
+            "accessibility.browsewithcaret_shortcut.enabled";
+        const kPrefWarnOnEnable = "accessibility.warn_on_browsewithcaret";
+        const kPrefCaretBrowsingOn = "accessibility.browsewithcaret";
+
+        const caretBrowsingEnabled = dot.prefs.get(kPrefShortcutEnabled);
+
+        if(!caretBrowsingEnabled) return;
+
+        const canBrowseWithCaret = dot.prefs.get(
+            kPrefCaretBrowsingOn,
+            false
+        );
+
+        const shouldWarnOnEnable = dot.prefs.get(
+            kPrefWarnOnEnable, 
+            true
+        );
+
+        if (
+            shouldWarnOnEnable && 
+            !canBrowseWithCaret
+        ) {
+            dot.prompt.alert(
+                "window",
+                "Caret Browsing",
+                "Pressing F7 turns Caret Browsing on or off. This feature places a moveable cursor in web pages, allowing you to select text with the keyboard. Do you want to turn Caret Browsing on?",
+                "Enable",
+                "Disable"
+            ).then((result) => {
+                dot.prefs.set(
+                    kPrefCaretBrowsingOn, 
+                    result
+                );
+            })
+        }
+    }
+
+    public shouldActivateDocShell(browser: any) {
+        return (
+            browser.browserId == this.selectedTabId &&
+            window.windowState !== window.STATE_MINIMIZED &&
+            !window.isFullyOccluded
+        );
+    }
+
+    public onBrowserKeyDown(event: any) {
+        if (
+            !event.isTrusted || 
+            event.defaultCancelled
+        ) return;
+
+        switch (ShortcutUtils.getSystemActionForEvent(event)) {
+            case ShortcutUtils.TOGGLE_CARET_BROWSING:
+                this.requestReplyFromFrame(event);
+                return;
+            case ShortcutUtils.MOVE_TAB_FORWARD:
+            case ShortcutUtils.MOVE_TAB_BACKWARD:
+                // todo: add movement of tabs using keys
+                event.preventDefault();
+                return;
+            case ShortcutUtils.CLOSE_TAB:
+                if (!this.selectedTab?.pinned) this.selectedTab?.destroy();
+                
+                event.preventDefault();
+        }
+    }
+
+    public onBrowserKeyPress(event: any) {
+        if (
+            !event.isTrusted || 
+            event.defaultCancelled
+        ) return;
+    
+        switch (ShortcutUtils.getSystemActionForEvent(event, { rtl: RTL_UI })) {
+            case ShortcutUtils.TOGGLE_CARET_BROWSING:
+                this.toggleCaretBrowsing();
+                break;
+            case ShortcutUtils.NEXT_TAB:
+                if (AppConstants.platform == "macosx") {
+                    // todo: add movement of tabs using keys
+                    event.preventDefault();
+                }
+              break;
+            case ShortcutUtils.PREVIOUS_TAB:
+                if (AppConstants.platform == "macosx") {
+                    // todo: add movement of tabs using keys
+                    event.preventDefault();
+                }
+              break;
+          }
+    }
+
+    public onRequestTabFocus(event: any) {
+        const browser = event.target;
+        const tab = this.get(browser.browserId);
+
+        if (
+            !tab || 
+            tab.id == this.selectedTab?.id
+        ) return;
+
+        tab.select();
+        window.focus();
+        
+        event.preventDefault();
+    }
+
+    public onOcclusionChange(event: any) {
+        if (event.target == window) {
+            const selectedBrowser = this.selectedTab?.webContents;
+
+            selectedBrowser.preserveLayers(
+                window.windowState == window.STATE_MINIMIZED ||
+                window.isFullyOccluded
+            );
+            
+            selectedBrowser.docShellIsActive = this.shouldActivateDocShell(
+                selectedBrowser
+            );
+        }
+    }
+
+    public bindEvents() {
+        for(const [event, handler] of Object.entries(this.systemEventBindings)) {
+            Services.els.addSystemEventListener(
+                document, 
+                event, 
+                handler.bind(this), 
+                false
+            );
+        }
+
+        for(const [event, handler] of Object.entries(this.eventBindings)) {
+            window.addEventListener(
+                event,
+                handler.bind(this)
+            )
+        }
+    }
+
     public constructor() {
         makeObservable(this);
+
+        this.bindEvents();
 
         addEventListener(
             "WillChangeBrowserRemoteness",
