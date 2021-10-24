@@ -33,6 +33,8 @@ declare global {
         isBlankPageURL: any;
         browserDOMWindow: BrowserAccess;
         gFissionBrowser: boolean;
+        RTL_UI: boolean;
+        isFullyOccluded: boolean;
     }
 
     interface HTMLElement {
