@@ -130,3 +130,7 @@ export const ReferrerInfo = Components.Constructor(
 export const { ContentCrashHandlers } = ChromeUtils.import(
     "resource:///modules/ContentCrashHandlers.jsm"
 )
+
+export const { ShortcutUtils } = ChromeUtils.import(
+    "resource://gre/modules/ShortcutUtils.jsm"
+)
