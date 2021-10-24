@@ -387,6 +387,10 @@ export class Tab extends EventEmitter {
         "GloballyAutoplayBlocked": this.onAudioPlaybackGloballyBlocked
     }
 
+    public internalEventBindings = {
+        "search-engine-available": this.onSearchEngineAvailable
+    }
+
     constructor(args: Partial<Tab>) {
         super();
 
@@ -555,11 +559,6 @@ export class Tab extends EventEmitter {
         event: string | symbol,
         ...args: any[]
     ): boolean {
-        console.debug(
-            `Tab ${this.id} dispatched: ${String(event)}`,
-            ...args
-        );
-
         return super.emit(event, ...args);
     }
 
@@ -726,11 +725,22 @@ export class Tab extends EventEmitter {
         );
     }
 
+    public onSearchEngineAvailable(data: any) {
+        console.log("todo: OpenSearch engine available", data);
+    }
+
     public bindEvents() {
         for(const [event, handler] of Object.entries(this.eventBindings)) {
             this.webContents.addEventListener(
                 event,
-                (args: any) => handler(args)
+                handler.bind(this)
+            )
+        }
+
+        for(const [event, handler] of Object.entries(this.internalEventBindings)) {
+            this.on(
+                event,
+                handler.bind(this)
             )
         }
     }

@@ -27,7 +27,7 @@ class LinkHandlerParent extends JSWindowActorParent {
             .ownerGlobal.dot;
     }
 
-    receiveMessage(aMsg) {
+    receiveMessage(msg) {
         let browser =
             this.browsingContext.top.embedderElement;
         if (!browser) {
@@ -38,13 +38,13 @@ class LinkHandlerParent extends JSWindowActorParent {
 
         let gBrowser = win.gBrowser;
 
-        switch (aMsg.name) {
+        const { browserId } = browser;
+
+        const tab = this.dot.tabs.get(browserId);
+
+        switch (msg.name) {
             case "Link:LoadingIcon":
-                if (aMsg.data.canUseForTab) {
-                    const { browserId } = browser;
-
-                    const tab = this.dot.tabs.get(browserId)
-
+                if (msg.data.canUseForTab) {
                     tab.shouldHideIcon = true;
                     tab.pendingIcon = true;
                 }
@@ -53,22 +53,22 @@ class LinkHandlerParent extends JSWindowActorParent {
 
             case "Link:SetIcon":
                 // Cache the most recent icon and rich icon locally.
-                if (aMsg.data.canUseForTab) {
-                    this.icon = aMsg.data;
+                if (msg.data.canUseForTab) {
+                    this.icon = msg.data;
                 } else {
-                    this.richIcon = aMsg.data;
+                    this.richIcon = msg.data;
                 }
 
                 this.setIconFromLink(
                     gBrowser,
                     browser,
-                    aMsg.data
+                    msg.data
                 );
 
                 break;
 
             case "Link:SetFailedIcon":
-                if (aMsg.data.canUseForTab) {
+                if (msg.data.canUseForTab) {
                     this.clearPendingIcon(
                         gBrowser, 
                         browser
@@ -78,7 +78,7 @@ class LinkHandlerParent extends JSWindowActorParent {
                 break;
 
             case "Link:AddSearch":
-                console.log("OpenSearch engine available in DOM", aMsg.data);
+                tab.emit("search-engine-available", msg.data)
 
                 break;
         }
