@@ -52,6 +52,15 @@ Object.defineProperty(window, "gFissionBrowser", {
 
 export const gFissionBrowser = window.gFissionBrowser;
 
+Object.defineProperty(window, "RTL_UI", {
+    enumerable: true,
+    get() {
+        return Services.locale.isAppLocaleRTL
+    },
+});
+
+export const RTL_UI = window.RTL_UI;
+
 export const getRootEvent = (event: any) => {
     if (!event) return event;
     
