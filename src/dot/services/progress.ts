@@ -148,7 +148,6 @@ export class TabProgressListener {
                     tab.state == "idle" &&
                     webProgress.isLoadingDocument
                 ) {
-                    console.log("mIconURL emptied")
                     tab.webContents.mIconURL = null;
                 }
             }
