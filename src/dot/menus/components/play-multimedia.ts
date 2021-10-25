@@ -21,7 +21,7 @@ export class Play extends MenuItem {
         playing: boolean;
     }) {
         super({
-            id: "context-playmedia",
+            id: "playmedia",
             type: "item",
             category: "multimedia",
 

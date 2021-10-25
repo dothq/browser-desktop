@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class InspectElement extends MenuItem {
     public tabId: number;
@@ -11,7 +10,7 @@ export class InspectElement extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-inspect",
+            id: "inspect",
             type: "item",
             category: "development",
 
@@ -20,7 +19,7 @@ export class InspectElement extends MenuItem {
             description:
                 "Open the DevTools for the current page.",
 
-            hotkey: new Hotkey("Ctrl", "Shift", "I")
+            keybind: "CmdOrCtrl+Shift+I"
         });
 
         this.tabId = tabId;

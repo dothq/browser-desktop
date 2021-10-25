@@ -1,5 +1,4 @@
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class MenuItem {
     public id: string = `item-${dot.utilities.makeID(2)}`;
@@ -31,7 +30,7 @@ export class MenuItem {
 
     public iconPrefix?: string =
         "chrome://dot/content/skin/icons/";
-    public hotkey?: Hotkey;
+    public keybind?: string;
     public selected?: boolean;
 
     public description?: string;

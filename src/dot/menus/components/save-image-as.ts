@@ -10,7 +10,7 @@ export class SaveImageAs extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-saveimage",
+            id: "saveimage",
             type: "item",
             category: "image",
 

@@ -10,7 +10,7 @@ export class EmailImage extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-emailimage",
+            id: "emailimage",
             type: "item",
             category: "image",
 

@@ -51,7 +51,7 @@ export class Speed extends MenuItem {
         speed: PlaybackSpeed;
     }) {
         super({
-            id: "context-speedmedia",
+            id: "speedmedia",
             type: "submenu",
             category: "multimedia",
 

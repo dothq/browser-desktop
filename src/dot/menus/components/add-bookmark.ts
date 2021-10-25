@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class AddBookmark extends MenuItem {
     public tabId: number;
@@ -27,13 +26,13 @@ export class AddBookmark extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-bookmarkpage",
+            id: "bookmarkpage",
             type: "item",
             category: "page",
 
             description: "Bookmark the current page.",
 
-            hotkey: new Hotkey("Ctrl", "D")
+            keybind: "CmdOrCtrl+D"
         });
 
         this.tabId = tabId;

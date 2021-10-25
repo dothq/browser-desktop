@@ -10,7 +10,7 @@ export class OpenImageInNewTab extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-openimagetab",
+            id: "openimagetab",
             type: "item",
             category: "image",
 

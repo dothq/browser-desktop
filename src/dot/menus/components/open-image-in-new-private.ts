@@ -10,7 +10,7 @@ export class OpenImageInNewPrivate extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-openimageprivate",
+            id: "openimageprivate",
             type: "item",
             category: "image",
 

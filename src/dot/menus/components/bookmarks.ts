@@ -1,10 +1,9 @@
 import { MenuItem } from ".";
-import { Hotkey } from "../hotkey";
 
 export class Bookmarks extends MenuItem {
     constructor() {
         super({
-            id: "context-bookmarks",
+            id: "bookmarks",
             type: "item",
             category: "browser",
 
@@ -12,7 +11,7 @@ export class Bookmarks extends MenuItem {
             icon: "bookmark.svg",
             description: "View all your saved bookmarks.",
 
-            hotkey: new Hotkey("Ctrl", "B")
+            keybind: "CmdOrCtrl+B"
         });
     }
 }

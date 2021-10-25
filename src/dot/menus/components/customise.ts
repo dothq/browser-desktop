@@ -3,7 +3,7 @@ import { MenuItem } from ".";
 export class Customise extends MenuItem {
     constructor() {
         super({
-            id: "context-customise",
+            id: "customise",
             type: "item",
             category: "window",
 

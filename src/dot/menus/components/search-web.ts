@@ -26,7 +26,7 @@ export class SearchWebFor extends MenuItem {
         highlightedText: string;
     }) {
         super({
-            id: "context-searchweb",
+            id: "searchweb",
             type: "item",
             category: "text",
 

@@ -4,7 +4,7 @@ import { dot } from "../../api";
 export class Settings extends MenuItem {
     constructor() {
         super({
-            id: "context-settings",
+            id: "settings",
             type: "item",
             category: "browser",
 

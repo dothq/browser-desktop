@@ -10,7 +10,7 @@ export class OpenLinkInNewWindow extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-openlinkwindow",
+            id: "openlinkwindow",
             type: "item",
             category: "link",
 

@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class GoBack extends MenuItem {
     public tabId: number;
@@ -19,7 +18,7 @@ export class GoBack extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-back",
+            id: "back",
             type: "item",
             category: "page",
 
@@ -27,7 +26,7 @@ export class GoBack extends MenuItem {
             icon: "back.svg",
             description: "Go back to the previous page.",
 
-            hotkey: new Hotkey("Alt", "ArrowLeft")
+            keybind: "Alt+Left"
         });
 
         this.tabId = tabId;

@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class Redo extends MenuItem {
     public tabId: number;
@@ -22,7 +21,7 @@ export class Redo extends MenuItem {
         canRedo: boolean;
     }) {
         super({
-            id: "context-redo",
+            id: "redo",
             type: "item",
             category: "edit",
 
@@ -30,7 +29,7 @@ export class Redo extends MenuItem {
             icon: "redo.svg",
             description: "Redo what you just typed.",
 
-            hotkey: new Hotkey("Ctrl", "Shift", "Z")
+            keybind: "CmdOrCtrl+Shift+Z"
         });
 
         this.tabId = tabId;

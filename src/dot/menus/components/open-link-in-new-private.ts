@@ -10,7 +10,7 @@ export class OpenLinkInNewPrivate extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-openlinkprivate",
+            id: "openlinkprivate",
             type: "item",
             category: "link",
 

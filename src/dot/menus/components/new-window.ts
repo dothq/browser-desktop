@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class NewWindow extends MenuItem {
     public onClick() {
@@ -9,7 +8,7 @@ export class NewWindow extends MenuItem {
 
     constructor() {
         super({
-            id: "context-newwindow",
+            id: "newwindow",
             type: "item",
             category: "browser",
 
@@ -17,7 +16,7 @@ export class NewWindow extends MenuItem {
             icon: "new-window.svg",
             description: "Create a New Window.",
 
-            hotkey: new Hotkey("Ctrl", "N")
+            keybind: "CmdOrCtrl+N"
         });
     }
 }

@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class GoForward extends MenuItem {
     public tabId: number;
@@ -19,7 +18,7 @@ export class GoForward extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-forward",
+            id: "forward",
             type: "item",
             category: "page",
 
@@ -27,7 +26,7 @@ export class GoForward extends MenuItem {
             icon: "forward.svg",
             description: "Go forward to the next page.",
 
-            hotkey: new Hotkey("Alt", "ArrowRight")
+            keybind: "Alt+Right"
         });
 
         this.tabId = tabId;

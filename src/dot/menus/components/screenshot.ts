@@ -10,7 +10,7 @@ export class ScreenshotPage extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-screenshot",
+            id: "screenshot",
             type: "item",
             category: "general",
 

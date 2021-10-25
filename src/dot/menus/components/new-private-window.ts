@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class NewPrivateWindow extends MenuItem {
     public onClick() {
@@ -9,14 +8,14 @@ export class NewPrivateWindow extends MenuItem {
 
     constructor() {
         super({
-            id: "context-newprivate",
+            id: "newprivate",
             type: "item",
             category: "browser",
 
             label: "New Private Window",
             description: "Create a New Private Window.",
 
-            hotkey: new Hotkey("Ctrl", "Shift", "P")
+            keybind: "CmdOrCtrl+Shift+P"
         });
     }
 }

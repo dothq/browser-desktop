@@ -10,7 +10,7 @@ export class SaveVideoAs extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-savevideo",
+            id: "savevideo",
             type: "item",
             category: "multimedia",
 

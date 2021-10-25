@@ -17,7 +17,7 @@ export class Loop extends MenuItem {
         looped: boolean;
     }) {
         super({
-            id: "context-loopmedia",
+            id: "loopmedia",
             type: "checkbox",
             category: "multimedia",
 

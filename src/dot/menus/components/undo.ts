@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class Undo extends MenuItem {
     public tabId: number;
@@ -22,7 +21,7 @@ export class Undo extends MenuItem {
         canUndo: boolean;
     }) {
         super({
-            id: "context-undo",
+            id: "undo",
             type: "item",
             category: "edit",
 
@@ -30,7 +29,7 @@ export class Undo extends MenuItem {
             icon: "undo.svg",
             description: "Undo what you just typed.",
 
-            hotkey: new Hotkey("Ctrl", "Z")
+            keybind: "CmdOrCtrl+Z"
         });
 
         this.tabId = tabId;

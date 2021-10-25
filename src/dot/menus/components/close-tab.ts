@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class CloseTab extends MenuItem {
     public tabId: number;
@@ -15,7 +14,7 @@ export class CloseTab extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-closetab",
+            id: "closetab",
             type: "item",
             category: "page",
 
@@ -23,7 +22,7 @@ export class CloseTab extends MenuItem {
             icon: "close.svg",
             description: "Closes the current tab.",
 
-            hotkey: new Hotkey("Ctrl", "W")
+            keybind: "CmdOrCtrl+W"
         });
 
         this.tabId = tabId;

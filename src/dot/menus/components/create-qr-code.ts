@@ -10,7 +10,7 @@ export class CreateQRCode extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-createqr",
+            id: "createqr",
             type: "item",
             category: "page",
 

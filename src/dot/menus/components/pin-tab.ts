@@ -10,7 +10,7 @@ export class PinTab extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-pintab",
+            id: "pintab",
             type: "item",
             category: "page",
 

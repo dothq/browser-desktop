@@ -10,7 +10,7 @@ export class CloseTabs extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-closetabs",
+            id: "closetabs",
             type: "item",
             category: "page",
 

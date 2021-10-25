@@ -10,7 +10,7 @@ export class ScreenshotVideo extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-screenshotvideo",
+            id: "screenshotvideo",
             type: "item",
             category: "multimedia",
 

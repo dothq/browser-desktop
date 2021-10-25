@@ -10,7 +10,7 @@ export class PlayInPiP extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-pipmedia",
+            id: "pipmedia",
             type: "item",
             category: "multimedia",
 

@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class ViewPageSource extends MenuItem {
     public tabId: number;
@@ -19,7 +18,7 @@ export class ViewPageSource extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-viewsource",
+            id: "viewsource",
             type: "item",
             category: "development",
 
@@ -27,7 +26,7 @@ export class ViewPageSource extends MenuItem {
             description:
                 "Open the source viewer for the current page.",
 
-            hotkey: new Hotkey("Ctrl", "U")
+            keybind: "CmdOrCtrl+U"
         });
 
         this.tabId = tabId;

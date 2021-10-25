@@ -1,10 +1,9 @@
 import { MenuItem } from ".";
-import { Hotkey } from "../hotkey";
 
 export class Help extends MenuItem {
     constructor() {
         super({
-            id: "context-help",
+            id: "help",
             type: "item",
             category: "browser",
 
@@ -12,7 +11,7 @@ export class Help extends MenuItem {
             description:
                 "Get help with using the browser.",
 
-            hotkey: new Hotkey("F1")
+            keybind: "F1"
         });
     }
 }

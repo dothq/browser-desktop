@@ -1,10 +1,9 @@
 import { MenuItem } from ".";
-import { Hotkey } from "../hotkey";
 
 export class History extends MenuItem {
     constructor() {
         super({
-            id: "context-history",
+            id: "history",
             type: "item",
             category: "browser",
 
@@ -13,7 +12,7 @@ export class History extends MenuItem {
             description:
                 "View all your recently visited pages.",
 
-            hotkey: new Hotkey("Ctrl", "H")
+            keybind: "CmdOrCtrl+H"
         });
     }
 }

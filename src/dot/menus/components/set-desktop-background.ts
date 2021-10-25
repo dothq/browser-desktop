@@ -10,7 +10,7 @@ export class SetDesktopBackground extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-setdesktopbg",
+            id: "setdesktopbg",
             type: "item",
             category: "image",
 

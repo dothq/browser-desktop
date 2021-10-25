@@ -10,7 +10,7 @@ export class CopyImage extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-copyimage",
+            id: "copyimage",
             type: "item",
             category: "image",
 

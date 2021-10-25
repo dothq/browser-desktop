@@ -10,7 +10,7 @@ export class SaveLinkAs extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-savelink",
+            id: "savelink",
             type: "item",
             category: "link",
 

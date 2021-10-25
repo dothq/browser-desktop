@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class Paste extends MenuItem {
     public tabId: number;
@@ -11,7 +10,7 @@ export class Paste extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-paste",
+            id: "paste",
             type: "item",
             category: "edit",
 
@@ -20,7 +19,7 @@ export class Paste extends MenuItem {
             description:
                 "Paste copied text to text field.",
 
-            hotkey: new Hotkey("Ctrl", "V")
+            keybind: "CmdOrCtrl+V"
         });
 
         this.tabId = tabId;

@@ -8,7 +8,7 @@ export class Minimise extends MenuItem {
 
     constructor() {
         super({
-            id: "context-minimise",
+            id: "minimise",
             type: "item",
             category: "window",
 

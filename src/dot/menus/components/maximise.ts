@@ -18,7 +18,7 @@ export class Maximise extends MenuItem {
 
     constructor() {
         super({
-            id: "context-maximise",
+            id: "maximise",
             type: "item",
             category: "window",
 

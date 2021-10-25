@@ -10,7 +10,7 @@ export class OpenVideoInNewTab extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-openvideotab",
+            id: "openvideotab",
             type: "item",
             category: "multimedia",
 

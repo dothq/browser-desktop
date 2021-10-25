@@ -10,7 +10,7 @@ export class PasteAndGo extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-pasteandgo",
+            id: "pasteandgo",
             type: "item",
             category: "edit",
 

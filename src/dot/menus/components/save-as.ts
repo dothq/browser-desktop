@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class SavePageAs extends MenuItem {
     public tabId: number;
@@ -11,14 +10,14 @@ export class SavePageAs extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-savepage",
+            id: "savepage",
             type: "item",
             category: "general",
 
             label: "Save As…",
             description: "Save the current page to file.",
 
-            hotkey: new Hotkey("Ctrl", "S")
+            keybind: "CmdOrCtrl+S"
         });
 
         this.tabId = tabId;

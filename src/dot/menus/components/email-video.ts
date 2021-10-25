@@ -10,7 +10,7 @@ export class EmailVideo extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-emailvideo",
+            id: "emailvideo",
             type: "item",
             category: "multimedia",
 

@@ -10,7 +10,7 @@ export class CopyImageLink extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-copyimagelink",
+            id: "copyimagelink",
             type: "item",
             category: "image",
 

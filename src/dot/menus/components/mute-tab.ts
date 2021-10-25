@@ -10,7 +10,7 @@ export class MuteTab extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-mutetab",
+            id: "mutetab",
             type: "item",
             category: "page",
 

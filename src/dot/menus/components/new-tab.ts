@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class NewTab extends MenuItem {
     public onClick() {
@@ -9,7 +8,7 @@ export class NewTab extends MenuItem {
 
     constructor() {
         super({
-            id: "context-newtab",
+            id: "newtab",
             type: "item",
             category: "browser",
 
@@ -17,7 +16,7 @@ export class NewTab extends MenuItem {
             icon: "add.svg",
             description: "Create a New Tab.",
 
-            hotkey: new Hotkey("Ctrl", "T")
+            keybind: "CmdOrCtrl+T"
         });
     }
 }

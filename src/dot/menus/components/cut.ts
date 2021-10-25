@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class Cut extends MenuItem {
     public tabId: number;
@@ -24,7 +23,7 @@ export class Cut extends MenuItem {
         highlightedText: string;
     }) {
         super({
-            id: "context-cut",
+            id: "cut",
             type: "item",
             category: "edit",
 
@@ -33,7 +32,7 @@ export class Cut extends MenuItem {
             description:
                 "Cut highlighted text to clipboard.",
 
-            hotkey: new Hotkey("Ctrl", "X")
+            keybind: "CmdOrCtrl+X"
         });
 
         this.tabId = tabId;

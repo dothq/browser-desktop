@@ -1,10 +1,9 @@
 import { MenuItem } from ".";
-import { Hotkey } from "../hotkey";
 
 export class FindInPage extends MenuItem {
     constructor() {
         super({
-            id: "context-findinpage",
+            id: "findinpage",
             type: "item",
             category: "general",
 
@@ -13,7 +12,7 @@ export class FindInPage extends MenuItem {
             description:
                 "Locate text on the current page.",
 
-            hotkey: new Hotkey("Ctrl", "F")
+            keybind: "CmdOrCtrl+F"
         });
     }
 

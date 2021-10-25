@@ -1,10 +1,9 @@
 import { MenuItem } from ".";
-import { Hotkey } from "../hotkey";
 
 export class Downloads extends MenuItem {
     constructor() {
         super({
-            id: "context-downloads",
+            id: "downloads",
             type: "item",
             category: "browser",
 
@@ -13,7 +12,7 @@ export class Downloads extends MenuItem {
             description:
                 "View all your recently downloaded files.",
 
-            hotkey: new Hotkey("Ctrl", "J")
+            keybind: "CmdOrCtrl+J"
         });
     }
 }

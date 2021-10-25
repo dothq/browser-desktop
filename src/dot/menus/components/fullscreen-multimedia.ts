@@ -23,7 +23,7 @@ export class Fullscreen extends MenuItem {
         fullscreen: boolean;
     }) {
         super({
-            id: "context-fullscreenmedia",
+            id: "fullscreenmedia",
             type: "item",
             category: "multimedia",
 

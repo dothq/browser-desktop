@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class Reload extends MenuItem {
     public tabId: number;
@@ -15,7 +14,7 @@ export class Reload extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-reload",
+            id: "reload",
             type: "item",
             category: "page",
 
@@ -23,7 +22,7 @@ export class Reload extends MenuItem {
             icon: "reload.svg",
             description: "Reload the current page.",
 
-            hotkey: new Hotkey("Ctrl", "R")
+            keybind: "CmdOrCtrl+R"
         });
 
         this.tabId = tabId;

@@ -21,7 +21,7 @@ export class Mute extends MenuItem {
         muted: boolean;
     }) {
         super({
-            id: "context-mutemedia",
+            id: "mutemedia",
             type: "item",
             category: "multimedia",
 

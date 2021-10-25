@@ -10,7 +10,7 @@ export class CheckSpelling extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-spellcheck",
+            id: "spellcheck",
             type: "item",
             category: "text",
 

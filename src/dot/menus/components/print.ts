@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class PrintPage extends MenuItem {
     public tabId: number;
@@ -11,7 +10,7 @@ export class PrintPage extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-print",
+            id: "print",
             type: "item",
             category: "general",
 
@@ -19,7 +18,7 @@ export class PrintPage extends MenuItem {
             icon: "print.svg",
             description: "Print the current page.",
 
-            hotkey: new Hotkey("Ctrl", "P")
+            keybind: "CmdOrCtrl+P"
         });
 
         this.tabId = tabId;

@@ -10,7 +10,7 @@ export class EmailLink extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-emaillink",
+            id: "emaillink",
             type: "item",
             category: "link",
 

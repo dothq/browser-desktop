@@ -10,7 +10,7 @@ export class Delete extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-delete",
+            id: "delete",
             type: "item",
             category: "edit",
 

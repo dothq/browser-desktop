@@ -10,7 +10,7 @@ export class BookmarkLink extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-bookmarklink",
+            id: "bookmarklink",
             type: "item",
             category: "link",
 

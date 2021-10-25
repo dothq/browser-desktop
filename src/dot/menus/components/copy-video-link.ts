@@ -10,7 +10,7 @@ export class CopyVideoLink extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-copyvideolink",
+            id: "copyvideolink",
             type: "item",
             category: "multimedia",
 

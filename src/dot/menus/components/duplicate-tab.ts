@@ -10,7 +10,7 @@ export class DuplicateTab extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-duplicatetab",
+            id: "duplicatetab",
             type: "item",
             category: "page",
 

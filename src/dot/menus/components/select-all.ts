@@ -1,6 +1,5 @@
 import { MenuItem } from ".";
 import { dot } from "../../api";
-import { Hotkey } from "../hotkey";
 
 export class SelectAll extends MenuItem {
     public tabId: number;
@@ -11,7 +10,7 @@ export class SelectAll extends MenuItem {
 
     constructor({ tabId }: { tabId: number }) {
         super({
-            id: "context-selectall",
+            id: "selectall",
             type: "item",
             category: "general",
 
@@ -19,7 +18,7 @@ export class SelectAll extends MenuItem {
             description:
                 "Select all text on page or in text field.",
 
-            hotkey: new Hotkey("Ctrl", "A")
+            keybind: "CmdOrCtrl+A"
         });
 
         this.tabId = tabId;
