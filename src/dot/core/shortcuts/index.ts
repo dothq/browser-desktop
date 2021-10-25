@@ -405,7 +405,9 @@ export class KeyboardShortcuts extends EventEmitter {
 
         const keybinds = dot.prefs.getBranch("dot.keybinds.");
         const components = Object.values(dot.menus.components)
-            .map((x: any) => new x({})); // maybe add some context in future?
+            .map((x: any) => new x({
+                tabId: dot.tabs.selectedTabId
+            })); // maybe add some context in future?
 
         for(const key of keybinds) {
             const match = components.find(x => x.id == key);
