@@ -83,6 +83,15 @@ export class PreferencesAPI {
         return typeof data == "undefined";
     }
 
+    public getBranch(id: string) {
+        if(!id.endsWith(".")) id = `${id}.`;
+
+        const branch = Services.prefs.getBranch(id);
+        const ids = branch.getChildList("");
+
+        return ids;
+    }
+
     public observe(
         id: string,
         callback: (...args: any[]) => void,
