@@ -337,7 +337,7 @@ export class MenusAPI {
     public constructor() {
         makeObservable(this);
 
-        window.addEventListener("blur", () => this.clear(true));
+        window.addEventListener("blur", () => this.clear(true), true);
         window.addEventListener("resize", () => this.clear(true));
     }
 }
