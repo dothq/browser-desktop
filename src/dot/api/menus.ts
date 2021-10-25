@@ -27,7 +27,7 @@ const buildMenu = (item: any, context: any) => {
     };
 
     const props: any = {
-        id: item.id,
+        id: `context-${item.id}`,
         className: "contextmenu-item",
         onMouseUp: onItemClick
     };
@@ -62,10 +62,10 @@ const buildMenu = (item: any, context: any) => {
         {
             className: "contextmenu-item-keybind",
             style: {
-                display: !item.hotkey ? "none" : ""
+                display: !item.keybind ? "none" : ""
             }
         },
-        item.hotkey?.toString()
+        item.keybind ? dot.shortcuts.toString(item.keybind) : ""
     );
 
     const itemContainer = React.createElement(
@@ -262,6 +262,13 @@ export class MenusAPI {
             );
         }
 
+        let menuOpen = false;
+        let mouseUpCount = 0;
+
+        setTimeout(() => {
+            menuOpen = true;
+        }, 150);
+
         if (this.visibleMenu) {
             this.visibleMenu.addEventListener(
                 "mousedown",
@@ -287,12 +294,19 @@ export class MenusAPI {
             this.visibleMenu.addEventListener(
                 "mouseup",
                 (e: any) => {
-                    if (
-                        !this.visibleMenu?.childNodes[0].contains(
-                            e.target
-                        )
-                    ) {
-                        this.clear();
+                    ++mouseUpCount;
+
+                    // We do this so we can make sure the user
+                    // has completed one full mouseup event
+                    if(mouseUpCount >= 2) {
+                        if (
+                            !this.visibleMenu?.childNodes[0].contains(
+                                e.target
+                            ) &&
+                            menuOpen
+                        ) {
+                            this.clear();
+                        }
                     }
                 }
             );
