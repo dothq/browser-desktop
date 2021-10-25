@@ -58,7 +58,8 @@ export class RuntimeAPI extends EventEmitter {
         }
 
         dot.window.updateWindowState();
-
+        
+        dot.shortcuts.init();
         dot.theme.load();
         dot.prefs.observe(
             "dot.ui.accent_colour",

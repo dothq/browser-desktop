@@ -2,7 +2,6 @@ export * from "./browsers";
 export * from "./console";
 export * from "./dev";
 export * from "./extensions";
-export * from "./keybinds";
 export * from "./menus";
 export * from "./preferences";
 export * from "./prompt";
@@ -19,7 +18,6 @@ import {
     ConsoleAPI,
     DevAPI,
     ExtensionsAPI,
-    KeybindsAPI,
     MenusAPI,
     PreferencesAPI,
     PromptAPI,
@@ -32,6 +30,7 @@ import {
     WindowAPI
 } from ".";
 import { Search } from "../core/search";
+import { KeyboardShortcuts } from "../core/shortcuts";
 import { exportPublic } from "../shared/globals";
 
 export class Dot {
@@ -48,7 +47,7 @@ export class Dot {
     public search = new Search();
     public runtime = new RuntimeAPI();
     public storage = new StorageAPI();
-    public keybinds = new KeybindsAPI();
+    public shortcuts = new KeyboardShortcuts(window);
     public utilities = new UtilitiesAPI();
     public console = new ConsoleAPI();
     public window = new WindowAPI();
