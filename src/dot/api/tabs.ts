@@ -69,6 +69,10 @@ export class TabsAPI {
         }
     }
 
+    public get tabsElement() {
+        return document.getElementById("tabbrowser-tabs");
+    }
+
     public getPanel(browserEl: any) {
         const supposedContainer =
             this.getBrowserContainer(browserEl);
