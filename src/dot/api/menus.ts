@@ -276,17 +276,19 @@ export class MenusAPI {
                     if (!dot.utilities.canPopupAutohide)
                         return;
 
-                    if (
-                        this.visibleMenu &&
-                        !this.visibleMenu?.childNodes[0].contains(
-                            e.target
-                        )
-                    ) {
-                        this.visibleMenu.style.opacity =
-                            "0";
-                        this.elementOpener?.removeAttribute(
-                            "menu-open"
-                        );
+                    if(mouseUpCount >= 2) {
+                        if (
+                            this.visibleMenu &&
+                            !this.visibleMenu?.childNodes[0].contains(
+                                e.target
+                            )
+                        ) {
+                            this.visibleMenu.style.opacity =
+                                "0";
+                            this.elementOpener?.removeAttribute(
+                                "menu-open"
+                            );
+                        }
                     }
                 }
             );

@@ -405,9 +405,14 @@ export class SearchbarInput extends React.Component<Props> {
     }
 
     public render() {
+        const inputProps = {
+            anonid: "input",
+            inputmode: "mozAwesomebar"
+        }
+
         return (
             <>
-                <div
+                {/* <div
                     id={"urlbar-input-url"}
                     style={{
                         display:
@@ -446,7 +451,7 @@ export class SearchbarInput extends React.Component<Props> {
                             {part.content}
                         </span>
                     ))}
-                </div>
+                </div> */}
 
                 <input
                     id={"urlbar-input-box"}
@@ -454,13 +459,7 @@ export class SearchbarInput extends React.Component<Props> {
                         this.state.inputPlaceholder
                     }
                     ref={this.inputRef}
-                    style={{
-                        display:
-                            this.searchType ==
-                            SearchInput.Fake
-                                ? "none"
-                                : "block"
-                    }}
+                    {...inputProps}
                     /* Events */
                     onFocus={() => this.onInputFocus()}
                     onBlur={() => this.onInputBlur()}

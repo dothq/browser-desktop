@@ -216,32 +216,34 @@ export class KeyboardShortcuts extends EventEmitter {
         if(!this.initted) return;
 
         for (const [key, data] of this.keys) {
+            console.log(key, )
+
             if (
                 data.meta !== event.metaKey ||
                 data.ctrl !== event.ctrlKey ||
                 data.alt !== event.altKey
             ) return;
     
-            if(data.shift !== event.shiftKey) {
-                const char = String.fromCharCode(event.keyCode);
+            // if(data.shift !== event.shiftKey) {
+            //     const char = String.fromCharCode(event.keyCode);
                 
-                let isAlphabetical = Boolean(
-                    char.length == 1 && 
-                    char.match(/[a-zA-Z]/)
-                );
+            //     let isAlphabetical = Boolean(
+            //         char.length == 1 && 
+            //         char.match(/[a-zA-Z]/)
+            //     );
     
-                if(!isAlphabetical) isAlphabetical = Boolean(
-                    event.key && 
-                    event.key.match(/[a-zA-Z]/)
-                );
+            //     if(!isAlphabetical) isAlphabetical = Boolean(
+            //         event.key && 
+            //         event.key.match(/[a-zA-Z]/)
+            //     );
     
-                const isCmd = data.meta && !data.alt && !data.ctrl;
+            //     const isCmd = data.meta && !data.alt && !data.ctrl;
     
-                if (
-                    isAlphabetical || 
-                    isCmd
-                ) return;
-            }
+            //     if (
+            //         isAlphabetical || 
+            //         isCmd
+            //     ) return;
+            // }
     
             let isValidKey = false;
     

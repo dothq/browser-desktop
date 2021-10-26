@@ -66,55 +66,19 @@
     );
 }
 
-#urlbar-input-container {
-    #urlbar-input {
-        width: 100%;
-        height: 100%;
-        padding: 0px 2px;
-        position: relative;
-        cursor: text;
-        background-color: transparent;
-        transition: 0.3s opacity;
-        overflow: hidden;
-        mask-image: linear-gradient(to left, transparent, black 4em);
-    }
-
-    #urlbar-input-box {
-        appearance: none;
-        border: none;
-        outline: none;
-        font-size: 14px;
-        color: var(--lwt-toolbar-field-color);
-        height: 100%;
-        width: 100%;
-        padding: 0;
-        z-index: 10;
-        background-color: transparent;
-        position: absolute;
-        opacity: 0.7;
-
-        &::placeholder {
-            color: var(--lwt-toolbar-field-color);
-            opacity: 0.5;
-        }
-    }
-
-    #urlbar-input-url {
-        min-width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        cursor: text;
-        user-select: none;
-        font-size: 14px;
-        position: absolute;
-        white-space: nowrap;
-        overflow: hidden;
-
-        & > * {
-            overflow: hidden;
-        }
-    }
+#urlbar-input {
+    width: 100%;
+    height: 100%;
+    padding: 0px 2px;
+    position: relative;
+    cursor: text;
+    background-color: transparent;
+    transition: 0.3s opacity;
+    overflow: hidden;
+    mask-image: linear-gradient(to left, transparent, black 4em);
+    border: none;
+    outline: none;
+    font-size: 1.05em;
 }
 
 #star-button-box.starred .searchbar-button-icon {
