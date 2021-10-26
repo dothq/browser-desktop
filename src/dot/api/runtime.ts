@@ -30,8 +30,6 @@ export class RuntimeAPI extends EventEmitter {
 
     public onBrowserStartup() {
         timers.start("BrowserInit");
-
-        render();
         
         window.docShell.treeOwner
             .QueryInterface(Ci.nsIInterfaceRequestor)
@@ -57,6 +55,10 @@ export class RuntimeAPI extends EventEmitter {
             throw e;
         }
 
+        dot.utilities.doCommand("Browser:NewTab");
+
+        render();
+
         dot.window.updateWindowState();
         
         dot.shortcuts.init();
@@ -66,8 +68,6 @@ export class RuntimeAPI extends EventEmitter {
             (value: string) =>
                 dot.theme.updateAccentColour(value)
         );
-
-        dot.utilities.doCommand("Browser:NewTab");
 
         BrowserWindowTracker.track(window);
 
