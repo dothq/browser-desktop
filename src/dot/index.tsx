@@ -10,8 +10,7 @@ import { Chrome } from "./components/Chrome";
 import { Statusbar } from "./core/statusbar";
 
 configure({
-    enforceActions: "never",
-    disableErrorBoundaries: true
+    enforceActions: "never"
 });
 
 export const Application = observer(() => {
