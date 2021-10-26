@@ -44,6 +44,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                 data-muted={tab.muted}
                 data-zoom={tab.zoom}
                 data-should-hide-icon={tab.shouldHideIcon}
+                data-closing={tab.isClosing}
                 title={tab.tooltip}
                 onMouseOver={(e) => tab.onTabMouseOver()}
                 onMouseLeave={(e) => tab.onTabMouseLeave()}

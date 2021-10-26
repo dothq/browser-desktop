@@ -177,6 +177,9 @@ export class Tab extends EventEmitter {
         console.log("stub - unbookmark");
     }
 
+    @observable
+    public urlbarValue: string = "";
+
     public updateNavigationState() {
         this.canGoBack = this.webContents.canGoBack;
         this.canGoForward = this.webContents.canGoForward;
@@ -369,6 +372,10 @@ export class Tab extends EventEmitter {
         return this.webContents;
     }
 
+    public get linkedTab() {
+        return document.getElementById(`tab-${this.id}`) as HTMLDivElement | undefined;
+    }
+
     public tagName = "tab";
 
     public eventBindings = {
@@ -474,7 +481,7 @@ export class Tab extends EventEmitter {
         this.updateNavigationState();
     }
 
-    public destroy() {
+    public destroy(options?: { noAnimate?: boolean } & object) {
         const tabIndex = dot.tabs.list.findIndex(
             (tab) => tab.id == this.id
         );
@@ -483,56 +490,81 @@ export class Tab extends EventEmitter {
 
         this.isClosing = true;
 
-        const filteredList = dot.tabs.list.filter(
-            (x) => !x.isClosing
-        );
+        let animationDuration = 0;
 
-        // close early because there is no need to destroy a browser
-        // that will be destroyed on window close
-        if (filteredList.length == 0)
-            return window.close();
+        if(!options?.noAnimate) {
+            const rawDuration = getComputedStyle(dot.tabs.tabsElement as Element)
+                .getPropertyValue("--tab-animation-duration");
 
-        let browserContainer =
-            dot.tabs.getBrowserContainer(
-                this.webContents
-            ).parentNode;
-
-        dot.tabs.list = dot.tabs.list.filter(
-            (t) => t.id !== this.id
-        );
-
-        this.webContents.destroy();
-        this.webContents.remove();
-        browserContainer.remove();
-
-        const activeTabs = dot.tabs.list.filter(
-            (tab) => tab.id != this.id
-        );
-
-        let newIndex;
-
-        if (activeTabs.length > tabIndex) {
-            newIndex = tabIndex;
-        } else {
-            newIndex = tabIndex - 1;
+            if(
+                rawDuration.endsWith("s") && 
+                !rawDuration.endsWith("ms")
+            ) {
+                // We know the value is using the "seconds" unit.
+                // We just need to convert it to ms for setTimeout.
+                const extractedNumber = parseFloat(rawDuration);
+    
+                // Convert it to ms
+                animationDuration = extractedNumber * 1000;
+            } else if(rawDuration.endsWith("ms")) {
+                animationDuration = parseFloat(rawDuration);
+            }
         }
 
-        const newTab = dot.tabs.list[newIndex];
+        setTimeout(() => {
+            const activeTabs = dot.tabs.list.filter(
+                (tab) => tab.id != this.id
+            );
+    
+            let newIndex;
+    
+            if (activeTabs.length > tabIndex) {
+                newIndex = tabIndex;
+            } else {
+                newIndex = tabIndex - 1;
+            }
+    
+            const newTab = dot.tabs.list[newIndex];
+            
+            newTab.select();
+    
+            /*
+                Current Tab Index: 1
+                Next Tab Index: 2 (1 + 1)
+                Tabs Length: 3
+                Result: new index (2) is less than or equal to the tabs length (3)
+                        so we just change the selected tab to the next tab along
+            */
+            // if ((tabsIndex + 1) <= dot.tabs.list.length) {
+    
+            // }
+    
+            // if ((tabsIndex + 1))
+        }, animationDuration / 2);
         
-        newTab.select();
-
-        /*
-            Current Tab Index: 1
-            Next Tab Index: 2 (1 + 1)
-            Tabs Length: 3
-            Result: new index (2) is less than or equal to the tabs length (3)
-                    so we just change the selected tab to the next tab along
-        */
-        // if ((tabsIndex + 1) <= dot.tabs.list.length) {
-
-        // }
-
-        // if ((tabsIndex + 1))
+        setTimeout(() => {
+            const filteredList = dot.tabs.list.filter(
+                (x) => !x.isClosing
+            );
+    
+            // close early because there is no need to destroy a browser
+            // that will be destroyed on window close
+            if (filteredList.length == 0)
+                return window.close();
+    
+            let browserContainer =
+                dot.tabs.getBrowserContainer(
+                    this.webContents
+                ).parentNode;
+    
+            dot.tabs.list = dot.tabs.list.filter(
+                (t) => t.id !== this.id
+            );
+    
+            this.webContents.destroy();
+            this.webContents.remove();
+            browserContainer.remove();
+        }, animationDuration);
     }
 
     public select() {

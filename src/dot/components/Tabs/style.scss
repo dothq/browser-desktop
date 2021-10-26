@@ -16,10 +16,18 @@
     min-width: 100%;
     max-width: 100%;
     display: contents;
+
+    --tab-animation-duration: 0.1s;
 }
 
 #browser:not(.tabs-scroller-buttons-visible) {
     .tabs-scroller-button {
         display: none !important;
+    }
+}
+
+@include useReducedMotion {
+    #tabbrowser-tabs {
+        --tab-animation-duration: 0s;
     }
 }

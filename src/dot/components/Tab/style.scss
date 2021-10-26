@@ -53,12 +53,18 @@
     min-width: 76px;
     position: relative;
     align-items: center;
-    animation: 0.1s tabbrowser-tab-open forwards;
+    animation: var(--tab-animation-duration) tabbrowser-tab-open forwards;
 
     &[data-active="true"] {
         .tab-background {
             background-color: var(--toolbar-bgcolor);
         }
+    }
+
+    &[data-closing="true"] {
+        animation: var(--tab-animation-duration) tabbrowser-tab-close forwards;
+        overflow: hidden;
+        min-width: 0px;
     }
 
     &:not([data-active="true"]):hover {
