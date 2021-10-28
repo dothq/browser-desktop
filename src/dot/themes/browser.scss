@@ -166,7 +166,7 @@ html:not(.statusbar) {
     z-index: unset;
 }
 
-#mainPopupSet {
+#browser-popups {
     height: 0px;
 }
 
@@ -194,4 +194,9 @@ hr:not(.contextmenu-separator) {
         transition-duration: 0s !important;
         transition-delay: 0s !important;
     }
+}
+
+:focus-visible {
+    outline: 2px solid var(--dot-ui-accent-colour) !important;
+    outline-offset: -2px !important;
 }
