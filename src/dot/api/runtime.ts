@@ -178,7 +178,7 @@ export class RuntimeAPI extends EventEmitter {
         }
 
         let el: any =
-            document.getElementById("aHTMLTooltip");
+            document.getElementById("browser-tooltip");
         el.label = data;
         el.style.direction = direction;
         el.openPopupAtScreen(x, y, false, null);
@@ -186,7 +186,7 @@ export class RuntimeAPI extends EventEmitter {
 
     public hideTooltip() {
         let el: any =
-            document.getElementById("aHTMLTooltip");
+            document.getElementById("browser-tooltip");
         el.hidePopup();
     }
 

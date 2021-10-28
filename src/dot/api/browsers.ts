@@ -42,7 +42,7 @@ export class BrowsersAPI {
     public DEFAULT_ATTRIBUTES = {
         type: "content",
         context: "contentAreaContextMenu",
-        tooltip: "aHTMLTooltip",
+        tooltip: "browser-tooltip",
         autocompletepopup: "PopupAutoComplete",
         selectmenulist: "ContentSelectDropdown",
         message: true,

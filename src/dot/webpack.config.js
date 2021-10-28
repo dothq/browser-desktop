@@ -44,7 +44,7 @@ const recursiveIssuer = (m, c) => {
 
 const webuiEntry = {
     newtab: "./core/newtab/start-page.tsx",
-    settings: "./core/webui/settings/settings.tsx",
+    settings: "./core/settings/settings.tsx",
     config: "./core/webui/config/config.tsx"
 };
 
@@ -108,8 +108,7 @@ cacheGroups = {
 module.exports = {
     target: "web",
     entry,
-    mode: "development",
-    devtool: "inline-source-map",
+    mode: "production",
     module: {
         rules: [
             {

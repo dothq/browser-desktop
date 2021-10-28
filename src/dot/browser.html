@@ -10,23 +10,24 @@
 <head>
     <title data-l10n-id="browser-main-window-title"></title>
     <link rel="stylesheet" href="build/browser.chunk.css" />
+    <script>
+        const { Services } = ChromeUtils.import(
+            "resource://gre/modules/Services.jsm"
+        );
+
+        Services.scriptloader.loadSubScript("chrome://dot/content/build/browser.js", this);
+    </script>
 </head>
 
 <body>
     <div id="browser"></div>
     <div id="browser-tabs-stack"></div>
 
-    <popupset id="mainPopupSet">
+    <div id="browser-popups">
         <div id="window-modal-mount"></div>
-    </popupset>
+    </div>
 
-    <keyset id="browser-keyset"></keyset>
-    <commandset id="browser-cmdset"></commandset>
-
-    <xul:tooltip xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" id="aHTMLTooltip" page="true"></xul:tooltip>
-    <xul:tooltip xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" id="remoteBrowserTooltip"></xul:tooltip>
-
-    <script src="build/browser.js"></script>
+    <tooltip id="browser-tooltip" page="true"></tooltip>
 </body>
 
 </html>
