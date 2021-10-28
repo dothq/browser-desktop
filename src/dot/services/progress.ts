@@ -66,10 +66,6 @@ export class TabProgressListener {
         const isDocument = flags & STATE_IS_DOCUMENT;
 
         if (isDocument && isStarting) {
-            ipc.fire(`page-reload-${this.id}`);
-            // General event is used by the search bar because why not
-            ipc.fire("page-reload", this.id);
-
             if (shouldShowLoader(request)) {
                 if (
                     !(flags & STATE_RESTORING) &&
@@ -102,11 +98,18 @@ export class TabProgressListener {
             }
         }
 
-        ipc.fire(`state-change-${this.id}`, {
+        ipc.fire("state-change", {
+            id: this.id,
             webProgress,
             request,
             flags,
-            status
+            status,
+            readableFlags: {
+                isStarting: Boolean(isStarting),
+                isStopped: Boolean(isStopped),
+                isWindow: Boolean(isWindow),
+                isDocument: Boolean(isDocument)
+            }
         });
     }
 
