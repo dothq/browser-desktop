@@ -2,7 +2,6 @@ import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../../api";
 import { Cc, Ci, Services } from "../../../modules";
-import { isBlankPageURL } from "../../../shared/url";
 import { ipc } from "../../ipc";
 
 interface MozInputElement extends HTMLInputElement {
@@ -17,7 +16,9 @@ export class UrlbarInput extends React.Component {
         focused: false,
         urlMetadata: null,
         value: "",
-        hasSelectedAll: false
+        originalValue: "",
+        hasSelectedAll: false,
+        hasUserModified: false
     }
 
     public lockupMetadataMethod: boolean = false;
@@ -30,40 +31,18 @@ export class UrlbarInput extends React.Component {
         return this.editor.selectionController;
     } 
     
-    public update(data?: { via?: 'external' | 'user', value?: string }) {
-        console.log(data)
-
-        if(data?.value) {
-            const hideUrl = (
-                data.via == "external" &&
-                isBlankPageURL(data.value)
-            );
-
-            this.setState({
-                ...this.state,
-                value: hideUrl ? "" : data.value
-            });
-        }
-
-        if(
-            data?.via == "external" &&
-            data.value?.length
-        ) {
-            // An external event has forced the value to be updated
-            // This could be the page reloading or the location changing
-            // We will need to invalidate the user's own input
-
-            this.formatUrl();
-        } else {
-            this.clearFormatting();
-        }
+    public update(newValue: string) {
+        this.setState({
+            ...this.state,
+            value: newValue
+        })
     }
 
     public formatUrl() {
         const inputValue = this.editor.rootElement.firstChild;
         const metadata = this.getUrlMetadata(inputValue.data);
 
-        if(!metadata) return; 
+        if(!metadata) return false; 
 
         const {
             preDomain,
@@ -115,6 +94,8 @@ export class UrlbarInput extends React.Component {
             
             selection.addRange(range);
         }
+
+        return true;
     }
 
     public clearFormatting() {
@@ -126,6 +107,14 @@ export class UrlbarInput extends React.Component {
 
         strikeOut.removeAllRanges();
         dimmedUrl.removeAllRanges();
+    }
+
+    public clearCachedTabValue() {
+        const tab = dot.tabs.selectedTab;
+
+        if(!tab) return;
+
+        tab.urlbarValue = undefined;
     }
 
     public getUrlMetadata(url: string): any {
@@ -146,9 +135,7 @@ export class UrlbarInput extends React.Component {
                 url, 
                 fixupFlags
             );
-        } catch (e) {
-            console.warn(e);
-        }
+        } catch (e) {}
    
         if (
             !urlInfo ||
@@ -227,25 +214,64 @@ export class UrlbarInput extends React.Component {
             if(
                 event.data.id == dot.tabs.selectedTabId && 
                 event.data.webProgress &&
-                event.data.webProgress.isTopLevel
+                event.data.webProgress.isTopLevel &&
+                !this.state.hasUserModified
             ) {
-                // If the location has changed, force the input to change
-                this.update({ via: "external", value: event.data.location.spec });
+                this.update(event.data.location.spec);
+                this.formatUrl();
+                this.clearCachedTabValue();
             }
         })
         
-        ipc.on("page-reload", (event) => {
+        ipc.on("state-change", (event) => {
             if(
-                event.data == dot.tabs.selectedTabId
+                event.data.id == dot.tabs.selectedTabId &&
+                event.data.webProgress &&
+                event.data.webProgress.isTopLevel &&
+                (
+                    event.data.readableFlags.isDocument &&
+                    event.data.readableFlags.isStarting
+                )
             ) {
-                // If the page has reloaded, force the input to change
-                this.update({ via: "external", value: this.state.value });
+                this.update(event.data.request.originalURI.spec);
+                this.formatUrl();
+                this.clearCachedTabValue();
+            }
+        })
+
+        ipc.on("tab-change", (event) => {
+            if(event.data.id == dot.tabs.selectedTabId) {
+                const tab = dot.tabs.selectedTab;
+
+                const newValue: any = tab?.urlbarValue
+                    ? tab?.urlbarValue
+                    : tab?.url;
+
+                this.update(newValue);
+
+                if(tab?.urlbarValue) {
+                    this.clearFormatting();
+                } else {
+                    this.formatUrl();
+                }
             }
         })
     }
 
     public onChange(e: any) {
-        this.update({ via: "user", value: e.target.value });
+        const tab = dot.tabs.selectedTab;
+
+        if(!tab) return;
+
+        this.update(e.target.value);
+        this.clearFormatting();
+
+        tab.urlbarValue = e.target.value;
+
+        this.setState({
+            ...this.state,
+            hasUserModified: true
+        });
     }
 
     public onFocus() {
@@ -253,6 +279,7 @@ export class UrlbarInput extends React.Component {
     }
 
     public onBlur() {
+        this.clearFormatting()
         this.formatUrl();
 
         this.setState({
