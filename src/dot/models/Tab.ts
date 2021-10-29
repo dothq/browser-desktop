@@ -178,7 +178,7 @@ export class Tab extends EventEmitter {
     }
 
     @observable
-    public urlbarValue: string = "";
+    public urlbarValue?: string;
 
     public updateNavigationState() {
         this.canGoBack = this.webContents.canGoBack;
@@ -568,6 +568,8 @@ export class Tab extends EventEmitter {
     }
 
     public select() {
+        ipc.fire("tab-change", { id: this.id });
+
         dot.browsersPrivate.select(this.id);
     }
 
