@@ -3,6 +3,13 @@ import { MenuItem, MenuPopupOptions } from '../../models/Menu';
 
 type Props = MenuPopupOptions & { template: MenuItem[], onMouseOver?: any, visible?: boolean, checkboxType?: 'check' | 'circle' };
 
+enum KeyboardDirection {
+    Down,
+    Up,
+    Right,
+    Left
+}
+
 export class ContextMenu extends React.Component<Props> {
     public constructor(props: Props) {
         super(props);
@@ -10,15 +17,77 @@ export class ContextMenu extends React.Component<Props> {
 
     public submenuVisibleInt: any;
 
+    public ref = React.createRef<HTMLMenuElement>();
+
     public state: any = {
-        submenus: {}
+        submenus: {},
+        currentIndex: -1
+    }
+
+    public componentDidMount() {
+        window.addEventListener("keypress", this);
+
+        (document.getElementById("browser") as any).inert = true;
+        (document.getElementById("browser-tabs-stack") as any).inert = true;
+
+        this.ref.current?.focus();
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener("keypress", this);
+
+        (document.getElementById("browser") as any).inert = false;
+        (document.getElementById("browser-tabs-stack") as any).inert = false;
+    }
+
+    public handleEvent(event: Event & KeyboardEvent) {
+        switch(event.type) {
+            case "keypress":
+                // let direction = -1;
+
+                // if(event.key == "ArrowDown") {
+                //     direction = KeyboardDirection.Down;
+                // } else if(event.key == "ArrowUp") {
+                //     direction = KeyboardDirection.Up;
+                // } else if(event.key == "ArrowRight") {
+                //     direction = KeyboardDirection.Right;
+                // } else if(event.key == "ArrowLeft") {
+                //     direction = KeyboardDirection.Left;
+                // }
+
+                // console.log(direction)
+
+                // const items: ChildNode[] = Array.from(this.ref.current?.childNodes as any);
+
+                // const current = items[this.state.currentIndex] as HTMLElement | undefined;
+                // const next = items[this.state.currentIndex + 1] as HTMLElement | undefined;
+                // const prev = items[this.state.currentIndex - 1] as HTMLElement | undefined;
+
+                // if(direction >= 0 && current) current?.removeAttribute("data-focused");
+
+                // if(direction == KeyboardDirection.Down) {
+                //     console.log("down", next, current);
+
+                //     if(next) {
+                //         next.setAttribute("data-focused", "true");
+                //     }
+                // } else if(direction == KeyboardDirection.Up) {
+                //     console.log("up", prev, current);
+
+                //     if(prev) {
+                //         prev.setAttribute("data-focused", "true");
+                //     }
+                // }
+        }
     }
 
     public render() {
         return (
             <menu 
+                role="menu"
                 className="contextmenu" 
                 onMouseOver={this.props.onMouseOver}
+                ref={this.ref}
                 data-open={"visible" in this.props 
                     ? this.props.visible 
                         ? true
@@ -29,8 +98,8 @@ export class ContextMenu extends React.Component<Props> {
                     "--menu-y": `${this.props.y}px`
                 } as any}
             >
-                <div className={"contextmenu-container"}>
-                    {this.props.template.map(item => {
+                <div className={"contextmenu-container"} tabIndex={-1}>
+                    {this.props.template.map((item) => {
                         if (!item) return;
                         if (!item.type) item.type = "normal";
 
@@ -45,7 +114,7 @@ export class ContextMenu extends React.Component<Props> {
                                 item.submenu.find(item => item.checked)
                             )
                         ) {
-                            const ref = React.createRef<HTMLDivElement>();
+                            const ref = React.createRef<HTMLButtonElement>();
 
                             if(item.type == "radio") {
                                 item.submenu = item.submenu.map(i => {
@@ -56,35 +125,47 @@ export class ContextMenu extends React.Component<Props> {
                                 });
                             }
 
-                            return <div 
+                            const openMenu = () => {
+                                const opener = ref.current as HTMLButtonElement;
+                                if(!opener) return;
+                                const bounds = opener.getBoundingClientRect();
+
+                                this.setSubmenuVisibility(
+                                    item.id, 
+                                    true,
+                                    (bounds.x + bounds.width) - (this.props.x || 0),
+                                    (bounds.y) - (this.props.y || 0)
+                                )
+                            }
+
+                            const closeMenu = () => this.setSubmenuVisibility(
+                                item.id, 
+                                false
+                            );
+
+                            return <button 
                                 ref={ref}
+                                role={item.type == "radio" ? "menuitemradio" : "menuitem"}
+                                aria-haspopup="menu"
+                                aria-expanded={this.state.submenus[item.id] && this.state.submenus[item.id].visible}
+                                data-submenu={item.submenu && item.submenu.length}
+                                tabIndex={0}
+                                onClick={() => openMenu()}
+                                onKeyPress={(e) => {
+                                    if(e.key == "ArrowRight") openMenu();
+                                    else if(e.key == "ArrowLeft") closeMenu();
+                                }}
                                 onMouseOver={(e) => {
                                     clearTimeout(this.submenuVisibleInt);
 
-                                    this.submenuVisibleInt = setTimeout(() => {
-                                        const opener = ref.current as HTMLDivElement;
-                                        if(!opener) return;
-                                        const bounds = opener.getBoundingClientRect();
-
-                                        this.setSubmenuVisibility(
-                                            item.id, 
-                                            true,
-                                            (bounds.x + bounds.width) - (this.props.x || 0),
-                                            (bounds.y) - (this.props.y || 0)
-                                        )
-                                    }, 300)
+                                    this.submenuVisibleInt = setTimeout(() => openMenu(), 300)
                                 }}
                                 onMouseLeave={(e) => {
                                     clearTimeout(this.submenuVisibleInt);
 
-                                    this.submenuVisibleInt = setTimeout(() => {
-                                        this.setSubmenuVisibility(
-                                            item.id, 
-                                            false
-                                        )
-                                    }, 200)
+                                    this.submenuVisibleInt = setTimeout(() => closeMenu(), 200)
                                 }}
-                                className={`contextmenu-item radio`}
+                                className={"contextmenu-item"}
                             >
                                 <div className={"contextmenu-group"}>
                                     <i 
@@ -109,12 +190,14 @@ export class ContextMenu extends React.Component<Props> {
                                         )}
                                     />
                                 </div>
-                            </div>
+                            </button>
                         }
 
                         switch(item.type) {
                             case "checkbox":
-                                return <div 
+                                return <button 
+                                    role="menuitemcheckbox"
+                                    tabIndex={0}
                                     onClick={(e) => this.onItemClick(e, item)} 
                                     className={`contextmenu-item ${item.type}`} 
                                     data-checked={item.checked}
@@ -123,14 +206,20 @@ export class ContextMenu extends React.Component<Props> {
                                     <i className={"contextmenu-item-icon"}></i>
 
                                     {item.label}
-                                </div>
+                                </button>
                             case "separator":
-                                return <hr className={"contextmenu-separator"} />
+                                return <hr 
+                                    role="separator" 
+                                    className={"contextmenu-separator"} 
+                                    aria-disabled={true}
+                                />
                             case "normal":
                             default:
-                                return <div 
+                                return <button 
+                                    role="menuitem"
                                     onClick={(e) => this.onItemClick(e, item)} 
                                     className={`contextmenu-item ${item.type}`}
+                                    tabIndex={0}
                                 >
                                     <i 
                                         className={"contextmenu-item-icon"} 
@@ -138,7 +227,7 @@ export class ContextMenu extends React.Component<Props> {
                                     ></i>
 
                                     {item.label}
-                                </div>
+                                </button>
                         }
                     })}
                 </div>

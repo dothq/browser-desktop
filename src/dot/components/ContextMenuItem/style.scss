@@ -10,8 +10,12 @@
     align-items: center;
     padding: 0px 12px;
     border-radius: 6px;
-    width: calc(100% - 12px * 2);
+    width: 100%;
     transition: 0.2s background-color;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    color: inherit;
 
     &.checkbox[data-check-type="circle"] {
         .contextmenu-item-icon {

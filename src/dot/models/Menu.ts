@@ -162,6 +162,13 @@ export class Menu extends EventEmitter {
             document.getElementById("browser-popups")?.appendChild(mount);
         }
 
+        mount.style.position = "absolute";
+        mount.style.width = "100%";
+        mount.style.height = "100%";
+        mount.style.top = "0";
+        mount.style.left = "0";
+        mount.style.zIndex = "999999999";
+
         ReactDOM.render(
             menu, 
             mount
@@ -204,8 +211,6 @@ export class Menu extends EventEmitter {
                     };
                 }
             })
-
-            console.log()
 
             this.template = template;
         }
