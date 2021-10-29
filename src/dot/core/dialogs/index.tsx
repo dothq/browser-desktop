@@ -45,7 +45,7 @@ export class UIDialog {
             );
 
             document
-                .getElementById("mainPopupSet")
+                .getElementById("browser-popups")
                 ?.appendChild(box);
             this.renderedTo = box;
 
