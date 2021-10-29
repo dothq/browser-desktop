@@ -22,15 +22,4 @@
     ul {
         list-style: none;
     }
-
-    .webui-sidebar-item {
-        padding: 0.5rem;
-        border-radius: 6px;
-        display: block;
-        text-decoration: none;
-
-        &:hover {
-            background-color: var(--lwt-accent-color);
-        }
-    }
 }
