@@ -2,30 +2,47 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-menu {
+@keyframes menu-open {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.contextmenu {
     display: flex;
     border-radius: 8px;
-    transition: 0.15s opacity;
     opacity: 0;
     margin: 0;
     min-width: 300px;
     z-index: 1348755674;
     position: absolute;
-    pointer-events: none;
+    top: 0;
+    left: 0;
     user-select: none;
-    padding: 0;
-    visibility: hidden;
-    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
-        0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108),
-        0px 0px 0px 1px var(--arrowpanel-border-color);
+    padding: 6px;
+    box-shadow: 
+        0 6.4px 14.4px 0 rgba(0,0,0,.132),
+        0 1.2px 3.6px 0 rgba(0,0,0,.108);
+    background-color: var(--arrowpanel-background);
+    transform: translate(var(--menu-x, 0px), var(--menu-y, 0px));
+    pointer-events: none;
+
+    &[data-open="true"] {
+        animation: .15s menu-open forwards !important;
+        pointer-events: all;
+    }
 }
 
-menu[open] {
-    left: calc(var(--menu-x) + 1px);
-    top: calc(var(--menu-y) + 1px);
-    pointer-events: all;
-    opacity: 1;
-    visibility: visible;
+.contextmenu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-background {
@@ -45,17 +62,4 @@ menu[open] {
     z-index: -1;
     display: flex;
     border-radius: inherit;
-}
-
-.menu-container {
-    display: flex;
-    flex-direction: column;
-    padding: 6px;
-    align-items: center;
-    gap: 1px;
-    width: 100%;
-    max-height: calc(
-        99.9% - var(--menu-y) - calc(6px * 2)
-    );
-    overflow-y: auto;
 }

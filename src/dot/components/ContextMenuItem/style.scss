@@ -1,3 +1,9 @@
+.contextmenu-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
 .contextmenu-item {
     min-height: 36px;
     display: flex;
@@ -5,6 +11,32 @@
     padding: 0px 12px;
     border-radius: 6px;
     width: calc(100% - 12px * 2);
+    transition: 0.2s background-color;
+
+    &.checkbox[data-check-type="circle"] {
+        .contextmenu-item-icon {
+            border-radius: 99999px;
+            box-shadow: inset 0px 0px 0px 2px gray;
+            outline-offset: -4px;
+        }
+    }
+
+    &.checkbox[data-checked="true"] {
+        &[data-check-type="check"] {
+            .contextmenu-item-icon {
+                background-image: url(chrome://dot/content/skin/icons/check.svg) !important;
+            }
+        }
+
+        &[data-check-type="circle"] {
+            .contextmenu-item-icon {
+                box-shadow: inset 0px 0px 0px 2px var(--dot-ui-accent-colour);
+                background-color: var(--dot-ui-accent-colour);
+                outline: 2px solid var(--arrowpanel-background);
+                outline-offset: -4px;
+            }
+        }
+    }
 
     .contextmenu-item-icon {
         width: 14px;
@@ -13,6 +45,16 @@
         -moz-context-properties: fill, fill-opacity;
         fill: currentColor;
         margin-inline-end: 12px;
+        background-image: attr(data-icon);
+
+        &.arrow-right {
+            width: 12px;
+            height: 12px;
+            background-image: url(chrome://dot/content/skin/icons/chevron-right-12.svg);
+            margin-left: auto;
+            margin-inline-end: 0px;
+            fill-opacity: 0.75;
+        }
     }
 
     .contextmenu-item-label {
@@ -35,13 +77,12 @@
         visibility: hidden;
     }
 
-    &:hover {
-        background-color: var(
-            --toolbarbutton-hover-background
-        );
+    &:hover,
+    &:focus-visible {
+        background-color: var(--toolbarbutton-hover-background);
     }
 
-    &:active {
+    &:is(.normal, .checkbox):hover:active {
         background-color: var(
             --toolbarbutton-active-background
         );

@@ -6,6 +6,7 @@ import { MenuContext, TemplatedMenu } from "../menus";
 import { MenuItem } from "../menus/components";
 import { componentsRegistry } from "../menus/components/registry";
 import { templatesRegistry } from "../menus/templates/registry";
+import { Menu } from "../models/Menu";
 
 interface MenuRect {
     x?: number;
@@ -97,6 +98,8 @@ export class MenusAPI {
         bounds: MenuRect,
         context: MenuContext
     ) {
+        new Menu();
+
         const type = typeof template;
 
         let temp: TemplatedMenu | undefined;
@@ -194,7 +197,7 @@ export class MenusAPI {
         menuMount.style.zIndex = "999999999999999999999";
 
         document
-            .getElementById("mainPopupSet")
+            .getElementById("browser-popups")
             ?.appendChild(menuMount);
 
         ReactDOM.render(menuContainer, menuMount);
