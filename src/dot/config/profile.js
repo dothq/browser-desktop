@@ -94,6 +94,7 @@ pref("extensions.pocket.onSaveRecs.locales", "");
 pref("layout.css.backdrop-filter.enabled", true);
 pref("browser.tabs.drawInTitlebar", true);
 pref("browser.toolbars.bookmarks.visibility", "never");
+pref("html5.inert.enabled", true);
 
 // Scrolling
 pref("general.smoothScroll.mouseWheel.durationMaxMS", 120);
