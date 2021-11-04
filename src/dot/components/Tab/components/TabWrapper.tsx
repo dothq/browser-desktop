@@ -9,5 +9,5 @@ export const TabWrapper = ({ children }: Props) => {
         <div className={"tabbrowser-tab-wrapper"}>
             {children}
         </div>
-    )
-}
+    );
+};

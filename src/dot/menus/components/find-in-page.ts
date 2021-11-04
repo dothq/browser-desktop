@@ -16,7 +16,5 @@ export class FindInPage extends MenuItem {
         });
     }
 
-    public onClick() {
-        
-    }
+    public onClick() {}
 }

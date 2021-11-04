@@ -1,5 +1,8 @@
 import { dot } from "../api";
-import { BrowserOpenTab, openPreferences } from "../utils/browser";
+import {
+    BrowserOpenTab,
+    openPreferences
+} from "../utils/browser";
 
 export const commands: any = {
     "Browser:GoBack": () =>
@@ -10,8 +13,7 @@ export const commands: any = {
         dot.tabs.selectedTab?.reload(),
     "Browser:Stop": () => dot.tabs.selectedTab?.stop(),
 
-    "Browser:Bookmark": () =>
-        console.log("todo"),
+    "Browser:Bookmark": () => console.log("todo"),
 
     "Browser:NewTab": () => BrowserOpenTab(),
 

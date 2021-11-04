@@ -9,27 +9,44 @@ interface Props {
     url: MozURI;
 }
 
-export const TabContent = ({ title, favicon, ready, url, pendingIcon }: Props) => {
+export const TabContent = ({
+    title,
+    favicon,
+    ready,
+    url,
+    pendingIcon
+}: Props) => {
     return (
-        <div 
-            className={"tab-content"}
-        >
-            <i 
-                className={`tab-favicon ${ready
-                    ? (favicon && favicon.length) || pendingIcon
-                        ? ""
-                        : "hidden"
-                    : "loading"}`}
+        <div className={"tab-content"}>
+            <i
+                className={`tab-favicon ${
+                    ready
+                        ? (favicon && favicon.length) ||
+                          pendingIcon
+                            ? ""
+                            : "hidden"
+                        : "loading"
+                }`}
                 style={{
-                    backgroundImage: ready && favicon && favicon.length
-                        ? `url(${favicon})`
-                        : ``
+                    backgroundImage:
+                        ready && favicon && favicon.length
+                            ? `url(${favicon})`
+                            : ``
                 }}
             />
 
-            <span style={{ position: "fixed", top: "53px", left: "53px", backgroundColor: "red", zIndex: 56754674567567456745674567546745674567 }}>
+            <span
+                style={{
+                    position: "fixed",
+                    top: "53px",
+                    left: "53px",
+                    backgroundColor: "red",
+                    zIndex: 56754674567567456745674567546745674567
+                }}
+            >
                 {ready
-                    ? !!(favicon && favicon.length) || pendingIcon
+                    ? !!(favicon && favicon.length) ||
+                      pendingIcon
                         ? ""
                         : "hidden"
                     : "loading"}
@@ -37,9 +54,7 @@ export const TabContent = ({ title, favicon, ready, url, pendingIcon }: Props) =
                 {`pfv: ${pendingIcon}`}
             </span>
 
-            <span className={"tab-title"}>
-                {title}
-            </span>
+            <span className={"tab-title"}>{title}</span>
         </div>
-    )
-}
+    );
+};

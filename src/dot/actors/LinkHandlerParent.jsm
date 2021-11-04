@@ -70,7 +70,7 @@ class LinkHandlerParent extends JSWindowActorParent {
             case "Link:SetFailedIcon":
                 if (msg.data.canUseForTab) {
                     this.clearPendingIcon(
-                        gBrowser, 
+                        gBrowser,
                         browser
                     );
                 }
@@ -78,7 +78,10 @@ class LinkHandlerParent extends JSWindowActorParent {
                 break;
 
             case "Link:AddSearch":
-                tab.emit("search-engine-available", msg.data)
+                tab.emit(
+                    "search-engine-available",
+                    msg.data
+                );
 
                 break;
         }
@@ -87,7 +90,7 @@ class LinkHandlerParent extends JSWindowActorParent {
     clearPendingIcon(gBrowser, browser) {
         const tab = this.dot.tabs.get(browser.browserId);
 
-        if(tab) {
+        if (tab) {
             tab.clearPendingIcon();
         }
     }
@@ -141,9 +144,11 @@ class LinkHandlerParent extends JSWindowActorParent {
         }
 
         if (canUseForTab) {
-            const tab = this.dot.tabs.get(browser.browserId);
+            const tab = this.dot.tabs.get(
+                browser.browserId
+            );
 
-            if(tab) {
+            if (tab) {
                 tab.setIcon(iconURL, originalURL);
             }
         }

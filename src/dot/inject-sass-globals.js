@@ -1,4 +1,4 @@
-module.exports = function(source) {
+module.exports = function (source) {
     this.cacheable();
     return `
 @mixin useReducedMotion {
@@ -13,4 +13,4 @@ module.exports = function(source) {
 
 ${source}
 `;
-}
+};

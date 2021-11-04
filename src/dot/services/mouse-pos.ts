@@ -20,11 +20,14 @@ class MousePosTracker {
     }
 
     public handleEvent(event: MouseEvent) {
-        const { mozInnerScreenX, mozInnerScreenY } = window;
+        const { mozInnerScreenX, mozInnerScreenY } =
+            window;
         const { fullZoom } = window.windowUtils;
 
-        this.x = event.screenX / fullZoom - mozInnerScreenX;
-        this.y = event.screenY / fullZoom - mozInnerScreenY;
+        this.x =
+            event.screenX / fullZoom - mozInnerScreenX;
+        this.y =
+            event.screenY / fullZoom - mozInnerScreenY;
 
         for (const listener of this.listeners) {
             this.callListener(listener);
@@ -32,12 +35,8 @@ class MousePosTracker {
     }
 
     public callListener(listener: any) {
-        const {
-            top,
-            right,
-            bottom,
-            left
-        } = listener.getMouseTargetRect();
+        const { top, right, bottom, left } =
+            listener.getMouseTargetRect();
 
         const hover =
             this.x >= left &&
@@ -49,7 +48,8 @@ class MousePosTracker {
         else listener._hover = hover;
 
         if (hover) {
-            if (listener.onMouseEnter) listener.onMouseEnter();
+            if (listener.onMouseEnter)
+                listener.onMouseEnter();
         } else if (listener.onMouseLeave) {
             listener.onMouseLeave();
         }

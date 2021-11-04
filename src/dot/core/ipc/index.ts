@@ -1,8 +1,14 @@
-import { EventEmitter, EventHandler } from "@billjs/event-emitter";
+import {
+    EventEmitter,
+    EventHandler
+} from "@billjs/event-emitter";
 import { exportPublic } from "../../shared/globals";
 
 export class ApplicationIPC extends EventEmitter {
-    public on(type: string, handler: EventHandler): boolean {
+    public on(
+        type: string,
+        handler: EventHandler
+    ): boolean {
         return super.on(type, (e) => {
             // console.log("Received event:", e);
             return handler(e);

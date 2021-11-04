@@ -8,7 +8,6 @@ export class HashChange extends SettingsEvent {
     public action() {
         // let { hash } = window.location;
         // hash = hash.substr(1);
-
         // if (!sections[hash]) return;
         // else setActiveSection(hash);
     }

@@ -34,9 +34,13 @@
 
         &[data-check-type="circle"] {
             .contextmenu-item-icon {
-                box-shadow: inset 0px 0px 0px 2px var(--dot-ui-accent-colour);
-                background-color: var(--dot-ui-accent-colour);
-                outline: 2px solid var(--arrowpanel-background);
+                box-shadow: inset 0px 0px 0px 2px
+                    var(--dot-ui-accent-colour);
+                background-color: var(
+                    --dot-ui-accent-colour
+                );
+                outline: 2px solid
+                    var(--arrowpanel-background);
                 outline-offset: -4px;
             }
         }
@@ -83,7 +87,9 @@
 
     &:hover,
     &:focus-visible {
-        background-color: var(--toolbarbutton-hover-background);
+        background-color: var(
+            --toolbarbutton-hover-background
+        );
     }
 
     &:is(.normal, .checkbox):hover:active {

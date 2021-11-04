@@ -7,32 +7,63 @@ import { AppConstants, Ci } from "../modules";
 import { exportPublic } from "../shared/globals";
 
 export interface MenuItem {
-    id: string,
-    label?: string,
-    icon?: string,
-    accelerator?: string,
-    role?: MenuItemRole,
-    click?: (item: MenuItem, window: Window, event: KeyboardEvent) => void,
-    change?: (data: any) => void,
-    enabled?: boolean,
-    visible?: boolean,
-    checked?: boolean,
-    type?: 'normal' | "separator" | "checkbox" | "radio",
-    submenu?: MenuItem[]
+    id: string;
+    label?: string;
+    icon?: string;
+    accelerator?: string;
+    role?: MenuItemRole;
+    click?: (
+        item: MenuItem,
+        window: Window,
+        event: KeyboardEvent
+    ) => void;
+    change?: (data: any) => void;
+    enabled?: boolean;
+    visible?: boolean;
+    checked?: boolean;
+    type?: "normal" | "separator" | "checkbox" | "radio";
+    submenu?: MenuItem[];
 }
 
-export type MenuItemRole = 'about' | 'close' | 'copy' | 'cut' | 'delete' | 'forcereload' | 'front' | 'help' | 'hide' | 'hideothers' | 'minimize' |
-    'toggledevtools' | 'togglefullscreen' | 'undo' | 'unhide' | 'window' | 'zoom' | 'zoomin' | 'zoomout' | 'togglespellchecker' |
-    'appmenu' | 'filemenu' | 'editmenu' | 'viewmenu' | 'windowmenu' | 'sharemenu';
+export type MenuItemRole =
+    | "about"
+    | "close"
+    | "copy"
+    | "cut"
+    | "delete"
+    | "forcereload"
+    | "front"
+    | "help"
+    | "hide"
+    | "hideothers"
+    | "minimize"
+    | "toggledevtools"
+    | "togglefullscreen"
+    | "undo"
+    | "unhide"
+    | "window"
+    | "zoom"
+    | "zoomin"
+    | "zoomout"
+    | "togglespellchecker"
+    | "appmenu"
+    | "filemenu"
+    | "editmenu"
+    | "viewmenu"
+    | "windowmenu"
+    | "sharemenu";
 
-export type MenuPopupOptions = { 
-    x?: number, 
-    y?: number, 
-    callback?: (result: boolean) => void,
-    mount?: HTMLElement
+export type MenuPopupOptions = {
+    x?: number;
+    y?: number;
+    callback?: (result: boolean) => void;
+    mount?: HTMLElement;
 };
 
-export const menuRoles: Record<MenuItemRole, MenuItem | {}> = {
+export const menuRoles: Record<
+    MenuItemRole,
+    MenuItem | {}
+> = {
     about: {
         id: "about",
         label: "About Dot Browser",
@@ -70,9 +101,11 @@ export const menuRoles: Record<MenuItemRole, MenuItem | {}> = {
         id: "forcereload",
         label: "Force Reload",
         type: "normal",
-        click: () => dot.tabs.selectedTab?.reload(
-            Ci.nsIWebNavigation.LOAD_FLAGS_BYPASS_CACHE
-        )
+        click: () =>
+            dot.tabs.selectedTab?.reload(
+                Ci.nsIWebNavigation
+                    .LOAD_FLAGS_BYPASS_CACHE
+            )
     },
     front: {},
     help: {},
@@ -89,7 +122,8 @@ export const menuRoles: Record<MenuItemRole, MenuItem | {}> = {
         id: "togglefullscreen",
         label: "Toggle Fullscreen",
         type: "normal",
-        click: () => dot.tabs.selectedTab?.webContents.requestFullscreen()
+        click: () =>
+            dot.tabs.selectedTab?.webContents.requestFullscreen()
     },
     undo: {
         id: "undo",
@@ -106,14 +140,16 @@ export const menuRoles: Record<MenuItemRole, MenuItem | {}> = {
         label: "Zoom In",
         type: "normal",
         accelerator: "CmdOrCtrl+=",
-        click: () => dot.tabs.selectedTab?.zoomManager.enlarge()
+        click: () =>
+            dot.tabs.selectedTab?.zoomManager.enlarge()
     },
     zoomout: {
         id: "zoomout",
         label: "Zoom Out",
         type: "normal",
         accelerator: "CmdOrCtrl+-",
-        click: () => dot.tabs.selectedTab?.zoomManager.reduce()
+        click: () =>
+            dot.tabs.selectedTab?.zoomManager.reduce()
     },
     togglespellchecker: {},
     appmenu: {},
@@ -122,12 +158,12 @@ export const menuRoles: Record<MenuItemRole, MenuItem | {}> = {
     viewmenu: {},
     windowmenu: {},
     sharemenu: {}
-}
+};
 
 export class Menu extends EventEmitter {
     private template: MenuItem[] = [];
     private mount?: HTMLDivElement;
-    
+
     private get isMounted() {
         return !!this.mount;
     }
@@ -139,27 +175,26 @@ export class Menu extends EventEmitter {
     public popup(options?: MenuPopupOptions) {
         this.closePopup();
 
-        const menu = React.createElement(
-            ContextMenu,
-            { 
-                ...options,
-                template: this.template,
-                callback: (result: boolean) => {
-                    this.closePopup();
-                    
-                    if(options?.callback) {
-                        options?.callback(result);
-                    }
+        const menu = React.createElement(ContextMenu, {
+            ...options,
+            template: this.template,
+            callback: (result: boolean) => {
+                this.closePopup();
+
+                if (options?.callback) {
+                    options?.callback(result);
                 }
             }
-        );
+        });
 
         let mount: any;
 
-        if(options?.mount) mount = options.mount;
+        if (options?.mount) mount = options.mount;
         else {
             mount = document.createElement("div");
-            document.getElementById("browser-popups")?.appendChild(mount);
+            document
+                .getElementById("browser-popups")
+                ?.appendChild(mount);
         }
 
         mount.style.position = "absolute";
@@ -169,31 +204,24 @@ export class Menu extends EventEmitter {
         mount.style.left = "0";
         mount.style.zIndex = "999999999";
 
-        ReactDOM.render(
-            menu, 
-            mount
-        );
+        ReactDOM.render(menu, mount);
 
         this.mount = mount;
     }
 
     public closePopup(force?: boolean) {
-        if(this.isMounted && this.mount) {
-            if (
-                !dot.utilities.canPopupAutohide && 
-                !force 
-            ) return;
-    
+        if (this.isMounted && this.mount) {
+            if (!dot.utilities.canPopupAutohide && !force)
+                return;
+
             ReactDOM.unmountComponentAtNode(this.mount);
-            
+
             this.mount.outerHTML = "";
             this.mount = undefined;
         }
     }
 
-    static buildFromTemplate(
-        template: MenuItem[]
-    ): Menu {
+    static buildFromTemplate(template: MenuItem[]): Menu {
         const menu = new Menu(template);
 
         return menu;
@@ -202,15 +230,15 @@ export class Menu extends EventEmitter {
     public constructor(template?: MenuItem[]) {
         super();
 
-        if(template) {
+        if (template) {
             template.forEach((item, index) => {
-                if(item.role && menuRoles[item.role]) {
+                if (item.role && menuRoles[item.role]) {
                     template[index] = {
                         ...template[index],
                         ...menuRoles[item.role]
                     };
                 }
-            })
+            });
 
             this.template = template;
         }

@@ -8,8 +8,6 @@ export class UrlbarBackground extends React.Component {
     }
 
     public render() {
-        return (
-            <div id={"urlbar-background"}></div>
-        )
+        return <div id={"urlbar-background"}></div>;
     }
 }

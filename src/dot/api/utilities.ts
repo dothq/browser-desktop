@@ -1,6 +1,11 @@
 import { useID } from "@dothq/id";
 import { EventEmitter } from "events";
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+    action,
+    computed,
+    makeObservable,
+    observable
+} from "mobx";
 import {
     AppConstants,
     Cc,

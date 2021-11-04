@@ -91,8 +91,8 @@ export const predefinedFavicons: any = {
 export const predefinedTitles: any = {
     "about:home": "New Tab",
     "about:newtab": "New Tab",
-    "about:privatebrowsing": "Private Browsing",
-}
+    "about:privatebrowsing": "Private Browsing"
+};
 
 export const visibleAboutUrls =
     AboutPagesUtils.visibleAboutUrls.map(
@@ -101,11 +101,10 @@ export const visibleAboutUrls =
         }
     );
 
-export const isBlankPageURL = (url: string) => (
+export const isBlankPageURL = (url: string) =>
     url == "about:blank" ||
     url == "about:home" ||
     url == "about:welcome" ||
-    url == NEW_TAB_URL
-)
+    url == NEW_TAB_URL;
 
 exportPublic("isBlankPageURL", isBlankPageURL);

@@ -16,6 +16,6 @@ export class UrlbarInputContainer extends React.Component<UrlbarInputContainerPr
             <div id={"urlbar-input-container"}>
                 {this.props.children}
             </div>
-        )
+        );
     }
 }

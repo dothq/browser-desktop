@@ -10,7 +10,8 @@ a.toolbar-button {
     border: none;
     display: flex;
     -moz-window-dragging: no-drag;
-    transition: 0.3s color, 0.3s transform, 0s visibility 0.3s;
+    transition: 0.3s color, 0.3s transform,
+        0s visibility 0.3s;
 
     &:hover .toolbarbutton-icon {
         background-color: var(

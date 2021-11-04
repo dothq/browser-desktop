@@ -34,7 +34,8 @@ import { KeyboardShortcuts } from "../core/shortcuts";
 import { exportPublic } from "../shared/globals";
 
 export class Dot {
-    public browsersPrivate: BrowsersAPI = new BrowsersAPI();
+    public browsersPrivate: BrowsersAPI =
+        new BrowsersAPI();
 
     public titlebar = new TitlebarAPI();
     public tabs = new TabsAPI();
@@ -55,7 +56,10 @@ export class Dot {
     constructor() {
         window.addEventListener(
             "MozBeforeInitialXULLayout",
-            () => this.runtime.emit("before-browser-window-init"),
+            () =>
+                this.runtime.emit(
+                    "before-browser-window-init"
+                ),
             { once: true }
         );
 
@@ -93,7 +97,7 @@ export class Dot {
 
 export let dot: Dot;
 
-if(window.isChromeWindow !== undefined) {
+if (window.isChromeWindow !== undefined) {
     dot = new Dot();
 
     exportPublic("dot", dot);

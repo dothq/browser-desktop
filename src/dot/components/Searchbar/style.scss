@@ -75,7 +75,11 @@
     background-color: transparent;
     transition: 0.3s opacity;
     overflow: hidden;
-    mask-image: linear-gradient(to left, transparent, black 4em);
+    mask-image: linear-gradient(
+        to left,
+        transparent,
+        black 4em
+    );
     border: none;
     outline: none;
     font-size: 1.05em;

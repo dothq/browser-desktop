@@ -84,7 +84,7 @@ export class PreferencesAPI {
     }
 
     public getBranch(id: string) {
-        if(!id.endsWith(".")) id = `${id}.`;
+        if (!id.endsWith(".")) id = `${id}.`;
 
         const branch = Services.prefs.getBranch(id);
         const ids = branch.getChildList("");

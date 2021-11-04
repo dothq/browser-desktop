@@ -1,6 +1,4 @@
-import {
-    TransitionStatus
-} from "react-transition-group";
+import { TransitionStatus } from "react-transition-group";
 import { dot } from "../../api";
 
 const id = () => dot.utilities.makeID(1);
@@ -100,62 +98,47 @@ export const Launcher = () => {
     //     React.createRef<HTMLDivElement>();
     // const launcherPopupRef =
     //     React.createRef<HTMLDivElement>();
-
     // const [expanded, setExpanded] = React.useState(false);
-
     // const [highlightY, setHighlightY] = React.useState(0);
     // const [highlightTop, setHighlightTop] =
     //     React.useState(0);
     // const [active, setActive] = React.useState("");
-
     // const [persistedValue, setPersistedValue] =
     //     React.useState<any>();
-
     // const checkValue = () => {
     //     if (!ref.current || !ui.launcherVisible) return;
-
     //     scrollableRef.current?.scrollTo({
     //         left: 0,
     //         top: 0
     //     });
     // };
-
     // let exitTimeout: any;
-
     // const doKeyboardHighlightMovement = (
     //     movement: number
     // ) => {
     //     console.log("movement", movement);
     //     console.log("active", active);
-
     //     const split = active.split("-");
     //     const group = split[0];
-
     //     const currentHighlighted =
     //         document.getElementById(`result-${active}`);
     //     const highlightedParent =
     //         currentHighlighted?.parentElement;
     //     const parentNodes = highlightedParent?.childNodes;
-
     //     if (
     //         !currentHighlighted ||
     //         !highlightedParent ||
     //         !parentNodes
     //     )
     //         return;
-
     //     const currentIndex =
     //         Array.from(parentNodes).findIndex(
     //             (i: any) => i.id == currentHighlighted.id
     //         ) + 1;
     //     // We are adding 1 to the index as the nodes length doesn't start from 0
-
     //     console.log("currentIndex", currentIndex);
-
     //     const maxAmount = parentNodes.length;
-
     //     console.log("maxAmount", maxAmount);
-
     //     console.log(
     //         "check",
     //         (movement == LauncherKeyboardMovement.Up
@@ -163,7 +146,6 @@ export const Launcher = () => {
     //             : currentIndex - 1 <= maxAmount) && // Subtract one from the index
     //             currentIndex >= 1
     //     );
-
     //     console.log(
     //         "adding one to index",
     //         currentIndex + 1 <= maxAmount
@@ -172,12 +154,10 @@ export const Launcher = () => {
     //         "minus one from index",
     //         currentIndex - 1 <= maxAmount
     //     );
-
     //     console.log(
     //         "satisfies bounds",
     //         currentIndex >= 1
     //     );
-
     //     if (
     //         (movement == LauncherKeyboardMovement.Up
     //             ? currentIndex + 1 <= maxAmount // Add one to the index
@@ -186,26 +166,20 @@ export const Launcher = () => {
     //     ) {
     //         const nextIndex = currentIndex - 1;
     //         const nextId = parentNodes[nextIndex];
-
     //         setActive(`${group}-${nextId}`);
     //     } else {
     //         // We can't go any further in this group, let's try the next one.
     //     }
     // };
-
     // React.useEffect(() => {
     //     document.addEventListener("keypress", (e) => {
     //         console.log("todo")
-
     //         // const state = store.getState();
-
     //         // if (state.ui.launcherVisible) {
     //         //     if (e.key == "Escape") {
     //         //         clearTimeout(exitTimeout);
     //         //         exitTimeout = null;
-
     //         //         setExpanded(false);
-
     //         //         exitTimeout = setTimeout(() => {
     //         //             console.log("todo")
     //         //         }, 200);
@@ -213,27 +187,21 @@ export const Launcher = () => {
     //         // }
     //     });
     // }, []);
-
     // const onMount = () => {
     //     // As we're unmounting the launcher on exit, we need to load in the persisted
     //     // search value so it doesn't interrupt your search
     //     if (persistedValue && ref.current)
     //         ref.current.value = persistedValue;
-
     //     checkValue();
     //     ref.current?.focus();
     // };
-
     // React.useEffect(() => {
     //     const element = document.getElementById(
     //         `result-${active}`
     //     );
-
     //     if (!element) return;
-
     //     const bounds = element.getBoundingClientRect();
     //     setHighlightY(bounds.top);
-
     //     const launcherBounds =
     //         launcherPopupRef.current?.getBoundingClientRect();
     //     const scrollerTop =
@@ -243,7 +211,6 @@ export const Launcher = () => {
     //             (scrollerTop || 0)
     //     );
     // }, [active]);
-
     // return (
     //     <Transition
     //         in={ui.launcherVisible}
@@ -254,16 +221,13 @@ export const Launcher = () => {
     //         }
     //         onEntered={() => {
     //             onMount();
-
     //             setTimeout(() => {
     //                 setExpanded(true);
-
     //                 const firstCategoryId =
     //                     Object.keys(stubData)[0];
     //                 const firstItemInCategoryId = (
     //                     stubData as any
     //                 )[firstCategoryId][0].id;
-
     //                 setActive(
     //                     `${firstCategoryId}-${firstItemInCategoryId}`
     //                 );
@@ -296,7 +260,6 @@ export const Launcher = () => {
     //                                 "launcher-popup-input-icon"
     //                             }
     //                         ></i>
-
     //                         <input
     //                             className={
     //                                 "launcher-popup-input-box"
@@ -315,7 +278,6 @@ export const Launcher = () => {
     //                         ></input>
     //                     </div>
     //                 </div>
-
     //                 <div
     //                     className={
     //                         "launcher-popup-results"
@@ -345,7 +307,6 @@ export const Launcher = () => {
     //                                             i: any
     //                                         ) => {
     //                                             const id = `${key}-${item.id}`;
-
     //                                             return (
     //                                                 <GroupItem
     //                                                     key={
@@ -370,7 +331,6 @@ export const Launcher = () => {
     //                                                     ) => {
     //                                                         e.stopPropagation();
     //                                                         e.preventDefault();
-
     //                                                         setActive(
     //                                                             id
     //                                                         );
@@ -382,7 +342,6 @@ export const Launcher = () => {
     //                                 </Group>
     //                             )
     //                         )}
-
     //                         <div
     //                             className={
     //                                 "launcher-popup-results-container-highlight"

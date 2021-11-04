@@ -14,7 +14,7 @@ export const ChromeUtils = {
     ) {
         const mod =
             window.ChromeUtils.import(moduleUri)[
-            moduleName
+                moduleName
             ];
         owner[moduleName] = mod;
 
@@ -27,7 +27,7 @@ export const Components = window.Components;
 const include = (moduleUri: string) => {
     const moduleName = moduleUri
         .split("/")
-    [moduleUri.split("/").length - 1].split(".")[0];
+        [moduleUri.split("/").length - 1].split(".")[0];
 
     const mod = ChromeUtils.import(moduleUri);
     const data = mod[moduleName];
@@ -111,9 +111,9 @@ export const { PageThumbs } = include(
     "resource://gre/modules/PageThumbs.jsm"
 );
 
-export const nsIBrowserHandler = Cc["@mozilla.org/browser/clh;1"].getService(
-    Ci.nsIBrowserHandler
-)
+export const nsIBrowserHandler = Cc[
+    "@mozilla.org/browser/clh;1"
+].getService(Ci.nsIBrowserHandler);
 
 exportPublic("FluentReact", FluentReact);
 
@@ -127,10 +127,11 @@ export const ReferrerInfo = Components.Constructor(
     "init"
 );
 
-export const { ContentCrashHandlers } = ChromeUtils.import(
-    "resource:///modules/ContentCrashHandlers.jsm"
-)
+export const { ContentCrashHandlers } =
+    ChromeUtils.import(
+        "resource:///modules/ContentCrashHandlers.jsm"
+    );
 
 export const { ShortcutUtils } = ChromeUtils.import(
     "resource://gre/modules/ShortcutUtils.jsm"
-)
+);

@@ -1,7 +1,4 @@
-import {
-    ensureSymlink,
-    lstatSync
-} from "fs-extra";
+import { ensureSymlink, lstatSync } from "fs-extra";
 import { resolve } from "path";
 import rimraf from "rimraf";
 import { ENGINE_DIR, SRC_DIR } from "../constants";

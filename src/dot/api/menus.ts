@@ -66,7 +66,9 @@ const buildMenu = (item: any, context: any) => {
                 display: !item.keybind ? "none" : ""
             }
         },
-        item.keybind ? dot.shortcuts.toString(item.keybind) : ""
+        item.keybind
+            ? dot.shortcuts.toString(item.keybind)
+            : ""
     );
 
     const itemContainer = React.createElement(
@@ -279,7 +281,7 @@ export class MenusAPI {
                     if (!dot.utilities.canPopupAutohide)
                         return;
 
-                    if(mouseUpCount >= 2) {
+                    if (mouseUpCount >= 2) {
                         if (
                             this.visibleMenu &&
                             !this.visibleMenu?.childNodes[0].contains(
@@ -303,7 +305,7 @@ export class MenusAPI {
 
                     // We do this so we can make sure the user
                     // has completed one full mouseup event
-                    if(mouseUpCount >= 2) {
+                    if (mouseUpCount >= 2) {
                         if (
                             !this.visibleMenu?.childNodes[0].contains(
                                 e.target
@@ -342,7 +344,13 @@ export class MenusAPI {
     public constructor() {
         makeObservable(this);
 
-        window.addEventListener("blur", () => this.clear(true), true);
-        window.addEventListener("resize", () => this.clear(true));
+        window.addEventListener(
+            "blur",
+            () => this.clear(true),
+            true
+        );
+        window.addEventListener("resize", () =>
+            this.clear(true)
+        );
     }
 }

@@ -20,9 +20,7 @@ export class AddBookmark extends MenuItem {
             : "actions/new-bookmark.svg";
     }
 
-    public onClick() {
-
-    }
+    public onClick() {}
 
     constructor({ tabId }: { tabId: number }) {
         super({

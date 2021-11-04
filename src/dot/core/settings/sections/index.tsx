@@ -3,7 +3,7 @@ import { settings } from "../api";
 import { GeneralSection } from "./general";
 
 interface SectionProps {
-    visible?: boolean
+    visible?: boolean;
 }
 
 export class Section extends React.Component<SectionProps> {
@@ -20,6 +20,4 @@ export class Section extends React.Component<SectionProps> {
     }
 }
 
-export const sections = [
-    GeneralSection
-]
+export const sections = [GeneralSection];

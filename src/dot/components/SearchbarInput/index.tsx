@@ -408,7 +408,7 @@ export class SearchbarInput extends React.Component<Props> {
         const inputProps = {
             anonid: "input",
             inputmode: "mozAwesomebar"
-        }
+        };
 
         return (
             <>

@@ -5,29 +5,42 @@
 -->
 <!DOCTYPE html>
 
-<html id="browser-window" chromemargin="0,2,2,2" windowtype="navigator:browser">
+<html
+    id="browser-window"
+    chromemargin="0,2,2,2"
+    windowtype="navigator:browser"
+>
+    <head>
+        <title
+            data-l10n-id="browser-main-window-title"
+        ></title>
+        <link
+            rel="stylesheet"
+            href="build/browser.chunk.css"
+        />
+        <script>
+            const { Services } = ChromeUtils.import(
+                "resource://gre/modules/Services.jsm"
+            );
 
-<head>
-    <title data-l10n-id="browser-main-window-title"></title>
-    <link rel="stylesheet" href="build/browser.chunk.css" />
-    <script>
-        const { Services } = ChromeUtils.import(
-            "resource://gre/modules/Services.jsm"
-        );
+            Services.scriptloader.loadSubScript(
+                "chrome://dot/content/build/browser.js",
+                this
+            );
+        </script>
+    </head>
 
-        Services.scriptloader.loadSubScript("chrome://dot/content/build/browser.js", this);
-    </script>
-</head>
+    <body>
+        <div id="browser"></div>
+        <div id="browser-tabs-stack"></div>
 
-<body>
-    <div id="browser"></div>
-    <div id="browser-tabs-stack"></div>
+        <div id="browser-popups">
+            <div id="window-modal-mount"></div>
+        </div>
 
-    <div id="browser-popups">
-        <div id="window-modal-mount"></div>
-    </div>
-
-    <tooltip id="browser-tooltip" page="true"></tooltip>
-</body>
-
+        <tooltip
+            id="browser-tooltip"
+            page="true"
+        ></tooltip>
+    </body>
 </html>

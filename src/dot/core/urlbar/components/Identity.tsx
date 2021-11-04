@@ -11,10 +11,12 @@ export class UrlbarIdentity extends React.Component {
 
     public getIdentityClassName() {
         const tab = dot.tabs.selectedTab;
-        if(!tab) return;
+        if (!tab) return;
 
-        if(tab.urlbarValue) return "search";
-        else return tab.identityManager.getIdentityStrings().icon;
+        if (tab.urlbarValue) return "search";
+        else
+            return tab.identityManager.getIdentityStrings()
+                .icon;
     }
 
     public render() {
@@ -25,6 +27,6 @@ export class UrlbarIdentity extends React.Component {
                     className={this.getIdentityClassName()}
                 />
             </div>
-        )
+        );
     }
 }

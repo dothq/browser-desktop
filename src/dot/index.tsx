@@ -23,7 +23,8 @@ export const Application = observer(() => {
     );
 });
 
-export const render = () => ReactDOM.render(
-    <Application />,
-    document.getElementById("browser")
-);
+export const render = () =>
+    ReactDOM.render(
+        <Application />,
+        document.getElementById("browser")
+    );

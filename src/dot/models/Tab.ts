@@ -1,5 +1,9 @@
 import EventEmitter from "events";
-import { computed, makeObservable, observable } from "mobx";
+import {
+    computed,
+    makeObservable,
+    observable
+} from "mobx";
 import React from "react";
 import { dot } from "../api";
 import { ipc } from "../core/ipc";
@@ -7,8 +11,11 @@ import { ThumbnailManager } from "../core/thumbnails";
 import {
     Cc,
     ChromeUtils,
-    Ci, ContentCrashHandlers, E10SUtils,
-    Services, SitePermissions
+    Ci,
+    ContentCrashHandlers,
+    E10SUtils,
+    Services,
+    SitePermissions
 } from "../modules";
 import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
@@ -70,7 +77,7 @@ export class Tab extends EventEmitter {
 
         try {
             host = this.urlParsed.host;
-        } catch(e) {}
+        } catch (e) {}
 
         return host;
     }
@@ -80,32 +87,35 @@ export class Tab extends EventEmitter {
     }
 
     public get tooltip() {
-        const label = [
-            this.title
-        ]
+        const label = [this.title];
 
         const developerDetailsEnabled = dot.prefs.get(
             "browser.tabs.tooltipsShowPidAndActiveness",
             false
         );
 
-        if(developerDetailsEnabled) {
-            const [contentPid, ...framePids] = E10SUtils.getBrowserPids(
-                this.webContents,
-                gFissionBrowser
-            );
+        if (developerDetailsEnabled) {
+            const [contentPid, ...framePids] =
+                E10SUtils.getBrowserPids(
+                    this.webContents,
+                    gFissionBrowser
+                );
 
-            if(contentPid) label[0] = `${label[0]} (pid ${contentPid})`;
+            if (contentPid)
+                label[0] = `${label[0]} (pid ${contentPid})`;
 
-            if(gFissionBrowser) {
+            if (gFissionBrowser) {
                 label[0] = `${label[0]} [F`;
 
-                if(framePids.length) label[0] = `${label[0]} ${framePids.join(", ")}`;
+                if (framePids.length)
+                    label[0] = `${
+                        label[0]
+                    } ${framePids.join(", ")}`;
 
                 label[0] = `${label[0]}]`;
             }
 
-            if(this.active) {
+            if (this.active) {
                 label[0] = `${label[0]} [A]`;
             }
         }
@@ -120,7 +130,7 @@ export class Tab extends EventEmitter {
 
     @observable
     public canGoBack: boolean = false;
-    
+
     @observable
     public canGoForward: boolean = false;
 
@@ -191,7 +201,7 @@ export class Tab extends EventEmitter {
 
     @observable
     public title?: string;
-    
+
     public updateTitle() {
         const browser = this.webContents;
 
@@ -201,29 +211,40 @@ export class Tab extends EventEmitter {
         if (!contentTitle) {
             if (currentURI.displaySpec) {
                 try {
-                    contentTitle = Services.io.createExposableURI(
-                        browser.currentURI
-                    ).displaySpec;
+                    contentTitle =
+                        Services.io.createExposableURI(
+                            browser.currentURI
+                        ).displaySpec;
                 } catch (ex) {
-                    contentTitle = browser.currentURI.displaySpec;
+                    contentTitle =
+                        browser.currentURI.displaySpec;
                 }
             }
-    
-            if (contentTitle && !isBlankPageURL(contentTitle)) {
+
+            if (
+                contentTitle &&
+                !isBlankPageURL(contentTitle)
+            ) {
                 if (
-                    contentTitle.length > 500 && 
-                    contentTitle.match(/^data:[^,]+;base64,/)
+                    contentTitle.length > 500 &&
+                    contentTitle.match(
+                        /^data:[^,]+;base64,/
+                    )
                 ) {
-                    contentTitle = `${contentTitle.substring(0, 500)}\u2026`;
+                    contentTitle = `${contentTitle.substring(
+                        0,
+                        500
+                    )}\u2026`;
                 } else {
                     // Try to unescape not-ASCII URIs using the current character set.
                     try {
                         const { characterSet } = browser;
 
-                        contentTitle = Services.textToSubURI.unEscapeNonAsciiURI(
-                            characterSet,
-                            contentTitle
-                        );
+                        contentTitle =
+                            Services.textToSubURI.unEscapeNonAsciiURI(
+                                characterSet,
+                                contentTitle
+                            );
                     } catch (e) {}
                 }
             } else {
@@ -231,15 +252,17 @@ export class Tab extends EventEmitter {
             }
         }
 
-        if(!isContentTitle) {
-            contentTitle = contentTitle
-                .replace(/^[^:]+:\/\/(?:www\.)?/, "");
+        if (!isContentTitle) {
+            contentTitle = contentTitle.replace(
+                /^[^:]+:\/\/(?:www\.)?/,
+                ""
+            );
         }
 
         this.title = contentTitle;
 
         dot.window.updateWindowTitle();
-        
+
         return contentTitle;
     }
 
@@ -277,17 +300,25 @@ export class Tab extends EventEmitter {
         originalURL = iconURL,
         loadingPrincipal?: any
     ) {
-        const makeString = (url: any) => (url instanceof Ci.nsIURI ? url.spec : url);
+        const makeString = (url: any) =>
+            url instanceof Ci.nsIURI ? url.spec : url;
 
         iconURL = makeString(iconURL);
         originalURL = makeString(originalURL);
 
-        const LOCAL_PROTOCOLS = ["chrome:", "about:", "resource:", "data:"];
+        const LOCAL_PROTOCOLS = [
+            "chrome:",
+            "about:",
+            "resource:",
+            "data:"
+        ];
 
         if (
             iconURL &&
             !loadingPrincipal &&
-            !LOCAL_PROTOCOLS.some(protocol => iconURL.startsWith(protocol))
+            !LOCAL_PROTOCOLS.some((protocol) =>
+                iconURL.startsWith(protocol)
+            )
         ) {
             console.error(
                 `Attempt to set a remote URL ${iconURL} as a tab icon without a loading principal.`
@@ -315,9 +346,7 @@ export class Tab extends EventEmitter {
 
     @computed
     public get identityManager() {
-        return observable(
-            new IdentityManager(this)
-        );
+        return observable(new IdentityManager(this));
     }
 
     public onTabMouseOver() {
@@ -328,11 +357,13 @@ export class Tab extends EventEmitter {
         this.hovering = false;
     }
 
-    public onTabMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    public onTabMouseDown(
+        e: React.MouseEvent<HTMLDivElement>
+    ) {
         e.preventDefault();
         e.stopPropagation();
 
-        switch(e.button) {
+        switch (e.button) {
             // Left click
             case 0:
                 this.select();
@@ -373,30 +404,38 @@ export class Tab extends EventEmitter {
     }
 
     public get linkedTab() {
-        return document.getElementById(`tab-${this.id}`) as HTMLDivElement | undefined;
+        return document.getElementById(
+            `tab-${this.id}`
+        ) as HTMLDivElement | undefined;
     }
 
     public tagName = "tab";
 
     public eventBindings = {
-        "pagetitlechanged": this.onPageTitleChange,
+        pagetitlechanged: this.onPageTitleChange,
 
         "oop-browser-crashed": this.onTabCrashed,
         "oop-browser-buildid-mismatch": this.onTabCrashed,
 
-        "DOMWindowClose": this.onRequestTabClose,
+        DOMWindowClose: this.onRequestTabClose,
 
-        "DOMAudioPlaybackStarted": this.onAudioPlaybackStarted,
-        "DOMAudioPlaybackStopped": this.onAudioPlaybackStopped,
-        "DOMAudioPlaybackBlockStarted": this.onAudioPlaybackBlockStarted,
-        "DOMAudioPlaybackBlockStopped":  this.onAudioPlaybackBlockStopped,
+        DOMAudioPlaybackStarted:
+            this.onAudioPlaybackStarted,
+        DOMAudioPlaybackStopped:
+            this.onAudioPlaybackStopped,
+        DOMAudioPlaybackBlockStarted:
+            this.onAudioPlaybackBlockStarted,
+        DOMAudioPlaybackBlockStopped:
+            this.onAudioPlaybackBlockStopped,
 
-        "GloballyAutoplayBlocked": this.onAudioPlaybackGloballyBlocked
-    }
+        GloballyAutoplayBlocked:
+            this.onAudioPlaybackGloballyBlocked
+    };
 
     public internalEventBindings = {
-        "search-engine-available": this.onSearchEngineAvailable
-    }
+        "search-engine-available":
+            this.onSearchEngineAvailable
+    };
 
     constructor(args: Partial<Tab>) {
         super();
@@ -419,10 +458,10 @@ export class Tab extends EventEmitter {
         this.id = this.webContents.browserId;
         this.background = !!args.background;
         this.initialIconHidden = !!args.initialIconHidden;
-        
+
         this.bindEvents();
 
-        if(args.title) {
+        if (args.title) {
             this.title = args.title;
         } else {
             this.updateTitle();
@@ -481,7 +520,9 @@ export class Tab extends EventEmitter {
         this.updateNavigationState();
     }
 
-    public destroy(options?: { noAnimate?: boolean } & object) {
+    public destroy(
+        options?: { noAnimate?: boolean } & object
+    ) {
         const tabIndex = dot.tabs.list.findIndex(
             (tab) => tab.id == this.id
         );
@@ -492,22 +533,28 @@ export class Tab extends EventEmitter {
 
         let animationDuration = 0;
 
-        if(!options?.noAnimate) {
-            const rawDuration = getComputedStyle(dot.tabs.tabsElement as Element)
-                .getPropertyValue("--tab-animation-duration");
+        if (!options?.noAnimate) {
+            const rawDuration = getComputedStyle(
+                dot.tabs.tabsElement as Element
+            ).getPropertyValue(
+                "--tab-animation-duration"
+            );
 
-            if(
-                rawDuration.endsWith("s") && 
+            if (
+                rawDuration.endsWith("s") &&
                 !rawDuration.endsWith("ms")
             ) {
                 // We know the value is using the "seconds" unit.
                 // We just need to convert it to ms for setTimeout.
-                const extractedNumber = parseFloat(rawDuration);
-    
+                const extractedNumber =
+                    parseFloat(rawDuration);
+
                 // Convert it to ms
-                animationDuration = extractedNumber * 1000;
-            } else if(rawDuration.endsWith("ms")) {
-                animationDuration = parseFloat(rawDuration);
+                animationDuration =
+                    extractedNumber * 1000;
+            } else if (rawDuration.endsWith("ms")) {
+                animationDuration =
+                    parseFloat(rawDuration);
             }
         }
 
@@ -515,19 +562,19 @@ export class Tab extends EventEmitter {
             const activeTabs = dot.tabs.list.filter(
                 (tab) => tab.id != this.id
             );
-    
+
             let newIndex;
-    
+
             if (activeTabs.length > tabIndex) {
                 newIndex = tabIndex;
             } else {
                 newIndex = tabIndex - 1;
             }
-    
+
             const newTab = dot.tabs.list[newIndex];
-            
+
             newTab.select();
-    
+
             /*
                 Current Tab Index: 1
                 Next Tab Index: 2 (1 + 1)
@@ -536,31 +583,31 @@ export class Tab extends EventEmitter {
                         so we just change the selected tab to the next tab along
             */
             // if ((tabsIndex + 1) <= dot.tabs.list.length) {
-    
+
             // }
-    
+
             // if ((tabsIndex + 1))
         }, animationDuration / 2);
-        
+
         setTimeout(() => {
             const filteredList = dot.tabs.list.filter(
                 (x) => !x.isClosing
             );
-    
+
             // close early because there is no need to destroy a browser
             // that will be destroyed on window close
             if (filteredList.length == 0)
                 return window.close();
-    
+
             let browserContainer =
                 dot.tabs.getBrowserContainer(
                     this.webContents
                 ).parentNode;
-    
+
             dot.tabs.list = dot.tabs.list.filter(
                 (t) => t.id !== this.id
             );
-    
+
             this.webContents.destroy();
             this.webContents.remove();
             browserContainer.remove();
@@ -584,7 +631,7 @@ export class Tab extends EventEmitter {
             } else {
                 this.webContents.mute();
             }
-            
+
             this.muted = this.webContents.audioMuted;
         }
     }
@@ -627,15 +674,14 @@ export class Tab extends EventEmitter {
         const browser = event.originalTarget;
         const tab = dot.tabs.get(browser.browserId);
 
-        if(!tab) return;
+        if (!tab) return;
 
         // Ignore empty title changes on internal pages. This prevents the title
         // from changing while Fluent is populating the (initially-empty) title
         // element.
         if (
             !browser.contentTitle &&
-            browser.contentPrincipal
-                .isSystemPrincipal
+            browser.contentPrincipal.isSystemPrincipal
         )
             return;
 
@@ -667,7 +713,7 @@ export class Tab extends EventEmitter {
 
         if (!event.isTopFrame) {
             return ContentCrashHandlers.onSubFrameCrash(
-                browser, 
+                browser,
                 event.childID
             );
         }
@@ -689,10 +735,7 @@ export class Tab extends EventEmitter {
 
         this.audioPlaying = false;
 
-        this.setIcon(
-            browser.mIconURL,
-            browser.mIconURL
-        );
+        this.setIcon(browser.mIconURL, browser.mIconURL);
     }
 
     public onAudioPlaybackStarted(event: any) {
@@ -720,9 +763,12 @@ export class Tab extends EventEmitter {
                 3000
             );
 
-            tab.audioPlayingRemovalInt = setTimeout(() => {
-                tab.audioPlaying = false;
-            }, removalDelay);
+            tab.audioPlayingRemovalInt = setTimeout(
+                () => {
+                    tab.audioPlaying = false;
+                },
+                removalDelay
+            );
         }
     }
 
@@ -760,22 +806,26 @@ export class Tab extends EventEmitter {
     }
 
     public onSearchEngineAvailable(data: any) {
-        console.log("todo: OpenSearch engine available", data);
+        console.log(
+            "todo: OpenSearch engine available",
+            data
+        );
     }
 
     public bindEvents() {
-        for(const [event, handler] of Object.entries(this.eventBindings)) {
+        for (const [event, handler] of Object.entries(
+            this.eventBindings
+        )) {
             this.webContents.addEventListener(
                 event,
                 handler.bind(this)
-            )
+            );
         }
 
-        for(const [event, handler] of Object.entries(this.internalEventBindings)) {
-            this.on(
-                event,
-                handler.bind(this)
-            )
+        for (const [event, handler] of Object.entries(
+            this.internalEventBindings
+        )) {
+            this.on(event, handler.bind(this));
         }
     }
 

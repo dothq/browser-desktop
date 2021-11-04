@@ -38,6 +38,6 @@ declare global {
     }
 
     interface HTMLElement {
-        hidePopup: any
+        hidePopup: any;
     }
 }

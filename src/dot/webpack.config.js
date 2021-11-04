@@ -15,9 +15,9 @@ const browser_styles = scss.filter(
     (s) =>
         !s
             .split("/")
-        [s.split("/").length - 1].includes(
-            ".webui.scss"
-        )
+            [s.split("/").length - 1].includes(
+                ".webui.scss"
+            )
 );
 
 const webui_styles = scss.filter(
@@ -126,12 +126,15 @@ module.exports = {
                         options: {
                             webpackImporter: false,
                             sassOptions: {
-                                outputStyle: "compressed",
+                                outputStyle: "compressed"
                             }
                         }
                     },
                     {
-                        loader: resolve(__dirname, "inject-sass-globals.js")
+                        loader: resolve(
+                            __dirname,
+                            "inject-sass-globals.js"
+                        )
                     }
                 ]
             },

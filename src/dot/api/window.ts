@@ -108,12 +108,10 @@ export class WindowAPI extends EventEmitter {
         try {
             const tab = dot.tabs.selectedTab;
 
-            if(tab) {
+            if (tab) {
                 document.title = `${tab.title} - Dot Browser`;
             }
-        } catch(e) {
-            
-        }
+        } catch (e) {}
     }
 
     public get windowState() {

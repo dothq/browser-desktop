@@ -20,7 +20,6 @@ export const Search = () => {
                         //     window.dot.search.providers.engine.constructSearchUrl(
                         //         query
                         //     );
-
                         // window.location.href = searchURL;
                     }
                 }}

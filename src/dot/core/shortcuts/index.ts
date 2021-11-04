@@ -1,53 +1,53 @@
 import EventEmitter from "events";
 import { dot } from "../../api";
 import { AppConstants } from "../../modules";
- 
+
 const vkMappings: any = {
-   F1: "DOM_VK_F1",
-   F2: "DOM_VK_F2",
-   F3: "DOM_VK_F3",
-   F4: "DOM_VK_F4",
-   F5: "DOM_VK_F5",
-   F6: "DOM_VK_F6",
-   F7: "DOM_VK_F7",
-   F8: "DOM_VK_F8",
-   F9: "DOM_VK_F9",
-   F10: "DOM_VK_F10",
-   F11: "DOM_VK_F11",
-   F12: "DOM_VK_F12",
-   F13: "DOM_VK_F13",
-   F14: "DOM_VK_F14",
-   F15: "DOM_VK_F15",
-   F16: "DOM_VK_F16",
-   F17: "DOM_VK_F17",
-   F18: "DOM_VK_F18",
-   F19: "DOM_VK_F19",
-   F20: "DOM_VK_F20",
-   F21: "DOM_VK_F21",
-   F22: "DOM_VK_F22",
-   F23: "DOM_VK_F23",
-   F24: "DOM_VK_F24",
-   Space: "DOM_VK_SPACE",
-   Backspace: "DOM_VK_BACK_SPACE",
-   Delete: "DOM_VK_DELETE",
-   Insert: "DOM_VK_INSERT",
-   Return: "DOM_VK_RETURN",
-   Enter: "DOM_VK_RETURN",
-   Up: "DOM_VK_UP",
-   Down: "DOM_VK_DOWN",
-   Left: "DOM_VK_LEFT",
-   Right: "DOM_VK_RIGHT",
-   Home: "DOM_VK_HOME",
-   End: "DOM_VK_END",
-   PageUp: "DOM_VK_PAGE_UP",
-   PageDown: "DOM_VK_PAGE_DOWN",
-   Escape: "DOM_VK_ESCAPE",
-   Esc: "DOM_VK_ESCAPE",
-   Tab: "DOM_VK_TAB",
-   VolumeUp: "DOM_VK_VOLUME_UP",
-   VolumeDown: "DOM_VK_VOLUME_DOWN",
-   VolumeMute: "DOM_VK_VOLUME_MUTE",
-   PrintScreen: "DOM_VK_PRINTSCREEN",
+    F1: "DOM_VK_F1",
+    F2: "DOM_VK_F2",
+    F3: "DOM_VK_F3",
+    F4: "DOM_VK_F4",
+    F5: "DOM_VK_F5",
+    F6: "DOM_VK_F6",
+    F7: "DOM_VK_F7",
+    F8: "DOM_VK_F8",
+    F9: "DOM_VK_F9",
+    F10: "DOM_VK_F10",
+    F11: "DOM_VK_F11",
+    F12: "DOM_VK_F12",
+    F13: "DOM_VK_F13",
+    F14: "DOM_VK_F14",
+    F15: "DOM_VK_F15",
+    F16: "DOM_VK_F16",
+    F17: "DOM_VK_F17",
+    F18: "DOM_VK_F18",
+    F19: "DOM_VK_F19",
+    F20: "DOM_VK_F20",
+    F21: "DOM_VK_F21",
+    F22: "DOM_VK_F22",
+    F23: "DOM_VK_F23",
+    F24: "DOM_VK_F24",
+    Space: "DOM_VK_SPACE",
+    Backspace: "DOM_VK_BACK_SPACE",
+    Delete: "DOM_VK_DELETE",
+    Insert: "DOM_VK_INSERT",
+    Return: "DOM_VK_RETURN",
+    Enter: "DOM_VK_RETURN",
+    Up: "DOM_VK_UP",
+    Down: "DOM_VK_DOWN",
+    Left: "DOM_VK_LEFT",
+    Right: "DOM_VK_RIGHT",
+    Home: "DOM_VK_HOME",
+    End: "DOM_VK_END",
+    PageUp: "DOM_VK_PAGE_UP",
+    PageDown: "DOM_VK_PAGE_DOWN",
+    Escape: "DOM_VK_ESCAPE",
+    Esc: "DOM_VK_ESCAPE",
+    Tab: "DOM_VK_TAB",
+    VolumeUp: "DOM_VK_VOLUME_UP",
+    VolumeDown: "DOM_VK_VOLUME_DOWN",
+    VolumeMute: "DOM_VK_VOLUME_MUTE",
+    PrintScreen: "DOM_VK_PRINTSCREEN"
 };
 
 export const keyCodeBindings: any = {
@@ -169,7 +169,7 @@ export const keyCodeBindings: any = {
     DOM_VK_VOLUME_MUTE: 181,
     DOM_VK_VOLUME_DOWN: 182,
     DOM_VK_VOLUME_UP: 183
-}
+};
 
 interface DotKeyboardEvent extends UIEvent {
     readonly altKey: boolean;
@@ -190,7 +190,7 @@ interface DotKeyboardEvent extends UIEvent {
     readonly DOM_KEY_LOCATION_RIGHT: number;
     readonly DOM_KEY_LOCATION_STANDARD: number;
 }
- 
+
 export class KeyboardShortcuts extends EventEmitter {
     public window: Window;
 
@@ -213,66 +213,69 @@ export class KeyboardShortcuts extends EventEmitter {
     public COMMAND_SHORT_KEY = "Cmd";
 
     public onKeyDown(event: DotKeyboardEvent) {
-        if(!this.initted) return;
+        if (!this.initted) return;
 
         for (const [key, data] of this.keys) {
-            console.log(key, )
+            console.log(key);
 
             if (
                 data.meta !== event.metaKey ||
                 data.ctrl !== event.ctrlKey ||
                 data.alt !== event.altKey
-            ) return;
-    
+            )
+                return;
+
             // if(data.shift !== event.shiftKey) {
             //     const char = String.fromCharCode(event.keyCode);
-                
+
             //     let isAlphabetical = Boolean(
-            //         char.length == 1 && 
+            //         char.length == 1 &&
             //         char.match(/[a-zA-Z]/)
             //     );
-    
+
             //     if(!isAlphabetical) isAlphabetical = Boolean(
-            //         event.key && 
+            //         event.key &&
             //         event.key.match(/[a-zA-Z]/)
             //     );
-    
+
             //     const isCmd = data.meta && !data.alt && !data.ctrl;
-    
+
             //     if (
-            //         isAlphabetical || 
+            //         isAlphabetical ||
             //         isCmd
             //     ) return;
             // }
-    
+
             let isValidKey = false;
-    
-            if(data.keyCode) {
-                isValidKey = event.keyCode == data.keyCode;
-            } else if(event.key in vkMappings) {
-                isValidKey = vkMappings[event.key] == data.key;
+
+            if (data.keyCode) {
+                isValidKey =
+                    event.keyCode == data.keyCode;
+            } else if (event.key in vkMappings) {
+                isValidKey =
+                    vkMappings[event.key] == data.key;
             } else {
-                const key = event.key || String.fromCharCode(event.keyCode);
-    
-                isValidKey = (
+                const key =
+                    event.key ||
+                    String.fromCharCode(event.keyCode);
+
+                isValidKey =
                     key.toLowerCase() == data.key ||
-                    (
-                        data.key.match(/[0-9]/) &&
-                        event.keyCode == data.key.charCodeAt(0)
-                    )
-                );
+                    (data.key.match(/[0-9]/) &&
+                        event.keyCode ==
+                            data.key.charCodeAt(0));
             }
-    
-            if(!isValidKey) return;    
+
+            if (!isValidKey) return;
 
             this.emit(key, event);
         }
     }
 
-    public parseAsElectronKey(keybind: string) {        
+    public parseAsElectronKey(keybind: string) {
         const modifiers = keybind.split("+");
         let key: any = modifiers.pop();
-        
+
         const keyData: any = {
             ctrl: false,
             meta: false,
@@ -283,66 +286,72 @@ export class KeyboardShortcuts extends EventEmitter {
             keyCodeString: undefined
         };
 
-        for(const mod of modifiers) {
-            if(mod == this.ALT_KEY) {
+        for (const mod of modifiers) {
+            if (mod == this.ALT_KEY) {
                 keyData.alt = true;
-            } else if(
+            } else if (
                 mod == this.COMMAND_KEY ||
                 mod == this.COMMAND_SHORT_KEY
             ) {
                 keyData.meta = true;
-            } else if(
+            } else if (
                 mod == this.COMMAND_OR_CONTROL_KEY ||
                 mod == this.CMD_OR_CTRL_KEY
             ) {
-                if(AppConstants.platform == "macosx") {
+                if (AppConstants.platform == "macosx") {
                     keyData.meta = true;
                 } else {
                     keyData.ctrl = true;
                 }
-            } else if(
+            } else if (
                 mod == this.CONTROL_KEY ||
                 mod == this.CTRL_KEY
             ) {
                 keyData.ctrl = true;
-            } else if(mod == this.SHIFT_KEY) {
+            } else if (mod == this.SHIFT_KEY) {
                 keyData.shift = true;
             } else {
-                console.warn(`Unrecognised modifier '${mod}'.`)
+                console.warn(
+                    `Unrecognised modifier '${mod}'.`
+                );
             }
         }
-        
+
         if (key == "Plus") key = "+";
-        
-        if (
-            typeof key == "string" && 
-            key.length == 1
-        ) {
+
+        if (typeof key == "string" && key.length == 1) {
             if (keyData.alt) {
-                keyData.keyCode = keyCodeBindings[`DOM_VK_${key.toUpperCase()}`];
+                keyData.keyCode =
+                    keyCodeBindings[
+                        `DOM_VK_${key.toUpperCase()}`
+                    ];
                 keyData.keyCodeString = key;
             } else {
                 keyData.key = key.toLowerCase();
             }
         } else if (key in vkMappings) {
             key = vkMappings[key];
-            
+
             keyData.keyCode = keyCodeBindings[key];
-            keyData.keyCodeString = Object.keys(vkMappings)
-                .find(k => vkMappings[k] == key);
+            keyData.keyCodeString = Object.keys(
+                vkMappings
+            ).find((k) => vkMappings[k] == key);
             keyData.key = key;
         } else {
             console.warn(`Unrecognised key '${key}'.`);
         }
-        
+
         return keyData;
     }
 
-    public register(key: string, listener: (...args: any[]) => void) {
+    public register(
+        key: string,
+        listener: (...args: any[]) => void
+    ) {
         if (!this.keys.has(key)) {
             const shortcut = this.parseAsElectronKey(key);
 
-            if(shortcut) {
+            if (shortcut) {
                 this.keys.set(key, shortcut);
                 this.shortcutListeners.set(key, listener);
 
@@ -351,36 +360,45 @@ export class KeyboardShortcuts extends EventEmitter {
         }
     }
 
-    public registerByPrefId(prefId: string, listener: (...args: any[]) => void) {
-        const key = dot.prefs.get(`dot.keybinds.${prefId}`);
+    public registerByPrefId(
+        prefId: string,
+        listener: (...args: any[]) => void
+    ) {
+        const key = dot.prefs.get(
+            `dot.keybinds.${prefId}`
+        );
 
-        if(key) {
+        if (key) {
             return this.register(key, listener);
         } else {
-            console.warn(`Keybind not set for 'dot.keybinds.${prefId}', ignoring...`);
+            console.warn(
+                `Keybind not set for 'dot.keybinds.${prefId}', ignoring...`
+            );
         }
     }
 
     public unregister(key: string) {
         const listener = this.shortcutListeners.get(key);
 
-        if(listener) {
+        if (listener) {
             this.off(key, listener);
             this.shortcutListeners.delete(key);
         }
-        
+
         this.keys.delete(key);
     }
 
     public unregisterAll() {
-        this.shortcutListeners.forEach((listener, key: string) => {
-            this.off(key, listener);
-            this.shortcutListeners.delete(key);
-        })
+        this.shortcutListeners.forEach(
+            (listener, key: string) => {
+                this.off(key, listener);
+                this.shortcutListeners.delete(key);
+            }
+        );
 
         this.keys.forEach((_, key: string) => {
             this.keys.delete(key);
-        })
+        });
     }
 
     public toString(keybind: string) {
@@ -393,32 +411,37 @@ export class KeyboardShortcuts extends EventEmitter {
         if (parsed.meta) list.push("Cmd");
         if (parsed.shift) list.push("Shift");
 
-        const key = parsed.keyCodeString 
+        const key = parsed.keyCodeString
             ? parsed.keyCodeString
             : parsed.key.toUpperCase();
 
         list.push(key);
-        
+
         return list.join("+");
     }
 
     public init() {
         this.unregisterAll();
 
-        const keybinds = dot.prefs.getBranch("dot.keybinds.");
-        const components = Object.values(dot.menus.components)
-            .map((x: any) => new x({
-                tabId: dot.tabs.selectedTabId
-            })); // maybe add some context in future?
+        const keybinds = dot.prefs.getBranch(
+            "dot.keybinds."
+        );
+        const components = Object.values(
+            dot.menus.components
+        ).map(
+            (x: any) =>
+                new x({
+                    tabId: dot.tabs.selectedTabId
+                })
+        ); // maybe add some context in future?
 
-        for(const key of keybinds) {
-            const match = components.find(x => x.id == key);
+        for (const key of keybinds) {
+            const match = components.find(
+                (x) => x.id == key
+            );
 
-            if(match) {
-                this.registerByPrefId(
-                    key,
-                    match.onClick
-                )
+            if (match) {
+                this.registerByPrefId(key, match.onClick);
             }
         }
 
@@ -429,6 +452,9 @@ export class KeyboardShortcuts extends EventEmitter {
         super();
 
         this.window = window;
-        this.window.addEventListener("keydown", this.onKeyDown.bind(this));
+        this.window.addEventListener(
+            "keydown",
+            this.onKeyDown.bind(this)
+        );
     }
 }

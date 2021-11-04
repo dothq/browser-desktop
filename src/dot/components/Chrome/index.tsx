@@ -15,7 +15,7 @@ import { ToolbarButton } from "../ToolbarButton";
 import { WindowControls } from "../WindowControls";
 
 export const Chrome = observer(() => {
-    if(dot.tabs.selectedTab) {
+    if (dot.tabs.selectedTab) {
         return (
             <div
                 id={"navigator-toolbox"}
@@ -35,35 +35,55 @@ export const Chrome = observer(() => {
                                     "chrome://dot/content/skin/icons/back.svg"
                                 }
                                 disabled={
-                                    !dot.tabs.selectedTab?.canGoBack
+                                    !dot.tabs.selectedTab
+                                        ?.canGoBack
                                 }
                                 command={"Browser:GoBack"}
                             />
                         </L>
 
-                        <L id={"navigation-forward-button"}>
+                        <L
+                            id={
+                                "navigation-forward-button"
+                            }
+                        >
                             <ToolbarButton
                                 image={
                                     "chrome://dot/content/skin/icons/forward.svg"
                                 }
                                 disabled={
-                                    !dot.tabs.selectedTab?.canGoForward
+                                    !dot.tabs.selectedTab
+                                        ?.canGoForward
                                 }
-                                command={"Browser:GoForward"}
+                                command={
+                                    "Browser:GoForward"
+                                }
                             />
                         </L>
 
-                        <L id={"navigation-reload-button"}>
+                        <L
+                            id={
+                                "navigation-reload-button"
+                            }
+                        >
                             <ToolbarButton
                                 image={
-                                    dot.tabs.selectedTab?.state == "loading" &&
-                                    !dot.tabs.selectedTab?.identityManager.isAboutUI
+                                    dot.tabs.selectedTab
+                                        ?.state ==
+                                        "loading" &&
+                                    !dot.tabs.selectedTab
+                                        ?.identityManager
+                                        .isAboutUI
                                         ? "chrome://dot/content/skin/icons/close.svg"
                                         : "chrome://dot/content/skin/icons/reload.svg"
                                 }
                                 command={
-                                    dot.tabs.selectedTab?.state == "idle" ||
-                                    dot.tabs.selectedTab?.identityManager.isAboutUI
+                                    dot.tabs.selectedTab
+                                        ?.state ==
+                                        "idle" ||
+                                    dot.tabs.selectedTab
+                                        ?.identityManager
+                                        .isAboutUI
                                         ? "Browser:Reload"
                                         : "Browser:Stop"
                                 }
@@ -71,7 +91,9 @@ export const Chrome = observer(() => {
                         </L>
 
                         <Spring />
-                        <Urlbar tab={dot.tabs.selectedTab} />
+                        <Urlbar
+                            tab={dot.tabs.selectedTab}
+                        />
                         <Spring />
 
                         <ToolbarButton
@@ -110,8 +132,6 @@ export const Chrome = observer(() => {
             </div>
         );
     } else {
-        return (
-            <></>
-        )
+        return <></>;
     }
 });

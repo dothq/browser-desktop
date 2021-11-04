@@ -21,12 +21,14 @@ class ZoomManager {
     }
 
     get currentZoom() {
-        return this.getZoomOfTab(dot.browsersPrivate.selectedId);
+        return this.getZoomOfTab(
+            dot.browsersPrivate.selectedId
+        );
     }
 
     set currentZoom(zoom: number) {
         this.setZoomForTab(
-            dot.browsersPrivate.selectedId, 
+            dot.browsersPrivate.selectedId,
             zoom
         );
     }

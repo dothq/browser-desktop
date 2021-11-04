@@ -3,14 +3,14 @@ import { TransitionStatus } from "react-transition-group";
 import { Tab } from "../../models/Tab";
 
 const animation: Partial<Record<TransitionStatus, any>> =
-{
-    entering: {
-        opacity: 0
-    },
-    entered: {
-        opacity: 1
-    }
-};
+    {
+        entering: {
+            opacity: 0
+        },
+        entered: {
+            opacity: 1
+        }
+    };
 
 export const TabPreview = ({
     tab,
@@ -28,7 +28,7 @@ export const TabPreview = ({
     React.useEffect(() => {
         try {
             setHost(tab?.urlParsed.host);
-        } catch (e) { }
+        } catch (e) {}
     }, [tab]);
 
     return (

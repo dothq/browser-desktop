@@ -25,16 +25,21 @@ export class TabProgressListener {
         this.id = id;
     }
 
-    public isForInitialAboutBlank(webProgress: any, flags: any, location: any) {
+    public isForInitialAboutBlank(
+        webProgress: any,
+        flags: any,
+        location: any
+    ) {
         if (!webProgress.isTopLevel) return false;
-    
+
         if (
-            flags & Ci.nsIWebProgressListener.STATE_STOP &&
+            flags &
+                Ci.nsIWebProgressListener.STATE_STOP &&
             !location
         ) {
             return true;
         }
-    
+
         const url = location ? location.spec : "";
         return url == "about:blank";
     }
@@ -84,12 +89,13 @@ export class TabProgressListener {
             tab.state = "idle";
             tab.loadingStage = "";
 
-            const ignoreBlank = this.isForInitialAboutBlank(
-                webProgress,
-                flags,
-                location
-            )
-            
+            const ignoreBlank =
+                this.isForInitialAboutBlank(
+                    webProgress,
+                    flags,
+                    location
+                );
+
             if (
                 !tab.webContents.mIconURL &&
                 !ignoreBlank
@@ -121,29 +127,35 @@ export class TabProgressListener {
     ) {
         const tab = dot.tabs.get(this.id);
 
-        if(!tab) return;
+        if (!tab) return;
 
         const { isTopLevel } = webProgress;
 
         const isSameDocument = !!(
-            flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SAME_DOCUMENT
+            flags &
+            Ci.nsIWebProgressListener
+                .LOCATION_CHANGE_SAME_DOCUMENT
         );
 
-        if(isTopLevel) {
+        if (isTopLevel) {
             const isReload = !!(
-                flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_RELOAD
-            );
-            
-            const isErrorPage = !!(
-                flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_ERROR_PAGE
+                flags &
+                Ci.nsIWebProgressListener
+                    .LOCATION_CHANGE_RELOAD
             );
 
-            if(!isSameDocument) {
+            const isErrorPage = !!(
+                flags &
+                Ci.nsIWebProgressListener
+                    .LOCATION_CHANGE_ERROR_PAGE
+            );
+
+            if (!isSameDocument) {
                 clearTimeout(tab.audioPlayingRemovalInt);
                 tab.audioPlayingRemovalInt = null;
                 tab.audioPlaying = false;
 
-                if(!isReload) {
+                if (!isReload) {
                     tab.updateTitle();
                 }
 
@@ -205,13 +217,13 @@ export class TabProgressListener {
     ) {
         const totalProgress = maxTotalProgress
             ? curTotalProgress / maxTotalProgress
-            : 0
+            : 0;
 
         if (!shouldShowLoader(request)) return;
-    
+
         const tab = dot.tabs.get(this.id);
 
-        if(tab) {
+        if (tab) {
             if (totalProgress) {
                 tab.loadingStage = "progress";
             }
@@ -234,8 +246,8 @@ export class TabProgressListener {
     ) {
         const tab = dot.tabs.get(this.id);
 
-        if(tab) {
-            tab.contentState = state
+        if (tab) {
+            tab.contentState = state;
         }
 
         ipc.fire(`security-change-${this.id}`, {

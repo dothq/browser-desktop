@@ -2,10 +2,12 @@ import { EventEmitter } from "events";
 import { render } from "..";
 import { dot } from "../api";
 import {
-    ActorManagerParent, BrowserWindowTracker,
+    ActorManagerParent,
+    BrowserWindowTracker,
     Cc,
     ChromeUtils,
-    Ci, Services
+    Ci,
+    Services
 } from "../modules";
 import { windowActors } from "../modules/glue";
 import { BrowserAccess } from "../services/browser-access";
@@ -19,18 +21,16 @@ export class RuntimeAPI extends EventEmitter {
         "nsIWebProgressListener",
         "nsIWebProgressListener2",
         "nsISupportsWeakReference",
-        "nsIXULBrowserWindow",
+        "nsIXULBrowserWindow"
     ]);
 
     private _windowStateInt: NodeJS.Timeout;
 
-    public onBeforeBrowserInit() {
-
-    }
+    public onBeforeBrowserInit() {}
 
     public onBrowserStartup() {
         timers.start("BrowserInit");
-        
+
         window.docShell.treeOwner
             .QueryInterface(Ci.nsIInterfaceRequestor)
             .getInterface(
@@ -60,7 +60,7 @@ export class RuntimeAPI extends EventEmitter {
         render();
 
         dot.window.updateWindowState();
-        
+
         dot.shortcuts.init();
         dot.theme.load();
         dot.prefs.observe(
@@ -157,7 +157,7 @@ export class RuntimeAPI extends EventEmitter {
         clearInterval(this._windowStateInt);
     }
 
-    public onBrowserFocus() { }
+    public onBrowserFocus() {}
 
     public onBrowserBlur() {
         dot.menus.clear();
@@ -177,25 +177,27 @@ export class RuntimeAPI extends EventEmitter {
             return;
         }
 
-        let el: any =
-            document.getElementById("browser-tooltip");
+        let el: any = document.getElementById(
+            "browser-tooltip"
+        );
         el.label = data;
         el.style.direction = direction;
         el.openPopupAtScreen(x, y, false, null);
     }
 
     public hideTooltip() {
-        let el: any =
-            document.getElementById("browser-tooltip");
+        let el: any = document.getElementById(
+            "browser-tooltip"
+        );
         el.hidePopup();
     }
 
-    public status = ""
-    public defaultStatus = ""
-    public overLink = ""
-    public startTime = 0
-    public isBusy = false
-    public busyUI = false
+    public status = "";
+    public defaultStatus = "";
+    public overLink = "";
+    public startTime = 0;
+    public isBusy = false;
+    public busyUI = false;
 
     public setDefaultStatus(status: string) {
         this.defaultStatus = status;
@@ -204,7 +206,10 @@ export class RuntimeAPI extends EventEmitter {
 
     public setOverLink(url: string) {
         if (url) {
-            url = Services.textToSubURI.unEscapeURIForUI(url);
+            url =
+                Services.textToSubURI.unEscapeURIForUI(
+                    url
+                );
 
             // Encode bidirectional formatting characters.
             // (RFC 3987 sections 3.2 and 4.1 paragraph 6)
@@ -226,9 +231,7 @@ export class RuntimeAPI extends EventEmitter {
         request: any,
         stateFlags: any,
         status: any
-    ) {
-
-    }
+    ) {}
 
     public onLocationChange(
         webProgress: any,
@@ -237,9 +240,7 @@ export class RuntimeAPI extends EventEmitter {
         flags: any,
         isSimulated: boolean
     ) {
-        const uri = location
-            ? location.spec
-            : "";
+        const uri = location ? location.spec : "";
 
         // todo: Update back and forward buttons here instead of whenever Redux updates
 
@@ -254,12 +255,10 @@ export class RuntimeAPI extends EventEmitter {
         this.setOverLink("");
 
         if (
-            (
-                uri == "about:blank" &&
+            (uri == "about:blank" &&
                 BrowserUIUtils.checkEmptyPageOrigin(
                     dot.tabs.selectedTab?.webContents
-                )
-            ) ||
+                )) ||
             uri == ""
         ) {
             // Disable reload button
@@ -281,16 +280,16 @@ export class RuntimeAPI extends EventEmitter {
     }
 
     // Stubs
-    public updateElementsForContentType() { }
-    public asyncUpdateUI() { }
-    public onContentBlockingEvent() { }
-    public onSecurityChange() { }
+    public updateElementsForContentType() {}
+    public asyncUpdateUI() {}
+    public onContentBlockingEvent() {}
+    public onSecurityChange() {}
 
-    _state: null
-    _lastLocation: null
-    _event: null
-    _lastLocationForEvent: null
-    _isSecureContext: null
+    _state: null;
+    _lastLocation: null;
+    _event: null;
+    _lastLocationForEvent: null;
+    _isSecureContext: null;
 
     public onUpdateCurrentBrowser(
         stateFlags: number,
@@ -304,7 +303,9 @@ export class RuntimeAPI extends EventEmitter {
 
         this.hideTooltip();
 
-        const doneLoading = stateFlags & nsIWebProgressListener.STATE_STOP;
+        const doneLoading =
+            stateFlags &
+            nsIWebProgressListener.STATE_STOP;
 
         this.onStateChange(
             browser.webProgress,
@@ -315,12 +316,13 @@ export class RuntimeAPI extends EventEmitter {
             status
         );
 
-        if (!doneLoading) this.onStatusChange(
-            browser.webProgress,
-            null,
-            0,
-            message
-        );
+        if (!doneLoading)
+            this.onStatusChange(
+                browser.webProgress,
+                null,
+                0,
+                message
+            );
     }
 
     constructor() {
@@ -352,7 +354,7 @@ export class RuntimeAPI extends EventEmitter {
         this._windowStateInt = setInterval(() => {
             try {
                 dot.window.onWindowStateUpdated();
-            } catch (e) { }
+            } catch (e) {}
         }, 10000);
     }
 }

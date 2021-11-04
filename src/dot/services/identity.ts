@@ -1,4 +1,9 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+    action,
+    computed,
+    makeObservable,
+    observable
+} from "mobx";
 import { dot } from "../api";
 import { Tab } from "../models/Tab";
 import {
@@ -174,10 +179,11 @@ class IdentityManager {
     @computed
     public get hasCustomCertificate() {
         if (
-            !this.isSecureConnection || 
+            !this.isSecureConnection ||
             !this.securityInfo ||
             !this.securityInfo.secInfo
-        ) return false;
+        )
+            return false;
 
         const cert =
             this.securityInfo.secInfo.succeededCertChain[

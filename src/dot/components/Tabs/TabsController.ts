@@ -8,15 +8,21 @@ export const TabsController = {
     tabsScrollerCtrlDown: false,
 
     get scrollAmount() {
-        return dot.prefs.get("dot.tabs.scroll_amount", 250);
+        return dot.prefs.get(
+            "dot.tabs.scroll_amount",
+            250
+        );
     },
 
     onCtrlDown(event?: KeyboardEvent) {
-        this.tabsScrollerCtrlDown = event?.key == "Control" || false;
+        this.tabsScrollerCtrlDown =
+            event?.key == "Control" || false;
     },
 
     onCtrlUp(event?: KeyboardEvent) {
-        this.tabsScrollerCtrlDown = !!!(event?.key == "Control");
+        this.tabsScrollerCtrlDown = !!!(
+            event?.key == "Control"
+        );
     },
 
     onTabsMouseOver() {
@@ -27,49 +33,69 @@ export const TabsController = {
         this.tabsScrollerHovering = false;
     },
 
-    onTabsScroll(event: React.WheelEvent<HTMLDivElement>) {
+    onTabsScroll(
+        event: React.WheelEvent<HTMLDivElement>
+    ) {
         TabsController.maybeShowScrollerButtons();
 
-        const scroller = this.tabsScrollerRef.current as HTMLDivElement;
+        const scroller = this.tabsScrollerRef
+            .current as HTMLDivElement;
 
-        const direction = event.deltaY < 0 ? "left" : "right"
+        const direction =
+            event.deltaY < 0 ? "left" : "right";
 
-        if(this.tabsScrollerCtrlDown) {
-            const activeIndex = dot.tabs.list.findIndex(x => x.active);
+        if (this.tabsScrollerCtrlDown) {
+            const activeIndex = dot.tabs.list.findIndex(
+                (x) => x.active
+            );
             const active = dot.tabs.list[activeIndex];
 
-            if(active) {
-                if(direction == "left") {
-                    const previousTab = dot.tabs.list[activeIndex - 1];
-                    
-                    if(previousTab) {
-                        console.log("active", active.url, "prev", previousTab.url);
+            if (active) {
+                if (direction == "left") {
+                    const previousTab =
+                        dot.tabs.list[activeIndex - 1];
 
-                        previousTab.select()
+                    if (previousTab) {
+                        console.log(
+                            "active",
+                            active.url,
+                            "prev",
+                            previousTab.url
+                        );
+
+                        previousTab.select();
                     }
                 } else {
-                    const nextTab = dot.tabs.list[activeIndex + 1];
+                    const nextTab =
+                        dot.tabs.list[activeIndex + 1];
 
-                    if(nextTab) {
-                        console.log("active", active.url, "next", nextTab.url);
+                    if (nextTab) {
+                        console.log(
+                            "active",
+                            active.url,
+                            "next",
+                            nextTab.url
+                        );
 
-                        nextTab.select()
+                        nextTab.select();
                     }
                 }
             }
         } else {
             let { scrollLeft } = scroller;
 
-            if(direction == "left") {
+            if (direction == "left") {
                 // Scroll Left
-    
-                scrollLeft = scrollLeft - this.scrollAmount;
+
+                scrollLeft =
+                    scrollLeft - this.scrollAmount;
             } else {
                 // Scroll Right
-    
-                scrollLeft = scrollLeft + this.scrollAmount;
+
+                scrollLeft =
+                    scrollLeft + this.scrollAmount;
             }
-    
+
             scroller.scrollTo({
                 left: scrollLeft,
                 top: 0,
@@ -79,7 +105,8 @@ export const TabsController = {
     },
 
     scrollToEnd() {
-        const scroller = this.tabsScrollerRef.current as HTMLDivElement;
+        const scroller = this.tabsScrollerRef
+            .current as HTMLDivElement;
 
         scroller.scrollTo({
             left: 999999999,
@@ -89,7 +116,8 @@ export const TabsController = {
     },
 
     maybeShowScrollerButtons() {
-        const { scrollWidth } = this.tabsScrollerRef.current as HTMLDivElement;
+        const { scrollWidth } = this.tabsScrollerRef
+            .current as HTMLDivElement;
 
         /*
             We're checking whether the scrollWidth of the
@@ -100,6 +128,6 @@ export const TabsController = {
         dot.window.toggleWindowClass(
             "tabs-scroller-buttons-visible",
             scrollWidth > document.body.scrollWidth
-        )
+        );
     }
-}
+};

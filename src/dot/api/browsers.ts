@@ -1,4 +1,9 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+    action,
+    computed,
+    makeObservable,
+    observable
+} from "mobx";
 import { dot } from ".";
 import { Ci, E10SUtils, Services } from "../modules";
 import { MozURI } from "../types/uri";

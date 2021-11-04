@@ -19,7 +19,7 @@ export class UrlbarInput extends React.Component {
         originalValue: "",
         hasSelectedAll: false,
         hasUserModified: false
-    }
+    };
 
     public lockupMetadataMethod: boolean = false;
 
@@ -29,20 +29,23 @@ export class UrlbarInput extends React.Component {
 
     public get selectionController() {
         return this.editor.selectionController;
-    } 
-    
+    }
+
     public update(newValue: string) {
         this.setState({
             ...this.state,
             value: newValue
-        })
+        });
     }
 
     public formatUrl() {
-        const inputValue = this.editor.rootElement.firstChild;
-        const metadata = this.getUrlMetadata(inputValue.data);
+        const inputValue =
+            this.editor.rootElement.firstChild;
+        const metadata = this.getUrlMetadata(
+            inputValue.data
+        );
 
-        if(!metadata) return false; 
+        if (!metadata) return false;
 
         const {
             preDomain,
@@ -56,24 +59,36 @@ export class UrlbarInput extends React.Component {
         let subDomain = "";
 
         try {
-            baseDomain = Services.eTLD.getBaseDomainFromHost(origin);
-            if (!domain.endsWith(baseDomain)) {
-                const IDNService = Cc["@mozilla.org/network/idn-service;1"].getService(
-                    Ci.nsIIDNService
+            baseDomain =
+                Services.eTLD.getBaseDomainFromHost(
+                    origin
                 );
+            if (!domain.endsWith(baseDomain)) {
+                const IDNService = Cc[
+                    "@mozilla.org/network/idn-service;1"
+                ].getService(Ci.nsIIDNService);
 
-                baseDomain = IDNService.convertACEtoUTF8(baseDomain);
+                baseDomain =
+                    IDNService.convertACEtoUTF8(
+                        baseDomain
+                    );
             }
         } catch (e) {}
 
         if (baseDomain !== domain) {
-            subDomain = domain.slice(0, -baseDomain.length);
+            subDomain = domain.slice(
+                0,
+                -baseDomain.length
+            );
         }
 
-        const selection = this.selectionController
-            .getSelection(9);
+        const selection =
+            this.selectionController.getSelection(9);
 
-        const rangeLength = preDomain.length + subDomain.length - trimmedLength;
+        const rangeLength =
+            preDomain.length +
+            subDomain.length -
+            trimmedLength;
 
         if (rangeLength) {
             const range = document.createRange();
@@ -84,14 +99,20 @@ export class UrlbarInput extends React.Component {
             selection.addRange(range);
         }
 
-        const startRest = preDomain.length + domain.length - trimmedLength;
-        
+        const startRest =
+            preDomain.length +
+            domain.length -
+            trimmedLength;
+
         if (startRest < url.length - trimmedLength) {
             const range = document.createRange();
 
             range.setStart(inputValue, startRest);
-            range.setEnd(inputValue, url.length - trimmedLength);
-            
+            range.setEnd(
+                inputValue,
+                url.length - trimmedLength
+            );
+
             selection.addRange(range);
         }
 
@@ -99,11 +120,11 @@ export class UrlbarInput extends React.Component {
     }
 
     public clearFormatting() {
-        const strikeOut = this.selectionController
-            .getSelection(10);
-            
-        const dimmedUrl = this.selectionController
-            .getSelection(9);
+        const strikeOut =
+            this.selectionController.getSelection(10);
+
+        const dimmedUrl =
+            this.selectionController.getSelection(9);
 
         strikeOut.removeAllRanges();
         dimmedUrl.removeAllRanges();
@@ -112,49 +133,56 @@ export class UrlbarInput extends React.Component {
     public clearCachedTabValue() {
         const tab = dot.tabs.selectedTab;
 
-        if(!tab) return;
+        if (!tab) return;
 
         tab.urlbarValue = undefined;
     }
 
     public getUrlMetadata(url: string): any {
-        if (this.state.urlMetadata !== null) return this.state.urlMetadata;
-      
+        if (this.state.urlMetadata !== null)
+            return this.state.urlMetadata;
+
         let fixupFlags =
-            Services.uriFixup.FIXUP_FLAG_FIX_SCHEME_TYPOS |
-            Services.uriFixup.FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP;
-            
+            Services.uriFixup
+                .FIXUP_FLAG_FIX_SCHEME_TYPOS |
+            Services.uriFixup
+                .FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP;
+
         if (dot.window.isPrivate()) {
-            fixupFlags |= Services.uriFixup.FIXUP_FLAG_PRIVATE_CONTEXT;
+            fixupFlags |=
+                Services.uriFixup
+                    .FIXUP_FLAG_PRIVATE_CONTEXT;
         }
 
         let urlInfo;
 
         try {
             urlInfo = Services.uriFixup.getFixupURIInfo(
-                url, 
+                url,
                 fixupFlags
             );
         } catch (e) {}
-   
+
         if (
             !urlInfo ||
             !urlInfo.fixedURI ||
-            !["http", "https", "ftp"].includes(urlInfo.fixedURI.scheme)
+            !["http", "https", "ftp"].includes(
+                urlInfo.fixedURI.scheme
+            )
         ) {
             return null;
         }
-      
+
         let trimmedLength = 0;
 
         if (
-            urlInfo.fixedURI.scheme == "http" && 
+            urlInfo.fixedURI.scheme == "http" &&
             !url.startsWith("http://")
         ) {
             url = `http://${url}`;
             trimmedLength = "http://".length;
         }
-      
+
         const match = url.match(
             /^(([a-z]+:\/\/)(?:[^\/#?]+@)?)(\S+?)(?::\d+)?\s*(?:[\/#?]|$)/
         );
@@ -163,30 +191,37 @@ export class UrlbarInput extends React.Component {
             return null;
         }
 
-        const [
-            ,
-            preDomain,
-            schemeWithSlashes,
-            domain
-        ] = match;
-      
+        const [, preDomain, schemeWithSlashes, domain] =
+            match;
+
         let replaceUrl = false;
 
         try {
-            const { displayHost } = Services.io.newURI("http://" + domain);
+            const { displayHost } = Services.io.newURI(
+                "http://" + domain
+            );
 
-            replaceUrl = displayHost !== urlInfo.fixedURI.displayHost;
+            replaceUrl =
+                displayHost !==
+                urlInfo.fixedURI.displayHost;
         } catch (e) {}
 
         if (replaceUrl) {
-            if (this.lockupMetadataMethod || !this.inputRef.current) return;
-            
+            if (
+                this.lockupMetadataMethod ||
+                !this.inputRef.current
+            )
+                return;
+
             try {
                 this.lockupMetadataMethod = true;
 
-                this.inputRef.current.value = urlInfo.fixedURI.spec;
+                this.inputRef.current.value =
+                    urlInfo.fixedURI.spec;
 
-                return this.getUrlMetadata(urlInfo.fixedURI.spec);
+                return this.getUrlMetadata(
+                    urlInfo.fixedURI.spec
+                );
             } finally {
                 this.lockupMetadataMethod = false;
             }
@@ -200,10 +235,10 @@ export class UrlbarInput extends React.Component {
                 preDomain,
                 schemeWithSlashes,
                 trimmedLength,
-                url,
+                url
             }
-        })
-      
+        });
+
         return this.state.urlMetadata;
     }
 
@@ -211,8 +246,8 @@ export class UrlbarInput extends React.Component {
         super(props);
 
         ipc.on("location-change", (event) => {
-            if(
-                event.data.id == dot.tabs.selectedTabId && 
+            if (
+                event.data.id == dot.tabs.selectedTabId &&
                 event.data.webProgress &&
                 event.data.webProgress.isTopLevel &&
                 !this.state.hasUserModified
@@ -221,26 +256,26 @@ export class UrlbarInput extends React.Component {
                 this.formatUrl();
                 this.clearCachedTabValue();
             }
-        })
-        
+        });
+
         ipc.on("state-change", (event) => {
-            if(
+            if (
                 event.data.id == dot.tabs.selectedTabId &&
                 event.data.webProgress &&
                 event.data.webProgress.isTopLevel &&
-                (
-                    event.data.readableFlags.isDocument &&
-                    event.data.readableFlags.isStarting
-                )
+                event.data.readableFlags.isDocument &&
+                event.data.readableFlags.isStarting
             ) {
-                this.update(event.data.request.originalURI.spec);
+                this.update(
+                    event.data.request.originalURI.spec
+                );
                 this.formatUrl();
                 this.clearCachedTabValue();
             }
-        })
+        });
 
         ipc.on("tab-change", (event) => {
-            if(event.data.id == dot.tabs.selectedTabId) {
+            if (event.data.id == dot.tabs.selectedTabId) {
                 const tab = dot.tabs.selectedTab;
 
                 const newValue: any = tab?.urlbarValue
@@ -249,19 +284,19 @@ export class UrlbarInput extends React.Component {
 
                 this.update(newValue);
 
-                if(tab?.urlbarValue) {
+                if (tab?.urlbarValue) {
                     this.clearFormatting();
                 } else {
                     this.formatUrl();
                 }
             }
-        })
+        });
     }
 
     public onChange(e: any) {
         const tab = dot.tabs.selectedTab;
 
-        if(!tab) return;
+        if (!tab) return;
 
         this.update(e.target.value);
         this.clearFormatting();
@@ -279,7 +314,7 @@ export class UrlbarInput extends React.Component {
     }
 
     public onBlur() {
-        this.clearFormatting()
+        this.clearFormatting();
         this.formatUrl();
 
         this.setState({
@@ -289,7 +324,7 @@ export class UrlbarInput extends React.Component {
     }
 
     public onMouseUp(e: any) {
-        if(!this.state.hasSelectedAll) {
+        if (!this.state.hasSelectedAll) {
             this.inputRef.current?.select();
 
             this.setState({
@@ -298,23 +333,25 @@ export class UrlbarInput extends React.Component {
             });
         }
     }
-    
+
     public render() {
         return (
-            <input 
+            <input
                 id="urlbar-input"
                 {...{ anonid: "input" }}
                 aria-autocomplete="both"
                 ref={this.inputRef}
                 value={this.state.value}
                 inputMode={"mozAwesomebar" as any}
-                placeholder={"Search using DuckDuckGo or enter address"}
+                placeholder={
+                    "Search using DuckDuckGo or enter address"
+                }
                 /* Events */
                 onFocus={(e) => this.onFocus()}
                 onBlur={(e) => this.onBlur()}
                 onChange={(e) => this.onChange(e)}
                 onMouseUp={(e) => this.onMouseUp(e)}
             />
-        )
+        );
     }
 }

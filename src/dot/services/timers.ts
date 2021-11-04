@@ -4,10 +4,7 @@ export class Timers {
     public list: Map<string, number> = new Map();
 
     public start(label: string) {
-        this.list.set(
-            label,
-            Date.now()
-        );
+        this.list.set(label, Date.now());
     }
 
     public stop(label: string) {
@@ -15,10 +12,14 @@ export class Timers {
 
         const timeStart = this.list.get(label);
 
-        if(timeStart) {
-            console.info(`${label}: ${now - timeStart} ms`)
+        if (timeStart) {
+            console.info(
+                `${label}: ${now - timeStart} ms`
+            );
         } else {
-            console.warn(`Timer with label '${label}' does not exist.`)
+            console.warn(
+                `Timer with label '${label}' does not exist.`
+            );
         }
     }
 }

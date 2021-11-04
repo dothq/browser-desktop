@@ -13,9 +13,7 @@ export class UrlbarContainer extends React.Component<UrlbarContainerProps> {
 
     public render() {
         return (
-            <div id={"urlbar"}>
-                {this.props.children}
-            </div>
-        )
+            <div id={"urlbar"}>{this.props.children}</div>
+        );
     }
 }

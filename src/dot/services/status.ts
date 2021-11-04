@@ -5,7 +5,9 @@ import MousePosTracker from "./mouse-pos";
 
 class StatusService {
     public get panel() {
-        return document.getElementById("navigator-statusbar");
+        return document.getElementById(
+            "navigator-statusbar"
+        );
     }
 
     public get isVisible() {
@@ -13,7 +15,7 @@ class StatusService {
     }
 
     public get isRTL() {
-        return Services.locale.isAppLocaleRTL
+        return Services.locale.isAppLocaleRTL;
     }
 
     public update() {
@@ -21,7 +23,8 @@ class StatusService {
             nsIBrowserHandler.kiosk ||
             !this.panel ||
             !this.labelElement
-        ) return;
+        )
+            return;
 
         let text;
         let type;
@@ -53,23 +56,24 @@ class StatusService {
                 "previoustype",
                 `${this.panel.getAttribute("type")}`
             );
-            this.panel.setAttribute(
-                "type",
-                `${type}`
-            );
+            this.panel.setAttribute("type", `${type}`);
 
             this.label = text;
             this.labelElement.setAttribute(
                 "crop",
-                (type == "overLink" && !cropped)
+                type == "overLink" && !cropped
                     ? "center"
                     : "end"
             );
         }
     }
 
-    public get labelElement(): HTMLSpanElement | undefined {
-        const el = this.panel?.getElementsByClassName("statusbar-status")[0];
+    public get labelElement():
+        | HTMLSpanElement
+        | undefined {
+        const el = this.panel?.getElementsByClassName(
+            "statusbar-status"
+        )[0];
 
         return el as HTMLSpanElement | undefined;
     }
@@ -83,11 +87,15 @@ class StatusService {
         }
 
         if (
-            this.panel?.getAttribute("type") == "status" &&
-            this.panel?.getAttribute("previoustype") == "status"
+            this.panel?.getAttribute("type") ==
+                "status" &&
+            this.panel?.getAttribute("previoustype") ==
+                "status"
         ) {
-            const { width } = window.windowUtils
-                .getBoundsWithoutFlushing(this.panel);
+            const { width } =
+                window.windowUtils.getBoundsWithoutFlushing(
+                    this.panel
+                );
 
             this.panel.style.minWidth = `${width}px`;
         } else {
@@ -108,8 +116,14 @@ class StatusService {
 
     public getMouseTargetRect() {
         const panelParent = this.panel?.parentNode;
-        const panelRect = window.windowUtils.getBoundsWithoutFlushing(this.panel);
-        const panelParentRect = window.windowUtils.getBoundsWithoutFlushing(panelParent);
+        const panelRect =
+            window.windowUtils.getBoundsWithoutFlushing(
+                this.panel
+            );
+        const panelParentRect =
+            window.windowUtils.getBoundsWithoutFlushing(
+                panelParent
+            );
 
         return {
             top: panelRect.top,

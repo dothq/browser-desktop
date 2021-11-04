@@ -28,6 +28,6 @@ export class Urlbar extends React.Component<UrlbarProps> {
                     <UrlbarInput />
                 </UrlbarInputContainer>
             </UrlbarContainer>
-        )
+        );
     }
 }
