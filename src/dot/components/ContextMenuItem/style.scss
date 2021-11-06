@@ -73,6 +73,8 @@
         margin-left: auto;
         text-align: right;
         opacity: 0.5;
+        font-family: inherit;
+        padding-left: 3rem;
     }
 
     &[data-disabled="true"] {

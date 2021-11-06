@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 
 export const Sidebar = ({
     title,
@@ -8,8 +7,6 @@ export const Sidebar = ({
     title: string;
     children: any;
 }) => {
-    const dispatch = useDispatch();
-
     return (
         <aside className={"webui-sidebar"}>
             <header className={"webui-sidebar-header"}>

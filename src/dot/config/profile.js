@@ -117,4 +117,4 @@ pref("dot.window.nativecontrols.enabled", true);
 pref("dot.tabs.scroll_amount", 250);
 
 // dot.keybinds
-pref("dot.keybinds.newtab", "CmdOrCtrl+T");
+pref("dot.keybinds.new-tab", "CmdOrCtrl+T");

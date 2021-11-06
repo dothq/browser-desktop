@@ -9,3 +9,6 @@ src/**/*.patch
 **/dist/
 **/firefox-branding.js
 **/profile.js
+
+# This is here because Prettier makes the file unreadable
+src/dot/components/ContextMenu/**/*

@@ -642,6 +642,7 @@ export const openLinkIn = (
     if (
         !avoidBrowserFocus &&
         !focusUrlBar &&
+        targetBrowser &&
         targetBrowser.browserId == win.dot.tabs.selectedId
     ) {
         targetBrowser.focus();
@@ -743,3 +744,27 @@ export const openFeedbackPage = () => {
 };
 
 exportPublic("openFeedbackPage", openFeedbackPage);
+
+export const openHelpLink = (topic?: string, fromModal?: boolean, where?: any) => {
+    const url = getHelpLinkURL(topic);
+
+    where = where 
+        ? where
+        : fromModal 
+            ? "window" 
+            : "tab";
+  
+    openTrustedLinkIn(url, where);
+};
+
+exportPublic("openHelpLink", openHelpLink);
+
+export const getHelpLinkURL = (topic?: string) => {
+    const supportUrl = Services.urlFormatter.formatURLPref(
+        "app.support.baseURL"
+    );
+
+    return `${supportUrl}${topic}`
+}
+
+exportPublic("getHelpLinkURL", getHelpLinkURL);

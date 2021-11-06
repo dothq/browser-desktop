@@ -402,22 +402,28 @@ export class KeyboardShortcuts extends EventEmitter {
     }
 
     public toString(keybind: string) {
-        const parsed = this.parseAsElectronKey(keybind);
+        try {
+            const parsed = this.parseAsElectronKey(keybind);
 
-        const list = [];
+            const list = [];
 
-        if (parsed.alt) list.push("Alt");
-        if (parsed.ctrl) list.push("Ctrl");
-        if (parsed.meta) list.push("Cmd");
-        if (parsed.shift) list.push("Shift");
+            if (parsed.alt) list.push("Alt");
+            if (parsed.ctrl) list.push("Ctrl");
+            if (parsed.meta) list.push("Cmd");
+            if (parsed.shift) list.push("Shift");
 
-        const key = parsed.keyCodeString
-            ? parsed.keyCodeString
-            : parsed.key.toUpperCase();
+            const key = parsed.keyCodeString
+                ? parsed.keyCodeString
+                : parsed.key.toUpperCase();
 
-        list.push(key);
+            list.push(key);
 
-        return list.join("+");
+            return list.join("+");
+        } catch(e) {
+            console.warn(e);
+
+            return keybind;
+        }
     }
 
     public init() {

@@ -3,7 +3,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from "../api";
 import { ContextMenu } from "../components/ContextMenu";
-import { AppConstants, Ci } from "../modules";
+import { AboutMenuRole } from "../menus/roles/about";
+import { BookmarkCurrentMenuRole } from "../menus/roles/bookmark-current";
+import { BookmarksBarToggleMenuRole } from "../menus/roles/bookmarks-bar-toggle";
+import { BookmarksManagerMenuRole } from "../menus/roles/bookmarks-manager";
+import { BookmarksMenuMenuRole } from "../menus/roles/bookmarks-menu";
+import { CloseMenuRole } from "../menus/roles/close";
+import { CopyMenuRole } from "../menus/roles/copy";
+import { CutMenuRole } from "../menus/roles/cut";
+import { DeleteMenuRole } from "../menus/roles/delete";
+import { ForceReloadMenuRole } from "../menus/roles/force-reload";
+import { HelpMenuMenuRole } from "../menus/roles/help-menu";
+import { HistoryMenuMenuRole } from "../menus/roles/history-menu";
+import { MinimiseMenuRole } from "../menus/roles/minimise";
+import { NewPrivateWindowMenuRole } from "../menus/roles/new-private-window";
+import { NewTabMenuRole } from "../menus/roles/new-tab";
+import { NewWindowMenuRole } from "../menus/roles/new-window";
+import { ReloadMenuRole } from "../menus/roles/reload";
+import { ToggleFullscreenMenuRole } from "../menus/roles/toggle-fullscreen";
+import { UndoMenuRole } from "../menus/roles/undo";
+import { ZoomInMenuRole } from "../menus/roles/zoom-in";
+import { ZoomOutMenuRole } from "../menus/roles/zoom-out";
 import { exportPublic } from "../shared/globals";
 
 export interface MenuItem {
@@ -24,6 +44,17 @@ export interface MenuItem {
     type?: "normal" | "separator" | "checkbox" | "radio";
     submenu?: MenuItem[];
 }
+
+export type DotSpecificItemRoles = 
+    | "bookmarksmenu"
+    | "bookmark-current"
+    | "bookmarks-bar-toggle"
+    | "bookmarks-manager"
+    | "historymenu"
+    | "newtab"
+    | "newwindow"
+    | "newprivatewindow"
+    | "reload"
 
 export type MenuItemRole =
     | "about"
@@ -51,7 +82,8 @@ export type MenuItemRole =
     | "editmenu"
     | "viewmenu"
     | "windowmenu"
-    | "sharemenu";
+    | "sharemenu"
+    | & DotSpecificItemRoles;
 
 export type MenuPopupOptions = {
     x?: number;
@@ -64,100 +96,45 @@ export const menuRoles: Record<
     MenuItemRole,
     MenuItem | {}
 > = {
-    about: {
-        id: "about",
-        label: "About Dot Browser",
-        type: "normal",
-        click: () => console.log(AppConstants)
-    },
-    close: {
-        id: "close",
-        label: "Quit",
-        type: "normal",
-        accelerator: "CmdOrCtrl+Q",
-        click: () => dot.window.quit()
-    },
-    copy: {
-        id: "copy",
-        label: "Copy",
-        type: "normal",
-        accelerator: "CmdOrCtrl+C",
-        click: () => document.execCommand("copy")
-    },
-    cut: {
-        id: "cut",
-        label: "Cut",
-        type: "normal",
-        accelerator: "CmdOrCtrl+X",
-        click: () => document.execCommand("cut")
-    },
-    delete: {
-        id: "delete",
-        label: "Delete",
-        type: "normal",
-        click: () => document.execCommand("delete")
-    },
-    forcereload: {
-        id: "forcereload",
-        label: "Force Reload",
-        type: "normal",
-        click: () =>
-            dot.tabs.selectedTab?.reload(
-                Ci.nsIWebNavigation
-                    .LOAD_FLAGS_BYPASS_CACHE
-            )
-    },
+    about: AboutMenuRole,
+    close: CloseMenuRole,
+    copy: CopyMenuRole,
+    cut: CutMenuRole,
+    delete: DeleteMenuRole,
+    forcereload: ForceReloadMenuRole,
     front: {},
-    help: {},
+    help: HelpMenuMenuRole,
     hide: {},
     hideothers: {},
-    minimize: {
-        id: "minimize",
-        label: "Minimize",
-        type: "normal",
-        click: () => dot.window.minimise()
-    },
+    minimize: MinimiseMenuRole,
     toggledevtools: {},
-    togglefullscreen: {
-        id: "togglefullscreen",
-        label: "Toggle Fullscreen",
-        type: "normal",
-        click: () =>
-            dot.tabs.selectedTab?.webContents.requestFullscreen()
-    },
-    undo: {
-        id: "undo",
-        label: "Undo",
-        type: "normal",
-        accelerator: "CmdOrCtrl+Z",
-        click: () => document.execCommand("undo")
-    },
+    togglefullscreen: ToggleFullscreenMenuRole,
+    undo: UndoMenuRole,
     unhide: {},
     window: {},
     zoom: {},
-    zoomin: {
-        id: "zoomin",
-        label: "Zoom In",
-        type: "normal",
-        accelerator: "CmdOrCtrl+=",
-        click: () =>
-            dot.tabs.selectedTab?.zoomManager.enlarge()
-    },
-    zoomout: {
-        id: "zoomout",
-        label: "Zoom Out",
-        type: "normal",
-        accelerator: "CmdOrCtrl+-",
-        click: () =>
-            dot.tabs.selectedTab?.zoomManager.reduce()
-    },
+    zoomin: ZoomInMenuRole,
+    zoomout: ZoomOutMenuRole,
     togglespellchecker: {},
     appmenu: {},
     filemenu: {},
     editmenu: {},
     viewmenu: {},
     windowmenu: {},
-    sharemenu: {}
+    sharemenu: {},
+
+    bookmarksmenu: BookmarksMenuMenuRole,
+    "bookmark-current": BookmarkCurrentMenuRole,
+    "bookmarks-bar-toggle": BookmarksBarToggleMenuRole,
+    "bookmarks-manager": BookmarksManagerMenuRole,
+
+    historymenu: HistoryMenuMenuRole,
+
+    newtab: NewTabMenuRole,
+    newwindow: NewWindowMenuRole,
+    newprivatewindow: NewPrivateWindowMenuRole,
+
+    reload: ReloadMenuRole,
 };
 
 export class Menu extends EventEmitter {
@@ -179,7 +156,7 @@ export class Menu extends EventEmitter {
             ...options,
             template: this.template,
             callback: (result: boolean) => {
-                this.closePopup();
+                this.closePopup(true);
 
                 if (options?.callback) {
                     options?.callback(result);
@@ -207,6 +184,7 @@ export class Menu extends EventEmitter {
         ReactDOM.render(menu, mount);
 
         this.mount = mount;
+        this.registerEvents(this.mount);
     }
 
     public closePopup(force?: boolean) {
@@ -227,20 +205,84 @@ export class Menu extends EventEmitter {
         return menu;
     }
 
+    private registerEvents(mount?: HTMLElement) {
+        if(!mount) return;
+
+        mount.addEventListener("mousedown", (e) => {
+            if(e.target == mount) mount.style.opacity = "0";
+        })
+
+        mount.addEventListener("mouseup", (e) => {
+            if(e.target == mount) this.closePopup();
+        })
+    }
+    
+    public doTemplateChecks(template: MenuItem[]) {
+        template.forEach((item, index) => {
+            // Replace all roles with their associated menuitem
+            if (item.role && menuRoles[item.role]) {
+                item = {
+                    ...template[index],
+                    ...menuRoles[item.role]
+                };
+            }
+
+            // Make sure there are no duplicate IDs in the template
+            if (
+                !item.id ||
+                !item.id.length ||
+                template.filter(i => i.id == item.id).length > 1
+            ) {
+                const id = item.id && item.id.length
+                    ? `${item.id}-${dot.utilities.makeID(2)}`
+                    : dot.utilities.makeID(2)
+
+                if(
+                    item.id && 
+                    item.id.length &&
+                    template.filter(i => i.id == item.id).length > 1
+                ) {
+                    console.warn(`Menu already contains item with the ID of "${item.id}".`)
+                }
+
+                item.id = id;
+            }
+
+            // This NEEDS to be done last
+            if (item.accelerator && item.id) {
+                const definedShortcut = dot.prefs.get(`dot.keybinds.${item.id}`);
+
+                let accelerator = item.accelerator;
+
+                if(definedShortcut && definedShortcut.length) {
+                    accelerator = definedShortcut
+                }
+
+                item.accelerator = dot.shortcuts.toString(
+                    accelerator
+                );
+            }
+
+            template[index] = item;
+
+            if(
+                template[index].submenu &&
+                template[index].submenu?.length
+            ) {
+                const submenu = template[index].submenu as MenuItem[];
+
+                template[index].submenu = this.doTemplateChecks(submenu);
+            }
+        });
+
+        return template;
+    }
+
     public constructor(template?: MenuItem[]) {
         super();
 
         if (template) {
-            template.forEach((item, index) => {
-                if (item.role && menuRoles[item.role]) {
-                    template[index] = {
-                        ...template[index],
-                        ...menuRoles[item.role]
-                    };
-                }
-            });
-
-            this.template = template;
+            this.template = this.doTemplateChecks(template);
         }
     }
 }

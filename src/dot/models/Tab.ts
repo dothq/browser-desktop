@@ -1,3 +1,4 @@
+import anime from "animejs";
 import EventEmitter from "events";
 import {
     computed,
@@ -266,6 +267,32 @@ export class Tab extends EventEmitter {
         return contentTitle;
     }
 
+    public get width() {
+        const { maxWidth } = this.linkedTab?.style as any;
+
+        return parseInt(maxWidth);
+    }
+
+    public animate(
+        key: string, 
+        value: any, 
+        options?: { 
+            easeFunction?: string, 
+            duration?: number 
+        }
+    ) {
+        anime({
+            targets: this.linkedTab,
+            [key]: value,
+            easing: options?.easeFunction 
+                ? options.easeFunction
+                : "easeOutQuint",
+            duration: options?.duration
+                ? options.duration
+                : 200
+        })
+    }
+
     public get zoom() {
         return zoomManager.getZoomOfTab(this.id);
     }
@@ -530,6 +557,7 @@ export class Tab extends EventEmitter {
         this.emit("TabClose");
 
         this.isClosing = true;
+        this.animate("width", 0);
 
         let animationDuration = 0;
 

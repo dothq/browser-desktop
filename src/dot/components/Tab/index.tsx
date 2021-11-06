@@ -67,7 +67,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                             tab.state == "idle" &&
                             !tab.pendingIcon
                                 ? !tab.shouldHideIcon ||
-                                  tab.pendingIcon
+                                tab.pendingIcon
                                     ? ""
                                     : "hidden"
                                 : !isBlankPageURL(tab.url)
@@ -87,7 +87,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                                 tab.pendingIcon
                                     ? "progress"
                                     : tab.loadingStage
-                                          .length
+                                        .length
                                     ? tab.loadingStage
                                     : undefined
                             }
