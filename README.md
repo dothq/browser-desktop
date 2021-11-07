@@ -111,3 +111,5 @@ We accept donations on [Liberapay](https://liberapay.com/dothq) or [Patreon](htt
 **Dot Browser** is licensed under the [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0) license.
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdothq%2Fbrowser-desktop?ref=badge_large)
+
+test
