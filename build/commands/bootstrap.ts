@@ -54,9 +54,9 @@ async function linuxBootstrap() {
     const distro = await getDistro();
 
     switch (distro) {
-        // Both arch and manjaro use the same package repo and the same package manager
-        case "ManjaroLinux":
-        case "ArchLinux":
+        // Arch and Manjaro use the same package manager
+        case "Manjaro":
+        case "Arch":
             console.log(
                 await pacmanInstall(
                     // Shared packages
