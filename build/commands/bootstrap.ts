@@ -55,7 +55,7 @@ async function linuxBootstrap() {
 
     switch (distro) {
         // Arch and Manjaro use the same package manager
-        case "Manjaro":
+        case "ManjaroLinux":
         case "Arch":
             console.log(
                 await pacmanInstall(
