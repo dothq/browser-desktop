@@ -5,6 +5,6 @@ export const MinimiseMenuRole = {
     label: "Minimize",
     type: "normal",
     click: () => {
-        dot.window.minimise()
+        dot.window.minimise();
     }
-}
+};

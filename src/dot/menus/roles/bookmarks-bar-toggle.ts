@@ -1,4 +1,3 @@
-
 export const BookmarksBarToggleMenuRole = {
     id: "bookmarks-bar-toggle",
     label: "Show bookmarks bar",
@@ -6,4 +5,4 @@ export const BookmarksBarToggleMenuRole = {
     type: "checkbox",
     checked: true,
     click: () => {}
-}
+};

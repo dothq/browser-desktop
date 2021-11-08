@@ -7,4 +7,4 @@ export const ToggleFullscreenMenuRole = {
     type: "normal",
     click: () =>
         dot.tabs.selectedTab?.webContents.requestFullscreen()
-}
+};

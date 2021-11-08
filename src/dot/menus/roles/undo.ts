@@ -5,4 +5,4 @@ export const UndoMenuRole = {
     type: "normal",
     accelerator: "CmdOrCtrl+Z",
     click: () => document.execCommand("undo")
-}
+};

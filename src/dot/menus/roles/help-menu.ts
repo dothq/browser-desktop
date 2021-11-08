@@ -1,4 +1,8 @@
-import { openFeedbackPage, openHelpLink, openTroubleshootingPage } from "../../utils/browser";
+import {
+    openFeedbackPage,
+    openHelpLink,
+    openTroubleshootingPage
+} from "../../utils/browser";
 
 export const HelpMenuMenuRole = {
     id: "helpmenu",
@@ -26,6 +30,6 @@ export const HelpMenuMenuRole = {
             label: "Report issue…",
             type: "normal",
             click: () => openFeedbackPage()
-        },
+        }
     ]
-}
+};

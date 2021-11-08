@@ -8,4 +8,4 @@ export const ZoomOutMenuRole = {
     accelerator: "CmdOrCtrl+-",
     click: () =>
         dot.tabs.selectedTab?.zoomManager.reduce()
-}
+};

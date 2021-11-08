@@ -6,5 +6,6 @@ export const BookmarksManagerMenuRole = {
     icon: "chrome://dot/content/skin/icons/bookmark.svg",
     accelerator: "CmdOrCtrl+B",
     type: "normal",
-    click: () => openTrustedLinkIn("about:bookmarks", "tab")
-}
+    click: () =>
+        openTrustedLinkIn("about:bookmarks", "tab")
+};

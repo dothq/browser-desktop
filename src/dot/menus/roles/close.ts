@@ -1,4 +1,4 @@
-import { dot } from "../../api"
+import { dot } from "../../api";
 
 export const CloseMenuRole = {
     id: "close",
@@ -7,6 +7,6 @@ export const CloseMenuRole = {
     type: "normal",
     accelerator: "CmdOrCtrl+Q",
     click: () => {
-        dot.window.quit()
+        dot.window.quit();
     }
-}
+};

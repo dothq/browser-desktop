@@ -6,6 +6,5 @@ export const ReloadMenuRole = {
     icon: "chrome://dot/content/skin/icons/reload.svg",
     accelerator: "CmdOrCtrl+R",
     type: "normal",
-    click: () =>
-        dot.tabs.selectedTab?.reload()
-}
+    click: () => dot.tabs.selectedTab?.reload()
+};

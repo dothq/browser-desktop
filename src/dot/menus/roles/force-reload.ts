@@ -8,7 +8,6 @@ export const ForceReloadMenuRole = {
     accelerator: "CmdOrCtrl+Shift+R",
     click: () =>
         dot.tabs.selectedTab?.reload(
-            Ci.nsIWebNavigation
-                .LOAD_FLAGS_BYPASS_CACHE
+            Ci.nsIWebNavigation.LOAD_FLAGS_BYPASS_CACHE
         )
-}
+};

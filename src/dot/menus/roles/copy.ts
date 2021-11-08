@@ -5,6 +5,6 @@ export const CopyMenuRole = {
     type: "normal",
     accelerator: "CmdOrCtrl+C",
     click: () => {
-        document.execCommand("copy")
+        document.execCommand("copy");
     }
-}
+};

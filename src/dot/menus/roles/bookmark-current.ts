@@ -6,4 +6,4 @@ export const BookmarkCurrentMenuRole = {
     accelerator: "CmdOrCtrl+D",
     icon: "chrome://dot/content/skin/icons/bookmark.svg",
     click: () => dot.tabs.selectedTab?.bookmark()
-}
+};

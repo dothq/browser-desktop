@@ -8,4 +8,4 @@ export const ZoomInMenuRole = {
     accelerator: "CmdOrCtrl+=",
     click: () =>
         dot.tabs.selectedTab?.zoomManager.enlarge()
-}
+};

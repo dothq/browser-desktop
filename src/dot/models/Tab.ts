@@ -274,23 +274,23 @@ export class Tab extends EventEmitter {
     }
 
     public animate(
-        key: string, 
-        value: any, 
-        options?: { 
-            easeFunction?: string, 
-            duration?: number 
+        key: string,
+        value: any,
+        options?: {
+            easeFunction?: string;
+            duration?: number;
         }
     ) {
         anime({
             targets: this.linkedTab,
             [key]: value,
-            easing: options?.easeFunction 
+            easing: options?.easeFunction
                 ? options.easeFunction
                 : "easeOutQuint",
             duration: options?.duration
                 ? options.duration
                 : 200
-        })
+        });
     }
 
     public get zoom() {

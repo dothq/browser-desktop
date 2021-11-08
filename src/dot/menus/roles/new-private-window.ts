@@ -6,4 +6,4 @@ export const NewPrivateWindowMenuRole = {
     accelerator: "CmdOrCtrl+Shift+P",
     type: "normal",
     click: () => dot.window.openNew({ type: "private" })
-}
+};

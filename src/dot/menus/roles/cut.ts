@@ -5,6 +5,6 @@ export const CutMenuRole = {
     type: "normal",
     accelerator: "CmdOrCtrl+X",
     click: () => {
-        document.execCommand("cut")
+        document.execCommand("cut");
     }
-}
+};

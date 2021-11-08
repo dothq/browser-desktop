@@ -45,7 +45,7 @@ export interface MenuItem {
     submenu?: MenuItem[];
 }
 
-export type DotSpecificItemRoles = 
+export type DotSpecificItemRoles =
     | "bookmarksmenu"
     | "bookmark-current"
     | "bookmarks-bar-toggle"
@@ -54,7 +54,7 @@ export type DotSpecificItemRoles =
     | "newtab"
     | "newwindow"
     | "newprivatewindow"
-    | "reload"
+    | "reload";
 
 export type MenuItemRole =
     | "about"
@@ -83,7 +83,7 @@ export type MenuItemRole =
     | "viewmenu"
     | "windowmenu"
     | "sharemenu"
-    | & DotSpecificItemRoles;
+    | DotSpecificItemRoles;
 
 export type MenuPopupOptions = {
     x?: number;
@@ -134,7 +134,7 @@ export const menuRoles: Record<
     newwindow: NewWindowMenuRole,
     newprivatewindow: NewPrivateWindowMenuRole,
 
-    reload: ReloadMenuRole,
+    reload: ReloadMenuRole
 };
 
 export class Menu extends EventEmitter {
@@ -206,17 +206,18 @@ export class Menu extends EventEmitter {
     }
 
     private registerEvents(mount?: HTMLElement) {
-        if(!mount) return;
+        if (!mount) return;
 
         mount.addEventListener("mousedown", (e) => {
-            if(e.target == mount) mount.style.opacity = "0";
-        })
+            if (e.target == mount)
+                mount.style.opacity = "0";
+        });
 
         mount.addEventListener("mouseup", (e) => {
-            if(e.target == mount) this.closePopup();
-        })
+            if (e.target == mount) this.closePopup();
+        });
     }
-    
+
     public doTemplateChecks(template: MenuItem[]) {
         template.forEach((item, index) => {
             // Replace all roles with their associated menuitem
@@ -231,18 +232,26 @@ export class Menu extends EventEmitter {
             if (
                 !item.id ||
                 !item.id.length ||
-                template.filter(i => i.id == item.id).length > 1
+                template.filter((i) => i.id == item.id)
+                    .length > 1
             ) {
-                const id = item.id && item.id.length
-                    ? `${item.id}-${dot.utilities.makeID(2)}`
-                    : dot.utilities.makeID(2)
+                const id =
+                    item.id && item.id.length
+                        ? `${
+                              item.id
+                          }-${dot.utilities.makeID(2)}`
+                        : dot.utilities.makeID(2);
 
-                if(
-                    item.id && 
+                if (
+                    item.id &&
                     item.id.length &&
-                    template.filter(i => i.id == item.id).length > 1
+                    template.filter(
+                        (i) => i.id == item.id
+                    ).length > 1
                 ) {
-                    console.warn(`Menu already contains item with the ID of "${item.id}".`)
+                    console.warn(
+                        `Menu already contains item with the ID of "${item.id}".`
+                    );
                 }
 
                 item.id = id;
@@ -250,28 +259,34 @@ export class Menu extends EventEmitter {
 
             // This NEEDS to be done last
             if (item.accelerator && item.id) {
-                const definedShortcut = dot.prefs.get(`dot.keybinds.${item.id}`);
+                const definedShortcut = dot.prefs.get(
+                    `dot.keybinds.${item.id}`
+                );
 
                 let accelerator = item.accelerator;
 
-                if(definedShortcut && definedShortcut.length) {
-                    accelerator = definedShortcut
+                if (
+                    definedShortcut &&
+                    definedShortcut.length
+                ) {
+                    accelerator = definedShortcut;
                 }
 
-                item.accelerator = dot.shortcuts.toString(
-                    accelerator
-                );
+                item.accelerator =
+                    dot.shortcuts.toString(accelerator);
             }
 
             template[index] = item;
 
-            if(
+            if (
                 template[index].submenu &&
                 template[index].submenu?.length
             ) {
-                const submenu = template[index].submenu as MenuItem[];
+                const submenu = template[index]
+                    .submenu as MenuItem[];
 
-                template[index].submenu = this.doTemplateChecks(submenu);
+                template[index].submenu =
+                    this.doTemplateChecks(submenu);
             }
         });
 
@@ -282,7 +297,8 @@ export class Menu extends EventEmitter {
         super();
 
         if (template) {
-            this.template = this.doTemplateChecks(template);
+            this.template =
+                this.doTemplateChecks(template);
         }
     }
 }

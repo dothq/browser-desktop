@@ -6,6 +6,6 @@ export const AboutMenuRole = {
     icon: "chrome://dot/content/skin/icons/identity/info.svg",
     type: "normal",
     click: () => {
-        console.log(AppConstants)
+        console.log(AppConstants);
     }
-}
+};

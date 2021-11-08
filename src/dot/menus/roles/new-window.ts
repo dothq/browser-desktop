@@ -7,4 +7,4 @@ export const NewWindowMenuRole = {
     accelerator: "CmdOrCtrl+N",
     type: "normal",
     click: () => dot.window.openNew({ type: "normal" })
-}
+};

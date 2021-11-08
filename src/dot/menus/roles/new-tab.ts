@@ -7,4 +7,4 @@ export const NewTabMenuRole = {
     accelerator: "CmdOrCtrl+T",
     type: "normal",
     click: () => dot.utilities.doCommand("Browser:NewTab")
-}
+};

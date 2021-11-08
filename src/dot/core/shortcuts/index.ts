@@ -403,7 +403,8 @@ export class KeyboardShortcuts extends EventEmitter {
 
     public toString(keybind: string) {
         try {
-            const parsed = this.parseAsElectronKey(keybind);
+            const parsed =
+                this.parseAsElectronKey(keybind);
 
             const list = [];
 
@@ -419,7 +420,7 @@ export class KeyboardShortcuts extends EventEmitter {
             list.push(key);
 
             return list.join("+");
-        } catch(e) {
+        } catch (e) {
             console.warn(e);
 
             return keybind;

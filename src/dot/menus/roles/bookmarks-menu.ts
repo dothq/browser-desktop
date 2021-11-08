@@ -13,4 +13,4 @@ export const BookmarksMenuMenuRole = {
         BookmarksBarToggleMenuRole,
         { type: "separator" }
     ]
-}
+};
