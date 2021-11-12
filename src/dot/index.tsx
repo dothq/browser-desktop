@@ -13,13 +13,39 @@ configure({
     enforceActions: "never"
 });
 
+class ErrorBoundary extends React.Component {
+    public state = {
+        hasErrored: false,
+    }
+
+    public constructor(props: any) {
+        super(props);
+    }
+  
+    static getDerivedStateFromError(error: any) {
+        return { hasErrored: true }
+    }
+
+    public componentDidCatch(error: Error, errorInfo: any) {
+        document.body.innerHTML = `<div>Unfortunately, Dot Browser has crashed.</div>`
+    }
+    
+    public render() {
+        if(this.state.hasErrored) return <></>;
+
+        return this.props.children; 
+    }
+}
+
 export const Application = observer(() => {
     return (
-        <div className={"ui-container"}>
-            <Chrome />
-            {/* <Launcher /> */}
-            <Statusbar />
-        </div>
+        <ErrorBoundary>
+            <div className={"ui-container"}>
+                <Chrome />
+                {/* <Launcher /> */}
+                <Statusbar />
+            </div>
+        </ErrorBoundary>
     );
 });
 
