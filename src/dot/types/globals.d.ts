@@ -35,6 +35,7 @@ declare global {
         gFissionBrowser: boolean;
         RTL_UI: boolean;
         isFullyOccluded: boolean;
+        Cr: any;
     }
 
     interface HTMLElement {

@@ -24,6 +24,8 @@ export const ChromeUtils = {
 
 export const Components = window.Components;
 
+export const Cr = window.Cr;
+
 const include = (moduleUri: string) => {
     const moduleName = moduleUri
         .split("/")
