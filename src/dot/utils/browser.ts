@@ -183,10 +183,10 @@ export const openUILinkIn = (
 
 export const getTopWin = (skipPopups?: boolean) => {
     if (
-        top.document.documentElement.getAttribute(
+        top?.document.documentElement.getAttribute(
             "windowtype"
         ) == "navigator:browser" &&
-        (!skipPopups || top.toolbar.visible)
+        (!skipPopups || top?.toolbar.visible)
     ) {
         return top;
     }

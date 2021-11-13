@@ -78,5 +78,6 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
     },
-    "svg.preview.background": "white"
+    "svg.preview.background": "white",
+    "typescript.tsdk": "./src/dot/node_modules/typescript/lib"
 }
