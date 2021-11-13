@@ -171,7 +171,7 @@ export const keyCodeBindings: any = {
     DOM_VK_VOLUME_UP: 183
 };
 
-interface DotKeyboardEvent extends UIEvent {
+interface DotKeyboardEvent extends KeyboardEvent {
     readonly altKey: boolean;
     char: string;
     readonly charCode: number;
@@ -461,7 +461,7 @@ export class KeyboardShortcuts extends EventEmitter {
         this.window = window;
         this.window.addEventListener(
             "keydown",
-            this.onKeyDown.bind(this)
+            (event: any) => this.onKeyDown.bind(this)(event)
         );
     }
 }

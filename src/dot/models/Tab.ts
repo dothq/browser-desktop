@@ -1,6 +1,7 @@
 import anime from "animejs";
 import EventEmitter from "events";
 import {
+    action,
     computed,
     makeObservable,
     observable
@@ -22,6 +23,7 @@ import IdentityManager from "../services/identity";
 import { TabProgressListener } from "../services/progress";
 import { zoomManager } from "../services/zoom";
 import { openMenuAt } from "../shared/menu";
+import { TAB_MAX_WIDTH, TAB_PINNED_WIDTH } from "../shared/tab";
 import { isBlankPageURL } from "../shared/url";
 import { MozURI } from "../types/uri";
 import { gFissionBrowser } from "../utils/browser";
@@ -130,6 +132,12 @@ export class Tab extends EventEmitter {
     public hovering: boolean = false;
 
     @observable
+    public mouseDown: boolean = false;
+
+    @observable
+    public lastDragX: number = 0;
+    
+    @observable
     public canGoBack: boolean = false;
 
     @observable
@@ -146,34 +154,6 @@ export class Tab extends EventEmitter {
 
     public audioPlayingRemovalInt: any;
 
-    private _pageStatus: string | undefined = "";
-
-    public get pageStatus() {
-        return this._pageStatus;
-    }
-
-    public set pageStatus(url: string | undefined) {
-        this._pageStatus = url;
-
-        const container = dot.tabs.getBrowserContainer(
-            this.webContents
-        );
-        const status = container.querySelector(
-            ".browserStatus"
-        );
-
-        if (url) {
-            status.innerText = url;
-            status.setAttribute("data-visible", "true");
-        } else {
-            status.removeAttribute("data-visible");
-
-            setTimeout(() => {
-                status.setAttribute("data-side", "left");
-            }, 200); // this should be updated with the fade in transition amount
-        }
-    }
-
     @observable
     public pinned: boolean = false;
 
@@ -186,6 +166,17 @@ export class Tab extends EventEmitter {
 
     public unBookmark() {
         console.log("stub - unbookmark");
+    }
+
+    @action
+    public pin() {
+        this.pinned = !this.pinned;
+        this.animate("width", this.pinned ? TAB_PINNED_WIDTH : TAB_MAX_WIDTH);
+    }
+
+    @action
+    public updatePosition(index: number) {
+ 
     }
 
     @observable
@@ -267,6 +258,9 @@ export class Tab extends EventEmitter {
         return contentTitle;
     }
 
+    @observable
+    public left: number = 0;
+
     public get width() {
         const { maxWidth } = this.linkedTab?.style as any;
 
@@ -274,23 +268,23 @@ export class Tab extends EventEmitter {
     }
 
     public animate(
-        key: string,
-        value: any,
-        options?: {
-            easeFunction?: string;
-            duration?: number;
+        key: string, 
+        value: any, 
+        options?: { 
+            easeFunction?: string, 
+            duration?: number 
         }
     ) {
         anime({
             targets: this.linkedTab,
             [key]: value,
-            easing: options?.easeFunction
+            easing: options?.easeFunction 
                 ? options.easeFunction
                 : "easeOutQuint",
             duration: options?.duration
                 ? options.duration
                 : 200
-        });
+        })
     }
 
     public get zoom() {
@@ -394,6 +388,7 @@ export class Tab extends EventEmitter {
             // Left click
             case 0:
                 this.select();
+                this.mouseDown = true;
 
                 break;
             // Middle click
@@ -420,6 +415,29 @@ export class Tab extends EventEmitter {
                 this.goForward();
 
                 break;
+        }
+    }
+
+    public onTabMouseUp(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        this.mouseDown = false;
+        
+        this.animate("translateX", 0);
+    }
+
+    public onTabMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        if(
+            !this.mouseDown ||
+            !this.linkedTab
+        ) return;
+
+        const direction = this.lastDragX < e.pageX ? "right" : "left"
+
+        this.lastDragX = new WebKitCSSMatrix(this.linkedTab.style.transform).m41;
+
+        if(direction == "right") {
+            this.linkedTab.style.transform = `translateX(${this.lastDragX++}px)`;
+        } else {
+            this.linkedTab.style.transform = `translateX(${this.lastDragX--}px)`;
         }
     }
 

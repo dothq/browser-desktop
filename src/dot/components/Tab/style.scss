@@ -41,16 +41,19 @@
 
 .tabbrowser-tab-wrapper {
     display: contents;
+    position: relative;
 }
 
 .tabbrowser-tab {
     margin: 0;
     display: flex;
     height: 100%;
-    position: relative;
+    position: absolute;
     align-items: center;
 
     &[data-active="true"] {
+        z-index: 20;
+
         .tab-background {
             background-color: var(--toolbar-bgcolor);
         }

@@ -73,33 +73,6 @@ export class BrowsersAPI {
             "browserSidebarContainer"
         );
 
-        const browserStatus =
-            document.createElement("div");
-        browserStatus.classList.add("browserStatus");
-        browserStatus.setAttribute("data-side", "left");
-
-        browserStatus.addEventListener(
-            "mouseover",
-            () => {
-                const currentSide =
-                    browserStatus.getAttribute(
-                        "data-side"
-                    );
-
-                if (currentSide == "left") {
-                    browserStatus.setAttribute(
-                        "data-side",
-                        "right"
-                    );
-                } else {
-                    browserStatus.setAttribute(
-                        "data-side",
-                        "left"
-                    );
-                }
-            }
-        );
-
         const browserContainer =
             document.createElement("div");
         browserContainer.classList.add(
@@ -131,7 +104,6 @@ export class BrowsersAPI {
         browserStack.appendChild(browser);
 
         browserContainer.appendChild(browserStack);
-        browserContainer.appendChild(browserStatus);
 
         browserSidebarContainer.appendChild(
             browserContainer
@@ -156,10 +128,6 @@ export class BrowsersAPI {
             this.browsers.size == 1
         )
             this.select(id);
-        else
-            console.warn(
-                `Tab with id "${id}" is a background tab, not selecting.`
-            );
 
         return browser as any;
     }

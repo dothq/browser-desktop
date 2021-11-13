@@ -1,6 +1,8 @@
-.navigator-statusbar {
-    width: calc(100% - 6px * 2);
-    height: 30px;
+#navigator-statusbar {
+    width: auto;
+    height: 26px;
+    left: 0;
+    border-top-right-radius: 6px;
     display: flex;
     gap: 6px;
     padding: 0px 6px;
@@ -12,5 +14,29 @@
     align-items: center;
     border-top: 1px solid
         var(--chrome-content-separator-color);
+    border-right: 1px solid
+        var(--chrome-content-separator-color);
     overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    transition: 0.2s opacity;
+}
+
+:root.statusbar-fixed #navigator-statusbar {
+    width: calc(100% - 6px * 2);
+    height: 30px;
+    pointer-events: all;
+    border-right: 1px solid transparent;
+    border-radius: 0;
+}
+
+:root.statusbar-fixed #browser-tabs-stack {
+    padding-bottom: 30px;
+}
+
+:root.statusbar-floating #navigator-statusbar {
+    &[hidden] {
+        transition: 0.2s opacity 0.3s;
+        opacity: 0;
+    }
 }

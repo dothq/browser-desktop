@@ -2,6 +2,7 @@ import { makeObservable, observable } from "mobx";
 import { dot } from "../api";
 import { ipc } from "../core/ipc";
 import { ChromeUtils, Ci } from "../modules";
+import StatusService from "../services/status";
 import { MozURI } from "../types/uri";
 
 const shouldShowLoader = (request: any) => {
@@ -88,6 +89,8 @@ export class TabProgressListener {
             // finished loading
             tab.state = "idle";
             tab.loadingStage = "";
+
+            window.XULBrowserWindow.setOverLink("");
 
             const ignoreBlank =
                 this.isForInitialAboutBlank(
@@ -255,6 +258,15 @@ export class TabProgressListener {
             request,
             state
         });
+    }
+
+    public onStatusChange(
+        webProgress: any, 
+        request: any, 
+        status: any, 
+        message: string
+    ) {
+        StatusService.update(message, true);
     }
 
     public QueryInterface = ChromeUtils.generateQI([

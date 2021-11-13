@@ -1,0 +1,5 @@
+:root {
+    &.statusbar-hidden > #navigator-statusbar {
+        display: none;
+    }
+}

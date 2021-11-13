@@ -1,12 +1,14 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { Tab } from "../../models/Tab";
+import { TAB_MAX_WIDTH } from "../../shared/tab";
 import { isBlankPageURL } from "../../shared/url";
 import { ToolbarButton } from "../ToolbarButton";
 import { TabBackground } from "./components/TabBackground";
 
 interface Props {
     tab: Tab;
+    index: number;
 }
 
 const TabButton = observer((args: any) => {
@@ -22,7 +24,11 @@ const TabButton = observer((args: any) => {
     );
 });
 
-export const BrowserTab = observer(({ tab }: Props) => {
+export const BrowserTab = observer(({ tab, index }: Props) => {
+    React.useEffect(() => {
+        tab.animate("width", 250);
+    }, [])
+
     return (
         <div className={"tabbrowser-tab-wrapper"}>
             <div
@@ -58,6 +64,9 @@ export const BrowserTab = observer(({ tab }: Props) => {
                     tab.onTabMouseLeave()
                 }
                 onMouseDown={(e) => tab.onTabMouseDown(e)}
+                onMouseUp={(e) => tab.onTabMouseUp(e)}
+                onMouseMove={(e) => tab.onTabMouseMove(e)}
+                style={{ width: 0, transform: `translateX(${TAB_MAX_WIDTH * index}px)` }}
             >
                 <TabBackground />
 
@@ -67,7 +76,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                             tab.state == "idle" &&
                             !tab.pendingIcon
                                 ? !tab.shouldHideIcon ||
-                                  tab.pendingIcon
+                                tab.pendingIcon
                                     ? ""
                                     : "hidden"
                                 : !isBlankPageURL(tab.url)
@@ -87,7 +96,7 @@ export const BrowserTab = observer(({ tab }: Props) => {
                                 tab.pendingIcon
                                     ? "progress"
                                     : tab.loadingStage
-                                          .length
+                                        .length
                                     ? tab.loadingStage
                                     : undefined
                             }

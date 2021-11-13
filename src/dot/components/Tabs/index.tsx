@@ -40,10 +40,11 @@ export const Tabs = observer(() => {
                 }
             >
                 <div id={"tabbrowser-tabs"}>
-                    {dot.tabs.list.map((tab) => (
+                    {dot.tabs.list.map((tab, index) => (
                         <BrowserTab
                             key={tab.id}
                             tab={tab}
+                            index={index}
                         />
                     ))}
                 </div>

@@ -109,6 +109,8 @@ pref("browser.contentblocking.report.lockwise.enabled", false);
 // dot.ui
 pref("dot.ui.accent_colour", "blue"); // Default accent colour is blue
 pref("dot.ui.locale", ""); // If empty, use OS language
+pref("dot.ui.statusbar.disabled", false);
+pref("dot.ui.statusbar.type", "floating");
 
 // dot.window
 pref("dot.window.nativecontrols.enabled", true);

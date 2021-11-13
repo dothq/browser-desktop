@@ -8,6 +8,7 @@ import { Tab } from "../models/Tab";
 import {
     AppConstants,
     Ci,
+    E10SUtils,
     Services,
     ShortcutUtils
 } from "../modules";
@@ -352,5 +353,82 @@ export class TabsAPI {
                 );
             }
         );
+    }
+
+    public updateBrowserRemoteness(
+        browser: HTMLBrowserElement,
+        options: {
+            newFrameloader?: any, 
+            remoteType?: any
+        }
+    ) {
+        const isRemote = browser.getAttribute("remote") == "true";
+
+        if (!("remoteType" in options)) {
+            throw new Error("Remote type must be set!");
+        }
+
+        const shouldBeRemote = options.remoteType !== E10SUtils.NOT_REMOTE;
+
+        const currentRemoteType = browser.remoteType;
+        if (
+            isRemote == shouldBeRemote &&
+            !options.newFrameloader &&
+            (
+                !isRemote ||
+                currentRemoteType == options.remoteType
+            )
+        ) return;
+
+        const tab = this.get(browser.browserId);
+
+        if(tab) {
+            const evt = document.createEvent("Events");
+
+            evt.initEvent(
+                "BeforeTabRemotenessChange", 
+                true, 
+                false
+            );
+            
+            tab.webContents.dispatchEvent(evt);
+        }
+
+        const filter = this.tabFilters.get(tab);
+        const listener = this.tabListeners.get(tab);
+
+        browser.webProgress.removeProgressListener(filter);
+        filter.removeProgressListener(listener);
+        listener.destroy();
+
+        browser.destroy();
+
+        browser.setAttribute("remote", shouldBeRemote.toString());
+
+        if (shouldBeRemote) {
+            browser.setAttribute("remoteType", options.remoteType);
+        } else {
+            browser.removeAttribute("remoteType");
+        }
+
+        browser.changeRemoteness({
+            remoteType: options.remoteType,
+        });
+
+        browser.construct();
+
+        tab?.createProgressListener();
+
+        const evt = document.createEvent("Events");
+
+        evt.initEvent(
+            "TabRemotenessChange", 
+            true, 
+            false
+        );
+        
+        tab?.webContents.dispatchEvent(evt);
+
+        return true;
     }
 }

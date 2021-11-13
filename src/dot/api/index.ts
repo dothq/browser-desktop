@@ -53,7 +53,7 @@ export class Dot {
     public console = new ConsoleAPI();
     public window = new WindowAPI();
 
-    constructor() {
+    public constructor() {
         window.addEventListener(
             "MozBeforeInitialXULLayout",
             () =>
@@ -67,7 +67,8 @@ export class Dot {
             "DOMContentLoaded",
             () => {
                 this.runtime.emit("browser-window-init");
-            }
+            },
+            { once: true }
         );
 
         window.addEventListener("focus", () =>

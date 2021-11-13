@@ -129,6 +129,8 @@ export const Chrome = observer(() => {
 
                     <NewTabButton />
                 </nav>
+
+                {/* <Browser src={"https://google.com"} /> */}
             </div>
         );
     } else {

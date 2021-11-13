@@ -1,7 +1,6 @@
 import { dot } from "../api";
 import { nsIBrowserHandler, Services } from "../modules";
 import { exportPublic } from "../shared/globals";
-import MousePosTracker from "./mouse-pos";
 
 class StatusService {
     public get panel() {
@@ -18,7 +17,27 @@ class StatusService {
         return Services.locale.isAppLocaleRTL;
     }
 
-    public update() {
+    public get panelType() {
+        const allowedValues = ["floating", "fixed"];
+        const value = dot.prefs.get("dot.ui.statusbar.type");
+
+        if(allowedValues.includes(value)) return value;
+        else return "floating";
+    }
+
+    public hide() {
+        if(!this.panel) return;
+        
+        // In floating mode, we just hide the statusbar
+        // In fixed mode, it won't disappear so we just clear the value
+        if(this.panelType == "floating") {
+            this.panel.hidden = true;
+        } else if(this.panelType == "fixed") {
+            this.label = "";
+        }
+    }
+
+    public update(message?: string, isBusy?: boolean) {
         if (
             nsIBrowserHandler.kiosk ||
             !this.panel ||
@@ -26,45 +45,36 @@ class StatusService {
         )
             return;
 
-        let text;
-        let type;
-        let types = ["overLink"];
-
-        if (dot.runtime.busyUI) types.push("status");
-        types.push("defaultStatus");
-
-        for (type of types) {
-            if ((text = (dot.runtime as any)[type])) {
-                break;
+        if(
+            isBusy !== undefined && 
+            isBusy == true
+        ) {
+            if(dot.tabs.selectedTab?.state == "idle") {
+                return this.hide();
             }
         }
 
-        let cropped = false;
-        if (
-            text.length > 500 &&
-            text.match(/^data:[^,]+;base64,/)
+        if(
+            !message || 
+            !message.length
         ) {
-            text = `${text.substring(0, 500)}\u2026`;
-            cropped = true;
-        }
+            this.hide();
+        } else {
+            this.panel.hidden = false;
 
-        if (
-            this.labelElement.innerText !== text ||
-            (text && !this.isVisible)
-        ) {
-            this.panel.setAttribute(
-                "previoustype",
-                `${this.panel.getAttribute("type")}`
-            );
-            this.panel.setAttribute("type", `${type}`);
-
-            this.label = text;
-            this.labelElement.setAttribute(
-                "crop",
-                type == "overLink" && !cropped
-                    ? "center"
-                    : "end"
-            );
+            if (
+                message.length > 500 &&
+                message.match(/^data:[^,]+;base64,/)
+            ) {
+                message = `${message.substring(0, 500)}\u2026`;
+            }
+    
+            if (
+                this.labelElement.innerText !== message ||
+                (message && !this.isVisible)
+            ) {
+                this.label = message;
+            }
         }
     }
 
@@ -79,39 +89,9 @@ class StatusService {
     }
 
     public set label(val: string) {
-        if (!this.panel || !this.labelElement) return;
+        if(!this.labelElement) return;
 
-        if (!this.isVisible) {
-            this.panel?.removeAttribute("mirror");
-            this.panel?.removeAttribute("sizelimit");
-        }
-
-        if (
-            this.panel?.getAttribute("type") ==
-                "status" &&
-            this.panel?.getAttribute("previoustype") ==
-                "status"
-        ) {
-            const { width } =
-                window.windowUtils.getBoundsWithoutFlushing(
-                    this.panel
-                );
-
-            this.panel.style.minWidth = `${width}px`;
-        } else {
-            this.panel.style.minWidth = "";
-        }
-
-        if (val) {
-            this.labelElement.innerText = val;
-            this.panel.removeAttribute("inactive");
-
-            MousePosTracker.addListener(this);
-        } else {
-            this.panel.setAttribute("inactive", "true");
-
-            MousePosTracker.removeListener(this);
-        }
+        this.labelElement.innerText = val;
     }
 
     public getMouseTargetRect() {

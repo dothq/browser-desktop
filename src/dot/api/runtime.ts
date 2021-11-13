@@ -3,46 +3,28 @@ import { render } from "..";
 import { dot } from "../api";
 import {
     ActorManagerParent,
-    BrowserWindowTracker,
-    Cc,
-    ChromeUtils,
-    Ci,
-    Services
+    BrowserWindowTracker, Ci, Services
 } from "../modules";
 import { windowActors } from "../modules/glue";
 import { BrowserAccess } from "../services/browser-access";
-import StatusService from "../services/status";
 import { timers } from "../services/timers";
-import { MozURI } from "../types/uri";
-import { BrowserUIUtils } from "../utils/browser-ui";
+import { XULBrowserWindow } from "../utils/xul-browser";
 
 export class RuntimeAPI extends EventEmitter {
-    public QueryInterface = ChromeUtils.generateQI([
-        "nsIWebProgressListener",
-        "nsIWebProgressListener2",
-        "nsISupportsWeakReference",
-        "nsIXULBrowserWindow"
-    ]);
-
     private _windowStateInt: NodeJS.Timeout;
 
-    public onBeforeBrowserInit() {}
+    public onBeforeBrowserInit() {
+
+    }
 
     public onBrowserStartup() {
         timers.start("BrowserInit");
 
+        window.XULBrowserWindow = XULBrowserWindow;
         window.docShell.treeOwner
             .QueryInterface(Ci.nsIInterfaceRequestor)
-            .getInterface(
-                Ci.nsIAppWindow
-            ).XULBrowserWindow = this;
-
-        window.XULBrowserWindow =
-            window.docShell.treeOwner
-                .QueryInterface(Ci.nsIInterfaceRequestor)
-                .getInterface(
-                    Ci.nsIAppWindow
-                ).XULBrowserWindow;
+            .getInterface(Ci.nsIAppWindow)
+            .XULBrowserWindow = window.XULBrowserWindow;
 
         window.browserDOMWindow = new BrowserAccess();
 
@@ -120,9 +102,9 @@ export class RuntimeAPI extends EventEmitter {
         );
 
         dot.prefs.observe(
-            "dot.ui.statusbar.enabled",
+            "dot.ui.statusbar.disabled",
             (value: boolean) => {
-                const className = "statusbar";
+                const className = "statusbar-hidden";
 
                 if (value)
                     dot.window.addWindowClass(
@@ -138,6 +120,35 @@ export class RuntimeAPI extends EventEmitter {
             },
             true
         );
+
+        dot.prefs.observe(
+            "dot.ui.statusbar.type",
+            (value: 'floating' | 'fixed') => {
+                const allowedValues = ["floating", "fixed"];
+
+                let className = (
+                    value && 
+                    value.length && 
+                    allowedValues.includes(value)
+                )
+                    ? `statusbar-${value}`
+                    : "statusbar-floating";
+
+                for(const v of allowedValues) {
+                    dot.window.removeWindowClass(
+                        `statusbar-${v}`,
+                        document.documentElement
+                    )
+                }
+
+                dot.window.addWindowClass(
+                    className,
+                    true,
+                    document.documentElement
+                );
+            },
+            true
+        )
 
         Services.obs.notifyObservers(
             window,
@@ -163,168 +174,6 @@ export class RuntimeAPI extends EventEmitter {
         dot.menus.clear();
     }
 
-    public showTooltip(
-        x: number,
-        y: number,
-        data: string,
-        direction: string
-    ) {
-        if (
-            Cc["@mozilla.org/widget/dragservice;1"]
-                .getService(Ci.nsIDragService)
-                .getCurrentSession()
-        ) {
-            return;
-        }
-
-        let el: any = document.getElementById(
-            "browser-tooltip"
-        );
-        el.label = data;
-        el.style.direction = direction;
-        el.openPopupAtScreen(x, y, false, null);
-    }
-
-    public hideTooltip() {
-        let el: any = document.getElementById(
-            "browser-tooltip"
-        );
-        el.hidePopup();
-    }
-
-    public status = "";
-    public defaultStatus = "";
-    public overLink = "";
-    public startTime = 0;
-    public isBusy = false;
-    public busyUI = false;
-
-    public setDefaultStatus(status: string) {
-        this.defaultStatus = status;
-        StatusService.update();
-    }
-
-    public setOverLink(url: string) {
-        if (url) {
-            url =
-                Services.textToSubURI.unEscapeURIForUI(
-                    url
-                );
-
-            // Encode bidirectional formatting characters.
-            // (RFC 3987 sections 3.2 and 4.1 paragraph 6)
-            url = url.replace(
-                /[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g,
-                encodeURIComponent
-            );
-        }
-
-        this.overLink = url;
-    }
-
-    public getTabCount() {
-        return dot.tabs.list.length;
-    }
-
-    public onStateChange(
-        webProgress: any,
-        request: any,
-        stateFlags: any,
-        status: any
-    ) {}
-
-    public onLocationChange(
-        webProgress: any,
-        request: any,
-        location: MozURI,
-        flags: any,
-        isSimulated: boolean
-    ) {
-        const uri = location ? location.spec : "";
-
-        // todo: Update back and forward buttons here instead of whenever Redux updates
-
-        Services.obs.notifyObservers(
-            webProgress,
-            "touchbar-location-change",
-            uri
-        );
-
-        if (!webProgress.isTopLevel) return;
-
-        this.setOverLink("");
-
-        if (
-            (uri == "about:blank" &&
-                BrowserUIUtils.checkEmptyPageOrigin(
-                    dot.tabs.selectedTab?.webContents
-                )) ||
-            uri == ""
-        ) {
-            // Disable reload button
-        } else {
-            // Enable reload button
-        }
-
-        this.updateElementsForContentType();
-    }
-
-    public onStatusChange(
-        webProgress: any,
-        request: any,
-        status: any,
-        message: any
-    ) {
-        this.status = message;
-        StatusService.update();
-    }
-
-    // Stubs
-    public updateElementsForContentType() {}
-    public asyncUpdateUI() {}
-    public onContentBlockingEvent() {}
-    public onSecurityChange() {}
-
-    _state: null;
-    _lastLocation: null;
-    _event: null;
-    _lastLocationForEvent: null;
-    _isSecureContext: null;
-
-    public onUpdateCurrentBrowser(
-        stateFlags: number,
-        status: any,
-        message: any,
-        totalProgress: any
-    ) {
-        const { nsIWebProgressListener } = Ci;
-
-        const browser = dot.tabs.selectedTab?.webContents;
-
-        this.hideTooltip();
-
-        const doneLoading =
-            stateFlags &
-            nsIWebProgressListener.STATE_STOP;
-
-        this.onStateChange(
-            browser.webProgress,
-            { URI: browser.currentURI },
-            doneLoading
-                ? nsIWebProgressListener.STATE_STOP
-                : nsIWebProgressListener.STATE_START,
-            status
-        );
-
-        if (!doneLoading)
-            this.onStatusChange(
-                browser.webProgress,
-                null,
-                0,
-                message
-            );
-    }
-
     constructor() {
         super();
 
@@ -332,7 +181,7 @@ export class RuntimeAPI extends EventEmitter {
             "before-browser-window-init",
             this.onBeforeBrowserInit
         );
-        this.once(
+        this.on(
             "browser-window-init",
             this.onBrowserStartup
         );
