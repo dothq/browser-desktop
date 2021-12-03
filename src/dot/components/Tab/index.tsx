@@ -102,7 +102,7 @@ export const BrowserTab = observer(({ tab, index }: Props) => {
                             }
                         />
                     </div>
-
+ 
                     <span className={"tab-title"}>
                         {tab.title}
                     </span>
