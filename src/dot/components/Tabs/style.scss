@@ -24,7 +24,6 @@
         display: none !important;
     }
 }
-
 @include useReducedMotion {
     #tabbrowser-tabs {
         --tab-animation-duration: 0s;
