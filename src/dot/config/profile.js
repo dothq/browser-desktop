@@ -111,6 +111,7 @@ pref("dot.ui.accent_colour", "blue"); // Default accent colour is blue
 pref("dot.ui.locale", ""); // If empty, use OS language
 pref("dot.ui.statusbar.disabled", false);
 pref("dot.ui.statusbar.type", "floating");
+pref("dot.ui.roundness", 8);
 
 // dot.window
 pref("dot.window.nativecontrols.enabled", true);

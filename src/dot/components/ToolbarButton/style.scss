@@ -57,7 +57,7 @@ a.toolbar-button.toolbar-button-has-image
     padding: 6px;
     background-repeat: no-repeat;
     background-position: center;
-    border-radius: 6px;
+    border-radius: var(--chrome-roundness);
     margin: 6px 0px;
     width: inherit;
 }

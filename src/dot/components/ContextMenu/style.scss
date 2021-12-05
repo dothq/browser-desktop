@@ -13,7 +13,7 @@
 
 .contextmenu {
     display: flex;
-    border-radius: 8px;
+    border-radius: var(--chrome-roundness);
     opacity: 0;
     margin: 0;
     width: max-content;

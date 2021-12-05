@@ -17,6 +17,7 @@ import {
     _isColorDark
 } from "../shared/theme";
 import { ExtensionTheme } from "../types/theme";
+import { animate } from "../utils/animation";
 
 const { OS } = ChromeUtils.import(
     "resource://gre/modules/osfile.jsm"
@@ -104,6 +105,35 @@ export class ThemeAPI {
         );
     }
 
+    public updateChromeRoundness(value?: any, shouldAnimate?: boolean) {
+        if(!value) value = dot.prefs.get(
+            "dot.ui.roundness"
+        , 8);
+
+        value = parseFloat(value);
+
+        if(isNaN(value)) value = 8;
+        
+        if(value >= 24) value = 24;
+        if(value <= 0) value = 0;
+
+        if(shouldAnimate) {
+            animate(
+                "html",
+                { 
+                    ease: "power4.out",
+                    duration: 0.5,
+                    "--chrome-roundness": `${value}px` 
+                }
+            )
+        } else {
+            document.documentElement.style.setProperty(
+                "--chrome-roundness",
+                `${value}px`
+            );
+        }
+    }
+
     /**
      * Set the current theme applied to the browser
      * @param id The ID of the theme you wish to set
@@ -133,6 +163,7 @@ export class ThemeAPI {
             this.currentThemeId = theme.id;
 
             this.updateAccentColour();
+            this.updateChromeRoundness();
             this.determineDarkness();
 
             const windowId =

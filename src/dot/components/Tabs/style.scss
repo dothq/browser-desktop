@@ -5,7 +5,6 @@
 #tabbrowser-tabs-scroller {
     display: flex;
     width: calc(100% - 6px);
-    max-width: max-content;
     height: 100%;
     margin-inline-end: 6px;
     overflow: hidden;
@@ -17,8 +16,6 @@
     min-width: 100%;
     max-width: 100%;
     display: contents;
-
-    --tab-animation-duration: 0.1s;
 }
 
 #browser:not(.tabs-scroller-buttons-visible) {

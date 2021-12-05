@@ -2,7 +2,7 @@
     padding: 0 24px;
     color: currentColor;
     min-height: 36px;
-    border-radius: 10px;
+    border-radius: var(--chrome-roundness);
     transition: 0.2s background-color, 0.2s color,
         0.2s outline;
     display: flex;

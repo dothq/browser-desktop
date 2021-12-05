@@ -37,8 +37,6 @@ export class RuntimeAPI extends EventEmitter {
             throw e;
         }
 
-        dot.utilities.doCommand("Browser:NewTab");
-
         render();
 
         dot.window.updateWindowState();
@@ -51,7 +49,12 @@ export class RuntimeAPI extends EventEmitter {
                 dot.theme.updateAccentColour(value)
         );
 
-        BrowserWindowTracker.track(window);
+        dot.utilities.doCommand("Browser:NewTab");
+
+        try {
+            // This should always be ran after the tab is created
+            BrowserWindowTracker.track(window);
+        } catch(e) {}
 
         dot.window.addWindowClass(dot.utilities.platform);
         dot.window.addWindowClass(
@@ -148,13 +151,20 @@ export class RuntimeAPI extends EventEmitter {
                 );
             },
             true
-        )
+        );
+
+        dot.prefs.observe(
+            "dot.ui.roundness",
+            (value: any) => {
+                dot.theme.updateChromeRoundness(value, true)
+            }
+        );
 
         Services.obs.notifyObservers(
             window,
             "extensions-late-startup"
         );
-
+        
         timers.stop("BrowserInit");
     }
 

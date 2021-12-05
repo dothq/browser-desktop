@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: var(--chrome-roundness);
     color: var(--lwt-toolbar-field-color);
     font-size: 14px;
     appearance: none;
