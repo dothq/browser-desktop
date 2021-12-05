@@ -132,6 +132,14 @@ export class TabProgressListener {
 
         if (!tab) return;
 
+        ipc.fire(`location-change`, {
+            id: this.id,
+            webProgress,
+            request,
+            location,
+            flags
+        });
+
         const { isTopLevel } = webProgress;
 
         const isSameDocument = !!(
@@ -186,14 +194,6 @@ export class TabProgressListener {
         }
 
         dot.window.updateWindowTitle();
-
-        ipc.fire(`location-change`, {
-            id: this.id,
-            webProgress,
-            request,
-            location,
-            flags
-        });
     }
 
     public onContentBlockingEvent(
