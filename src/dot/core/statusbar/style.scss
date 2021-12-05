@@ -34,9 +34,7 @@
     padding-bottom: 30px;
 }
 
-:root.statusbar-floating #navigator-statusbar {
-    &[hidden] {
-        transition: 0.2s opacity 0.3s;
-        opacity: 0;
-    }
+:root:not(.statusbar-fixed) #navigator-statusbar[hidden] {
+    transition: 0.2s opacity 0.3s;
+    opacity: 0;
 }
