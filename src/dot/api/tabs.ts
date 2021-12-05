@@ -26,6 +26,10 @@ export class TabsAPI {
     public get tabContainer() {
         return document.getElementById("tabbrowser-tabs");
     }
+    
+    public get newTabButton() {
+        return document.getElementById("new-tab-button");
+    }
 
     public tabFilters = new Map();
     public tabListeners = new Map();
