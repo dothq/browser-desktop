@@ -68,6 +68,11 @@
             "emoji": "⌨",
             "code": ":keyboard:",
             "description": "Update keyboard shortcuts or add menu items"
+        },
+        {
+            "emoji": "🔫",
+            "code": ":gun:",
+            "description": "Update events or IPC thread"
         }
     ],
     "git.ignoreLimitWarning": true,
