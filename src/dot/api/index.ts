@@ -29,6 +29,7 @@ import {
     UtilitiesAPI,
     WindowAPI
 } from ".";
+import { ipc } from "../core/ipc";
 import { Search } from "../core/search";
 import { KeyboardShortcuts } from "../core/shortcuts";
 import { exportPublic } from "../shared/globals";
@@ -93,6 +94,8 @@ export class Dot {
                 return window.close();
             }
         );
+
+        ipc.on("location-change", (e) => console.log(e.data.location.spec))
     }
 }
 
