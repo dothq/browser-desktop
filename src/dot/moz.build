@@ -7,8 +7,7 @@
 JAR_MANIFESTS += ["jar.mn"]
 
 DIRS += [
-    "shared",
-    "l10n"
+    "shared"
 ]
 
 JS_PREFERENCE_PP_FILES += [
