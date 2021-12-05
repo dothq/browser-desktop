@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
-import { l10n } from "../../core/l10n";
+import l10n from "../../core/l10n";
 import { Services } from "../../modules";
 import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
@@ -342,17 +342,12 @@ export class SearchbarInput extends React.Component<Props> {
 
         const engineName = engine.name;
 
-        const localised = l10n.format(
+        const localised = l10n.t(
             "searchbar-input-placeholder",
             { "engine-name": engineName }
         );
 
-        const value =
-            typeof localised == "object"
-                ? localised.value
-                : localised;
-
-        this.update("inputPlaceholder", value);
+        this.update("inputPlaceholder", localised);
     }
 
     public entryCompleted() {
