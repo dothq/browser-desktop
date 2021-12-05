@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Chrome } from "./components/Chrome";
+import "./core/l10n";
 import { Statusbar } from "./core/statusbar";
 
 configure({
@@ -15,7 +16,7 @@ configure({
 
 class ErrorBoundary extends React.Component {
     public state = {
-        hasErrored: false,
+        hasError: false,
     }
 
     public constructor(props: any) {
@@ -23,15 +24,11 @@ class ErrorBoundary extends React.Component {
     }
   
     static getDerivedStateFromError(error: any) {
-        return { hasErrored: true }
-    }
-
-    public componentDidCatch(error: Error, errorInfo: any) {
-        document.body.innerHTML = `<div>Unfortunately, Dot Browser has crashed.</div>`
+        return { hasError: true };
     }
     
     public render() {
-        if(this.state.hasErrored) return <></>;
+        if(this.state.hasError) return <></>;
 
         return this.props.children; 
     }
