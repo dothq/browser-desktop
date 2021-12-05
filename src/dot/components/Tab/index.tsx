@@ -1,7 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { Tab } from "../../models/Tab";
-import { TAB_MAX_WIDTH } from "../../shared/tab";
 import { isBlankPageURL } from "../../shared/url";
 import { ToolbarButton } from "../ToolbarButton";
 import { TabBackground } from "./components/TabBackground";
@@ -26,7 +25,7 @@ const TabButton = observer((args: any) => {
 
 export const BrowserTab = observer(({ tab, index }: Props) => {
     React.useEffect(() => {
-        tab.animate("width", 250);
+        tab.postCreationHook();
     }, [])
 
     return (
@@ -66,7 +65,7 @@ export const BrowserTab = observer(({ tab, index }: Props) => {
                 onMouseDown={(e) => tab.onTabMouseDown(e)}
                 onMouseUp={(e) => tab.onTabMouseUp(e)}
                 onMouseMove={(e) => tab.onTabMouseMove(e)}
-                style={{ width: 0, transform: `translateX(${TAB_MAX_WIDTH * index}px)` }}
+                style={{ width: 0, transform: `translateX(0px)` }}
             >
                 <TabBackground />
 
