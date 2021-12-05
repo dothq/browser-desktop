@@ -154,11 +154,11 @@ module.exports = {
         }
     },
     plugins: [
+        new FluentPlugin(),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
         new CleanWebpackPlugin(),
-        new FluentPlugin(),
         new webpack.ProvidePlugin({
             Buffer: ["buffer", "Buffer"]
         })

@@ -1,4 +1,4 @@
-const { readFileSync } = require("fs");
+const { readFileSync, readdirSync } = require("fs");
 const { glob } = require("glob");
 const { resolve } = require("path");
 
@@ -23,88 +23,38 @@ class FluentPlugin {
                         stage: Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE
                     },
                     (assets) => {
-                        const configs = glob.sync(
-                            resolve(
-                                __dirname,
-                                "{,!(node_modules)/**}",
-                                ".ftlconfig"
-                            )
+                        const l10nPath = resolve(
+                            __dirname,
+                            "l10n"
                         );
 
-                        const structure = [];
+                        const languages = readdirSync(l10nPath, { withFileTypes: true })
+                            .filter(i => i.isDirectory())
+                            .map(i => i.name)
 
-                        for (const configPath of configs) {
-                            const config = JSON.parse(
-                                readFileSync(
-                                    configPath,
-                                    "utf-8"
-                                )
-                            );
-
-                            const l10nSplit = configPath
-                                .split("/.ftlconfig")[0]
-                                .split("/");
-                            const l10nId =
-                                l10nSplit[
-                                    l10nSplit.length - 1
-                                ];
-                            const l10nDirectory = resolve(
-                                configPath.split(
-                                    "/.ftlconfig"
-                                )[0]
-                            );
-
-                            const ftl = glob.sync(
-                                resolve(
-                                    l10nDirectory,
-                                    "**",
-                                    "*.ftl"
-                                )
-                            );
-
-                            structure.push({
-                                id: l10nId,
-                                name: config.name,
-                                l10n: ftl
-                            });
-                        }
-
-                        compilation.emitAsset(
-                            "l10n.json",
-                            new RawSource(
-                                JSON.stringify(
-                                    structure,
-                                    null,
-                                    2
-                                )
-                            )
-                        );
-
-                        for (const struct of structure) {
-                            let data = `# This Source Code Form is subject to the terms of the Mozilla Public
+                        for(const lang of languages) {
+                            let strings = glob.sync(`${l10nPath}/${lang}/**/*.ftl`)
+                            strings = strings.sort((a, b) => a.split("/").length - b.split("/").length)
+                        
+                            let data =
+`# This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
-# file, You can obtain one at http://mozilla.org/MPL/2.0/.`;
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-                            data += `\n\nlanguage-id = ${struct.id}\nlanguage-name = ${struct.name}\n\n`;
-
-                            for (const lang of struct.l10n) {
-                                const langRaw =
-                                    readFileSync(
-                                        lang,
-                                        "utf-8"
-                                    );
-
-                                data += `# ${
-                                    lang.split(
-                                        __dirname
-                                    )[1]
-                                }\n\n${langRaw}`;
+# THIS FILE IS AUTO-GENERATED. DO NOT EDIT.`;
+                        
+                            for (const str of strings) {
+                                const ftl = readFileSync(str, "utf-8")
+                        
+                                data += `\n\n# ${str.replace(`${l10nPath}/${lang}/`, "")}\n\n${ftl}`
                             }
 
                             compilation.emitAsset(
-                                `${struct.id}.ftl`,
+                                `${lang}.ftl`,
                                 new RawSource(data)
                             );
+
+                            console.log(`dot/l10n/${lang}`)
                         }
                     }
                 );
