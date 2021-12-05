@@ -6,12 +6,13 @@ import {
     makeObservable,
     observable
 } from "mobx";
+import { dot } from ".";
+import L10n from "../core/l10n";
 import {
     AppConstants,
     Cc,
     ChromeUtils,
-    Ci,
-    Services
+    Ci
 } from "../modules";
 import { commands } from "../shared/commands";
 
@@ -56,12 +57,28 @@ export class UtilitiesAPI extends EventEmitter {
 
     @computed
     public get browserLanguage() {
-        return this.browserLanguages[0];
-    }
+        try {
+            const definedLang = dot.prefs.get("dot.ui.locale", "") as string;
 
-    @computed
-    public get browserLanguages() {
-        return Services.locale.webExposedLocales;
+            if(
+                definedLang && 
+                definedLang.length
+            ) {
+                const localeRegex = /^([a-z]{2})(-[A-Z]{2})?$/;
+                const match = definedLang.match(localeRegex);
+
+                if(match && match[0] && match[0] == definedLang) {
+                    return definedLang;
+                }
+            }
+
+            const systemLocales = Cc["@mozilla.org/intl/ospreferences;1"]
+                .getService(Ci.mozIOSPreferences).systemLocales;
+
+            return systemLocales[0];
+        } catch(e) {
+            return L10n.defaultLocale;
+        }
     }
 
     @computed
