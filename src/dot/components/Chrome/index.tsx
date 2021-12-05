@@ -5,7 +5,6 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
-import { L } from "../../core/l10n/react";
 import { Urlbar } from "../../core/urlbar";
 import { openMenuAt } from "../../shared/menu";
 import { NewTabButton } from "../NewTabButton";
@@ -29,66 +28,52 @@ export const Chrome = observer(() => {
             >
                 <nav id={"navigation-bar"}>
                     <div id={"navigation-bar-container"}>
-                        <L id={"navigation-back-button"}>
-                            <ToolbarButton
-                                image={
-                                    "chrome://dot/content/skin/icons/back.svg"
-                                }
-                                disabled={
-                                    !dot.tabs.selectedTab
-                                        ?.canGoBack
-                                }
-                                command={"Browser:GoBack"}
-                            />
-                        </L>
-
-                        <L
-                            id={
-                                "navigation-forward-button"
+                        <ToolbarButton
+                            image={
+                                "chrome://dot/content/skin/icons/back.svg"
                             }
-                        >
-                            <ToolbarButton
-                                image={
-                                    "chrome://dot/content/skin/icons/forward.svg"
-                                }
-                                disabled={
-                                    !dot.tabs.selectedTab
-                                        ?.canGoForward
-                                }
-                                command={
-                                    "Browser:GoForward"
-                                }
-                            />
-                        </L>
-
-                        <L
-                            id={
-                                "navigation-reload-button"
+                            disabled={
+                                !dot.tabs.selectedTab
+                                    ?.canGoBack
                             }
-                        >
-                            <ToolbarButton
-                                image={
-                                    dot.tabs.selectedTab
-                                        ?.state ==
-                                        "loading" &&
-                                    !dot.tabs.selectedTab
-                                        ?.identityManager
-                                        .isAboutUI
-                                        ? "chrome://dot/content/skin/icons/close.svg"
-                                        : "chrome://dot/content/skin/icons/reload.svg"
-                                }
-                                command={
-                                    dot.tabs.selectedTab
-                                        ?.state ==
-                                        "idle" ||
-                                    dot.tabs.selectedTab
-                                        ?.identityManager
-                                        .isAboutUI
-                                        ? "Browser:Reload"
-                                        : "Browser:Stop"
-                                }
-                            />
-                        </L>
+                            command={"Browser:GoBack"}
+                        />
+
+                        <ToolbarButton
+                            image={
+                                "chrome://dot/content/skin/icons/forward.svg"
+                            }
+                            disabled={
+                                !dot.tabs.selectedTab
+                                    ?.canGoForward
+                            }
+                            command={
+                                "Browser:GoForward"
+                            }
+                        />
+
+                        <ToolbarButton
+                            image={
+                                dot.tabs.selectedTab
+                                    ?.state ==
+                                    "loading" &&
+                                !dot.tabs.selectedTab
+                                    ?.identityManager
+                                    .isAboutUI
+                                    ? "chrome://dot/content/skin/icons/close.svg"
+                                    : "chrome://dot/content/skin/icons/reload.svg"
+                            }
+                            command={
+                                dot.tabs.selectedTab
+                                    ?.state ==
+                                    "idle" ||
+                                dot.tabs.selectedTab
+                                    ?.identityManager
+                                    .isAboutUI
+                                    ? "Browser:Reload"
+                                    : "Browser:Stop"
+                            }
+                        />
 
                         <Spring />
                         <Urlbar
