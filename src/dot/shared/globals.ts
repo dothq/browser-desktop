@@ -8,9 +8,12 @@ declare global {
             [key: string]: string;
         };
 
+        Cu: any;
+
         ChromeUtils: {
             import(moduleUri: string): any;
             generateQI(contractIds: string[]): any;
+            reportError(...args: any): any
             defineModuleGetter(
                 owner: any,
                 module: string,
