@@ -1,4 +1,3 @@
-import anime from "animejs";
 import EventEmitter from "events";
 import {
     action,
@@ -26,6 +25,7 @@ import { openMenuAt } from "../shared/menu";
 import { TAB_MAX_WIDTH, TAB_PINNED_WIDTH } from "../shared/tab";
 import { isBlankPageURL } from "../shared/url";
 import { MozURI } from "../types/uri";
+import { animate } from "../utils/animation";
 import { gFissionBrowser } from "../utils/browser";
 
 const { DevToolsShim } = ChromeUtils.import(
@@ -41,6 +41,10 @@ export interface ITab {
 export class Tab extends EventEmitter {
     @observable
     public id: number;
+
+    public get index() {
+        return dot.tabs.list.findIndex(tab => tab.id == this.id);
+    }
 
     @observable
     public background: boolean;
@@ -136,6 +140,43 @@ export class Tab extends EventEmitter {
 
     @observable
     public lastDragX: number = 0;
+
+    @observable
+    private _x: number = 0;
+
+    public get x() {
+        return this._x;
+    }
+
+    public set x(value: number) {
+        this.animate("x", value);
+        this._x = value;
+
+        const x = dot.tabs.list
+                .map(tab => tab.width)
+                .reduce((a, b) => a + b);
+
+        console.log(x)
+
+        animate(
+            dot.tabs.newTabButton,
+            { translateX: x }
+        )
+    }
+
+    @observable
+    private _width: number = 0;
+
+    public get width() {
+        return this._width;
+    }
+
+    public set width(value: number) {
+        this.animate("width", `${value}px`);
+        this._width = value;
+
+        ipc.fire("tabs-bounds-update");
+    }
     
     @observable
     public canGoBack: boolean = false;
@@ -171,7 +212,7 @@ export class Tab extends EventEmitter {
     @action
     public pin() {
         this.pinned = !this.pinned;
-        this.animate("width", this.pinned ? TAB_PINNED_WIDTH : TAB_MAX_WIDTH);
+        this.width = this.pinned ? TAB_PINNED_WIDTH : TAB_MAX_WIDTH;
     }
 
     @action
@@ -258,15 +299,6 @@ export class Tab extends EventEmitter {
         return contentTitle;
     }
 
-    @observable
-    public left: number = 0;
-
-    public get width() {
-        const { maxWidth } = this.linkedTab?.style as any;
-
-        return parseInt(maxWidth);
-    }
-
     public animate(
         key: string, 
         value: any, 
@@ -275,16 +307,20 @@ export class Tab extends EventEmitter {
             duration?: number 
         }
     ) {
-        anime({
-            targets: this.linkedTab,
-            [key]: value,
-            easing: options?.easeFunction 
-                ? options.easeFunction
-                : "easeOutQuint",
-            duration: options?.duration
-                ? options.duration
-                : 200
-        })
+        if(!this.linkedTab) return;
+
+        return animate(
+            this.linkedTab,
+            {
+                [key]: value,
+                ease: options?.easeFunction 
+                    ? options.easeFunction
+                    : "power4.out",
+                duration: options?.duration
+                    ? options.duration
+                    : 0.2
+            }
+        )
     }
 
     public get zoom() {
@@ -420,8 +456,7 @@ export class Tab extends EventEmitter {
 
     public onTabMouseUp(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         this.mouseDown = false;
-        
-        this.animate("translateX", 0);
+        this.x = 0;
     }
 
     public onTabMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -482,7 +517,7 @@ export class Tab extends EventEmitter {
             this.onSearchEngineAvailable
     };
 
-    constructor(args: Partial<Tab>) {
+    public constructor(args: Partial<Tab>) {
         super();
 
         makeObservable(this);
@@ -517,6 +552,11 @@ export class Tab extends EventEmitter {
         ipc.fire("tab-created", this.id);
 
         return this;
+    }
+
+    public postCreationHook() {
+        this.x = TAB_MAX_WIDTH * this.index;
+        this.width = 250;
     }
 
     public goto(uri: MozURI | string, options?: any) {
@@ -575,7 +615,7 @@ export class Tab extends EventEmitter {
         this.emit("TabClose");
 
         this.isClosing = true;
-        this.animate("width", 0);
+        this.width = 0;
 
         let animationDuration = 0;
 
