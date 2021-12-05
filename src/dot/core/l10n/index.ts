@@ -1,118 +1,117 @@
-import {
-    FluentBundle,
-    FluentResource
-} from "@fluent/bundle";
+import { FluentBundle, FluentResource, FluentVariable } from "@fluent/bundle";
+import { Message, Pattern } from "@fluent/bundle/esm/ast";
 import { dot } from "../../api";
-import { Cc, Ci } from "../../modules";
 import { exportPublic } from "../../shared/globals";
-import { loader } from "./loader";
-import { getL10nDirectory } from "./util";
 
-class L10n {
-    public data: { [key: string]: FluentBundle } = {};
-
+class L10nService {
     // THIS SHOULD NEVER CHANGE.
     public defaultLocale = "en-GB";
 
-    public format(id: string, ctx?: Record<string, any>) {
-        const language = dot.utilities.browserLanguage;
-        let bundle = this.data[language];
+    private _initted: boolean = false;
 
-        // Check if the bundle exists first, if it doesn't just fallback to the default language.
-        if (!bundle)
-            bundle = this.data[this.defaultLocale];
-        // Last resort, just return the ID of the string.
-        if (!bundle) return id;
+    private _resource: FluentResource | undefined;
+    private _bundle: FluentBundle | undefined;
 
-        const raw = bundle.getMessage(id);
+    public get resource(): FluentResource {
+        if(this._resource) return this._resource;
+        else return (null as any);
+    }
 
-        if (raw) {
-            if (
-                Object.keys(raw.attributes).length !== 0
-            ) {
-                const formattedAttributes: any = {};
+    public get bundle(): FluentBundle {
+        if(this._bundle) return this._bundle;
+        else return (null as any);
+    }
 
-                for (const [key, value] of Object.entries(
-                    raw.attributes
-                )) {
-                    formattedAttributes[key] =
-                        bundle.formatPattern(value, ctx);
-                }
+    public set resource(data: FluentResource) { this._resource = data }
+    public set bundle(data: FluentBundle) { this._bundle = data }
 
-                return {
-                    value: raw.value
-                        ? bundle.formatPattern(
-                              raw.value,
-                              ctx
-                          )
-                        : undefined,
-                    attributes: formattedAttributes
-                };
-            } else if (raw.value) {
-                return bundle.formatPattern(
-                    raw.value,
-                    ctx
-                );
+    public t(str: string, ctx?: Record<string, FluentVariable>): string | Record<string, Pattern> | undefined {
+        try {
+            const msg = this.bundle.getMessage(str);
+
+            if(msg) {
+                if(msg.value) return this.formatValue(msg, ctx);
+                if(msg.attributes) return this.formatAttributes(msg, ctx);
             } else {
-                return id;
+                return str;
             }
-        } else {
-            console.error(
-                `L10n string with id ${id} not found in ${language}.`
+        } catch(e) {
+            console.warn(e);
+
+            return str;
+        }
+    }
+
+    private formatValue(msg: Message, ctx?: Record<string, FluentVariable>): any {
+        if(!msg || !msg.value) return;
+
+        return this.bundle.formatPattern(
+            msg.value,
+            ctx
+        );
+    }
+
+    private formatAttributes(msg: Message, ctx?: Record<string, FluentVariable>): any {
+        if(!msg || !msg.attributes) return;
+
+        const data: any = { attributes: {} };
+
+        if(msg.value) data.value = msg.value;
+
+        for(const [key, value] of Object.entries(msg.attributes)) {
+            const parsed = Array.isArray(value) ? value.join("") : value;
+
+            data.attributes[key] = this.bundle.formatPattern(
+                parsed,
+                ctx
             );
         }
+
+        return data;
     }
 
-    private async load() {
-        const dir = Cc[
-            "@mozilla.org/file/local;1"
-        ].createInstance(Ci.nsIFile);
-        if (dir) {
-            dir.initWithPath(getL10nDirectory());
+    private async tryFetchFtl(language: string, fallback: string) {
+        let res: any;
+
+        try {
+            const req = await fetch(`chrome://dot/content/build/${language}.ftl`);
+            res = await req.text();
+        } catch(e) {
+            console.warn(`Unable to load ${language}, falling back to ${fallback}!`);
+            const req = await fetch(`chrome://dot/content/build/${fallback}.ftl`);
+            res = await req.text();
         }
 
-        for await (const locale of dir.directoryEntries) {
-            if (locale.isDirectory()) {
-                const ftl = await loader(
-                    getL10nDirectory(),
-                    locale.leafName
-                );
-
-                const bundle = new FluentBundle(
-                    locale.leafName
-                );
-                const resource = new FluentResource(ftl);
-                const errors =
-                    bundle.addResource(resource);
-
-                if (errors.length) {
-                    for (const e of errors) {
-                        console.warn(
-                            `Failed to load ${locale.leafName}`,
-                            e
-                        );
-                    }
-                }
-
-                if (
-                    bundle.getMessage(
-                        "language-full-name"
-                    )
-                ) {
-                    this.data[locale.leafName] = bundle;
-                } else {
-                    console.warn(
-                        `Failed to load ${locale.leafName} because the manifest doesn't exist or is corrupt.`
-                    );
-                }
-            }
-        }
+        if(res && res.length) return res;
+        else throw new Error(`Failed to initialise L10n service, no available languages.`)
     }
 
-    constructor() {
-        this.load();
+    public async init() {
+        if(this._initted) return console.error(`Cannot reinitialise L10n service.`);
+
+        const language = dot.utilities.browserLanguage;
+        const ftl = await this.tryFetchFtl(
+            language, 
+            this.defaultLocale
+        );
+
+        this.resource = new FluentResource(ftl);
+        this.bundle = new FluentBundle([language]);
+
+        this.bundle.addResource(this.resource);
+    }
+
+    public constructor() {
+        // We need to do this as the Dot APIs aren't ready when we init
+        window.addEventListener("load", () => {
+            this.init();
+            this._initted = true;
+        }, { once: true })
     }
 }
 
-export const l10n = new L10n();
-exportPublic("l10n", l10n);
+// Create the singleton so we don't need to reinit twice
+const L10n = new L10nService();
+
+export default L10n;
+exportPublic("L10n", L10n);
