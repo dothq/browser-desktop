@@ -20,6 +20,7 @@
     pointer-events: none;
     user-select: none;
     transition: 0.2s opacity;
+    color: color-mix(in srgb, black 20%, currentColor);
 }
 
 :root.statusbar-fixed #navigator-statusbar {
