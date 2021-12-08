@@ -1,4 +1,5 @@
 import EventEmitter from "events";
+import { render } from "preact";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from "../api";
@@ -181,7 +182,7 @@ export class Menu extends EventEmitter {
         mount.style.left = "0";
         mount.style.zIndex = "999999999";
 
-        ReactDOM.render(menu, mount);
+        render(menu, mount);
 
         this.mount = mount;
         this.registerEvents(this.mount);

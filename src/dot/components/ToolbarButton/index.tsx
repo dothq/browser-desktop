@@ -86,6 +86,12 @@ export const ToolbarButton = observer(
                         : (onTBMouseUp as any)
                 }
                 title={title}
+                onMouseOver={() => {
+                    window.XULBrowserWindow.setOverLink(title)
+                }}
+                onMouseLeave={() => {
+                    window.XULBrowserWindow.setOverLink("")
+                }}
                 data-hidden={hidden}
             >
                 <i

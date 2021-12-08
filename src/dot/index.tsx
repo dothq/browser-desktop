@@ -4,8 +4,8 @@
 
 import { configure } from "mobx";
 import { observer } from "mobx-react";
+import * as preact from "preact";
 import React from "react";
-import ReactDOM from "react-dom";
 import { Chrome } from "./components/Chrome";
 import "./core/l10n";
 import { Statusbar } from "./core/statusbar";
@@ -46,8 +46,11 @@ export const Application = observer(() => {
     );
 });
 
-export const render = () =>
-    ReactDOM.render(
+export const render = () => {
+    const mount = document.getElementById("browser") as HTMLDivElement;
+
+    preact.render(
         <Application />,
-        document.getElementById("browser")
-    );
+        mount
+    );    
+}

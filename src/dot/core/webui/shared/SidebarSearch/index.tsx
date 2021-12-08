@@ -1,10 +1,7 @@
 import React from "react";
 
 export const SidebarSearch = (
-    props: React.DetailedHTMLProps<
-        React.InputHTMLAttributes<HTMLInputElement>,
-        HTMLInputElement
-    >
+    props: any
 ) => {
     return (
         <div className={"webui-sidebar-search"}>

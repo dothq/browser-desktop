@@ -34,7 +34,7 @@ export const TabsController = {
     },
 
     onTabsScroll(
-        event: React.WheelEvent<HTMLDivElement>
+        event: WheelEvent
     ) {
         TabsController.maybeShowScrollerButtons();
 

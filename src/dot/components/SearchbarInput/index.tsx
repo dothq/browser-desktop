@@ -459,7 +459,7 @@ export class SearchbarInput extends React.Component<Props> {
                     onFocus={() => this.onInputFocus()}
                     onBlur={() => this.onInputBlur()}
                     onChange={() => this.onInputChange()}
-                    onKeyDown={(e) =>
+                    onKeyDown={(e: any) =>
                         this.onInputKeyDown(e)
                     }
                 ></input>

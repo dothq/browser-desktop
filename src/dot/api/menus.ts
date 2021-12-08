@@ -1,4 +1,5 @@
 import { makeObservable, observable } from "mobx";
+import { render } from "preact";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from ".";
@@ -202,7 +203,7 @@ export class MenusAPI {
             .getElementById("browser-popups")
             ?.appendChild(menuMount);
 
-        ReactDOM.render(menuContainer, menuMount);
+        render(menuContainer, menuMount);
 
         const { width: winWidth, height: winHeight } =
             document.documentElement.getBoundingClientRect();

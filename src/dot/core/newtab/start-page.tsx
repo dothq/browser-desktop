@@ -1,5 +1,5 @@
+import { render } from "preact";
 import React from "react";
-import ReactDOM from "react-dom";
 import { backgrounds } from "./backgrounds";
 import { Attribution } from "./widgets/attribution";
 import { Clock } from "./widgets/clock";
@@ -79,7 +79,7 @@ class StartPage extends React.Component {
     }
 }
 
-ReactDOM.render(
+render(
     <StartPage />,
-    document.getElementById("start-page")
+    document.getElementById("start-page") as Element
 );

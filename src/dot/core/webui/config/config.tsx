@@ -1,5 +1,5 @@
+import { render } from "preact";
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
 import { ChromeUtils } from "../../../modules";
 import "../theme";
 import { Input } from "./components/Input";
@@ -30,7 +30,7 @@ const AboutConfig = () => {
         <>
             <Input
                 value={search}
-                onChange={(e) =>
+                onChange={(e: any) =>
                     setSearch(e.target.value)
                 }
             />
@@ -50,7 +50,7 @@ const AboutConfig = () => {
     );
 };
 
-ReactDOM.render(
+render(
     <AboutConfig />,
-    document.getElementById("config")
+    document.getElementById("config") as Element
 );

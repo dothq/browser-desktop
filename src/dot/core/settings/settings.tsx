@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
+import { render } from "preact";
 import React from "react";
-import ReactDOM from "react-dom";
 import { timers } from "../../services/timers";
 import "../webui/theme";
 import { Sidebar } from "./components/Sidebar";
@@ -35,7 +35,7 @@ class Settings extends React.Component {
     }
 }
 
-ReactDOM.render(
+render(
     <Settings />,
-    document.getElementById("settings")
+    document.getElementById("settings") as Element,
 );

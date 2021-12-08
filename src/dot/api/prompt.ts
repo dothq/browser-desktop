@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import { render } from "preact";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from ".";
@@ -126,7 +127,7 @@ export class PromptAPI {
                 container
             );
 
-            ReactDOM.render(box, mount);
+            render(box, mount);
 
             this.beep();
         });

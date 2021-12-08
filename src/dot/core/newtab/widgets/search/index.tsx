@@ -12,7 +12,7 @@ export const Search = () => {
                     "Search using DuckDuckGo or enter URL"
                 }
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e: any) => setQuery(e.target?.value)}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         // // TODO: Use the same logic as is employed by the url bar here

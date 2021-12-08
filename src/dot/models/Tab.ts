@@ -1,11 +1,8 @@
 import EventEmitter from "events";
 import {
     action,
-    computed,
-    makeObservable,
-    observable
+    computed, makeObservable, observable
 } from "mobx";
-import React from "react";
 import { dot } from "../api";
 import { ipc } from "../core/ipc";
 import { ThumbnailManager } from "../core/thumbnails";
@@ -415,7 +412,7 @@ export class Tab extends EventEmitter {
     }
 
     public onTabMouseDown(
-        e: React.MouseEvent<HTMLDivElement>
+        e: MouseEvent
     ) {
         e.preventDefault();
         e.stopPropagation();
@@ -454,12 +451,12 @@ export class Tab extends EventEmitter {
         }
     }
 
-    public onTabMouseUp(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    public onTabMouseUp(e: MouseEvent) {
         this.mouseDown = false;
         this.x = 0;
     }
 
-    public onTabMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    public onTabMouseMove(e: MouseEvent) {
         if(
             !this.mouseDown ||
             !this.linkedTab

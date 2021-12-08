@@ -1,10 +1,7 @@
 import React from "react";
 
 export const TabContainer = (
-    props: React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLDivElement>,
-        HTMLDivElement
-    >
+    props: any
 ) => {
     return (
         <div className={"tabbrowser-tab"} {...props}>

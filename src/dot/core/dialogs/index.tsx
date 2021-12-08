@@ -1,3 +1,4 @@
+import { render } from "preact";
 import React from "react";
 import ReactDOM from "react-dom";
 import { dot } from "../../api";
@@ -33,7 +34,7 @@ export class UIDialog {
         box.style.zIndex = "999999999999999999999";
 
         if (screen) {
-            ReactDOM.render(
+            render(
                 <PopupDialog
                     x={x}
                     y={y}
