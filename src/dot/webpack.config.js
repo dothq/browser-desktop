@@ -108,7 +108,8 @@ cacheGroups = {
 module.exports = {
     target: "web",
     entry,
-    mode: "production",
+    mode: process.env.DOT_APP_ENV || "development",
+    devtool: "inline-nosources-cheap-source-map",
     module: {
         rules: [
             {
