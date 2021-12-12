@@ -4,8 +4,8 @@ import { dot } from "../../api";
 import { ipc } from "../../core/ipc";
 import l10n from "../../core/l10n";
 import { Services } from "../../modules";
-import { NEW_TAB_URL_PARSED } from "../../shared/tab";
 import { MozURI } from "../../types/uri";
+import { BROWSER_NEW_TAB_URL } from "../../utils/browser";
 
 interface Props {}
 
@@ -279,7 +279,7 @@ export class SearchbarInput extends React.Component<Props> {
 
         this.value = parsed.spec;
 
-        if (parsed.spec == NEW_TAB_URL_PARSED.spec) {
+        if (parsed.spec == BROWSER_NEW_TAB_URL) {
             this.searchType = SearchInput.Real;
         }
     }
