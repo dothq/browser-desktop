@@ -1,6 +1,7 @@
 import { evaluate } from "mathjs";
 import { SearchFilter } from "..";
 import { dot } from "../../../api";
+import { kCalculatorIcon } from "../../icons";
 import { SearchSuggestion } from "../suggestion";
 
 export class CalculatorSearchProvider {
@@ -8,7 +9,7 @@ export class CalculatorSearchProvider {
     public description =
         "Perform anything from basic operations to complex equations right from your searchbar.";
     public icon =
-        "chrome://dot/content/skin/icons/calculator.svg";
+        kCalculatorIcon;
 
     public enabled() {
         return dot.prefs.get(

@@ -1,7 +1,9 @@
+import { kRubbishIcon } from "../../core/icons";
+
 export const DeleteMenuRole = {
     id: "delete",
     label: "Delete",
-    icon: "chrome://dot/content/skin/icons/rubbish.svg",
+    icon: kRubbishIcon,
     type: "normal",
     click: () => {
         document.execCommand("delete");

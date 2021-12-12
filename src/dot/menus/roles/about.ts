@@ -1,9 +1,10 @@
+import { kInfoIcon } from "../../core/icons";
 import { AppConstants } from "../../modules";
 
 export const AboutMenuRole = {
     id: "about",
     label: "About Dot Browser",
-    icon: "chrome://dot/content/skin/icons/identity/info.svg",
+    icon: kInfoIcon,
     type: "normal",
     click: () => {
         console.log(AppConstants);

@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
+import { kSearchIcon } from "../../core/icons";
 import { SearchSuggestion } from "../../core/search/suggestion";
 
 export const SearchbarResult = observer(
@@ -13,7 +14,7 @@ export const SearchbarResult = observer(
     }) => {
         const isSearch =
             icon ==
-            "chrome://dot/content/skin/icons/search.svg";
+            kSearchIcon;
 
         return (
             <a

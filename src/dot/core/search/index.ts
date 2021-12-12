@@ -3,6 +3,7 @@ import {
     URL_NAKED_REGEX,
     URL_WITH_PROTO_REGEX
 } from "../../shared/regex";
+import { kSearchIcon } from "../icons";
 import { CalculatorSearchProvider } from "./providers/calculator";
 import { EngineSearchProvider } from "./providers/engine";
 import { WikipediaSearchProvider } from "./providers/wikipedia";
@@ -109,7 +110,7 @@ export class Search {
                 new SearchSuggestion({
                     title: filter.term,
                     url: suggestion.url,
-                    icon: `chrome://dot/content/skin/icons/search.svg`
+                    icon: kSearchIcon
                 })
             );
         } else if (suggestion.type == "url") {
@@ -129,7 +130,7 @@ export class Search {
                 new SearchSuggestion({
                     title: filter.term,
                     titleSuffix: engine.name,
-                    icon: `chrome://dot/content/skin/icons/search.svg`
+                    icon: kSearchIcon
                 })
             );
         }

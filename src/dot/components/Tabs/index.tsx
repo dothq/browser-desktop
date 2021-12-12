@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { dot } from "../../api";
+import { kBackIcon, kForwardIcon } from "../../core/icons";
 import { ipc } from "../../core/ipc";
 import { BrowserTab } from "../Tab";
 import { ToolbarButton } from "../ToolbarButton";
@@ -21,7 +22,7 @@ export const Tabs = observer(() => {
         <>
             <ToolbarButton
                 image={
-                    "chrome://dot/content/skin/icons/back.svg"
+                    kBackIcon
                 }
                 className={"tabs-scroller-button"}
             />
@@ -51,9 +52,7 @@ export const Tabs = observer(() => {
             </div>
 
             <ToolbarButton
-                image={
-                    "chrome://dot/content/skin/icons/forward.svg"
-                }
+                image={kForwardIcon}
                 className={"tabs-scroller-button"}
             />
         </>

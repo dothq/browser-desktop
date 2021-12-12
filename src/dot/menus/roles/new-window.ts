@@ -1,9 +1,10 @@
 import { dot } from "../../api";
+import { kNewWindowIcon } from "../../core/icons";
 
 export const NewWindowMenuRole = {
     id: "new-window",
     label: "New Window",
-    icon: "chrome://dot/content/skin/icons/new-window.svg",
+    icon: kNewWindowIcon,
     accelerator: "CmdOrCtrl+N",
     type: "normal",
     click: () => dot.window.openNew({ type: "normal" })

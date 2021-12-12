@@ -1,7 +1,9 @@
+import { kCutIcon } from "../../core/icons";
+
 export const CutMenuRole = {
     id: "cut",
     label: "Cut",
-    icon: "chrome://dot/content/skin/icons/cut.svg",
+    icon: kCutIcon,
     type: "normal",
     accelerator: "CmdOrCtrl+X",
     click: () => {

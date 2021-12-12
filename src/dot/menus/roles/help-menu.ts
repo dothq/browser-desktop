@@ -1,3 +1,4 @@
+import { kHelpIcon } from "../../core/icons";
 import {
     openFeedbackPage,
     openHelpLink,
@@ -7,7 +8,7 @@ import {
 export const HelpMenuMenuRole = {
     id: "helpmenu",
     label: "Help",
-    icon: "chrome://dot/content/skin/icons/help.svg",
+    icon: kHelpIcon,
     type: "submenu",
     submenu: [
         {

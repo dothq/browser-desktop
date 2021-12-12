@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
+import { kAudioIcon, kAudioMutedIcon, kCloseIcon } from "../../core/icons";
 import { Tab } from "../../models/Tab";
 import { isBlankPageURL } from "../../shared/url";
 import { ToolbarButton } from "../ToolbarButton";
@@ -111,8 +112,8 @@ export const BrowserTab = observer(({ tab, index }: Props) => {
                     <TabButton
                         image={
                             tab.muted
-                                ? "chrome://dot/content/skin/icons/audio-muted.svg"
-                                : "chrome://dot/content/skin/icons/audio.svg"
+                                ? kAudioMutedIcon
+                                : kAudioIcon
                         }
                         onClick={() => tab.toggleMute()}
                         hidden={!tab.audioPlaying}
@@ -120,7 +121,7 @@ export const BrowserTab = observer(({ tab, index }: Props) => {
 
                     <TabButton
                         image={
-                            "chrome://dot/content/skin/icons/close.svg"
+                            kCloseIcon
                         }
                         onMouseDown={(e: any) => {
                             e.preventDefault();

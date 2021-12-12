@@ -1,7 +1,9 @@
+import { kHistoryIcon } from "../../core/icons";
+
 export const HistoryMenuMenuRole = {
     id: "historymenu",
     label: "History",
-    icon: "chrome://dot/content/skin/icons/history.svg",
+    icon: kHistoryIcon,
     type: "submenu",
     submenu: []
 };

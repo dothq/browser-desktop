@@ -12,8 +12,8 @@ import {
     Services,
     SitePermissions
 } from "../modules";
-import { NEW_TAB_URL_PARSED } from "../shared/tab";
 import { visibleAboutUrls } from "../shared/url";
+import { BROWSER_NEW_TAB_URL } from "../utils/browser";
 
 class IdentityManager {
     @observable
@@ -396,7 +396,7 @@ class IdentityManager {
 
         if (
             this.url.specIgnoringRef ==
-            NEW_TAB_URL_PARSED.spec
+            BROWSER_NEW_TAB_URL
         ) {
             icon = "search";
         }

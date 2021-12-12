@@ -1,9 +1,10 @@
 import { dot } from "../../api";
+import { kZoomOutIcon } from "../../core/icons";
 
 export const ZoomOutMenuRole = {
     id: "zoomout",
     label: "Zoom Out",
-    icon: "chrome://dot/content/skin/icons/zoom-out.svg",
+    icon: kZoomOutIcon,
     type: "normal",
     accelerator: "CmdOrCtrl+-",
     click: () =>

@@ -1,6 +1,7 @@
 import { SearchFilter } from "..";
 import { dot } from "../../../api";
 import { NetUtil } from "../../../modules";
+import { kSearchIcon } from "../../icons";
 import { SearchSuggestion } from "../suggestion";
 import { substituteSearchUrl } from "../utils/substitution";
 
@@ -9,7 +10,7 @@ export class EngineSearchProvider {
     public description =
         "Search the web using your default search engine.";
     public icon =
-        "chrome://dot/content/skin/icons/search.svg";
+        kSearchIcon;
 
     public enabled() {
         return dot.prefs.get(

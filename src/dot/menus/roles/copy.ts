@@ -1,7 +1,9 @@
+import { kCopyIcon } from "../../core/icons";
+
 export const CopyMenuRole = {
     id: "copy",
     label: "Copy",
-    icon: "chrome://dot/content/skin/icons/copy.svg",
+    icon: kCopyIcon,
     type: "normal",
     accelerator: "CmdOrCtrl+C",
     click: () => {
