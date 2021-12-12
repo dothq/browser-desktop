@@ -14,5 +14,7 @@ browser.jar:
     content/dot/about (about/**/**)
     content/dot/webui (core/webui/**/**)
 
+    content/dot/core (core/**/**)
+
     content/dot/newtab (core/newtab/**/**)
     content/dot/settings (core/settings/**/**)
