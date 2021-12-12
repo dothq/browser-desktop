@@ -4,8 +4,9 @@
     "license": "MPL-2.0",
     "private": true,
     "scripts": {
-        "compile": "rm -rf ./dist/ && webpack && yarn run copy",
+        "compile": "rm -rf ./dist/ && yarn run clean && webpack && yarn run copy",
         "copy": "cp -r ../../src/dot/dist . 2>/dev/null || :",
+        "clean": "find . -not -path \"./node_modules/**/*\" -xtype l -delete",
         "test": "jest",
         "test:dev": "yarn test --watch"
     },
