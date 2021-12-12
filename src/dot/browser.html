@@ -18,14 +18,11 @@
             rel="stylesheet"
             href="build/browser.chunk.css"
         />
+        <script src="chrome://dot/content/core/recovery/devtools.js"></script>
+        <script src="chrome://dot/content/build/browser.js"></script>
         <script>
             const { Services } = ChromeUtils.import(
                 "resource://gre/modules/Services.jsm"
-            );
-
-            Services.scriptloader.loadSubScript(
-                "chrome://dot/content/build/browser.js",
-                this
             );
         </script>
     </head>
