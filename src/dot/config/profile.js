@@ -121,3 +121,7 @@ pref("dot.tabs.scroll_amount", 250);
 
 // dot.keybinds
 pref("dot.keybinds.new-tab", "CmdOrCtrl+T");
+
+// dot.newtab
+pref("dot.newtab.enabled", true);
+pref("dot.newtab.urls", "about:home"); // accepts a single URL or urls split by |

@@ -10,7 +10,6 @@ import {
     Services
 } from "../modules";
 import { exportPublic } from "../shared/globals";
-import { NEW_TAB_URL } from "../shared/tab";
 import { MozURI } from "../types/uri";
 
 export const BrowserUtils = {
@@ -46,7 +45,15 @@ Object.defineProperty(window, "BROWSER_NEW_TAB_URL", {
             return "about:privatebrowsing";
         }
 
-        return NEW_TAB_URL;
+        if(dot) {
+            let url = dot.prefs.get("dot.newtab.urls");
+
+            if(url.includes("|")) {
+                url = url.split("|")[0];
+            }
+
+            return url;
+        }
     }
 });
 

@@ -1,6 +1,6 @@
 import { AboutPagesUtils, Services } from "../modules";
+import { BROWSER_NEW_TAB_URL } from "../utils/browser";
 import { exportPublic } from "./globals";
-import { NEW_TAB_URL } from "./tab";
 
 export const whitelistedSchemes = [
     "http",
@@ -82,18 +82,6 @@ export const formatToParts = (
     }
 };
 
-export const predefinedFavicons: any = {
-    settings:
-        "chrome://dot/content/skin/icons/settings.svg",
-    config: "chrome://dot/content/skin/icons/settings.svg"
-};
-
-export const predefinedTitles: any = {
-    "about:home": "New Tab",
-    "about:newtab": "New Tab",
-    "about:privatebrowsing": "Private Browsing"
-};
-
 export const visibleAboutUrls =
     AboutPagesUtils.visibleAboutUrls.map(
         (url: string) => {
@@ -105,6 +93,6 @@ export const isBlankPageURL = (url: string) =>
     url == "about:blank" ||
     url == "about:home" ||
     url == "about:welcome" ||
-    url == NEW_TAB_URL;
+    url == BROWSER_NEW_TAB_URL;
 
 exportPublic("isBlankPageURL", isBlankPageURL);
