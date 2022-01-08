@@ -5,12 +5,13 @@ import {
     writeFileSync
 } from "fs";
 import { join, resolve } from "path";
-import { bin_name, log } from "..";
+import { log } from "..";
 import {
     ARCHITECTURE,
     BUILD_TARGETS,
     CONFIGS_DIR,
-    ENGINE_DIR
+    ENGINE_DIR,
+    SRC_DIR
 } from "../constants";
 import { dispatch } from "../utils";
 
@@ -103,11 +104,19 @@ const applyConfig = async (os: string, arch: string) => {
 };
 
 const genericBuild = async (os: string, tier: string) => {
-    log.info(`Building for "${os}"...`);
+    log.info(`Building for ${os}...`);
 
-    log.warning(
-        `If you get any dependency errors, try running |${bin_name} bootstrap|.`
-    );
+    // log.warning(
+    //     `If you get any dependency errors, try running |${bin_name} bootstrap|.`
+    // );
+
+    await dispatch(
+        `python3`,
+        [resolve(SRC_DIR, "dot", "icons", "compile-icons.py")],
+        process.cwd()
+    )
+
+    log.info(`Rebuilt icons, starting build...`);
 
     await dispatch(
         `./mach`,
@@ -180,10 +189,8 @@ export const build = async (
 
         applyConfig(prettyHost, options.arch);
 
-        setTimeout(async () => {
-            await genericBuild(prettyHost, tier).then(
-                (_) => success(d)
-            );
-        }, 2500);
+        await genericBuild(prettyHost, tier).then(
+            (_) => success(d)
+        );
     }
 };

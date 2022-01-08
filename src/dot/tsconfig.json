@@ -10,5 +10,9 @@
         "outDir": "dist",
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
+        "baseUrl": ".",
+        "paths": {
+            "mozilla": ["./mozilla"]
+        }
     }
 }

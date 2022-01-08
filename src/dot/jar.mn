@@ -5,16 +5,14 @@
 browser.jar:
 % content dot %content/dot/ contentaccessible=yes
     content/dot/browser.html (browser.html)
-    content/dot/menu.html (menu.html)
     content/dot/build (dist/**/**)
     content/dot/skin (themes/**/**)
     content/dot/actors (actors/**/**)
     content/dot/l10n (l10n/**/**)
     content/dot/resources (resources/**/**)
     content/dot/about (about/**/**)
-    content/dot/webui (core/webui/**/**)
+    content/dot/webui (webui/**/**)
+    content/dot/recovery (recovery/**/**)
 
-    content/dot/core (core/**/**)
-
-    content/dot/newtab (core/newtab/**/**)
-    content/dot/settings (core/settings/**/**)
+    content/dot/newtab (newtab/**/**)
+    content/dot/settings (settings/**/**)

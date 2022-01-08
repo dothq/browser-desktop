@@ -3,24 +3,31 @@
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 -->
-<!DOCTYPE html>
 
-<html
-    id="browser-window"
-    chromemargin="0,2,2,2"
-    windowtype="navigator:browser"
+<!DOCTYPE window>
+
+<html xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      id="browser-window"
+      chromemargin="0,2,2,2"
+      windowtype="navigator:browser"
 >
     <head>
         <title
             data-l10n-id="browser-main-window-title"
         ></title>
+        <base href="chrome://dot/content">
         <link
             rel="stylesheet"
-            href="build/browser.chunk.css"
+            href="build/browser.css"
         />
-        <script src="chrome://dot/content/core/recovery/devtools.js"></script>
-        <script src="chrome://dot/content/build/browser.js"></script>
+        <script src="recovery/devtools.js"></script>
+        <script src="recovery/hmr.js"></script>
         <script>
+            window.docShell.treeOwner
+                .QueryInterface(Ci.nsIBaseWindow)
+                .visibility = false;
+
             const { Services } = ChromeUtils.import(
                 "resource://gre/modules/Services.jsm"
             );
@@ -29,15 +36,6 @@
 
     <body>
         <div id="browser"></div>
-        <div id="browser-tabs-stack"></div>
-
-        <div id="browser-popups">
-            <div id="window-modal-mount"></div>
-        </div>
-
-        <tooltip
-            id="browser-tooltip"
-            page="true"
-        ></tooltip>
+        <script src="build/browser.js"></script>
     </body>
 </html>

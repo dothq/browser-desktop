@@ -16,7 +16,8 @@ import {
     run,
     setBranch,
     status,
-    test
+    test,
+    watch
 } from "./commands";
 import { Cmd } from "./types";
 
@@ -157,5 +158,11 @@ export const commands: Cmd[] = [
         description:
             "Run the test suite for Dot Browser.",
         controller: test
+    },
+    {
+        cmd: "watch",
+        description:
+            "Watch for changes to code and automagically update the UI.",
+        controller: watch
     }
 ];

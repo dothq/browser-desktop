@@ -1,4 +1,4 @@
-import { ChromeUtils } from ".";
+import { ChromeUtils } from "mozilla";
 
 const { JSWINDOWACTORS } = ChromeUtils.defineModuleGetter(
     window,
