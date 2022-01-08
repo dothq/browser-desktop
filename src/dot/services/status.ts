@@ -27,7 +27,7 @@
 
 //     public hide() {
 //         if(!this.panel) return;
-        
+
 //         // In floating mode, we just hide the statusbar
 //         // In fixed mode, it won't disappear so we just clear the value
 //         if(this.panelType == "floating") {
@@ -46,7 +46,7 @@
 //             return;
 
 //         if(
-//             isBusy !== undefined && 
+//             isBusy !== undefined &&
 //             isBusy == true
 //         ) {
 //             if(dot.tabs.selectedTab?.state == "idle") {
@@ -55,7 +55,7 @@
 //         }
 
 //         if(
-//             !message || 
+//             !message ||
 //             !message.length
 //         ) {
 //             this.hide();
@@ -68,7 +68,7 @@
 //             ) {
 //                 message = `${message.substring(0, 500)}\u2026`;
 //             }
-    
+
 //             if (
 //                 this.labelElement.innerText !== message ||
 //                 (message && !this.isVisible)

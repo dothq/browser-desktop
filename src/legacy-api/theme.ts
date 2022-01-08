@@ -105,27 +105,26 @@ export class ThemeAPI {
         );
     }
 
-    public updateChromeRoundness(value?: any, shouldAnimate?: boolean) {
-        if(!value) value = dot.prefs.get(
-            "dot.ui.roundness"
-        , 8);
+    public updateChromeRoundness(
+        value?: any,
+        shouldAnimate?: boolean
+    ) {
+        if (!value)
+            value = dot.prefs.get("dot.ui.roundness", 8);
 
         value = parseFloat(value);
 
-        if(isNaN(value)) value = 8;
-        
-        if(value >= 24) value = 24;
-        if(value <= 0) value = 0;
+        if (isNaN(value)) value = 8;
 
-        if(shouldAnimate) {
-            animate(
-                "html",
-                { 
-                    ease: "power4.out",
-                    duration: 0.5,
-                    "--chrome-roundness": `${value}px` 
-                }
-            )
+        if (value >= 24) value = 24;
+        if (value <= 0) value = 0;
+
+        if (shouldAnimate) {
+            animate("html", {
+                ease: "power4.out",
+                duration: 0.5,
+                "--chrome-roundness": `${value}px`
+            });
         } else {
             document.documentElement.style.setProperty(
                 "--chrome-roundness",

@@ -6,13 +6,12 @@ class SelectParent extends JSWindowActorParent {
 
                 break;
             }
-    
+
             case "Forms:HideDropDown": {
                 console.log("hide");
-                
+
                 break;
             }
         }
     }
 }
-  

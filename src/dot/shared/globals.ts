@@ -13,9 +13,9 @@ declare global {
         ChromeUtils: {
             import(moduleUri: string): any;
             generateQI(contractIds: string[]): any;
-            reportError(...args: any): any
-            idleDispatch(...args: any): any
-            addProfilerMarker(...args: any): any
+            reportError(...args: any): any;
+            idleDispatch(...args: any): any;
+            addProfilerMarker(...args: any): any;
             defineModuleGetter(
                 owner: any,
                 module: string,

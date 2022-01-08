@@ -112,9 +112,16 @@ const genericBuild = async (os: string, tier: string) => {
 
     await dispatch(
         `python3`,
-        [resolve(SRC_DIR, "dot", "icons", "compile-icons.py")],
+        [
+            resolve(
+                SRC_DIR,
+                "dot",
+                "icons",
+                "compile-icons.py"
+            )
+        ],
         process.cwd()
-    )
+    );
 
     log.info(`Rebuilt icons, starting build...`);
 
@@ -189,8 +196,8 @@ export const build = async (
 
         applyConfig(prettyHost, options.arch);
 
-        await genericBuild(prettyHost, tier).then(
-            (_) => success(d)
+        await genericBuild(prettyHost, tier).then((_) =>
+            success(d)
         );
     }
 };

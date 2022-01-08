@@ -58,25 +58,34 @@ export class UtilitiesAPI extends EventEmitter {
     @computed
     public get browserLanguage() {
         try {
-            const definedLang = dot.prefs.get("dot.ui.locale", "") as string;
+            const definedLang = dot.prefs.get(
+                "dot.ui.locale",
+                ""
+            ) as string;
 
-            if(
-                definedLang && 
-                definedLang.length
-            ) {
-                const localeRegex = /^([a-z]{2})(-[A-Z]{2})?$/;
-                const match = definedLang.match(localeRegex);
+            if (definedLang && definedLang.length) {
+                const localeRegex =
+                    /^([a-z]{2})(-[A-Z]{2})?$/;
+                const match =
+                    definedLang.match(localeRegex);
 
-                if(match && match[0] && match[0] == definedLang) {
+                if (
+                    match &&
+                    match[0] &&
+                    match[0] == definedLang
+                ) {
                     return definedLang;
                 }
             }
 
-            const systemLocales = Cc["@mozilla.org/intl/ospreferences;1"]
-                .getService(Ci.mozIOSPreferences).systemLocales;
+            const systemLocales = Cc[
+                "@mozilla.org/intl/ospreferences;1"
+            ].getService(
+                Ci.mozIOSPreferences
+            ).systemLocales;
 
             return systemLocales[0];
-        } catch(e) {
+        } catch (e) {
             return L10n.defaultLocale;
         }
     }

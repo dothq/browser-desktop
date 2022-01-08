@@ -7,53 +7,63 @@ export class BrowserWindow {
 
     /*
      * Get the visibility of the browser window
-    */
+     */
     public get visible() {
-        return window.docShell.treeOwner
-            .QueryInterface(Ci.nsIBaseWindow)
-            .visibility;
+        return window.docShell.treeOwner.QueryInterface(
+            Ci.nsIBaseWindow
+        ).visibility;
     }
 
     /*
      * Set the visibility of the browser window
-    */
+     */
     public set visible(value: boolean) {
-        window.docShell.treeOwner
-            .QueryInterface(Ci.nsIBaseWindow)
-            .visibility = value;
+        window.docShell.treeOwner.QueryInterface(
+            Ci.nsIBaseWindow
+        ).visibility = value;
     }
 
     /*
      * Get the user's preference of language
-    */
+     */
     public get language() {
         try {
-            const definedLang = this.browser.preferences.get("dot.ui.locale", "") as string;
+            const definedLang =
+                this.browser.preferences.get(
+                    "dot.ui.locale",
+                    ""
+                ) as string;
 
-            if(
-                definedLang && 
-                definedLang.length
-            ) {
-                const localeRegex = /^([a-z]{2})(-[A-Z]{2})?$/;
-                const match = definedLang.match(localeRegex);
+            if (definedLang && definedLang.length) {
+                const localeRegex =
+                    /^([a-z]{2})(-[A-Z]{2})?$/;
+                const match =
+                    definedLang.match(localeRegex);
 
-                if(match && match[0] && match[0] == definedLang) {
+                if (
+                    match &&
+                    match[0] &&
+                    match[0] == definedLang
+                ) {
                     return definedLang;
                 }
             }
 
-            const systemLocales = Cc["@mozilla.org/intl/ospreferences;1"]
-                .getService(Ci.mozIOSPreferences).systemLocales;
+            const systemLocales = Cc[
+                "@mozilla.org/intl/ospreferences;1"
+            ].getService(
+                Ci.mozIOSPreferences
+            ).systemLocales;
 
             return systemLocales[0];
-        } catch(e) {
+        } catch (e) {
             return L10n.defaultLocale;
         }
     }
 
     /*
      * Add a class to a target
-    */
+     */
     public addClass(
         name: string,
         condition?: boolean,
@@ -75,7 +85,7 @@ export class BrowserWindow {
 
     /*
      * Remove a class from a target
-    */
+     */
     public removeClass(
         name: string,
         target?: HTMLElement
@@ -90,7 +100,7 @@ export class BrowserWindow {
 
     /*
      * Toggle a class on a target
-    */
+     */
     public toggleClass(
         name: string,
         condition: boolean,
@@ -103,7 +113,7 @@ export class BrowserWindow {
 
     /*
      * Remove all classes starting with the prefix on a target
-    */
+     */
     public removeClassByNamespace(
         prefix: string,
         target?: HTMLElement
@@ -122,7 +132,7 @@ export class BrowserWindow {
 
     /*
      * Toggle an attribute on a target
-    */
+     */
     public toggleAttribute(
         key: string,
         value: string,
@@ -140,7 +150,5 @@ export class BrowserWindow {
             ?.toggleAttribute(key, initialValue);
     }
 
-    public constructor(private browser: Browser) {
-        
-    }
+    public constructor(private browser: Browser) {}
 }

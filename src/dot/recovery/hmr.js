@@ -5,15 +5,20 @@
 class HMRService {
     constructor() {
         try {
-            this.socket = new WebSocket("ws://localhost:58423/socket.io")
+            this.socket = new WebSocket(
+                "ws://localhost:58423/socket.io"
+            );
 
-            this.socket.addEventListener("message", (event) => {
-                if(event.type !== "hr") return;
+            this.socket.addEventListener(
+                "message",
+                (event) => {
+                    if (event.type !== "hr") return;
 
-                window.location.reload();
-            })
-        } catch(e) {}
+                    window.location.reload();
+                }
+            );
+        } catch (e) {}
     }
 }
 
-new HMRService()
+new HMRService();

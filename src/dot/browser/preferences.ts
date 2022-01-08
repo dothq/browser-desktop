@@ -146,7 +146,5 @@ export class BrowserPreferences {
         }
     }
 
-    public constructor(private browser: Browser) {
-
-    }
+    public constructor(private browser: Browser) {}
 }

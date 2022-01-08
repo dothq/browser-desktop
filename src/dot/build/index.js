@@ -23,23 +23,24 @@ const main = async () => {
         metafile: true,
         minify: true,
         logLevel: "debug",
-        plugins: [
-            SassPlugin(),
-            FluentPlugin
-        ],
+        plugins: [SassPlugin(), FluentPlugin],
         banner: {
-            js: mplBanner,
+            js: mplBanner
             // css: mplBanner
         }
-    })
+    });
 
-    if(process.env.NODE_ENV == "production") {
-        const analysis = await analyzeMetafile(result.metafile);
+    if (process.env.NODE_ENV == "production") {
+        const analysis = await analyzeMetafile(
+            result.metafile
+        );
 
         console.log("Analysis of build:", analysis);
     }
 
-    console.log(`Compiled frontend in ${Date.now() - time}ms.`)
-}
+    console.log(
+        `Compiled frontend in ${Date.now() - time}ms.`
+    );
+};
 
 main();

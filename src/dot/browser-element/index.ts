@@ -1,17 +1,23 @@
-import { attr, div, getDOMNode, OikiaElement, render } from "oikia";
+import {
+    attr,
+    div,
+    getDOMNode,
+    OikiaElement,
+    render
+} from "oikia";
 
 // interface BrowserCustomElement extends HTMLBrowserElement {};
 
 interface BrowserCreationOptions {
-    isPreloadBrowser: boolean
-    name: string
-    openWindowInfo: any
-    remoteType: string,
-    initialBrowsingContextGroupId: any,
-    uriIsAboutBlank: boolean,
-    userContextId: any,
-    skipLoad: boolean,
-    initiallyActive: boolean
+    isPreloadBrowser: boolean;
+    name: string;
+    openWindowInfo: any;
+    remoteType: string;
+    initialBrowsingContextGroupId: any;
+    uriIsAboutBlank: boolean;
+    userContextId: any;
+    skipLoad: boolean;
+    initiallyActive: boolean;
 }
 
 function createBrowser({
@@ -25,7 +31,9 @@ function createBrowser({
     skipLoad,
     initiallyActive
 }: BrowserCreationOptions) {
-    const browser = document.createXULElement("browser") as OikiaElement as HTMLBrowserElement;
+    const browser = document.createXULElement(
+        "browser"
+    ) as OikiaElement as HTMLBrowserElement;
 
     // browser.permanentKey = new (Cu.getGlobalForObject(Services).Object)();
 
@@ -36,7 +44,7 @@ function createBrowser({
         messagemanagergroup: "browsers",
         selectmenulist: "ContentSelectDropdown",
         tooltip: "aHTMLTooltip",
-        type: "content",
+        type: "content"
     };
 
     if (!initiallyActive) {
@@ -53,13 +61,15 @@ function createBrowser({
     }
 
     if (!isPreloadBrowser) {
-        defaultAttributes.autocompletepopup = "PopupAutoComplete";
+        defaultAttributes.autocompletepopup =
+            "PopupAutoComplete";
     } else {
         defaultAttributes.preloadedState = "preloaded";
     }
 
     if (initialBrowsingContextGroupId) {
-        defaultAttributes.initialBrowsingContextGroupId = initialBrowsingContextGroupId;
+        defaultAttributes.initialBrowsingContextGroupId =
+            initialBrowsingContextGroupId;
     }
 
     if (openWindowInfo) {
@@ -74,11 +84,15 @@ function createBrowser({
         defaultAttributes.nodefaultsrc = true;
     }
 
-    for (const [key, value] of Object.entries(defaultAttributes)) {
+    for (const [key, value] of Object.entries(
+        defaultAttributes
+    )) {
         attr(browser, key, value.toString());
     }
 
-    const BrowserContainer = div({ class: "browserview" });
+    const BrowserContainer = div({
+        class: "browserview"
+    });
     // We are unable to create XUL elements using Oikia yet
     // Instead we just append the browser to the browser container.
     BrowserContainer.appendChild(browser);

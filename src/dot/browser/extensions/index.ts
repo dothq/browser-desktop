@@ -6,7 +6,11 @@ import { ExtensionManifest } from "./manifest";
 
 export class BrowserExtensions {
     public loadBuiltInExtensions() {
-        for (const { id, version, mount } of BuiltInExtensions) {
+        for (const {
+            id,
+            version,
+            mount
+        } of BuiltInExtensions) {
             AddonManager.maybeInstallBuiltinAddon(
                 id,
                 version.toString(),

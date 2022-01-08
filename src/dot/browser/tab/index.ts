@@ -23,25 +23,25 @@ import { TabAnimations } from "./animation";
 
 class Tab extends Events {
     /**
-    * Tab ID
-    */
+     * Tab ID
+     */
     public id: number = 0;
 
     /**
-    * The position of the tab in the list
-    */
+     * The position of the tab in the list
+     */
     public get index() {
         return 0;
     }
 
     /**
      * Current title for Tab
-    */
+     */
     @R(({ _, value }) => {
         _.ref.tabTitle.current.textContent = value;
     })
     @Delegate(
-        "listener", 
+        "listener",
         "webContents.pagetitlechanged",
         () => {}
     )
@@ -49,38 +49,41 @@ class Tab extends Events {
 
     /**
      * Favicon for Tab
-    */
-    @R(({ _, value }) => css(_.ref.tabIcon.current,
-        "backgroundImage",
-        value
-    ))
+     */
+    @R(({ _, value }) =>
+        css(
+            _.ref.tabIcon.current,
+            "backgroundImage",
+            value
+        )
+    )
     public icon: string = kHomeFilledIcon;
 
     /**
      * Determines if the Tab is active or not
-    */
-    @R(({ _, value }) => attr(_.ref.tab.current, 
-        "dataActive", 
-        value
-    ))
+     */
+    @R(({ _, value }) =>
+        attr(_.ref.tab.current, "dataActive", value)
+    )
     public active: boolean = false;
 
     /**
-    * HTML reference to Tab
-    */
+     * HTML reference to Tab
+     */
     public get linkedTab() {
         return this.ref.tab.current;
     }
 
     /**
-    * Animation controller for Tab
-    */
+     * Animation controller for Tab
+     */
     public animation: TabAnimations;
 
     /**
-    * Oikia references
-    */
-    public ref: Record<string, RefObject<OikiaElement>> = {};
+     * Oikia references
+     */
+    public ref: Record<string, RefObject<OikiaElement>> =
+        {};
 
     public constructor() {
         super();
@@ -91,51 +94,54 @@ class Tab extends Events {
         const component = this.render();
 
         // Append to #tabs-mount
-        render(
-            component,
-            getDOMNode("#tabs-mount")
-        );
+        render(component, getDOMNode("#tabs-mount"));
 
         // Run the open animation
         this.animation = new TabAnimations(this);
-        this.animation.open.play()
-            .then(_ => this.emit("TabAnimationEnd"));
-        
+        this.animation.open
+            .play()
+            .then((_) => this.emit("TabAnimationEnd"));
+
         // Make the tab active
         this.active = true;
     }
 
     /**
-    * Renders the Tab
-    */
+     * Renders the Tab
+     */
     private render() {
         this.ref.tab = createRef<HTMLDivElement>();
         this.ref.tabIcon = createRef<HTMLElement>();
         this.ref.tabTitle = createRef<HTMLSpanElement>();
         this.ref.tabActions = createRef<HTMLDivElement>();
-        
-        return (
-            div({ 
-                class: "tabbrowser-tab", 
+
+        return div(
+            {
+                class: "tabbrowser-tab",
                 ref: this.ref.tab
             },
-                div({ class: "tab-content" },
-                    i({ 
-                        class: "tab-icon", 
-                        ref: this.ref.tabIcon,
-                        style: {
-                            backgroundImage: this.icon
-                        }
-                    }),
-                    span({ class: "tab-title", ref: this.ref.tabTitle },
-                        this.title
-                    ),
-                    div({ class: "tab-actions", ref: this.ref.tabActions }
-                        
-                    )
-                )
+            div(
+                { class: "tab-content" },
+                i({
+                    class: "tab-icon",
+                    ref: this.ref.tabIcon,
+                    style: {
+                        backgroundImage: this.icon
+                    }
+                }),
+                span(
+                    {
+                        class: "tab-title",
+                        ref: this.ref.tabTitle
+                    },
+                    this.title
+                ),
+                div({
+                    class: "tab-actions",
+                    ref: this.ref.tabActions
+                })
             )
-        )
+        );
     }
 }
 

@@ -6,27 +6,25 @@
 
 <!DOCTYPE window>
 
-<html xmlns:html="http://www.w3.org/1999/xhtml"
-      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-      id="browser-window"
-      chromemargin="0,2,2,2"
-      windowtype="navigator:browser"
+<html
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    id="browser-window"
+    chromemargin="0,2,2,2"
+    windowtype="navigator:browser"
 >
     <head>
         <title
             data-l10n-id="browser-main-window-title"
         ></title>
-        <base href="chrome://dot/content">
-        <link
-            rel="stylesheet"
-            href="build/browser.css"
-        />
+        <base href="chrome://dot/content" />
+        <link rel="stylesheet" href="build/browser.css" />
         <script src="recovery/devtools.js"></script>
         <script src="recovery/hmr.js"></script>
         <script>
-            window.docShell.treeOwner
-                .QueryInterface(Ci.nsIBaseWindow)
-                .visibility = false;
+            window.docShell.treeOwner.QueryInterface(
+                Ci.nsIBaseWindow
+            ).visibility = false;
 
             const { Services } = ChromeUtils.import(
                 "resource://gre/modules/Services.jsm"

@@ -2,7 +2,9 @@ import { EventEmitter } from "events";
 import { dot } from "../api";
 import {
     ActorManagerParent,
-    BrowserWindowTracker, Ci, Services
+    BrowserWindowTracker,
+    Ci,
+    Services
 } from "../modules";
 import { windowActors } from "../modules/glue";
 // import { BrowserAccess } from "../services/browser-access";
@@ -13,9 +15,7 @@ import Tab from "../tab";
 export class RuntimeAPI extends EventEmitter {
     private _windowStateInt: NodeJS.Timeout;
 
-    public onBeforeBrowserInit() {
-
-    }
+    public onBeforeBrowserInit() {}
 
     public onBrowserStartup() {
         timers.start("BrowserInit");
@@ -46,7 +46,7 @@ export class RuntimeAPI extends EventEmitter {
         try {
             // This should always be ran after the tab is created
             BrowserWindowTracker.track(window);
-        } catch(e) {}
+        } catch (e) {}
 
         dot.window.addWindowClass(dot.utilities.platform);
         dot.window.addWindowClass(
@@ -78,9 +78,9 @@ export class RuntimeAPI extends EventEmitter {
             "extensions-late-startup"
         );
 
-        window.docShell.treeOwner
-            .QueryInterface(Ci.nsIBaseWindow)
-            .visibility = true;
+        window.docShell.treeOwner.QueryInterface(
+            Ci.nsIBaseWindow
+        ).visibility = true;
 
         dot.window.updateWindowState();
 

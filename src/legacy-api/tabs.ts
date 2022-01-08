@@ -5,7 +5,8 @@ import {
 } from "mobx";
 import { dot } from ".";
 import {
-    AppConstants, E10SUtils,
+    AppConstants,
+    E10SUtils,
     Services,
     ShortcutUtils
 } from "../modules";
@@ -26,7 +27,7 @@ export class TabsAPI {
     public get tabContainer() {
         return document.getElementById("tabbrowser-tabs");
     }
-    
+
     public get newTabButton() {
         return document.getElementById("new-tab-button");
     }
@@ -242,13 +243,11 @@ export class TabsAPI {
         // if (event.target == window) {
         //     const selectedBrowser =
         //         this.selectedTab?.webContents;
-
         //     selectedBrowser.preserveLayers(
         //         window.windowState ==
         //             window.STATE_MINIMIZED ||
         //             window.isFullyOccluded
         //     );
-
         //     selectedBrowser.docShellIsActive =
         //         this.shouldActivateDocShell(
         //             selectedBrowser
@@ -362,61 +361,70 @@ export class TabsAPI {
     public updateBrowserRemoteness(
         browser: HTMLBrowserElement,
         options: {
-            newFrameloader?: any, 
-            remoteType?: any
+            newFrameloader?: any;
+            remoteType?: any;
         }
     ) {
-        const isRemote = browser.getAttribute("remote") == "true";
+        const isRemote =
+            browser.getAttribute("remote") == "true";
 
         if (!("remoteType" in options)) {
             throw new Error("Remote type must be set!");
         }
 
-        const shouldBeRemote = options.remoteType !== E10SUtils.NOT_REMOTE;
+        const shouldBeRemote =
+            options.remoteType !== E10SUtils.NOT_REMOTE;
 
         const currentRemoteType = browser.remoteType;
         if (
             isRemote == shouldBeRemote &&
             !options.newFrameloader &&
-            (
-                !isRemote ||
-                currentRemoteType == options.remoteType
-            )
-        ) return;
+            (!isRemote ||
+                currentRemoteType == options.remoteType)
+        )
+            return;
 
         const tab = this.get(browser.browserId);
 
-        if(tab) {
+        if (tab) {
             const evt = document.createEvent("Events");
 
             evt.initEvent(
-                "BeforeTabRemotenessChange", 
-                true, 
+                "BeforeTabRemotenessChange",
+                true,
                 false
             );
-            
+
             // tab.webContents.dispatchEvent(evt);
         }
 
         const filter = this.tabFilters.get(tab);
         const listener = this.tabListeners.get(tab);
 
-        browser.webProgress.removeProgressListener(filter);
+        browser.webProgress.removeProgressListener(
+            filter
+        );
         filter.removeProgressListener(listener);
         listener.destroy();
 
         browser.destroy();
 
-        browser.setAttribute("remote", shouldBeRemote.toString());
+        browser.setAttribute(
+            "remote",
+            shouldBeRemote.toString()
+        );
 
         if (shouldBeRemote) {
-            browser.setAttribute("remoteType", options.remoteType);
+            browser.setAttribute(
+                "remoteType",
+                options.remoteType
+            );
         } else {
             browser.removeAttribute("remoteType");
         }
 
         browser.changeRemoteness({
-            remoteType: options.remoteType,
+            remoteType: options.remoteType
         });
 
         browser.construct();
@@ -425,12 +433,8 @@ export class TabsAPI {
 
         const evt = document.createEvent("Events");
 
-        evt.initEvent(
-            "TabRemotenessChange", 
-            true, 
-            false
-        );
-        
+        evt.initEvent("TabRemotenessChange", true, false);
+
         // tab?.webContents.dispatchEvent(evt);
 
         return true;

@@ -33,7 +33,7 @@
 //                 browser.contentPrincipal.isSystemPrincipal
 //             )
 //         ) return;
-  
+
 //         let title = browser.contentTitle;
 //         const isContentTitle = !!title;
 
@@ -46,7 +46,7 @@
 //                 title = browser.currentURI.displaySpec;
 //             }
 //         }
-  
+
 //         if (title && !isBlankPageURL(title)) {
 //             // Shorten the title is if it is a data: URI
 //             if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {

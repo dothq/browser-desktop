@@ -265,9 +265,9 @@
 //     }
 
 //     public onStatusChange(
-//         webProgress: any, 
-//         request: any, 
-//         status: any, 
+//         webProgress: any,
+//         request: any,
+//         status: any,
 //         message: string
 //     ) {
 //         StatusService.update(message, true);

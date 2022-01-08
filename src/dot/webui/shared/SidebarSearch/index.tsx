@@ -1,8 +1,6 @@
 import React from "react";
 
-export const SidebarSearch = (
-    props: any
-) => {
+export const SidebarSearch = (props: any) => {
     return (
         <div className={"webui-sidebar-search"}>
             <i className={"search-icon"} />

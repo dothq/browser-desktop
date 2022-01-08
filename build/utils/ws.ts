@@ -10,9 +10,11 @@ export const createWSServer = (): Promise<Server> => {
         const io = new Server(server);
 
         server.listen(58423, () => {
-            log.info(`Started HMR server at ws://localhost:58423`)
+            log.info(
+                `Started HMR server at ws://localhost:58423`
+            );
 
             resolve(io);
-        })
-    })
-}
+        });
+    });
+};

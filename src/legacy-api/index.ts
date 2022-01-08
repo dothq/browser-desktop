@@ -92,7 +92,9 @@ export class Dot {
             }
         );
 
-        ipc.on("location-change", (e) => console.log(e.data.location.spec))
+        ipc.on("location-change", (e) =>
+            console.log(e.data.location.spec)
+        );
     }
 }
 

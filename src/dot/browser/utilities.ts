@@ -12,8 +12,8 @@ export class BrowserUtilities {
         return AppConstants.platform == "macosx"
             ? Platform.macOS
             : AppConstants.platform == "win"
-                ? Platform.Windows
-                : AppConstants.platform;
+            ? Platform.Windows
+            : AppConstants.platform;
     }
 
     public get desktopEnvironment() {
@@ -29,8 +29,12 @@ export class BrowserUtilities {
     public genId(rounds: number = 4) {
         // https://github.com/dothq/id/blob/main/index.ts
         return [...Array(rounds)]
-            .map(_ => Math.round((Date.now() + Math.random() * Date.now()))
-            .toString(36))
+            .map((_) =>
+                Math.round(
+                    Date.now() +
+                        Math.random() * Date.now()
+                ).toString(36)
+            )
             .join("");
     }
 
@@ -56,7 +60,5 @@ export class BrowserUtilities {
         }
     }
 
-    public constructor(private browser: Browser) {
-
-    }
+    public constructor(private browser: Browser) {}
 }

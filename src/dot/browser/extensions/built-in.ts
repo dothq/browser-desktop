@@ -11,4 +11,4 @@ export const BuiltInExtensions = [
         mount: "resource://builtin-themes/dark/",
         type: "theme"
     }
-]
+];
