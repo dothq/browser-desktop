@@ -4,21 +4,41 @@ html {
     overflow: clip;
 }
 
-body,
-:root {
-    font: message-box;
-    color: var(--lwt-text-color);
-    overflow: clip;
+html,
+body {
+    padding: 0;
     margin: 0;
-    height: 100vh;
-    display: flex;
-    flex: 1 1 auto;
-    font-size: 13px;
 }
 
 #browser {
     display: flex;
     flex-flow: column nowrap;
+    font: message-box;
+    background-color: var(--lwt-accent-color, white);
+    color: var(--lwt-text-color);
+    overflow: clip;
+    margin: 0;
+    height: 100vh;
+    flex: 1 1 auto;
+}
+
+#browser-content {
+    display: flex;
+    flex: 1 1 0;
+    position: relative;
+    overflow: hidden;
+
+    #browser-content-tabbox {
+        display: flex;
+        flex: 1;
+        position: relative;
+
+        .browserview,
+        .browserview > browser {
+            display: flex;
+            flex: 1;
+        }
+    }
 }
 
 :focus-visible {

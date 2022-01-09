@@ -125,13 +125,3 @@
         }
     }
 }
-
-@include useReducedMotion {
-    .tab-icon-container {
-        transition: none !important;
-
-        &.loading > .tab-favicon {
-            --tab-loading-icon: url(chrome://dot/content/skin/icons/tab/loading-static.svg);
-        }
-    }
-}

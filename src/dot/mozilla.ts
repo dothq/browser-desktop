@@ -20,8 +20,9 @@ export const { AppConstants } = i(
     "resource://gre/modules/AppConstants.jsm"
 );
 
-export const Ci = (window as any).Ci;
-export const Cc = (window as any).Cc;
+export const Ci = window.Ci;
+export const Cc = window.Cc;
+export const Cu = window.Cu;
 
 export const { LightweightThemeConsumer } = i(
     "resource://gre/modules/LightweightThemeConsumer.jsm"
@@ -79,10 +80,6 @@ export const { PageThumbs } = i(
     "resource://gre/modules/PageThumbs.jsm"
 );
 
-export const nsIBrowserHandler = Cc[
-    "@mozilla.org/browser/clh;1"
-].getService(Ci.nsIBrowserHandler);
-
 export const { XPCOMUtils } = i(
     "resource://gre/modules/XPCOMUtils.jsm"
 );
@@ -104,3 +101,13 @@ export const { ShortcutUtils } = i(
 export const { BrowserToolboxLauncher } = i(
     "resource://devtools/client/framework/browser-toolbox/Launcher.jsm"
 );
+
+export const { BrowserUIUtils } = i(
+    "resource:///modules/BrowserUIUtils.jsm"
+)
+
+let _BrowserHandler: any = {};
+XPCOMUtils.defineLazyServiceGetters(_BrowserHandler, {
+    BrowserHandler: ["@mozilla.org/browser/clh;1", "nsIBrowserHandler"],
+});
+export const { BrowserHandler } = _BrowserHandler;

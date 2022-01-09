@@ -9,6 +9,8 @@ declare global {
         };
 
         Cu: any;
+        Ci: any;
+        Cc: any;
 
         ChromeUtils: {
             import(moduleUri: string): any;

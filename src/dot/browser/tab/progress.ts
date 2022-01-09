@@ -1,280 +1,456 @@
-// /* This Source Code Form is subject to the terms of the Mozilla Public
-//  * License, v. 2.0. If a copy of the MPL was not distributed with this
-//  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// import { makeObservable, observable } from "mobx";
-// import { dot } from "../../api";
-// import { ChromeUtils, Ci } from "../../modules";
-// import StatusService from "../../services/status";
-// import { MozURI } from "../../types/uri";
-// import { ipc } from "../ipc";
+import dot from "index";
+import { ChromeUtils, Ci, Components } from "mozilla";
+import { MozURI } from "types/uri";
+import Tab from ".";
+import { TabUtils } from "./utils";
 
-// const shouldShowLoader = (request: any) => {
-//     // We don't want to show tab loaders for about:* urls
-//     if (
-//         request instanceof Ci.nsIChannel &&
-//         request.originalURI.schemeIs("about")
-//     )
-//         return false;
+const {
+    STATE_START,
+    STATE_STOP,
+    STATE_RESTORING,
+    STATE_IS_REQUEST,
+    STATE_IS_NETWORK,
 
-//     return true;
-// };
+    LOCATION_CHANGE_SAME_DOCUMENT,
+    LOCATION_CHANGE_RELOAD,
+    LOCATION_CHANGE_ERROR_PAGE
+} = Ci.nsIWebProgressListener
 
-// export class TabProgressListener {
-//     @observable
-//     public id: number;
+class TabProgressListener {
+    public tab?: Tab;
+    public browser?: HTMLBrowserElement;
+    public blank: boolean;
 
-//     public constructor(id: number) {
-//         makeObservable(this);
+    public stateFlags: number;
+    public status: number;
+    public message: string;
+    public totalProgress: number;
+    public requestCount: number;
 
-//         this.id = id;
-//     }
+    public constructor(
+        tab: Tab,
+        browser: HTMLBrowserElement,
+        startsBlank?: boolean,
+        wasPreloadedBrowser?: boolean,
+        origStateFlags?: number,
+        origRequestCount?: number
+    ) {
+        let stateFlags = origStateFlags || 0;
 
-//     public isForInitialAboutBlank(
-//         webProgress: any,
-//         flags: any,
-//         location: any
-//     ) {
-//         if (!webProgress.isTopLevel) return false;
+        if (wasPreloadedBrowser) {
+            stateFlags =
+                STATE_STOP |
+                STATE_IS_REQUEST;
+        }
 
-//         if (
-//             flags &
-//                 Ci.nsIWebProgressListener.STATE_STOP &&
-//             !location
-//         ) {
-//             return true;
-//         }
+        this.tab = tab;
+        this.browser = browser;
+        this.blank = startsBlank || false;
 
-//         const url = location ? location.spec : "";
-//         return url == "about:blank";
-//     }
+        this.stateFlags = stateFlags;
+        this.status = 0;
+        this.message = "";
+        this.totalProgress = 0;
+        this.requestCount = origRequestCount || 0;
+    }
 
-//     public onStateChange(
-//         webProgress: any,
-//         request: any,
-//         flags: number,
-//         status: any
-//     ) {
-//         const tab = dot.tabs.get(this.id);
+    public destroy() {
+        delete this.tab;
+        delete this.browser;
+    }
 
-//         if (!request || !tab) return;
+    public callProgressListeners(
+        method: string, 
+        args: any, 
+        callGlobalListeners?: boolean, 
+        callTabsListeners?: boolean
+    ) {
+        if(!this.browser) return;
 
-//         tab.updateNavigationState();
+        return dot.tabs.callProgressListeners(
+            this.browser,
+            method,
+            args,
+            callGlobalListeners,
+            callTabsListeners
+        );
+    }
 
-//         const {
-//             STATE_START,
-//             STATE_IS_NETWORK,
-//             STATE_RESTORING,
-//             STATE_STOP,
-//             STATE_IS_WINDOW,
-//             STATE_IS_DOCUMENT
-//         } = Ci.nsIWebProgressListener;
+    public shouldShowProgress(request: any) {
+        if (this.blank) return false;
 
-//         const isStarting = flags & STATE_START;
-//         const isStopped = flags & STATE_STOP;
-//         const isWindow = flags & STATE_IS_WINDOW;
-//         const isDocument = flags & STATE_IS_DOCUMENT;
+        return !(
+            request instanceof Ci.nsIChannel &&
+            request.originalURI.schemeIs("about")
+        );
+    }
 
-//         if (isDocument && isStarting) {
-//             if (shouldShowLoader(request)) {
-//                 if (
-//                     !(flags & STATE_RESTORING) &&
-//                     webProgress &&
-//                     webProgress.isTopLevel
-//                 ) {
-//                     tab.clearPendingIcon();
+    public isForInitialAboutBlank(
+        webProgress: any, 
+        flags: any, 
+        location: MozURI
+    ) {
+        if (
+            !this.blank || 
+            !webProgress.isTopLevel
+        ) {
+            return false;
+        }
 
-//                     // started loading
-//                     tab.state = "loading";
-//                     tab.loadingStage = "busy";
-//                 }
-//             }
-//         } else if (isWindow && isStopped) {
-//             // finished loading
-//             tab.state = "idle";
-//             tab.loadingStage = "";
+        if (
+            flags & STATE_STOP &&
+            this.requestCount == 0 &&
+            !location
+        ) {
+            return true;
+        }
 
-//             window.XULBrowserWindow.setOverLink("");
+        return (location ? location.spec : "") == "about:blank";
+    }
 
-//             const ignoreBlank =
-//                 this.isForInitialAboutBlank(
-//                     webProgress,
-//                     flags,
-//                     location
-//                 );
+    public onProgressChange(
+        webProgress: any,
+        request: any,
+        curSelfProgress: number,
+        maxSelfProgress: number,
+        curTotalProgress: number,
+        maxTotalProgress: number
+    ) {
+        this.totalProgress = maxTotalProgress
+            ? curTotalProgress / maxTotalProgress
+            : 0;
 
-//             if (
-//                 !tab.webContents.mIconURL &&
-//                 !ignoreBlank
-//             ) {
-//                 tab.clearPendingIcon();
-//             }
-//         }
+        if (!this.shouldShowProgress(request)) {
+            return;
+        }
 
-//         ipc.fire("state-change", {
-//             id: this.id,
-//             webProgress,
-//             request,
-//             flags,
-//             status,
-//             readableFlags: {
-//                 isStarting: Boolean(isStarting),
-//                 isStopped: Boolean(isStopped),
-//                 isWindow: Boolean(isWindow),
-//                 isDocument: Boolean(isDocument)
-//             }
-//         });
-//     }
+        if (
+            this.totalProgress && 
+            this.tab?.busy
+        ) {
+            this.tab.progress = true;
+        }
 
-//     public onLocationChange(
-//         webProgress: any,
-//         request: any,
-//         location: MozURI,
-//         flags: any
-//     ) {
-//         const tab = dot.tabs.get(this.id);
+        this.callProgressListeners("onProgressChange", [
+            webProgress,
+            request,
+            curSelfProgress,
+            maxSelfProgress,
+            curTotalProgress,
+            maxTotalProgress,
+        ]);
+    }
 
-//         if (!tab) return;
+    public onProgressChange64 = this.onProgressChange;
 
-//         ipc.fire(`location-change`, {
-//             id: this.id,
-//             webProgress,
-//             request,
-//             location,
-//             flags
-//         });
+    public onStateChange(
+        webProgress: any, 
+        request: any, 
+        flags: number, 
+        status: any
+    ) {
+        if (
+            !this.browser ||
+            !this.tab ||
+            !request
+        ) return;
 
-//         const { isTopLevel } = webProgress;
+        let location;
+        let originalLocation;
 
-//         const isSameDocument = !!(
-//             flags &
-//             Ci.nsIWebProgressListener
-//                 .LOCATION_CHANGE_SAME_DOCUMENT
-//         );
+        try {
+            request.QueryInterface(Ci.nsIChannel);
 
-//         if (isTopLevel) {
-//             const isReload = !!(
-//                 flags &
-//                 Ci.nsIWebProgressListener
-//                     .LOCATION_CHANGE_RELOAD
-//             );
+            location = request.URI;
+            originalLocation = request.originalURI;
+        } catch (e) {}
 
-//             const isErrorPage = !!(
-//                 flags &
-//                 Ci.nsIWebProgressListener
-//                     .LOCATION_CHANGE_ERROR_PAGE
-//             );
+        const ignoreBlank = this.isForInitialAboutBlank(
+            webProgress,
+            flags,
+            location
+        );
 
-//             if (!isSameDocument) {
-//                 clearTimeout(tab.audioPlayingRemovalInt);
-//                 tab.audioPlayingRemovalInt = null;
-//                 tab.audioPlaying = false;
+        if (
+            (
+                ignoreBlank &&
+                flags & STATE_STOP &&
+                flags & STATE_IS_NETWORK
+            ) ||
+            (
+                !ignoreBlank && 
+                this.blank
+            )
+        ) {
+            this.blank = false;
+        }
 
-//                 if (!isReload) {
-//                     tab.updateTitle();
-//                 }
+        if (
+            flags & STATE_START && 
+            flags & STATE_IS_NETWORK
+        ) {
+            this.requestCount++;
 
-//                 if (
-//                     tab.state == "idle" &&
-//                     webProgress.isLoadingDocument
-//                 ) {
-//                     tab.webContents.mIconURL = null;
-//                 }
-//             }
+            if (webProgress.isTopLevel) {
+                if (
+                    !(
+                        originalLocation &&
+                        TabUtils.initialPages.includes(originalLocation.spec) &&
+                        originalLocation !== "about:blank" &&
+                        (
+                            this.browser?.initialPageLoadedFromUserAction !==
+                            originalLocation.spec
+                        ) &&
+                        this.browser?.currentURI &&
+                        this.browser?.currentURI.spec == "about:blank"
+                    )
+                ) {
+                    console.log("Started load")
+                }
 
-//             // Ignore the initial about:blank, unless about:blank is requested
-//             if (request) {
-//                 const url = request.QueryInterface(
-//                     Ci.nsIChannel
-//                 ).originalURI.spec;
-//                 if (
-//                     location.spec == "about:blank" &&
-//                     url != "about:blank"
-//                 )
-//                     return;
-//             }
+                delete (this.browser as any)
+                    .initialPageLoadedFromUserAction;
+                
+                this.tab.crashed = false;
+            }
 
-//             tab?.updateNavigationState();
-//         }
+            if (this.shouldShowProgress(request)) {
+                if (
+                    !(flags & STATE_RESTORING) &&
+                    webProgress &&
+                    webProgress.isTopLevel
+                ) {
+                    this.tab.busy = true;
+                }
+            }
+        } else if (
+            flags & STATE_STOP && 
+            flags & STATE_IS_NETWORK
+        ) {
+            this.requestCount = 0;
 
-//         dot.window.updateWindowTitle();
-//     }
+            this.tab.busy = false;
+            this.tab.progress == false;
 
-//     public onContentBlockingEvent(
-//         webProgress: any,
-//         request: any,
-//         event: any,
-//         isSimulated: boolean
-//     ) {
-//         ipc.fire(`content-blocked-${this.id}`, {
-//             webProgress,
-//             request,
-//             event,
-//             isSimulated
-//         });
-//     }
+            if (webProgress.isTopLevel) {
+                const isSuccess = Components.isSuccessCode(status);
 
-//     public onProgressChange(
-//         webProgress: any,
-//         request: any,
-//         curProgress: number,
-//         maxProgress: number,
-//         curTotalProgress: number,
-//         maxTotalProgress: number
-//     ) {
-//         const totalProgress = maxTotalProgress
-//             ? curTotalProgress / maxTotalProgress
-//             : 0;
+                if (
+                    !isSuccess && 
+                    !this.tab.isEmpty
+                ) {
+                    const { isNavigating } = this.browser;
 
-//         if (!shouldShowLoader(request)) return;
+                    if (this.tab.active && !isNavigating) {
+                        console.log("reset URL");
+                    }
+                } else if (isSuccess) {
+                    console.log("Finished loading")
+                }
+            }
 
-//         const tab = dot.tabs.get(this.id);
+            // If we don't have an icon set already, clear it
+            if (
+                !this.browser.mIconURL &&
+                !ignoreBlank &&
+                !(originalLocation.spec in TabUtils.faviconDefaults)
+            ) {
+                this.tab.icon = "";
+            }
+        }
 
-//         if (tab) {
-//             if (totalProgress) {
-//                 tab.loadingStage = "progress";
-//             }
-//         }
+        if (ignoreBlank) {
+            this.callProgressListeners(
+                "onUpdateCurrentBrowser",
+                [flags, status, "", 0],
+                true,
+                false
+            );
+        } else {
+            this.callProgressListeners(
+                "onStateChange",
+                [webProgress, request, flags, status],
+                true,
+                false
+            );
+        }
 
-//         ipc.fire(`progress-change-${this.id}`, {
-//             webProgress,
-//             request,
-//             curProgress,
-//             maxProgress,
-//             curTotalProgress,
-//             maxTotalProgress
-//         });
-//     }
+        this.callProgressListeners(
+            "onStateChange",
+            [webProgress, request, flags, status],
+            false
+        );
 
-//     public onSecurityChange(
-//         webProgress: any,
-//         request: any,
-//         state: any
-//     ) {
-//         const tab = dot.tabs.get(this.id);
+        if (flags & (STATE_START | STATE_STOP)) {
+            this.message = "";
+            this.totalProgress = 0;
+        }
 
-//         if (tab) {
-//             tab.contentState = state;
-//         }
+        this.stateFlags = flags;
+        this.status = status;
+    }
 
-//         ipc.fire(`security-change-${this.id}`, {
-//             webProgress,
-//             request,
-//             state
-//         });
-//     }
+    public onLocationChange(
+        webProgress: any, 
+        request: any, 
+        location: MozURI, 
+        flags: number
+    ) {
+        if(
+            !this.tab ||
+            !this.browser
+        ) return;
 
-//     public onStatusChange(
-//         webProgress: any,
-//         request: any,
-//         status: any,
-//         message: string
-//     ) {
-//         StatusService.update(message, true);
-//     }
+        const { isTopLevel } = webProgress;
 
-//     public QueryInterface = ChromeUtils.generateQI([
-//         "nsIWebProgressListener",
-//         "nsISupportsWeakReference"
-//     ]);
-// }
+        const isSameDocument = !!(
+            flags & LOCATION_CHANGE_SAME_DOCUMENT
+        );
+
+        if (isTopLevel) {
+            const isReload = !!(
+                flags & LOCATION_CHANGE_RELOAD
+            );
+            const isErrorPage = !!(
+                flags & LOCATION_CHANGE_ERROR_PAGE
+            );
+
+            // todo: check if user started load since last typing
+            // if (
+            //     this.browser?.didStartLoadSinceLastUserTyping() ||
+            //     (isErrorPage && location.spec != "about:blank") ||
+            //     (isSameDocument && this.browser?.isNavigating) ||
+            //     (isSameDocument && !this.browser?.userTypedValue)
+            // ) {
+            //     this.browser.userTypedValue = null;
+            // }
+
+            if (this.tab && isErrorPage && this.tab?.busy) {
+                this.tab.busy = false;
+            }
+
+            if (!isSameDocument) {
+                // If the tab is audible, we stop the audio.
+                if (this.tab?.audible) {
+                    clearTimeout(this.tab.soundPlayingRemovalTimer);
+
+                    this.tab.soundPlayingRemovalTimer = 0;
+                    this.tab.audible = false;
+                }
+
+                // Restore the mute on the browser if the tab was previously muted
+                if (this.tab?.muted) {
+                    this.tab.linkedBrowser?.mute();
+                }
+
+                // todo: hide findbar here
+
+                if (!isReload) {
+                    TabUtils.setTabTitle(this.tab, true);
+                }
+
+                if (
+                    this.tab.pending == false &&
+                    webProgress.isLoadingDocument
+                ) {
+                    this.browser.mIconURL = null;
+                }
+            }
+
+            if (!dot.utilities.isBlankPageURL(location.spec)) {
+                this.browser.registeredOpenURI = location;
+            }
+        }
+
+        if (!this.blank || this.browser.hasContentOpener) {
+            this.callProgressListeners("onLocationChange", [
+                webProgress,
+                request,
+                location,
+                flags,
+            ]);
+
+            if (isTopLevel && !isSameDocument) {
+                this.callProgressListeners("onContentBlockingEvent", [
+                    webProgress,
+                    null,
+                    0,
+                    true,
+                ]);
+            }
+        }
+
+        if (isTopLevel) {
+            this.browser.lastURI = location;
+            this.browser.lastLocationChange = Date.now();
+        }
+    }
+
+    public onStatusChange(
+        webProgress: any, 
+        request: any, 
+        status: any, 
+        message: string
+    ) {
+        if (this.blank) return;
+
+        this.callProgressListeners("onStatusChange", [
+            webProgress,
+            request,
+            status,
+            message,
+        ]);
+
+        this.message = message;
+    }
+
+    public onSecurityChange(
+        webProgress: any, 
+        request: any, 
+        state: any
+    ) {
+        this.callProgressListeners("onSecurityChange", [
+            webProgress,
+            request,
+            state,
+        ]);
+    }
+
+    public onContentBlockingEvent(
+        webProgress: any,
+        request: any,
+        event: any
+    ) {
+        this.callProgressListeners("onContentBlockingEvent", [
+            webProgress,
+            request,
+            event,
+        ]);
+    }
+
+    public onRefreshAttempted(
+        webProgress: any, 
+        uri: MozURI, 
+        delay: any, 
+        sameURI: MozURI
+    ) {
+        return this.callProgressListeners("onRefreshAttempted", [
+            webProgress,
+            uri,
+            delay,
+            sameURI,
+        ]);
+    }
+
+    public QueryInterface = ChromeUtils.generateQI([
+        "nsIWebProgressListener",
+        "nsIWebProgressListener2",
+        "nsISupportsWeakReference",
+    ]);
+}
+
+export default TabProgressListener;

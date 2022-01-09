@@ -1,5 +1,6 @@
 import { Browser } from "index";
-import { AppConstants, Cc, Ci } from "mozilla";
+import { AppConstants, Cc, Ci, Services } from "mozilla";
+import { MozURI } from "types/uri";
 
 enum Platform {
     Windows = "window",
@@ -59,6 +60,27 @@ class BrowserUtilities {
             return false;
         }
     }
+
+    public isBlankPageURL(url: string) {
+        return (
+            url.startsWith("about:blank") ||
+            url.startsWith("about:home") ||
+            url.startsWith("about:welcome")
+            /* todo: add BROWSER_NEW_TAB_URL url == BROWSER_NEW_TAB_URL */
+        );
+    }
+
+    public doGetProtocolFlags(uri: MozURI) {
+        const handler = Services.io.getProtocolHandler(
+            uri.scheme
+        );
+
+        return handler instanceof Ci.nsIProtocolHandlerWithDynamicFlags
+            ? handler
+                .QueryInterface(Ci.nsIProtocolHandlerWithDynamicFlags)
+                .getFlagsForURI(uri)
+            : handler.protocolFlags;
+      }
 
     public constructor(private browser: Browser) {}
 }
