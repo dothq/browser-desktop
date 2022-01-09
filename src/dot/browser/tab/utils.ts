@@ -1,76 +1,81 @@
-// import L10n from "../l10n";
-// import { Services } from "../modules";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// export const TabUtils = new class {
-//     public get emptyTabTitle() {
-//         const isPrivate = dot.window.isPrivate();
+import dot from "index";
+import L10n from "l10n";
+import { Services } from "mozilla";
 
-//         // Normal browsing: default-tab-title
-//         // Private browsing: default-private-tab-title
-//         return L10n.ts(`default-${isPrivate ? "private" : ""}-tab-title`);
-//     }
+export const TabUtils = new class {
+    public get emptyTabTitle() {
+        const isPrivate = dot.window.isPrivate();
 
-//     /*
-//      * Get the linked tab from a browser element
-//     */
-//     public getTabFromBrowser(browser: HTMLBrowserElement) {
-//         return dot.tabs.get(browser.browserId);
-//     }
+        // Normal browsing: default-tab-title
+        // Private browsing: default-private-tab-title
+        return L10n.ts(`default-${isPrivate ? "private" : ""}-tab-title`);
+    }
 
-//     /*
-//      * Handler for onpagetitlechange event
-//     */
-//     public onPageTitleChange(event: Event) {
-//         const browser = event.target as HTMLBrowserElement;
-//         const tab = this.getTabFromBrowser(browser);
+    /*
+     * Get the linked tab from a browser element
+    */
+    public getTabFromBrowser(browser: HTMLBrowserElement) {
+        return dot.tabs.get(browser.browserId);
+    }
 
-//         // @todo: add check to return if tab is pending
-//         if (
-//             !tab ||
-//             /*|| t.pending*/
-//             (
-//                 !browser.contentTitle &&
-//                 browser.contentPrincipal.isSystemPrincipal
-//             )
-//         ) return;
+    /*
+     * Handler for onpagetitlechange event
+    */
+    public onPageTitleChange(event: Event) {
+        const browser = event.target as HTMLBrowserElement;
+        const tab = this.getTabFromBrowser(browser);
 
-//         let title = browser.contentTitle;
-//         const isContentTitle = !!title;
+        // @todo: add check to return if tab is pending
+        if (
+            !tab ||
+            /*|| t.pending*/
+            (
+                !browser.contentTitle &&
+                browser.contentPrincipal.isSystemPrincipal
+            )
+        ) return;
 
-//         // Check if we can use the page URL as the page title
-//         if (browser.currentURI.displaySpec) {
-//             try {
-//                 title = Services.io.createExposableURI(browser.currentURI)
-//                     .displaySpec;
-//             } catch (e) {
-//                 title = browser.currentURI.displaySpec;
-//             }
-//         }
+        let title = browser.contentTitle;
+        const isContentTitle = !!title;
 
-//         if (title && !isBlankPageURL(title)) {
-//             // Shorten the title is if it is a data: URI
-//             if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {
-//                 title = `${title.substring(0, 500)}\u2026`;
-//             } else {
-//                 try {
-//                     const { characterSet } = browser;
+        // Check if we can use the page URL as the page title
+        if (browser.currentURI.displaySpec) {
+            try {
+                title = Services.io.createExposableURI(browser.currentURI)
+                    .displaySpec;
+            } catch (e) {
+                title = browser.currentURI.displaySpec;
+            }
+        }
 
-//                     title = Services.textToSubURI.unEscapeNonAsciiURI(
-//                         characterSet,
-//                         title
-//                     );
-//                 } catch (e) {}
-//             }
-//         } else {
-//             // Fallback to the default tab title
-//             title = this.emptyTabTitle;
-//         }
+        if (title && !isBlankPageURL(title)) {
+            // Shorten the title is if it is a data: URI
+            if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {
+                title = `${title.substring(0, 500)}\u2026`;
+            } else {
+                try {
+                    const { characterSet } = browser;
 
-//         if (!isContentTitle) {
-//             // Remove protocol and www subdomain
-//             title = title.replace(/^[^:]+:\/\/(?:www\.)?/, "");
-//         }
+                    title = Services.textToSubURI.unEscapeNonAsciiURI(
+                        characterSet,
+                        title
+                    );
+                } catch (e) {}
+            }
+        } else {
+            // Fallback to the default tab title
+            title = this.emptyTabTitle;
+        }
 
-//         return title;
-//     }
-// }
+        if (!isContentTitle) {
+            // Remove protocol and www subdomain
+            title = title.replace(/^[^:]+:\/\/(?:www\.)?/, "");
+        }
+
+        return title;
+    }
+}
