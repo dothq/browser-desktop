@@ -8,6 +8,7 @@ import BrowserTabs from "browser/tabs";
 import BrowserThemes from "browser/themes";
 import BrowserUtilities from "browser/utilities";
 import BrowserWindow from "browser/window";
+import "l10n";
 import { BrowserToolboxLauncher } from "mozilla";
 import {
     aside,
@@ -18,10 +19,9 @@ import {
     render,
     _
 } from "oikia";
+import "themes/browser.scss";
 import { Events } from "./events";
-import "./l10n";
 import { exportPublic } from "./shared/globals";
-import "./themes/browser.scss";
 
 export class Browser extends Events {
     public extensions = new BrowserExtensions(this);

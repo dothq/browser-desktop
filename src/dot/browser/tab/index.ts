@@ -17,6 +17,7 @@ import {
 } from "oikia";
 import { Delegate, makeReactive, R } from "oikia-extension";
 import { exportPublic } from "shared/globals";
+import "themes/tab.scss";
 import { Events } from "../../events";
 import { TabAnimations } from "./animation";
 
