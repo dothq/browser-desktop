@@ -10,6 +10,7 @@
         "firefox-devtools.vscode-firefox-debug",
         "mythmon.idl",
         "vtrois.gitmoji-vscode",
-        "jock.svg"
+        "jock.svg",
+        "ctf0.macros"
     ]
 }
