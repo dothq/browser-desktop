@@ -2,13 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import {
-    BrowserExtensions,
-    BrowserPreferences,
-    BrowserThemes,
-    BrowserUtilities,
-    BrowserWindow
-} from "browser";
+import BrowserExtensions from "browser/extensions";
+import BrowserPreferences from "browser/preferences";
+import BrowserTabs from "browser/tabs";
+import BrowserThemes from "browser/themes";
+import BrowserUtilities from "browser/utilities";
+import BrowserWindow from "browser/window";
 import { BrowserToolboxLauncher } from "mozilla";
 import {
     aside,
@@ -27,6 +26,7 @@ import "./themes/browser.scss";
 export class Browser extends Events {
     public extensions = new BrowserExtensions(this);
     public preferences = new BrowserPreferences(this);
+    public tabs = new BrowserTabs(this);
     public themes = new BrowserThemes(this);
     public utilities = new BrowserUtilities(this);
     public window = new BrowserWindow(this);

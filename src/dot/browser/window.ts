@@ -1,8 +1,8 @@
 import L10n from "l10n";
-import { Cc, Ci } from "mozilla";
+import { Cc, Ci, PrivateBrowsingUtils } from "mozilla";
 import { Browser } from "..";
 
-export class BrowserWindow {
+class BrowserWindow {
     private windowClass = new Set();
 
     /*
@@ -150,5 +150,16 @@ export class BrowserWindow {
             ?.toggleAttribute(key, initialValue);
     }
 
+    /*
+     * Check if the current window is in private mode
+    */
+    public isPrivate() {
+        return PrivateBrowsingUtils.isWindowPrivate(
+            window
+        )
+    }
+
     public constructor(private browser: Browser) {}
 }
+
+export default BrowserWindow;

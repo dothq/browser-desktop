@@ -15,7 +15,7 @@ import { ThemeVariableMap } from "./map";
 import { Theme } from "./theme";
 import { isColourDark, toRGB } from "./utils";
 
-export class BrowserThemes {
+class BrowserThemes {
     public themes: Map<string, Theme> = new Map();
 
     public isSystemDarkMode = false;
@@ -471,3 +471,5 @@ export class BrowserThemes {
         );
     }
 }
+
+export default BrowserThemes;

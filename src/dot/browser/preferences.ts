@@ -1,7 +1,7 @@
 import { Browser } from "index";
 import { Services } from "mozilla";
 
-export class BrowserPreferences {
+class BrowserPreferences {
     public get(id: string, defaultValue?: any) {
         const type = this.getMozType(id);
 
@@ -148,3 +148,5 @@ export class BrowserPreferences {
 
     public constructor(private browser: Browser) {}
 }
+
+export default BrowserPreferences;

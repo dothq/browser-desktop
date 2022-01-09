@@ -4,7 +4,7 @@ import { COMMENT_REGEX } from "shared/regex";
 import { BuiltInExtensions } from "./built-in";
 import { ExtensionManifest } from "./manifest";
 
-export class BrowserExtensions {
+class BrowserExtensions {
     public loadBuiltInExtensions() {
         for (const {
             id,
@@ -61,3 +61,5 @@ export class BrowserExtensions {
         this.loadBuiltInExtensions();
     }
 }
+
+export default BrowserExtensions;

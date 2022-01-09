@@ -7,7 +7,7 @@ enum Platform {
     Linux = "linux"
 }
 
-export class BrowserUtilities {
+class BrowserUtilities {
     public get platform() {
         return AppConstants.platform == "macosx"
             ? Platform.macOS
@@ -62,3 +62,5 @@ export class BrowserUtilities {
 
     public constructor(private browser: Browser) {}
 }
+
+export default BrowserUtilities;
