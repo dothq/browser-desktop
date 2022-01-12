@@ -8,6 +8,7 @@ import BrowserMotion from "browser/motion";
 import BrowserPreferences from "browser/preferences";
 import BrowserTabs from "browser/tabs";
 import BrowserThemes from "browser/themes";
+import BrowserTitlebar from "browser/titlebar";
 import BrowserUtilities from "browser/utilities";
 import BrowserWindow from "browser/window";
 import "l10n";
@@ -30,20 +31,43 @@ export class Browser extends Events {
     public init = new BrowserInit(this);
     public motion = new BrowserMotion(this);
     public preferences = new BrowserPreferences(this);
+    public tabs = new BrowserTabs(this);
+    public titlebar = new BrowserTitlebar(this);
     public themes = new BrowserThemes(this);
     public utilities = new BrowserUtilities(this);
     public window = new BrowserWindow(this);
 
-    public tabs: BrowserTabs;
-
+    /**
+     * Determines if the browser is a multi-process browser
+    */
     public isMultiProcess = window.docShell.QueryInterface(Ci.nsILoadContext)
         .useRemoteTabs;
 
+    /**
+     * Determines if the browser is running in Fission mode
+    */
     public isFission = window.docShell.QueryInterface(Ci.nsILoadContext)
         .useRemoteSubframes;
 
-    public ref: Map<string, RefObject<HTMLElement>> =
-        new Map();
+    /**
+     * HTML reference to the Titlebar
+    */
+    public titlebarRef: RefObject<HTMLDivElement> | undefined;
+
+    /**
+     * HTML reference to the Toolbar
+    */
+    public toolbarRef: RefObject<HTMLDivElement> | undefined;
+
+    /**
+     * HTML reference to the Bookmarks Bar
+    */
+    public bookmarksBarRef: RefObject<HTMLDivElement> | undefined;
+
+    /**
+     * HTML reference to the Browser Contents
+    */
+    public contentRef: RefObject<HTMLDivElement> | undefined;
 
     public constructor() {
         super();
@@ -54,43 +78,34 @@ export class Browser extends Events {
         this.window.visible = true;
 
         BrowserToolboxLauncher.init();
+        
+        window.addEventListener("DOMContentLoaded", () => {
+            this.tabs.createInitialTab();
+        })
     }
 
     public render() {
-        this.ref.set(
-            "titlebar",
-            createRef<HTMLDivElement>()
-        );
-        this.ref.set(
-            "toolbar",
-            createRef<HTMLDivElement>()
-        );
-        this.ref.set(
-            "bookmarkbar",
-            createRef<HTMLDivElement>()
-        );
-        this.ref.set(
-            "content",
-            createRef<HTMLDivElement>()
-        );
+        this.titlebarRef = createRef<HTMLDivElement>();
+        this.toolbarRef = createRef<HTMLDivElement>();
+        this.bookmarksBarRef = createRef<HTMLDivElement>();
+        this.contentRef = createRef<HTMLDivElement>();
+
+        const Titlebar = this.titlebar.render(this.titlebarRef);
 
         return _(
-            div({
-                id: "browser-titlebar",
-                ref: this.ref.get("titlebar")
-            }),
+            Titlebar,
             div({
                 id: "browser-toolbar",
-                ref: this.ref.get("toolbar")
+                ref: this.toolbarRef
             }),
             div({
                 id: "browser-bookmarkbar",
-                ref: this.ref.get("bookmarkbar")
+                ref: this.bookmarksBarRef
             }),
             div(
                 {
                     id: "browser-content",
-                    ref: this.ref.get("content")
+                    ref: this.contentRef
                 },
                 aside({ id: "browser-content-sidebar" }),
                 div({ id: "browser-content-tabbox" })
@@ -100,8 +115,6 @@ export class Browser extends Events {
 }
 
 const dot = new Browser();
-
-dot.tabs = new BrowserTabs(dot);
 
 export default dot;
 exportPublic("dot", dot);

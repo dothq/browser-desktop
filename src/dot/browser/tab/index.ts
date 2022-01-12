@@ -234,7 +234,7 @@ class Tab extends Events {
 
         // Only run open animation if we are allowed to animate
         this.animation.open
-            .play(this.canAnimate ? 0 : undefined)
+            .play(this.canAnimate ? 0 : 200)
             .then((_) => this.emit("TabAnimationEnd"));
 
         // Make the tab active

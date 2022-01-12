@@ -677,8 +677,6 @@ class BrowserTabs {
             remoteType = openWindowInfo.isRemote
                 ? E10SUtils.DEFAULT_REMOTE_TYPE
                 : E10SUtils.NOT_REMOTE;
-
-            uri = "about:blank";
         } else {
             if(uri && typeof uri == "string") {
                 const originAttributes = E10SUtils.predictOriginAttributes({
@@ -815,8 +813,6 @@ class BrowserTabs {
 
     public constructor(private browser: Browser) {
         this.uniquePanelCount = 0;
-
-        this.createInitialTab();
     }
 }
 
