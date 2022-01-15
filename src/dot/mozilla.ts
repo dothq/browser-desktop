@@ -24,6 +24,9 @@ export const Ci = window.Ci;
 export const Cc = window.Cc;
 export const Cu = window.Cu;
 
+export const PathUtils = window.PathUtils;
+export const IOUtils = window.IOUtils;
+
 export const { LightweightThemeConsumer } = i(
     "resource://gre/modules/LightweightThemeConsumer.jsm"
 );

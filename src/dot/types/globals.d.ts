@@ -23,6 +23,25 @@ declare global {
         STATE_FULLSCREEN: number;
         content: any;
         openDialog: any;
+        PathUtils: any;
+        IOUtils: {
+            copy: (...args: any) => any
+            exists: (...args: any) => any
+            getChildren: (...args: any) => any
+            makeDirectory: (...args: any) => any
+            move: (...args: any) => any
+            read: (...args: any) => any
+            readJSON: (...args: any) => any
+            readUTF8: (...args: any) => any
+            remove: (...args: any) => any
+            setPermissions: (...args: any) => any
+            stat: (...args: any) => any
+            touch: (...args: any) => any
+            write: (...args: any) => any
+            writeJSON: (...args: any) => any
+            writeUTF8: (...args: any) => any
+        };
+        dump: (...args: any) => any;
         windowRoot: {
             ownerGlobal: Window;
         };

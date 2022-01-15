@@ -39,6 +39,14 @@ class BrowserUtilities {
             .join("");
     }
 
+    public sleep(ms: number) {
+        return new Promise<void>(resolve => {
+            setTimeout(() => {
+                resolve();
+            }, ms);
+        });
+    }
+
     public isJSON(data: any) {
         if (typeof data == "object") return true;
 

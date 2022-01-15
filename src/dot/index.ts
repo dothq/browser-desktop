@@ -6,6 +6,7 @@ import BrowserExtensions from "browser/extensions";
 import BrowserInit from "browser/init";
 import BrowserMotion from "browser/motion";
 import BrowserPreferences from "browser/preferences";
+import BrowserStorage from "browser/storage";
 import BrowserTabs from "browser/tabs";
 import BrowserThemes from "browser/themes";
 import BrowserTitlebar from "browser/titlebar";
@@ -34,6 +35,7 @@ export class Browser extends Events {
     public init = new BrowserInit(this);
     public motion = new BrowserMotion(this);
     public preferences = new BrowserPreferences(this);
+    public storage = new BrowserStorage(this);
     public tabs = new BrowserTabs(this);
     public titlebar = new BrowserTitlebar(this);
     public themes = new BrowserThemes(this);
@@ -75,20 +77,25 @@ export class Browser extends Events {
     public constructor() {
         super();
 
+        this.load();
+    }
+
+    public async load() {
+        // Wait for the storage service to initialise
+        await this.storage.connect();
+
         const component = this.render();
         render(component, getDOMNode("#browser"));
         
-        window.addEventListener("DOMContentLoaded", () => {
-            // Unlock the browser error handling.
-            // All errors can be treated as warnings.
-            window.windowReady = true;
-            this.window.visible = true;
+        // Unlock the browser error handling.
+        // All errors can be treated as warnings.
+        window.windowReady = true;
+        this.window.visible = true;
 
-            BrowserToolboxLauncher.init();
+        BrowserToolboxLauncher.init();
 
-            this.themes.load();
-            this.tabs.createInitialTab();
-        })
+        this.themes.load();
+        this.tabs.createInitialTab();
     }
 
     public render() {
