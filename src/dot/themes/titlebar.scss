@@ -1,0 +1,10 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+#browser-titlebar {
+    display: flex;
+    background-color: var(--lwt-accent-color);
+    height: 44px;
+    border-radius: 6px 6px 0 0; /* @todo: change this to env(-moz-gtk-csd-titlebar-radius) */
+}
