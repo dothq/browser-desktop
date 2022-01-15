@@ -7,7 +7,9 @@ class BrowserTitlebar {
             div({
                 id: "browser-titlebar",
                 ref
-            })
+            },
+            
+            )
         )
     }
 
