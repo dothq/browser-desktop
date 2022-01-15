@@ -23,6 +23,9 @@ import {
     _
 } from "oikia";
 import "themes/browser.scss";
+import "themes/tab.scss";
+import "themes/titlebar.scss";
+import "themes/toolbar.scss";
 import { Events } from "./events";
 import { exportPublic } from "./shared/globals";
 
@@ -75,11 +78,15 @@ export class Browser extends Events {
         const component = this.render();
         render(component, getDOMNode("#browser"));
         
-        this.window.visible = true;
-
-        BrowserToolboxLauncher.init();
-        
         window.addEventListener("DOMContentLoaded", () => {
+            // Unlock the browser error handling.
+            // All errors can be treated as warnings.
+            window.windowReady = true;
+            this.window.visible = true;
+
+            BrowserToolboxLauncher.init();
+
+            this.themes.load();
             this.tabs.createInitialTab();
         })
     }

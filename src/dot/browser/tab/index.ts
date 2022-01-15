@@ -16,7 +16,6 @@ import {
 import { Delegate, makeReactive, R } from "oikia-extension";
 import { exportPublic } from "shared/globals";
 import { Events } from "../../events";
-import "../../themes/tab.scss";
 import { TabAnimations } from "./animation";
 
 class Tab extends Events {
@@ -72,6 +71,11 @@ class Tab extends Events {
      * If the tab has been rendered
      */
     public rendered: boolean = false;
+
+    /**
+     * If the tab is hidden from view
+     */
+    public hidden: boolean = false;
 
     /**
      * Determines if a tab is safe to close
@@ -223,7 +227,7 @@ class Tab extends Events {
         this.animation = new TabAnimations(this);
     }
 
-    public init(childTab: any) {
+    public init(childTab: OikiaElement) {
         const component = this.render();
         const titlebar = getDOMNode("#browser-titlebar");
 
