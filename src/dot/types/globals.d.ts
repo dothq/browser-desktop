@@ -15,6 +15,7 @@ declare global {
     interface Window {
         docShell: any;
         XULBrowserWindow: any;
+        windowReady: boolean;
         windowState: number;
         STATE_MAXIMIZED: number;
         STATE_MINIMIZED: number;
