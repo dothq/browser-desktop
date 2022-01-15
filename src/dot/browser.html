@@ -14,14 +14,30 @@
     windowtype="navigator:browser"
 >
     <head>
-        <title
-            data-l10n-id="browser-main-window-title"
-        ></title>
+        <title>Dot Browser</title>
         <base href="chrome://dot/content" />
         <link rel="stylesheet" href="build/browser.css" />
         <script src="recovery/devtools.js"></script>
         <script src="recovery/hmr.js"></script>
         <script>
+            window.addEventListener("error", (err) => {
+                if(
+                    "windowReady" in window && 
+                    window.windowReady == true
+                ) {
+                    // Continue the browser process as it was not a runtime error
+
+                    throw err;
+                } else {
+                    // Kill process
+                    
+                    dump("Error loading browser.");
+
+                    Services.startup.quit(Ci.nsIAppStartup.eForceQuit);
+                }
+            })
+
+            window.windowReady = false;
             window.docShell.treeOwner.QueryInterface(
                 Ci.nsIBaseWindow
             ).visibility = false;
@@ -29,6 +45,8 @@
             const { Services } = ChromeUtils.import(
                 "resource://gre/modules/Services.jsm"
             );
+
+            document.currentScript.outerHTML = "";
         </script>
     </head>
 
