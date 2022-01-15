@@ -2,14 +2,14 @@ import { Browser } from "index";
 import { AppConstants, Cc, Ci, Services } from "mozilla";
 import { MozURI } from "types/uri";
 
-enum Platform {
+export enum Platform {
     Windows = "window",
     macOS = "macos",
     Linux = "linux"
 }
 
 class BrowserUtilities {
-    public get platform() {
+    public get platform(): Platform {
         return AppConstants.platform == "macosx"
             ? Platform.macOS
             : AppConstants.platform == "win"
