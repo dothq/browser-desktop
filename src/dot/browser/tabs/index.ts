@@ -5,6 +5,7 @@
 import Tab from "browser/tab";
 import TabProgressListener from "browser/tab/progress";
 import { TabUtils } from "browser/tab/utils";
+import { Platform } from "browser/utilities";
 import { Browser } from "index";
 import { Cc, Ci, Cu, E10SUtils, Services } from "mozilla";
 import { appendChild, attr, div, getDOMNode, OikiaElement } from "oikia";
@@ -45,6 +46,10 @@ class BrowserTabs {
         "resource:", 
         "data:"
     ]
+
+    public get arrowKeysShouldWrap() {
+        return this.browser.utilities.platform == Platform.macOS;
+    }
 
     public createBrowser(options: Partial<{
         isPreloadBrowser: boolean;
@@ -556,9 +561,9 @@ class BrowserTabs {
       
         const tabAfter = this.tabs[options.index] || null;
 
-        tab.init(tabAfter);
-
         if (tabAfter) {
+            tab.init((tabAfter as any).linkedTab);
+
             console.log("_updateTabsAfterInsert")
         } else {
             tab.index = options.index;
@@ -700,12 +705,140 @@ class BrowserTabs {
         this.addTab(
             uri,
             {
+                index: 0,
                 triggeringPrincipal,
                 userContextId,
                 preferredRemoteType: remoteType,
                 openWindowInfo,
             }
         );
+    }
+
+    public selectTabAtIndex(index: number) {
+        if (index < 0) {
+            index += this.tabs.length;
+
+            if (index < 0) index = 0;
+        } else if (index >= this.tabs.length) {
+            index = this.tabs.length - 1;
+        }
+  
+        this.selectedTab = this.tabs[index];
+    }
+
+    public moveTabTo(tab: Tab, index: number) {
+        const position = tab.index;
+
+        if (position == index)
+  
+        if (tab.pinned) {
+            index = Math.min(index, this.numPinnedTabs - 1);
+        } else {
+            index = Math.max(index, this.numPinnedTabs);
+        }
+
+        if (position == index) return;
+  
+        index = index < tab.index 
+            ? index 
+            : index + 1;
+  
+        const neighbor = this.tabs[index];
+
+        const titlebar = getDOMNode("#browser-titlebar");
+
+        titlebar.insertBefore(
+            (tab as any).linkedTab, 
+            (neighbor as any).linkedTab
+        );
+    }
+  
+    public moveTabForward() {
+        if(!this.selectedTab) return;
+
+        const nextTab = this.findNextTab(this.selectedTab, {
+            direction: 1,
+            filter: tab => !tab.hidden,
+        });
+  
+        if (nextTab) {
+            this.moveTabTo(this.selectedTab, nextTab.index);
+        } else if (this.arrowKeysShouldWrap) {
+            this.moveTabToStart();
+        }
+    }
+
+    public moveTabBackward() {
+        if(!this.selectedTab) return;
+
+        const previousTab = this.findNextTab(this.selectedTab, {
+            direction: -1,
+            filter: tab => !tab.hidden,
+        });
+  
+        if (previousTab) {
+            this.moveTabTo(this.selectedTab, previousTab.index);
+        } else if (this.arrowKeysShouldWrap) {
+            this.moveTabToEnd();
+        }
+    }
+  
+    public moveTabToStart() {
+        if(!this.selectedTab) return;
+
+        const { index } = this.selectedTab;
+
+        if (index > 0) {
+            this.moveTabTo(this.selectedTab, 0);
+        }
+    }
+  
+    public moveTabToEnd() {
+        if(!this.selectedTab) return;
+
+        const { index } = this.selectedTab;
+
+        if (index < this.tabs.length - 1) {
+            this.moveTabTo(this.selectedTab, this.tabs.length - 1);
+        }
+    }
+
+    public findNextTab(
+        tab: Tab, 
+        options: { 
+            direction: number, 
+            wrap?: boolean, 
+            startWithAdjacent?: boolean, 
+            filter: (tab: Tab) => boolean 
+        }
+    ) {
+        const startTab = tab;
+
+        if (!options.startWithAdjacent && options.filter(tab)) {
+            return tab;
+        }
+  
+        let i = this.tabs.indexOf(tab);
+
+        if (i < 0) return null;
+  
+        while (true) {
+            i += options.direction;
+            if (options.wrap) {
+                if (i < 0) {
+                    i = this.tabs.length - 1;
+                } else if (i >= this.tabs.length) {
+                    i = 0;
+                }
+            } else if (i < 0 || i >= this.tabs.length) {
+                return null;
+            }
+    
+            tab = this.tabs[i];
+
+            if (tab == startTab) return null;
+            if (options.filter(tab)) return tab;
+        }
     }
 
     public registerProgressListener(
