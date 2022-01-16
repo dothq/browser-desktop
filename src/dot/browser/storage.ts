@@ -4,7 +4,7 @@ import BrowserPreferencesStorage from "./databases/preferences";
 class BrowserStorage {
     public preferences = new BrowserPreferencesStorage();
 
-    public async connect() {
+    public async init() {
         await this.preferences.openConnection();
     }
 

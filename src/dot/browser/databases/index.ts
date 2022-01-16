@@ -2,10 +2,11 @@ import dot from "index";
 import { Ci, IOUtils, OS, PathUtils, Services, Sqlite } from "mozilla";
 
 class BrowserDatabase {
+    public name: string;
     public path: string;
     public ready: boolean = false;
 
-    private connection: any;
+    public connection: any;
 
     public async openConnection() {
         return new Promise(async (resolve) => {
@@ -32,6 +33,7 @@ class BrowserDatabase {
             while (!connection && retryCount++ < 25) {
                 try {
                     connection = await Sqlite.openConnection({ path: this.path });
+
                     this.ready = true;
                 } catch (e) {
                     await dot.utilities.sleep(100);
@@ -52,6 +54,8 @@ class BrowserDatabase {
     public constructor(
         name: string
     ) {
+        this.name = name;
+
         this.path = OS.Path.join(
             OS.Constants.Path.profileDir, 
             `dbstore/${name}.sqlite`
