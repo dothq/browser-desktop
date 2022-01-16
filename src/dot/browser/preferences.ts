@@ -3,6 +3,8 @@ import { Services } from "mozilla";
 
 class BrowserPreferences {
     public get(id: string, defaultValue?: any) {
+        if(this.isLocked(id)) throw new Error(`Preference with ID '${id}' is locked and cannot be viewed.`)
+
         const type = this.getMozType(id);
 
         const func =
@@ -35,6 +37,8 @@ class BrowserPreferences {
     ) {
         if (data == undefined)
             throw new Error("Payload must be set.");
+
+        if(this.isLocked(id)) throw new Error(`Preference with ID '${id}' is locked and cannot be modified.`)
 
         const oldData = this.get(id);
 
@@ -76,10 +80,32 @@ class BrowserPreferences {
     }
 
     public delete(id: string) {
+        if(this.isLocked(id)) throw new Error(`Preference with ID '${id}' is locked and cannot be modified.`)
+
         Services.prefs.clearUserPref(id);
 
         const data = this.get(id);
         return typeof data == "undefined";
+    }
+
+    public isLocked(id: string) {
+        return Services.prefs.prefIsLocked(id);
+    }
+
+    public lock(id: string) {
+        if(Services.prefs.prefIsLocked(id)) this.unlock(id);
+
+        Services.prefs.lockPref(id);
+        
+        return true;
+    }
+
+    public unlock(id: string) {
+        if(!Services.prefs.prefIsLocked(id)) return;
+
+        Services.prefs.unlockPref(id);
+
+        return true;
     }
 
     public getBranch(id: string) {
