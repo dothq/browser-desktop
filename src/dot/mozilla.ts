@@ -109,6 +109,10 @@ export const { BrowserUIUtils } = i(
     "resource:///modules/BrowserUIUtils.jsm"
 )
 
+export const { ConsoleAPI } = i(
+    "resource://gre/modules/Console.jsm"
+);
+
 let _BrowserHandler: any = {};
 XPCOMUtils.defineLazyServiceGetters(_BrowserHandler, {
     BrowserHandler: ["@mozilla.org/browser/clh;1", "nsIBrowserHandler"],
