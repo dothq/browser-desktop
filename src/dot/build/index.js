@@ -21,6 +21,7 @@ const main = async () => {
         bundle: true,
         sourcemap: "both",
         metafile: true,
+        treeShaking: true,
         minify: process.env.NODE_ENV == "production",
         logLevel: "debug",
         plugins: [SassPlugin(), FluentPlugin],
