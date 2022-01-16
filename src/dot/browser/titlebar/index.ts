@@ -1,19 +1,13 @@
-import { Browser } from "index";
-import { div, RefObject } from "oikia";
+import { Target } from "browser/customisable/decorators";
+import CustomisableUITarget from "browser/customisable/target";
+import dot from "index";
 
-class BrowserTitlebar {
-    public render(ref: RefObject<HTMLDivElement>) {
-        return (
-            div({
-                id: "browser-titlebar",
-                ref
-            },
-            
-            )
-        )
-    }
+@Target({
+    id: "titlebar",
 
-    public constructor(private browser: Browser) {}
-}
+    visible: () => dot.preferences.get("dot.ui.titlebar.visible", true),
+    movable: () => true,
+})
+class BrowserTitlebar extends CustomisableUITarget {}
 
 export default BrowserTitlebar;
