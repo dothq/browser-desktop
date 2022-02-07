@@ -87,6 +87,7 @@ async function linuxBootstrap() {
         case "Debian":
         case "Ubuntu":
         case "Pop":
+        case "Elementary":
             console.log(
                 await aptInstall(
                     "python3-distutils",
