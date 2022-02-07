@@ -18,9 +18,9 @@ export interface WidgetSpecialOptions extends WidgetItem {
 }
 
 export interface WidgetCombinedOptions {
-    button: WidgetButtonOptions
-    input: WidgetSpecialOptions
-    special: WidgetSpecialOptions
-};
+    button: WidgetButtonOptions;
+    input: WidgetSpecialOptions;
+    special: WidgetSpecialOptions;
+}
 
 export type WidgetType = keyof WidgetCombinedOptions;

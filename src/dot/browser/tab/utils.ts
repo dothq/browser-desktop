@@ -5,11 +5,16 @@
 import { kHomeFilledIcon } from "icons";
 import dot from "index";
 import L10n from "l10n";
-import { Cc, Ci, PrivateBrowsingUtils, Services } from "mozilla";
+import {
+    Cc,
+    Ci,
+    PrivateBrowsingUtils,
+    Services
+} from "mozilla";
 import { MozURI } from "types/uri";
 import Tab from ".";
 
-export const TabUtils = new class {
+export const TabUtils = new (class {
     public initialPages = [
         "about:blank",
         "about:newtab",
@@ -17,40 +22,53 @@ export const TabUtils = new class {
         "about:privatebrowsing",
         "about:welcomeback",
         "about:sessionrestore",
-        "about:welcome",
-    ]
+        "about:welcome"
+    ];
 
     public faviconDefaults: any = {
         "about:newtab": kHomeFilledIcon,
         "about:home": kHomeFilledIcon,
         "about:welcome": kHomeFilledIcon,
-        "about:privatebrowsing": kHomeFilledIcon,
-    }
+        "about:privatebrowsing": kHomeFilledIcon
+    };
 
     public get emptyTabTitle() {
         const isPrivate = dot.window.isPrivate();
 
         // Normal browsing: default-tab-title
         // Private browsing: default-private-tab-title
-        return L10n.ts(`default-${isPrivate ? "private-" : ""}tab-title`);
+        return L10n.ts(
+            `default-${
+                isPrivate ? "private-" : ""
+            }tab-title`
+        );
     }
 
     /*
      * Get the linked tab from a browser element
-    */
-    public getTabFromBrowser(browser: HTMLBrowserElement) {
+     */
+    public getTabFromBrowser(
+        browser: HTMLBrowserElement
+    ) {
         return dot.tabs.get(browser.browserId);
     }
 
-    public handleUriInChrome(browser: HTMLBrowserElement, uri: MozURI) {
+    public handleUriInChrome(
+        browser: HTMLBrowserElement,
+        uri: MozURI
+    ) {
         if (uri.scheme == "file") {
             try {
                 const mimeType = Cc["@mozilla.org/mime;1"]
                     .getService(Ci.nsIMIMEService)
                     .getTypeFromURI(uri);
 
-                if (mimeType == "application/x-xpinstall") {
-                    console.log("todo: add XPI installation handling")
+                if (
+                    mimeType == "application/x-xpinstall"
+                ) {
+                    console.log(
+                        "todo: add XPI installation handling"
+                    );
 
                     return true;
                 }
@@ -58,7 +76,7 @@ export const TabUtils = new class {
                 return false;
             }
         }
-      
+
         return false;
     }
 
@@ -72,29 +90,34 @@ export const TabUtils = new class {
      * @param uri Valid MozURI
      * @param params Params to make the request
      */
-    public loadURIHandler(browser: HTMLBrowserElement, uri?: MozURI, params?: any) {
+    public loadURIHandler(
+        browser: HTMLBrowserElement,
+        uri?: MozURI,
+        params?: any
+    ) {
         if (!uri) uri = "about:blank" as any;
-        
-        const { 
-            triggeringPrincipal, 
-            referrerInfo, 
-            postData, 
-            csp 
+
+        const {
+            triggeringPrincipal,
+            referrerInfo,
+            postData,
+            csp
         } = params || {};
 
-        const loadFlags = (
+        const loadFlags =
             params.loadFlags ||
-            params.flags || 
-            Ci.nsIWebNavigation.LOAD_FLAGS_NONE
-        );
+            params.flags ||
+            Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
 
         const hasValidUserGestureActivation =
             document.hasValidTransientUserGestureActivation;
 
         if (!triggeringPrincipal) {
-            throw new Error("Must load a URL with a triggeringPrincipal.");
+            throw new Error(
+                "Must load a URL with a triggeringPrincipal."
+            );
         }
-        
+
         try {
             const {
                 FIXUP_FLAG_NONE,
@@ -103,42 +126,56 @@ export const TabUtils = new class {
                 FIXUP_FLAG_FIX_SCHEME_TYPOS,
                 LOAD_FLAGS_FIXUP_SCHEME_TYPOS,
                 FIXUP_FLAG_PRIVATE_CONTEXT
-            } = Ci.nsIURIFixup
+            } = Ci.nsIURIFixup;
 
             let fixupFlags = FIXUP_FLAG_NONE;
 
-            if (loadFlags & LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP) {
-                fixupFlags |= FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP;
+            if (
+                loadFlags &
+                LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP
+            ) {
+                fixupFlags |=
+                    FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP;
             }
 
-            if (loadFlags & LOAD_FLAGS_FIXUP_SCHEME_TYPOS) {
+            if (
+                loadFlags & LOAD_FLAGS_FIXUP_SCHEME_TYPOS
+            ) {
                 fixupFlags |= FIXUP_FLAG_FIX_SCHEME_TYPOS;
             }
 
-            if (PrivateBrowsingUtils.isBrowserPrivate(browser)) {
+            if (
+                PrivateBrowsingUtils.isBrowserPrivate(
+                    browser
+                )
+            ) {
                 fixupFlags |= FIXUP_FLAG_PRIVATE_CONTEXT;
             }
-        
-            const fixedUri = Services.uriFixup.getFixupURIInfo(uri, fixupFlags)
-                .preferredURI;
 
-            if (fixedUri && this.handleUriInChrome(browser, fixedUri)) return;
+            const fixedUri =
+                Services.uriFixup.getFixupURIInfo(
+                    uri,
+                    fixupFlags
+                ).preferredURI;
+
+            if (
+                fixedUri &&
+                this.handleUriInChrome(browser, fixedUri)
+            )
+                return;
         } catch (e) {}
-        
+
         browser.isNavigating = true;
 
         try {
-            browser.webNavigation.loadURI(
-                uri, 
-                {
-                    triggeringPrincipal,
-                    csp,
-                    loadFlags,
-                    referrerInfo,
-                    postData,
-                    hasValidUserGestureActivation,
-                }
-            );
+            browser.webNavigation.loadURI(uri, {
+                triggeringPrincipal,
+                csp,
+                loadFlags,
+                referrerInfo,
+                postData,
+                hasValidUserGestureActivation
+            });
         } finally {
             browser.isNavigating = false;
         }
@@ -147,17 +184,17 @@ export const TabUtils = new class {
     public setTabTitle(tab: Tab, shouldUpdate?: boolean) {
         const browser = tab.linkedBrowser;
 
-        if(!browser) return;
+        if (!browser) return;
 
         // @todo: add check to return if tab is pending
         if (
             !tab ||
             /*|| t.pending*/
-            (
-                !browser.contentTitle &&
-                browser.contentPrincipal.isSystemPrincipal
-            )
-        ) return;
+            (!browser.contentTitle &&
+                browser.contentPrincipal
+                    .isSystemPrincipal)
+        )
+            return;
 
         let title = browser.contentTitle;
         const isContentTitle = !!title;
@@ -165,25 +202,36 @@ export const TabUtils = new class {
         // Check if we can use the page URL as the page title
         if (browser.currentURI.displaySpec) {
             try {
-                title = Services.io.createExposableURI(browser.currentURI)
-                    .displaySpec;
+                title = Services.io.createExposableURI(
+                    browser.currentURI
+                ).displaySpec;
             } catch (e) {
                 title = browser.currentURI.displaySpec;
             }
         }
 
-        if (title && !dot.utilities.isBlankPageURL(title)) {
+        if (
+            title &&
+            !dot.utilities.isBlankPageURL(title)
+        ) {
             // Shorten the title is if it is a data: URI
-            if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {
-                title = `${title.substring(0, 500)}\u2026`;
+            if (
+                title.length > 500 &&
+                title.match(/^data:[^,]+;base64,/)
+            ) {
+                title = `${title.substring(
+                    0,
+                    500
+                )}\u2026`;
             } else {
                 try {
                     const { characterSet } = browser;
 
-                    title = Services.textToSubURI.unEscapeNonAsciiURI(
-                        characterSet,
-                        title
-                    );
+                    title =
+                        Services.textToSubURI.unEscapeNonAsciiURI(
+                            characterSet,
+                            title
+                        );
                 } catch (e) {}
             }
         } else {
@@ -193,20 +241,24 @@ export const TabUtils = new class {
 
         if (!isContentTitle) {
             // Remove protocol and www subdomain
-            title = title.replace(/^[^:]+:\/\/(?:www\.)?/, "");
+            title = title.replace(
+                /^[^:]+:\/\/(?:www\.)?/,
+                ""
+            );
         }
 
-        if(shouldUpdate) tab.title = title;
+        if (shouldUpdate) tab.title = title;
         return title;
     }
 
     /*
      * Handler for onpagetitlechange event
-    */
+     */
     public onPageTitleChange(event: Event) {
-        const browser = event.target as HTMLBrowserElement;
+        const browser =
+            event.target as HTMLBrowserElement;
         const tab = this.getTabFromBrowser(browser);
 
         return this.setTabTitle(tab, false);
     }
-}
+})();

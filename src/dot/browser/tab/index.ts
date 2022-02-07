@@ -9,11 +9,18 @@ import {
     attr,
     createRef,
     css,
-    div, getDOMNode, i,
+    div,
+    getDOMNode,
+    i,
     OikiaElement,
-    RefObject, span
+    RefObject,
+    span
 } from "oikia";
-import { Delegate, makeReactive, R } from "oikia-extension";
+import {
+    Delegate,
+    makeReactive,
+    R
+} from "oikia-extension";
 import { exportPublic } from "shared/globals";
 import { Events } from "../../events";
 import { TabAnimations } from "./animation";
@@ -33,7 +40,7 @@ class Tab extends Events {
      * Current title for Tab
      */
     @R(({ _, value }) => {
-        if(!_.rendered) return;
+        if (!_.rendered) return;
         _.ref.tabTitle.current.textContent = value;
     })
     @Delegate(
@@ -47,13 +54,13 @@ class Tab extends Events {
      * Favicon for Tab
      */
     @R(({ _, value }) => {
-        if(!_.rendered) return;
+        if (!_.rendered) return;
 
         css(
             _.ref.tabIcon.current,
             "backgroundImage",
             value
-        )
+        );
     })
     public icon: string = kHomeFilledIcon;
 
@@ -61,9 +68,9 @@ class Tab extends Events {
      * Determines if the Tab is active or not
      */
     @R(({ _, value }) => {
-        if(!_.rendered) return;
-        
-        attr(_.ref.tab.current, "dataActive", value)
+        if (!_.rendered) return;
+
+        attr(_.ref.tab.current, "dataActive", value);
     })
     public active: boolean = false;
 
@@ -79,26 +86,32 @@ class Tab extends Events {
 
     /**
      * Determines if a tab is safe to close
-    */
+     */
     public get isEmpty() {
         if (this.busy) return false;
-  
-        const browser = this.linkedBrowser;
-        
-        if(!browser) return true;
 
-        if (!dot.utilities.isBlankPageURL(browser.currentURI.spec)) {
+        const browser = this.linkedBrowser;
+
+        if (!browser) return true;
+
+        if (
+            !dot.utilities.isBlankPageURL(
+                browser.currentURI.spec
+            )
+        ) {
             return false;
         }
-  
-        if (!BrowserUIUtils.checkEmptyPageOrigin(browser)) {
+
+        if (
+            !BrowserUIUtils.checkEmptyPageOrigin(browser)
+        ) {
             return false;
         }
-  
+
         if (browser.canGoForward || browser.canGoBack) {
             return false;
         }
-  
+
         return true;
     }
 
@@ -121,40 +134,42 @@ class Tab extends Events {
 
     /**
      * Tab that opened this current tab
-    */
+     */
     public openerTab: Tab;
 
     /**
      * User Context ID for tab to isolate tabs into containers
-    */
+     */
     public userContextId: number;
 
     /**
      * Determines if the tab is pinned or not
-    */
+     */
     public pinned: boolean;
 
     /**
      * Determines if the tab can render animations
-    */
+     */
     public canAnimate: boolean | undefined = true;
 
     /**
      * Stores information about the stylesheets on a page
-    */
+     */
     public permanentKey: any;
 
     /**
      * Temporary value for storing parameters before creating the browser
-    */
-    public browserParams: {
-        uriIsAboutBlank: boolean,
-        remoteType: any
-    } | undefined;
+     */
+    public browserParams:
+        | {
+              uriIsAboutBlank: boolean;
+              remoteType: any;
+          }
+        | undefined;
 
     /**
      * Owner of current tab
-    */
+     */
     public owner: Tab | undefined;
 
     /**
@@ -164,37 +179,37 @@ class Tab extends Events {
 
     /**
      * Determines if the tab is loading or not
-    */
+     */
     public busy = false;
 
     /**
      * Determines if there is progress in the loading
-    */
+     */
     public progress = false;
 
     /**
      * Determines if the tab is pending
-    */
+     */
     public pending = false;
 
     /**
      * Determines if the tab has crashed
-    */
+     */
     public crashed = false;
 
     /**
      * Whether audio is playing in the tab
-    */
+     */
     public audible = false;
 
     /**
      * Whether audio is muted in the tab
-    */
+     */
     public muted = false;
 
     /**
      * Timer until the tab is no longer audible after pausing
-    */
+     */
     public soundPlayingRemovalTimer: number | undefined;
 
     /**
@@ -209,10 +224,10 @@ class Tab extends Events {
         pinned,
         canAnimate
     }: {
-        openerTab: Tab,
-        userContextId: number,
-        pinned?: boolean,
-        canAnimate?: boolean
+        openerTab: Tab;
+        userContextId: number;
+        pinned?: boolean;
+        canAnimate?: boolean;
     }) {
         super();
 

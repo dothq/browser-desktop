@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
-* License, v. 2.0. If a copy of the MPL was not distributed with this
-* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import dot from "index";
 import { ChromeUtils, Ci, Components } from "mozilla";
@@ -18,7 +18,7 @@ const {
     LOCATION_CHANGE_SAME_DOCUMENT,
     LOCATION_CHANGE_RELOAD,
     LOCATION_CHANGE_ERROR_PAGE
-} = Ci.nsIWebProgressListener
+} = Ci.nsIWebProgressListener;
 
 class TabProgressListener {
     public tab?: Tab;
@@ -42,9 +42,7 @@ class TabProgressListener {
         let stateFlags = origStateFlags || 0;
 
         if (wasPreloadedBrowser) {
-            stateFlags =
-                STATE_STOP |
-                STATE_IS_REQUEST;
+            stateFlags = STATE_STOP | STATE_IS_REQUEST;
         }
 
         this.tab = tab;
@@ -64,12 +62,12 @@ class TabProgressListener {
     }
 
     public callProgressListeners(
-        method: string, 
-        args: any, 
-        callGlobalListeners?: boolean, 
+        method: string,
+        args: any,
+        callGlobalListeners?: boolean,
         callTabsListeners?: boolean
     ) {
-        if(!this.browser) return;
+        if (!this.browser) return;
 
         return dot.tabs.callProgressListeners(
             this.browser,
@@ -90,14 +88,11 @@ class TabProgressListener {
     }
 
     public isForInitialAboutBlank(
-        webProgress: any, 
-        flags: any, 
+        webProgress: any,
+        flags: any,
         location: MozURI
     ) {
-        if (
-            !this.blank || 
-            !webProgress.isTopLevel
-        ) {
+        if (!this.blank || !webProgress.isTopLevel) {
             return false;
         }
 
@@ -109,7 +104,10 @@ class TabProgressListener {
             return true;
         }
 
-        return (location ? location.spec : "") == "about:blank";
+        return (
+            (location ? location.spec : "") ==
+            "about:blank"
+        );
     }
 
     public onProgressChange(
@@ -128,10 +126,7 @@ class TabProgressListener {
             return;
         }
 
-        if (
-            this.totalProgress && 
-            this.tab?.busy
-        ) {
+        if (this.totalProgress && this.tab?.busy) {
             this.tab.progress = true;
         }
 
@@ -141,23 +136,20 @@ class TabProgressListener {
             curSelfProgress,
             maxSelfProgress,
             curTotalProgress,
-            maxTotalProgress,
+            maxTotalProgress
         ]);
     }
 
     public onProgressChange64 = this.onProgressChange;
 
     public onStateChange(
-        webProgress: any, 
-        request: any, 
-        flags: number, 
+        webProgress: any,
+        request: any,
+        flags: number,
         status: any
     ) {
-        if (
-            !this.browser ||
-            !this.tab ||
-            !request
-        ) return;
+        if (!this.browser || !this.tab || !request)
+            return;
 
         let location;
         let originalLocation;
@@ -176,21 +168,16 @@ class TabProgressListener {
         );
 
         if (
-            (
-                ignoreBlank &&
+            (ignoreBlank &&
                 flags & STATE_STOP &&
-                flags & STATE_IS_NETWORK
-            ) ||
-            (
-                !ignoreBlank && 
-                this.blank
-            )
+                flags & STATE_IS_NETWORK) ||
+            (!ignoreBlank && this.blank)
         ) {
             this.blank = false;
         }
 
         if (
-            flags & STATE_START && 
+            flags & STATE_START &&
             flags & STATE_IS_NETWORK
         ) {
             this.requestCount++;
@@ -199,22 +186,25 @@ class TabProgressListener {
                 if (
                     !(
                         originalLocation &&
-                        TabUtils.initialPages.includes(originalLocation.spec) &&
-                        originalLocation !== "about:blank" &&
-                        (
-                            this.browser?.initialPageLoadedFromUserAction !==
+                        TabUtils.initialPages.includes(
                             originalLocation.spec
                         ) &&
+                        originalLocation !==
+                            "about:blank" &&
+                        this.browser
+                            ?.initialPageLoadedFromUserAction !==
+                            originalLocation.spec &&
                         this.browser?.currentURI &&
-                        this.browser?.currentURI.spec == "about:blank"
+                        this.browser?.currentURI.spec ==
+                            "about:blank"
                     )
                 ) {
-                    console.log("Started load")
+                    console.log("Started load");
                 }
 
                 delete (this.browser as any)
                     .initialPageLoadedFromUserAction;
-                
+
                 this.tab.crashed = false;
             }
 
@@ -228,7 +218,7 @@ class TabProgressListener {
                 }
             }
         } else if (
-            flags & STATE_STOP && 
+            flags & STATE_STOP &&
             flags & STATE_IS_NETWORK
         ) {
             this.requestCount = 0;
@@ -237,19 +227,20 @@ class TabProgressListener {
             this.tab.progress == false;
 
             if (webProgress.isTopLevel) {
-                const isSuccess = Components.isSuccessCode(status);
+                const isSuccess =
+                    Components.isSuccessCode(status);
 
-                if (
-                    !isSuccess && 
-                    !this.tab.isEmpty
-                ) {
+                if (!isSuccess && !this.tab.isEmpty) {
                     const { isNavigating } = this.browser;
 
-                    if (this.tab.active && !isNavigating) {
+                    if (
+                        this.tab.active &&
+                        !isNavigating
+                    ) {
                         console.log("reset URL");
                     }
                 } else if (isSuccess) {
-                    console.log("Finished loading")
+                    console.log("Finished loading");
                 }
             }
 
@@ -257,7 +248,10 @@ class TabProgressListener {
             if (
                 !this.browser.mIconURL &&
                 !ignoreBlank &&
-                !(originalLocation.spec in TabUtils.faviconDefaults)
+                !(
+                    originalLocation.spec in
+                    TabUtils.faviconDefaults
+                )
             ) {
                 this.tab.icon = "";
             }
@@ -295,15 +289,12 @@ class TabProgressListener {
     }
 
     public onLocationChange(
-        webProgress: any, 
-        request: any, 
-        location: MozURI, 
+        webProgress: any,
+        request: any,
+        location: MozURI,
         flags: number
     ) {
-        if(
-            !this.tab ||
-            !this.browser
-        ) return;
+        if (!this.tab || !this.browser) return;
 
         const { isTopLevel } = webProgress;
 
@@ -329,14 +320,20 @@ class TabProgressListener {
             //     this.browser.userTypedValue = null;
             // }
 
-            if (this.tab && isErrorPage && this.tab?.busy) {
+            if (
+                this.tab &&
+                isErrorPage &&
+                this.tab?.busy
+            ) {
                 this.tab.busy = false;
             }
 
             if (!isSameDocument) {
                 // If the tab is audible, we stop the audio.
                 if (this.tab?.audible) {
-                    clearTimeout(this.tab.soundPlayingRemovalTimer);
+                    clearTimeout(
+                        this.tab.soundPlayingRemovalTimer
+                    );
 
                     this.tab.soundPlayingRemovalTimer = 0;
                     this.tab.audible = false;
@@ -361,26 +358,29 @@ class TabProgressListener {
                 }
             }
 
-            if (!dot.utilities.isBlankPageURL(location.spec)) {
+            if (
+                !dot.utilities.isBlankPageURL(
+                    location.spec
+                )
+            ) {
                 this.browser.registeredOpenURI = location;
             }
         }
 
-        if (!this.blank || this.browser.hasContentOpener) {
-            this.callProgressListeners("onLocationChange", [
-                webProgress,
-                request,
-                location,
-                flags,
-            ]);
+        if (
+            !this.blank ||
+            this.browser.hasContentOpener
+        ) {
+            this.callProgressListeners(
+                "onLocationChange",
+                [webProgress, request, location, flags]
+            );
 
             if (isTopLevel && !isSameDocument) {
-                this.callProgressListeners("onContentBlockingEvent", [
-                    webProgress,
-                    null,
-                    0,
-                    true,
-                ]);
+                this.callProgressListeners(
+                    "onContentBlockingEvent",
+                    [webProgress, null, 0, true]
+                );
             }
         }
 
@@ -391,9 +391,9 @@ class TabProgressListener {
     }
 
     public onStatusChange(
-        webProgress: any, 
-        request: any, 
-        status: any, 
+        webProgress: any,
+        request: any,
+        status: any,
         message: string
     ) {
         if (this.blank) return;
@@ -402,21 +402,21 @@ class TabProgressListener {
             webProgress,
             request,
             status,
-            message,
+            message
         ]);
 
         this.message = message;
     }
 
     public onSecurityChange(
-        webProgress: any, 
-        request: any, 
+        webProgress: any,
+        request: any,
         state: any
     ) {
         this.callProgressListeners("onSecurityChange", [
             webProgress,
             request,
-            state,
+            state
         ]);
     }
 
@@ -425,31 +425,28 @@ class TabProgressListener {
         request: any,
         event: any
     ) {
-        this.callProgressListeners("onContentBlockingEvent", [
-            webProgress,
-            request,
-            event,
-        ]);
+        this.callProgressListeners(
+            "onContentBlockingEvent",
+            [webProgress, request, event]
+        );
     }
 
     public onRefreshAttempted(
-        webProgress: any, 
-        uri: MozURI, 
-        delay: any, 
+        webProgress: any,
+        uri: MozURI,
+        delay: any,
         sameURI: MozURI
     ) {
-        return this.callProgressListeners("onRefreshAttempted", [
-            webProgress,
-            uri,
-            delay,
-            sameURI,
-        ]);
+        return this.callProgressListeners(
+            "onRefreshAttempted",
+            [webProgress, uri, delay, sameURI]
+        );
     }
 
     public QueryInterface = ChromeUtils.generateQI([
         "nsIWebProgressListener",
         "nsIWebProgressListener2",
-        "nsISupportsWeakReference",
+        "nsISupportsWeakReference"
     ]);
 }
 
