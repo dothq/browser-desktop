@@ -84,10 +84,6 @@ You can find the Dot Browser roadmap [here](https://github.com/orgs/dothq/projec
 
 -   Dot Browser wouldn't be possible without the amazing [Firefox open-source project](https://hg.mozilla.org/mozilla-central/), developed by [Mozilla](https://mozilla.org).
 
-## 🤝 Contributors
-
--   [EnderDev](https://github.com/EnderDev) - **_Main Developer_**
-
 ## 💸 Donations
 
 We accept donations on [Liberapay](https://liberapay.com/dothq) or [Patreon](https://patreon.com/dothq) to keep our servers running.
