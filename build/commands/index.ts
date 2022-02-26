@@ -16,4 +16,4 @@ export const commands = [
     BuildCommand,
     RunCommand,
     UndoCommand
-]
+];

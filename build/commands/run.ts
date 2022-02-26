@@ -6,11 +6,11 @@ export class RunCommand {
     public name = "run";
     public description = "Runs Dot Browser.";
 
-    public aliases = [
-        "r"
-    ]
+    public aliases = ["r"];
 
     public async exec(cli: Melon) {
-        await $$({ cwd: engineDir })`./mach run ${process.argv.splice(3)}`;
+        await $$({
+            cwd: engineDir
+        })`./mach run ${process.argv.splice(3)}`;
     }
 }

@@ -6,13 +6,17 @@ export const makeCommitSafe = (msg: string) => {
 
     ensureDirSync(patchesDir);
 
-    const totalPatches = readdirSync(patchesDir).filter(f => f.endsWith(".patch")).length;
+    const totalPatches = readdirSync(patchesDir).filter(
+        (f) => f.endsWith(".patch")
+    ).length;
 
     const friendlyCommitMsg = msg
         .replace(/\s/g, "-")
         .replace(/[^A-Za-z0-9-._]/g, "");
-        
-    const patchName = `${(totalPatches + 1).toString().padStart(4, "0")}-${friendlyCommitMsg}.patch`;
+
+    const patchName = `${(totalPatches + 1)
+        .toString()
+        .padStart(4, "0")}-${friendlyCommitMsg}.patch`;
 
     return patchName;
-}
+};
