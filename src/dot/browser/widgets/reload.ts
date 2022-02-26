@@ -13,10 +13,9 @@ import { kReloadIcon } from "icons";
     tooltip: "reload-button-tooltip",
 
     showLabelByDefault: false,
-    
+
     icon: kReloadIcon
 })
 class ReloadButtonWidget extends CustomisableUIItem {}
 
 export default ReloadButtonWidget;
-

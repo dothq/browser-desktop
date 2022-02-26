@@ -25,21 +25,21 @@ declare global {
         openDialog: any;
         PathUtils: any;
         IOUtils: {
-            copy: (...args: any) => any
-            exists: (...args: any) => any
-            getChildren: (...args: any) => any
-            makeDirectory: (...args: any) => any
-            move: (...args: any) => any
-            read: (...args: any) => any
-            readJSON: (...args: any) => any
-            readUTF8: (...args: any) => any
-            remove: (...args: any) => any
-            setPermissions: (...args: any) => any
-            stat: (...args: any) => any
-            touch: (...args: any) => any
-            write: (...args: any) => any
-            writeJSON: (...args: any) => any
-            writeUTF8: (...args: any) => any
+            copy: (...args: any) => any;
+            exists: (...args: any) => any;
+            getChildren: (...args: any) => any;
+            makeDirectory: (...args: any) => any;
+            move: (...args: any) => any;
+            read: (...args: any) => any;
+            readJSON: (...args: any) => any;
+            readUTF8: (...args: any) => any;
+            remove: (...args: any) => any;
+            setPermissions: (...args: any) => any;
+            stat: (...args: any) => any;
+            touch: (...args: any) => any;
+            write: (...args: any) => any;
+            writeJSON: (...args: any) => any;
+            writeUTF8: (...args: any) => any;
         };
         dump: (...args: any) => any;
         windowRoot: {
@@ -102,8 +102,8 @@ declare global {
         innerWindowID: number;
         browsingContext: object;
         webNavigation: {
-            loadURI: (...args: any) => any
-        }
+            loadURI: (...args: any) => any;
+        };
         webProgress: any;
         sessionHistory: object;
         contentTitle: string;
@@ -150,16 +150,24 @@ declare global {
         unmute: (...args: any) => any;
         resumeMedia: (...args: any) => any;
         unselectedTabHover: (...args: any) => any;
-        didStartLoadSinceLastUserTyping: (...args: any) => any;
+        didStartLoadSinceLastUserTyping: (
+            ...args: any
+        ) => any;
         construct: (...args: any) => any;
         destroy: (...args: any) => any;
         updateForStateChange: (...args: any) => any;
-        updateWebNavigationForLocationChange: (...args: any) => any;
+        updateWebNavigationForLocationChange: (
+            ...args: any
+        ) => any;
         updateForLocationChange: (...args: any) => any;
         purgeSessionHistory: (...args: any) => any;
-        createAboutBlankContentViewer: (...args: any) => any;
+        createAboutBlankContentViewer: (
+            ...args: any
+        ) => any;
         stopScroll: (...args: any) => any;
-        _getAndMaybeCreateAutoScrollPopup: (...args: any) => any;
+        _getAndMaybeCreateAutoScrollPopup: (
+            ...args: any
+        ) => any;
         startScroll: (...args: any) => any;
         cancelScroll: (...args: any) => any;
         handleEvent: (...args: any) => any;
@@ -187,9 +195,13 @@ declare global {
         QueryInterface: (...args: any) => any;
         getCustomInterfaceCallback: (...args: any) => any;
         attributeChangedCallback: (...args: any) => any;
-        initializeAttributeInheritance: (...args: any) => any;
+        initializeAttributeInheritance: (
+            ...args: any
+        ) => any;
         inheritAttribute: (...args: any) => any;
-        getElementForAttrInheritance: (...args: any) => any;
+        getElementForAttrInheritance: (
+            ...args: any
+        ) => any;
         delayConnectedCallback: (...args: any) => any;
         isConnectedAndReady: boolean;
         docShell: any;

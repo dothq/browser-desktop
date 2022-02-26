@@ -21,8 +21,8 @@
         <script src="recovery/hmr.js"></script>
         <script>
             window.addEventListener("error", (err) => {
-                if(
-                    "windowReady" in window && 
+                if (
+                    "windowReady" in window &&
                     window.windowReady == true
                 ) {
                     // Continue the browser process as it was not a runtime error
@@ -30,12 +30,14 @@
                     throw err;
                 } else {
                     // Kill process
-                    
+
                     dump("Error loading browser.");
 
-                    Services.startup.quit(Ci.nsIAppStartup.eForceQuit);
+                    Services.startup.quit(
+                        Ci.nsIAppStartup.eForceQuit
+                    );
                 }
-            })
+            });
 
             window.windowReady = false;
             window.docShell.treeOwner.QueryInterface(

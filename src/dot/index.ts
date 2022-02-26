@@ -35,15 +35,17 @@ export class Browser extends Events {
 
     /**
      * Determines if the browser is a multi-process browser
-    */
-    public isMultiProcess = window.docShell.QueryInterface(Ci.nsILoadContext)
-        .useRemoteTabs;
+     */
+    public isMultiProcess =
+        window.docShell.QueryInterface(Ci.nsILoadContext)
+            .useRemoteTabs;
 
     /**
      * Determines if the browser is running in Fission mode
-    */
-    public isFission = window.docShell.QueryInterface(Ci.nsILoadContext)
-        .useRemoteSubframes;
+     */
+    public isFission = window.docShell.QueryInterface(
+        Ci.nsILoadContext
+    ).useRemoteSubframes;
 
     public constructor() {
         super();
@@ -57,7 +59,7 @@ export class Browser extends Events {
         */
         await this.storage.init();
         await this.customisable.init();
-        
+
         // Unlock the browser error handling.
         // All errors can be treated as warnings.
         window.windowReady = true;

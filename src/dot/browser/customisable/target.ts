@@ -9,15 +9,21 @@ class CustomisableUITarget {
 
     public ref?: RefObject<HTMLDivElement>;
 
-    public visible: (() => boolean | undefined) | undefined;
-    public movable: (() => boolean | undefined) | undefined;
+    public visible:
+        | (() => boolean | undefined)
+        | undefined;
+    public movable:
+        | (() => boolean | undefined)
+        | undefined;
 
     public render() {
         const isVisible = this.visible?.();
 
-        return (
-            div({ id: `browser-${this.id}`, ref: this.ref, hidden: isVisible })
-        )
+        return div({
+            id: `browser-${this.id}`,
+            ref: this.ref,
+            hidden: isVisible
+        });
     }
 
     public constructor() {

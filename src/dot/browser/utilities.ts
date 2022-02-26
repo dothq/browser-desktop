@@ -40,7 +40,7 @@ class BrowserUtilities {
     }
 
     public sleep(ms: number) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve) => {
             setTimeout(() => {
                 resolve();
             }, ms);
@@ -83,12 +83,15 @@ class BrowserUtilities {
             uri.scheme
         );
 
-        return handler instanceof Ci.nsIProtocolHandlerWithDynamicFlags
+        return handler instanceof
+            Ci.nsIProtocolHandlerWithDynamicFlags
             ? handler
-                .QueryInterface(Ci.nsIProtocolHandlerWithDynamicFlags)
-                .getFlagsForURI(uri)
+                  .QueryInterface(
+                      Ci.nsIProtocolHandlerWithDynamicFlags
+                  )
+                  .getFlagsForURI(uri)
             : handler.protocolFlags;
-      }
+    }
 
     public constructor(private browser: Browser) {}
 }

@@ -1,5 +1,12 @@
 import dot from "index";
-import { Ci, IOUtils, OS, PathUtils, Services, Sqlite } from "mozilla";
+import {
+    Ci,
+    IOUtils,
+    OS,
+    PathUtils,
+    Services,
+    Sqlite
+} from "mozilla";
 
 class BrowserDatabase {
     public name: string;
@@ -15,7 +22,7 @@ class BrowserDatabase {
 
             try {
                 const dbStorePath = PathUtils.join(
-                    await PathUtils.getProfileDir(), 
+                    await PathUtils.getProfileDir(),
                     "dbstore"
                 );
 
@@ -26,38 +33,43 @@ class BrowserDatabase {
                     new Uint8Array(),
                     {}
                 );
-            } catch(e) {
+            } catch (e) {
                 console.warn(e);
             }
-        
+
             while (!connection && retryCount++ < 25) {
                 try {
-                    connection = await Sqlite.openConnection({ path: this.path });
+                    connection =
+                        await Sqlite.openConnection({
+                            path: this.path
+                        });
 
                     this.ready = true;
                 } catch (e) {
                     await dot.utilities.sleep(100);
                 }
             }
-        
+
             if (!connection) {
-                window.dump(`*** Failed to establish connection to ${this.path}. ***`);
-                
-                return Services.startup.quit(Ci.nsIAppStartup.eForceQuit);
+                window.dump(
+                    `*** Failed to establish connection to ${this.path}. ***`
+                );
+
+                return Services.startup.quit(
+                    Ci.nsIAppStartup.eForceQuit
+                );
             }
 
             this.connection = connection;
             resolve(connection);
-        })
+        });
     }
 
-    public constructor(
-        name: string
-    ) {
+    public constructor(name: string) {
         this.name = name;
 
         this.path = OS.Path.join(
-            OS.Constants.Path.profileDir, 
+            OS.Constants.Path.profileDir,
             `dbstore/${name}.sqlite`
         );
     }

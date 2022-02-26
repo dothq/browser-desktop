@@ -8,30 +8,40 @@ export class UndoCommand {
     public name = "undo [commit]";
     public description = "Undo a patch.";
 
-    public aliases = [
-        "u"
-    ]
+    public aliases = ["u"];
 
     public async exec(cli: Melon, commit: string) {
-        const { data } = await $$({ cwd: engineDir, shutUp: true })`${[
+        const { data } = await $$({
+            cwd: engineDir,
+            shutUp: true
+        })`${[
             "git",
             "--no-pager",
             "log",
-            "--format=\"%H %s\"",
+            '--format="%H %s"',
             "-n",
-            "1",
-        ].concat(commit ? [commit] : []).join(" ")}`;
+            "1"
+        ]
+            .concat(commit ? [commit] : [])
+            .join(" ")}`;
 
         const [rev, ...rest] = data.split(" ");
         const msg = rest.join(" ");
 
-        if(msg.toLowerCase() == "initial commit") return lightError("Can't go any deeper than the first revision.")
+        if (msg.toLowerCase() == "initial commit")
+            return lightError(
+                "Can't go any deeper than the first revision."
+            );
 
-        const answer = await yesno(`Are you sure you want to undo "${msg}"?`);;
-        if(!answer) process.exit(0);
+        const answer = await yesno(
+            `Are you sure you want to undo "${msg}"?`
+        );
+        if (!answer) process.exit(0);
 
-        await $$({ cwd: engineDir })`git reset --soft ${`${rev}~1`}`;
+        await $$({
+            cwd: engineDir
+        })`git reset --soft ${`${rev}~1`}`;
 
-        return await (new ExportCommand()).exec(cli);
+        return await new ExportCommand().exec(cli);
     }
 }

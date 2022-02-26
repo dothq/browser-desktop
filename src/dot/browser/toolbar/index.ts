@@ -4,11 +4,13 @@ import dot from "index";
 @Target({
     id: "toolbar",
 
-    visible: () => dot.preferences.get("dot.ui.toolbar.visible", true),
-    movable: () => true,
+    visible: () =>
+        dot.preferences.get(
+            "dot.ui.toolbar.visible",
+            true
+        ),
+    movable: () => true
 })
-class BrowserToolbar {
-    
-}
+class BrowserToolbar {}
 
 export default BrowserToolbar;

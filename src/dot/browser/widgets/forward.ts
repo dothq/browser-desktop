@@ -13,10 +13,9 @@ import { kForwardIcon } from "icons";
     tooltip: "forward-button-tooltip",
 
     showLabelByDefault: false,
-    
+
     icon: kForwardIcon
 })
 class ForwardButtonWidget extends CustomisableUIItem {}
 
 export default ForwardButtonWidget;
-

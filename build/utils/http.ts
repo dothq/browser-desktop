@@ -5,14 +5,19 @@ import { basename } from "path";
 import { createProgress } from "./progress";
 import { sleep } from "./sleep";
 
-export const multipartGet = async (url: string, outfile: string) => {
+export const multipartGet = async (
+    url: string,
+    outfile: string
+) => {
     return new Promise(async (resolve) => {
         const pathname = basename(url);
-        const progress = createProgress("info", { text: `Starting download of ${pathname}... ${chalk.dim(`(00%)`)}` });
+        const progress = createProgress("info", {
+            text: `Starting download of ${pathname}... ${chalk.dim(
+                `(00%)`
+            )}`
+        });
 
-        const writable = createWriteStream(
-            outfile
-        );
+        const writable = createWriteStream(outfile);
 
         progress.start();
 
@@ -20,7 +25,8 @@ export const multipartGet = async (url: string, outfile: string) => {
 
         let receivedBytes = 0;
 
-        axios.get(url, { responseType: "stream" })
+        axios
+            .get(url, { responseType: "stream" })
             .then((res) => {
                 const stream = res.data;
 
@@ -29,11 +35,20 @@ export const multipartGet = async (url: string, outfile: string) => {
 
                     const percentCompleted = parseInt(
                         Math.round(
-                            (receivedBytes * 100) / parseInt(res.headers["content-length"] as string)
+                            (receivedBytes * 100) /
+                                parseInt(
+                                    res.headers[
+                                        "content-length"
+                                    ] as string
+                                )
                         ).toFixed(0)
-                    ).toString().padStart(2, "0");
+                    )
+                        .toString()
+                        .padStart(2, "0");
 
-                    progress.text = `Starting download of ${pathname}... ${chalk.dim(`(${percentCompleted}%)`)}`
+                    progress.text = `Starting download of ${pathname}... ${chalk.dim(
+                        `(${percentCompleted}%)`
+                    )}`;
 
                     const buffer = Buffer.from(chunk);
                     writable.write(buffer);
@@ -42,7 +57,7 @@ export const multipartGet = async (url: string, outfile: string) => {
                 stream.on("error", () => {
                     progress.end();
                     resolve(true);
-                })
+                });
 
                 stream.on("end", () => {
                     progress.end();
@@ -50,5 +65,5 @@ export const multipartGet = async (url: string, outfile: string) => {
                     resolve(true);
                 });
             });
-    })
-}
+    });
+};

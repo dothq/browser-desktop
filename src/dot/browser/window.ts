@@ -152,11 +152,11 @@ class BrowserWindow {
 
     /*
      * Check if the current window is in private mode
-    */
+     */
     public isPrivate() {
         return PrivateBrowsingUtils.isWindowPrivate(
             window
-        )
+        );
     }
 
     public constructor(private browser: Browser) {}

@@ -1,6 +1,10 @@
 import ora, { Options, Ora } from "ora";
 import { cli } from "..";
-import { infoLevel, successLevel, warnLevel } from "./log";
+import {
+    infoLevel,
+    successLevel,
+    warnLevel
+} from "./log";
 
 const levels: any = {
     info: infoLevel,
@@ -8,9 +12,12 @@ const levels: any = {
     warning: warnLevel,
     success: successLevel,
     ok: successLevel
-}
+};
 
-export const createProgress = (level: string, options?: Options) => {
+export const createProgress = (
+    level: string,
+    options?: Options
+) => {
     const prog: Ora & { end: () => Ora } = ora({
         text: "One moment...",
         ...options,
@@ -25,10 +32,12 @@ export const createProgress = (level: string, options?: Options) => {
         const text = prog.text;
 
         prog.stop();
-        level in cli ? (cli as any)[level](text) : console.log(text);
+        level in cli
+            ? (cli as any)[level](text)
+            : console.log(text);
 
         return prog;
-    }
+    };
 
     return prog;
-}
+};

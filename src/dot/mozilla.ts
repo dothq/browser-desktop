@@ -107,7 +107,7 @@ export const { BrowserToolboxLauncher } = i(
 
 export const { BrowserUIUtils } = i(
     "resource:///modules/BrowserUIUtils.jsm"
-)
+);
 
 export const { ConsoleAPI } = i(
     "resource://gre/modules/Console.jsm"
@@ -115,6 +115,9 @@ export const { ConsoleAPI } = i(
 
 let _BrowserHandler: any = {};
 XPCOMUtils.defineLazyServiceGetters(_BrowserHandler, {
-    BrowserHandler: ["@mozilla.org/browser/clh;1", "nsIBrowserHandler"],
+    BrowserHandler: [
+        "@mozilla.org/browser/clh;1",
+        "nsIBrowserHandler"
+    ]
 });
 export const { BrowserHandler } = _BrowserHandler;

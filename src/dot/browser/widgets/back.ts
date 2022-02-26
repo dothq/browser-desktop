@@ -13,7 +13,7 @@ import { kBackIcon } from "icons";
     tooltip: "back-button-tooltip",
 
     showLabelByDefault: false,
-    
+
     icon: kBackIcon
 })
 class BackButtonWidget extends CustomisableUIItem {}
