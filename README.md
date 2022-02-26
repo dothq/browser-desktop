@@ -6,6 +6,7 @@ Follow [@DotBrowser](https://twitter.com/DotBrowser) or [join our Discord](https
 
 ## Resources
 
+* [Roadmap](https://github.com/orgs/dothq/projects/6/views/1)
 * [Documentation](https://docs.dothq.co)
 * [Issues](https://github.com/dothq/browser/issues)
 * [Releases](https://github.com/dothq/browser-desktop/latest)
