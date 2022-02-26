@@ -1,0 +1,6 @@
+*.build
+*.mozbuild
+*.mn
+branding/
+config/profile.js
+dist/
