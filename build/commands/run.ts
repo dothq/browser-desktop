@@ -1,36 +1,16 @@
-import { existsSync, readdirSync } from "fs";
-import { resolve } from "path";
-import { bin_name, log } from "..";
-import { ENGINE_DIR } from "../constants";
-import { dispatch } from "../utils";
+import { Melon } from "..";
+import { engineDir } from "../utils/path";
+import { $$ } from "../utils/sh";
 
-export const run = async (chrome?: string) => {
-    const dirs = readdirSync(ENGINE_DIR);
-    const objDirname: any = dirs.find((dir) => {
-        return dir.startsWith("obj-");
-    });
+export class RunCommand {
+    public name = "run";
+    public description = "Runs Dot Browser.";
 
-    if (!objDirname) {
-        throw new Error(
-            "Dot Browser needs to be built before you can do this."
-        );
+    public aliases = [
+        "r"
+    ]
+
+    public async exec(cli: Melon) {
+        await $$({ cwd: engineDir })`./mach run ${process.argv.splice(3)}`;
     }
-
-    const objDir = resolve(ENGINE_DIR, objDirname);
-
-    if (existsSync(objDir)) {
-        dispatch(
-            "./mach",
-            ["run"].concat(
-                chrome ? ["-chrome", chrome] : []
-            ),
-            ENGINE_DIR,
-            true,
-            true
-        );
-    } else {
-        log.error(
-            `Unable to locate any built binaries.\nRun |${bin_name} build| to initiate a build.`
-        );
-    }
-};
+}

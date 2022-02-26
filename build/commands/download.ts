@@ -1,269 +1,159 @@
-import axios from "axios";
+import { path7za } from "7zip-bin";
 import chalk from "chalk";
-import execa from "execa";
-import fs, {
-    existsSync,
-    rmdirSync,
-    writeFileSync
-} from "fs";
-import { ensureDirSync, removeSync } from "fs-extra";
-import ora from "ora";
-import { homedir } from "os";
-import { posix, resolve, sep } from "path";
-import { bin_name, log } from "..";
-import { ENGINE_DIR } from "../constants";
-import { getLatestFF, writeMetadata } from "../utils";
-import { downloadArtifacts } from "./download-artifacts";
+import fs, { existsSync } from "fs";
+import { appendFile, ensureDirSync, move } from "fs-extra";
+import git from "isomorphic-git";
+import { extract, extractFull } from "node-7z";
+import { tmpdir } from "os";
+import { resolve } from "path";
+import rimraf from "rimraf";
+import { Melon } from "..";
+import { makeExecutable } from "../utils/executable";
+import { setConfig } from "../utils/git";
+import { multipartGet } from "../utils/http";
+import { engineDir } from "../utils/path";
+import { createProgress } from "../utils/progress";
+import { $$ } from "../utils/sh";
 
-const pjson = require("../../package.json");
+export class DownloadCommand {
+    public name = "download";
+    public description = "Get the Dot Browser project set-up."
 
-let initProgressText = "Initialising...";
-let initProgress: any = ora({
-    text: `Initialising...`,
-    prefixText: chalk.blueBright.bold("00:00:00"),
-    spinner: {
-        frames: [""]
-    },
-    indent: 0
-});
+    public aliases = [
+        "download",
+        "get",
+        "install"
+    ];
 
-const onData = (data: any) => {
-    const d = data.toString();
+    public async exec(cli: Melon) {
+        const melonCache = resolve(tmpdir(), "melonbuild");
 
-    d.split("\n").forEach((line: any) => {
-        if (line.trim().length !== 0) {
-            let t = line.split(" ");
-            t.shift();
-            initProgressText = t.join(" ");
-        }
-    });
-};
+        ensureDirSync(melonCache);
 
-const unpack = async (name: string, version: string) => {
-    let cwd = process.cwd().split(sep).join(posix.sep);
+        const archivePath = resolve(melonCache, `firefox-${cli.versions.firefox}.tar.xz`);
+        const archiveTarPath = resolve(melonCache, `firefox-${cli.versions.firefox}.tar`);
+        const archiveDecompressPath = resolve(melonCache, `firefox-${cli.versions.firefox}`);
+        const outPath = engineDir;
 
-    if (process.platform == "win32") {
-        cwd = "./";
-    }
+        if(existsSync(outPath)) {
+            const result = await cli.yesno("A project is already setup at \`engine\`, would you like to delete it?");
 
-    initProgress.start();
-
-    setInterval(() => {
-        if (initProgress) {
-            initProgress.text = initProgressText;
-            initProgress.prefixText =
-                chalk.blueBright.bold(log.getDiff());
-        }
-    }, 100);
-
-    initProgressText = `Unpacking Firefox...`;
-
-    try {
-        rmdirSync(ENGINE_DIR);
-    } catch (e) {}
-    ensureDirSync(ENGINE_DIR);
-
-    let tarProc = execa("tar", [
-        "--transform",
-        `s,firefox-${pjson.versions["firefox-display"]},engine,`,
-        `--show-transformed`,
-        "-xf",
-        resolve(cwd, ".dotbuild", "engines", name)
-    ]);
-
-    (tarProc.stdout as any).on("data", onData);
-    (tarProc.stdout as any).on("error", onData);
-
-    tarProc.on("exit", () => {
-        if (process.env.CI_SKIP_INIT)
-            return log.info("Skipping initialisation.");
-
-        const initProc = execa(`./${bin_name}`, [
-            "init",
-            "engine"
-        ]);
-
-        (initProc.stdout as any).on("data", onData);
-        (initProc.stdout as any).on("error", onData);
-
-        initProc.on("exit", async () => {
-            initProgressText = "";
-            initProgress.stop();
-            initProgress = null;
-
-            await new Promise((resolve) =>
-                setTimeout(resolve, 5000)
-            );
-
-            log.success(
-                `You should be ready to make changes to Dot Browser.\n\n\t   You should import the patches next, run |${bin_name} import|.\n\t   To begin building Dot, run |${bin_name} build|.`
-            );
-            console.log();
-
-            pjson.versions["firefox-display"] = version;
-            pjson.versions["firefox"] =
-                version.split("b")[0];
-
-            writeFileSync(
-                resolve(process.cwd(), "package.json"),
-                JSON.stringify(pjson, null, 4)
-            );
-
-            await writeMetadata();
-
-            removeSync(
-                resolve(cwd, ".dotbuild", "engines", name)
-            );
-
-            process.exit(0);
-        });
-    });
-};
-
-export const download = async (
-    firefoxVersion?: string
-) => {
-    if (firefoxVersion)
-        log.warning(
-            `A custom Firefox version is being used. Some features of Dot may not work as expected.`
-        );
-
-    if (!firefoxVersion) {
-        firefoxVersion =
-            pjson.versions["firefox-display"];
-    }
-
-    let version = await getLatestFF();
-
-    if (firefoxVersion) {
-        version = firefoxVersion;
-    }
-
-    const base = `https://archive.mozilla.org/pub/firefox/releases/${version}/source/`;
-    const filename = `firefox-${version}.source.tar.xz`;
-
-    const url = `${base}${filename}`;
-
-    log.info(`Locating Firefox release ${version}...`);
-
-    ensureDirSync(
-        resolve(process.cwd(), `.dotbuild`, `engines`)
-    );
-
-    if (
-        existsSync(
-            resolve(
-                process.cwd(),
-                `.dotbuild`,
-                `engines`,
-                `firefox-${version.split("b")[0]}`
-            )
-        )
-    ) {
-        log.error(
-            `Cannot download version ${
-                version.split("b")[0]
-            } as it already exists at "${resolve(
-                process.cwd(),
-                `firefox-${version.split("b")[0]}`
-            )}"`
-        );
-    }
-
-    if (version == firefoxVersion)
-        log.info(
-            `Version is frozen at ${firefoxVersion}!`
-        );
-    if (version.includes("b"))
-        log.warning(
-            "Version includes non-numeric characters. This is probably a beta."
-        );
-
-    if (
-        fs.existsSync(
-            resolve(
-                process.cwd(),
-                `.dotbuild`,
-                `engines`,
-                "firefox",
-                version.split("b")[0]
-            )
-        ) ||
-        fs.existsSync(
-            resolve(
-                process.cwd(),
-                "firefox",
-                "firefox-" + version.split("b")[0]
-            )
-        )
-    )
-        log.error(
-            `Workspace with version "${
-                version.split("b")[0]
-            }" already exists.\nRemove that workspace and run |${bin_name} download ${version}| again.`
-        );
-
-    log.info(`Downloading Firefox release ${version}...`);
-
-    const { data, headers } = await axios.get(url, {
-        responseType: "stream"
-    });
-
-    const length = headers["content-length"];
-
-    const writer = fs.createWriteStream(
-        resolve(
-            process.cwd(),
-            `.dotbuild`,
-            `engines`,
-            filename
-        )
-    );
-
-    let receivedBytes = 0;
-
-    data.on("data", (chunk: any) => {
-        receivedBytes += chunk.length;
-
-        let rand = Math.floor(Math.random() * 1000 + 1);
-
-        if (rand > 999.5) {
-            let percentCompleted = parseInt(
-                Math.round(
-                    (receivedBytes * 100) / length
-                ).toFixed(0)
-            );
-            if (
-                percentCompleted % 2 == 0 ||
-                percentCompleted >= 100
-            )
-                return;
-            log.info(
-                `\t${filename}\t${percentCompleted}%...`
-            );
-        }
-    });
-
-    data.pipe(writer);
-
-    data.on("end", async () => {
-        await unpack(filename, version);
-
-        if (process.platform === "win32") {
-            if (
-                existsSync(
-                    resolve(homedir(), ".mozbuild")
-                )
-            ) {
-                log.info(
-                    "Mozbuild directory already exists, not redownloading"
-                );
+            if(result) {
+                cli.info(`Removing engine directory...`);
+                rimraf.sync(outPath);
             } else {
-                log.info(
-                    "Mozbuild not found, downloading artifacts."
-                );
-                await downloadArtifacts();
+                process.exit(0);
             }
         }
-    });
-};
+
+        if(!existsSync(archivePath)) {
+            await multipartGet(
+                `https://archive.mozilla.org/pub/firefox/releases/${cli.versions.firefox}/source/firefox-${cli.versions.firefox}.source.tar.xz`,
+                archivePath
+            );
+        }
+
+        if(
+            existsSync(archiveTarPath) ||
+            existsSync(archiveDecompressPath)
+        ) {
+            cli.info(`Cleaning up left over cache...`);
+            rimraf.sync(archiveTarPath);
+            rimraf.sync(archiveDecompressPath);
+        }
+
+        const sevenPath = resolve(
+            process.cwd(), 
+            "node_modules", 
+            "7zip-bin", 
+            ...path7za
+                .split(__dirname)[1]
+                .split(process.platform == "win32" ? "\\" : "/")
+        )
+
+        const tar = extract(archivePath, resolve(tmpdir(), "melonbuild"), {
+            recursive: true,
+            $progress: true,
+            $bin: sevenPath
+        });
+
+        const unpackProgress = createProgress("info", { text: `Unpacking to engine...` });
+        unpackProgress.start();
+
+        let tarFile = "";
+        let xzPercent = 0;
+        let tarPercent = 0;
+
+        tar.on("progress", (progress) => {
+            xzPercent = progress.percent / 2
+            unpackProgress.text = `Unpacking to engine... ${chalk.dim(`(${Math.min((xzPercent + tarPercent), 100).toFixed(0).toString().padStart(2, "0")}%)`)}`
+        })
+
+        tar.on("data", (data) => {
+            tarFile = data.file;
+        })
+
+        tar.on("error", () => {})
+
+        tar.on("end", async () => {
+            const path = resolve(tmpdir(), "melonbuild", tarFile);
+            const extractPath = resolve(tmpdir(), "melonbuild");
+
+            if(existsSync(path)) {
+                await git.init({ fs, dir: archiveDecompressPath });
+                await setConfig(archiveDecompressPath,
+                    "core.autocrlf",
+                    false
+                );
+                $$({ cwd: archiveDecompressPath, shutUp: true })`git checkout --orphan ff`
+
+                const stream = extractFull(path, extractPath, {
+                    $bin: sevenPath,
+                    $progress: true,
+                    recursive: true
+                });
+
+                stream.on("data", async (data) => {
+                    if(data.status !== "extracted") return;
+                    
+                    const filepath = data.file.split(`firefox-${cli.versions.firefox}/`)[1];
+
+                    if(filepath && filepath.length && existsSync(resolve(extractPath, data.file))) {
+                        try {
+                            git.add({ 
+                                fs, 
+                                dir: resolve(extractPath, `firefox-${cli.versions.firefox}`), 
+                                filepath
+                            }).catch(e => {})
+                        } catch(e) {}
+                    }
+                })
+
+                stream.on("progress", async (progress) => {
+                    tarPercent = progress.percent / 2
+                    unpackProgress.text = `Unpacking to engine... ${chalk.dim(`(${Math.min((xzPercent + tarPercent), 100).toFixed(0).toString().padStart(2, "0")}%)`)}`
+                })
+
+                stream.on("end", async () => {
+                    rimraf.sync(archiveTarPath);
+                    
+                    await move(resolve(extractPath, `firefox-${cli.versions.firefox}`), outPath);
+                    
+                    unpackProgress.end();
+                    
+                    cli.info(`Setting up Git...`)
+                    await $$({ cwd: engineDir, stream: true })`git add . -v`;
+                    await $$({ cwd: engineDir, stream: true })`git commit -m "Initial commit"`;
+                    await $$({ cwd: engineDir })`git checkout -b dot`;
+
+                    await makeExecutable();
+
+                    cli.success(`Congratulations, Dot Browser for Desktop is now ready for building.`);
+                    process.exit(0);
+                })
+            } else {
+                cli.error(`Failed to unpack ${path} to engine.`)
+            }
+        })
+    }
+}
