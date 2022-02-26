@@ -2,7 +2,7 @@
 ac_add_options --enable-update-channel=release
 ac_add_options --with-branding=dot/branding
 ac_add_options --with-app-name=dot
-export MOZ_USER_DIR="Dot Browser"
+ac_add_options --without-wasm-sandboxed-libraries
 export MOZ_APP_VENDOR="Dot HQ"
 export MOZ_APP_BASENAME=Dot
 export MOZ_APP_PROFILE=dot
@@ -11,6 +11,7 @@ export MOZ_BRANDING_DIRECTORY=dot/branding
 export MOZ_OFFICIAL_BRANDING_DIRECTORY=dot/branding
 export MOZ_MACBUNDLE_ID=co.dothq.browser
 export MOZ_DISTRIBUTION_ID=co.dothq.browser
+export MOZ_USER_DIR="dot"
 
 # Uncomment if builds are too resource hungry
 # mk_add_options MOZ_MAKE_FLAGS="-j4"
