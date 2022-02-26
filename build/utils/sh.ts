@@ -42,6 +42,7 @@ const execute = async (strings: any, options?: Options): Promise<Response> => {
 			onStartError: () => {},
 			...(options || {}),
 			env: {
+				MACH_USE_SYSTEM_PYTHON: "1",
 				...process.env,
 				...(options?.env || {}),
 			},
