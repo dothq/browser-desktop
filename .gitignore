@@ -15,6 +15,7 @@ yarn-error.log
 __pycache__
 firefox-*
 engine-*/**/*
+.melon
 
 # Ignore custom mozbuild files placed in the root directory
 /mozconfig
