@@ -6,7 +6,8 @@
 
 DIRS += [
     "config",
-    "dist"
+    "dist",
+    "static"
 ]
 
 for var in ("MOZ_APP_NAME", "MOZ_MACBUNDLE_NAME"):
