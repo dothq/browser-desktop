@@ -3,18 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React, { PureComponent } from "react";
-import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
+import styled from "styled-components";
+import ToolbarButton from "../common/button/toolbar";
 
-class Tabs extends PureComponent {
+const StyledAddTab = styled(ToolbarButton)`
+	margin-inline-start: 0.12rem;
+`;
+
+class AddTab extends PureComponent {
 	public render() {
-		return (
-			<>
-				<Tab />
-				<AddTab />
-			</>
-		);
+		return <StyledAddTab icon={"add.svg"} />;
 	}
 }
 
-export default Tabs;
+export default AddTab;
