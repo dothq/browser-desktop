@@ -3,18 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React, { PureComponent } from "react";
-import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
+import { StyledSidebar } from "./Sidebar.style";
 
-class Tabs extends PureComponent {
+class Sidebar extends PureComponent {
 	public render() {
-		return (
-			<>
-				<Tab />
-				<AddTab />
-			</>
-		);
+		return <StyledSidebar />;
 	}
 }
 
-export default Tabs;
+export default Sidebar;

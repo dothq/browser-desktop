@@ -2,19 +2,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import Icon from "browser/components/common/icon";
 import React, { PureComponent } from "react";
-import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
+import { StyledFavicon } from "./Favicon.style";
 
-class Tabs extends PureComponent {
+class TabFavicon extends PureComponent {
 	public render() {
 		return (
-			<>
-				<Tab />
-				<AddTab />
-			</>
+			<StyledFavicon>
+				<Icon
+					size={16}
+					icon={"https://permission.site/favicon.ico"}
+				/>
+			</StyledFavicon>
 		);
 	}
 }
 
-export default Tabs;
+export default TabFavicon;

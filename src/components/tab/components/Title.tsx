@@ -2,19 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { Base } from "browser/components/common/typography/base";
 import React, { PureComponent } from "react";
-import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
 
-class Tabs extends PureComponent {
+class TabTitle extends PureComponent {
 	public render() {
-		return (
-			<>
-				<Tab />
-				<AddTab />
-			</>
-		);
+		return <Base>permission.site</Base>;
 	}
 }
 
-export default Tabs;
+export default TabTitle;

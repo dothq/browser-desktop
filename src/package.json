@@ -11,18 +11,15 @@
 	"dependencies": {
 		"@dothq/react-dom": "^17.0.0-03fdea5-xul",
 		"@hotwired/stimulus": "^3.0.1",
-		"@linaria/babel-preset": "^3.0.0-beta.15",
-		"@linaria/core": "^3.0.0-beta.15",
-		"@linaria/react": "^3.0.0-beta.15",
-		"@linaria/shaker": "^3.0.0-beta.15",
 		"@types/react": "^17.0.39",
 		"@types/react-dom": "^17.0.11",
 		"mobx": "^6.3.13",
 		"mobx-react": "^7.3.0",
 		"react": "^17.0.2",
-		"react-merge-refs": "^1.1.0"
+		"styled-components": "^5.3.3"
 	},
 	"devDependencies": {
+		"@types/styled-components": "^5.1.23",
 		"esbuild": "^0.14.21",
 		"prettier": "2.5.1",
 		"prettier-plugin-organize-imports": "^2.3.4",
