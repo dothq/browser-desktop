@@ -5,7 +5,9 @@
 import { BrowserToolboxLauncher } from "mozilla";
 import React, { PureComponent } from "react";
 import ErrorBoundary from "../errors/ErrorBoundary";
-import Tabs from "../tabs/Tabs";
+import BrowserFrame from "../frame/BrowserFrame";
+import TabBar from "../tabbar/TabBar";
+import { GlobalStyle } from "./Application.style";
 
 class Application extends PureComponent {
 	public constructor(props: {}) {
@@ -19,7 +21,10 @@ class Application extends PureComponent {
 	public render() {
 		return (
 			<ErrorBoundary>
-				<Tabs />
+				<GlobalStyle />
+
+				<TabBar />
+				<BrowserFrame />
 			</ErrorBoundary>
 		);
 	}
