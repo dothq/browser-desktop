@@ -3,19 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React, { PureComponent } from "react";
-import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
-import { TabsContainer } from "./Tabs.style";
+import { StyledBrowser } from "./Browser.style";
 
-class Tabs extends PureComponent {
+class Browser extends PureComponent {
 	public render() {
-		return (
-			<TabsContainer>
-				<Tab />
-				<AddTab />
-			</TabsContainer>
-		);
+		return <StyledBrowser />;
 	}
 }
 
-export default Tabs;
+export default Browser;

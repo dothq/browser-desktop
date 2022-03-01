@@ -4,3 +4,6 @@
 
 browser.jar:
 % content dot %content/dot/ contentaccessible=yes
+
+% skin dot classic/1.0 %skin/
+    skin/icons (icons/**/*.*)

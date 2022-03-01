@@ -3,19 +3,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React, { PureComponent } from "react";
-import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
-import { TabsContainer } from "./Tabs.style";
+import {
+	AddressbarBackground,
+	StyledAddressbar,
+} from "./Addressbar.style";
 
-class Tabs extends PureComponent {
+class Addressbar extends PureComponent {
 	public render() {
 		return (
-			<TabsContainer>
-				<Tab />
-				<AddTab />
-			</TabsContainer>
+			<StyledAddressbar>
+				<AddressbarBackground />
+			</StyledAddressbar>
 		);
 	}
 }
 
-export default Tabs;
+export default Addressbar;
