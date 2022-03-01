@@ -5,13 +5,12 @@
 import styled from "styled-components";
 import Box from "../common/box";
 
-export const StyledTabBar = styled(Box)`
+export const TabsContainer = styled(Box)`
 	display: flex;
+	flex: 1;
 	align-items: center;
 
-	height: 44px;
+	padding-top: 6px;
 
-	padding-inline-start: 3rem;
-
-	-moz-window-dragging: drag;
+	height: 100%;
 `;
