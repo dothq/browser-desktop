@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React, { PureComponent } from "react";
+import NativeWindowDecorations from "../csd/WindowDecorations.native";
 import Tabs from "../tabs/Tabs";
 import { StyledTabBar } from "./TabBar.style";
 
@@ -10,7 +11,11 @@ class TabBar extends PureComponent {
 	public render() {
 		return (
 			<StyledTabBar id={"tabbar"}>
+				<NativeWindowDecorations side={"left"} />
+
 				<Tabs />
+
+				<NativeWindowDecorations side={"right"} />
 			</StyledTabBar>
 		);
 	}
