@@ -12,7 +12,7 @@ class TabFavicon extends PureComponent {
 			<StyledFavicon>
 				<Icon
 					size={16}
-					icon={"https://permission.site/favicon.ico"}
+					icon={"chrome://branding/content/icon64.png"}
 				/>
 			</StyledFavicon>
 		);

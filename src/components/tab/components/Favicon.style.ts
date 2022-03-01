@@ -10,7 +10,7 @@ export const StyledFavicon = styled(Box)`
 	justify-content: flex-end;
 
 	width: 2.2rem;
-	height: 1rem;
+	height: 1.2rem;
 
 	overflow: hidden;
 `;
