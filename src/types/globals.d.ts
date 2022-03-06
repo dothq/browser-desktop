@@ -1,5 +1,5 @@
+import { Browser } from "browser/components/main";
 import { TabBrowserStartup } from "browser/components/main/startup";
-import { TabBrowser } from "browser/components/main/tabbrowser";
 import { ChromeUtils } from "mozilla";
 
 declare global {
@@ -59,7 +59,7 @@ declare global {
 		Ci: any;
 		Cu: any;
 		Services: any;
-		gBrowser: TabBrowser;
+		gBrowser: Browser;
 		gBrowserInit: TabBrowserStartup;
 		[key: string]: any;
 	}
