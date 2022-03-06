@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import styled, { css } from "styled-components";
+import styled from "@emotion/styled";
 
 const Icon = styled.i`
 	display: flex;
@@ -17,7 +17,7 @@ const Icon = styled.i`
 		icon: any;
 		iconSize?: number | string;
 		roundness?: number;
-	}) => css`
+	}) => `
 		width: ${typeof size == "number" ? `${size}px` : size};
 		width: ${typeof size == "number" ? `${size}px` : size};
 		min-width: ${typeof size == "number" ? `${size}px` : size};
@@ -27,16 +27,20 @@ const Icon = styled.i`
 
 		border-radius: ${roundness}px;
 
-		background-image: url(${icon.includes("://")
-			? icon
-			: `chrome://dot/skin/icons/${icon}`});
-		background-size: ${iconSize
-			? typeof iconSize == "number"
-				? `${iconSize}px`
-				: iconSize
-			: typeof size == "number"
-			? `${size}px`
-			: size};
+		background-image: url(${
+			icon.includes("://")
+				? icon
+				: `chrome://dot/skin/icons/${icon}`
+		});
+		background-size: ${
+			iconSize
+				? typeof iconSize == "number"
+					? `${iconSize}px`
+					: iconSize
+				: typeof size == "number"
+				? `${size}px`
+				: size
+		};
 		background-repeat: no-repeat;
 	`}
 `;

@@ -7,11 +7,11 @@
 		"noImplicitAny": true,
 		"useDefineForClassFields": true,
 		"experimentalDecorators": true,
-		"jsx": "react",
+		"jsx": "preserve",
+		"jsxImportSource": "@emotion/react",
 		"baseUrl": ".",
 		"paths": {
-			"browser/*": ["./*"],
-			"react-dom": ["./node_modules/@dothq/react-dom"]
+			"browser/*": ["./*"]
 		}
 	}
 }

@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import styled from "@emotion/styled";
 import Box from "browser/components/common/box";
-import styled, { css } from "styled-components";
 
 export const StyledCSD = styled(Box)`
 	display: flex;
@@ -14,7 +14,7 @@ export const StyledCSD = styled(Box)`
 		display: none;
 	}
 
-	${({ side }: { side: string }) => css`
+	${({ side }: { side: string }) => `
 		flex-direction: ${side == "left" ? `row-reverse` : `row`};
 
 		@media (-moz-gtk-csd-reversed-placement) {
@@ -33,7 +33,7 @@ export const StyledCSDButton = styled(Box)`
 	-moz-box-pack: center;
 	display: -moz-box;
 
-	${({ variant }: { variant: string }) => css`
+	${({ variant }: { variant: string }) => `
 		@media (-moz-gtk-csd-available) {
 			@media not (-moz-gtk-csd-${variant}-button) {
 				display: none;
