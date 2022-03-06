@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import styled from "@emotion/styled";
 import React, { PureComponent } from "react";
-import styled from "styled-components";
 import ToolbarButton from "../common/button/toolbar";
 
 const StyledAddTab = styled(ToolbarButton)`

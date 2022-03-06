@@ -9,17 +9,19 @@
 		"i": "yarn install"
 	},
 	"dependencies": {
-		"@dothq/react-dom": "^17.0.0-03fdea5-xul",
+		"@emotion/cache": "^11.7.1",
+		"@emotion/css": "^11.7.1",
+		"@emotion/react": "^11.8.1",
+		"@emotion/styled": "^11.8.1",
 		"@hotwired/stimulus": "^3.0.1",
 		"@types/react": "^17.0.39",
 		"@types/react-dom": "^17.0.11",
 		"mobx": "^6.3.13",
 		"mobx-react": "^7.3.0",
 		"react": "^17.0.2",
-		"styled-components": "^5.3.3"
+		"react-dom": "^17.0.2"
 	},
 	"devDependencies": {
-		"@types/styled-components": "^5.1.23",
 		"esbuild": "^0.14.21",
 		"prettier": "2.5.1",
 		"prettier-plugin-organize-imports": "^2.3.4",
