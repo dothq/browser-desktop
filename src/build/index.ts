@@ -10,6 +10,7 @@ import { bundleAssets } from "./assets";
 import { buildChunks } from "./chunks";
 import { buildReact } from "./react";
 import { buildStimulus } from "./stimulus";
+import { checkTypes } from "./type-checking";
 import bytes from "./util/bytes";
 
 export const commonConfig: BuildOptions = {
@@ -39,6 +40,7 @@ async function main() {
 		rimraf.sync(resolve(process.cwd(), "dist"));
 
 		const targets = [
+			await checkTypes(),
 			await buildReact(),
 			await buildStimulus(),
 			await buildChunks(),
