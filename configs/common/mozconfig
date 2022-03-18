@@ -21,4 +21,3 @@ export MOZ_USER_DIR="dot"
 export MOZ_STUB_INSTALLER=1
 export MOZ_INCLUDE_SOURCE_INFO=1
 export MOZ_SOURCE_REPO=https://github.com/dothq/browser-desktop
-export MOZ_SOURCE_CHANGESET=c2b5d22729ee8f53dd94b10c60797bb5e2f56cc8
