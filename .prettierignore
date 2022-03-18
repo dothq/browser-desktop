@@ -3,5 +3,5 @@ engine/
 *.mozbuild
 *.mn
 branding
-src/config
+config
 dist
