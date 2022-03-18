@@ -1,1 +1,7 @@
 engine/
+*.build
+*.mozbuild
+*.mn
+branding
+src/config
+dist
