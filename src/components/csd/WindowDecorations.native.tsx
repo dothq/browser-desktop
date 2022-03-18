@@ -3,32 +3,45 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React, { PureComponent } from "react";
-import {
-	CSDContainer,
-	StyledCSD,
-	StyledCSDButton,
-} from "./WindowDecorations.native.style";
+import CSDButton from "./WindowDecorationButton";
+import { StyledCSD } from "./WindowDecorations.native.style";
 
 interface Props {
 	side: "left" | "right";
 }
 
-class NativeWindowDecorations extends PureComponent<Props> {
+interface State {
+	maximised: boolean;
+}
+
+class NativeWindowDecorations extends PureComponent<Props, State> {
+	public state = {
+		maximised: false,
+	};
+
+	public componentDidMount() {
+		window.addEventListener(
+			"sizemodechange",
+			this.onSizemodeChange.bind(this)
+		);
+	}
+
+	public onSizemodeChange() {
+		this.setState({
+			maximised: window.windowState == window.STATE_MAXIMIZED,
+		});
+	}
+
 	public render() {
 		return (
 			<StyledCSD side={this.props.side}>
-				<CSDContainer>
-					<StyledCSDButton variant={"minimize"} />
-				</CSDContainer>
-				<CSDContainer>
-					<StyledCSDButton variant={"maximize"} />
-				</CSDContainer>
-				<CSDContainer>
-					<StyledCSDButton variant={"restore"} />
-				</CSDContainer>
-				<CSDContainer>
-					<StyledCSDButton variant={"close"} />
-				</CSDContainer>
+				<CSDButton variant={"minimize"} />
+				<CSDButton
+					variant={
+						this.state.maximised ? "restore" : "maximize"
+					}
+				/>
+				<CSDButton variant={"close"} />
 			</StyledCSD>
 		);
 	}
