@@ -32,6 +32,6 @@ jobs:
               run: |
                   cd browser-desktop
                   git status
-                  git add .
-                  git commit -m "🎨 Enforce code style"
-                  git push origin ${GITHUB_REF#refs/heads/}
+                  git add . 2>&1 || true
+                  git commit -m "🎨 Enforce code style" 2>&1 || true
+                  git push origin ${GITHUB_REF#refs/heads/} 2>&1 || true
