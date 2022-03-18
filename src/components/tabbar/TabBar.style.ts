@@ -11,7 +11,25 @@ export const StyledTabBar = styled(Box)`
 
 	height: 44px;
 
-	padding-inline-start: 3rem;
+	background-color: rgb(242, 242, 244); // @todo add themes
 
 	-moz-window-dragging: drag;
+
+	@media (-moz-gtk-csd-available) {
+		border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
+		border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
+	}
+`;
+
+export const TabsContainer = styled(Box)`
+	display: flex;
+	flex: 1;
+	align-items: center;
+
+	padding-top: 6px;
+	padding-inline-start: 3rem;
+
+	height: 100%;
+
+	gap: 0.35rem;
 `;

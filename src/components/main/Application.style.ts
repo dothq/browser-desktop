@@ -15,11 +15,20 @@ export const GlobalStyle = `
         user-select: none;
     }
 
+    body {
+        appearance: auto;
+        -moz-default-appearance: -moz-window-titlebar;
+    }
+
     #app {
         display: flex;
         flex-direction: column;
         height: 100vh;
-        background-color: rgb(242, 242, 244); // @todo add themes
+
+        @media (-moz-gtk-csd-available) {
+            border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
+            border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
+        }
     }
 
     *:focus-visible {
