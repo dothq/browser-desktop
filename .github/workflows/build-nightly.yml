@@ -62,7 +62,7 @@
 #   #     - uses: actions/setup-node@v2
 #   #       with:
 #   #         node-version: '14'
-          
+
 #   #     - uses: actions/download-artifact@v2
 #   #       with:
 #   #         name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
@@ -81,7 +81,7 @@
 #   #         bundle: dot-${{ needs.build-data.outputs.version }}.flatpak
 #   #         manifest-path: './packages/flatpak/co.dothq.browser.nightly.yml'
 
-#   #     - name: Upload artifact 
+#   #     - name: Upload artifact
 #   #       uses: actions/upload-artifact@v2
 #   #       with:
 #   #         name: dot-${{ needs.build-data.outputs.version }}.flatpak
@@ -94,11 +94,11 @@
 #   #   steps:
 #   #     - name: Clone packaging scripts
 #   #       run: git clone --recurse-submodules https://github.com/dothq/packages.git
-        
+
 #   #     - uses: actions/setup-node@v2
 #   #       with:
 #   #         node-version: '14'
-          
+
 #   #     - uses: actions/download-artifact@v2
 #   #       with:
 #   #         name: dot-${{ needs.build-data.outputs.version }}.tar.bz2
@@ -114,7 +114,7 @@
 #   #         cp ./appimage/Dot_Browser-x86_64.AppImage ../Dot_Browser-x86-64.AppImage
 #   #         cp ./appimage/Dot_Browser-x86_64.AppImage.zsync ../Dot_Browser-x86-64.AppImage.zsync
 #   #         mv ../Dot_Browser-x86-64.AppImage ../dot-${{ needs.build-data.outputs.version }}.AppImage
-          
+
 #   #     - name: Upload artifact
 #   #       uses: actions/upload-artifact@v2
 #   #       with:
@@ -201,7 +201,7 @@
 #   # #         cp ./src/obj-*/dist/dot-*.tar.bz2 .
 #   # #         mv dot-*.tar.bz2 "dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2"
 
-#   # #     - name: Upload artifact 
+#   # #     - name: Upload artifact
 #   # #       uses: actions/upload-artifact@v2
 #   # #       with:
 #   # #         name: dot-${{ needs.build-data.outputs.version }}-i686.tar.bz2
@@ -262,7 +262,7 @@
 #   #       shell: bash --noprofile --norc -eo pipefail {0}
 #   #       run: |
 #   #         ./melon fix-le
-#   #         ./melon import --minimal 
+#   #         ./melon import --minimal
 #   #         ./melon doctor patches
 
 #   #     - name: Build
@@ -299,7 +299,7 @@
 #   #         cd /c/_work/browser-desktop/browser-desktop
 #   #         mv dot-*.installer.exe "dot-${{ needs.build-data.outputs.version }}.exe"
 
-#   #     - name: Upload artifact 
+#   #     - name: Upload artifact
 #   #       uses: actions/upload-artifact@v2
 #   #       with:
 #   #         name: dot-${{ needs.build-data.outputs.version }}.exe
@@ -403,7 +403,7 @@
 #   # #         cd /c/_work/browser-desktop/browser-desktop
 #   # #         mv dot-*.installer.exe "dot-${{ needs.build-data.outputs.version }}-i386.exe"
 
-#   # #     - name: Upload artifact 
+#   # #     - name: Upload artifact
 #   # #       uses: actions/upload-artifact@v2
 #   # #       with:
 #   # #         name: dot-${{ needs.build-data.outputs.version }}-i386.exe
@@ -478,7 +478,7 @@
 #   #         cp ./src/obj-*/dist/dot-*.dmg .
 #   #         mv dot-*.dmg "dot-${{ needs.build-data.outputs.version }}.dmg"
 
-#   #     - name: Upload artifact 
+#   #     - name: Upload artifact
 #   #       uses: actions/upload-artifact@v2
 #   #       with:
 #   #         name: dot-${{ needs.build-data.outputs.version }}.dmg
@@ -532,7 +532,7 @@
 #   #       run: |
 #   #         XZ_OPT=-9e tar -cJvf dot-${{ needs.build-data.outputs.version }}.source.tar.xz src
 
-#   #     - name: Upload artifact 
+#   #     - name: Upload artifact
 #   #       uses: actions/upload-artifact@v2
 #   #       with:
 #   #         name: dot-${{ needs.build-data.outputs.version }}.source.tar.xz
@@ -550,7 +550,7 @@
 
 #   #     - name: List artifacts
 #   #       run: ls -R
-        
+
 #   #     - name: Release
 #   #       uses: dothq/tag-and-release-and-upload@master
 #   #       with:
