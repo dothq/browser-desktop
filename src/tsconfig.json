@@ -7,8 +7,7 @@
 		"noImplicitAny": true,
 		"useDefineForClassFields": true,
 		"experimentalDecorators": true,
-		"jsx": "preserve",
-		"jsxImportSource": "@emotion/react",
+		"jsx": "react",
 		"baseUrl": ".",
 		"paths": {
 			"browser/*": ["./*"]
