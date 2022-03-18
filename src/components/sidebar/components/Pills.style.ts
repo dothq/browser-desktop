@@ -3,13 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import styled from "@emotion/styled";
-import Box from "../common/box";
+import Box from "browser/components/common/box";
 
-export const StyledSidebar = styled(Box)`
+export const StyledSidebarPills = styled(Box)`
 	display: flex;
+	align-items: center;
+	flex-direction: column;
 
-	width: 48px;
+	width: 46px;
+	min-width: 46px;
+	height: 100%;
 
-	margin-block-start: 0.25rem;
-	margin-block-end: 0.5rem;
+	gap: 0.35rem;
 `;
