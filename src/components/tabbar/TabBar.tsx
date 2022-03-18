@@ -4,8 +4,8 @@
 
 import React, { PureComponent } from "react";
 import NativeWindowDecorations from "../csd/WindowDecorations.native";
-import Tabs from "../tabs/Tabs";
-import { StyledTabBar } from "./TabBar.style";
+import Customisable from "../customise/target";
+import { StyledTabBar, TabsContainer } from "./TabBar.style";
 
 class TabBar extends PureComponent {
 	public render() {
@@ -13,7 +13,9 @@ class TabBar extends PureComponent {
 			<StyledTabBar id={"tabbar"}>
 				<NativeWindowDecorations side={"left"} />
 
-				<Tabs />
+				<TabsContainer>
+					<Customisable id={"tabbar"} type={"horizontal"} />
+				</TabsContainer>
 
 				<NativeWindowDecorations side={"right"} />
 			</StyledTabBar>
