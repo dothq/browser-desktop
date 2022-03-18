@@ -10,7 +10,7 @@ import BrowserPanels from "./BrowserPanels";
 class BrowserFrame extends PureComponent {
 	public render() {
 		return (
-			<StyledBrowserFrame>
+			<StyledBrowserFrame id={"frame"}>
 				<NavBar />
 				<BrowserPanels />
 			</StyledBrowserFrame>

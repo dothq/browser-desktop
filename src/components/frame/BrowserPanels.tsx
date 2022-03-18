@@ -10,7 +10,7 @@ import { StyledBrowserPanels } from "./BrowserPanels.style";
 class BrowserPanels extends PureComponent {
 	public render() {
 		return (
-			<StyledBrowserPanels>
+			<StyledBrowserPanels id={"panels"}>
 				<Sidebar />
 				<Browser />
 			</StyledBrowserPanels>
