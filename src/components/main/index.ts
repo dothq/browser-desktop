@@ -5,16 +5,22 @@
 import { configure } from "mobx";
 import { createElement } from "react";
 import { render } from "react-dom";
+import CustomisableUI from "../customise";
 import Application from "./Application";
 
 export const ROOT_EL = document.getElementById("app");
 
 export class Browser {
+	public customisable: CustomisableUI = new CustomisableUI();
+
 	public init() {
 		// Configure MobX state
 		configure({
 			enforceActions: "never",
 		});
+
+		// Initialise vital services
+		this.customisable.init();
 
 		render(createElement(Application), ROOT_EL);
 

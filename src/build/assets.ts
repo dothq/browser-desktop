@@ -23,7 +23,6 @@ export async function bundleAssets() {
 			path: `dist/${key}`,
 			target: value,
 			contents,
-			ref: true,
 		});
 	}
 

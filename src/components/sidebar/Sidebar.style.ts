@@ -6,5 +6,10 @@ import styled from "@emotion/styled";
 import Box from "../common/box";
 
 export const StyledSidebar = styled(Box)`
+	display: flex;
+
 	width: 48px;
+
+	margin-block-start: 0.25rem;
+	margin-block-end: 0.5rem;
 `;

@@ -4,16 +4,13 @@
 
 import React, { PureComponent } from "react";
 import Tab from "../tab/Tab";
-import AddTab from "./AddTab";
-import { TabsContainer } from "./Tabs.style";
 
 class Tabs extends PureComponent {
 	public render() {
 		return (
-			<TabsContainer>
+			<>
 				<Tab />
-				<AddTab />
-			</TabsContainer>
+			</>
 		);
 	}
 }

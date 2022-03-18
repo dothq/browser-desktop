@@ -2,15 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import styled from "@emotion/styled";
-import Box from "../common/box";
+const SidebarLayout = [
+	"bookmarks-button",
+	"history-button",
+	"downloads-button",
 
-export const TabsContainer = styled(Box)`
-	display: flex;
-	flex: 1;
-	align-items: center;
+	"spacer",
 
-	padding-top: 6px;
+	"profile-button",
+	"settings-button",
+];
 
-	height: 100%;
-`;
+export default SidebarLayout;

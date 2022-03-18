@@ -1,8 +1,11 @@
 import { Browser } from "browser/components/main";
 import { TabBrowserStartup } from "browser/components/main/startup";
-import { ChromeUtils } from "mozilla";
+import * as Moz from "mozilla";
 
 declare global {
+	const gBrowser: Browser;
+	const Services: typeof Moz.Services;
+
 	interface Document {
 		hasValidTransientUserGestureActivation: boolean;
 
@@ -21,7 +24,7 @@ declare global {
 		content: any;
 		openDialog: any;
 		PathUtils: any;
-		ChromeUtils: typeof ChromeUtils;
+		ChromeUtils: typeof Moz.ChromeUtils;
 		IOUtils: {
 			copy: (...args: any) => any;
 			exists: (...args: any) => any;
@@ -58,9 +61,10 @@ declare global {
 		Cc: any;
 		Ci: any;
 		Cu: any;
-		Services: any;
+		Services: typeof Moz.Services;
 		gBrowser: Browser;
 		gBrowserInit: TabBrowserStartup;
+		gSocket: WebSocket;
 		[key: string]: any;
 	}
 

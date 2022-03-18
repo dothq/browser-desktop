@@ -5,7 +5,7 @@
 import createCache from "@emotion/cache";
 import { injectGlobal } from "@emotion/css";
 import { CacheProvider } from "@emotion/react";
-import { BrowserToolboxLauncher } from "mozilla";
+import { BrowserToolboxLauncher } from "browser/mozilla";
 import React, { PureComponent } from "react";
 import ErrorBoundary from "../errors/ErrorBoundary";
 import BrowserFrame from "../frame/BrowserFrame";
@@ -21,7 +21,7 @@ class Application extends PureComponent {
 		super(props);
 	}
 
-	public async componentDidMount() {
+	public componentDidMount() {
 		BrowserToolboxLauncher.init();
 	}
 

@@ -47,7 +47,7 @@ export class TabBrowserStartup {
 
 		window.gBrowser = window._gBrowser;
 		delete window._gBrowser;
-		window.gBrowser.init();
+		gBrowser.init();
 
 		// BrowserWindowTracker.track(window);
 	}

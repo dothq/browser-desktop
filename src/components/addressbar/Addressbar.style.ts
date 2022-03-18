@@ -19,18 +19,3 @@ export const StyledAddressbar = styled(Box)`
 	padding: 2px;
 	gap: 0.2rem;
 `;
-
-export const AddressbarBackground = styled(Box)`
-	width: 100%;
-	height: 100%;
-
-	top: 0;
-	left: 0;
-	z-index: 0;
-
-	position: absolute;
-
-	background-color: rgb(242, 242, 244);
-
-	border-radius: 8px;
-`;

@@ -2,13 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import React, { PureComponent } from "react";
-import {
-	AddressbarBackground,
-	StyledAddressbar,
-} from "./Addressbar.style";
+import React from "react";
+import RenderableWidget from "../customise/widget";
+import { StyledAddressbar } from "./Addressbar.style";
+import AddressbarBackground from "./components/Background";
 
-class Addressbar extends PureComponent {
+class Addressbar extends RenderableWidget {
+	public allowedRotations = ["horizontal"];
+
 	public render() {
 		return (
 			<StyledAddressbar>

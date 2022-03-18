@@ -6,9 +6,13 @@ import styled from "@emotion/styled";
 import Box from "browser/components/common/box";
 
 export const StyledCSD = styled(Box)`
-	display: flex;
 	-moz-default-appearance: -moz-window-button-box;
 	appearance: auto;
+
+	@media (-moz-gtk-csd-available) {
+		margin-inline: 5px;
+		gap: 0.5rem;
+	}
 
 	@media not (-moz-gtk-csd-available) {
 		display: none;
@@ -18,31 +22,13 @@ export const StyledCSD = styled(Box)`
 		flex-direction: ${side == "left" ? `row-reverse` : `row`};
 
 		@media (-moz-gtk-csd-reversed-placement) {
-			display: ${side == "left" ? "" : "none"};
-		}
-	`};
-`;
-
-export const CSDContainer = styled(Box)`
-	position: relative;
-`;
-
-export const StyledCSDButton = styled(Box)`
-	appearance: auto;
-	-moz-box-align: center;
-	-moz-box-pack: center;
-	display: -moz-box;
-
-	${({ variant }: { variant: string }) => `
-		@media (-moz-gtk-csd-available) {
-			@media not (-moz-gtk-csd-${variant}-button) {
-				display: none;
-			}
+			display: ${side == "left" ? "grid" : "none"};
+			grid-template-areas: 'close minimize maximize';
 		}
 
-		-moz-default-appearance: -moz-window-button-${variant};
-		-moz-box-ordinal-group: env(
-			-moz-gtk-csd-${variant}-button-position
-		);
+		@media (-moz-gtk-csd-reversed-placement: 0) {
+			display: ${side == "right" ? "grid" : "none"};
+			grid-template-areas: 'minimize maximize close';
+		}
 	`};
 `;

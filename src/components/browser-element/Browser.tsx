@@ -7,7 +7,7 @@ import { StyledBrowser } from "./Browser.style";
 
 class Browser extends PureComponent {
 	public render() {
-		return <StyledBrowser />;
+		return <StyledBrowser id={"browser-panel"} tabIndex={-1} />;
 	}
 }
 

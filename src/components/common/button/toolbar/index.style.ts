@@ -17,6 +17,8 @@ export const StyledToolbarButton = styled.button`
 	-moz-context-properties: fill;
 	fill: rgba(0, 0, 0, 0.75); // @todo add themes
 
+	-moz-window-dragging: no-drag;
+
 	${({
 		w,
 		h,
