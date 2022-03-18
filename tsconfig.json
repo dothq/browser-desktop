@@ -1,18 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es2019",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
-    },
-    "exclude": [
-        "node_modules/**/*",
-        "firefox-*/**/*",
-        "gecko",
-        "engine/**/*",
-        "engine-*/**/*",
-        "src"
-    ]
+	"compilerOptions": {
+		"target": "es2019",
+		"module": "commonjs",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"exclude": [
+		"node_modules/**/*",
+		"firefox-*/**/*",
+		"gecko",
+		"engine/**/*",
+		"engine-*/**/*",
+		"src"
+	]
 }

@@ -9,80 +9,75 @@ import { $$ } from "../utils/sh";
 import { sleep } from "../utils/sleep";
 
 export const importDotPatches = async () => {
-    if(!existsSync(patchesDir)) {
-        lightError(`No patches directory.`);
-        return;
-    }
+	if (!existsSync(patchesDir)) {
+		lightError(`No patches directory.`);
+		return;
+	}
 
-    const args = hideBin(process.argv);
+	const args = hideBin(process.argv);
 
-    const patches = readdirSync(patchesDir)
-        .filter(f => f.endsWith(".patch"))
-        .map(f => resolve(patchesDir, f));
+	const patches = readdirSync(patchesDir)
+		.filter((f) => f.endsWith(".patch"))
+		.map((f) => resolve(patchesDir, f));
 
-    info(`Applied patches:`);
-        
-    for await (const patch of patches) {
-        const progress = createProgress("none");
+	info(`Applied patches:`);
 
-        const spinner = [
-            "⠋",
-            "⠙",
-            "⠹",
-            "⠸",
-            "⠼",
-            "⠴",
-            "⠦",
-            "⠧",
-            "⠇",
-            "⠏"
-        ];
+	for await (const patch of patches) {
+		const progress = createProgress("none");
 
-        let result = spinner;
-        let index = 0;
+		const spinner = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 
-        const tick = () => {
-            index = index >= result.length-1 ? 0 : index + 1;
+		let result = spinner;
+		let index = 0;
 
-            progress.text = `    • ${basename(patch)} ${result[index]}\n`;
-        };
+		const tick = () => {
+			index = index >= result.length - 1 ? 0 : index + 1;
 
-        tick();
-        progress.start();
+			progress.text = `    • ${basename(patch)} ${result[index]}\n`;
+		};
 
-        let int = setInterval(() => tick(), 50);
+		tick();
+		progress.start();
 
-        const { code } = await $$({ cwd: engineDir, shutUp: true, noErrorKill: true })`git apply -R --check ${patch}`;
+		let int = setInterval(() => tick(), 50);
 
-        let doneEmoji = "";
-        let error = "";
+		const { code } = await $$({
+			cwd: engineDir,
+			shutUp: true,
+			noErrorKill: true,
+		})`git apply -R --check ${patch}`;
 
-        if(code !== 0 || args.includes("--force")) {
-            const { code, data } = await $$({ 
-                cwd: engineDir, 
-                shutUp: true, 
-                noErrorKill: true, 
-                writeErrorToData: true 
-            })`git apply -v ${patch}`;
+		let doneEmoji = "";
+		let error = "";
 
-            doneEmoji = code == 0 ? "✅" : "🛑";
-            error = data;
-        } else {
-            doneEmoji = "⏭"
-        }
+		if (code !== 0 || args.includes("--force")) {
+			const { code, data } = await $$({
+				cwd: engineDir,
+				shutUp: true,
+				noErrorKill: true,
+				writeErrorToData: true,
+			})`git apply -v ${patch}`;
 
-        await sleep(500);
-        clearInterval(int);
+			doneEmoji = code == 0 ? "✅" : "🛑";
+			error = data;
+		} else {
+			doneEmoji = "⏭";
+		}
 
-        progress.text = `     • ${basename(patch)} ${doneEmoji}`;
-        progress.end();
+		await sleep(500);
+		clearInterval(int);
 
-        if(error && error.length) {
-            for(const ln of error.split("\n").map(ln => "        • " + chalk.redBright(ln))) {
-                console.log(ln);
-            }
+		progress.text = `     • ${basename(patch)} ${doneEmoji}`;
+		progress.end();
 
-            process.exit(1);
-        }
-    }
-}
+		if (error && error.length) {
+			for (const ln of error
+				.split("\n")
+				.map((ln) => "        • " + chalk.redBright(ln))) {
+				console.log(ln);
+			}
+
+			process.exit(1);
+		}
+	}
+};
