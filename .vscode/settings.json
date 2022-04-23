@@ -1,5 +1,5 @@
 {
-	"note(files.associations)": "Make sure these values are up to date with .gitattributes",
+	// Make sure these values are up to date with .gitattributes
 	"files.associations": {
 		"*.jsm": "javascript",
 		"*.configure": "python",
@@ -10,6 +10,7 @@
 		"*components.conf*": "python",
 		"*.webidl": "idl"
 	},
+	"files.eol": "\n",
 	"files.watcherExclude": {
 		"**/.git/objects/**": true,
 		"**/.git/subtree-cache/**": true,

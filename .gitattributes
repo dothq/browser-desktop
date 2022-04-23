@@ -1,3 +1,6 @@
+# Enforce LF line endings
+* text=auto eol=lf
+
 # Make sure these are up to date with .vscode/settings.json
 # Some filetypes can't exist in Linguist so just ignore them (e.g. properties or conf files)
 
