@@ -175,7 +175,7 @@ const main = async () => {
 		);
 
 		const res = await axios.get(
-			"https://hg.mozilla.org/releases/mozilla-release/raw-file/default/python/mozboot/bin/bootstrap.py",
+			"https://hg.mozilla.org/mozilla-unified/raw-file/default/python/mozboot/bin/bootstrap.py",
 			{
 				responseType: "arraybuffer",
 			}

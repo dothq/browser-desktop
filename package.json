@@ -1,8 +1,10 @@
 {
-    "name": "dot",
+    "name": "engine",
     "version": "0.0.0",
+    "type": "module",
     "private": true,
     "scripts": {
-        "pull": "node scripts/pull-ff.js"
+        "pull": "node scripts/pull-ff.js",
+        "export-patches": "node scripts/export-patches.js"
     }
 }
