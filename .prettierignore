@@ -1,7 +1,0 @@
-engine/
-*.build
-*.mozbuild
-*.mn
-branding
-config
-dist

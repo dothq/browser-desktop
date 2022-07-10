@@ -1,21 +1,2 @@
-*.env
-dist
-.dotbuild
-node_modules
-*.lock
-package-lock.json
-*.tar.xz
-firefox
-engine/**/*
-engine
-.DS_Store
-*.tar
-*.tar.bz2
-yarn-error.log
-__pycache__
-firefox-*
-engine-*/**/*
-.melon
-
-# Ignore custom mozbuild files placed in the root directory
-/mozconfig
+!src/.gitkeep
+src/*/

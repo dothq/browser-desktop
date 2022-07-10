@@ -1,5 +1,0 @@
-basepath = "src/dot/l10n"
-
-[[paths]]
-    reference = "en-GB/**"
-    l10n = "{locale}/**"
