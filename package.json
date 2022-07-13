@@ -5,6 +5,7 @@
     "private": true,
     "scripts": {
         "pull": "node scripts/pull-ff.js",
+        "bootstrap": "cd src && python ./mach bootstrap --application-choice browser",
         "export-patches": "node scripts/export-patches.js"
     }
 }

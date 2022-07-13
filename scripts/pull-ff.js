@@ -166,6 +166,8 @@ const main = async () => {
 						);
 						exit(1);
 					}
+
+					await sh("git", ["cinnabar", "download"]);
 				}
 			}
 		}
@@ -190,6 +192,11 @@ const main = async () => {
 			)
 		) {
 			res.data = res.data.replace(
+				`import sys`,
+				`import sys\nfrom pathlib import Path`
+			);
+
+			res.data = res.data.replace(
 				`= input_clone_dest(vcs, no_interactive)`,
 				`= validate_clone_dest(Path("src").expanduser())`
 			);
@@ -211,6 +218,7 @@ const main = async () => {
 			],
 			{ stdio: "inherit" }
 		);
+		writeFileSync(resolve(process.cwd(), "src", ".gitkeep"), "");
 	}
 };
 

@@ -1,2 +1,2 @@
-!src/README.txt
 src/*/
+!src/.gitkeep
