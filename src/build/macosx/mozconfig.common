@@ -1,0 +1,3 @@
+if test `uname -s` = Linux; then
+  . $topsrcdir/build/macosx/cross-mozconfig.common
+fi

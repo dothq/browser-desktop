@@ -1,0 +1,50 @@
+schema: 1
+
+bugzilla:
+  product: Core
+  component: "Audio/Video: cubeb"
+
+origin:
+  name: cubeb
+  description: "Cross platform audio library"
+  url: https://github.com/mozilla/cubeb
+  license: ISC
+  release: commit 708f52cccffe69ed1d65b52903237c990db860a9 (2022-04-13T15:02:09Z).
+  revision: 708f52cccffe69ed1d65b52903237c990db860a9
+
+vendoring:
+  url: https://github.com/mozilla/cubeb
+  source-hosting: github
+  vendor-directory: media/libcubeb
+  skip-vendoring-steps:
+    - update-moz-build
+  exclude:
+    - .clang-format
+    - .github
+    - CMakeLists.txt
+    - Config.cmake.in
+    - INSTALL.md
+    - cmake
+    - cubeb.supp
+    - docs
+    - scan-build-install.sh
+    - src/cubeb-jni-instances.h
+    - src/cubeb-sles.h
+    - src/cubeb_assert.h
+    - src/cubeb_audiotrack.c
+    - src/cubeb_kai.c
+    - src/cubeb_osx_run_loop.cpp
+    - src/cubeb_pulse.c
+    - subprojects
+    - tools
+  keep:
+    - gtest/moz.build
+    - include/cubeb-stdint.h
+    - include/cubeb_export.h
+    - include/moz.build
+    - src/cubeb-jni-instances.h
+    - src/cubeb-sles.h
+    - src/cubeb_assert.h
+    - src/cubeb_osx_run_loop.c
+    - src/moz.build
+

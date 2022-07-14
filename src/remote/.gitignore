@@ -1,0 +1,4 @@
+test/puppeteer/.local-chromium/
+test/puppeteer/lib/
+test/puppeteer/node_modules/
+test/puppeteer/package-lock.json

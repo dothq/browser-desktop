@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "UpdateActionMessage",
+  "description": "A template for messages that execute predetermined actions.",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Message identifier"
+    },
+    "groups": {
+      "description": "Array of preferences used to control `enabled` status of the group. If any is `false` the group is disabled.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Preference name"
+      }
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "description": "Additional data provided as argument when executing the action",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "URL data to be used as argument to the action"
+                },
+                "expireDelta": {
+                  "type": "number",
+                  "description": "Expiration timestamp to be used as argument to the action"
+                }
+              }
+            }
+          },
+          "additionalProperties": true,
+          "description": "Optional action to take in addition to showing the notification",
+          "required": ["id", "data"]
+        }
+      },
+      "additionalProperties": true,
+      "required": ["action"]
+    },
+    "targeting": {
+      "type": "string",
+      "description": "A JEXL expression representing targeting information"
+    },
+    "template": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "object",
+      "description": "An action to trigger potentially showing the message",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A string identifying the trigger action"
+        },
+        "params": {
+          "type": "array",
+          "description": "An optional array of string parameters for the trigger action",
+          "items": {
+            "anyOf": [{ "type": "integer" }, { "type": "string" }]
+          }
+        }
+      },
+      "required": ["id"]
+    }
+  }
+}

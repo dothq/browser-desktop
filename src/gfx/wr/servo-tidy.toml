@@ -1,0 +1,36 @@
+[configs]
+skip-check-length = false
+skip-check-licenses = false
+check-alphabetical-order = false
+
+[ignore]
+# Ignored packages with duplicated versions
+packages = [
+    "cfg-if",
+    "core-foundation",
+    "core-foundation-sys",
+    "core-graphics",
+    "gl_generator",
+    # glsl requires 5.1, and xcursor (required by winit) requires 7.1.
+    # when a version of glsl depending on 7.1 is published we can update.
+    "nom",
+    "rand_core",
+    # Can be fixed by updating clap dependency - see bug 1765326
+    "strsim",
+    "yaml-rust",
+    # Can be fixed by removing time dependency - see bug 1765324
+    "wasi",
+]
+
+# Files that are ignored for all tidy and lint checks.
+files = [
+    "./wrench/src/egl.rs",  # Copied from glutin
+]
+
+# Many directories are currently ignored while we tidy things up
+# gradually.
+directories = [
+   # Generated and upstream code combined with our own. Could use cleanup
+  "./target",
+  "./webrender/src",
+]

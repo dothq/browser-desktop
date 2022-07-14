@@ -1,0 +1,179 @@
+---
+1proc:
+    description: "{description} with e10s disabled"
+    component: "Testing::General"
+    suffix: "1proc"
+    merge:
+        mozharness:
+            extra-options:
+                - "--disable-e10s"
+                - "--disable-fission"
+
+headless:
+    description: "{description} without a window"
+    component: "Firefox::Headless"
+    suffix: "headless"
+    replace:
+        tier: 2
+    merge:
+        mozharness:
+            extra-options:
+                - "--headless"
+
+a11y-checks:
+    description: "{description} with accessibility checks enabled"
+    component: "Core::Disability Access APIs"
+    suffix: "a11y-checks"
+    replace:
+        tier: 2
+    merge:
+        mozharness:
+            extra-options:
+                - "--enable-a11y-checks"
+
+aab:
+    description: "{description} with aab test_runner"
+    component: "GeckoView::General"
+    when: &gv_e10s_filter
+        $eval: '"android" in task["test-platform"]'
+    suffix: "aab"
+    # Need to add jdk but there isn't a good way to do that
+    # so we just replace the toolchain list
+    merge:
+        fetches:
+            toolchain:
+                - android-system-image-x86_64-linux
+                - android-avd-x86_64-linux
+                - android-emulator-linux
+                - linux64-minidump-stackwalk
+                - linux64-fix-stacks
+                - linux64-jdk
+    replace:
+        target: "geckoview-test_runner.aab"
+
+geckoview-e10s-single:
+    description: "{description} with single-process e10s"
+    component: "Core::DOM: Content Processes"
+    when:
+        <<: *gv_e10s_filter
+    suffix: "e10s-single"
+    merge:
+        mozharness:
+            extra-options:
+                - "--setpref=dom.ipc.processCount=1"
+                - "--disable-fission"
+
+geckoview-no-fission:
+    description: "{description} without fission enabled"
+    component: "Core::DOM: Content Processes"
+    when:
+        <<: *gv_e10s_filter
+    suffix: "nofis"
+    merge:
+        mozharness:
+            extra-options:
+                - "--disable-fission"
+
+geckoview-fission:
+    description: "{description} with fission enabled"
+    component: "Core::DOM: Content Processes"
+    when:
+        <<: *gv_e10s_filter
+    suffix: "fis"
+
+fission:
+    description: "{description} with fission enabled"
+    component: "Testing::General"
+    suffix: "fis"
+
+fission-no-isolate:
+    description: "{description} with fission and webContentIsolationStrategy=0"
+    component: "Core::DOM: Content Processes"
+    suffix: "fis-0"
+    merge:
+        mozharness:
+            extra-options:
+                - "--web-content-isolation-strategy=0"
+
+no-fission:
+    description: "{description} without fission enabled"
+    component: "Testing::General"
+    suffix: "nofis"
+    merge:
+        mozharness:
+            extra-options:
+                - "--disable-fission"
+
+fission-xorigin:
+    description: "{description} with cross-origin and fission enabled"
+    component: "Core::DOM: Content Processes"
+    suffix: "fis-xorig"
+    replace:
+        e10s: true
+    merge:
+        mozharness:
+            extra-options:
+                - "--enable-xorigin-tests"
+
+socketprocess:
+    description: "{description} with socket process enabled"
+    component: "Core::Networking"
+    suffix: "spi"
+    merge:
+        mozharness:
+            extra-options:
+                - "--setpref=media.peerconnection.mtransport_process=true"
+                - "--setpref=network.process.enabled=true"
+
+socketprocess_networking:
+    description: "{description} with networking on socket process enabled"
+    component: "Core::Networking"
+    suffix: "spi-nw"
+    merge:
+        mozharness:
+            extra-options:
+                - "--setpref=network.process.enabled=true"
+                - "--setpref=network.http.network_access_on_socket_process.enabled=true"
+                - "--setpref=network.ssl_tokens_cache_enabled=true"
+
+wayland:
+    description: "{description} with Wayland backend enabled"
+    component: "Core::Widget: Gtk"
+    when:
+        $eval: '"linux" in task["test-platform"]'
+    suffix: "wayland"
+    replace:
+        run-on-projects: []
+    merge:
+        mozharness:
+            extra-options:
+                - "--setpref=widget.wayland.test-workarounds.enabled=true"
+
+webrender-sw:
+    description: "{description} with software webrender enabled"
+    component: "Core::Graphics: WebRender"
+    suffix: "swr"
+    merge:
+        webrender: true
+        mozharness:
+            extra-options:
+                - "--setpref=gfx.webrender.software=true"
+
+webgl-ipc:
+    description: "{description} with WebGL IPC process enabled"
+    component: "Core::Canvas: WebGL"
+    suffix: "gli"
+    merge:
+        mozharness:
+            extra-options:
+                - "--setpref=webgl.out-of-process=true"
+                - "--setpref=security.sandbox.content.headless=true"
+
+devtools-no-eft:
+    description: "{description} with DevTools EFT disabled"
+    component: "DevTools::Framework"
+    suffix: "dt-no-eft"
+    merge:
+        mozharness:
+            extra-options:
+                - "--setpref=devtools.every-frame-target.enabled=false"

@@ -1,0 +1,8 @@
+[package]
+name = "gkrust_utils"
+version = "0.1.0"
+authors = ["Jonathan Kingston <jkt@mozilla.com>"]
+
+[dependencies]
+semver = "0.9"
+nsstring = { path = "../nsstring" }

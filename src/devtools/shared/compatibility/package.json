@@ -1,0 +1,15 @@
+{
+  "name": "devtools-mdn-compat-data",
+  "version": "1.0.0",
+  "description": "Handle MDN compatibility data used by the Compatibility",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update": "node bin/update",
+    "update-rs-records": "node bin/update_remote_settings_records.mjs"
+  },
+  "author": "",
+  "devDependencies": {
+    "@mdn/browser-compat-data": "^",
+    "node-fetch": "^3.2.0"
+  }
+}

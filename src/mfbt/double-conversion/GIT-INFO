@@ -1,0 +1,5 @@
+commit bf1c94f675a2e5886e8877913881597c92bd499d
+Author: Florian Loitsch <florian@loitsch.com>
+Date:   Sat Dec 4 17:56:28 2021 +0100
+
+    Add test action (#168)

@@ -1,0 +1,37 @@
+schema: 1
+
+bugzilla:
+  product: Core
+  component: "ImageLib"
+
+origin:
+  name: libjxl
+  description: JPEG XL image format reference implementation
+
+  url: https://github.com/libjxl/libjxl
+
+  release: commit 318c592d98b97d103941b90d47107f06a10c71da (2022-03-21T20:44:46Z).
+
+  revision: 318c592d98b97d103941b90d47107f06a10c71da
+
+  license: Apache-2.0
+
+  license-file: LICENSE
+
+updatebot:
+    maintainer-phab: saschanaz
+    maintainer-bz: krosylight@mozilla.com
+    tasks:
+      - type: vendoring
+        enabled: True
+        frequency: 3 weeks
+
+vendoring:
+  url: https://github.com/libjxl/libjxl
+  source-hosting: github
+  vendor-directory: third_party/jpeg-xl
+
+  exclude:
+    - doc
+    - third_party/testdata
+    - tools

@@ -1,0 +1,96 @@
+[package]
+name = "metal"
+version = "0.23.1"
+description = "Rust bindings for Metal"
+documentation = "https://docs.rs/crate/metal"
+homepage = "https://github.com/gfx-rs/metal-rs"
+repository = "https://github.com/gfx-rs/metal-rs"
+authors = ["GFX Developers"]
+readme = "README.md"
+keywords = ["metal", "graphics", "bindings"]
+license = "MIT OR Apache-2.0"
+edition = "2018"
+exclude = ["guide/**/*", "examples/texture/**/*", "tests/**/*", "Cargo.lock", "target/**/*"]
+
+[package.metadata.docs.rs]
+default-target = "x86_64-apple-darwin"
+
+[features]
+default = []
+private = []
+mps = []
+
+[dependencies]
+core-graphics-types = "0.1"
+bitflags = "1"
+log = "0.4"
+block = "0.1.6"
+foreign-types = "0.3.2"
+dispatch = { version = "0.2", optional = true }
+
+[dependencies.objc]
+version = "0.2.4"
+features = ["objc_exception"]
+
+[dev-dependencies]
+cocoa = "0.24.0"
+cty = "0.2.1"
+winit = "0.24"
+sema = "0.1.4"
+png = "0.16"
+
+[[example]]
+name = "window"
+
+[[example]]
+name = "headless-render"
+
+[[example]]
+name = "library"
+
+[[example]]
+name = "reflection"
+
+[[example]]
+name = "caps"
+
+[[example]]
+name = "argument-buffer"
+
+[[example]]
+name = "bindless"
+
+[[example]]
+name = "circle"
+path = "examples/circle/main.rs"
+
+[[example]]
+name = "compute"
+path = "examples/compute/main.rs"
+
+[[example]]
+name = "mps"
+required-features = ["mps"]
+
+[[example]]
+name = "embedded-lib"
+path = "examples/compute/embedded-lib.rs"
+
+[[example]]
+name = "compute-argument-buffer"
+path = "examples/compute/compute-argument-buffer.rs"
+
+[[example]]
+name = "bind"
+
+[[example]]
+name = "events"
+required-features = ["dispatch"]
+
+[[example]]
+name = "fence"
+
+[workspace]
+members = [
+  "examples/texture",
+]
