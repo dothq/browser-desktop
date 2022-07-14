@@ -6,6 +6,7 @@
     "scripts": {
         "pull": "node scripts/pull-ff.js",
         "bootstrap": "cd src && python ./mach bootstrap --application-choice browser",
+        "status": "cd src && git status",
         "export-patches": "node scripts/export-patches.js"
     }
 }

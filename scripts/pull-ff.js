@@ -191,6 +191,9 @@ const main = async () => {
 				`= input_clone_dest(vcs, no_interactive)`
 			)
 		) {
+			// bootstrap.py doesn't let us specify a clone location
+			// we need to import Path and define the clone location
+			// as src ourselves
 			res.data = res.data.replace(
 				`import sys`,
 				`import sys\nfrom pathlib import Path`
@@ -199,6 +202,13 @@ const main = async () => {
 			res.data = res.data.replace(
 				`= input_clone_dest(vcs, no_interactive)`,
 				`= validate_clone_dest(Path("src").expanduser())`
+			);
+
+			// we're basing dot off of release firefox so we need
+			// to switch to a release bookmark
+			res.data = res.data.replace(
+				`bookmarks/central`,
+				`bookmarks/release`
 			);
 		} else {
 			console.error(`Failed to apply patch to bootstrap.py!`);
@@ -218,7 +228,6 @@ const main = async () => {
 			],
 			{ stdio: "inherit" }
 		);
-		writeFileSync(resolve(process.cwd(), "src", ".gitkeep"), "");
 	}
 };
 
