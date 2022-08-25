@@ -9,7 +9,8 @@ export MOZ_APP_DISPLAYNAME="dot"
 # Options for client.mk.
 # We are keeping this as newapp-sym because I am already using it, so it has the
 # latest version of gecko compiled
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../dot-browser-obj
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../newapp-sym
+
 
 # Enables sccache to speed up builds
 ac_add_options --with-ccache=sccache

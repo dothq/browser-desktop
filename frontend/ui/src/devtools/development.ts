@@ -5,18 +5,18 @@ const { DevtoolsServer } = ChromeUtils.import(
 const devtools = DevtoolsServer.get();
 devtools.start();
 
-// Open assorted debugging windows
-Services.ww.openWindow(
-  null,
-  "about:memory",
-  "_blank",
-  [
-    "dialog",
-    "resizable",
-    "minimizable",
-    "centerscreen",
-    "titlebar",
-    "close",
-  ].join(","),
-  []
-);
+// Opens about:memory in new window
+// Services.ww.openWindow(
+//   null,
+//   "about:memory",
+//   "_blank",
+//   [
+//     "dialog",
+//     "resizable",
+//     "minimizable",
+//     "centerscreen",
+//     "titlebar",
+//     "close",
+//   ].join(","),
+//   []
+// );
