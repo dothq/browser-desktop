@@ -1,0 +1,99 @@
+# -*- Mode: python; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Base name appears to be primarily used for storage directory names or registry
+# names. e.g.
+#
+# - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/update/common/commonupdatedir.cpp#580
+# - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/defaultagent/Policy.cpp#33
+imply_option("MOZ_APP_BASENAME", "dot")
+
+# What does this mean?  It's causing mozbuild/configure to die:
+# mozbuild.configure.ConfigureError: `--enable-default-browser-agent`, emitted from `/home/ajvincent/debugging/mozilla-coroner/mozilla-central/comm/newapp/moz.configure` line 16, is unknown.
+#
+# Does this have anything to do with the default browser agent task responsible
+# for reporting the users default browser to mozilla on windows?
+# https://firefox-source-docs.mozilla.org/toolkit/mozapps/defaultagent/default-browser-agent/index.html
+imply_option("--enable-default-browser-agent", False)
+
+
+# "Bundled fonts" - describe
+@depends(target_is_windows, target_is_linux)
+def bundled_fonts(is_windows, is_linux):
+    if is_windows or is_linux:
+        return True
+
+
+set_config("MOZ_BUNDLED_FONTS", bundled_fonts)
+add_old_configure_assignment("MOZ_BUNDLED_FONTS", bundled_fonts)
+
+
+# comm_paths - Describe?  Extract to a common imported file?
+@depends(build_environment, "--help")
+def comm_paths(build_env, _):
+    topsrcdir = build_env.topsrcdir
+    topobjdir = build_env.topobjdir
+
+    moztopsrcdir = topsrcdir
+    commtopsrcdir = "%s/comm" % topsrcdir
+    mozreltopsrcdir = "."
+    commreltopsrcdir = "comm"
+    commtopobjdir = "%s/comm" % topobjdir
+
+    return namespace(
+        moztopsrcdir=moztopsrcdir,
+        commtopsrcdir=commtopsrcdir,
+        mozreltopsrcdir=mozreltopsrcdir,
+        commreltopsrcdir=commreltopsrcdir,
+        commtopobjdir=commtopobjdir,
+    )
+
+
+@template
+def set_defconf(k, v):
+    set_config(k, v)
+    set_define(k, v)
+    add_old_configure_assignment(k, v)
+
+
+set_defconf("moztopsrcdir", comm_paths.moztopsrcdir)
+set_defconf("commtopsrcdir", comm_paths.commtopsrcdir)
+set_defconf("mozreltopsrcdir", comm_paths.mozreltopsrcdir)
+set_defconf("commreltopsrcdir", comm_paths.commreltopsrcdir)
+set_defconf("commtopobjdir", comm_paths.commtopobjdir)
+
+
+@depends(build_environment, build_project)
+@imports(_from="os.path", _import="exists")
+@imports(_from="__builtin__", _import="open")
+# presumably for --version
+def newapp_version(build_env, app_path):
+    version_file = os.path.join(build_env.topsrcdir, app_path[0], "config",
+                                "version.txt")
+    version_file_display = os.path.join(build_env.topsrcdir, app_path[0],
+                                        "config", "version_display.txt")
+    rv = []
+    for f in [version_file, version_file_display]:
+        if exists(f):
+            f_value = open(f).read().strip()
+        else:
+            f_value = "unknown"
+        rv.append(f_value)
+
+    return namespace(version=rv[0], version_display=rv[1])
+
+
+set_defconf("NEWAPPLICATION_VERSION", newapp_version.version)
+set_defconf("NEWAPPLICATION_VERSION_DISPLAY", newapp_version.version_display)
+
+# this appears to be unused
+set_define("MOZ_SEPARATE_MANIFEST_FOR_THEME_OVERRIDES", True)
+
+# this is required to define mozilla::components::History::GetServiceHelper in objdir/xpcom/components/Components.h
+imply_option("MOZ_PLACES", True)
+
+# This allows us to build the toolkit, including Spidermonkey.
+include("../toolkit/moz.configure")

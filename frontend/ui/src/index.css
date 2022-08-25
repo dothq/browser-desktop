@@ -1,0 +1,21 @@
+#root {
+  height: 100vh;
+}
+
+body {
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-flex: 1;
+
+  min-width: 50px;
+  min-height: 50px;
+}
+
+:root,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: clip;
+}

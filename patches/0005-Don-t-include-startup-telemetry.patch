@@ -1,0 +1,70 @@
+From fbc4f13db26a4de8f4063e1b5e1bbf45bf2a7002 Mon Sep 17 00:00:00 2001
+From: trickypr <trickypr@icloud.com>
+Date: Sun, 14 Aug 2022 19:50:35 +1000
+Subject: [PATCH] Don't include startup telemetry
+
+---
+diff --git a/toolkit/components/telemetry/TelemetryStartup.jsm b/toolkit/components/telemetry/TelemetryStartup.jsm
+index 63450ab14e1a..a02be913ae7f 100644
+--- a/toolkit/components/telemetry/TelemetryStartup.jsm
++++ b/toolkit/components/telemetry/TelemetryStartup.jsm
+@@ -5,56 +5,10 @@
+ 
+ "use strict";
+ 
+-const lazy = {};
+-
+-ChromeUtils.defineModuleGetter(
+-  lazy,
+-  "TelemetryController",
+-  "resource://gre/modules/TelemetryController.jsm"
+-);
+-ChromeUtils.defineModuleGetter(
+-  lazy,
+-  "TelemetryEnvironment",
+-  "resource://gre/modules/TelemetryEnvironment.jsm"
+-);
+-
+ /**
+  * TelemetryStartup is needed to forward the "profile-after-change" notification
+  * to TelemetryController.jsm.
+  */
+ function TelemetryStartup() {}
+ 
+-TelemetryStartup.prototype.QueryInterface = ChromeUtils.generateQI([
+-  "nsIObserver",
+-]);
+-TelemetryStartup.prototype.observe = function(aSubject, aTopic, aData) {
+-  if (aTopic == "profile-after-change") {
+-    // In the content process, this is done in ContentProcessSingleton.js.
+-    lazy.TelemetryController.observe(null, aTopic, null);
+-  }
+-  if (aTopic == "profile-after-change") {
+-    annotateEnvironment();
+-    lazy.TelemetryEnvironment.registerChangeListener(
+-      "CrashAnnotator",
+-      annotateEnvironment
+-    );
+-    lazy.TelemetryEnvironment.onInitialized().then(() => annotateEnvironment());
+-  }
+-};
+-
+-function annotateEnvironment() {
+-  try {
+-    let cr = Cc["@mozilla.org/toolkit/crash-reporter;1"];
+-    if (cr) {
+-      let env = JSON.stringify(lazy.TelemetryEnvironment.currentEnvironment);
+-      cr.getService(Ci.nsICrashReporter).annotateCrashReport(
+-        "TelemetryEnvironment",
+-        env
+-      );
+-    }
+-  } catch (e) {
+-    // crash reporting not built or disabled? Ignore errors
+-  }
+-}
+-
+ var EXPORTED_SYMBOLS = ["TelemetryStartup"];
+-- 
+2.37.1
+

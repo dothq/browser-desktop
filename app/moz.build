@@ -1,0 +1,41 @@
+# -*- Mode: python; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Contains the template structure for MacOS apps
+# Note that mozilla-centeral uses CONFIG["MOZ_MACBUNDLE_NAME"], but that doesn't
+# work here for some reason
+if CONFIG["OS_ARCH"] == "Darwin":
+    DIRS += ["macbuild/Contents"]
+
+
+GeckoProgram(CONFIG['MOZ_APP_NAME'])
+
+SOURCES += [
+    'app.cpp',
+]
+
+
+# Neither channel-prefs.js nor firefox.exe want to end up in dist/bin/browser.
+DIST_SUBDIR = ""
+
+LOCAL_INCLUDES += [
+    "!/build",
+    "/toolkit/xre",
+    "/xpcom/base",
+    "/xpcom/build",
+]
+
+if CONFIG["CC_TYPE"] == "clang-cl":
+    # Always enter a Windows program through wmain, whether or not we're
+    # a console application.
+    WIN32_EXE_LDFLAGS += ["-ENTRY:wmainCRTStartup"]
+
+if CONFIG["OS_ARCH"] == "Darwin":
+    OS_LIBS += [
+        "-framework CoreFoundation",
+    ]
+
+DisableStlWrapping()

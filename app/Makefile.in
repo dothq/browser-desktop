@@ -1,0 +1,133 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+dist_dest   = $(DIST)/$(MOZ_MACBUNDLE_NAME)
+
+AB_CD = $(MOZ_UI_LOCALE)
+
+GRE_MILESTONE = $(shell $(PYTHON3) $(moztopsrcdir)/config/printconfigsetting.py $(DIST)/bin/platform.ini Build Milestone)
+MOZ_BUILDID = $(shell $(PYTHON3) $(moztopsrcdir)/config/printconfigsetting.py $(DIST)/bin/platform.ini Build BuildID)
+
+# Build a binary bootstrapping with XRE_main
+
+ifndef MOZ_WINCONSOLE
+ifdef MOZ_DEBUG
+MOZ_WINCONSOLE = 1
+else
+MOZ_WINCONSOLE = 0
+endif
+endif
+
+include $(moztopsrcdir)/config/config.mk
+
+# If we are trying to show an error dialog about the lack of SSE2 support,
+# make sure that code itself doesn't use SSE2.
+ifdef MOZ_LINUX_32_SSE2_STARTUP_ERROR
+CXX := $(filter-out -march=% -msse -msse2 -mfpmath=sse,$(CXX))
+CXX += -march=pentiumpro
+endif
+
+# TODO: Add this to a script that can change the application name
+objdir = $(topobjdir)/dot/app
+
+include $(moztopsrcdir)/config/rules.mk
+
+ifneq ($(OS_ARCH),WINNT)
+ifdef COMPILE_ENVIRONMENT
+ifndef MOZ_NO_PIE_COMPAT
+libs::
+	cp -p $(DIST)/bin/$(MOZ_APP_NAME)$(BIN_SUFFIX) $(DIST)/bin/$(MOZ_APP_NAME)-bin$(BIN_SUFFIX)
+endif
+endif
+
+GARBAGE += $(addprefix $(DIST)/bin/defaults/pref/, all.js all-thunderbird.js mailnews.js)
+endif # ! WinNT
+
+ifneq (,$(filter windows,$(MOZ_WIDGET_TOOLKIT)))
+ICON_SUFFIX=.ico
+
+DESKTOP_ICONS = \
+	abcardWindow \
+	addressbookWindow \
+	msgcomposeWindow \
+	calendar-alarm-dialog \
+	$(NULL)
+
+BRANDED_ICONS = \
+	messengerWindow \
+	newmail \
+	$(NULL)
+
+
+DESKTOP_ICON_FILES = $(addsuffix $(ICON_SUFFIX), $(DESKTOP_ICONS) $(DESKTOP_ICONS_SMALL))
+BRANDED_ICON_FILES = $(addsuffix $(ICON_SUFFIX), $(BRANDED_ICONS) $(BRANDED_ICONS_SMALL))
+
+libs:: $(addprefix $(srcdir)/icons/$(MOZ_WIDGET_TOOLKIT)/,$(DESKTOP_ICON_FILES))
+	$(INSTALL) $(IFLAGS1) $^ $(DIST)/bin/chrome/icons/default
+
+libs:: $(addprefix $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/, $(BRANDED_ICON_FILES))
+	$(INSTALL) $(IFLAGS1) $^ $(DIST)/bin/chrome/icons/default
+endif
+
+ifeq (cocoa,$(MOZ_WIDGET_TOOLKIT))
+
+MAC_APP_NAME = $(MOZ_APP_DISPLAYNAME)
+
+ifdef MOZ_DEBUG
+MAC_APP_NAME := $(MAC_APP_NAME)Debug
+endif
+
+AB_CD = $(MOZ_UI_LOCALE)
+
+ifeq (zh-TW,$(AB_CD))
+LPROJ_ROOT := $(subst -,_,$(AB_CD))
+else
+LPROJ_ROOT := $(firstword $(subst -, ,$(AB_CD)))
+endif
+LPROJ := Contents/Resources/$(LPROJ_ROOT).lproj
+
+clean clobber repackage::
+	$(RM) -r '$(dist_dest)'
+
+MAC_BUNDLE_VERSION = $(shell $(PYTHON3) $(srcdir)/macversion.py --version=$(MOZ_APP_VERSION) --buildid=$(DEPTH)/buildid.h)
+
+.PHONY: repackage
+tools repackage:: $(DIST)/bin/$(MOZ_APP_NAME) $(objdir)/macbuild/Contents/MacOS-files.txt
+	rm -rf $(dist_dest)
+	$(MKDIR) -p '$(dist_dest)/Contents/MacOS'
+	$(MKDIR) -p '$(dist_dest)/$(LPROJ)'
+	rsync -a --exclude '*.in' $(srcdir)/macbuild/Contents '$(dist_dest)' --exclude English.lproj
+	rsync -a --exclude '*.in' $(srcdir)/macbuild/Contents/Resources/English.lproj/ '$(dist_dest)/$(LPROJ)'
+	
+	$(call py_action,preprocessor,-Fsubstitution -DAPP_VERSION='$(MOZ_APP_VERSION)' \
+		-DMOZ_APP_NAME='$(MOZ_APP_NAME)' -DMAC_APP_NAME='$(MAC_APP_NAME)' \
+		-DMOZ_MACBUNDLE_ID='$(MOZ_MACBUNDLE_ID)' -DMAC_BUNDLE_VERSION='$(MAC_BUNDLE_VERSION)' \
+		-DMOZ_DEVELOPER_REPO_PATH='$(topsrcdir)' -DMOZ_DEVELOPER_OBJ_PATH='$(topobjdir)' \
+		$(srcdir)/macbuild/Contents/Info.plist.in -o '$(dist_dest)/Contents/Info.plist')
+	
+	$(call py_action,preprocessor,-Fsubstitution --output-encoding utf-16 \
+		-DMAC_APP_NAME='$(MAC_APP_NAME)' $(srcdir)/macbuild/Contents/Resources/English.lproj/InfoPlist.strings.in \
+		-o '$(dist_dest)/$(LPROJ)/InfoPlist.strings')
+
+	rsync -a --exclude-from='$(objdir)/macbuild/Contents/MacOS-files.txt' $(DIST)/bin/ '$(dist_dest)/Contents/Resources'
+	rsync -a --include-from='$(objdir)/macbuild/Contents/MacOS-files.txt' --exclude '*' $(DIST)/bin/ '$(dist_dest)/Contents/MacOS'
+	# MacOS-files-copy.in is a list of files that should be copies rather
+	# than symlinks and placed in .app/Contents/MacOS.
+	rsync -aL --include-from='$(srcdir)/macbuild/Contents/MacOS-files-copy.in' --exclude '*' $(DIST)/bin/ '$(dist_dest)/Contents/MacOS'
+	$(RM) '$(dist_dest)/Contents/MacOS/$(MOZ_APP_NAME)'
+	rsync -aL $(DIST)/bin/$(MOZ_APP_NAME) '$(dist_dest)/Contents/MacOS'
+	$(MKDIR) -p '$(dist_dest)/Contents/Library/Spotlight'
+	
+	# TODO: Branding
+	# cp -RL $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/thunderbird.icns '$(dist_dest)/Contents/Resources/thunderbird.icns'
+	$(MKDIR) -p '$(dist_dest)/Contents/Library/LaunchServices'
+ifdef MOZ_UPDATER
+	mv -f '$(dist_dest)/Contents/MacOS/updater.app/Contents/MacOS/org.mozilla.updater' '$(dist_dest)/Contents/Library/LaunchServices'
+	ln -s ../../../../Library/LaunchServices/org.mozilla.updater '$(dist_dest)/Contents/MacOS/updater.app/Contents/MacOS/org.mozilla.updater'
+endif
+	printf APPLMOZM > '$(dist_dest)/Contents/PkgInfo'
+endif
+
+# Note that anything you do to dist/ down here isn't going to make it into the
+# Mac build, since it's already been copied over to the .app, above.

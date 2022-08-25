@@ -1,0 +1,34 @@
+From 58b279c71ca9f63ffc808f310489f8f5a2be5642 Mon Sep 17 00:00:00 2001
+From: trickypr <trickypr@icloud.com>
+Date: Sat, 4 Jun 2022 20:23:39 +1000
+Subject: [PATCH] Build Error: Remote settings dump were missing
+
+Fixes the following error
+> AssertionError: Cannot determine location of Remote Settings dumps for platform gecko-template
+---
+ services/settings/dumps/gen_last_modified.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/services/settings/dumps/gen_last_modified.py b/services/settings/dumps/gen_last_modified.py
+index 5d044efb2cfd..e260548dd5c1 100644
+--- a/services/settings/dumps/gen_last_modified.py
++++ b/services/settings/dumps/gen_last_modified.py
+@@ -44,6 +44,15 @@ def main(output):
+     The validity of the JSON file is verified through unit tests at
+     services/settings/test/unit/test_remote_settings_dump_lastmodified.js
+     """
++
++    if not buildconfig.substs["MOZ_BUILD_APP"] in (
++        "browser",
++        "mobile/android",
++        "comm/mail",
++        "comm/suite",
++    ):
++        return
++
+     # The following build targets currently use RemoteSettings dumps:
+     # Firefox               https://searchfox.org/mozilla-central/rev/94d6086481754e154b6f042820afab6bc9900a30/browser/installer/package-manifest.in#281-285        # NOQA: E501
+     # Firefox for Android   https://searchfox.org/mozilla-central/rev/94d6086481754e154b6f042820afab6bc9900a30/mobile/android/installer/package-manifest.in#88-91   # NOQA: E501
+-- 
+2.36.1
+
