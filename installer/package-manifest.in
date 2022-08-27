@@ -32,17 +32,27 @@
 
 #filter substitution
 
+#ifdef XP_MACOSX
+; Mac bundle stuff
+@APPNAME@/Contents/Info.plist
+#ifdef MOZ_UPDATER
+@APPNAME@/Contents/Library/LaunchServices
+#endif
+@APPNAME@/Contents/PkgInfo
+@RESPATH@/firefox.icns
+@RESPATH@/document.icns
+@RESPATH@/@LPROJ_ROOT@.lproj/*
+#endif
 
 [@AB_CD@]
 @RESPATH@/dictionaries/*
+@RESPATH@/browser/localization/*
 @RESPATH@/localization/*
 #if defined(XP_WIN) || defined(MOZ_WIDGET_GTK)
-; TODO: We should include fonts
-; @RESPATH@/fonts/*
+@RESPATH@/fonts/*
 #endif
 @RESPATH@/hyphenation/*
-; We do not have l10n definition
-; @RESPATH@/browser/@PREF_DIR@/firefox-l10n.js
+@RESPATH@/browser/@PREF_DIR@/firefox-l10n.js
 #ifdef HAVE_MAKENSISU
 @BINPATH@/uninstall/helper.exe
 #endif
@@ -116,7 +126,14 @@
 [browser]
 ; [Base Browser Files]
 #ifndef XP_UNIX
-; TODO: Windows support
+@BINPATH@/@MOZ_APP_NAME@.exe
+@BINPATH@/firefox.VisualElementsManifest.xml
+@BINPATH@/browser/VisualElements/VisualElements_150.png
+@BINPATH@/browser/VisualElements/VisualElements_70.png
+@BINPATH@/private_browsing.exe
+@BINPATH@/private_browsing.VisualElementsManifest.xml
+@BINPATH@/browser/VisualElements/PrivateBrowsing_150.png
+@BINPATH@/browser/VisualElements/PrivateBrowsing_70.png
 #else
 @BINPATH@/@MOZ_APP_NAME@-bin
 @BINPATH@/@MOZ_APP_NAME@
@@ -153,20 +170,25 @@
 #endif
 
 ; JavaScript components
+@RESPATH@/browser/components/BrowserComponents.manifest
 @RESPATH@/components/toolkitsearch.manifest
+@RESPATH@/components/extensions.manifest
 #ifdef MOZ_UPDATER
 @RESPATH@/components/nsUpdateService.manifest
 #endif
 @RESPATH@/components/ProcessSingleton.manifest
+@RESPATH@/components/SyncComponents.manifest
 @RESPATH@/components/servicesComponents.manifest
-;@RESPATH@/components/servicesSettings.manifest
+@RESPATH@/components/servicesSettings.manifest
 @RESPATH@/components/cryptoComponents.manifest
+@RESPATH@/components/TelemetryStartup.manifest
 
 @RESPATH@/components/Push.manifest
 
 @RESPATH@/components/antitracking.manifest
 
 @RESPATH@/components/l10n-registry.manifest
+@RESPATH@/browser/components/l10n-registry.manifest
 
 ; WebDriver (Marionette, Remote Agent) remote protocols
 #ifdef ENABLE_WEBDRIVER
@@ -176,11 +198,12 @@
 
 ; [Extensions]
 @RESPATH@/components/extensions-toolkit.manifest
+@RESPATH@/browser/components/extensions-browser.manifest
 
 ; Modules
-@RESPATH@/dot/modules/*
+@RESPATH@/browser/modules/*
 @RESPATH@/modules/*
-@RESPATH@/dot/actors/*
+@RESPATH@/browser/actors/*
 @RESPATH@/actors/*
 
 ; ANGLE GLES-on-D3D rendering library
@@ -193,40 +216,31 @@
 #endif
 #endif # MOZ_ANGLE_RENDERER
 
-; [dot Chrome Files]
-
-; Preferences
-@RESPATH@/dot/@PREF_DIR@/app-preferences.js
-
-@RESPATH@/dot/chrome.manifest
-@RESPATH@/dot/chrome/dot@JAREXT@
-@RESPATH@/dot/chrome/dot.manifest
-
-
-
 ; [Browser Chrome Files]
-;@RESPATH@/browser/chrome.manifest
-;@RESPATH@/browser/chrome/browser@JAREXT@
-;@RESPATH@/browser/chrome/browser.manifest
+@RESPATH@/browser/chrome.manifest
+@RESPATH@/browser/chrome/browser@JAREXT@
+@RESPATH@/browser/chrome/browser.manifest
+@RESPATH@/chrome/pdfjs.manifest
+@RESPATH@/chrome/pdfjs/*
 @RESPATH@/chrome/toolkit@JAREXT@
 @RESPATH@/chrome/toolkit.manifest
 #ifdef MOZ_GTK
-;@RESPATH@/browser/chrome/icons/default/default16.png
-;@RESPATH@/browser/chrome/icons/default/default32.png
-;@RESPATH@/browser/chrome/icons/default/default48.png
-;@RESPATH@/browser/chrome/icons/default/default64.png
-;@RESPATH@/browser/chrome/icons/default/default128.png
+@RESPATH@/browser/chrome/icons/default/default16.png
+@RESPATH@/browser/chrome/icons/default/default32.png
+@RESPATH@/browser/chrome/icons/default/default48.png
+@RESPATH@/browser/chrome/icons/default/default64.png
+@RESPATH@/browser/chrome/icons/default/default128.png
 #endif
-;@RESPATH@/browser/features/*
+@RESPATH@/browser/features/*
 
 ; [DevTools Startup Files]
-;@RESPATH@/browser/chrome/devtools-startup@JAREXT@
-;@RESPATH@/browser/chrome/devtools-startup.manifest
+@RESPATH@/browser/chrome/devtools-startup@JAREXT@
+@RESPATH@/browser/chrome/devtools-startup.manifest
 
 ; DevTools
-;@RESPATH@/browser/chrome/devtools@JAREXT@
-;@RESPATH@/browser/chrome/devtools.manifest
-;@RESPATH@/browser/@PREF_DIR@/debugger.js
+@RESPATH@/browser/chrome/devtools@JAREXT@
+@RESPATH@/browser/chrome/devtools.manifest
+@RESPATH@/browser/@PREF_DIR@/debugger.js
 
 ; shell icons
 #ifdef XP_UNIX
@@ -240,21 +254,21 @@
 
 ; [Default Preferences]
 ; All the pref files must be part of base to prevent migration bugs
-;@RESPATH@/browser/@PREF_DIR@/firefox.js
-;@RESPATH@/browser/@PREF_DIR@/firefox-branding.js
+@RESPATH@/browser/@PREF_DIR@/firefox.js
+@RESPATH@/browser/@PREF_DIR@/firefox-branding.js
 @RESPATH@/greprefs.js
 @RESPATH@/defaults/autoconfig/prefcalls.js
-;@RESPATH@/browser/defaults/permissions
+@RESPATH@/browser/defaults/permissions
 ; Remote Settings JSON dumps
-;@RESPATH@/browser/defaults/settings/last_modified.json
-;@RESPATH@/browser/defaults/settings/blocklists
-;@RESPATH@/browser/defaults/settings/main
-;@RESPATH@/browser/defaults/settings/security-state
+@RESPATH@/browser/defaults/settings/last_modified.json
+@RESPATH@/browser/defaults/settings/blocklists
+@RESPATH@/browser/defaults/settings/main
+@RESPATH@/browser/defaults/settings/security-state
 
 ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
 ; Technically this is an app pref file, but we are keeping it in the original
 ; gre location for now.
-;@RESPATH@/defaults/pref/channel-prefs.js
+@RESPATH@/defaults/pref/channel-prefs.js
 
 ; Background tasks-specific preferences.
 ; These are in the GRE location since they apply to all tasks at this time.
@@ -262,7 +276,7 @@
 ; These are in the GRE location since they apply to all tasks at this time.
 @RESPATH@/defaults/backgroundtasks/backgroundtasks.js
 ; While these override browser-specific prefs in `firefox.js`.
-;@RESPATH@/browser/defaults/backgroundtasks/backgroundtasks_browser.js
+@RESPATH@/browser/defaults/backgroundtasks/backgroundtasks_browser.js
 #endif
 
 ; [Layout Engine Resources]
@@ -389,7 +403,7 @@ bin/libfreebl_64int_3.so
 @BINPATH@/@DLL_PREFIX@mozwer@DLL_SUFFIX@
 #endif
 #endif
-;@RESPATH@/browser/crashreporter-override.ini
+@RESPATH@/browser/crashreporter-override.ini
 #ifdef MOZ_CRASHREPORTER_INJECTOR
 @BINPATH@/breakpadinjector.dll
 #endif
@@ -407,7 +421,7 @@ bin/libfreebl_64int_3.so
 
 ; [ Notification COM Server ]
 ;
-#if defined(XP_WIN)
+#if defined(MOZ_NOTIFICATION_SERVER)
 @BINPATH@/@DLL_PREFIX@notificationserver@DLL_SUFFIX@
 #endif
 

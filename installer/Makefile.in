@@ -7,9 +7,22 @@ DIST_SUBDIR := dot
 
 include $(topsrcdir)/config/rules.mk
 
-MOZ_PKG_MANIFEST = $(srcdir)/package-manifest.in
+MOZ_PKG_REMOVALS = $(srcdir)/removed-files.in
 
+MOZ_PKG_MANIFEST = $(srcdir)/package-manifest.in
+MOZ_PKG_DUPEFLAGS = -f $(srcdir)/allowed-dupes.mn
+
+DEFINES += -DPKG_LOCALE_MANIFEST=$(topobjdir)/dot/installer/locale-manifest.in
 MOZ_CHROME_LOCALE_ENTRIES=@RESPATH@/dot/chrome/ @RESPATH@/chrome/
+
+# Some files have been already bundled with xulrunner
+MOZ_PKG_FATAL_WARNINGS = 1
+
+# When packaging an artifact build not all xpt files expected by the
+# packager will be present.
+ifdef MOZ_ARTIFACT_BUILDS
+MOZ_PKG_FATAL_WARNINGS =
+endif
 
 DEFINES += -DMOZ_APP_NAME=$(MOZ_APP_NAME) -DPREF_DIR=$(PREF_DIR)
 
@@ -81,6 +94,14 @@ ifdef MAKENSISU
 DEFINES += -DHAVE_MAKENSISU=1
 endif
 
+ifdef MOZ_DEFAULT_BROWSER_AGENT
+DEFINES += -DMOZ_DEFAULT_BROWSER_AGENT=1
+endif
+
+ifdef MOZ_NOTIFICATION_SERVER
+DEFINES += -DMOZ_NOTIFICATION_SERVER=1
+endif
+
 ifdef MOZ_BACKGROUNDTASKS
 DEFINES += -DMOZ_BACKGROUNDTASKS=1
 endif
@@ -130,6 +151,13 @@ DEFINES += -DLLVM_SYMBOLIZER=$(notdir $(LLVM_SYMBOLIZER))
 endif
 ifdef MOZ_CLANG_RT_ASAN_LIB_PATH
 DEFINES += -DMOZ_CLANG_RT_ASAN_LIB=$(notdir $(MOZ_CLANG_RT_ASAN_LIB_PATH))
+endif
+
+# Builds using the hybrid FasterMake/RecursiveMake backend will
+# fail to produce a langpack. See bug 1255096.
+libs::
+ifeq (,$(filter FasterMake+RecursiveMake,$(BUILD_BACKENDS)))
+	$(MAKE) -C $(DEPTH)/dot/locales langpack
 endif
 
 ifeq (WINNT,$(OS_ARCH))

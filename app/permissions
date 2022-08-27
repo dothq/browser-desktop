@@ -1,0 +1,10 @@
+# This file has default permissions for the permission manager.
+# The file-format is strict:
+# * matchtype \t type \t permission \t host
+# * "origin" should be used for matchtype, "host" is supported for legacy reasons
+# * type is a string that identifies the type of permission (e.g. "cookie")
+# * permission is an integer between 1 and 15
+# See nsPermissionManager.cpp for more...
+
+# XPInstall
+origin	install	1	https://addons.mozilla.org

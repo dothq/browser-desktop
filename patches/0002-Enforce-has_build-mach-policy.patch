@@ -1,0 +1,25 @@
+From d5040a4243f07cd65c46ce4bf84e89662beb698e Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Sat, 27 Aug 2022 14:59:14 +0100
+Subject: [PATCH] Enforce has_build mach policy
+
+---
+ python/mozbuild/mozbuild/base.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/python/mozbuild/mozbuild/base.py b/python/mozbuild/mozbuild/base.py
+index e2a6feb59f017..614dad089f655 100644
+--- a/python/mozbuild/mozbuild/base.py
++++ b/python/mozbuild/mozbuild/base.py
+@@ -1018,7 +1018,7 @@ class MachCommandConditions(object):
+         """Must have a build."""
+         return MachCommandConditions.is_firefox_or_android(
+             cls
+-        ) or MachCommandConditions.is_thunderbird(cls)
++        ) or MachCommandConditions.is_thunderbird(cls) or True
+ 
+     @staticmethod
+     def has_build_or_shell(cls):
+-- 
+2.37.1
+
