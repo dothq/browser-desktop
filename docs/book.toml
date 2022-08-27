@@ -1,0 +1,23 @@
+[book]
+title = "Dot Browser Source Documentation"
+authors = ["Dot HQ"]
+language = "en"
+multilingual = false
+src = "src"
+
+[output.html]
+git-repository-url = "https://github.com/dothq/browser-desktop/tree/nightly/docs"
+edit-url-template = "https://github.com/dothq/browser-desktop/edit/nightly/docs/{path}"
+
+[output.html.playground]
+editable = true
+line-numbers = true
+
+[output.html.search]
+limit-results = 20
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 2
+boost-paragraph = 1
+expand = true
+heading-split-level = 2
