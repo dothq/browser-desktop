@@ -1,0 +1,29 @@
+From bdb9ed713b1438f6c32565f522d505480343c315 Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Sat, 27 Aug 2022 14:56:38 +0100
+Subject: [PATCH] Disable settings dump generation
+
+---
+ services/settings/dumps/moz.build | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/services/settings/dumps/moz.build b/services/settings/dumps/moz.build
+index f407580bfa647..d735d1243639f 100644
+--- a/services/settings/dumps/moz.build
++++ b/services/settings/dumps/moz.build
+@@ -8,9 +8,9 @@ DIRS += [
+     "security-state",
+ ]
+ 
+-dump_summary = "last_modified.json"
+-GeneratedFile(dump_summary, script="gen_last_modified.py")
+-FINAL_TARGET_FILES.defaults.settings += ["!%s" % dump_summary]
++#dump_summary = "last_modified.json"
++#GeneratedFile(dump_summary, script="gen_last_modified.py")
++#FINAL_TARGET_FILES.defaults.settings += ["!%s" % dump_summary]
+ 
+ if CONFIG["MOZ_BUILD_APP"] == "browser":
+     DIST_SUBDIR = "browser"
+-- 
+2.37.1
+

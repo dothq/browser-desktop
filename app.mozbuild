@@ -6,5 +6,6 @@
 include('/toolkit/toolkit.mozbuild')
 
 DIRS += [
-    "/dot"
+    "/dot",
+    "/%s" % CONFIG["MOZ_BRANDING_DIRECTORY"],
 ]

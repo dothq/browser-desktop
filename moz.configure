@@ -11,6 +11,10 @@
 # - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/defaultagent/Policy.cpp#33
 imply_option("MOZ_APP_BASENAME", "dot")
 
+set_config("MOZ_APPUPDATE_HOST", "updates.dothq.org")
+add_old_configure_assignment("MOZ_BRANDING_DIRECTORY", "dot/branding/official")
+add_old_configure_assignment("MOZ_OFFICIAL_BRANDING_DIRECTORY", "dot/branding/official")
+
 # What does this mean?  It's causing mozbuild/configure to die:
 # mozbuild.configure.ConfigureError: `--enable-default-browser-agent`, emitted from `/home/ajvincent/debugging/mozilla-coroner/mozilla-central/comm/newapp/moz.configure` line 16, is unknown.
 #
@@ -19,6 +23,8 @@ imply_option("MOZ_APP_BASENAME", "dot")
 # https://firefox-source-docs.mozilla.org/toolkit/mozapps/defaultagent/default-browser-agent/index.html
 imply_option("--enable-default-browser-agent", False)
 
+imply_option("--with-ccache", "sccache")
+imply_option("--disable-webdriver", False)
 
 # "Bundled fonts" - describe
 @depends(target_is_windows, target_is_linux)
@@ -31,24 +37,12 @@ set_config("MOZ_BUNDLED_FONTS", bundled_fonts)
 add_old_configure_assignment("MOZ_BUNDLED_FONTS", bundled_fonts)
 
 
-# comm_paths - Describe?  Extract to a common imported file?
 @depends(build_environment, "--help")
-def comm_paths(build_env, _):
+def dot_paths(build_env, _):
     topsrcdir = build_env.topsrcdir
-    topobjdir = build_env.topobjdir
-
-    moztopsrcdir = topsrcdir
-    commtopsrcdir = "%s/comm" % topsrcdir
-    mozreltopsrcdir = "."
-    commreltopsrcdir = "comm"
-    commtopobjdir = "%s/comm" % topobjdir
 
     return namespace(
-        moztopsrcdir=moztopsrcdir,
-        commtopsrcdir=commtopsrcdir,
-        mozreltopsrcdir=mozreltopsrcdir,
-        commreltopsrcdir=commreltopsrcdir,
-        commtopobjdir=commtopobjdir,
+        topsrcdir=topsrcdir
     )
 
 
@@ -59,18 +53,14 @@ def set_defconf(k, v):
     add_old_configure_assignment(k, v)
 
 
-set_defconf("moztopsrcdir", comm_paths.moztopsrcdir)
-set_defconf("commtopsrcdir", comm_paths.commtopsrcdir)
-set_defconf("mozreltopsrcdir", comm_paths.mozreltopsrcdir)
-set_defconf("commreltopsrcdir", comm_paths.commreltopsrcdir)
-set_defconf("commtopobjdir", comm_paths.commtopobjdir)
+set_defconf("topsrcdir", dot_paths.topsrcdir)
 
 
 @depends(build_environment, build_project)
 @imports(_from="os.path", _import="exists")
 @imports(_from="__builtin__", _import="open")
 # presumably for --version
-def newapp_version(build_env, app_path):
+def dot_version(build_env, app_path):
     version_file = os.path.join(build_env.topsrcdir, app_path[0], "config",
                                 "version.txt")
     version_file_display = os.path.join(build_env.topsrcdir, app_path[0],
@@ -86,8 +76,8 @@ def newapp_version(build_env, app_path):
     return namespace(version=rv[0], version_display=rv[1])
 
 
-set_defconf("NEWAPPLICATION_VERSION", newapp_version.version)
-set_defconf("NEWAPPLICATION_VERSION_DISPLAY", newapp_version.version_display)
+set_defconf("DOT_VERSION", dot_version.version)
+set_defconf("DOT_VERSION_DISPLAY", dot_version.version_display)
 
 # this appears to be unused
 set_define("MOZ_SEPARATE_MANIFEST_FOR_THEME_OVERRIDES", True)

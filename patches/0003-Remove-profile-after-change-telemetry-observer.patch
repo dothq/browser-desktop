@@ -1,0 +1,19 @@
+From 66b54702144859157498e645184357e9495abebc Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Sat, 27 Aug 2022 15:02:06 +0100
+Subject: [PATCH] Remove profile-after-change telemetry observer
+
+---
+ toolkit/components/telemetry/TelemetryStartup.manifest | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/toolkit/components/telemetry/TelemetryStartup.manifest b/toolkit/components/telemetry/TelemetryStartup.manifest
+index b82b459b5e9dc..e69de29bb2d1d 100644
+--- a/toolkit/components/telemetry/TelemetryStartup.manifest
++++ b/toolkit/components/telemetry/TelemetryStartup.manifest
+@@ -1 +0,0 @@
+-category profile-after-change TelemetryStartup @mozilla.org/base/telemetry-startup;1 process=main
+\ No newline at end of file
+-- 
+2.37.1
+
