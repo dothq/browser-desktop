@@ -2,10 +2,10 @@ name: Build and deploy source docs
 on:
   push:
     paths:
-      - "dot/docs/**/*"
+      - "docs/**/*"
   pull_request:
     paths:
-      - "dot/docs/**/*"
+      - "docs/**/*"
   workflow_dispatch:
 permissions:
   contents: write
