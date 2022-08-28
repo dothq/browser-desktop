@@ -6,6 +6,7 @@ on:
   pull_request:
     paths:
       - "dot/docs/**/*"
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
