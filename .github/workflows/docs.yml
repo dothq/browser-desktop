@@ -1,0 +1,37 @@
+name: Build and deploy source docs
+on:
+  push:
+    paths:
+      - "dot/docs/**/*"
+  pull_request:
+    paths:
+      - "dot/docs/**/*"
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Primes
+        id: cache-primes
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo
+          key: ${{ runner.os }}-cargo
+
+      - name: Install mdbook
+        run: cargo install mdbook
+
+      - name: Build
+        run: |
+          mdbook build docs
+          cp docs/CNAME docs/book
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/book
