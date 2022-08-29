@@ -45,25 +45,22 @@ def dot_paths(build_env, _):
         topsrcdir=topsrcdir
     )
 
-
 @template
 def set_defconf(k, v):
     set_config(k, v)
     set_define(k, v)
     add_old_configure_assignment(k, v)
 
-
 set_defconf("topsrcdir", dot_paths.topsrcdir)
-
 
 @depends(build_environment, build_project)
 @imports(_from="os.path", _import="exists")
 @imports(_from="__builtin__", _import="open")
 # presumably for --version
-def dot_version(build_env, app_path):
-    version_file = os.path.join(build_env.topsrcdir, app_path[0], "config",
+def firefox_version(build_env, app_path):
+    version_file = os.path.join(build_env.topsrcdir, "browser", "config",
                                 "version.txt")
-    version_file_display = os.path.join(build_env.topsrcdir, app_path[0],
+    version_file_display = os.path.join(build_env.topsrcdir, "browser",
                                         "config", "version_display.txt")
     rv = []
     for f in [version_file, version_file_display]:
@@ -75,9 +72,8 @@ def dot_version(build_env, app_path):
 
     return namespace(version=rv[0], version_display=rv[1])
 
-
-set_defconf("DOT_VERSION", dot_version.version)
-set_defconf("DOT_VERSION_DISPLAY", dot_version.version_display)
+set_defconf("MOZ_FF_VERSION", firefox_version.version)
+set_defconf("MOZ_FF_VERSION_DISPLAY", firefox_version.version_display)
 
 # this appears to be unused
 set_define("MOZ_SEPARATE_MANIFEST_FOR_THEME_OVERRIDES", True)
