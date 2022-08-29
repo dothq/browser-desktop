@@ -12,10 +12,16 @@ if [ ! -f "$PWD/mach" ]; then
     exit 1
 fi
 
-
 last_patch=`exec ls -1 ./dot/patches | sed 's/-.*//g' | sort -n | tail -1`
 next_patch=`expr 1 + $last_patch`
 root_pwd=$PWD
+
+python3 -c 'with open(".gitignore", "r") as gir:
+    if gir.read().find("*.rej") == -1:
+        gir.close()
+        with open(".gitignore", "a") as gia:
+            gia.write("\n# Dot Browser: Patch rejection files\n*.rej\n")
+            gia.close()'
 
 if [ "$action" = "import" ]
 then
@@ -39,20 +45,24 @@ elif [ "$action" = "export" ]
 then
     if [ -x "$2" ]
     then
-        echo "Please provide a file name. Usage: $0 $action <filename>"
+        echo "Please provide a file name. Usage: $0 $action <...filename>"
         exit 1
     fi
 
     echo "Exporting: ${@:2}"
     echo
     
-    git add ${@:2}
-    git commit
+    git commit ${@:2}
     git format-patch --start-number $next_patch -1 -o ./dot/patches
+
+    echo
+    echo "Attempting to apply all patches cleanly..."
+
+    $0 import
 else
     echo "Usage: $0 import|export"
     echo ""
     echo "  import:  Import all patches from ./patches"
-    echo "  export:  Exports a specific patch. Usage: $0 export <filename>"
+    echo "  export:  Exports a specific patch. Usage: $0 export <...filename>"
     echo ""
 fi
