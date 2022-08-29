@@ -1,0 +1,25 @@
+From ced7b2245cd2d3db902c649189e6359da1bd6033 Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Mon, 29 Aug 2022 23:56:07 +0100
+Subject: [PATCH] Add frontend build tier to make
+
+---
+ config/baseconfig.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/baseconfig.mk b/config/baseconfig.mk
+index 8f3e920516c7a..6b3ea666c42d4 100644
+--- a/config/baseconfig.mk
++++ b/config/baseconfig.mk
+@@ -43,7 +43,7 @@ ifeq ($(MOZ_BUILD_APP),tools/rusttests)
+ ALL_TIERS := pre-export export rusttests
+ else
+ # All possible tiers
+-ALL_TIERS := artifact win32-artifact android-fat-aar-artifact pre-export export pre-compile rust compile misc libs android-stage-package android-archive-geckoview tools check
++ALL_TIERS := artifact win32-artifact android-fat-aar-artifact pre-export export frontend pre-compile rust compile misc libs android-stage-package android-archive-geckoview tools check
+ endif
+ 
+ # All tiers that may be used manually via `mach build $tier`
+-- 
+2.37.1
+

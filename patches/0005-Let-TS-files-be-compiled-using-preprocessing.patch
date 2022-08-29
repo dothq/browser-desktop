@@ -1,0 +1,65 @@
+From 4960a62d2e2d5d3acabc1de2d6305266e6794b02 Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Mon, 29 Aug 2022 23:57:07 +0100
+Subject: [PATCH] Let TS files be compiled using preprocessing
+
+---
+ python/mozbuild/mozbuild/jar.py | 42 +++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/python/mozbuild/mozbuild/jar.py b/python/mozbuild/mozbuild/jar.py
+index e1ab0e877b7c6..bff10480e2798 100644
+--- a/python/mozbuild/mozbuild/jar.py
++++ b/python/mozbuild/mozbuild/jar.py
+@@ -512,6 +512,48 @@ class JarMaker(object):
+             pp = self.pp.clone()
+             if src[-4:] == ".css":
+                 pp.setMarker("%")
++            if src[-3:] == ".ts":
++                from mozbuild.nodeutil import find_node_executable
++                import subprocess
++                import buildconfig
++
++                node, _ = find_node_executable()
++                build_app_path = os.path.join(
++                    self.topsourcedir,
++                    buildconfig.substs.get("MOZ_BUILD_APP"),
++                )
++                tsc_preprocessor = os.path.join(
++                    build_app_path,
++                    "typescript-preprocessor.js"
++                )
++
++                if not os.path.exists(tsc_preprocessor):
++                    raise RuntimeError(
++                        f"TypeScript preprocessor script not found at {build_app_path}."
++                    )
++
++                outfile = os.path.abspath(os.path.join(outHelper.basepath, out))
++
++                outf.close()
++                inf.close()
++
++                try:
++                    subprocess.check_output([
++                        node,
++                        tsc_preprocessor,
++                        realsrc,
++                        outfile
++                    ], stderr=subprocess.STDOUT).decode(
++                        "utf-8"
++                    )
++                except subprocess.CalledProcessError as e:
++                    decoded = e.output.decode("utf-8")
++
++                    raise RuntimeError(
++                        f"Error while running {tsc_preprocessor}:\n{decoded}"
++                    )
++                return
++
+             pp.out = outf
+             pp.do_include(inf)
+             pp.failUnused(realsrc)
+-- 
+2.37.1
+

@@ -5,4 +5,4 @@
 dot.jar:
 % content dot %content/ contentaccessible=yes
   content/browser.html              (content/browser.html)
-  content/browser.js                (content/browser.js)
+* content/browser.ts                (content/browser.ts)
