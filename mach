@@ -11,4 +11,6 @@ import sys
 # Hacky way of getting to topsrcdir
 os.chdir("..")
 
+print(f"Executing mach from cwd {os.getcwd()}.")
+
 os.system(" ".join(sys.argv))
