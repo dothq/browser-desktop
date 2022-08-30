@@ -23,19 +23,50 @@ python3 -c 'with open(".gitignore", "r") as gir:
             gia.write("\n# Dot Browser: Patch rejection files\n*.rej\n")
             gia.close()'
 
+echo "#!/bin/bash
+./dot/scripts/patchtool.sh" > $PWD/.git/hooks/post-merge
+
 if [ "$action" = "import" ]
 then
-    echo "Importing:"
+    total_patches=`expr 0 + $last_patch`
+
+    echo "Importing ${total_patches} patches..."
     echo
-    
+
     for file in ./dot/patches/*.patch
     do
-        echo "----- $file... -----"
+        echo "----- $file -----"
 
-        # --forward is used to skip the patch if it has already been applied
-        # || true is used to ignore the error if the patch has already been applied
-        patch -p1 --forward < $file || true
+        _=$(git apply \
+            --reverse \
+            --check \
+            --ignore-whitespace \
+            --ignore-space-change \
+            $file > /dev/null 2>&1)
 
+        apply_status=$?
+    
+        if [ $apply_status -eq 0 ]
+        then
+            echo -e "\e[0;33mSkipped patch as it was already applied.\e[0m"
+        else
+            out=$(git apply \
+                --ignore-whitespace \
+                --ignore-space-change \
+                --verbose \
+                --quiet \
+                $file)
+
+            status=$?
+            echo $status
+
+            if [ $status -eq 0 ]
+            then
+                echo -e "\e[32mSuccessfully applied.\e[0m"
+            else
+                echo -e "\e[0;31m$(out)\e[0m"
+            fi
+        fi
         echo "-----"
         echo
     done
@@ -59,10 +90,26 @@ then
     echo "Attempting to apply all patches cleanly..."
 
     $0 import
+elif [ "$action" = "edit" ]
+then
+    if [ -x "$2" ]
+    then
+        echo "Please provide a file name. Usage: $0 $action <filename>"
+        exit 1
+    fi
+
+    if ! [ -x "$(command -v editdiff)" ]; then
+        echo "patchutils is required to be installed in order to run the edit command."
+        exit 1
+    fi
+
+    editdiff ${@:2}
+    rm ${@:2}.orig
 else
     echo "Usage: $0 import|export"
     echo ""
     echo "  import:  Import all patches from ./patches"
     echo "  export:  Exports a specific patch. Usage: $0 export <...filename>"
+    echo "  edit:    Edit a patch contents. Usage: $0 edit <filename>"
     echo ""
 fi
