@@ -1,44 +1,32 @@
 const { build } = require("esbuild");
+const tsc = require("typescript");
+const { readFile } = require("fs");
 
 const chromeModules = {
 	name: "chrome",
 	setup(build) {
-        let https = require('https')
-        let http = require('http')
-    
-        // Intercept import paths starting with "http:" and "https:" so
-        // esbuild doesn't attempt to map them to a file system location.
-        // Tag them with the "http-url" namespace to associate them with
-        // this plugin.
         build.onResolve({ filter: /^(chrome|resource)?:\/\// }, args => ({
-          path: args.path,
-          namespace: 'http-url',
+            path: args.path,
+            namespace: "chrome",
         }))
     
-        // We also want to intercept all import paths inside downloaded
-        // files and resolve them against the original URL. All of these
-        // files will be in the "http-url" namespace. Make sure to keep
-        // the newly resolved URL in the "http-url" namespace so imports
-        // inside it will also be resolved as URLs recursively.
-        build.onResolve({ filter: /.*/, namespace: 'http-url' }, args => ({
-          path: new URL(args.path, args.importer).toString(),
-          namespace: 'http-url',
+        build.onResolve({ filter: /.*/, namespace: "chrome" }, args => ({
+            path: new URL(args.path, args.importer).toString(),
+            namespace: "chrome",
         }))
     
-        // When a URL is loaded, we want to actually download the content
-        // from the internet. This has just enough logic to be able to
-        // handle the example import from unpkg.com but in reality this
-        // would probably need to be more complex.
-        build.onLoad({ filter: /.*/, namespace: 'http-url' }, async (args) => {
-            const contents = `const mod = ChromeUtils.import(${JSON.stringify(args.path)});
-module.exports = mod;`
+        build.onLoad({ filter: /.*/, namespace: "chrome" }, async (args) => {
+            const contents = [
+                "const mod = ChromeUtils.import(${JSON.stringify(args.path)});",
+                "module.exports = mod;"
+            ].join("\n").trim();
 
-          return { contents }
+            return { contents }
         })
 	}
 };
 
-const main = async (path, outfile) => {
+const main = async (path, outfile, tsconfig) => {
     await build({
         entryPoints: [path],
         bundle: true,
@@ -52,6 +40,15 @@ const main = async (path, outfile) => {
         ],
         write: true
     });
+
+    const content = await readFile(path, "utf-8");
+
+    tsc.transpileModule(content, {
+        compilerOptions: {
+            noEmit: true,
+            project: tsconfig
+        }
+    })
 }
 
 main(...process.argv.splice(2));
