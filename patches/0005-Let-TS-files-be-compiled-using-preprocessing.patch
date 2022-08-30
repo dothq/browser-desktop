@@ -11,7 +11,7 @@ diff --git a/python/mozbuild/mozbuild/jar.py b/python/mozbuild/mozbuild/jar.py
 index e1ab0e877b7c6..bff10480e2798 100644
 --- a/python/mozbuild/mozbuild/jar.py
 +++ b/python/mozbuild/mozbuild/jar.py
-@@ -512,6 +512,48 @@ class JarMaker(object):
+@@ -512,6 +512,53 @@ class JarMaker(object):
              pp = self.pp.clone()
              if src[-4:] == ".css":
                  pp.setMarker("%")
@@ -29,6 +29,10 @@ index e1ab0e877b7c6..bff10480e2798 100644
 +                    build_app_path,
 +                    "typescript-preprocessor.js"
 +                )
++                tsconfig = os.path.join(
++                    build_app_path,
++                    "tsconfig.json"
++                )
 +
 +                if not os.path.exists(tsc_preprocessor):
 +                    raise RuntimeError(
@@ -45,7 +49,8 @@ index e1ab0e877b7c6..bff10480e2798 100644
 +                        node,
 +                        tsc_preprocessor,
 +                        realsrc,
-+                        outfile
++                        outfile,
++                        tsconfig
 +                    ], stderr=subprocess.STDOUT).decode(
 +                        "utf-8"
 +                    )
