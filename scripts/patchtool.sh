@@ -20,11 +20,13 @@ python3 -c 'with open(".gitignore", "r") as gir:
     if gir.read().find("*.rej") == -1:
         gir.close()
         with open(".gitignore", "a") as gia:
-            gia.write("\n# Dot Browser: Patch rejection files\n*.rej\n")
+            gia.write("\n# Dot Browser: Patch rejection files\n*.rej\n*.orig\n")
             gia.close()'
 
 echo "#!/bin/bash
-./dot/scripts/patchtool.sh" > $PWD/.git/hooks/post-merge
+./dot/scripts/patchtool.sh import" > $PWD/.git/hooks/post-merge
+chmod +x $PWD/.git/hooks/post-merge
+cp $PWD/dot/.vscode/settings.json $PWD/.vscode/settings.json
 
 if [ "$action" = "import" ]
 then
