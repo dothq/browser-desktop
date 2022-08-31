@@ -1,6 +1,6 @@
 const { build } = require("esbuild");
 const tsc = require("typescript");
-const { readFile } = require("fs");
+const { readFile } = require("fs/promises");
 
 const chromeModules = {
 	name: "chrome",
@@ -17,7 +17,7 @@ const chromeModules = {
     
         build.onLoad({ filter: /.*/, namespace: "chrome" }, async (args) => {
             const contents = [
-                "const mod = ChromeUtils.import(${JSON.stringify(args.path)});",
+                `const mod = ChromeUtils.import(${JSON.stringify(args.path)});`,
                 "module.exports = mod;"
             ].join("\n").trim();
 
