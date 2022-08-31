@@ -1,19 +1,19 @@
 {
-  "name": "dot",
-  "version(note)": "See dot/config/version.txt for browser version.",
-  "version": "0.0.0",
-  "description": "Dot Browser for Windows, macOS and Linux",
-  "main": "-",
-  "repository": "https://github.com/dothq/browser-desktop",
-  "author": "Dot HQ <contact@dothq.org>",
-  "license": "MPL-2.0",
-  "private": true,
-  "devDependencies": {
-    "esbuild": "^0.15.5",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.2"
-  },
-  "dependencies": {
-    "lit": "^2.3.1"
-  }
+    "name": "dot",
+    "version(note)": "See dot/config/version.txt for browser version.",
+    "version": "0.0.0",
+    "description": "Dot Browser for Windows, macOS and Linux",
+    "main": "-",
+    "repository": "https://github.com/dothq/browser-desktop",
+    "author": "Dot HQ <contact@dothq.org>",
+    "license": "MPL-2.0",
+    "private": true,
+    "devDependencies": {
+        "esbuild": "^0.15.5",
+        "prettier": "^2.7.1",
+        "typescript": "^4.8.2"
+    },
+    "dependencies": {
+        "lit": "^2.3.1"
+    }
 }
