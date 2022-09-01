@@ -1,0 +1,6 @@
+*.jsm linguist-language=JavaScript
+*.configure linguist-language=Python
+*.build linguist-language=Python
+*.mn linguist-language=Properties
+*.mozbuild linguist-language=Python
+*components.conf* linguist-language=Python
