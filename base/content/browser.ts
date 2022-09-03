@@ -1,13 +1,8 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { DevToolsServer } from "resource://app/modules/DevToolsServer.jsm";
-import { test } from "./test";
 
 const devtools = DevToolsServer.get();
 devtools.start();
-
-document.addEventListener("DOMContentLoaded", () => {
-    const el = document.getElementById("hello");
-
-    if (el) {
-        el.innerText = test();
-    }
-})
