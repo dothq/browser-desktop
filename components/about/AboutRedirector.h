@@ -10,20 +10,18 @@
 
 namespace dot {
     namespace browser {
+        class AboutRedirector : public nsIAboutModule {
+            public:
+            NS_DECL_ISUPPORTS
+            NS_DECL_NSIABOUTMODULE
 
-    class AboutRedirector : public nsIAboutModule {
-        public:
-        NS_DECL_ISUPPORTS
-        NS_DECL_NSIABOUTMODULE
+            AboutRedirector() {}
 
-        AboutRedirector() {}
+            static nsresult Create(REFNSIID aIID, void** aResult);
 
-        static nsresult Create(REFNSIID aIID, void** aResult);
-
-        protected:
-        virtual ~AboutRedirector() {}
-    };
-
+            protected:
+            virtual ~AboutRedirector() {}
+        };
     }
 }
 

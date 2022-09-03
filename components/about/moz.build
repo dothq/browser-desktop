@@ -15,3 +15,10 @@ SOURCES += [
 XPCOM_MANIFESTS += [
     "components.conf",
 ]
+
+LOCAL_INCLUDES += [
+    "/dom/base",
+]
+
+Library("dotcomps")
+FINAL_LIBRARY = "xul"

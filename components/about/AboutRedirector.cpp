@@ -5,13 +5,10 @@
 
 #include "AboutRedirector.h"
 #include "nsNetUtil.h"
-#include "nsIAboutNewTabService.h"
 #include "nsIChannel.h"
 #include "nsIURI.h"
 #include "nsIProtocolHandler.h"
 #include "nsServiceManagerUtils.h"
-#include "mozilla/StaticPrefs_browser.h"
-#include "mozilla/dom/ContentChild.h"
 
 namespace dot {
     namespace browser {
