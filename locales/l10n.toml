@@ -122,25 +122,16 @@ locales = [
 
 
 [[paths]]
-    reference = "browser/locales/en-US/**"
+    reference = "dot/locales/en-US/dot/**"
+    l10n = "{l}dot/**"
+
+[[paths]]
+    reference = "dot/locales/en-US/browser/**"
     l10n = "{l}browser/**"
 
 [[paths]]
-    reference = "browser/branding/official/locales/en-US/**"
-    l10n = "{l}browser/branding/official/**"
-
-[[paths]]
-    reference = "browser/extensions/formautofill/locales/en-US/**"
-    l10n = "{l}browser/extensions/formautofill/**"
-
-[[paths]]
-    reference = "browser/extensions/report-site-issue/locales/en-US/**"
-    l10n = "{l}browser/extensions/report-site-issue/**"
-
-[[paths]]
-    reference = "services/sync/locales/en-US/**"
-    l10n = "{l}services/sync/**"
-
+    reference = "dot/branding/official/locales/en-US/**"
+    l10n = "{l}dot/branding/official/**"
 
 [[includes]]
     path = "toolkit/locales/l10n.toml"
@@ -162,13 +153,13 @@ locales = [
 # key: the key/id of the entity
 # If key isn't specified, the complete file can be missing.
 [[filters]]
-    path = "{l}browser/defines.inc"
+    path = "{l}dot/defines.inc"
     key = "MOZ_LANGPACK_CONTRIBUTORS"
     action = "ignore"
 
 [[filters]]
     path = [
-        "{l}browser/defines.inc",
-        "{l}browser/firefox-l10n.js",
+        "{l}dot/defines.inc",
+        "{l}dot/firefox-l10n.js",
     ]
     action = "ignore"
