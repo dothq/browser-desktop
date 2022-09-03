@@ -5,7 +5,7 @@
 "use strict";
 
 const { useDistinctSystemPrincipalLoader } = ChromeUtils.import(
-  "resource://devtools/shared/loader/Loader.jsm"
+	"resource://devtools/shared/loader/Loader.jsm"
 );
 
 const EXPORTED_SYMBOLS = ["DevToolsServer"];
@@ -33,102 +33,99 @@ let singletonInstance;
  * ```
  */
 class DevToolsServer {
-  /**
-   * @param {number} [port] The port you want to open the DevTools on.
-   *
-   * @private
-   */
-  constructor(port) {
-    if (singletonInstance) {
-      throw new Error(
-        "DevToolsServer is a singleton. Do not call the constructor directly, instead call DevToolsServer.get"
-      );
-    }
+	/**
+	 * @param {number} [port] The port you want to open the DevTools on.
+	 *
+	 * @private
+	 */
+	constructor(port) {
+		if (singletonInstance) {
+			throw new Error(
+				"DevToolsServer is a singleton. Do not call the constructor directly, instead call DevToolsServer.get"
+			);
+		}
 
-    this.defaultPort = port;
+		this.defaultPort = port;
 
-    /**
-     * @protected
-     */
-    this._loader = useDistinctSystemPrincipalLoader(this);
+		/**
+		 * @protected
+		 */
+		this._loader = useDistinctSystemPrincipalLoader(this);
 
-    singletonInstance = this;
-  }
+		singletonInstance = this;
+	}
 
-  /**
-   * @param {number} [port] The port you want to open the DevTools on.
-   *
-   * @returns {DevToolsServer}
-   */
-  static get(port) {
-    if (singletonInstance && port) {
-        console.warn(
-            "DevTools have already been initialised. New settings will not be applied"
-        );
-    }
+	/**
+	 * @param {number} [port] The port you want to open the DevTools on.
+	 *
+	 * @returns {DevToolsServer}
+	 */
+	static get(port) {
+		if (singletonInstance && port) {
+			console.warn(
+				"DevTools have already been initialised. New settings will not be applied"
+			);
+		}
 
-    if (!singletonInstance) {
-        new DevToolsServer(port);
-    }
+		if (!singletonInstance) {
+			new DevToolsServer(port);
+		}
 
-    return singletonInstance;
-  }
+		return singletonInstance;
+	}
 
-  /**
-   * Starts the DevTools server.
-   * @returns {DevToolsServer}
-   */
-  start() {
-    if (this._listener) {
-      console.warn("Devtools server already started");
-      return this;
-    }
+	/**
+	 * Starts the DevTools server.
+	 * @returns {DevToolsServer}
+	 */
+	start() {
+		if (this._listener) {
+			console.warn("Devtools server already started");
+			return this;
+		}
 
-    const { DevToolsServer: MozillaDevToolsServer } = this._loader.require(
-      "devtools/server/devtools-server"
-    );
-    const { SocketListener } = this._loader.require(
-      "devtools/shared/security/socket"
-    );
+		const { DevToolsServer: MozillaDevToolsServer } = this._loader.require(
+			"devtools/server/devtools-server"
+		);
+		const { SocketListener } = this._loader.require("devtools/shared/security/socket");
 
-    this.DevToolsServer = MozillaDevToolsServer;
+		this.DevToolsServer = MozillaDevToolsServer;
 
-    this.DevToolsServer.init();
-    // We mainly need a root actor and target actors for opening a toolbox, even
-    // against chrome/content. But the "no auto hide" button uses the
-    // preference actor, so also register the browser actors.
-    this.DevToolsServer.registerAllActors();
-    this.DevToolsServer.allowChromeProcess = true;
+		this.DevToolsServer.init();
+		// We mainly need a root actor and target actors for opening a toolbox, even
+		// against chrome/content. But the "no auto hide" button uses the
+		// preference actor, so also register the browser actors.
+		this.DevToolsServer.registerAllActors();
+		this.DevToolsServer.allowChromeProcess = true;
 
-    const serverPort =
-        this.defaultPort ||
-        Services.prefs.getIntPref("devtools.debugger.server-port", -1);
-    const socketOptions = {
-        portOrPath: serverPort,
-    };
+		const serverPort =
+			this.defaultPort || Services.prefs.getIntPref("devtools.debugger.server-port", -1);
+		const socketOptions = {
+			portOrPath: serverPort
+		};
 
-    /**
-     * @protected
-     */
-    this._listener = new SocketListener(this.DevToolsServer, socketOptions);
-    this._listener.open();
+		/**
+		 * @protected
+		 */
+		this._listener = new SocketListener(this.DevToolsServer, socketOptions);
+		this._listener.open();
 
-    dump(`DevTools server started on port ${this.port}.`);
+		dump(`DevTools server started on port ${this.port}.\n`);
 
-    return this;
-  }
+		return this;
+	}
 
-  /**
-   * Returns the port the devtools server is listening on. This will return
-   * undefined if the server has not been started
-   *
-   * @return {?number} The port the devtools server is listening on.
-   */
-  get port() {
-    if (!this._listener) {
-      return;
-    }
+	/**
+	 * Returns the port the devtools server is listening on. This will return
+	 * undefined if the server has not been started
+	 *
+	 * @return {?number} The port the devtools server is listening on.
+	 */
+	get port() {
+		if (!this._listener) {
+			return;
+		}
 
-    return this._listener.port;
-  }
+		return this._listener.port;
+	}
 }
