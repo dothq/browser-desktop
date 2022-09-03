@@ -7,10 +7,19 @@
 CONFIGURE_SUBST_FILES += ["installer/Makefile"]
 
 DIRS += [
+    "actors",
     "base",
     "components",
-    "modules"
+    "locales",
+    "modules",
+    "themes"
 ]
+
+if CONFIG["MAKENSISU"]:
+    DIRS += ["installer/windows"]
+
+if CONFIG["MOZ_BUNDLED_FONTS"]:
+    DIRS += ["/%s/browser/fonts" % CONFIG["topsrcdir"]]
 
 DIRS += ["app"]
 FINAL_TARGET_FILES.defaults += ["app/permissions"]
