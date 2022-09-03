@@ -99,6 +99,16 @@
 			"emoji": "🔫",
 			"code": ":gun:",
 			"description": "Update events or IPC thread"
+		},
+		{
+			"emoji": "🤝",
+			"code": ":handshake:",
+			"description": "Update or create helper functions or modules"
+		},
+		{
+			"emoji": "💧",
+			"code": ":sweat_drops:",
+			"description": "Update browser glue"
 		}
 	],
 	"git.ignoreLimitWarning": true
