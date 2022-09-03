@@ -1,14 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dot Browser</title>
-    <script src="chrome://dot/content/browser.ts"></script>
-</head>
-<body>
-    <h1 id="hello">Hello world</h1>
-    <button>test</button>
-</body>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE window>
+
+<!-- prettier-ignore -->
+<html
+	id="main-window"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns="http://www.w3.org/1999/xhtml"
+#ifdef XP_WIN
+	chromemargin="0,2,2,2"
+#else
+	chromemargin="0,-1,-1,-1"
+#endif
+	windowtype="navigator:browser"
+	macanimationtype="document"
+	macnativefullscreen="true"
+	screenX="4"
+	screenY="4"
+	sizemode="normal"
+	retargetdocumentfocus="urlbar-input"
+	scrolling="false"
+	persist="screenX screenY width height sizemode"
+>
+	<head>
+        <!-- Application styles -->
+        <link rel="stylesheet" href="chrome://global/skin/global.css" />
+		<link rel="stylesheet" href="chrome://dot/skin/browser.css" />
+
+        <!-- Localisation files -->
+        <link rel="localization" href="branding/brand.ftl"/>
+        <link rel="localization" href="dot/browser.ftl"/>
+        
+        <!-- Browser title -->
+		<title data-l10n-id="browser-main-window-titles"></title>
+
+        <!-- Application scripts -->
+		<script src="chrome://dot/content/browser.ts"></script>
+	</head>
+
+	<body>
+        <!-- Entry point -->
+		<dot-app> 
+            <h1 data-l10n-id="browser-test-string"></h1>
+        </dot-app>
+	</body>
 </html>
