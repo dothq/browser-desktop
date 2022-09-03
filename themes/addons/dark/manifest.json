@@ -1,0 +1,70 @@
+{
+    "manifest_version": 2,
+    "applications": {
+        "gecko": {
+            "id": "dot-compact-dark@mozilla.org"
+        }
+    },
+    "name": "Dark",
+    "description": "A theme with a dark color scheme.",
+    "author": "Dot HQ",
+    "version": "1.0",
+    "icons": {
+        "32": "icon.svg"
+    },
+    "theme": {
+        "colors": {
+            "tab_background_text": "#fbfbfe",
+            "icons": "#fbfbfe",
+            "frame": "#1c1b22",
+            "popup": "rgb(40, 40, 41)",
+            "popup_text": "rgb(251, 251, 254)",
+            "popup_border": "rgb(82, 82, 94)",
+            "popup_highlight": "#0060df",
+            "tab_line": "#0a84ff",
+            "toolbar": "hsl(240, 1%, 20%)",
+            "toolbar_bottom_separator": "hsl(240, 5%, 5%)",
+            "toolbar_field": "rgb(65, 65, 67)",
+            "toolbar_field_border": "#8f8f9d",
+            "toolbar_field_border_focus": "#45a1ff",
+            "toolbar_field_text": "rgb(251, 251, 254)",
+            "toolbar_field_focus": "rgb(65, 65, 67)",
+            "sidebar": "#38383D",
+            "sidebar_text": "#d4d4d4",
+            "sidebar_highlight": "#45a1ff",
+            "sidebar_highlight_text": "#fff",
+            "sidebar_highlight_border": "#8cc5ff",
+            "sidebar_border": "#606064",
+            "button": "rgb(63, 62, 71)",
+            "button_hover": "rgb(82, 82, 94)",
+            "button_active": "rgb(91, 91, 102)",
+            "error_text_color": "rgb(255, 154, 162)",
+            "input_background": "#42414d",
+            "input_color": "#bfbfc9",
+            "input_border": "#8f8f9d"
+        },
+        "properties": {
+            "color_scheme": "dark",
+            "panel_hover": "color-mix(in srgb, currentColor 9%, transparent)",
+            "panel_active": "color-mix(in srgb, currentColor 14%, transparent)",
+            "panel_active_darker": "color-mix(in srgb, currentColor 25%, transparent)"
+        }
+    },
+    "theme_experiment": {
+        "stylesheet": "experiment.css",
+        "colors": {
+            "button": "--button-bgcolor",
+            "button_hover": "--button-hover-bgcolor",
+            "button_active": "--button-active-bgcolor",
+            "error_text_color": "--error-text-color",
+            "input_background": "--input-bgcolor",
+            "input_color": "--input-color",
+            "input_border": "--input-border-color"
+        },
+        "properties": {
+            "panel_hover": "--arrowpanel-dimmed",
+            "panel_active": "--arrowpanel-dimmed-further",
+            "panel_active_darker": "--arrowpanel-dimmed-even-further"
+        }
+    }
+}
