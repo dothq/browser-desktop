@@ -4,5 +4,8 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-* content/browser.html              (content/browser.html)
-* content/browser.ts                (content/browser.ts)
+*       content/browser.html                    (content/browser.html)
+*       content/browser.ts                      (content/browser.ts)
+#ifndef MOZILLA_OFFICIAL
+*       content/browser-development-helpers.ts  (content/browser-development-helpers.ts)
+#endif
