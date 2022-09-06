@@ -109,6 +109,11 @@
 			"emoji": "💧",
 			"code": ":sweat_drops:",
 			"description": "Update browser glue"
+		},
+		{
+			"emoji": "🩹",
+			"code": ":bandage:",
+			"description": "Patch browser engine"
 		}
 	],
 	"git.ignoreLimitWarning": true
