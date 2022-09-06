@@ -1,0 +1,25 @@
+From f3f32944ccb8c3f5dd9fb0928782085b79286043 Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Sun, 4 Sep 2022 20:19:36 +0100
+Subject: [PATCH] Force user agent name to be Firefox
+
+---
+ netwerk/protocol/http/nsHttpHandler.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/netwerk/protocol/http/nsHttpHandler.cpp b/netwerk/protocol/http/nsHttpHandler.cpp
+index 060b0053e5490..40825c21f6f34 100644
+--- a/netwerk/protocol/http/nsHttpHandler.cpp
++++ b/netwerk/protocol/http/nsHttpHandler.cpp
+@@ -782,7 +782,7 @@ void nsHttpHandler::BuildUserAgent() {
+   mUserAgent += '/';
+   mUserAgent += mProductSub;
+ 
+-  bool isFirefox = mAppName.EqualsLiteral("Firefox");
++  bool isFirefox = true;
+   if (isFirefox || mCompatFirefoxEnabled) {
+     // "Firefox/x.y" (compatibility) app token
+     mUserAgent += ' ';
+-- 
+2.37.1
+
