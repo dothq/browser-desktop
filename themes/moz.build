@@ -4,8 +4,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 EXTRA_JS_MODULES += [
+    "../../browser/themes/Windows8WindowFrameColor.jsm",
     "BuiltInThemes.jsm",
-    "ThemeVariableMap.jsm",
+    "ThemeVariableMap.jsm"
 ]
 
 toolkit = CONFIG["MOZ_WIDGET_TOOLKIT"]
