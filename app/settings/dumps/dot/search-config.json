@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "appliesTo": [
+                {
+                    "included": {
+                        "everywhere": true
+                    }
+                }
+            ],
+            "webExtension": {
+                "id": "ddg@search.mozilla.org"
+            },
+            "id": "34a44675-a8e3-446e-bca7-f8c7a561fc0f",
+            "last_modified": 0
+        }
+    ],
+    "timestamp": 0
+}

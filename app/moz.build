@@ -41,3 +41,5 @@ DisableStlWrapping()
 JS_PREFERENCE_FILES += [
     "profile/dot.js"
 ]
+
+DIRS += ["settings"]
