@@ -146,7 +146,7 @@ esbuild@^0.15.5:
 
 gecko-types@dothq/gecko-types:
   version "0.0.1"
-  resolved "https://codeload.github.com/dothq/gecko-types/tar.gz/7c12ca2d95bda86e1b7898d1b03086d5f63e19cf"
+  resolved "https://codeload.github.com/dothq/gecko-types/tar.gz/bbdf14079e4965628df9254bdb4aaed7e88470ad"
 
 lit-element@^3.2.0:
   version "3.2.2"
