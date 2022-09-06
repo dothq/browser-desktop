@@ -4,7 +4,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 DIRS += [
-    "about"
+    "about",
+    "search"
 ]
 
 EXTRA_COMPONENTS += [
@@ -12,6 +13,7 @@ EXTRA_COMPONENTS += [
 ]
 
 EXTRA_JS_MODULES += [
+    "DotBrowserWindow.jsm",
     "DotGlue.jsm",
 ]
 

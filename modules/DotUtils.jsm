@@ -10,8 +10,8 @@ const DotUtils = {
 		const keys = Object.keys(patterns);
 
 		for (const k of keys) {
-			if (evaluated == k) {
-				patterns[k]();
+			if (evaluated == k || k == "_") {
+				patterns[k](evaluated);
 
 				break;
 			}
