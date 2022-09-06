@@ -1,0 +1,34 @@
+From 2356eec12d5ff3b384693f22896c9cf2a1c61830 Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Tue, 6 Sep 2022 18:12:39 +0100
+Subject: [PATCH] Block remote settings requests
+
+---
+ toolkit/modules/AppConstants.jsm | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/toolkit/modules/AppConstants.jsm b/toolkit/modules/AppConstants.jsm
+index ebfea3507f75c..944ccc8f998a7 100644
+--- a/toolkit/modules/AppConstants.jsm
++++ b/toolkit/modules/AppConstants.jsm
+@@ -422,7 +422,7 @@ var AppConstants = Object.freeze({
+ #ifdef MOZ_THUNDERBIRD
+     "https://thunderbird-settings.thunderbird.net/v1",
+ #else
+-    "https://firefox.settings.services.mozilla.com/v1",
++    "https://host.invalid",
+ #endif
+ 
+   REMOTE_SETTINGS_VERIFY_SIGNATURE:
+@@ -436,7 +436,7 @@ var AppConstants = Object.freeze({
+ #ifdef MOZ_THUNDERBIRD
+     "thunderbird",
+ #else
+-    "main",
++    "dot",
+ #endif
+ 
+   MOZ_GLEAN_ANDROID:
+-- 
+2.37.1
+
