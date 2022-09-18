@@ -39,36 +39,23 @@ then
     do
         echo "----- $file -----"
 
-        _=$(git apply \
-            --reverse \
-            --check \
+        out=$(git apply \
             --ignore-whitespace \
             --ignore-space-change \
-            $file > /dev/null 2>&1)
+            --verbose \
+            --quiet \
+            $file)
 
-        apply_status=$?
-    
-        if [ $apply_status -eq 0 ]
+        status=$?
+        echo $status
+
+        if [ $status -eq 0 ]
         then
-            echo -e "\e[0;33mSkipped patch as it was already applied.\e[0m"
+            echo -e "\e[32mSuccessfully applied.\e[0m"
         else
-            out=$(git apply \
-                --ignore-whitespace \
-                --ignore-space-change \
-                --verbose \
-                --quiet \
-                $file)
-
-            status=$?
-            echo $status
-
-            if [ $status -eq 0 ]
-            then
-                echo -e "\e[32mSuccessfully applied.\e[0m"
-            else
-                echo -e "\e[0;31m$(out)\e[0m"
-            fi
+            echo -e "\e[0;31m$(out)\e[0m"
         fi
+        
         echo "-----"
         echo
     done
