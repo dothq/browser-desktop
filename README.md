@@ -1,5 +1,5 @@
-# Dot Browser (Desktop)
+# Dot Browser for Desktop
 
-## Development instructions
+## Contributing to Dot Browser
 
-WIP
+For information on how to build Dot Browser from source and contribute, refer to our documentation on [Contributing to Dot Browser](https://developer.dothq.org/contributing/getting_started.html).
