@@ -197,10 +197,10 @@ def maybe_write_mozconfig():
     if os.path.exists(path) == False:
         with open(path, "w") as mozc:
             out = """# Dot Browser Build Configuration
-    # For a full list of options, see https://developer.dothq.org/contributing/configuring_build_options.html
+# For a full list of options, see https://developer.dothq.org/contributing/configuring_build_options.html
 
-    # Set build target to Dot Browser (do not remove!)
-    ac_add_options --enable-application=dot
+# Set build target to Dot Browser (do not remove!)
+ac_add_options --enable-application=dot
     """
 
             mozc.write(out)
