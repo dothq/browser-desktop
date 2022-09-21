@@ -14,34 +14,36 @@ Dot HQ and Dot Browser are not associated with Mozilla or its products.
 
 Please ensure your system adheres to the following requirements before continuing.
 
-* At least 4 GB of ram (8 GB is advised)
-* 30.0 GB of free space
-* 64-bit operating system
-* Git SCM
+-   At least 4 GB of ram (8 GB is advised)
+-   30.0 GB of free space
+-   64-bit operating system
+-   Git SCM
 
 ## Cloning the source
 
-The first step is getting the Mozilla source and the Dot Browser source. 
+The first step is getting the Mozilla source and the Dot Browser source.
 
-There are two repositories we recommend to use as a base.
+There are two branches on [`gecko-dev`](https://github.com/mozilla/gecko-dev) we recommend to use as a base.
 
-* [dothq/gecko-release](https://github.com/dothq/gecko-release) - A more stable, release branch of `mozilla-central`.
-* [mozilla/gecko-dev](https://github.com/dothq/gecko-dev) - The bleeding-edge, nightly branch of `mozilla-central`. (For faster clones append `--depth=5` to the command)
+-   [release](https://github.com/mozilla/gecko-dev/tree/release) - A more stable, release branch of `mozilla-central`.
+-   [master](https://github.com/mozilla/gecko-dev/tree/master) - The bleeding-edge, nightly branch of `mozilla-central`.
+
+**_Note_** For faster clones append `--depth=5` to the command. This will only fetch the last 5 commits.
 
 You can clone the source by substituting the GitHub repository URL of your choice into the command below:
 
 ```sh
-git clone <source>
+git clone https://github.com/mozilla/gecko-dev -b <branch of choice>
 ```
 
-For example: `git clone https://github.com/dothq/gecko-release`.
+For example: `git clone https://github.com/mozilla/gecko-dev -b release`.
 
 This may take a while depending on the speed of your network connection.
 
 Once cloned fully, enter the directory.
 
 ```sh
-cd gecko-release/ # Or wherever Git cloned it to
+cd gecko-dev/ # Or wherever Git cloned it to
 ```
 
 Now inside the directory, we will need to clone the Dot Browser source.
@@ -55,7 +57,7 @@ git clone https://github.com/dothq/browser-desktop dot/
 Your directory structure should look something like:
 
 ```sh
-gecko-release # Root directory
+gecko-dev # Root directory
     - browser
     - build
     - dot # Dot directory
@@ -65,6 +67,6 @@ gecko-release # Root directory
         - components
 ```
 
-Once cloned, you can either stay in the `gecko-release` directory to switch into `dot`.
+Once cloned, you can either stay in the `gecko-dev` directory to switch into `dot`.
 
 You can now start your IDE or editor and move onto the build step.
