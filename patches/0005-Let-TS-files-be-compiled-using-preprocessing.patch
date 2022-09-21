@@ -11,16 +11,17 @@ diff --git a/python/mozbuild/mozbuild/jar.py b/python/mozbuild/mozbuild/jar.py
 index e1ab0e877b7c6..bff10480e2798 100644
 --- a/python/mozbuild/mozbuild/jar.py
 +++ b/python/mozbuild/mozbuild/jar.py
-@@ -512,6 +512,53 @@ class JarMaker(object):
+@@ -512,6 +512,59 @@ class JarMaker(object):
              pp = self.pp.clone()
              if src[-4:] == ".css":
                  pp.setMarker("%")
 +            if src[-3:] == ".ts":
-+                from mozbuild.nodeutil import find_node_executable
++                from mozbuild.nodeutil import find_node_executable, find_npm_executable
 +                import subprocess
 +                import buildconfig
 +
 +                node, _ = find_node_executable()
++                npm, _ = find_npm_executable()
 +                build_app_path = os.path.join(
 +                    self.topsourcedir,
 +                    buildconfig.substs.get("MOZ_BUILD_APP"),
@@ -43,6 +44,11 @@ index e1ab0e877b7c6..bff10480e2798 100644
 +
 +                outf.close()
 +                inf.close()
++
++                subprocess.check_output([
++                    npm,
++                    "install"
++                ], stderr=subprocess.STDOUT, cwd=build_app_path)
 +
 +                try:
 +                    subprocess.check_output([
