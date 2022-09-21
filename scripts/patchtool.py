@@ -42,6 +42,9 @@ def import_patches():
 
     patches = sorted(os.listdir(patches_dir), key=sort)
 
+    # Ensure we are only importing .patch files
+    patches = [i for i in patches if i.endswith(".patch")]
+
     print(f"Importing {len(patches)} patches...\n")
 
     for i in patches:
@@ -172,14 +175,43 @@ def edit_patch():
 
     code = subprocess.call(f"editdiff {patch_path}", cwd=patches_dir, shell=True)
 
-    if exists(os.path.join(patches_dir, f"{patch_path}.orig")):
-        os.remove(os.path.join(patches_dir, f"{patch_path}.orig"))
+    def undo_edit_patch():
+        print("Your patch could not be applied. Undoing changes...")
 
-    if code != 0:
         with open(os.path.join(patches_dir, patch_path), "w") as p:
             p.write(backup_patch_data)
             p.close()
 
+            if exists(os.path.join(patches_dir, f"{patch_path}.orig")):
+                os.remove(os.path.join(patches_dir, f"{patch_path}.orig"))
+
+    # If editing the patch was successful, try undo the current version of the patch
+    if code == 0:
+        try:
+            subprocess.check_output([
+                "git", 
+                "apply", 
+                "-R",
+                "--ignore-whitespace",
+                "--ignore-space-change",
+                "--verbose",
+                os.path.join(patches_dir, f"{patch_path}.orig")
+            ], 
+                cwd=topsrcdir,
+                stderr=subprocess.STDOUT
+            )
+
+            # Remove the original patch file as we don't need it anymore
+            os.remove(os.path.join(patches_dir, f"{patch_path}.orig"))
+        except subprocess.CalledProcessError as e:
+            pass
+    else:
+        # If there is an error undoing the current patch, revert our patch edit
+        undo_edit_patch()
+        exit(1)
+
+    # Attempt to reimport all the patches to ensure the patch applies cleanly
+    import_patches()
 
 def ensure_patch_data_ignored():
     path = os.path.join(topsrcdir, ".gitignore")
