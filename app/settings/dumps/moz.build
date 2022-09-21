@@ -5,3 +5,5 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 DIRS += ["dot"]
+
+FINAL_TARGET_FILES.defaults.settings += ["last_modified.json"]

@@ -4,6 +4,26 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+main_dump_path = "%s/services/settings/dumps/main" % TOPSRCDIR
+
+FINAL_TARGET_FILES.defaults.settings.dot += [
+    "/%s/anti-tracking-url-decoration.json" % main_dump_path,
+    "/%s/devtools-compatibility-browsers.json" % main_dump_path,
+    "/%s/devtools-devices.json" % main_dump_path,
+    "/%s/example.json" % main_dump_path,
+    "/%s/hijack-blocklists.json" % main_dump_path,
+    "/%s/language-dictionaries.json" % main_dump_path,
+    "/%s/password-recipes.json" % main_dump_path,
+    "/%s/password-rules.json" % main_dump_path,
+#   "search-config.json",
+    "/%s/search-default-override-allowlist.json" % main_dump_path,
+    "/%s/search-telemetry-v2.json" % main_dump_path,
+    "/%s/sites-classification.json" % main_dump_path,
+    "/%s/top-sites.json" % main_dump_path,
+    "/%s/url-classifier-skip-urls.json" % main_dump_path,
+    "/%s/websites-with-shared-credential-backends.json" % main_dump_path,
+]
+
 FINAL_TARGET_FILES.defaults.settings.dot += [
     "search-config.json",
 ]

@@ -11,7 +11,21 @@
             "webExtension": {
                 "id": "ddg@search.mozilla.org"
             },
-            "id": "34a44675-a8e3-446e-bca7-f8c7a561fc0f",
+            "id": "ddg",
+            "last_modified": 0
+        },
+        {
+            "appliesTo": [
+                {
+                    "included": {
+                        "everywhere": true
+                    }
+                }
+            ],
+            "webExtension": {
+                "id": "startpage@search.mozilla.org"
+            },
+            "id": "startpage",
             "last_modified": 0
         }
     ],
