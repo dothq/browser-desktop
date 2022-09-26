@@ -10,7 +10,7 @@
     "private": true,
     "devDependencies": {
         "esbuild": "^0.15.5",
-        "gecko-types": "dothq/gecko-types",
+        "gecko-types": "file:third_party/dothq/gecko-types",
         "prettier": "^2.7.1",
         "typescript": "^4.8.2"
     },
