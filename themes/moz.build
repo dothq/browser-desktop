@@ -4,7 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 EXTRA_JS_MODULES += [
-    "../../browser/themes/Windows8WindowFrameColor.jsm",
+    "../../browser/themes/Windows8WindowFrameColor.sys.mjs",
     "BuiltInThemes.jsm",
     "ThemeVariableMap.jsm"
 ]
