@@ -1,5 +1,5 @@
-# macOS Build Requirements
+# Building Dot Browser on macOS
 
-This guide assumes you have started to read [Building Dot Browser](README.md).
+This document will guide you in setting up a development environment to build and hack on Dot Browser using macOS.
 
 ***Note*** This section is a work in progress.
