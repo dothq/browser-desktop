@@ -123,26 +123,66 @@ def export_patch():
 
     code = subprocess.call(f"git commit {sp_paths}", cwd=topsrcdir, shell=True)
 
-    if code == 0:
-        next_patch_num = len(os.listdir(patches_dir)) + 1
+    patch_file_path = ""
 
-        patch_code = subprocess.run([
-            "git", 
-            "format-patch",
-            "--start-number",
-            str(next_patch_num),
-            "-1",
-            "-o",
-            patches_dir
-        ], 
-            cwd=topsrcdir,
-            stderr=subprocess.STDOUT
-        )
-
-        if patch_code != 0:
-            print("Error occurred in patch creation, undoing commit...")
-            subprocess.call("git reset --soft HEAD~1", cwd=topsrcdir, shell=True)
+    def declare_patch_error():
+        print("Error occurred in patch creation, aborting...")
+        try:
+            subprocess.call("git reset HEAD~", cwd=topsrcdir, shell=True)
+        except:
+            print("WARNING: Could not undo patch commit. You will need to undo the last commit yourself.")
+        try:
             subprocess.call(f"git restore --staged {sp_paths}", cwd=topsrcdir, shell=True)
+        except:
+            print(f"WARNING: Could not unstage files with pattern {sp_paths}. You will need to unstage these files yourself.")
+        try:
+            if len(patch_file_path) == 0:
+                raise Exception()
+
+            patch_file = [
+                filename for filename in os.listdir(patches_dir) 
+                if filename.startswith(f"{str(next_patch_num).zfill(4)}-")
+            ]
+            os.remove(patch_file_path)
+        except:
+            print("WARNING: Could not delete generated patch file. You will need to remove this yourself.")
+        exit(1)
+
+    if code == 0:
+        try:
+            next_patch_num = len(os.listdir(patches_dir)) + 1
+
+            patch_code = subprocess.run([
+                "git", 
+                "format-patch",
+                "--start-number",
+                str(next_patch_num),
+                "-1",
+                "-o",
+                patches_dir
+            ], 
+                cwd=topsrcdir,
+                stderr=subprocess.STDOUT
+            )
+
+            patch_file_name = [
+                filename for filename in os.listdir(patches_dir) 
+                if filename.startswith(f"{str(next_patch_num).zfill(4)}-")
+            ]
+            patch_file_path = os.path.join(patches_dir, patch_file_name[0])
+
+            if patch_code == 1:
+                declare_patch_error()
+
+            if os.path.exists(patch_file_path):
+                undo_commit_code = subprocess.call("git reset HEAD~", cwd=topsrcdir, shell=True)
+            
+                if undo_commit_code == 1:
+                    declare_patch_error()
+            else:
+                exit(1)
+        except:
+            declare_patch_error()
     else:
         exit(code)
 
