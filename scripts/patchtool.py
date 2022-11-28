@@ -225,18 +225,23 @@ def ensure_patch_data_ignored():
 
 def maybe_write_mozconfig():
     path = os.path.join(topsrcdir, "mozconfig")
+    dot_path = os.path.join(topsrcdir, "dot", "mozconfig")
 
     if os.path.exists(path) == False:
         with open(path, "w") as mozc:
             out = """# Dot Browser Build Configuration
 # For a full list of options, see https://developer.dothq.org/contributing/configuring_build_options.html
 
-# Set build target to Dot Browser (do not remove!)
-ac_add_options --enable-application=dot
-    """
+# Important: do not remove.
+. "$topsrcdir/dot/config/mozconfigs/common"
+
+# Add your build options below:\n"""
 
             mozc.write(out)
             mozc.close()
+
+    if os.path.exists(dot_path) == False:
+        os.symlink(path, dot_path)
 
 def write_post_merge_hook():
     path = os.path.join(topsrcdir, ".git", "hooks", "post-merge")
