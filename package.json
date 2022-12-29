@@ -1,6 +1,6 @@
 {
     "name": "dot",
-    "version(note)": "See dot/config/version.txt for browser version.",
+    "version(note)": "See dot/app/config/version.txt for browser version.",
     "version": "0.0.0",
     "description": "Dot Browser for Windows, macOS and Linux",
     "main": "-",
@@ -9,12 +9,9 @@
     "license": "MPL-2.0",
     "private": true,
     "devDependencies": {
-        "esbuild": "^0.15.5",
-        "gecko-types": "file:third_party/dothq/gecko-types",
+        "esbuild": "^0.16.6",
         "prettier": "^2.7.1",
         "typescript": "^4.8.2"
     },
-    "dependencies": {
-        "lit": "^2.3.1"
-    }
+    "dependencies": {}
 }
