@@ -3,9 +3,9 @@
 		"target": "es2020",
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
-		"baseUrl": ".",
-		"paths": {
-			"@components/*": ["components/*"]
-		}
+		"jsx": "react",
+		"jsxFactory": "html",
+		"jsxFragmentFactory": "Fragment",
+		"allowJs": true
 	}
 }
