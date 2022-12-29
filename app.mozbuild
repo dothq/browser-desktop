@@ -7,6 +7,28 @@ include('/toolkit/toolkit.mozbuild')
 
 DIRS += [
     "/dot",
+
+    "/browser/actors",
     "/browser/base",
+    "/browser/modules",
+    "/browser/locales",
+
+    # Minimum amount of components needed to boot browser
+    "/browser/components/build",
+    "/browser/components/customizableui",
+    "/browser/components/downloads",
+    "/browser/components/extensions",
+    "/browser/components/firefoxview", # todo: remove
+    "/browser/components/urlbar",
+    "/browser/components/migration",
+    "/browser/components/pagedata",
+    "/browser/components/places",
+    "/browser/components/pocket", # needed to boot the browser (could probably be removed)
+    "/browser/components/search",
+    "/browser/components/sessionstore",
+    "/browser/components/shell",
+
+    "/toolkit/modules",
+
     "/%s" % CONFIG["MOZ_BRANDING_DIRECTORY"],
 ]

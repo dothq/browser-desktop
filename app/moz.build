@@ -39,6 +39,7 @@ if CONFIG["OS_ARCH"] == "Darwin":
 DisableStlWrapping()
 
 JS_PREFERENCE_FILES += [
+    "../../browser/app/profile/firefox.js",
     "profile/dot.js"
 ]
 
