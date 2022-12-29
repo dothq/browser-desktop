@@ -40,10 +40,10 @@ def import_patches():
         num = el.split("-")[0]
         return int(num)
 
-    patches = sorted(os.listdir(patches_dir), key=sort)
-
-    # Ensure we are only importing .patch files
-    patches = [i for i in patches if i.endswith(".patch")]
+    patches = sorted(
+        [i for i in os.listdir(patches_dir) if i.endswith(".patch")], 
+        key=sort
+    )
 
     print(f"Importing {len(patches)} patches...")
 
