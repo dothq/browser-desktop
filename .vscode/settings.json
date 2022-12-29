@@ -8,7 +8,8 @@
 		"*.mozbuild": "python",
 		"*mozconfig*": "makefile",
 		"*components.conf*": "python",
-		"*.webidl": "idl"
+		"*.webidl": "idl",
+		"*.svg": "html"
 	},
 	"files.eol": "\n",
 	"files.watcherExclude": {
@@ -29,7 +30,6 @@
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"files.exclude": {
 		"**/node_modules": true,
-		"**/dist": true,
 		"**/__pycache__": true
 	},
 	"macros.list": {
@@ -41,6 +41,24 @@
 				}
 			},
 			"insertSnippet"
+		],
+		"license (html)": [
+			{
+				"command": "type",
+				"args": {
+					"text": "<!-- This Source Code Form is subject to the terms of the Mozilla Public\n   - License, v. 2.0. If a copy of the MPL was not distributed with this\n- file, You can obtain one at http://mozilla.org/MPL/2.0/. "
+				}
+			},
+			"insertSnippet"
+		],
+
+		"mozbuild": [
+			{
+				"command": "type",
+				"args": {
+					"text": "# -*- Mode: python; indent-tabs-mode: nil; tab-width: 40 -*-\n# vim: set filetype=python:\n# This Source Code Form is subject to the terms of the Mozilla Public\n# License, v. 2.0. If a copy of the MPL was not distributed with this\n# file, You can obtain one at http://mozilla.org/MPL/2.0/.\n\n"
+				}
+			}
 		]
 	},
 	"gitmoji.showEmojiCode": true,
