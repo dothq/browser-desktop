@@ -188,7 +188,7 @@ def export_patch():
 
     if code == 0:
         try:
-            next_patch_num = len(os.listdir(patches_dir)) + 1
+            next_patch_num = len([i for i in os.listdir(patches_dir) if i.endswith(".patch")]) + 1
 
             patch_code = subprocess.run([
                 "git", 
