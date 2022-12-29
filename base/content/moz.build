@@ -4,11 +4,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-DIRS += [
-    "content"
-]
+include("../../build/node-templates.mozbuild")
 
-DEFINES["DOT_APP_VERSION"] = CONFIG["DOT_APP_VERSION"]
-DEFINES["DOT_APP_VERSION_DISPLAY"] = CONFIG["DOT_APP_VERSION_DISPLAY"]
-
-JAR_MANIFESTS += ["jar.mn"]
+TypedModules(
+    "browser-development-helpers.ts",
+    "browser-init.ts",
+    "browser-utils.ts",
+    "browser-window.ts",
+    "browser.ts",
+)

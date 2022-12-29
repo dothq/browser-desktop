@@ -4,8 +4,13 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-*       content/browser.html                    (content/browser.html)
-*       content/browser.ts                      (content/browser.ts)
-#ifndef MOZILLA_OFFICIAL
-*       content/browser-development-helpers.ts  (content/browser-development-helpers.ts)
-#endif
+*   content/browser.xhtml                             (content/browser.xhtml)
+
+# Shims
+    content/shims/browser-places.js                   (content/shims/browser-places.js)
+% resource dot %modules/dot/
+% override chrome://browser/content/browser-places.js chrome://dot/content/shims/browser-places.js
+
+browser.jar:
+% content browser %content/
+    content/                (../../browser/*)
