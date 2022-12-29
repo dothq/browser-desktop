@@ -1,0 +1,90 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* Status panel */
+#statuspanel {
+    display: flex;
+    position: absolute;
+
+    max-width: calc(100% - 5rem);
+
+    bottom: 0;
+
+    padding-top: 2.5rem;
+
+    pointer-events: none;
+
+    border: none;
+}
+
+#statuspanel:not([mirror]):-moz-locale-dir(rtl),
+#statuspanel[mirror]:-moz-locale-dir(ltr) {
+    left: auto;
+    right: 0;
+}
+
+#statuspanel-label {
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    opacity: 0;
+    visibility: visible;
+
+    background-color: var(--lwt-accent-color);
+    color: var(--lwt-text-color);
+
+    padding: 0.2rem 0.4rem;
+
+    border: none;
+    border-top: 1px solid var(--chrome-content-separator-color);
+
+    color-scheme: light;
+}
+
+:root:not([lwtheme]) #statuspanel-label {
+    background-color: -moz-dialog;
+    color: -moz-dialogText;
+}
+
+@media (-moz-content-prefers-color-scheme: dark) {
+    #statuspanel-label {
+        color-scheme: dark;
+    }
+}
+
+#statuspanel[previoustype]:not([hidden]):not([inactive="true"]) #statuspanel-label {
+    opacity: 1;
+}
+
+#statuspanel:not([mirror]):-moz-locale-dir(ltr) #statuspanel-label,
+#statuspanel[mirror]:-moz-locale-dir(rtl) #statuspanel-label {
+    border-top-right-radius: 0.4rem;
+    border-right: 1px solid var(--chrome-content-separator-color);
+}
+
+#statuspanel:not([mirror]):-moz-locale-dir(rtl) #statuspanel-label,
+#statuspanel[mirror]:-moz-locale-dir(ltr) #statuspanel-label {
+    border-top-left-radius: 0.4rem;
+    border-left: 1px solid var(--chrome-content-separator-color);
+}
+
+#statuspanel:is([type=overLink], [inactive][previoustype=overLink]) #statuspanel-label {
+    direction: ltr;
+}
+
+#statuspanel[inactive] #statuspanel-label {
+    transition: opacity 0.2s ease-out 0.5s, visibility 0.2s 0.5s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#statuspanel[type=overLink] #statuspanel-label {
+    transition: opacity 0.12s ease-out, visibility 0.12s;
+}
+
+#statuspanel[inactive][previoustype=overLink] #statuspanel-label {
+    transition: opacity 0.2s ease-out, visibility 0.2s;
+}
