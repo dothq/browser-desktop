@@ -1,4 +1,0 @@
-[submodule "third_party/dothq/gecko-types"]
-	path = third_party/dothq/gecko-types
-	url = https://github.com/dothq/gecko-types
-	branch = main

@@ -1,0 +1,13 @@
+{
+    "name": "gecko-types",
+    "version": "0.0.1",
+    "description": "TypeScript definitions for Gecko APIs",
+    "homepage": "https://github.com/dothq/gecko-types",
+    "license": "MPL-2.0",
+    "main": "",
+    "types": "index.d.ts",
+    "repository": "https://github.com/dothq/gecko-types",
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {}
+}
