@@ -7,16 +7,18 @@
 @namespace html url("http://www.w3.org/1999/xhtml");
 
 :root {
-	--toolbar-non-lwt-bgcolor: -moz-dialog;
-	--toolbar-non-lwt-textcolor: -moz-dialogtext;
-	--toolbar-non-lwt-bgimage: linear-gradient(
-		rgba(255, 255, 255, 0.075),
-		rgba(255, 255, 255, 0.075)
-	);
-	--tab-selected-non-lwt-bgimage: linear-gradient(
-		rgba(255, 255, 255, 0.15),
-		rgba(255, 255, 255, 0.15)
-	);
+    --chrome-content-separator-color: ThreeDShadow;
+}
 
-	--chrome-content-separator-color: ThreeDShadow;
+/* Apply GTK rounded top corners */
+@media (-moz-gtk-csd-available) {
+    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) {
+        -moz-default-appearance: -moz-window-titlebar;
+        appearance: auto;
+    }
+
+    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
+        border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
+        border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
+    }
 }

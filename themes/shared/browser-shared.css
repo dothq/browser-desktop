@@ -2,15 +2,154 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-@namespace html url("http://www.w3.org/1999/xhtml");
+/* Base */
+@import url("chrome://dot/skin/browser-box.css");
 
+/* Components */
+@import url("chrome://dot/content/browser-element/statuspanel.css");
+
+/* Globals */
 :root {
-	--toolbar-bgcolor: var(--toolbar-non-lwt-bgcolor);
-	--toolbar-bgimage: var(--toolbar-non-lwt-bgimage);
-	--toolbar-color: var(--toolbar-non-lwt-textcolor);
+	/* Colours */
+	--fdn-colours-red: hsl(0, 95%, 36%);
+	--fdn-colours-red-secondary: hsla(0, 95%, 36%, 0.07);
+	--fdn-colours-orange: hsl(29, 90%, 53%);
+	--fdn-colours-orange-secondary: hsla(29, 90%, 53%, 0.07);
+	--fdn-colours-yellow: hsl(54, 100%, 48%);
+	--fdn-colours-yellow-secondary: hsla(54, 100%, 48%, 0.07);
+	--fdn-colours-green: hsl(130, 100%, 20%);
+	--fdn-colours-green-secondary: hsla(130, 100%, 20%, 0.07);
+	--fdn-colours-blue: hsl(209, 97%, 39%);
+	--fdn-colours-blue-secondary: hsla(209, 97%, 39%, 0.07);
+	--fdn-colours-purple: hsl(263, 95%, 40%);
+	--fdn-colours-purple-secondary: hsla(263, 95%, 40%, 0.07);
+	--fdn-colours-pink: hsl(317, 100%, 43%);
+	--fdn-colours-pink-secondary: hsla(317, 100%, 43%, 0.07);
+	--fdn-colours-black: hsl(216, 100%, 5%);
+	--fdn-colours-black-secondary: hsla(216, 100%, 5%, 0.07);
+	--fdn-colours-white: hsl(255, 100%, 100%);
+	--fdn-colours-pblack: hsl(0, 0%, 0%);
+	--fdn-colours-gray: hsl(0, 0%, 87%);
+	--fdn-colours-gray-secondary: hsl(0, 0%, 93%);
+	--fdn-colours-link: hsl(209, 65%, 35%);
+	--fdn-colours-visited-link: hsl(263, 65%, 35%);
 
-	--lwt-additional-images: none;
-	--lwt-background-alignment: right top;
-	--lwt-background-tiling: no-repeat;
-	--lwt-brighttext-url-color: #00ddff;
+	/* Backgrounds */
+	--fdn-bg-default: hsl(0, 0%, 100%);
+
+	/* Text colours */
+	--fdn-text-colour: hsl(180, 3%, 7%);
+	--fdn-text-secondary-colour: hsl(225, 8%, 39%);
+
+	/* Border colours */
+	--fdn-border-colour: hsl(0, 0%, 87%);
+	--fdn-border-secondary-colour: hsl(0, 0%, 77%);
+
+	/* State colours */
+	--fdn-info-colour: var(--fdn-colours-blue);
+	--fdn-warn-colour: var(--fdn-colours-yellow);
+	--fdn-success-colour: var(--fdn-colours-green);
+	--fdn-error-colour: var(--fdn-colours-red);
+}
+
+/* Define LWT variables */
+:root {
+	--devtools-splitter-color: var(--chrome-content-separator-color, var(--fdn-border-colour));
+}
+
+html,
+body {
+	display: flex;
+	flex-direction: column;
+	color: var(--fdn-colours-black);
+	background-color: var(--fdn-bg-default);
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+		Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	box-sizing: border-box;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	min-width: 450px;
+	min-height: 200px;
+}
+
+#mount {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+#ff-internals {
+	width: 0;
+	height: 0;
+	max-width: 0;
+	max-height: 0;
+	visibility: hidden;
+}
+
+a {
+	color: var(--fdn-colours-link);
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+}
+
+a:hover,
+a:focus-visible {
+	text-decoration: none;
+}
+
+main a:not(.fdn-not-visited, .fdn-button):visited {
+	color: var(--fdn-colours-visited-link);
+}
+
+[hidden] {
+	display: none !important;
+}
+
+pre {
+	font-family: monospace;
+}
+
+hr.fdn-separator {
+	width: 0;
+	height: 0;
+	margin: 0;
+	border: 0;
+	color: inherit;
+	margin-block: 0;
+	margin-inline: 0;
+	background-color: var(--fdn-border-colour);
+}
+
+.fdn-separator.h {
+	width: 100%;
+	height: 1px;
+}
+
+.fdn-separator.v {
+	width: 1px;
+	height: 100%;
+}
+
+.fdn-disabled {
+	opacity: 0.5 !important;
+	pointer-events: none !important;
+	border: 1px solid var(--fdn-border-secondary-colour);
+}
+
+/* Overflow helper classes */
+.overflow-hidden {
+	overflow: hidden;
+}
+
+.overflow-clip {
+	overflow: clip;
+}
+
+.overflow-scroll {
+	overflow: scroll;
+}
+
+.overflow-visible {
+	overflow: visible;
 }

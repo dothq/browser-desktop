@@ -4,19 +4,24 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 EXTRA_JS_MODULES += [
-    "../../browser/themes/Windows8WindowFrameColor.sys.mjs",
-    "BuiltInThemes.jsm",
-    "ThemeVariableMap.jsm"
+    "BuiltInThemeConfig.sys.mjs",
+    "BuiltInThemes.sys.mjs",
+    "ThemeVariableMap.sys.mjs"
 ]
 
 toolkit = CONFIG["MOZ_WIDGET_TOOLKIT"]
 
 if toolkit == "gtk":
-    DIRS += ["linux"]
+    DIRS += ["linux", "../../browser/themes/linux"]
 elif toolkit == "cocoa":
-    DIRS += ["osx"]
+    DIRS += ["osx", "../../browser/themes/osx"]
 else:
-    DIRS += ["windows"]
+    DIRS += ["windows", "../../browser/themes/windows"]
+
+if toolkit == "windows":
+    EXTRA_JS_MODULES += [
+        "Windows8WindowFrameColor.sys.mjs",
+    ]
 
 DIRS += [
     "addons",
