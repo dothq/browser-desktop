@@ -17,10 +17,7 @@
     ],
     "chrome_settings_overrides": {
         "search_provider": {
-            "keyword": [
-                "@duckduckgo",
-                "@ddg"
-            ],
+            "keyword": "@duckduckgo",
             "name": "DuckDuckGo",
             "search_url": "https://duckduckgo.com/",
             "search_form": "https://duckduckgo.com/?q={searchTerms}",

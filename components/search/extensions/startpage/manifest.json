@@ -17,10 +17,7 @@
     ],
     "chrome_settings_overrides": {
         "search_provider": {
-            "keyword": [
-                "@startpage",
-                "@sp"
-            ],
+            "keyword": "@startpage",
             "name": "Startpage",
             "search_url": "https://www.startpage.com/sp/search?query={searchTerms}",
             "search_url_get_params": "query={searchTerms}"
