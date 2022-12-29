@@ -2,12 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const EXPORTED_SYMBOLS = [
-	"ThemeVariableMap",
-	"ThemeContentPropertyList"
-];
-
-const ThemeVariableMap = [
+export const ThemeVariableMap = [
 	[
 		"--lwt-accent-color-inactive",
 		{
@@ -155,10 +150,7 @@ const ThemeVariableMap = [
 				if (!brighttext) {
 					element.removeAttribute("lwt-tree-brighttext");
 				} else {
-					element.setAttribute(
-						"lwt-tree-brighttext",
-						"true"
-					);
+					element.setAttribute("lwt-tree-brighttext", "true");
 				}
 
 				// Drop alpha channel.
@@ -183,16 +175,10 @@ const ThemeVariableMap = [
 		{
 			lwtProperty: "sidebar_border"
 		}
-	],
-	[
-		"--sidebar-highlight-border-color",
-		{
-			lwtProperty: "sidebar_highlight_border"
-		}
 	]
 ];
 
-const ThemeContentPropertyList = [
+export const ThemeContentPropertyList = [
 	"ntp_background",
 	"ntp_text",
 	"sidebar",

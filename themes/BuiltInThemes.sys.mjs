@@ -2,39 +2,29 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const EXPORTED_SYMBOLS = ["BuiltInThemes"];
-
-const { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+const { XPCOMUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/XPCOMUtils.sys.mjs"
+);
 
 const lazy = {};
 
 XPCOMUtils.defineLazyModuleGetters(lazy, {
-	AddonManager: "resource://gre/modules/AddonManager.jsm"
+	AddonManager: "resource://gre/modules/AddonManager.jsm",
 });
 
-const DEFAULT_THEME_ID = "default@themes.dothq.org";
+ChromeUtils.defineESModuleGetters(lazy, {
+	BuiltInThemeConfig: "resource:///modules/BuiltInThemeConfig.sys.mjs"
+});
 
-// List of themes built in to the browser. The themes are represented by objects
-// containing their id, current version, and path relative to
-// resource://builtin-themes/.
-const BUILT_IN_THEMES_MAP = new Map([
-	[
-		"light@themes.dothq.org",
-		{
-			version: "1.0",
-			path: "light/"
-		}
-	],
-	[
-		"dark@themes.dothq.org",
-		{
-			version: "1.0",
-			path: "dark/"
-		}
-	]
-]);
+const DEFAULT_THEME_ID = "default-theme@mozilla.org";
 
 class _BuiltInThemes {
+	/**
+	 * The list of themes to be installed. This is exposed on the class so tests
+	 * can set custom config files.
+	 */
+	builtInThemeMap = lazy.BuiltInThemeConfig;
+
 	/**
 	 * @param {string} id An addon's id string.
 	 * @returns {string}
@@ -42,8 +32,8 @@ class _BuiltInThemes {
 	 *   theme's preview image. Null otherwise.
 	 */
 	previewForBuiltInThemeId(id) {
-		if (BUILT_IN_THEMES_MAP.has(id)) {
-			return `resource://builtin-themes/${BUILT_IN_THEMES_MAP.get(id).path}preview.svg`;
+		if (this.builtInThemeMap.has(id)) {
+			return `${this.builtInThemeMap.get(id).path}preview.svg`;
 		}
 
 		return null;
@@ -58,12 +48,12 @@ class _BuiltInThemes {
 			"extensions.activeThemeID",
 			DEFAULT_THEME_ID
 		);
-		let activeBuiltInTheme = BUILT_IN_THEMES_MAP.get(activeThemeID);
+		let activeBuiltInTheme = this.builtInThemeMap.get(activeThemeID);
 		if (activeBuiltInTheme) {
 			lazy.AddonManager.maybeInstallBuiltinAddon(
 				activeThemeID,
 				activeBuiltInTheme.version,
-				`resource://builtin-themes/${activeBuiltInTheme.path}`
+				activeBuiltInTheme.path
 			);
 		}
 	}
@@ -73,18 +63,28 @@ class _BuiltInThemes {
 	 */
 	async ensureBuiltInThemes() {
 		let installPromises = [];
-		for (let [id, { version, path }] of BUILT_IN_THEMES_MAP.entries()) {
-			installPromises.push(
-				lazy.AddonManager.maybeInstallBuiltinAddon(
-					id,
-					version,
-					`resource://builtin-themes/${path}`
-				)
-			);
+		for (let [id, { version, path }] of this.builtInThemeMap.entries()) {
+			installPromises.push(lazy.AddonManager.maybeInstallBuiltinAddon(id, version, path));
 		}
 
 		await Promise.all(installPromises);
 	}
+
+	isMonochromaticTheme(id) {
+		return false;
+	}
+
+	themeIsExpired(id) {
+		return true;
+	}
+
+	isRetainedExpiredTheme(id) {
+		return false;
+	}
+
+	findActiveColorwayCollection() {
+		return null;
+	}
 }
 
-const BuiltInThemes = new _BuiltInThemes();
+export const BuiltInThemes = new _BuiltInThemes();

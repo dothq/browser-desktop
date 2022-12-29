@@ -2,13 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
-const { useDistinctSystemPrincipalLoader } = ChromeUtils.import(
-	"resource://devtools/shared/loader/Loader.jsm"
+const { useDistinctSystemPrincipalLoader } = ChromeUtils.importESModule(
+	"resource://devtools/shared/loader/DistinctSystemPrincipalLoader.sys.mjs"
 );
-
-const EXPORTED_SYMBOLS = ["DevToolsServer"];
 
 let singletonInstance;
 
@@ -22,7 +18,7 @@ let singletonInstance;
  *
  * ## Usage
  * ```js
- * const { DevToolsServer } = ChromeUtils.import("resource://app/modules/DevToolsServer.jsm");
+ * const { DevToolsServer } = ChromeUtils.import("resource://app/modules/DevToolsServer.sys.mjs");
  *
  * const devtools = DevToolsServer.get();
  * devtools.start();
@@ -32,7 +28,7 @@ let singletonInstance;
  * devtools.start(); // Will warn and do nothing
  * ```
  */
-class DevToolsServer {
+export class DevToolsServer {
 	/**
 	 * @param {number} [port] The port you want to open the DevTools on.
 	 *

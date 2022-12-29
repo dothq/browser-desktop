@@ -38,12 +38,3 @@ class nsBrowserAccess {
 		return null;
 	}
 }
-
-class XULBrowserWindow {
-	QueryInterface = ChromeUtils.generateQI([
-		"nsIWebProgressListener",
-		"nsIWebProgressListener2",
-		"nsISupportsWeakReference",
-		"nsIXULBrowserWindow"
-	]);
-}
