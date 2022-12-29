@@ -37,7 +37,6 @@
             "sidebar_border": "#888",
             "sidebar_highlight": "#2292d0",
             "sidebar_highlight_text": "#fff",
-            "sidebar_highlight_border": "#0060df",
             "button": "rgba(207, 207, 216, 0.33)",
             "button_hover": "rgba(207, 207, 216, 0.66)",
             "button_active": "rgb(207, 207, 216)"
