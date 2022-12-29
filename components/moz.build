@@ -3,20 +3,35 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+include("../build/node-templates.mozbuild")
+
 DIRS += [
     "about",
+    "browser-element",
+    "customisableui",
+    "panel",
     "search"
 ]
 
 EXTRA_COMPONENTS += [
+    "/browser/components/BrowserComponents.manifest",
     "DotComponents.manifest",
 ]
 
 EXTRA_JS_MODULES += [
-    "DotBrowserWindow.jsm",
+    "/browser/components/BrowserContentHandler.jsm",
+    "/browser/components/BrowserGlue.jsm",
+    "/browser/components/distribution.js",
+    "DotBrowserWindow.sys.mjs",
     "DotGlue.jsm",
 ]
 
+XPIDL_SOURCES += [
+    "nsIBrowserHandler.idl",
+]
+
+XPIDL_MODULE = "browsercompsbase"
+
 XPCOM_MANIFESTS += [
-    "components.conf",
+    "components.conf"
 ]

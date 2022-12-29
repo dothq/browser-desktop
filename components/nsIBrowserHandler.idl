@@ -1,0 +1,22 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+#include "nsISupports.idl"
+
+interface nsICommandLine;
+
+[scriptable, uuid(5D0CE354-DF01-421A-83FB-7EAD0990C24E)]
+interface nsIBrowserHandler : nsISupports
+{
+  attribute AUTF8String startPage;
+  attribute AUTF8String defaultArgs;
+  attribute boolean kiosk;
+  attribute boolean majorUpgrade;
+
+  /**
+   * Extract the width and height specified on the command line, if present.
+   * @return A feature string with a prepended comma, e.g. ",width=500,height=400"
+   */
+  AUTF8String getFeatures(in nsICommandLine aCmdLine);
+};

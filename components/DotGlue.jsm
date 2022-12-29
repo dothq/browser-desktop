@@ -6,28 +6,72 @@ const EXPORTED_SYMBOLS = ["DotGlue"];
 
 const { XPCOMUtils } = ChromeUtils.importESModule("resource://gre/modules/XPCOMUtils.sys.mjs");
 
-const { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm");
-
 const lazy = {};
 
-XPCOMUtils.defineLazyModuleGetters(lazy, {
-	ActorManagerParent: "resource://gre/modules/ActorManagerParent.jsm",
-	AddonManager: "resource://gre/modules/AddonManager.jsm",
-	BuiltInThemes: "resource:///modules/BuiltInThemes.jsm",
-	DotUtils: "resource://app/modules/DotUtils.jsm",
-	PdfJs: "resource://pdf.js/PdfJs.jsm"
+ChromeUtils.defineESModuleGetters(lazy, {
+	ActorManagerParent: "resource://gre/modules/ActorManagerParent.sys.mjs",
+	AddonManager: "resource://gre/modules/AddonManager.sys.mjs",
+	BuiltInThemes: "resource:///modules/BuiltInThemes.sys.mjs",
+	PdfJs: "resource://pdf.js/PdfJs.sys.mjs"
 });
 
 const PREF_PDFJS_ISDEFAULT_CACHE_STATE = "pdfjs.enabledCache.state";
 
 const JSPROCESSACTORS = {};
 const JSWINDOWACTORS = {
-	ContextMenu: {
+	AboutReader: {
 		parent: {
-			moduleURI: "resource:///actors/ContextMenuParent.jsm"
+			esModuleURI: "resource:///actors/AboutReaderParent.sys.mjs",
 		},
 		child: {
-			moduleURI: "resource:///actors/ContextMenuChild.jsm",
+			esModuleURI: "resource:///actors/AboutReaderChild.sys.mjs",
+			events: {
+				DOMContentLoaded: {},
+				pageshow: { mozSystemGroup: true },
+				// Don't try to create the actor if only the pagehide event fires.
+				// This can happen with the initial about:blank documents.
+				pagehide: { mozSystemGroup: true, createActor: false },
+			},
+		},
+		messageManagerGroups: ["browsers"],
+	},
+
+	BrowserTab: {
+		parent: {
+			esModuleURI: "resource:///actors/BrowserTabParent.sys.mjs",
+		},
+		child: {
+			esModuleURI: "resource:///actors/BrowserTabChild.sys.mjs",
+
+			events: {
+				DOMDocElementInserted: {},
+				MozAfterPaint: {},
+			},
+		},
+
+		messageManagerGroups: ["browsers"],
+	},
+
+	ClickHandler: {
+		parent: {
+			esModuleURI: "resource:///actors/ClickHandlerParent.sys.mjs",
+		},
+		child: {
+			esModuleURI: "resource:///actors/ClickHandlerChild.sys.mjs",
+			events: {
+				chromelinkclick: { capture: true, mozSystemGroup: true },
+			},
+		},
+
+		allFrames: true,
+	},
+
+	ContextMenu: {
+		parent: {
+			moduleURI: "resource:///actors/DotContextMenuParent.sys.mjs"
+		},
+		child: {
+			moduleURI: "resource:///actors/ContextMenuChild.sys.mjs",
 			events: {
 				contextmenu: { mozSystemGroup: true }
 			}
@@ -35,12 +79,33 @@ const JSWINDOWACTORS = {
 		allFrames: true
 	},
 
+	LightweightTheme: {
+		child: {
+			moduleURI: "resource:///actors/LightweightThemeChild.sys.mjs",
+			events: {
+				pageshow: { mozSystemGroup: true },
+				DOMContentLoaded: {},
+			},
+		},
+		includeChrome: true,
+		allFrames: true,
+		matches: [
+			"about:home",
+			"about:newtab",
+			"about:welcome",
+			"chrome://browser/content/syncedtabs/sidebar.xhtml",
+			"chrome://browser/content/places/historySidebar.xhtml",
+			"chrome://browser/content/places/bookmarksSidebar.xhtml",
+			"about:firefoxview",
+		],
+	},
+
 	LinkHandler: {
 		parent: {
-			moduleURI: "resource:///actors/LinkHandlerParent.jsm"
+			moduleURI: "resource:///actors/DotLinkHandlerParent.sys.mjs"
 		},
 		child: {
-			moduleURI: "resource:///actors/LinkHandlerChild.jsm",
+			moduleURI: "resource:///actors/LinkHandlerChild.sys.mjs",
 			events: {
 				DOMHeadElementParsed: {},
 				DOMLinkAdded: {},
@@ -57,10 +122,10 @@ const JSWINDOWACTORS = {
 
 	Pdfjs: {
 		parent: {
-			moduleURI: "resource://pdf.js/PdfjsParent.jsm"
+			moduleURI: "resource://pdf.js/PdfjsParent.sys.mjs"
 		},
 		child: {
-			moduleURI: "resource://pdf.js/PdfjsChild.jsm"
+			moduleURI: "resource://pdf.js/PdfjsChild.sys.mjs"
 		},
 		enablePreference: PREF_PDFJS_ISDEFAULT_CACHE_STATE,
 		allFrames: true
@@ -68,7 +133,7 @@ const JSWINDOWACTORS = {
 
 	Prompt: {
 		parent: {
-			moduleURI: "resource:///actors/PromptParent.jsm"
+			moduleURI: "resource:///actors/PromptParent.sys.mjs"
 		},
 		includeChrome: true,
 		allFrames: true
@@ -79,22 +144,20 @@ class DotGlue {
 	isNewProfile = undefined;
 
 	init() {
-		// Start-up observers
-		Services.obs.addObserver(this, "final-ui-startup");
-		Services.obs.addObserver(this, "dot-startup-done");
-
-		// Shut-down observers.
-		Services.obs.addObserver(this, "xpcom-shutdown");
-
-		// General observers
-		Services.obs.addObserver(this, "handle-xul-text-link");
-		Services.obs.addObserver(this, "document-element-inserted");
-		Services.obs.addObserver(this, "handlersvc-store-initialized");
-
-		lazy.ActorManagerParent;
+		this.maybeRemoveFFActors();
 
 		lazy.ActorManagerParent.addJSProcessActors(JSPROCESSACTORS);
 		lazy.ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
+	}
+
+	maybeRemoveFFActors() {
+		for (const key of Object.keys(JSPROCESSACTORS)) {
+			ChromeUtils.unregisterProcessActor(key);
+		}
+
+		for (const key of Object.keys(JSWINDOWACTORS)) {
+			ChromeUtils.unregisterWindowActor(key);
+		}
 	}
 
 	async beforeUIStartup() {
@@ -117,19 +180,24 @@ class DotGlue {
 		lazy.PdfJs.init();
 	}
 
-	onFirstWindowLoaded() {}
+	onFirstWindowLoaded() { }
 
 	observe(subject, topic, data) {
-		lazy.DotUtils.match(topic, {
-			"final-ui-startup": this.beforeUIStartup,
-			"handle-xul-text-link": () => this.handleLink(subject, data),
-			"handlersvc-store-initialized": this.initPdfJs,
-			"dot-startup-done": () => {
+		switch (topic) {
+			case "final-ui-startup":
+				this.beforeUIStartup();
+				return;
+			case "handle-xul-text-link":
+				this.handleLink(subject, data);
+				return;
+			case "handlersvc-store-initialized":
+				this.initPdfJs();
+				return;
+			case "dot-starup-done":
 				this.onFirstWindowLoaded();
-
 				Services.obs.removeObserver(this, "dot-startup-done");
-			}
-		});
+				return;
+		}
 	}
 
 	constructor() {
