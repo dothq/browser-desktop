@@ -5,6 +5,7 @@
 
 import os
 import subprocess
+import time
 
 def main():
     cwd = os.getcwd()
@@ -23,23 +24,63 @@ def main():
             raise Exception("Unable to sync! We can't find your topsrcdir. You need to be in either the gecko-dev directory or dot directory.")
 
     print("----- Syncing changes with gecko-dev... -----")
-    subprocess.run([
+    gecko_dev_process subprocess.Popen([
         "git", 
-        "pull"
+        "pull",
+        "--verbose"
     ], 
         cwd=topsrcdir,
+        stdout=subprocess.PIPE, 
         stderr=subprocess.STDOUT
     )
 
+    while gecko_dev_process.stdout.readable():
+        line = gecko_dev_process.stdout.readline()
+
+        if not line:
+            break
+
+        ln = line.strip().decode()
+
+        print(f"    {ln}")
+
+    while gecko_dev_process.poll() is None:
+        time.sleep(0.5)
+
+    if gecko_dev_process.returncode != 0: 
+        print("")
+        print("\033[1;91m-----  FAILED to sync changes! -----033[00m")
+        exit(1)
+
     print("")
     print("----- Syncing changes with browser-desktop... -----")
-    subprocess.run([
+    browser_desktop_process subprocess.Popen([
         "git", 
-        "pull"
+        "pull",
+        "--verbose"
     ], 
         cwd=os.path.join(topsrcdir, "dot"),
+        stdout=subprocess.PIPE, 
         stderr=subprocess.STDOUT
     )
+
+    while browser_desktop_process.stdout.readable():
+        line = browser_desktop_process.stdout.readline()
+
+        if not line:
+            break
+
+        ln = line.strip().decode()
+
+        print(f"    {ln}")
+
+    while browser_desktop_process.poll() is None:
+        time.sleep(0.5)
+
+    if browser_desktop_process.returncode != 0: 
+        print("")
+        print("\033[1;91m-----  FAILED to sync changes! -----033[00m")
+        exit(1)
 
     print("\n-----")                
     print("\033[92mSuccessfully synchronised.\033[00m")
