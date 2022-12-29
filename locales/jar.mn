@@ -3,10 +3,5 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# Note: This file should only contain locale entries. All
-# override and resource entries should go to dot/base/jar.mn to avoid
-# having to create the same entry for each locale.
-
 [localization] @AB_CD@.jar:
-  browser                                          (%browser/**/*.ftl)
   dot                                              (%dot/**/*.ftl)

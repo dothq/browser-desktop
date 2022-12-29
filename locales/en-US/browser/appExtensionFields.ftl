@@ -4,8 +4,11 @@
 
 ## Theme names and descriptions used in the Themes panel in about:addons
 
-# "Auto" is short for automatic. It can be localized without limitations.
-extension-default-theme-name-auto=System
+extension-default-theme-name-auto=
+    { PLATFORM() ->
+        [linux] GTK
+        *[other] System
+    }
 extension-default-theme-description=Follow the operating system setting for buttons, menus, and windows.
 
 extension-dot-compact-light-name=Light

@@ -120,7 +120,6 @@ locales = [
 [env]
     l = "{l10n_base}/{locale}/"
 
-
 [[paths]]
     reference = "dot/locales/en-US/dot/**"
     l10n = "{l}dot/**"
