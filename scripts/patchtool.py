@@ -45,58 +45,96 @@ def import_patches():
     # Ensure we are only importing .patch files
     patches = [i for i in patches if i.endswith(".patch")]
 
-    print(f"Importing {len(patches)} patches...\n")
+    print(f"Importing {len(patches)} patches...")
 
-    for i in patches:
-        path = os.path.join(patches_dir, i)
-        name = os.path.basename(path)
-
-        print(f"----- {name} -----")
-
-        already_applied_code = subprocess.run([
+    def abort_patching():
+        subprocess.run([
             "git", 
-            "apply", 
-            "-R", 
-            "--check", 
-            path
+            "am", 
+            "--abort"
         ], 
             cwd=topsrcdir, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.DEVNULL
-        ).returncode
+        )
 
-        if already_applied_code != 0:
-            try:
-                subprocess.check_output([
-                    "git", 
-                    "apply", 
-                    "--ignore-whitespace",
-                    "--ignore-space-change",
-                    "--verbose",
-                    path
-                ], 
-                    cwd=topsrcdir,
-                    stderr=subprocess.STDOUT
-                )
+    abort_patching()
 
-                print("\033[92mSuccessfully applied.\033[00m")
-                print("-----\n")
-            except subprocess.CalledProcessError as e:
-                output = e.output.decode()
-                print(f"\033[91m{output}\033[00m")
-                print("-----")
-                exit(1)
-            except Exception as e:
-                output = str(e)
-                print(f"\033[91m{output}\033[00m")
-                print("-----")
-                exit(1)
+    process = subprocess.Popen([
+        "git", 
+        "am", 
+        "--3way",
+        "--ignore-whitespace",
+        "--ignore-space-change"
+    ] + list(map(lambda x: os.path.join(patches_dir, x), patches)), 
+        cwd=topsrcdir,
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.STDOUT
+    )
 
+    erroneous_lines = []
+
+    patch_index = 0
+
+    while process.stdout.readable():
+        line = process.stdout.readline()
+
+        if not line:
+            break
+
+        ln = line.strip().decode()
+
+        if "Patch already applied." in ln:
+            print(f"    \033[1;33m{ln}\033[00m")
+        elif ln.startswith("Applying: "):
+            if patch_index >= 1:
+                print("    \033[1;92mSuccess -- Patch applied.\033[00m")
+            print("")
+            print(ln)
+            patch_index = patch_index + 1
+        elif "Your local changes to the following files would be overwritten by merge:" in ln:
+            ln_p = f"    \033[1;91m{ln}"
+            erroneous_lines.append(ln_p)
+            print(ln_p)
+        elif "Please commit your changes or stash them before you merge." in ln:
+            ln_p = f"    \033[1;91m{ln}\033[00m"
+            erroneous_lines.append(ln_p)
+            print(ln_p)
         else:
-            print("\033[93mSkipped as it is already applied.\033[00m")
-            print("-----\n")
+            print("    " + ln)
 
-        sleep(0.2)
+    while process.poll() is None:
+        time.sleep(0.5)
+
+    if process.returncode != 0: 
+        print("")
+        print("\033[1;91m---------- FAILED to apply patches! ----------\033[00m")
+
+        failed_patch = subprocess.check_output([
+            "git", 
+            "am", 
+            "--show-current-patch=diff"
+        ], 
+            cwd=topsrcdir, 
+            shell=False
+        ).decode("UTF-8")
+
+        print(failed_patch)
+
+        if len(erroneous_lines) != 0:
+            print("\033[1;91m---------- Patch failed because of: ----------\033[00m")
+
+            for eln in erroneous_lines:
+                print(eln.strip())
+        else:
+            print("\033[91mYou must fix the patch either with a new commit or a tweak to the patch file to continue!\033[00m")
+
+        exit(1)
+    else:
+        print("    \033[1;92mSuccess -- Patch applied.\033[00m")
+        print("")
+        print("\033[1;92m---------- Successfully applied patches! ----------\033[00m")
+        exit(0)
 
 def export_patch():
     paths = sys.argv[2:]
@@ -230,11 +268,10 @@ def edit_patch():
         try:
             subprocess.check_output([
                 "git", 
-                "apply", 
+                "am", 
                 "-R",
                 "--ignore-whitespace",
                 "--ignore-space-change",
-                "--verbose",
                 os.path.join(patches_dir, f"{patch_path}.orig")
             ], 
                 cwd=topsrcdir,
