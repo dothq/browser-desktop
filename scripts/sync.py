@@ -18,13 +18,13 @@ def main():
     else:
         remote_url = subprocess.check_output(["git", "remote", "get-url", "origin"], cwd=cwd, shell=False).decode("UTF-8")
 
-        if "mozilla/gecko-dev" in remote_url:
+        if "gecko-dev" in remote_url:
             topsrcdir = os.getcwd()
         else:
             raise Exception("Unable to sync! We can't find your topsrcdir. You need to be in either the gecko-dev directory or dot directory.")
 
     print("----- Syncing changes with gecko-dev... -----")
-    gecko_dev_process subprocess.Popen([
+    gecko_dev_process = subprocess.Popen([
         "git", 
         "pull",
         "--verbose"
@@ -49,12 +49,12 @@ def main():
 
     if gecko_dev_process.returncode != 0: 
         print("")
-        print("\033[1;91m-----  FAILED to sync changes! -----033[00m")
+        print("\033[1;91m----- FAILED to sync changes! -----\033[00m")
         exit(1)
 
     print("")
     print("----- Syncing changes with browser-desktop... -----")
-    browser_desktop_process subprocess.Popen([
+    browser_desktop_process = subprocess.Popen([
         "git", 
         "pull",
         "--verbose"
@@ -79,7 +79,7 @@ def main():
 
     if browser_desktop_process.returncode != 0: 
         print("")
-        print("\033[1;91m-----  FAILED to sync changes! -----033[00m")
+        print("\033[1;91m----- FAILED to sync changes! -----\033[00m")
         exit(1)
 
     print("\n-----")                

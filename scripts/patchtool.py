@@ -361,6 +361,20 @@ def block_push_to_upstream():
         "http://no_push.invalid"
     ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=topsrcdir)
 
+def ensure_fast_forward_reconcile():
+    subprocess.run([
+        "git", 
+        "config",
+        "--unset",
+        "pull.ff"
+    ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=topsrcdir)
+    subprocess.run([
+        "git", 
+        "config",
+        "pull.rebase",
+        "false"
+    ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=topsrcdir)
+
 def main():
     # Run housekeeping tasks
     ensure_patch_data_ignored()
@@ -369,6 +383,7 @@ def main():
     write_pre_commit_hook()
     copy_vscode_config()
     block_push_to_upstream()
+    ensure_fast_forward_reconcile()
 
     if len(args) == 0:
         print(HELP_COMMAND)
