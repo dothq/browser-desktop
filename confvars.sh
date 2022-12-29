@@ -11,6 +11,8 @@ if test "$OS_ARCH" = "WINNT"; then
   fi
 fi
 
+BROWSER_CHROME_URL=chrome://dot/content/browser.xhtml
+
 MOZ_BRANDING_DIRECTORY=dot/branding/official
 MOZ_OFFICIAL_BRANDING_DIRECTORY=dot/branding/official
 
