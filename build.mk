@@ -5,5 +5,5 @@
 package:
 	@$(MAKE) -C dot/installer
 
-recurse_frontend:
-	$(topsrcdir)/mach node $(topsrcdir)/dot/scripts/build.js
+recurse_compile:
+	$(topsrcdir)/mach npm install --prefix=$(topsrcdir)/dot
