@@ -11,11 +11,13 @@
 
     bottom: 0;
 
-    padding-top: 2.5rem;
-
     pointer-events: none;
 
     border: none;
+}
+
+#statuspanel:not([hidden]) {
+    padding-top: 2em;
 }
 
 #statuspanel:not([mirror]):-moz-locale-dir(rtl),
