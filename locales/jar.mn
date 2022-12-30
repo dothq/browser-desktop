@@ -5,3 +5,4 @@
 
 [localization] @AB_CD@.jar:
   dot                                              (%dot/**/*.ftl)
+  browser/appExtensionFields.ftl                   (%browser/appExtensionFields.ftl)
