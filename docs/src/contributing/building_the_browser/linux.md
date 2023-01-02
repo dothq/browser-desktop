@@ -21,45 +21,43 @@ Please ensure your system adheres to the following requirements before continuin
 
 You will also need the following tools installed on your Linux machine to continue:
 
-* For Debian-based systems (e.g. Ubuntu, Linux Mint, Pop!_OS, ZorinOS): 
+-   For Debian-based systems (e.g. Ubuntu, Linux Mint, Pop!\_OS, ZorinOS):
+
     ```sh
     sudo apt-get install build-essential git curl python3 python3-dev python3-pip
     ```
 
-* For Fedora Linux systems: 
+-   For Fedora Linux systems:
     ```sh
     sudo dnf group install "C Development Tools and Libraries" "Development Tools"
     sudo dnf install git curl python3 python3-devel
     ```
-* For Arch Linux systems: 
+-   For Arch Linux systems:
     ```sh
     sudo pacman -S base-devel git curl python
     ```
 
 You will also need the following third-party tools installed:
 
-* [Rust](https://rustup.rs) - Installing Rustup will also install the Rust Compiler, Cargo and other required tools.
+-   [Rust](https://rustup.rs) - Installing Rustup will also install the Rust Compiler, Cargo and other required tools.
 
 ## Cloning the source
 
 The first step is getting the Mozilla source and the Dot Browser source.
 
-There are two branches on [`gecko-dev`](https://github.com/mozilla/gecko-dev) we recommend to use as a base.
-
--   [release](https://github.com/mozilla/gecko-dev/tree/release) - A more stable, release branch of `mozilla-central` *(highly recommended)*.
--   [master](https://github.com/mozilla/gecko-dev/tree/master) - The bleeding-edge, nightly branch of `mozilla-central`.
-
-**_Note_** For faster clones append `--depth=5` to the command. This will only fetch the last 5 commits.
+We are currently using the `release` branch on the [`gecko-dev`](https://github.com/dothq/gecko-dev).
 
 You can clone the source by substituting the GitHub repository URL of your choice into the command below:
 
 ```sh
-git clone https://github.com/mozilla/gecko-dev -b <branch of choice>
+git clone https://github.com/dothq/gecko-dev
 ```
 
-For example: `git clone https://github.com/mozilla/gecko-dev -b release`.
-
 This may take a while depending on the speed of your network connection.
+
+**_Note_** For faster clones append `--depth=5` to the command. This will only fetch the last 5 commits.
+
+For example: `git clone https://github.com/dothq/gecko-dev --depth=5`.
 
 Once cloned fully, enter the directory.
 
@@ -116,9 +114,9 @@ Assuming you are in the `dot` directory, run the following script:
 
 This will automate the import process.
 
-If all patches have applied successfully, you shouldn't see any errors onscreen. 
+If all patches have applied successfully, you shouldn't see any errors onscreen.
 
-***Note:*** If you are seeing errors and you haven't made any changes to the patch files, please [open an issue](https://github.com/dothq/browser-desktop/issues/news) immediately.
+**_Note:_** If you are seeing errors and you haven't made any changes to the patch files, please [open an issue](https://github.com/dothq/browser-desktop/issues/news) immediately.
 
 Once all the patches have applied cleanly, verify that your `mozconfig` in the root directory contains the following:
 
@@ -126,7 +124,7 @@ Once all the patches have applied cleanly, verify that your `mozconfig` in the r
 ac_add_options --enable-application=dot
 ```
 
-***Note:*** There may be other things in the `mozconfig` file, as long as it contains the above string everything is working correctly.
+**_Note:_** There may be other things in the `mozconfig` file, as long as it contains the above string everything is working correctly.
 
 You should be done for the configuration process now, however, if you wish to speed up build times or configure the build further: please refer to the [Configuring Build Options](../configuring_build_options.md) document.
 
