@@ -100,6 +100,14 @@ class Widget extends MozHTMLElement {
 		}
 	}
 
+	/**
+	 * This can just call connectedCallback again as we have a check
+	 * to update the child rather than readding the child in the DOM.
+	 */
+	public attributeChangedCallback() {
+		this.connectedCallback();
+	}
+
 	public constructor(widget: Partial<Widget>) {
 		super();
 
