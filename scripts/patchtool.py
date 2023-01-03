@@ -104,7 +104,7 @@ def import_patches():
             print("    " + ln)
 
     while process.poll() is None:
-        time.sleep(0.5)
+        sleep(0.5)
 
     if process.returncode != 0: 
         print("")
