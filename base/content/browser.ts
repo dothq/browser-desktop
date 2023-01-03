@@ -8,3 +8,6 @@ import "resource://dot/base/content/browser-init.js";
 // Component declarations
 import "resource://dot/components/browser-element/content/StatusPanel.js";
 import "resource://dot/components/panel/Panel.js";
+
+// Init CustomizableUI
+import "resource://dot/components/customizableui/CustomizableUI.js";

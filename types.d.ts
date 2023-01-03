@@ -1,4 +1,5 @@
 import { nsIXULBrowserWindow } from "./base/content/browser-window";
+import { CustomizableUI } from "./components/customizableui/CustomizableUI";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
 
@@ -20,5 +21,6 @@ declare global {
 		updateFxaToolbarMenu: any;
 		SidebarUI: any;
 		LightweightThemeConsumer: any;
+		CustomizableUI: typeof CustomizableUI;
 	}
 }
