@@ -23,10 +23,12 @@ import { nsIXULBrowserWindow } from "./browser-window.js";
 	"chrome://browser/content/search/searchbar.js"
 ].map((resourceURI) => Services.scriptloader.loadSubScript(resourceURI, window));
 
-Object.entries({
-	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs",
-	DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs"
-}).map(([mod, resourceURI]) => (window[mod] = ChromeUtils.importESModule(resourceURI)[mod]));
+const importESModules = () => {
+	Object.entries({
+		DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs",
+		DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs"
+	}).map(([mod, resourceURI]) => (window[mod] = ChromeUtils.importESModule(resourceURI)[mod]));
+};
 
 /* Initialise FF events */
 window.addEventListener("load", gBrowserInit.onLoad.bind(gBrowserInit));
@@ -39,6 +41,8 @@ window.addEventListener(
 		window.setToolbarVisibility = shimFunction("setToolbarVisibility");
 
 		gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit)(...args);
+
+		importESModules();
 	},
 	{ once: true }
 );
@@ -49,6 +53,8 @@ window.addEventListener(
 		window.updateFxaToolbarMenu = shimFunction("updateFxaToolbarMenu", () => false);
 
 		gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)(...args);
+
+		importESModules();
 	},
 	{
 		once: true
