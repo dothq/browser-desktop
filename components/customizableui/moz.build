@@ -7,9 +7,9 @@
 DIRS += ["widgets"]
 
 TypedModules(
-    "CustomisableUI.ts",
-    "CustomisableUIArea.ts",
-    "CustomisableUIConfig.ts",
-    "CustomisableUIPlacement.ts",
-    "CustomisableUIWidgets.ts"
+    "CustomizableUI.ts",
+    "CustomizableUIArea.ts",
+    "CustomizableUIConfig.ts",
+    "CustomizableUIPlacement.ts",
+    "CustomizableUIWidgets.ts"
 )

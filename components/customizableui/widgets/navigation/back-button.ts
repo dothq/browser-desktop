@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { applyWidgetConfiguration } from "..";
 import ToolbarButtonWidget from "../common/toolbar-button.js";
+import { applyWidgetConfiguration } from "../index.js";
 
 class BackButtonWidget extends ToolbarButtonWidget {
 	public configure(options: Partial<this>) {
@@ -19,7 +19,7 @@ class BackButtonWidget extends ToolbarButtonWidget {
 	public constructor() {
 		super({
 			id: "back-button",
-			text: "Go Back",
+			label: "Go Back",
 			icon: "chrome://dot/skin/icons/back.svg"
 		});
 
@@ -27,5 +27,7 @@ class BackButtonWidget extends ToolbarButtonWidget {
 		// navigation state then apply this.disabled as necessary.
 	}
 }
+
+customElements.define("widget-back-button", BackButtonWidget);
 
 export default BackButtonWidget;

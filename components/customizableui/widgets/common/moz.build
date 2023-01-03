@@ -6,6 +6,6 @@
 
 TypedModules(
     "index.ts",
-    "item-list.ts",
-    "toolbar-button.ts"
+    "item-list.tsx",
+    "toolbar-button.tsx"
 )

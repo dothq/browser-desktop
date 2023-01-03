@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomisableUIWidgetDisplay } from "../../CustomisableUIWidgets.js";
+import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
 
 const generateWidgetID = () => `widget-${generateID(4)}`;
 
@@ -44,13 +44,13 @@ class Widget extends MozHTMLElement {
 	 * Determines how icons and text should be rendered
 	 */
 	public get display() {
-		return this.getAttribute("display") as CustomisableUIWidgetDisplay;
+		return this.getAttribute("display") as CustomizableUIWidgetDisplay;
 	}
 
 	/**
 	 * Updates how the widget renders icons and text
 	 */
-	public set display(newValue: CustomisableUIWidgetDisplay) {
+	public set display(newValue: CustomizableUIWidgetDisplay) {
 		this.setAttribute("display", newValue);
 	}
 
@@ -119,5 +119,7 @@ class Widget extends MozHTMLElement {
 		}
 	}
 }
+
+customElements.define("widget-base", Widget);
 
 export default Widget;

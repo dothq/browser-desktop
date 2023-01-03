@@ -3,28 +3,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import {
-	CustomisableUIArea,
-	CustomisableUIAreaOrientation,
-	CustomisableUIAreaType,
-	CustomisableUIContextType
-} from "./CustomisableUIArea.js";
-import { CustomisableUISerialisedConfiguration } from "./CustomisableUIConfig.js";
+	CustomizableUIArea,
+	CustomizableUIAreaOrientation,
+	CustomizableUIAreaType,
+	CustomizableUIContextType
+} from "./CustomizableUIArea.js";
+import { CustomizableUISerialisedConfiguration } from "./CustomizableUIConfig.js";
 import {
-	CustomisableUIPlacement,
-	CustomisableUIPlacementProperties
-} from "./CustomisableUIPlacement.js";
-import { CustomisableUIWidgetSource } from "./CustomisableUIWidgets.js";
-import { CustomizableWidgets } from "./widgets";
-import Widget from "./widgets/common";
+	CustomizableUIPlacement,
+	CustomizableUIPlacementProperties
+} from "./CustomizableUIPlacement.js";
+import { CustomizableUIWidgetSource } from "./CustomizableUIWidgets.js";
+import Widget from "./widgets/common/index.js";
+import { CustomizableWidgets } from "./widgets/index.js";
 
-export interface CustomisableUIBaseEntity {
+export interface CustomizableUIBaseEntity {
 	/**
 	 * Determines whether the entity should be visible
 	 */
 	visible: boolean;
 }
 
-class _CustomisableUIInternal {
+class _CustomizableUIInternal {
 	/**
 	 * The current version. We can use this to auto-add new default widgets as necessary.
 	 */
@@ -33,38 +33,38 @@ class _CustomisableUIInternal {
 	/**
 	 * Constant indicating the area is a panel.
 	 */
-	public TYPE_PANEL = CustomisableUIAreaType.Panel;
+	public TYPE_PANEL = CustomizableUIAreaType.Panel;
 
 	/**
 	 * Constant indicating the context is root.
 	 */
-	public CONTEXT_ROOT = CustomisableUIContextType.Root;
+	public CONTEXT_ROOT = CustomizableUIContextType.Root;
 
 	/**
 	 * Constant indicating the context is a panel.
 	 */
-	public CONTEXT_PANEL = CustomisableUIContextType.Panel;
+	public CONTEXT_PANEL = CustomizableUIContextType.Panel;
 
 	/**
 	 * Constant indicating the context is a sidebar.
 	 */
-	public CONTEXT_SIDEBAR = CustomisableUIContextType.Sidebar;
+	public CONTEXT_SIDEBAR = CustomizableUIContextType.Sidebar;
 
 	/**
 	 * Constant indicating the context is a frame.
 	 */
-	public CONTEXT_FRAME = CustomisableUIContextType.Frame;
+	public CONTEXT_FRAME = CustomizableUIContextType.Frame;
 
 	/**
 	 * Constant indicating the widget is built-in
 	 */
-	public SOURCE_BUILTIN = CustomisableUIWidgetSource.BuiltIn;
+	public SOURCE_BUILTIN = CustomizableUIWidgetSource.BuiltIn;
 
 	/**
 	 * Constant indicating the widget is externally provided
 	 * (e.g. by add-ons or other items not part of the builtin widget set).
 	 */
-	public SOURCE_EXTERNAL = CustomisableUIWidgetSource.External;
+	public SOURCE_EXTERNAL = CustomizableUIWidgetSource.External;
 
 	/**
 	 * A map of all registered widgets in the UI
@@ -74,17 +74,17 @@ class _CustomisableUIInternal {
 	/**
 	 * A map of placements in the UI
 	 */
-	private placements = new Map<string, CustomisableUIPlacement[]>();
+	private placements = new Map<string, CustomizableUIPlacement[]>();
 
 	/**
 	 * A map of areas defined in the UI
 	 */
-	private areas = new Map<string, CustomisableUIArea>();
+	private areas = new Map<string, CustomizableUIArea>();
 
 	/**
 	 * An mapping of Firefox-only areas for the migration tool
 	 */
-	private firefoxAreasMapping = {
+	private firefoxAreasMapping: Record<string, (placementIds: string[]) => CustomizableUIArea> = {
 		/**
 		 * Bookmarks bar
 		 */
@@ -117,11 +117,11 @@ class _CustomisableUIInternal {
 	 * The cached UI state from disk.
 	 */
 	private savedState!:
-		| CustomisableUISerialisedConfiguration
-		| Partial<CustomisableUISerialisedConfiguration>;
+		| CustomizableUISerialisedConfiguration
+		| Partial<CustomizableUISerialisedConfiguration>;
 
 	/**
-	 * Start up CustomisableUI
+	 * Start up CustomizableUI
 	 */
 	public initialize() {
 		console.debug("Initializing...");
@@ -132,15 +132,15 @@ class _CustomisableUIInternal {
 
 		// Define the root area
 		this.registerArea("root", {
-			type: CustomisableUIAreaType.Panel,
-			context: CustomisableUIContextType.Root,
+			type: CustomizableUIAreaType.Panel,
+			context: CustomizableUIContextType.Root,
 
 			width: "fill-container",
 			height: "fill-container",
 
 			visible: true,
 
-			orientation: CustomisableUIAreaOrientation.Vertical
+			orientation: CustomizableUIAreaOrientation.Vertical
 		});
 	}
 
@@ -154,6 +154,8 @@ class _CustomisableUIInternal {
 	 */
 	private defineBuiltInWidgets() {
 		for (const widgetDefinition of CustomizableWidgets) {
+			console.log(widgetDefinition);
+
 			this.createBuiltinWidget(widgetDefinition);
 		}
 	}
@@ -164,7 +166,7 @@ class _CustomisableUIInternal {
 	public createBuiltinWidget(data: Widget) {
 		let widget = this.normalizeWidget(data, this.SOURCE_BUILTIN);
 		if (!widget) {
-			console.error("Error creating builtin widget:", data.id);
+			console.error("Error creating built-in widget:", data.id);
 			return;
 		}
 
@@ -191,20 +193,14 @@ class _CustomisableUIInternal {
 	 */
 	public normalizeWidget(
 		widget: Partial<Widget>,
-		source: CustomisableUIWidgetSource
+		source: CustomizableUIWidgetSource
 	): Widget | null {
-		const widgetKeys = new Set(Object.keys(widget));
-
 		const throwError = (...msg: any[]) => {
-			console.error(msg);
+			console.error(...msg);
 			return null;
 		};
 
-		if (
-			!widgetKeys.has("id") ||
-			typeof widget.id != "string" ||
-			!/^[a-z0-9-_]{1,}$/i.test(widget.id)
-		) {
+		if (!widget.id || typeof widget.id != "string" || !/^[a-z0-9-_]{1,}$/i.test(widget.id)) {
 			return throwError("Given an illegal id in normalizeWidget", widget.id);
 		}
 
@@ -214,7 +210,7 @@ class _CustomisableUIInternal {
 	/**
 	 * Registers a new customisable area
 	 */
-	public registerArea(id: string, properties: CustomisableUIArea) {
+	public registerArea(id: string, properties: CustomizableUIArea) {
 		if (typeof id != "string" || !/^[a-z0-9-_]{1,}$/i.test(id)) {
 			console.error("Area has illegal ID of", id);
 			return null;
@@ -235,7 +231,7 @@ class _CustomisableUIInternal {
 			return null;
 		}
 
-		if (id == "root" && properties.context !== CustomisableUIContextType.Root) {
+		if (id == "root" && properties.context !== CustomizableUIContextType.Root) {
 			console.error(`Area ${id} cannot become root.`);
 			return null;
 		}
@@ -249,7 +245,7 @@ class _CustomisableUIInternal {
 		}
 
 		if (!properties.orientation) {
-			properties.orientation = CustomisableUIAreaOrientation.Vertical;
+			properties.orientation = CustomizableUIAreaOrientation.Vertical;
 		}
 
 		this.areas.set(id, properties);
@@ -265,7 +261,7 @@ class _CustomisableUIInternal {
 		widgetId: string,
 		areaId: string,
 		position?: number,
-		properties?: CustomisableUIPlacementProperties
+		properties?: CustomizableUIPlacementProperties
 	) {
 		if (!this.widgets.get(widgetId)) {
 			throw new Error("Unknown widget ID " + areaId);
@@ -275,7 +271,7 @@ class _CustomisableUIInternal {
 			throw new Error("Unknown customisation area " + areaId);
 		}
 
-		const placements = this.placements.get(areaId) as CustomisableUIPlacement[];
+		const placements = this.placements.get(areaId) as CustomizableUIPlacement[];
 
 		if (typeof position != "number") position = placements.length;
 		if (position < 0) position = 0;
@@ -380,9 +376,14 @@ class _CustomisableUIInternal {
 		}
 
 		for (const [id, placements] of Object.entries(
-			this.savedState.placements as CustomisableUISerialisedConfiguration["placements"]
+			this.savedState.placements as CustomizableUISerialisedConfiguration["placements"]
 		)) {
-			if (!this.areas.get(id)) {
+			if (this.areas.get(id)) {
+				for (const placement of placements) {
+					console.log(placement);
+				}
+			} else if (id in this.firefoxAreasMapping) {
+			} else {
 				this.areas.delete(id);
 				this.placements.delete(id);
 
@@ -391,22 +392,18 @@ class _CustomisableUIInternal {
 				this.saveState();
 				return null;
 			}
-
-			for (const placement of placements) {
-				console.log(placement);
-			}
 		}
 	}
 }
 
-class _CustomisableUI {
-	private internal = new _CustomisableUIInternal();
+class _CustomizableUI {
+	private internal = new _CustomizableUIInternal();
 
 	public constructor() {
 		this.internal.initialize();
 	}
 
-	public registerArea(id: string, properties: CustomisableUIArea) {
+	public registerArea(id: string, properties: CustomizableUIArea) {
 		return this.internal.registerArea(id, properties);
 	}
 
@@ -415,4 +412,5 @@ class _CustomisableUI {
 	}
 }
 
-export const CustomisableUI = new _CustomisableUI();
+export const CustomizableUI = new _CustomizableUI();
+window.CustomizableUI = CustomizableUI;

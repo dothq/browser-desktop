@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomisableUIWidgetConfigurationTypes } from "../CustomisableUIWidgets";
-import Widget from "./common";
-import BackButtonWidget from "./navigation/back-button";
+import { CustomizableUIWidgetConfigurationTypes } from "../CustomizableUIWidgets.js";
+import Widget from "./common/index.js";
+import BackButtonWidget from "./navigation/back-button.js";
 
 export const applyConfig = (widgetClass: Widget, widgetOptions: Partial<Widget> | undefined) => {
 	if (!widgetClass || !widgetOptions || (widgetOptions && !Object.keys(widgetOptions).length))
@@ -26,12 +26,12 @@ export const applyConfig = (widgetClass: Widget, widgetOptions: Partial<Widget> 
 export const applyWidgetConfiguration = <T extends Widget>(
 	widgetClass: T,
 	allowedParameters: {
-		[key: string]: CustomisableUIWidgetConfigurationTypes[];
+		[key: string]: CustomizableUIWidgetConfigurationTypes[];
 	},
 	options: Partial<T>
 ) => {
 	const widgetKeys = Object.keys(widgetClass);
-	const allowedKeys = new Map<string, CustomisableUIWidgetConfigurationTypes[]>();
+	const allowedKeys = new Map<string, CustomizableUIWidgetConfigurationTypes[]>();
 
 	for (const key of Object.keys(allowedParameters)) {
 		if (widgetKeys.includes(key)) {
