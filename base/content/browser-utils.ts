@@ -10,10 +10,13 @@ function html(
 	attributes = attributes || {};
 	children = children || [];
 
-	const element = document.createElement(tagName);
+	const element =
+		tagName == "fragment" ? document.createDocumentFragment() : document.createElement(tagName);
 
-	for (const [key, value] of Object.entries(attributes)) {
-		element.setAttribute(key, value);
+	if (tagName !== "fragment") {
+		for (const [key, value] of Object.entries(attributes)) {
+			(element as HTMLElement).setAttribute(key, value);
+		}
 	}
 
 	for (const child of children) {
