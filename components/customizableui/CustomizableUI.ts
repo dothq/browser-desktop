@@ -2,7 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { AppConstants } from "../../third_party/dothq/gecko-types/lib/AppConstants.js";
 import {
+	Area,
 	CustomizableUIArea,
 	CustomizableUIAreaOrientation,
 	CustomizableUIAreaType,
@@ -16,6 +18,10 @@ import {
 import { CustomizableUIWidgetSource } from "./CustomizableUIWidgets.js";
 import Widget from "./widgets/common/index.js";
 import { CustomizableWidgets } from "./widgets/index.js";
+
+const { AppConstants } = ChromeUtils.importESModule<AppConstants>(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
 export interface CustomizableUIBaseEntity {
 	/**
@@ -69,7 +75,12 @@ class _CustomizableUIInternal {
 	/**
 	 * A map of all registered widgets in the UI
 	 */
-	private widgets = new Map<string, Widget>();
+	private widgetsElMap = new Map<string, Widget>();
+
+	/**
+	 * A map of all registered areas in the UI
+	 */
+	private areasElMap = new Map<string, Area>();
 
 	/**
 	 * A map of placements in the UI
@@ -82,35 +93,44 @@ class _CustomizableUIInternal {
 	private areas = new Map<string, CustomizableUIArea>();
 
 	/**
-	 * An mapping of Firefox-only areas for the migration tool
+	 * An array of Firefox-only areas for the migration tool
 	 */
-	private firefoxAreasMapping: Record<string, (placementIds: string[]) => CustomizableUIArea> = {
+	private firefoxAreasMapping: string[] = [
 		/**
 		 * Bookmarks bar
 		 */
-		PersonalToolbar: (placementIds: string[]) => {},
+		"PersonalToolbar",
 		/**
 		 * Tabs bar
 		 */
-		TabsToolbar: (placementIds: string[]) => {},
+		"TabsToolbar",
 		/**
 		 * Navigation controls bar (back button, addressbar, etc.)
 		 */
-		"nav-bar": (placementIds: string[]) => {},
-		/**
-		 * Menu items bar (on Windows and Linux only)
-		 */
-		"toolbar-menubar": (placementIds: string[]) => {
-			// Do a platform check here to avoid migration on macOS
-		},
+		"nav-bar",
 		/**
 		 * Extensions in the extensions popout button
 		 */
-		"unified-extensions-area": (placementIds: string[]) => {},
+		"unified-extensions-area",
 		/**
 		 * Widgets in the overflow list
 		 */
-		"widget-overflow-fixed-list": (placementIds: string[]) => {}
+		"widget-overflow-fixed-list"
+	].concat(
+		AppConstants.platform != "macosx"
+			? [
+					/**
+					 * Menu items bar (on Windows and Linux only)
+					 */
+					"toolbar-menubar"
+			  ]
+			: []
+	);
+
+	private firefoxWidgetsMapping: Record<string, () => Widget> = {
+		"back-button": () => {
+			return this.widgetsElMap.get("back-button");
+		}
 	};
 
 	/**
@@ -171,7 +191,7 @@ class _CustomizableUIInternal {
 		}
 
 		console.debug("Creating built-in widget with id:", data.id);
-		this.widgets.set(widget.id, widget);
+		this.widgetsElMap.set(widget.id, widget);
 	}
 
 	/**
@@ -185,7 +205,7 @@ class _CustomizableUIInternal {
 		}
 
 		console.debug("Creating widget with id:", data.id);
-		this.widgets.set(widget.id, widget);
+		this.widgetsElMap.set(widget.id, widget);
 	}
 
 	/**
@@ -251,7 +271,21 @@ class _CustomizableUIInternal {
 		this.areas.set(id, properties);
 		this.placements.set(id, properties.defaultPlacements || []);
 
+		this.areasElMap.set(id, new Area(properties));
+
 		this.saveState();
+	}
+
+	/**
+	 * Updates and existing areas' properties
+	 */
+	public updateArea(id: string, partialProperties: Partial<CustomizableUIArea>) {
+		const properties = { ...this.areas.get(id), ...partialProperties };
+
+		this.areas.set(id, properties);
+
+		const areaComponent = this.areasElMap.get(id);
+		areaComponent.recalculateProps(partialProperties);
 	}
 
 	/**
@@ -263,7 +297,7 @@ class _CustomizableUIInternal {
 		position?: number,
 		properties?: CustomizableUIPlacementProperties
 	) {
-		if (!this.widgets.get(widgetId)) {
+		if (!this.widgetsElMap.get(widgetId)) {
 			throw new Error("Unknown widget ID " + areaId);
 		}
 
@@ -296,11 +330,13 @@ class _CustomizableUIInternal {
 			newElementCount: 0 // This is currently unused in Dot Browser.
 		};
 
-		if (this.savedState && this.savedState.placements) {
-			for (let area of Object.keys(this.savedState.placements)) {
-				if (!state.placements.has(area)) {
-					let placements = this.savedState.placements[area];
-					state.placements.set(area, placements);
+		if (this.savedState) {
+			if (this.savedState.placements) {
+				for (let area of Object.keys(this.savedState.placements)) {
+					if (!state.placements.has(area)) {
+						let placements = this.savedState.placements[area];
+						state.placements.set(area, placements);
+					}
 				}
 			}
 		}
@@ -345,7 +381,13 @@ class _CustomizableUIInternal {
 			state = Services.prefs.getStringPref("browser.uiCustomization.state");
 		} catch (e) {}
 
-		if (!state) return;
+		// We don't have a value yet.
+		if (!state) {
+			this.saveState();
+			return this.loadSavedState();
+		}
+
+		console.debug("Loading saved CustomizableUI state.");
 
 		try {
 			this.savedState = JSON.parse(state);
@@ -363,6 +405,8 @@ class _CustomizableUIInternal {
 			/* @todo: create a default layout */
 		}
 
+		console.debug("Loaded state.", this.savedState);
+
 		if (!("placements" in this.savedState)) {
 			this.savedState.placements = {};
 		}
@@ -375,14 +419,27 @@ class _CustomizableUIInternal {
 			this.savedState.currentVersion = 0;
 		}
 
+		for (const [id, properties] of Object.entries(this.savedState.areas)) {
+			if (this.areas.has(id)) {
+				this.updateArea(id, properties);
+			} else {
+				this.registerArea(id, properties);
+			}
+		}
+
 		for (const [id, placements] of Object.entries(
 			this.savedState.placements as CustomizableUISerialisedConfiguration["placements"]
 		)) {
-			if (this.areas.get(id)) {
+			if (this.areas.get(id) || this.firefoxAreasMapping.includes(id)) {
+				let i = 0;
+
 				for (const placement of placements) {
-					console.log(placement);
+					if (typeof placement == "string") {
+						this.savedState.placements[id][i] = [placement];
+					}
+
+					i++;
 				}
-			} else if (id in this.firefoxAreasMapping) {
 			} else {
 				this.areas.delete(id);
 				this.placements.delete(id);

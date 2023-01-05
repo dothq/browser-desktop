@@ -2,11 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { CustomizableUIComponentBase } from "../../CustomizableUIComponent.js";
 import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
 
 const generateWidgetID = () => `widget-${generateID(4)}`;
 
-class Widget extends MozHTMLElement {
+class Widget extends CustomizableUIComponentBase<Widget> {
 	/**
 	 * Determines the widget ID
 	 */
@@ -54,69 +55,8 @@ class Widget extends MozHTMLElement {
 		this.setAttribute("display", newValue);
 	}
 
-	/**
-	 * Handle the Web Components connectedCallback
-	 */
-	public connectedCallback() {
-		/* Widget.render would need to exist in any child components that inherit this */
-		if ((this as any).render) {
-			const markup = (this as any).render();
-
-			if (markup instanceof HTMLElement) {
-				if (this.firstElementChild) {
-					// If there is already something rendered to the
-					// widget, replace the node with the newly rendered node.
-					this.replaceWith(markup);
-				} else {
-					// Otherwise, we just append the node as normal
-					this.appendChild(markup);
-				}
-			}
-		} else {
-			throw new Error(
-				`${this.constructor.name}.render() is expected to be function but was ${typeof (
-					this as any
-				).render}.`
-			);
-		}
-	}
-
-	/**
-	 * Handle the Web Components disconnectedCallback
-	 */
-	public disconnectedCallback() {
-		/* Widget.deconstruct would need to exist in any child components that inherit this */
-		if ((this as any).deconstruct) {
-			(this as any).deconstruct();
-
-			this.removeChild(this);
-		} else {
-			throw new Error(
-				`${
-					this.constructor.name
-				}.deconstruct() is expected to be function but was ${typeof (this as any)
-					.deconstruct}.`
-			);
-		}
-	}
-
-	/**
-	 * This can just call connectedCallback again as we have a check
-	 * to update the child rather than readding the child in the DOM.
-	 */
-	public attributeChangedCallback() {
-		this.connectedCallback();
-	}
-
 	public constructor(widget: Partial<Widget>) {
-		super();
-
-		for (const kv of Object.entries(widget)) {
-			const key = kv[0] as keyof Widget;
-			const value = kv[1] as any;
-
-			(this as any)[key] = value;
-		}
+		super(widget);
 	}
 }
 

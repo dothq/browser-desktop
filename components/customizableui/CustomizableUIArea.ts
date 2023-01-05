@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { CustomizableUIComponentBase } from "./CustomizableUIComponent.js";
 import { CustomizableUIPlacement } from "./CustomizableUIPlacement.js";
 
 export enum CustomizableUIAreaType {
@@ -71,3 +72,120 @@ export interface CustomizableUIArea {
 	 */
 	defaultPlacements?: CustomizableUIPlacement[];
 }
+
+export class Area extends CustomizableUIComponentBase<CustomizableUIArea> {
+	/**
+	 * Gets the type of area to create
+	 */
+	public get type() {
+		return this.getAttribute("type") as CustomizableUIAreaType;
+	}
+
+	/**
+	 * Updates the type of area
+	 */
+	public set type(newValue: CustomizableUIAreaType) {
+		this.setAttribute("type", newValue);
+	}
+
+	/**
+	 * The context of the area tells the browser how it should be contextualised
+	 */
+	public get context() {
+		return this.getAttribute("context") as CustomizableUIContextType;
+	}
+
+	/**
+	 * Updates the context of the area
+	 */
+	public set context(newValue: CustomizableUIContextType) {
+		this.setAttribute("context", newValue);
+	}
+
+	public get width() {
+		const value = this.style.getPropertyValue("--width") as CSSStyleDeclaration["width"];
+
+		if (value == "min-width") {
+			return "hug-contents";
+		} else if (value == "100%") {
+			return "fill-container";
+		} else {
+			return parseInt(value);
+		}
+	}
+
+	public set width(newValue: CustomizableUIAreaBound) {
+		let w = newValue as CSSStyleDeclaration["width"];
+
+		if (newValue == "hug-contents") {
+			w = "min-width";
+		} else if (newValue == "fill-container") {
+			w = "100%";
+		} else {
+			w = `${parseInt(w)}px`;
+		}
+
+		this.style.setProperty("--width", w);
+	}
+
+	public get height() {
+		const value = this.style.getPropertyValue("--height") as CSSStyleDeclaration["height"];
+
+		if (value == "min-height") {
+			return "hug-contents";
+		} else if (value == "100%") {
+			return "fill-container";
+		} else {
+			return parseInt(value);
+		}
+	}
+
+	public set height(newValue: CustomizableUIAreaBound) {
+		let h = newValue as CSSStyleDeclaration["height"];
+
+		if (newValue == "hug-contents") {
+			h = "min-height";
+		} else if (newValue == "fill-container") {
+			h = "100%";
+		} else {
+			h = `${parseInt(h)}px`;
+		}
+
+		this.style.setProperty("--height", h);
+	}
+
+	/**
+	 * Gets the orientation of the area
+	 */
+	public get orientation() {
+		return this.getAttribute("orientation") as CustomizableUIAreaOrientation;
+	}
+
+	/**
+	 * Updates the orientation of the area
+	 */
+	public set orientation(newValue: CustomizableUIAreaOrientation) {
+		this.setAttribute("orientation", newValue);
+	}
+
+	/**
+	 * Gets the visibility of the area
+	 */
+	public get visible() {
+		return !!this.getAttribute("visible");
+	}
+
+	/**
+	 * Updates the visibility of the area
+	 */
+	public set visible(newValue: boolean) {
+		this.setAttribute("visible", newValue.toString());
+	}
+
+	public internalRender(markup: HTMLElement) {
+		this.replaceChildren();
+		this.appendChild(markup);
+	}
+}
+
+customElements.define("area-panel", Area);
