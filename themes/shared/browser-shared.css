@@ -8,6 +8,9 @@
 /* Components */
 @import url("chrome://dot/content/browser-element/statuspanel.css");
 
+/* Customizable UI */
+@import url("chrome://dot/content/customizableui/customizableui.css");
+
 /* Globals */
 :root {
 	/* Colours */
