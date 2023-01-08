@@ -33,6 +33,11 @@ export type CustomizableUIAreaDoWhen = [string | string[], CustomizableUIAreaDoW
 
 export interface CustomizableUIArea {
 	/**
+	 * The ID of the area
+	 */
+	id: string;
+
+	/**
 	 * Type of area to create
 	 */
 	type: CustomizableUIAreaType;
@@ -74,6 +79,23 @@ export interface CustomizableUIArea {
 }
 
 export class Area extends CustomizableUIComponentBase<CustomizableUIArea> {
+	public areaId!: string;
+
+	/**
+	 * Gets the area ID
+	 */
+	public get id() {
+		return super.id;
+	}
+
+	/**
+	 * Updates the area id
+	 */
+	public set id(newValue: string) {
+		this.areaId = newValue;
+		super.id = `area-${newValue}`;
+	}
+
 	/**
 	 * Gets the type of area to create
 	 */
@@ -180,6 +202,28 @@ export class Area extends CustomizableUIComponentBase<CustomizableUIArea> {
 	 */
 	public set visible(newValue: boolean) {
 		this.setAttribute("visible", newValue.toString());
+	}
+
+	public render() {
+		const placements = window.DotCustomizableUI.getPlacementsByAreaID(this.areaId);
+
+		const children = [];
+
+		console.log(`Rendering widgets inside ${this.areaId}.`);
+
+		if (placements && placements.length) {
+			for (const [placementID, placementProperties] of placements) {
+				console.log(placementID, placementProperties);
+
+				const widgetEl = window.DotCustomizableUI.getWidgetElementById(placementID);
+
+				if (placementProperties) widgetEl.configure(placementProperties);
+
+				children.push(widgetEl);
+			}
+		}
+
+		return html("fragment", {}, ...children);
 	}
 
 	public internalRender(markup: HTMLElement) {

@@ -23,6 +23,10 @@ const { AppConstants } = ChromeUtils.importESModule<AppConstants>(
 	"resource://gre/modules/AppConstants.sys.mjs"
 );
 
+const { EventEmitter } = ChromeUtils.importESModule<any>(
+	"resource://gre/modules/EventEmitter.sys.mjs"
+);
+
 export interface CustomizableUIBaseEntity {
 	/**
 	 * Determines whether the entity should be visible
@@ -30,7 +34,7 @@ export interface CustomizableUIBaseEntity {
 	visible: boolean;
 }
 
-class _CustomizableUIInternal {
+class _CustomizableUI {
 	/**
 	 * The current version. We can use this to auto-add new default widgets as necessary.
 	 */
@@ -141,13 +145,19 @@ class _CustomizableUIInternal {
 		| Partial<CustomizableUISerialisedConfiguration>;
 
 	/**
+	 * CustomizableUI mount element
+	 */
+	public get mountEl() {
+		return document.getElementById("mount");
+	}
+
+	/**
 	 * Start up CustomizableUI
 	 */
 	public initialize() {
 		console.debug("Initializing...");
 
 		this.defineBuiltInWidgets();
-		this.loadSavedState();
 		this.migrateToNewVersion();
 
 		// Define the root area
@@ -162,6 +172,25 @@ class _CustomizableUIInternal {
 
 			orientation: CustomizableUIAreaOrientation.Vertical
 		});
+
+		// Define the browser area
+		this.registerArea("browser", {
+			type: CustomizableUIAreaType.Panel,
+			context: CustomizableUIContextType.Frame,
+
+			width: "fill-container",
+			height: "fill-container",
+
+			visible: true,
+
+			orientation: CustomizableUIAreaOrientation.Horizontal,
+
+			defaultPlacements: [["browser-frame"]]
+		});
+
+		// We load the state after registering the
+		// default areas to ensure there aren't any DOM errors
+		this.loadSavedState();
 	}
 
 	/**
@@ -230,9 +259,14 @@ class _CustomizableUIInternal {
 	/**
 	 * Registers a new customisable area
 	 */
-	public registerArea(id: string, properties: CustomizableUIArea) {
+	public registerArea(id: string, properties: Omit<CustomizableUIArea, "id">) {
 		if (typeof id != "string" || !/^[a-z0-9-_]{1,}$/i.test(id)) {
 			console.error("Area has illegal ID of", id);
+			return null;
+		}
+
+		if ((properties as any).id) {
+			console.error("id property in area cannot be manually changed.");
 			return null;
 		}
 
@@ -256,6 +290,29 @@ class _CustomizableUIInternal {
 			return null;
 		}
 
+		// Check if type is not set
+		if (!properties.type || !Object.values(CustomizableUIAreaType).includes(properties.type)) {
+			console.error(
+				`Area ${id} got illegal type property. Type: ${
+					properties.type
+				}. Allowed values: ${Object.values(CustomizableUIAreaType)}`
+			);
+			return null;
+		}
+
+		// Check if context is not set
+		if (
+			!properties.context ||
+			!Object.values(CustomizableUIContextType).includes(properties.context)
+		) {
+			console.error(
+				`Area ${id} got illegal context property. Context: ${
+					properties.context
+				}. Allowed values: ${Object.values(CustomizableUIContextType)}`
+			);
+			return null;
+		}
+
 		// Check if both width and height are undefined
 		if (!properties.width && !properties.height) {
 			console.error(
@@ -264,14 +321,54 @@ class _CustomizableUIInternal {
 			return null;
 		}
 
+		const allowedBoundValues = ["fill-container", "hug-contents"];
+
+		if (typeof properties.width == "string") {
+			if (!allowedBoundValues.includes(properties.width)) {
+				console.error(
+					`Area ${id} took an illegal value for width. Width: ${properties.width}. Allowed values: ${allowedBoundValues}`
+				);
+				return null;
+			}
+		} else if (typeof properties.width == "number") {
+			if (!Number.isFinite(properties.width) || properties.width < 0) {
+				console.error(
+					`Area ${id} took an illegal value for width. Width: ${properties.width}.`
+				);
+				return null;
+			}
+		}
+
+		if (typeof properties.height == "string") {
+			if (!allowedBoundValues.includes(properties.height)) {
+				console.error(
+					`Area ${id} took an illegal value for height. Height: ${properties.height}. Allowed values: ${allowedBoundValues}`
+				);
+				return null;
+			}
+		} else if (typeof properties.height == "number") {
+			if (!Number.isFinite(properties.height) || properties.height < 0) {
+				console.error(
+					`Area ${id} took an illegal value for height. Height: ${properties.height}.`
+				);
+				return null;
+			}
+		}
+
 		if (!properties.orientation) {
 			properties.orientation = CustomizableUIAreaOrientation.Vertical;
 		}
 
-		this.areas.set(id, properties);
+		(properties as CustomizableUIArea).id = id;
+
+		this.areas.set(id, properties as CustomizableUIArea);
 		this.placements.set(id, properties.defaultPlacements || []);
 
+		console.log(properties);
+
 		this.areasElMap.set(id, new Area(properties));
+
+		this.renderArea(id, id == "root" ? this.mountEl : this.areasElMap.get("root"));
 
 		this.saveState();
 	}
@@ -286,6 +383,83 @@ class _CustomizableUIInternal {
 
 		const areaComponent = this.areasElMap.get(id);
 		areaComponent.recalculateProps(partialProperties);
+
+		this.saveState();
+	}
+
+	/**
+	 * Removes an existing area
+	 */
+	public removeArea(id: string) {
+		this.areas.delete(id);
+		this.placements.delete(id);
+		this.areasElMap.delete(id);
+
+		document.querySelector(`area-panel#area-${id}`).remove();
+
+		this.saveState();
+	}
+
+	/**
+	 * Renders an area to the DOM
+	 */
+	public renderArea(id: string, parentNode: HTMLElement) {
+		if (!this.areas.has(id)) {
+			console.error(`Area ${id} does not exist.`);
+		}
+
+		console.debug(`Rendering area ${id}...`);
+
+		const node = this.areasElMap.get(id);
+		const index =
+			id == "root" ? 0 : Array.from(this.areasElMap.keys()).findIndex((i) => i == id);
+
+		console.debug(node, parentNode);
+
+		this.insertElementAtIndex(node, index, parentNode);
+	}
+
+	/**
+	 * Renders all areas to the DOM
+	 * Should only be called at init
+	 * Use renderArea for runtime rendering
+	 */
+	public renderAreas() {
+		for (const [areaID] of this.placements) {
+			if (areaID == "root") continue;
+
+			this.renderArea(areaID, this.areasElMap.get("root"));
+		}
+	}
+
+	/**
+	 * Inserts element at a specified index
+	 */
+	public insertElementAtIndex(element: Element, index: number, parentNode: ParentNode) {
+		// Get just the elements, no textnodes
+		const elements = Array.from(parentNode.childNodes).filter(
+			(el) => el.nodeType == 1
+		) as HTMLElement[];
+
+		if (elements.length == 0) {
+			// Parent node is empty, so we just append it to the nodes
+			return parentNode.appendChild(element);
+		} else if (index >= elements.length) {
+			// Insert after last element
+			const lastEl = elements[elements.length - 1];
+
+			return lastEl.insertAdjacentElement("afterend", element);
+		} else if (index <= elements.length) {
+			// Insert before first element
+			const firstEl = elements[0];
+
+			return firstEl.insertAdjacentElement("beforebegin", element);
+		} else {
+			// Insert before element
+			const insertBeforeEl = elements[index];
+
+			return insertBeforeEl.insertAdjacentElement("beforebegin", element);
+		}
 	}
 
 	/**
@@ -318,6 +492,20 @@ class _CustomizableUIInternal {
 	}
 
 	/**
+	 * Get placements for area ID
+	 */
+	public getPlacementsByAreaID(id: string) {
+		return this.placements.get(id);
+	}
+
+	/**
+	 * Get widget element for widget ID
+	 */
+	public getWidgetElementById(id: string) {
+		return this.widgetsElMap.get(id);
+	}
+
+	/**
 	 * Save the current state to disk
 	 */
 	public saveState() {
@@ -335,6 +523,7 @@ class _CustomizableUIInternal {
 				for (let area of Object.keys(this.savedState.placements)) {
 					if (!state.placements.has(area)) {
 						let placements = this.savedState.placements[area];
+
 						state.placements.set(area, placements);
 					}
 				}
@@ -345,11 +534,37 @@ class _CustomizableUIInternal {
 		state.placements.delete("root");
 		state.areas.delete("root");
 
+		// Remove browser's area data as this is defined programatically
+		state.areas.delete("browser");
+
+		// Exclude ID from saved data
+		state.areas.forEach((area, index) => {
+			const data: any = {};
+
+			for (const [key, value] of Object.entries(area)) {
+				if (key == "id") continue;
+
+				data[key] = value;
+			}
+
+			state.areas.set(index, data);
+		});
+
+		// Remove any items from placements that don't have an item in areas
+		state.placements.forEach((_, id) => {
+			// These are defined programatically and thus have area data
+			if (id == "root" || id == "browser") return;
+
+			if (!state.areas.has(id)) {
+				state.placements.delete(id);
+			}
+		});
+
 		console.debug("Saving state.");
 		const serialized = JSON.stringify(state, this.serializerHelper, 4);
 		console.debug("State saved as: " + serialized);
 
-		Services.prefs.setStringPref("browser.uiCustomization.state", serialized);
+		Services.prefs.setStringPref("dot.uiCustomization.state", serialized);
 	}
 
 	/**
@@ -378,11 +593,11 @@ class _CustomizableUIInternal {
 		let state = "";
 
 		try {
-			state = Services.prefs.getStringPref("browser.uiCustomization.state");
+			state = Services.prefs.getStringPref("dot.uiCustomization.state");
 		} catch (e) {}
 
 		// We don't have a value yet.
-		if (!state) {
+		if (!state || !state.length) {
 			this.saveState();
 			return this.loadSavedState();
 		}
@@ -397,7 +612,7 @@ class _CustomizableUIInternal {
 			}
 		} catch (e) {
 			/* @todo: in final version this should be a clearPreference call */
-			Services.prefs.setStringPref("browser.uiCustomization.state", "");
+			Services.prefs.setStringPref("dot.uiCustomization.state", "");
 
 			this.savedState = {};
 			console.debug("Error loading saved UI customization state, falling back to defaults.");
@@ -427,6 +642,8 @@ class _CustomizableUIInternal {
 			}
 		}
 
+		// todo: add a way to actually load the placemnets
+
 		for (const [id, placements] of Object.entries(
 			this.savedState.placements as CustomizableUISerialisedConfiguration["placements"]
 		)) {
@@ -453,21 +670,5 @@ class _CustomizableUIInternal {
 	}
 }
 
-class _CustomizableUI {
-	private internal = new _CustomizableUIInternal();
-
-	public constructor() {
-		this.internal.initialize();
-	}
-
-	public registerArea(id: string, properties: CustomizableUIArea) {
-		return this.internal.registerArea(id, properties);
-	}
-
-	public addWidgetToArea(widgetId: string, areaId: string, position?: number) {
-		return this.internal.addWidgetToArea(widgetId, areaId, position);
-	}
-}
-
-export const CustomizableUI = new _CustomizableUI();
-window.CustomizableUI = CustomizableUI;
+export const DotCustomizableUI = new _CustomizableUI();
+// window.DotCustomizableUI = DotCustomizableUI;

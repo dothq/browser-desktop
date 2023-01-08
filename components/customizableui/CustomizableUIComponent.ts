@@ -11,7 +11,11 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 		if ((this as any).render) {
 			const markup = (this as any).render();
 
-			if (markup instanceof HTMLElement) {
+			if (
+				markup instanceof HTMLElement ||
+				markup instanceof DocumentFragment ||
+				markup instanceof XULElement
+			) {
 				if ((this as any).internalRender) {
 					(this as any).internalRender(markup);
 				} else {
@@ -24,12 +28,16 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 						this.appendChild(markup);
 					}
 				}
+			} else {
+				throw new Error(
+					`${this.constructor.name}#${this.id}.render() expected to return HTMLElement but got ${markup.constructor.name}.`
+				);
 			}
 		} else {
 			throw new Error(
-				`${this.constructor.name}.render() is expected to be function but was ${typeof (
-					this as any
-				).render}.`
+				`${this.constructor.name}#${
+					this.id
+				}.render() is expected to be function but was ${typeof (this as any).render}.`
 			);
 		}
 	}
@@ -45,8 +53,8 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 			this.removeChild(this);
 		} else {
 			throw new Error(
-				`${
-					this.constructor.name
+				`${this.constructor.name}#${
+					this.id
 				}.deconstruct() is expected to be function but was ${typeof (this as any)
 					.deconstruct}.`
 			);
@@ -58,7 +66,7 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 	 * to update the child rather than readding the child in the DOM.
 	 */
 	public attributeChangedCallback() {
-		console.debug(`Rerendering ${this.constructor.name}.`);
+		console.debug(`Rerendering ${this.constructor.name}#${this.id}.`);
 
 		this.connectedCallback();
 	}
@@ -68,12 +76,16 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 			const key = kv[0] as keyof T;
 			const value = kv[1] as any;
 
+			console.log(key, value);
+
 			(this as any)[key] = value;
 		}
 	}
 
 	public constructor(props: Partial<T>) {
 		super();
+
+		console.log(props);
 
 		this.recalculateProps(props);
 	}
