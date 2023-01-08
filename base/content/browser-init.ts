@@ -28,6 +28,10 @@ const importESModules = () => {
 		DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs",
 		DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs"
 	}).map(([mod, resourceURI]) => (window[mod] = ChromeUtils.importESModule(resourceURI)[mod]));
+
+	Object.entries({
+		DotCustomizableUI: "resource://dot/components/customizableui/CustomizableUI.js"
+	}).map(async ([mod, resourceURI]) => (window[mod] = (await import(resourceURI))[mod]));
 };
 
 /* Initialise FF events */
@@ -62,7 +66,9 @@ window.addEventListener(
 );
 
 /* Initialise Dot Browser events */
-window.addEventListener("load", () => {});
+window.addEventListener("load", () => {
+	window.DotCustomizableUI.initialize();
+});
 window.addEventListener(
 	"DOMContentLoaded",
 	() => {
