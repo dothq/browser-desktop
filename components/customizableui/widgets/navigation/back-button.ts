@@ -3,24 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import ToolbarButtonWidget from "../common/toolbar-button.js";
-import { applyWidgetConfiguration } from "../index.js";
 
 class BackButtonWidget extends ToolbarButtonWidget {
-	public configure(options: Partial<this>) {
-		applyWidgetConfiguration(
-			this,
-			{
-				visible: ["boolean"]
-			},
-			options
-		);
-	}
-
 	public constructor() {
 		super({
 			id: "back-button",
 			label: "Go Back",
-			icon: "chrome://dot/skin/icons/back.svg"
+			icon: "chrome://dot/skin/icons/back.svg",
+			configurableProps: {
+				visible: ["boolean"],
+				icons: ["boolean"]
+			}
 		});
 
 		// Use browser event emitter to listen for changes to

@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
-import { applyConfig } from "../index.js";
+import { applyConfig, CustomizableUIWidgetProps } from "../index.js";
 import Widget from "./index.js";
 
 class ToolbarButtonLabel extends MozHTMLElement {
@@ -81,10 +81,11 @@ class ToolbarButtonWidget extends Widget {
 		);
 	}
 
-	public constructor(widget?: Partial<ToolbarButtonWidget>) {
+	public constructor(widget?: CustomizableUIWidgetProps<ToolbarButtonWidget>) {
 		super({
 			visible: true,
-			display: CustomizableUIWidgetDisplay.Icons
+			display: CustomizableUIWidgetDisplay.Icons,
+			configurableProps: widget.configurableProps
 		});
 
 		applyConfig(this, widget);

@@ -4,6 +4,7 @@
 
 import { CustomizableUIComponentBase } from "../../CustomizableUIComponent.js";
 import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
+import { applyWidgetConfiguration, CustomizableUIWidgetConfiguration } from "../index.js";
 
 const generateWidgetID = () => `widget-${generateID(4)}`;
 
@@ -55,8 +56,20 @@ class Widget extends CustomizableUIComponentBase<Widget> {
 		this.setAttribute("display", newValue);
 	}
 
-	public constructor(widget: Partial<Widget>) {
+	public configure(options: Partial<this>) {
+		applyWidgetConfiguration(this, (this as any).configurableProps, options);
+	}
+
+	public constructor(
+		widget: Partial<Widget> & { configurableProps?: CustomizableUIWidgetConfiguration }
+	) {
 		super(widget);
+
+		if (!(this as any).configurableProps) {
+			throw new Error(
+				`'configurableProps' is a required option on ${super.constructor.name}.`
+			);
+		}
 	}
 }
 

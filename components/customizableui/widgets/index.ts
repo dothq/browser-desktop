@@ -4,7 +4,16 @@
 
 import { CustomizableUIWidgetConfigurationTypes } from "../CustomizableUIWidgets.js";
 import Widget from "./common/index.js";
+import BrowserFrameWidget from "./meta/browser-frame.js";
 import BackButtonWidget from "./navigation/back-button.js";
+
+export type CustomizableUIWidgetProps<T> = Partial<Widget> & {
+	configurableProps?: CustomizableUIWidgetConfiguration;
+} & Partial<T>;
+
+export type CustomizableUIWidgetConfiguration = {
+	[key: string]: CustomizableUIWidgetConfigurationTypes[];
+};
 
 export const applyConfig = (widgetClass: Widget, widgetOptions: Partial<Widget> | undefined) => {
 	if (!widgetClass || !widgetOptions || (widgetOptions && !Object.keys(widgetOptions).length))
@@ -52,3 +61,4 @@ export const applyWidgetConfiguration = <T extends Widget>(
 export const CustomizableWidgets: Set<Widget> = new Set();
 
 CustomizableWidgets.add(new BackButtonWidget());
+CustomizableWidgets.add(new BrowserFrameWidget());
