@@ -33,13 +33,19 @@ namespace dot {
         static const RedirEntry kRedirMap[] = {
             /* id, resourceURI, flags */
             {
+                "home", 
+                "chrome://dot/content/newtab/newtab.html", 
+                nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::ALLOW_SCRIPT | 
+                    nsIAboutModule::IS_SECURE_CHROME_UI
+            },
+            {
                 "rights", 
                 "chrome://global/content/aboutRights.xhtml", 
                 nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
                     nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
-
         };
 
         static nsAutoCString GetAboutModuleName(nsIURI* aURI) {
