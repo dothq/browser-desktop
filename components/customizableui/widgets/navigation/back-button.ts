@@ -9,7 +9,7 @@ class BackButtonWidget extends ToolbarButtonWidget {
 		super({
 			id: "back-button",
 			label: "Go Back",
-			icon: "chrome://dot/skin/icons/back.svg",
+			icon: "chrome://dot/skin/arrow-left.svg",
 			configurableProps: {
 				visible: ["boolean"],
 				icons: ["boolean"]
