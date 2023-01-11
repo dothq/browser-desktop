@@ -157,6 +157,7 @@ class _CustomizableUI {
 	public initialize() {
 		console.debug("Initializing...");
 
+		this.loadSavedState();
 		this.defineBuiltInWidgets();
 		this.migrateToNewVersion();
 
@@ -188,9 +189,9 @@ class _CustomizableUI {
 			defaultPlacements: [["browser-frame"]]
 		});
 
-		// We load the state after registering the
+		// We hydrate the state after registering the
 		// default areas to ensure there aren't any DOM errors
-		this.loadSavedState();
+		this.hydrateSavedState();
 	}
 
 	/**
@@ -362,7 +363,10 @@ class _CustomizableUI {
 		(properties as CustomizableUIArea).id = id;
 
 		this.areas.set(id, properties as CustomizableUIArea);
-		this.placements.set(id, properties.defaultPlacements || []);
+		this.placements.set(
+			id,
+			properties.defaultPlacements || this.savedState.placements[id] || []
+		);
 
 		console.log(properties);
 
@@ -634,6 +638,14 @@ class _CustomizableUI {
 			this.savedState.currentVersion = 0;
 		}
 
+		for (const [areaId, placements] of Object.entries(this.savedState.placements)) {
+			console.log("AT LOAD", areaId, placements);
+
+			this.placements.set(areaId, placements);
+		}
+	}
+
+	public hydrateSavedState() {
 		for (const [id, properties] of Object.entries(this.savedState.areas)) {
 			if (this.areas.has(id)) {
 				this.updateArea(id, properties);
