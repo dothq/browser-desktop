@@ -15,6 +15,14 @@ class ToolbarButtonLabel extends MozHTMLElement {
 		this.textContent = newValue;
 	}
 
+	public connectedCallback() {
+		const parentElement = this.parentElement as ToolbarButtonWidget;
+
+		if (parentElement.label) {
+			this.value = parentElement.label;
+		}
+	}
+
 	constructor() {
 		super();
 	}
@@ -71,6 +79,10 @@ class ToolbarButtonWidget extends Widget {
 	public keybind: string = "";
 
 	public render() {
+		if (!this.classList.contains("toolbarbutton-1")) {
+			this.classList.add("toolbarbutton-1");
+		}
+
 		this.label = this.getAttribute("label");
 
 		return (
@@ -79,6 +91,10 @@ class ToolbarButtonWidget extends Widget {
 				<toolbar-button-label class="toolbarbutton-text"></toolbar-button-label>
 			</fragment>
 		);
+	}
+
+	public deconstruct() {
+		this.remove();
 	}
 
 	public constructor(widget?: CustomizableUIWidgetProps<ToolbarButtonWidget>) {
