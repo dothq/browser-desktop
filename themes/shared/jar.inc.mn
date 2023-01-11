@@ -95,3 +95,8 @@
 % override chrome://mozapps/skin/extensions/category-extensions.svg chrome://dot/skin/jigsaw.svg
 % override chrome://mozapps/skin/extensions/themeGeneric.svg chrome://dot/skin/brush.svg
 % override chrome://global/skin/icons/settings.svg chrome://dot/skin/settings.svg
+
+  skin/classic/dot/customizableui/customizableui.css           (../shared/customizableui/customizableui.css)
+  skin/classic/dot/customizableui/customizableui-area.css      (../shared/customizableui/customizableui-area.css)
+  skin/classic/dot/customizableui/widgets/browser-frame.css    (../shared/customizableui/widgets/browser-frame.css)
+  skin/classic/dot/customizableui/widgets/toolbar-button.css   (../shared/customizableui/widgets/toolbar-button.css)

@@ -6,8 +6,6 @@
 
 DIRS += ["widgets"]
 
-JAR_MANIFESTS += ["jar.mn"]
-
 TypedModules(
     "CustomizableUI.ts",
     "CustomizableUIArea.ts",

@@ -9,7 +9,7 @@
 @import url("chrome://dot/content/browser-element/statuspanel.css");
 
 /* Customizable UI */
-@import url("chrome://dot/content/customizableui/customizableui.css");
+@import url("chrome://dot/skin/customizableui/customizableui.css");
 
 /* Globals */
 :root {

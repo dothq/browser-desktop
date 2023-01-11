@@ -9,6 +9,8 @@ area-panel {
 
     width: var(--width, auto);
     height: var(--height, auto);
+
+    justify-content: center;
 }
 
 /* Visible */
@@ -31,4 +33,8 @@ area-panel[orientation="vertical"] {
 
 area-panel[context="frame"] {
     flex: 1 1 0px;
+}
+
+area-panel[context="panel"] {
+    padding-inline: 8px;
 }
