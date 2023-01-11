@@ -5,7 +5,6 @@
 export enum CustomizableUIWidgetDisplay {
 	Icons = "icons",
 	Text = "text",
-	IconsAndText = "icons_and_text",
 	IconsBesideText = "icons_beside_text"
 }
 
