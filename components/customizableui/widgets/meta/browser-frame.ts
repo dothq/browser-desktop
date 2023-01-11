@@ -8,7 +8,15 @@ import { applyConfig } from "../index.js";
 
 class BrowserFrameWidget extends Widget {
 	public render() {
-		return document.querySelector("#browser");
+		const frame = document.querySelector("#browser");
+
+		frame.removeAttribute("hidden");
+
+		return frame;
+	}
+
+	public deconstruct() {
+		return false;
 	}
 
 	public constructor() {
