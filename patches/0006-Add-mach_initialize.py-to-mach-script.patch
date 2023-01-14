@@ -1,0 +1,25 @@
+From b972cc604e1b5cfa62627a1e88d3b25832f8617e Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Sat, 14 Jan 2023 16:43:19 +0000
+Subject: [PATCH] Add mach_initialize.py to mach script
+
+---
+ mach | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/mach b/mach
+index 7e00054bf5a1..80bcfc92f182 100755
+--- a/mach
++++ b/mach
+@@ -25,6 +25,8 @@ def check_and_get_mach(dir_path):
+     initialize_paths = (
+         # Run Thunderbird's mach_initialize.py if it exists
+         'comm/build/mach_initialize.py',
++        # Run Dot's mach_initialize.py if it exists
++        'dot/build/mach_initialize.py',
+         'build/mach_initialize.py',
+         # test package initialize
+         'tools/mach_initialize.py',
+-- 
+2.38.1
+
