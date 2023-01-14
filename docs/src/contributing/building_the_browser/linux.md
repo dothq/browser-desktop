@@ -103,13 +103,10 @@ You can now start your IDE or editor and move onto the build step.
 
 In order to build Dot Browser correctly, you will need to import a series of patches into Firefox.
 
-This can be easily done by running the `patchtool.py` script.
-
-Assuming you are in the `dot` directory, run the following script:
+Assuming you are in the `dot` directory, run the following `mach` command:
 
 ```sh
-# You may need to prepend python3 if the script does not run
-./scripts/patchtool.py import
+./mach import-patches
 ```
 
 This will automate the import process.
@@ -159,8 +156,7 @@ Whenever there is a new change, it is important you pull **BOTH** the Dot Browse
 Assuming you are in the `dot` directory, this can easily be done by:
 
 ```sh
-# You may need to prepend python3 if the script does not run
-./scripts/sync.py
+./mach sync
 ```
 
 You will then need to [rebuild the browser](#compilation) in order to see the newest changes in your build. If there are minute changes, your build could be quite fast. Larger changes will take longer as more is needed to be recompiled.
