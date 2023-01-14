@@ -31,3 +31,11 @@ def import_patches_run(command_context):
 @CommandArgument("args", nargs=argparse.REMAINDER)
 def export_patch_run(command_context, args):
     return run_py(command_context, args=["dot/scripts/patchtool.py", "export", *args])
+
+@Command(
+    "sync",
+    category="misc",
+    description="Syncs changes from both the Dot and FF tree",
+)
+def sync_run(command_context):
+    return run_py(command_context, args=["dot/scripts/sync.py"])
