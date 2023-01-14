@@ -165,6 +165,7 @@ def export_patch():
 
     def declare_patch_error():
         print("Error occurred in patch creation, aborting...")
+        
         try:
             subprocess.call("git reset HEAD~", cwd=topsrcdir, shell=True)
         except:
@@ -213,13 +214,12 @@ def export_patch():
                 declare_patch_error()
 
             if os.path.exists(patch_file_path):
-                undo_commit_code = subprocess.call("git reset HEAD~", cwd=topsrcdir, shell=True)
-            
-                if undo_commit_code == 1:
-                    declare_patch_error()
+                import_patches()
             else:
                 exit(1)
-        except:
+        except Exception as e:
+            print(e)
+
             declare_patch_error()
     else:
         exit(code)
