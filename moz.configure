@@ -26,17 +26,6 @@ imply_option("--enable-default-browser-agent", False)
 imply_option("--with-ccache", "sccache")
 imply_option("--disable-webdriver", False)
 
-# "Bundled fonts" - describe
-@depends(target_is_windows, target_is_linux)
-def bundled_fonts(is_windows, is_linux):
-    if is_windows or is_linux:
-        return True
-
-
-set_config("MOZ_BUNDLED_FONTS", bundled_fonts)
-add_old_configure_assignment("MOZ_BUNDLED_FONTS", bundled_fonts)
-
-
 @depends(build_environment, "--help")
 def dot_paths(build_env, _):
     topsrcdir = build_env.topsrcdir
