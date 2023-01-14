@@ -7,6 +7,43 @@ import os
 import subprocess
 import time
 
+def run_cmd(command, cwd):
+    process = subprocess.Popen(command, 
+        cwd=cwd,
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.STDOUT
+    )
+
+    while process.stdout.readable():
+        line = process.stdout.readline()
+
+        if not line:
+            break
+
+        ln = line.strip().decode()
+
+        print(f"    {ln}")
+
+    while process.poll() is None:
+        time.sleep(0.5)
+
+    if process.returncode != 0:
+        raise Exception("Failed to run command")
+
+def run_sync(name, dir, command):
+    try:
+        run_cmd(command, dir)
+    except Exception as e:
+        print("")
+        print("\033[1;91m----- FAILED to sync changes! -----\033[00m")
+        exit(1)
+
+def pull(name, dir):
+    run_sync(name, dir, ["git", "pull", "--verbose"])
+
+def fetch(name, dir):
+    run_sync(name, dir, ["git", "fetch", "--verbose"])
+
 def main():
     cwd = os.getcwd()
     dir_name = os.path.basename(cwd)
@@ -23,66 +60,18 @@ def main():
         else:
             raise Exception("Unable to sync! We can't find your topsrcdir. You need to be in either the gecko-dev directory or dot directory.")
 
-    print("----- Syncing changes with gecko-dev... -----")
-    gecko_dev_process = subprocess.Popen([
-        "git", 
-        "pull",
-        "--verbose"
-    ], 
-        cwd=topsrcdir,
-        stdout=subprocess.PIPE, 
-        stderr=subprocess.STDOUT
-    )
-
-    while gecko_dev_process.stdout.readable():
-        line = gecko_dev_process.stdout.readline()
-
-        if not line:
-            break
-
-        ln = line.strip().decode()
-
-        print(f"    {ln}")
-
-    while gecko_dev_process.poll() is None:
-        time.sleep(0.5)
-
-    if gecko_dev_process.returncode != 0: 
-        print("")
-        print("\033[1;91m----- FAILED to sync changes! -----\033[00m")
-        exit(1)
-
+    print(f"----- Syncing changes with browser-desktop... -----")
+    pull("browser-desktop", os.path.join(topsrcdir, "dot"))
     print("")
-    print("----- Syncing changes with browser-desktop... -----")
-    browser_desktop_process = subprocess.Popen([
-        "git", 
-        "pull",
-        "--verbose"
-    ], 
-        cwd=os.path.join(topsrcdir, "dot"),
-        stdout=subprocess.PIPE, 
-        stderr=subprocess.STDOUT
-    )
 
-    while browser_desktop_process.stdout.readable():
-        line = browser_desktop_process.stdout.readline()
+    revision_file = open(os.path.join(topsrcdir, "dot", "REVISION"), "r")
+    revision = " ".join(revision_file.read().split())
 
-        if not line:
-            break
+    print(f"----- Syncing changes with gecko-dev... -----")
+    fetch("gecko-dev", topsrcdir)
+    run_cmd(["git", "merge", revision], topsrcdir)
 
-        ln = line.strip().decode()
-
-        print(f"    {ln}")
-
-    while browser_desktop_process.poll() is None:
-        time.sleep(0.5)
-
-    if browser_desktop_process.returncode != 0: 
-        print("")
-        print("\033[1;91m----- FAILED to sync changes! -----\033[00m")
-        exit(1)
-
-    print("\n-----")                
+    print("\n-----")
     print("\033[92mSuccessfully synchronised.\033[00m")
     print("-----")
 if __name__ == "__main__":
