@@ -10,9 +10,18 @@ const generateWidgetID = () => `widget-${generateID(4)}`;
 
 class Widget extends CustomizableUIComponentBase<Widget> {
 	/**
-	 * Determines the widget ID
+	 * Gets the widget ID
 	 */
-	public id: string = generateWidgetID();
+	public get id() {
+		return this.widgetId;
+	}
+
+	/**
+	 * Updates the widget id
+	 */
+	public set id(newValue: string) {
+		this.widgetId = newValue;
+	}
 
 	/**
 	 * Determines whether the widget is visible on screen
@@ -56,6 +65,20 @@ class Widget extends CustomizableUIComponentBase<Widget> {
 		this.setAttribute("display", newValue);
 	}
 
+	/**
+	 * Gets the widget ID
+	 */
+	public get widgetId() {
+		return this.getAttribute("widgetid");
+	}
+
+	/**
+	 * Updates the widget ID
+	 */
+	public set widgetId(newValue: string) {
+		this.setAttribute("widgetid", newValue);
+	}
+
 	public configure(options: Partial<this>) {
 		applyWidgetConfiguration(this, (this as any).configurableProps, options);
 	}
@@ -64,6 +87,8 @@ class Widget extends CustomizableUIComponentBase<Widget> {
 		widget: Partial<Widget> & { configurableProps?: CustomizableUIWidgetConfiguration }
 	) {
 		super(widget);
+
+		this.id = generateWidgetID();
 
 		if (!(this as any).configurableProps) {
 			throw new Error(
