@@ -15,6 +15,7 @@ import {
 	CustomizableUIPlacement,
 	CustomizableUIPlacementProperties
 } from "./CustomizableUIPlacement.js";
+import { insertElementAtIndex } from "./CustomizableUIUtils.js";
 import { CustomizableUIWidgetSource } from "./CustomizableUIWidgets.js";
 import Widget from "./widgets/common/index.js";
 import { CustomizableWidgets } from "./widgets/index.js";
@@ -155,6 +156,8 @@ class _CustomizableUI {
 	 * Start up CustomizableUI
 	 */
 	public initialize() {
+		const d = Date.now();
+
 		console.debug("Initializing...");
 
 		this.loadSavedState();
@@ -192,6 +195,8 @@ class _CustomizableUI {
 		// We hydrate the state after registering the
 		// default areas to ensure there aren't any DOM errors
 		this.hydrateSavedState();
+
+		console.log(`Initialised CustomizableUI in ${Date.now() - d}ms.`);
 	}
 
 	/**
@@ -380,13 +385,14 @@ class _CustomizableUI {
 	/**
 	 * Updates and existing areas' properties
 	 */
-	public updateArea(id: string, partialProperties: Partial<CustomizableUIArea>) {
-		const properties = { ...this.areas.get(id), ...partialProperties };
+	public updateArea(id: string, partialProperties?: Partial<CustomizableUIArea>) {
+		const properties = { ...this.areas.get(id), ...(partialProperties || {}) };
 
 		this.areas.set(id, properties);
 
 		const areaComponent = this.areasElMap.get(id);
 		areaComponent.recalculateProps(partialProperties);
+		areaComponent.rerender();
 
 		this.saveState();
 	}
@@ -440,30 +446,7 @@ class _CustomizableUI {
 	 * Inserts element at a specified index
 	 */
 	public insertElementAtIndex(element: Element, index: number, parentNode: ParentNode) {
-		// Get just the elements, no textnodes
-		const elements = Array.from(parentNode.childNodes).filter(
-			(el) => el.nodeType == 1
-		) as HTMLElement[];
-
-		if (elements.length == 0) {
-			// Parent node is empty, so we just append it to the nodes
-			return parentNode.appendChild(element);
-		} else if (index >= elements.length) {
-			// Insert after last element
-			const lastEl = elements[elements.length - 1];
-
-			return lastEl.insertAdjacentElement("afterend", element);
-		} else if (index <= elements.length) {
-			// Insert before first element
-			const firstEl = elements[0];
-
-			return firstEl.insertAdjacentElement("beforebegin", element);
-		} else {
-			// Insert before element
-			const insertBeforeEl = elements[index];
-
-			return insertBeforeEl.insertAdjacentElement("beforebegin", element);
-		}
+		return insertElementAtIndex(element, index, parentNode);
 	}
 
 	/**
@@ -490,7 +473,7 @@ class _CustomizableUI {
 
 		placements.splice(position, 0, [widgetId, properties || ({} as any)]);
 
-		this.saveState();
+		this.updateArea(areaId);
 
 		// @todo add event emitters to emit widgetAdded event
 	}
