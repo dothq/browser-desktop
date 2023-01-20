@@ -7,12 +7,20 @@ import Widget from "../common/index.js";
 import { applyConfig } from "../index.js";
 
 class BrowserFrameWidget extends Widget {
-	public render() {
-		const frame = document.querySelector("#browser");
+	public rendered: boolean = false;
 
+	public internalRender() {
+		if (this.rendered) return;
+
+		const frame = document.querySelector("#browser");
 		frame.removeAttribute("hidden");
 
-		return frame;
+		this.appendChild(frame);
+		this.rendered = true;
+	}
+
+	public render() {
+		return document.createDocumentFragment();
 	}
 
 	public deconstruct() {
