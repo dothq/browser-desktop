@@ -15,16 +15,31 @@ const { build } = require("esbuild");
 const fs = require("fs");
 const _path = require("path");
 
+let relativePathCheckerPlugin = {
+    name: "relative-path-checker",
+    setup(build) {
+        build.onResolve({ filter: /.*/ }, args => {
+            if (args.importer) {
+                const hasExt = _path.parse(args.path).ext.length;
+
+                return { path: args.path + (hasExt ? "" : ".js"), external: true }
+            }
+        })
+    },
+}
+
 function transform(inPath, outPath) {
     let out;
     try {
         out = build({
             entryPoints: [inPath],
+            bundle: true,
             format: "esm",
+            treeShaking: false,
             platform: "browser",
             target: "firefox90",
             jsx: "transform",
-            plugins: [],
+            plugins: [relativePathCheckerPlugin],
             outfile: outPath
         })
     } catch (err) {
