@@ -9,12 +9,6 @@ declare var MozHTMLElement: {
 	new (): MozHTMLElement;
 };
 
-declare function html(
-	tagName: string,
-	attributes?: { [key: string]: any },
-	...children: Array<HTMLElement | string>
-): HTMLElement;
-
 declare var gBrowserInit: any;
 declare var WindowIsClosing: any;
 declare var StatusPanel: any;
