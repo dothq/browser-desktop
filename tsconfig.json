@@ -8,5 +8,6 @@
 		"jsxFactory": "html",
 		"jsxFragmentFactory": "Fragment",
 		"allowJs": true
-	}
+	},
+	"exclude": ["**/app/profile/dot.js", "**/locales/**/*", "**/*.sys.mjs"]
 }

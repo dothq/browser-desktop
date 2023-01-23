@@ -7,3 +7,4 @@ package:
 
 recurse_compile:
 	$(topsrcdir)/mach npm install --prefix=$(topsrcdir)/dot
+	$(topsrcdir)/mach node $(topsrcdir)/dot/build/scripts/typecheck.js
