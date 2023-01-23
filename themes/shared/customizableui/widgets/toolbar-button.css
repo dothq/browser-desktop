@@ -22,7 +22,7 @@
 }
 
 .toolbarbutton-1[display="icons"] .toolbarbutton-icon,
-.toolbarbutton-1[display="icons_and_text"] .toolbarbutton-icon {
+.toolbarbutton-1[display="icons_beside_text"] .toolbarbutton-icon {
     display: flex;
 
     width: 16px;
