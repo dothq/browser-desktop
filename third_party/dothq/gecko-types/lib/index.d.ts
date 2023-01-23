@@ -17,6 +17,7 @@ export * from "./FrameLoader";
 export * from "./JSActor";
 export * from "./JSWindowActorChild";
 export * from "./JSWindowActorParent";
+export * from "./Log";
 export * from "./MessageManager";
 export * from "./nsIAppWindow";
 export * from "./nsIChannel";

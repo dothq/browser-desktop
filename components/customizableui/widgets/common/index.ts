@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomizableUIComponentBase } from "../../CustomizableUIComponent.js";
-import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
-import { applyWidgetConfiguration, CustomizableUIWidgetConfiguration } from "../index.js";
+import { CustomizableUIComponentBase } from "../../CustomizableUIComponent";
+import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets";
+import { applyWidgetConfiguration, CustomizableUIWidgetConfiguration } from "../index";
 
 const generateWidgetID = () => `widget-${generateID(4)}`;
 

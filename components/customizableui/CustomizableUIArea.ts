@@ -2,8 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomizableUIComponentBase } from "./CustomizableUIComponent.js";
-import { CustomizableUIPlacement } from "./CustomizableUIPlacement.js";
+import { logger } from "./CustomizableUI";
+import { CustomizableUIComponentBase } from "./CustomizableUIComponent";
+import { CustomizableUIPlacement } from "./CustomizableUIPlacement";
+import { insertElementAtIndex } from "./CustomizableUIUtils";
 
 export enum CustomizableUIAreaType {
 	Panel = "panel"
@@ -205,17 +207,17 @@ export class Area extends CustomizableUIComponentBase<CustomizableUIArea> {
 	}
 
 	public render() {
-		const placements = window.DotCustomizableUI.getPlacementsByAreaID(this.areaId);
+		const placements = this._cui.getPlacementsByAreaID(this.areaId);
 
 		const children = [];
 
-		console.log(`Rendering widgets inside ${this.areaId}.`);
+		logger.debug(`Rendering widgets inside ${this.areaId}.`);
 
 		if (placements && placements.length) {
 			for (const [placementID, placementProperties] of placements) {
-				console.log(placementID, placementProperties);
+				logger.debug(placementID, placementProperties);
 
-				const widgetEl = window.DotCustomizableUI.getWidgetElementById(placementID);
+				const widgetEl = this._cui.getWidgetElementById(placementID);
 
 				if (placementProperties) widgetEl.configure(placementProperties);
 
@@ -227,8 +229,23 @@ export class Area extends CustomizableUIComponentBase<CustomizableUIArea> {
 	}
 
 	public internalRender(markup: HTMLElement) {
-		this.replaceChildren();
-		this.appendChild(markup);
+		// Removes all nodes that exist in Area but
+		// no longer exist in freshly rendered Area
+		this.childNodes.forEach((node) => {
+			if (!markup.contains(node)) {
+				this.removeChild(node);
+			}
+		});
+
+		// Adds all nodes that exist in freshly rendered
+		// Area but don't in Area
+		markup.childNodes.forEach((node, index) => {
+			// 0     1      **2      3
+			// back  back   reload   forward
+			if (!this.contains(node)) {
+				insertElementAtIndex(node as HTMLElement, index, this);
+			}
+		});
 	}
 }
 

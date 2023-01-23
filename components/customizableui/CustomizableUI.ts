@@ -2,31 +2,32 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { AppConstants } from "../../third_party/dothq/gecko-types/lib/AppConstants.js";
+import { AppConstants } from "../../third_party/dothq/gecko-types/lib/AppConstants";
+import { Log } from "../../third_party/dothq/gecko-types/lib/Log";
 import {
 	Area,
 	CustomizableUIArea,
 	CustomizableUIAreaOrientation,
 	CustomizableUIAreaType,
 	CustomizableUIContextType
-} from "./CustomizableUIArea.js";
-import { CustomizableUISerialisedConfiguration } from "./CustomizableUIConfig.js";
+} from "./CustomizableUIArea";
+import { CustomizableUISerialisedConfiguration } from "./CustomizableUIConfig";
 import {
 	CustomizableUIPlacement,
 	CustomizableUIPlacementProperties
-} from "./CustomizableUIPlacement.js";
-import { insertElementAtIndex } from "./CustomizableUIUtils.js";
-import { CustomizableUIWidgetSource } from "./CustomizableUIWidgets.js";
-import Widget from "./widgets/common/index.js";
-import { CustomizableWidgets } from "./widgets/index.js";
+} from "./CustomizableUIPlacement";
+import { insertElementAtIndex } from "./CustomizableUIUtils";
+import { CustomizableUIWidgetSource } from "./CustomizableUIWidgets";
+import Widget from "./widgets/common/index";
+import { CustomizableWidgets } from "./widgets/index";
 
 const { AppConstants } = ChromeUtils.importESModule<AppConstants>(
 	"resource://gre/modules/AppConstants.sys.mjs"
 );
 
-const { EventEmitter } = ChromeUtils.importESModule<any>(
-	"resource://gre/modules/EventEmitter.sys.mjs"
-);
+const { Log } = ChromeUtils.importESModule<Log>("resource://gre/modules/Log.sys.mjs");
+
+export const logger = Log.repository.getLogger("Dot.CustomizableUI");
 
 export interface CustomizableUIBaseEntity {
 	/**
@@ -158,7 +159,7 @@ class _CustomizableUI {
 	public initialize() {
 		const d = Date.now();
 
-		console.debug("Initializing...");
+		logger.debug("Initializing...");
 
 		this.loadSavedState();
 		this.defineBuiltInWidgets();
@@ -196,7 +197,7 @@ class _CustomizableUI {
 		// default areas to ensure there aren't any DOM errors
 		this.hydrateSavedState();
 
-		console.log(`Initialised CustomizableUI in ${Date.now() - d}ms.`);
+		logger.info(`Initialised CustomizableUI in ${Date.now() - d}ms.`);
 	}
 
 	/**
@@ -209,7 +210,7 @@ class _CustomizableUI {
 	 */
 	private defineBuiltInWidgets() {
 		for (const widgetDefinition of CustomizableWidgets) {
-			console.log(widgetDefinition);
+			logger.debug("Defining built in widget", widgetDefinition);
 
 			this.createBuiltinWidget(widgetDefinition);
 		}
@@ -221,11 +222,11 @@ class _CustomizableUI {
 	public createBuiltinWidget(data: Widget) {
 		let widget = this.normalizeWidget(data, this.SOURCE_BUILTIN);
 		if (!widget) {
-			console.error("Error creating built-in widget:", data.id);
+			logger.error("Error creating built-in widget:", data.id);
 			return;
 		}
 
-		console.debug("Creating built-in widget with id:", data.id);
+		logger.debug("Creating built-in widget with id:", data.id);
 		this.widgetsElMap.set(widget.id, widget);
 	}
 
@@ -235,11 +236,11 @@ class _CustomizableUI {
 	public createWidget(data: Widget) {
 		let widget = this.normalizeWidget(data, this.SOURCE_EXTERNAL);
 		if (!widget) {
-			console.error("Error creating widget:", data.id);
+			logger.error("Error creating widget:", data.id);
 			return;
 		}
 
-		console.debug("Creating widget with id:", data.id);
+		logger.debug("Creating widget with id:", data.id);
 		this.widgetsElMap.set(widget.id, widget);
 	}
 
@@ -251,7 +252,7 @@ class _CustomizableUI {
 		source: CustomizableUIWidgetSource
 	): Widget | null {
 		const throwError = (...msg: any[]) => {
-			console.error(...msg);
+			logger.error("Error in normalizeWidget", ...msg);
 			return null;
 		};
 
@@ -267,12 +268,12 @@ class _CustomizableUI {
 	 */
 	public registerArea(id: string, properties: Omit<CustomizableUIArea, "id">) {
 		if (typeof id != "string" || !/^[a-z0-9-_]{1,}$/i.test(id)) {
-			console.error("Area has illegal ID of", id);
+			logger.error("Area has illegal ID of", id);
 			return null;
 		}
 
 		if ((properties as any).id) {
-			console.error("id property in area cannot be manually changed.");
+			logger.error("id property in area cannot be manually changed.");
 			return null;
 		}
 
@@ -281,24 +282,24 @@ class _CustomizableUI {
 			if (part == "root") continue;
 
 			if (!this.areas.has(part)) {
-				console.error(`Registered area ${id} tried to be child of unknown area ID ${part}`);
+				logger.error(`Registered area ${id} tried to be child of unknown area ID ${part}`);
 				return null;
 			}
 		}
 
 		if (this.areas.get(id)) {
-			console.error(`Area ${id} already exists.`);
+			logger.error(`Area ${id} already exists.`);
 			return null;
 		}
 
 		if (id == "root" && properties.context !== CustomizableUIContextType.Root) {
-			console.error(`Area ${id} cannot become root.`);
+			logger.error(`Area ${id} cannot become root.`);
 			return null;
 		}
 
 		// Check if type is not set
 		if (!properties.type || !Object.values(CustomizableUIAreaType).includes(properties.type)) {
-			console.error(
+			logger.error(
 				`Area ${id} got illegal type property. Type: ${
 					properties.type
 				}. Allowed values: ${Object.values(CustomizableUIAreaType)}`
@@ -311,7 +312,7 @@ class _CustomizableUI {
 			!properties.context ||
 			!Object.values(CustomizableUIContextType).includes(properties.context)
 		) {
-			console.error(
+			logger.error(
 				`Area ${id} got illegal context property. Context: ${
 					properties.context
 				}. Allowed values: ${Object.values(CustomizableUIContextType)}`
@@ -321,7 +322,7 @@ class _CustomizableUI {
 
 		// Check if both width and height are undefined
 		if (!properties.width && !properties.height) {
-			console.error(
+			logger.error(
 				`Area ${id} needs both a width and height property in order to be registered.`
 			);
 			return null;
@@ -331,14 +332,14 @@ class _CustomizableUI {
 
 		if (typeof properties.width == "string") {
 			if (!allowedBoundValues.includes(properties.width)) {
-				console.error(
+				logger.error(
 					`Area ${id} took an illegal value for width. Width: ${properties.width}. Allowed values: ${allowedBoundValues}`
 				);
 				return null;
 			}
 		} else if (typeof properties.width == "number") {
 			if (!Number.isFinite(properties.width) || properties.width < 0) {
-				console.error(
+				logger.error(
 					`Area ${id} took an illegal value for width. Width: ${properties.width}.`
 				);
 				return null;
@@ -347,14 +348,14 @@ class _CustomizableUI {
 
 		if (typeof properties.height == "string") {
 			if (!allowedBoundValues.includes(properties.height)) {
-				console.error(
+				logger.error(
 					`Area ${id} took an illegal value for height. Height: ${properties.height}. Allowed values: ${allowedBoundValues}`
 				);
 				return null;
 			}
 		} else if (typeof properties.height == "number") {
 			if (!Number.isFinite(properties.height) || properties.height < 0) {
-				console.error(
+				logger.error(
 					`Area ${id} took an illegal value for height. Height: ${properties.height}.`
 				);
 				return null;
@@ -373,7 +374,7 @@ class _CustomizableUI {
 			properties.defaultPlacements || this.savedState.placements[id] || []
 		);
 
-		console.log(properties);
+		logger.debug("Registered area with properties", properties);
 
 		this.areasElMap.set(id, new Area(properties));
 
@@ -415,16 +416,16 @@ class _CustomizableUI {
 	 */
 	public renderArea(id: string, parentNode: HTMLElement) {
 		if (!this.areas.has(id)) {
-			console.error(`Area ${id} does not exist.`);
+			logger.error(`Area ${id} does not exist.`);
 		}
 
-		console.debug(`Rendering area ${id}...`);
+		logger.debug(`Rendering area ${id}...`);
 
 		const node = this.areasElMap.get(id);
 		const index =
 			id == "root" ? 0 : Array.from(this.areasElMap.keys()).findIndex((i) => i == id);
 
-		console.debug(node, parentNode);
+		logger.debug("Node data", node, parentNode);
 
 		this.insertElementAtIndex(node, index, parentNode);
 	}
@@ -547,9 +548,9 @@ class _CustomizableUI {
 			}
 		});
 
-		console.debug("Saving state.");
+		logger.debug("Saving state.");
 		const serialized = JSON.stringify(state, this.serializerHelper, 4);
-		console.debug("State saved as: " + serialized);
+		logger.debug("State saved as: " + serialized);
 
 		Services.prefs.setStringPref("dot.uiCustomization.state", serialized);
 	}
@@ -589,7 +590,7 @@ class _CustomizableUI {
 			return this.loadSavedState();
 		}
 
-		console.debug("Loading saved CustomizableUI state.");
+		logger.debug("Loading saved CustomizableUI state.");
 
 		try {
 			this.savedState = JSON.parse(state);
@@ -602,12 +603,12 @@ class _CustomizableUI {
 			Services.prefs.setStringPref("dot.uiCustomization.state", "");
 
 			this.savedState = {};
-			console.debug("Error loading saved UI customization state, falling back to defaults.");
+			logger.debug("Error loading saved UI customization state, falling back to defaults.");
 
 			/* @todo: create a default layout */
 		}
 
-		console.debug("Loaded state.", this.savedState);
+		logger.debug("Loaded state.", this.savedState);
 
 		if (!("placements" in this.savedState)) {
 			this.savedState.placements = {};
@@ -622,7 +623,7 @@ class _CustomizableUI {
 		}
 
 		for (const [areaId, placements] of Object.entries(this.savedState.placements)) {
-			console.log("AT LOAD", areaId, placements);
+			logger.debug("At load", areaId, placements);
 
 			this.placements.set(areaId, placements);
 		}
@@ -656,7 +657,7 @@ class _CustomizableUI {
 				this.areas.delete(id);
 				this.placements.delete(id);
 
-				console.debug("Error locating saved area with ID", id);
+				logger.error("Error locating saved area with ID", id);
 
 				this.saveState();
 				return null;
@@ -666,4 +667,3 @@ class _CustomizableUI {
 }
 
 export const DotCustomizableUI = new _CustomizableUI();
-// window.DotCustomizableUI = DotCustomizableUI;

@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomizableUIArea } from "./CustomizableUIArea.js";
-import { CustomizableUIPlacement } from "./CustomizableUIPlacement.js";
+import { CustomizableUIArea } from "./CustomizableUIArea";
+import { CustomizableUIPlacement } from "./CustomizableUIPlacement";
 
 export interface CustomizableUISerialisedConfiguration {
 	placements: Record<string, CustomizableUIPlacement[]>;

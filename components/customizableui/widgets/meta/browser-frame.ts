@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
-import Widget from "../common/index.js";
-import { applyConfig } from "../index.js";
+import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets";
+import Widget from "../common/index";
+import { applyConfig } from "../index";
 
 class BrowserFrameWidget extends Widget {
 	public rendered: boolean = false;

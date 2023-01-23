@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { logger } from "./CustomizableUI";
+
 export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 	/**
 	 * Handle the Web Components connectedCallback
@@ -10,6 +12,8 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 		/* CustomizableUIComponentBase.render would need to exist in any child components that inherit this */
 		if ((this as any).render) {
 			const markup = (this as any).render();
+
+			if (!markup) return;
 
 			if (
 				markup instanceof HTMLElement ||
@@ -62,30 +66,48 @@ export class CustomizableUIComponentBase<T = any> extends MozHTMLElement {
 	}
 
 	/**
-	 * This can just call connectedCallback again as we have a check
-	 * to update the child rather than readding the child in the DOM.
+	 * Forces the component to be rerendered
 	 */
-	public attributeChangedCallback() {
-		console.debug(`Rerendering ${this.constructor.name}#${this.id}.`);
+	public rerender() {
+		logger.debug(`Rerendering ${this.constructor.name}#${this.id}.`);
 
 		this.connectedCallback();
 	}
 
+	/**
+	 * This can just call connectedCallback again as we have a check
+	 * to update the child rather than readding the child in the DOM.
+	 */
+	public attributeChangedCallback() {
+		this.rerender();
+	}
+
+	/**
+	 * Updates the props in the component from a partial object
+	 * of components
+	 */
 	public recalculateProps(props: Partial<T>) {
 		for (const kv of Object.entries(props)) {
 			const key = kv[0] as keyof T;
 			const value = kv[1] as any;
 
-			console.log(key, value);
+			logger.debug("recalculateProps", key, value);
 
 			(this as any)[key] = value;
 		}
 	}
 
+	/**
+	 * Used internally in CustomizableUI to get back to parent
+	 */
+	public get _cui() {
+		return window.DotCustomizableUI;
+	}
+
 	public constructor(props: Partial<T>) {
 		super();
 
-		console.log(props);
+		logger.debug("Component props", props);
 
 		this.recalculateProps(props);
 	}

@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets.js";
-import { applyConfig, CustomizableUIWidgetProps } from "../index.js";
-import Widget from "./index.js";
+import { CustomizableUIWidgetDisplay } from "../../CustomizableUIWidgets";
+import { applyConfig, CustomizableUIWidgetProps } from "../index";
+import Widget from "./index";
 
 class ToolbarButtonLabel extends MozHTMLElement {
 	public get value() {

@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { CustomizableUIWidgetConfigurationTypes } from "../CustomizableUIWidgets.js";
-import Widget from "./common/index.js";
-import BrowserFrameWidget from "./meta/browser-frame.js";
-import BackButtonWidget from "./navigation/back-button.js";
+import { CustomizableUIWidgetConfigurationTypes } from "../CustomizableUIWidgets";
+import Widget from "./common/index";
+import BrowserFrameWidget from "./meta/browser-frame";
+import BackButtonWidget from "./navigation/back-button";
 
 export type CustomizableUIWidgetProps<T> = Partial<Widget> & {
 	configurableProps?: CustomizableUIWidgetConfiguration;

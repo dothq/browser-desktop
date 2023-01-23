@@ -12,5 +12,6 @@ TypedModules(
     "CustomizableUIComponent.ts", 
     "CustomizableUIConfig.ts",
     "CustomizableUIPlacement.ts",
+    "CustomizableUIUtils.ts",
     "CustomizableUIWidgets.ts"
 )
