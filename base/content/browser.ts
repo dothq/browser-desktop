@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Setup the events
-import "resource://dot/base/content/browser-init.js";
+import "./browser-init";
 
 // Component declarations
-import "resource://dot/components/browser-element/content/StatusPanel.js";
-import "resource://dot/components/panel/Panel.js";
+import "../../components/browser-element/content/StatusPanel";
+import "../../components/panel/Panel";
