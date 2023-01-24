@@ -99,6 +99,16 @@ You can now start your IDE or editor and move onto the build step.
 
 ## Building the browser
 
+### Installing mach commands
+
+To continue with the next few steps, **you will need** to run the install mach commands script to add some Dot Browser specific tools to the Mozilla build tool.
+
+Assuming you are in the `dot` directory, run the following Python script:
+
+```sh
+./scripts/install_mach_commands.py
+```
+
 ### Importing patches
 
 In order to build Dot Browser correctly, you will need to import a series of patches into Firefox.
