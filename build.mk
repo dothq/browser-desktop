@@ -5,6 +5,9 @@
 package:
 	@$(MAKE) -C dot/installer
 
+recurse_pre-export:
+	$(topsrcdir)/mach python $(topsrcdir)/dot/scripts/sync_integrity.py
+
 recurse_compile:
 	$(topsrcdir)/mach npm install --prefix=$(topsrcdir)/dot
 	$(topsrcdir)/mach node $(topsrcdir)/dot/build/scripts/typecheck.js

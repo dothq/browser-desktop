@@ -9,7 +9,8 @@
 		"*mozconfig*": "makefile",
 		"*components.conf*": "python",
 		"*.webidl": "idl",
-		"*.svg": "html"
+		"*.svg": "html",
+		"*REVISION": "plaintext"
 	},
 	"files.eol": "\n",
 	"files.watcherExclude": {
