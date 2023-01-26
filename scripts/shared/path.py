@@ -12,6 +12,8 @@ def get_topsrcdir():
 
     if dir_name == "dot":
         topsrcdir = os.path.abspath("..")
+    elif dir_name.startswith("obj-"):
+        topsrcdir = os.path.abspath("..")
     else:
         if (
             os.path.isfile(os.path.join(os.getcwd(), "moz.configure")) and 
