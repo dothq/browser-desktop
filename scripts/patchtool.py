@@ -35,14 +35,52 @@ HELP_COMMAND = f"""Usage: {sys.argv[0]} <command>
     edit <patch>:             Manually edit a patch's contents
 """
 
+def sort_patches(el):
+    num = el.split("-")[0].replace("!", "")
+    return int(num)
+
+patch_args = [
+    "--3way",
+    "--ignore-whitespace",
+    "--ignore-space-change"
+]
+
+def revert_removed_patches():
+    removed_patches = sorted(
+        [i for i in os.listdir(os.path.join(patches_dir, "removed")) if (i.endswith(".patch") and i.startswith("!"))], 
+        key=sort_patches
+    )
+
+    print(f"Reverting {len(removed_patches)} patches in patches/removed...")
+
+    for patch in removed_patches:
+        subprocess.run([
+            "git", 
+            "apply", 
+            "--reverse"
+        ] + patch_args + [os.path.join(patches_dir, "removed", patch)], 
+            cwd=topsrcdir, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.STDOUT
+        )
+
+        subprocess.run([
+            "git", 
+            "commit", 
+            "-m",
+            f'Revert "{patch}"'
+        ],
+            cwd=topsrcdir, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.STDOUT
+        )
+
 def import_patches():
-    def sort(el):
-        num = el.split("-")[0]
-        return int(num)
+    revert_removed_patches()
 
     patches = sorted(
         [i for i in os.listdir(patches_dir) if i.endswith(".patch")], 
-        key=sort
+        key=sort_patches
     )
 
     print(f"Importing {len(patches)} patches...")
@@ -62,11 +100,8 @@ def import_patches():
 
     process = subprocess.Popen([
         "git", 
-        "am", 
-        "--3way",
-        "--ignore-whitespace",
-        "--ignore-space-change"
-    ] + list(map(lambda x: os.path.join(patches_dir, x), patches)), 
+        "am"
+    ] + patch_args + list(map(lambda x: os.path.join(patches_dir, x), patches)), 
         cwd=topsrcdir,
         stdout=subprocess.PIPE, 
         stderr=subprocess.STDOUT

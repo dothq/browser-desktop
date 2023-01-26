@@ -16,6 +16,8 @@ BROWSER_CHROME_URL=chrome://dot/content/browser.xhtml
 MOZ_BRANDING_DIRECTORY=dot/branding/official
 MOZ_OFFICIAL_BRANDING_DIRECTORY=dot/branding/official
 
+MOZ_APP_UA_NAME=Firefox
+
 MOZ_APP_ID={818c990f-687c-498c-bc9a-a99d9729702a}
 
 MOZ_DEVTOOLS=all
