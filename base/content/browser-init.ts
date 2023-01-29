@@ -23,55 +23,38 @@ import { nsIXULBrowserWindow } from "./browser-window";
 	"chrome://browser/content/search/searchbar.js"
 ].map((resourceURI) => Services.scriptloader.loadSubScript(resourceURI, window));
 
-const importESModules = () => {
-	Object.entries({
-		DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs",
-		DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs"
-	}).map(([mod, resourceURI]) => (window[mod] = ChromeUtils.importESModule(resourceURI)[mod]));
+ChromeUtils.defineESModuleGetters(globalThis, {
+	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs"
+});
 
-	Object.entries({
-		DotCustomizableUI: "resource://dot/components/customizableui/CustomizableUI.js"
-	}).map(async ([mod, resourceURI]) => (window[mod] = (await import(resourceURI))[mod]));
-};
-
-/* Initialise FF events */
-window.addEventListener("load", gBrowserInit.onLoad.bind(gBrowserInit));
-window.addEventListener("unload", gBrowserInit.onUnload.bind(gBrowserInit));
-window.addEventListener("close", WindowIsClosing);
-
-window.addEventListener(
-	"MozBeforeInitialXULLayout",
-	(...args) => {
-		window.setToolbarVisibility = shimFunction("setToolbarVisibility");
-
-		gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit)(...args);
-
-		importESModules();
-	},
-	{ once: true }
+const { DotAppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/DotAppConstants.sys.mjs"
 );
 
-window.addEventListener(
-	"DOMContentLoaded",
-	(...args) => {
+const { DotCustomizableUI } = ChromeUtils.importESModule(
+	"resource://dot/components/customizableui/CustomizableUI.js"
+);
+
+class BrowserInit {
+	private _startTime = Date.now();
+
+	onBeforeInitialXULLayout() {
+		console.time("onBeforeInitialXULLayout");
+
+		window.setToolbarVisibility = shimFunction("setToolbarVisibility", () => {});
+
+		gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit)();
+
+		console.timeEnd("onBeforeInitialXULLayout");
+	}
+
+	onDOMContentLoaded() {
+		console.time("onDOMContentLoaded");
+
 		window.updateFxaToolbarMenu = shimFunction("updateFxaToolbarMenu", () => false);
 
-		gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)(...args);
+		gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)();
 
-		importESModules();
-	},
-	{
-		once: true
-	}
-);
-
-/* Initialise Dot Browser events */
-window.addEventListener("load", () => {
-	window.DotCustomizableUI.initialize();
-});
-window.addEventListener(
-	"DOMContentLoaded",
-	() => {
 		const XULBrowserWindow = new nsIXULBrowserWindow();
 
 		window.docShell.treeOwner
@@ -79,6 +62,31 @@ window.addEventListener(
 			.getInterface(Ci.nsIAppWindow).XULBrowserWindow = XULBrowserWindow;
 
 		window.XULBrowserWindow = XULBrowserWindow;
-	},
-	{ once: true }
-);
+
+		console.timeEnd("onDOMContentLoaded");
+	}
+
+	onLoad() {
+		console.time("onLoad");
+
+		gBrowserInit.onLoad.bind(gBrowserInit)();
+
+		console.timeEnd("onLoad");
+
+		console.debug(`dBrowserInit: ready in ${Date.now() - this._startTime}ms`);
+	}
+
+	onUnload() {
+		console.time("onUnload");
+
+		gBrowserInit.onUnload.bind(gBrowserInit)();
+
+		console.timeEnd("onUnload");
+	}
+
+	onWindowClosing() {
+		WindowIsClosing();
+	}
+}
+
+export const dBrowserInit = new BrowserInit();

@@ -9,6 +9,7 @@ include("../../build/node-templates.mozbuild")
 TypedModules(
     "browser-development-helpers.ts",
     "browser-init.ts",
+    "browser-loader.ts",
     "browser-utils.ts",
     "browser-window.ts",
     "browser.ts",

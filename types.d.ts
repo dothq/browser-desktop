@@ -34,5 +34,6 @@ declare global {
 			attributes?: { [key: string]: any },
 			...children: Array<HTMLElement | string>
 		) => HTMLElement;
+		loadESMSubScript: typeof loadESMSubScript;
 	}
 }

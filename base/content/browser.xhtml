@@ -49,26 +49,49 @@
 
 # Load and initialise the browser logic
         <script>
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", window);
+            (async function () {
+                Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", window);
+                Services.scriptloader.loadSubScript("resource://dot/base/content/browser-loader.js", window);
 
-            /* Eventually these will be shimmed */
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
-            Services.scriptloader.loadSubScript("chrome://global/content/globalOverlay.js", this);
-            Services.scriptloader.loadSubScript("chrome://global/content/editMenuOverlay.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/utilityOverlay.js", this);
-            if (AppConstants.platform == "macosx") {
-                Services.scriptloader.loadSubScript("chrome://global/content/macWindowMenu.js", this);
-            }
+                /* Eventually these will be shimmed */
+                Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
+                Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
+                Services.scriptloader.loadSubScript("chrome://global/content/globalOverlay.js", this);
+                Services.scriptloader.loadSubScript("chrome://global/content/editMenuOverlay.js", this);
+                Services.scriptloader.loadSubScript("chrome://browser/content/utilityOverlay.js", this);
+                if (AppConstants.platform == "macosx") {
+                    Services.scriptloader.loadSubScript("chrome://global/content/macWindowMenu.js", this);
+                }
 
-            if (!AppConstants.MOZILLA_OFFICIAL) {
-                Services.scriptloader.loadSubScript(
-                    "resource://dot/base/content/browser-development-helpers.js", 
-                    this
+                if (!AppConstants.MOZILLA_OFFICIAL) {
+                    Services.scriptloader.loadSubScript(
+                        "resource://dot/base/content/browser-development-helpers.js", 
+                        this
+                    );
+
+                    document.documentElement.removeAttribute("remotecontrol");
+                }
+
+                /* Load ES Modules */
+                await loadESMSubScript("resource://dot/base/content/browser-init.js", window);
+
+                /* Initialise events */
+                window.addEventListener("load", dBrowserInit.onLoad.bind(dBrowserInit));
+                window.addEventListener("unload", dBrowserInit.onUnload.bind(dBrowserInit));
+                window.addEventListener("close", dBrowserInit.onWindowClosing);
+
+                window.addEventListener(
+                    "MozBeforeInitialXULLayout", 
+                    dBrowserInit.onBeforeInitialXULLayout.bind(dBrowserInit),
+                    { once: true }
                 );
 
-                document.documentElement.removeAttribute("remotecontrol");
-            }
+                window.addEventListener(
+                    "DOMContentLoaded",
+                    dBrowserInit.onDOMContentLoaded.bind(dBrowserInit),
+                    { once: true }
+                );
+            })()
         </script>
         <script type="module" src="resource://dot/base/content/browser.js"></script>
     </head>

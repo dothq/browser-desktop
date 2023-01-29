@@ -20,9 +20,18 @@ let relativePathCheckerPlugin = {
     setup(build) {
         build.onResolve({ filter: /.*/ }, args => {
             if (args.importer) {
-                const hasExt = _path.parse(args.path).ext.length;
+                let path = args.path;
+                const ext = _path.parse(args.path).ext;
 
-                return { path: args.path + (hasExt ? "" : ".js"), external: true }
+                if (ext.length) {
+                    if (ext == ".ts") {
+                        path.replace(".ts", ".js");
+                    }
+                } else {
+                    path = path + ".js"
+                }
+
+                return { path, external: true }
             }
         })
     },
@@ -37,8 +46,9 @@ function transform(inPath, outPath) {
             format: "esm",
             treeShaking: false,
             platform: "browser",
-            target: "firefox90",
+            target: "firefox100",
             jsx: "transform",
+            sourcemap: "inline",
             plugins: [relativePathCheckerPlugin],
             outfile: outPath
         })
