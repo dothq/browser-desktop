@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class StatusPanelLabel extends MozHTMLElement {
+class DotStatusPanelLabel extends MozHTMLElement {
 	public get value() {
 		return this.textContent;
 	}
@@ -16,9 +16,9 @@ class StatusPanelLabel extends MozHTMLElement {
 	}
 }
 
-customElements.define("browser-statuspanel-label", StatusPanelLabel);
+customElements.define("browser-statuspanel-label", DotStatusPanelLabel);
 
-export default class StatusPanel extends MozHTMLElement {
+export default class DotStatusPanel extends MozHTMLElement {
 	public constructor() {
 		super();
 
@@ -28,4 +28,4 @@ export default class StatusPanel extends MozHTMLElement {
 	}
 }
 
-customElements.define("browser-statuspanel", StatusPanel);
+customElements.define("browser-statuspanel", DotStatusPanel);
