@@ -45,6 +45,7 @@ function transform(inPath, outPath) {
             bundle: true,
             format: "esm",
             treeShaking: false,
+            minify: false,
             platform: "browser",
             target: "firefox100",
             jsx: "transform",

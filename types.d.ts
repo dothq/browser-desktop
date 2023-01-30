@@ -2,12 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { dBrowser } from "./base/content/browser";
+import { dBrowserInit } from "./base/content/browser-init";
 import { nsIXULBrowserWindow } from "./base/content/browser-window";
-import { DotCustomizableUI } from "./components/customizableui/CustomizableUI";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
-
-declare module "resource://app/modules/DevToolsServer.sys.mjs" {}
 
 declare global {
 	/* Only available in secure contexts */
@@ -27,8 +26,8 @@ declare global {
 		updateFxaToolbarMenu: any;
 		SidebarUI: any;
 		LightweightThemeConsumer: any;
-		CustomizableUI: typeof DotCustomizableUI;
-		DotCustomizableUI: typeof DotCustomizableUI;
+		dBrowser: typeof dBrowser;
+		dBrowserInit: typeof dBrowserInit;
 		html: (
 			tagName: string,
 			attributes?: { [key: string]: any },

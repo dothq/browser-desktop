@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { dBrowser } from "./browser";
 import { nsIXULBrowserWindow } from "./browser-window";
 
 /* Firefox scripts */
@@ -27,34 +28,29 @@ ChromeUtils.defineESModuleGetters(globalThis, {
 	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs"
 });
 
-const { DotAppConstants } = ChromeUtils.importESModule(
-	"resource://gre/modules/DotAppConstants.sys.mjs"
-);
-
-const { DotCustomizableUI } = ChromeUtils.importESModule(
-	"resource://dot/components/customizableui/CustomizableUI.js"
-);
-
-class BrowserInit {
-	private _startTime = Date.now();
+export const dBrowserInit = {
+	_startTime: Date.now(),
 
 	onBeforeInitialXULLayout() {
 		console.time("onBeforeInitialXULLayout");
 
+		// Shim setToolbarVisibility as we aren't using trad FF toolbars
 		window.setToolbarVisibility = shimFunction("setToolbarVisibility", () => {});
 
 		gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit)();
 
 		console.timeEnd("onBeforeInitialXULLayout");
-	}
+	},
 
 	onDOMContentLoaded() {
 		console.time("onDOMContentLoaded");
 
+		// Shim updateFxaToolbarMenu as we aren't using trad FF toolbars/menus
 		window.updateFxaToolbarMenu = shimFunction("updateFxaToolbarMenu", () => false);
 
 		gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)();
 
+		// Creates an nsIXULBrowserWindow instance to handle browser communication and events
 		const XULBrowserWindow = new nsIXULBrowserWindow();
 
 		window.docShell.treeOwner
@@ -63,8 +59,12 @@ class BrowserInit {
 
 		window.XULBrowserWindow = XULBrowserWindow;
 
+		// Exposes dBrowser to global for debugging
+		globalThis.dBrowser = dBrowser;
+		dBrowser.init();
+
 		console.timeEnd("onDOMContentLoaded");
-	}
+	},
 
 	onLoad() {
 		console.time("onLoad");
@@ -74,7 +74,7 @@ class BrowserInit {
 		console.timeEnd("onLoad");
 
 		console.debug(`dBrowserInit: ready in ${Date.now() - this._startTime}ms`);
-	}
+	},
 
 	onUnload() {
 		console.time("onUnload");
@@ -82,11 +82,27 @@ class BrowserInit {
 		gBrowserInit.onUnload.bind(gBrowserInit)();
 
 		console.timeEnd("onUnload");
-	}
+	},
 
-	onWindowClosing() {
-		WindowIsClosing();
+	onWindowClosing(event: CloseEvent) {
+		// Determines whether the browser is allowed to close
+		return WindowIsClosing(event);
 	}
-}
+};
 
-export const dBrowserInit = new BrowserInit();
+globalThis.dBrowserInit = dBrowserInit; // Exposes dBrowserInit to global for debugging
+
+/* Initialise events */
+window.addEventListener("load", dBrowserInit.onLoad.bind(dBrowserInit));
+window.addEventListener("unload", dBrowserInit.onUnload.bind(dBrowserInit));
+window.addEventListener("close", dBrowserInit.onWindowClosing);
+
+window.addEventListener(
+	"MozBeforeInitialXULLayout",
+	dBrowserInit.onBeforeInitialXULLayout.bind(dBrowserInit),
+	{ once: true }
+);
+
+window.addEventListener("DOMContentLoaded", dBrowserInit.onDOMContentLoaded.bind(dBrowserInit), {
+	once: true
+});

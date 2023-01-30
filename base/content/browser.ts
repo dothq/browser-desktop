@@ -2,6 +2,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { DotCustomizableUI } from "../../components/customizableui/CustomizableUI";
+
 // Component declarations
 import "../../components/browser-element/content/StatusPanel";
 import "../../components/panel/Panel";
+
+ChromeUtils.defineESModuleGetters(globalThis, {
+	DotAppConstants: "resource://app/modules/DotAppConstants.sys.mjs"
+});
+
+export const dBrowser = {
+	_done: false,
+
+	init() {
+		if (this._done) {
+			throw new Error("Browser cannot be initialized twice!");
+		}
+
+		DotCustomizableUI.initialize();
+
+		this._done = true;
+	}
+};

@@ -25,7 +25,6 @@
 	"javascript.updateImportsOnFileMove.enabled": "always",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.organizeImports": true,
 		"source.fixAll": true
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
