@@ -13,3 +13,4 @@ declare var gBrowserInit: any;
 declare var WindowIsClosing: any;
 declare var StatusPanel: any;
 declare var LinkTargetDisplay: any;
+declare var dump: (message: string) => void;
