@@ -32,17 +32,21 @@ export const dBrowserInit = {
 	_startTime: Date.now(),
 
 	onBeforeInitialXULLayout() {
-		console.time("onBeforeInitialXULLayout");
+		// No point logging anything here as console logs won't
+		// show up in stdout or DevTools
 
 		// Shim setToolbarVisibility as we aren't using trad FF toolbars
-		window.setToolbarVisibility = shimFunction("setToolbarVisibility", () => {});
+		window.setToolbarVisibility = shimFunction("setToolbarVisibility");
 
 		gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit)();
-
-		console.timeEnd("onBeforeInitialXULLayout");
 	},
 
 	onDOMContentLoaded() {
+		// Create the group inside onDOMContentLoaded
+		// as onBeforeInitialXULLayout console messages
+		// aren't shown yet
+		console.groupCollapsed("dBrowserInit");
+
 		console.time("onDOMContentLoaded");
 
 		// Shim updateFxaToolbarMenu as we aren't using trad FF toolbars/menus
@@ -74,6 +78,7 @@ export const dBrowserInit = {
 		console.timeEnd("onLoad");
 
 		console.debug(`dBrowserInit: ready in ${Date.now() - this._startTime}ms`);
+		console.groupEnd();
 	},
 
 	onUnload() {
