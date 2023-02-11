@@ -2,6 +2,10 @@
 
 The Dot Browser for Desktop source code, available on Windows, macOS and Linux.
 
+[![Upstream status](https://db-ff-status-badge.vercel.app/api/status)](https://github.com/dothq/gecko-dev/compare/release...mozilla:gecko-dev:release)
+[![dothq/gecko-dev version](https://db-ff-status-badge.vercel.app/api/dothq)](https://github.com/dothq/gecko-dev)
+[![mozilla/gecko-dev version](https://db-ff-status-badge.vercel.app/api/mozilla)](https://github.com/mozilla/gecko-dev/tree/release)
+
 ## Contributing to Dot Browser
 
 For information on how to build Dot Browser from source and contribute, refer to our documentation on [Contributing to Dot Browser](https://developer.dothq.org/index.html).
