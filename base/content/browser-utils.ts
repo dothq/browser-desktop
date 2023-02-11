@@ -31,18 +31,22 @@ function html(
 	return element;
 }
 
-function shim(name: string) {
+function shim(name: string, props?: any) {
 	return new Proxy(
 		{},
 		{
 			get(target, property) {
 				console.debug(`${name}: Tried accessing getter '${property.toString()}'.`);
 
-				return function () {
-					console.debug(`${name}: Tried calling getter '${property.toString()}'.`);
+				return props && props[property.toString()]
+					? props[property.toString()]()
+					: function () {
+							console.debug(
+								`${name}: Tried calling getter '${property.toString()}'.`
+							);
 
-					return null;
-				};
+							return null;
+					  };
 			},
 			set(target, property, newValue) {
 				console.debug(
