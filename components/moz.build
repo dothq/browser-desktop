@@ -20,8 +20,8 @@ EXTRA_COMPONENTS += [
 ]
 
 EXTRA_JS_MODULES += [
-    "/browser/components/BrowserContentHandler.jsm",
-    "/browser/components/BrowserGlue.jsm",
+    "/browser/components/BrowserContentHandler.sys.mjs",
+    "/browser/components/BrowserGlue.sys.mjs",
     "/browser/components/distribution.js",
     "DotBrowserWindow.sys.mjs",
     "DotGlue.jsm",
