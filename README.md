@@ -12,6 +12,7 @@ For information on how to build Dot Browser from source and contribute, refer to
 -   [Documentation](https://developer.dothq.org)
 -   [Issues](https://github.com/dothq/browser-desktop/issues)
 -   [Releases](https://github.com/dothq/browser-desktop/releases/latest)
+-   [Mirror](https://gitlab.com/dothq/browser-desktop)
 
 ## Community
 
