@@ -7,10 +7,12 @@
 include("../../build/node-templates.mozbuild")
 
 TypedModules(
-    "browser-development-helpers.ts",
     "browser-init.ts",
-    "browser-loader.ts",
     "browser-utils.ts",
     "browser-window.ts",
     "browser.ts",
 )
+
+FINAL_TARGET_FILES.chrome.dot.modules.dot.base.content = [
+    "browser-development-helpers.js"
+]
