@@ -18,5 +18,10 @@ export interface Browser {
 	messageManager: MessageManager;
 	ownerDocument?: Document;
 
-	tabs: HTMLElement[];
+	tabs: BrowserTab[];
+
+	init(): void;
+
+	getBrowserForTab: (tab: BrowserTab) => ChromeBrowser | null;
+	_tabForBrowser: Map<ChromeBrowser, BrowserTab>;
 }

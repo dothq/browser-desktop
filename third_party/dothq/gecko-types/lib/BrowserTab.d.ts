@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { Browser } from "./Browser";
+import { ChromeBrowser } from "./ChromeBrowser";
 
-export interface BrowserTab {
-    linkedBrowser: Browser;
+export interface BrowserTab extends HTMLElement {
+	linkedBrowser: ChromeBrowser;
 }
