@@ -43,7 +43,9 @@ function transform(inPath, outPath) {
         out = build({
             entryPoints: [inPath],
             bundle: true,
-            format: "esm",
+            // Using CJS as Mozilla doesn't support ESM in 
+            // subscripts and then making our own wrapper of require
+            format: "cjs",
             treeShaking: false,
             minify: false,
             platform: "browser",
@@ -51,6 +53,18 @@ function transform(inPath, outPath) {
             jsx: "transform",
             sourcemap: "inline",
             plugins: [relativePathCheckerPlugin],
+            banner: {
+                js: fs.readFileSync(
+                    _path.resolve(__dirname, "inject-head.js"),
+                    "utf-8"
+                ).replace(
+                    /__ESM_DB_IMPORT_ROOT__/,
+                    JSON.stringify(`resource://${_path.parse(outPath.split("dot/modules/")[1]).dir}/`)
+                ),
+            },
+            footer: {
+                js: fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8"),
+            },
             outfile: outPath
         })
     } catch (err) {
