@@ -42,8 +42,47 @@
         <link rel="localization" href="dot/browser.ftl"/>
         <link rel="localization" href="browser/browserSets.ftl"/>
 
+        <link rel="localization" href="browser/search.ftl"/>
+        <link rel="localization" href="branding/brand.ftl"/>
+        <link rel="localization" href="browser/branding/sync-brand.ftl"/>
+        <link rel="localization" href="browser/branding/brandings.ftl"/>
+        <link rel="localization" href="toolkit/global/textActions.ftl"/>
+        <link rel="localization" href="browser/browser.ftl"/>
+        <link rel="localization" href="browser/browserContext.ftl"/>
+        <link rel="localization" href="browser/menubar.ftl"/>
+        <link rel="localization" href="browser/protectionsPanel.ftl"/>
+        <link rel="localization" href="browser/appmenu.ftl"/>
+        <link rel="localization" href="browser/panelUI.ftl"/>
+        <link rel="localization" href="preview/identityCredentialNotification.ftl"/>
+        <link rel="localization" href="preview/interventions.ftl"/>
+        <link rel="localization" href="browser/sidebarMenu.ftl"/>
+        <link rel="localization" href="browser/allTabsMenu.ftl"/>
+        <link rel="localization" href="browser/places.ftl"/>
+        <link rel="localization" href="toolkit/printing/printUI.ftl"/>
+        <link rel="localization" href="browser/tabbrowser.ftl"/>
+        <link rel="localization" href="preview/firefoxSuggest.ftl"/>
+        <link rel="localization" href="browser/toolbarContextMenu.ftl"/>
+        <link rel="localization" href="browser/screenshots.ftl"/>
+        <link rel="localization" href="browser/firefoxView.ftl"/>
+        <link rel="localization" href="browser/webrtcIndicator.ftl"/>
+        <link rel="localization" href="browser/originControls.ftl"/>
+        <link rel="localization" href="browser/unifiedExtensions.ftl"/>
+
         <title data-l10n-id="browser-main-window-title"></title>
 
+        <script>
+            // Important utilities/globals for browser
+            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", this);
+
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
+            Services.scriptloader.loadSubScript("chrome://global/content/globalOverlay.js", this);
+            Services.scriptloader.loadSubScript("chrome://global/content/editMenuOverlay.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/utilityOverlay.js", this);
+            if (AppConstants.platform == "macosx") {
+                Services.scriptloader.loadSubScript("chrome://global/content/macWindowMenu.js", this);
+            }
+        </script>
         <script>
             var { AppConstants } = ChromeUtils.importESModule(
                 "resource://gre/modules/AppConstants.sys.mjs"
@@ -59,21 +98,41 @@
                 document.documentElement.removeAttribute("remotecontrol");
             }
 
-            // Important utilities/globals for browser
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", this);
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-loader.js", this);
+            Services.scriptloader.loadSubScript("chrome://global/content/contentAreaUtils.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser-captivePortal.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser-pageActions.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser-sidebar.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser-tabsintitlebar.js", this);
 
-            // FF modules and scripts
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
-            Services.scriptloader.loadSubScript("chrome://global/content/globalOverlay.js", this);
-            Services.scriptloader.loadSubScript("chrome://global/content/editMenuOverlay.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/utilityOverlay.js", this);
-            if (AppConstants.platform == "macosx") {
-                Services.scriptloader.loadSubScript("chrome://global/content/macWindowMenu.js", this);
-            }
+            Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tab.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tabs.js", this);
+
+            Services.scriptloader.loadSubScript("chrome://browser/content/places/places-menupopup.js", this);
+
+            Services.scriptloader.loadSubScript(
+                "chrome://browser/content/search/autocomplete-popup.js",
+                this
+            );
+            Services.scriptloader.loadSubScript("chrome://browser/content/search/searchbar.js", this);
+
+            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
+
+            window.addEventListener(
+                "MozBeforeInitialXULLayout",
+                dBrowserInit.onBeforeInitialXULLayout.bind(dBrowserInit),
+                { once: true }
+            );
+
+            window.addEventListener("DOMContentLoaded", dBrowserInit.onDOMContentLoaded.bind(dBrowserInit), {
+                once: true
+            });
+
+            /* Initialise events */
+            window.addEventListener("load", dBrowserInit.onLoad.bind(dBrowserInit));
+            window.addEventListener("unload", dBrowserInit.onUnload.bind(dBrowserInit));
+            window.addEventListener("close", dBrowserInit.onWindowClosing);
         </script>
-        <script type="module" src="resource://dot/base/content/browser-init.js"></script>
     </head>
 
     <html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">

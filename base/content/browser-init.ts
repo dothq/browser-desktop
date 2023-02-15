@@ -2,57 +2,35 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { dBrowser } from "./browser";
+import { AppConstants } from "../../third_party/dothq/gecko-types/lib";
+import { _gBrowser } from "./browser";
 import { nsIXULBrowserWindow } from "./browser-window";
-
-/* Firefox scripts */
-[
-	"chrome://global/content/contentAreaUtils.js",
-
-	"chrome://browser/content/browser-captivePortal.js",
-	"chrome://browser/content/browser-pageActions.js",
-	"chrome://browser/content/browser-sidebar.js",
-	"chrome://browser/content/browser-tabsintitlebar.js",
-
-	"chrome://browser/content/tabbrowser.js",
-	"chrome://browser/content/tabbrowser-tab.js",
-	"chrome://browser/content/tabbrowser-tabs.js",
-
-	"chrome://browser/content/places/places-menupopup.js",
-
-	"chrome://browser/content/search/autocomplete-popup.js",
-	"chrome://browser/content/search/searchbar.js"
-].map((resourceURI) => Services.scriptloader.loadSubScript(resourceURI, window));
 
 ChromeUtils.defineESModuleGetters(globalThis, {
 	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs"
 });
 
-export const dBrowserInit = {
+var { AppConstants } = ChromeUtils.importESModule<AppConstants>(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
+
+var dBrowserInit = {
 	_startTime: Date.now(),
 
 	onBeforeInitialXULLayout() {
 		// No point logging anything here as console logs won't
 		// show up in stdout or DevTools
-
 		// Shim setToolbarVisibility as we aren't using trad FF toolbars
-		window.setToolbarVisibility = shimFunction("setToolbarVisibility");
+		globalThis.setToolbarVisibility = shimFunction("setToolbarVisibility");
 
 		gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit)();
 	},
 
 	onDOMContentLoaded() {
-		// Create the group inside onDOMContentLoaded
-		// as onBeforeInitialXULLayout console messages
-		// aren't shown yet
-		console.groupCollapsed("dBrowserInit");
-
 		console.time("onDOMContentLoaded");
 
-		// Shim updateFxaToolbarMenu as we aren't using trad FF toolbars/menus
-		window.updateFxaToolbarMenu = shimFunction("updateFxaToolbarMenu", () => false);
-
-		gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)();
+		// Shim updateFxaToolbarMenu as we aren't using traditional FF toolbars/menus
+		globalThis.updateFxaToolbarMenu = shimFunction("updateFxaToolbarMenu", () => false);
 
 		// Creates an nsIXULBrowserWindow instance to handle browser communication and events
 		const XULBrowserWindow = new nsIXULBrowserWindow();
@@ -60,12 +38,16 @@ export const dBrowserInit = {
 		window.docShell.treeOwner
 			.QueryInterface(Ci.nsIInterfaceRequestor)
 			.getInterface(Ci.nsIAppWindow).XULBrowserWindow = XULBrowserWindow;
+		globalThis.XULBrowserWindow = XULBrowserWindow;
 
-		window.XULBrowserWindow = XULBrowserWindow;
+		// todo: reimplement onDOMContentLoaded method
+		// gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)();
 
 		// Exposes dBrowser to global for debugging
-		globalThis.dBrowser = dBrowser;
-		dBrowser.init();
+		globalThis.gBrowser = _gBrowser;
+
+		// Initialise gBrowser
+		gBrowser.init();
 
 		console.timeEnd("onDOMContentLoaded");
 	},
@@ -78,7 +60,6 @@ export const dBrowserInit = {
 		console.timeEnd("onLoad");
 
 		console.debug(`dBrowserInit: ready in ${Date.now() - this._startTime}ms`);
-		console.groupEnd();
 	},
 
 	onUnload() {
@@ -96,18 +77,3 @@ export const dBrowserInit = {
 };
 
 globalThis.dBrowserInit = dBrowserInit; // Exposes dBrowserInit to global for debugging
-
-/* Initialise events */
-window.addEventListener("load", dBrowserInit.onLoad.bind(dBrowserInit));
-window.addEventListener("unload", dBrowserInit.onUnload.bind(dBrowserInit));
-window.addEventListener("close", dBrowserInit.onWindowClosing);
-
-window.addEventListener(
-	"MozBeforeInitialXULLayout",
-	dBrowserInit.onBeforeInitialXULLayout.bind(dBrowserInit),
-	{ once: true }
-);
-
-window.addEventListener("DOMContentLoaded", dBrowserInit.onDOMContentLoaded.bind(dBrowserInit), {
-	once: true
-});
