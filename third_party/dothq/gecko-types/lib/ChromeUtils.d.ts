@@ -11,10 +11,8 @@ export interface ChromeUtils {
 	 * @returns the module code's global object.
 	 *
 	 */
-	import: <T extends any>(
-		resourceURI: string
-	) => { [key: string]: T };
-	importESModule: <T extends any>(
+	import: <T = any>(resourceURI: string) => { [key: string]: T };
+	importESModule: <T = any>(
 		resourceURI: string
 	) => { [key: string]: T };
 	defineModuleGetter: (
