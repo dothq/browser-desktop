@@ -312,6 +312,14 @@ export class nsIXULBrowserWindow {
 		message: string,
 		totalProgress: number
 	) {
+		console.log(
+			"XULBrowserWindow.onUpdateCurrentBrowser",
+			stateFlags,
+			status,
+			message,
+			totalProgress
+		);
+
 		// Hide any tooltips that are visible
 		this.hideTooltip();
 
