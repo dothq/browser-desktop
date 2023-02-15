@@ -64,6 +64,15 @@ def dot_version(build_env, app_path):
 set_defconf("DOT_APP_VERSION", dot_version.version)
 set_defconf("DOT_APP_VERSION_DISPLAY", dot_version.version_display)
 
+with only_when(compile_environment):
+    @depends(target)
+    def default_user_appdir(target):
+        if target.kernel in ("WINNT", "Darwin"):
+            return "Dot HQ"
+        return ".dothq"
+
+    imply_option("--with-user-appdir", default_user_appdir, reason="Dot HQ")
+
 imply_option("MOZ_SERVICES_SYNC", True)
 imply_option("MOZ_TELEMETRY_REPORTING", False)
 imply_option("MOZ_NORMANDY", False)
