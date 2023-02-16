@@ -27,7 +27,7 @@ jobs:
               shell: bash
               run: |
                   if [ "$RUNNER_OS" == "Linux" ]; then
-                      apt-get install build-essential git curl python3 python3-dev python3-pip
+                      sudo apt-get install build-essential git curl python3 python3-dev python3-pip
                       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
                   else
                       echo "$RUNNER_OS not supported"
