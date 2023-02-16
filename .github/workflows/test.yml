@@ -34,6 +34,11 @@ jobs:
                       exit 1
                   fi
 
+            - name: Setup Git identity
+              run: |
+                  git config --global user.email "worker@dothq.org"
+                  git config --global user.name "Dot HQ"
+
             - name: Setup mach
               working-directory: gecko/dot
               run: |
