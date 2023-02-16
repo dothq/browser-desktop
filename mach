@@ -13,4 +13,6 @@ os.chdir("..")
 
 print(f"Executing mach from cwd {os.getcwd()}.")
 
-os.system(" ".join(sys.argv))
+sys.exit(
+    os.WEXITSTATUS(os.system(" ".join(sys.argv)))
+)

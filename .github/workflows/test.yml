@@ -50,15 +50,6 @@ jobs:
               working-directory: gecko/dot
               run: ./mach import-patches
 
-            - name: Assert mozconfig is setup
-              working-directory: gecko
-              shell: bash
-              run: |
-                  if !grep -q $topsrcdir/dot/config/mozconfigs/common mozconfig; then
-                    echo Assertion failed! mozconfig is not setup.
-                    exit 1
-                  fi
-
             - name: Build browser
               working-directory: gecko/dot
               run: ./mach build
