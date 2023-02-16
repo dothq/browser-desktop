@@ -11,7 +11,8 @@ DIRS += [
     "customizableui",
     "newtab",
     "panel",
-    "search"
+    "search",
+    "settings",
 ]
 
 EXTRA_COMPONENTS += [
