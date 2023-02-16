@@ -35,8 +35,7 @@ namespace dot {
             {
                 "home", 
                 "chrome://dot/content/newtab/newtab.html", 
-                nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-                    nsIAboutModule::ALLOW_SCRIPT | 
+                nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
             {
@@ -44,6 +43,19 @@ namespace dot {
                 "chrome://global/content/aboutRights.xhtml", 
                 nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
                     nsIAboutModule::ALLOW_SCRIPT | 
+                    nsIAboutModule::IS_SECURE_CHROME_UI
+            },
+            {
+                "preferences", 
+                "chrome://dot/content/settings/settings.html", 
+                nsIAboutModule::HIDE_FROM_ABOUTABOUT |
+                    nsIAboutModule::ALLOW_SCRIPT | 
+                    nsIAboutModule::IS_SECURE_CHROME_UI
+            },
+            {
+                "settings", 
+                "chrome://dot/content/settings/settings.html", 
+                nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
         };
