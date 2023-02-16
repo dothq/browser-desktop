@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { AppConstants } from "../../third_party/dothq/gecko-types/lib";
+import { AppConstants, nsIURI } from "../../third_party/dothq/gecko-types/lib";
 import { _gBrowser } from "./browser";
 import { nsIXULBrowserWindow } from "./browser-window";
 
@@ -13,6 +13,13 @@ ChromeUtils.defineESModuleGetters(globalThis, {
 var { AppConstants } = ChromeUtils.importESModule<AppConstants>(
 	"resource://gre/modules/AppConstants.sys.mjs"
 );
+
+const gPageIcons = {
+	"about:home": "chrome://dot/skin/home.svg",
+	"about:newtab": "chrome://dot/skin/home.svg",
+	"about:welcome": "chrome://dot/skin/home.svg",
+	"about:privatebrowsing": "chrome://browser/skin/privatebrowsing/favicon.svg"
+};
 
 var dBrowserInit = {
 	_startTime: Date.now(),
@@ -40,14 +47,31 @@ var dBrowserInit = {
 			.getInterface(Ci.nsIAppWindow).XULBrowserWindow = XULBrowserWindow;
 		globalThis.XULBrowserWindow = XULBrowserWindow;
 
-		// todo: reimplement onDOMContentLoaded method
-		// gBrowserInit.onDOMContentLoaded.bind(gBrowserInit)();
-
 		// Exposes dBrowser to global for debugging
 		globalThis.gBrowser = _gBrowser;
 
 		// Initialise gBrowser
 		gBrowser.init();
+
+		// Set favicons for special pages on boot to
+		// create the illusion of faster load.
+		gBrowserInit._callWithURIToLoad((uriToLoad: string) => {
+			let url: nsIURI;
+
+			try {
+				url = Services.io.newURI(uriToLoad);
+			} catch (e) {
+				return;
+			}
+
+			const nonQuery = url.prePath + url.filePath;
+			if (nonQuery in gPageIcons) {
+				gBrowser.setIcon(gBrowser.selectedTab, gPageIcons[nonQuery]);
+			}
+		});
+
+		gBrowserInit._setInitialFocus();
+		gBrowserInit.domContentLoaded = true;
 
 		console.timeEnd("onDOMContentLoaded");
 	},

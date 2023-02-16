@@ -24,4 +24,6 @@ export interface Browser {
 
 	getBrowserForTab: (tab: BrowserTab) => ChromeBrowser | null;
 	_tabForBrowser: Map<ChromeBrowser, BrowserTab>;
+
+	setIcon: (tab: BrowserTab, iconURL: string) => void;
 }
