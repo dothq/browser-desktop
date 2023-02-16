@@ -70,9 +70,8 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	min-width: 450px;
-	min-height: 200px;
-	overflow: clip;
+	min-height: 0;
+	min-width: 0;
 }
 
 #mount {
