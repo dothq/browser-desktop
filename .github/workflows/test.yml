@@ -16,6 +16,7 @@ jobs:
               with:
                   repository: dothq/gecko-dev
                   path: gecko
+                  fetch-depth: 0 # Get all history as we need to resolve patch conflicts
 
             - name: Checkout browser-desktop repo
               uses: actions/checkout@v3
