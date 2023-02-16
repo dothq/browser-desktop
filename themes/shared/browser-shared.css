@@ -76,17 +76,9 @@ body {
 }
 
 #mount {
-	display: flex;
+	display: none;
 	width: 100%;
 	height: 100%;
-}
-
-#ff-internals {
-	width: 0;
-	height: 0;
-	max-width: 0;
-	max-height: 0;
-	visibility: hidden;
 }
 
 a {
