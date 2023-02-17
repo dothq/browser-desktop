@@ -55,10 +55,6 @@ git clone https://github.com/dothq/gecko-dev
 
 This may take a while depending on the speed of your network connection.
 
-**_Note_** For faster clones append `--depth=5` to the command. This will only fetch the last 5 commits.
-
-For example: `git clone https://github.com/dothq/gecko-dev --depth=5`.
-
 Once cloned fully, enter the directory.
 
 ```sh
