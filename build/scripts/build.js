@@ -11,7 +11,7 @@
 
 "use strict";
 
-const { build } = require("esbuild");
+const esbuild = require("esbuild");
 const fs = require("fs");
 const _path = require("path");
 
@@ -40,7 +40,7 @@ let relativePathCheckerPlugin = {
 function transform(inPath, outPath) {
     let out;
     try {
-        out = build({
+        out = esbuild.build({
             entryPoints: [inPath],
             bundle: true,
             // Using CJS as Mozilla doesn't support ESM in 
@@ -54,16 +54,16 @@ function transform(inPath, outPath) {
             sourcemap: "inline",
             plugins: [relativePathCheckerPlugin],
             banner: {
-                js: fs.readFileSync(
+                js: esbuild.transformSync(fs.readFileSync(
                     _path.resolve(__dirname, "inject-head.js"),
                     "utf-8"
                 ).replace(
                     /__ESM_DB_IMPORT_ROOT__/,
                     JSON.stringify(`resource://${_path.parse(outPath.split("dot/modules/")[1]).dir}/`)
-                ),
+                )).code,
             },
             footer: {
-                js: fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8"),
+                js: esbuild.transformSync(fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8")).code,
             },
             outfile: outPath
         })
