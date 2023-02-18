@@ -6,11 +6,14 @@ const time = document.createElement("span");
 
 document.body.appendChild(time);
 
-setInterval(() => {
+const tick = () => {
 	const d = new Date();
 
 	time.textContent = `${d.getHours().toString().padStart(2, "0")}:${d
 		.getMinutes()
 		.toString()
 		.padStart(2, "0")}`;
-}, 1000);
+};
+
+tick();
+setInterval(() => tick(), 1000);
