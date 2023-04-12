@@ -24,15 +24,16 @@ jobs:
               with:
                   keywords: |
                       todo
+                      @todo
                       fixme
                       bug
                       xxx
                       hack
-                      note
                       optimize
                       optimise
                       review
                       refractor
+                  caseSensitive: false
                   excludePattern: "^(node_modules/)"
               env:
                   GITHUB_TOKEN: ${{ secrets.ROBOT_TOKEN }}
