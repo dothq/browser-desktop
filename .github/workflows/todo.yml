@@ -22,17 +22,17 @@ jobs:
             - name: Create issues from todos
               uses: derjuulsn/todo-issue@3c0b9bf8277455978dc4907155f430925e8607df
               with:
-                  keywords:
-                      - todo
-                      - fixme
-                      - bug
-                      - xxx
-                      - hack
-                      - note
-                      - optimize
-                      - optimise
-                      - review
-                      - refractor
+                  keywords: |
+                      todo
+                      fixme
+                      bug
+                      xxx
+                      hack
+                      note
+                      optimize
+                      optimise
+                      review
+                      refractor
                   autoAssign: true
                   excludePattern: "^(node_modules/)"
               env:
