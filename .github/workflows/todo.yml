@@ -1,0 +1,57 @@
+name: Create issues from todos
+
+on:
+    workflow_dispatch:
+        inputs:
+            importAll:
+                default: false
+                required: false
+                type: boolean
+                description: Only use if you know what you're doing! Checks the whole repository for todos and creates issues for them.
+    push:
+        branches: # do not set multiple branches, todos might be added and then get referenced by themselves in case of a merge
+            - nightly
+
+jobs:
+    todos:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Create issues from todos
+              uses: derjuulsn/todo-issue@3c0b9bf8277455978dc4907155f430925e8607df
+              with:
+                  keywords: '[
+                      "TODO",
+                      "todo",
+                      "@todo",
+                      "FIXME",
+                      "fixme",
+                      "@fixme",
+                      "BUG",
+                      "bug",
+                      "@bug",
+                      "XXX",
+                      "xxx",
+                      "@xxx",
+                      "HACK",
+                      "hack",
+                      "@hack",
+                      "NOTE",
+                      "note",
+                      "@note",
+                      "OPTIMIZE",
+                      "optimize",
+                      "@optimize",
+                      "OPTIMISE",
+                      "optimise",
+                      "@optimise",
+                      "REVIEW",
+                      "review",
+                      "@review"
+                      ]'
+                  autoAssign: true
+                  excludePattern: "^(node_modules/)"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.ROBOT_TOKEN }}
