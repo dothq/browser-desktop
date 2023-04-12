@@ -33,7 +33,6 @@ jobs:
                       optimise
                       review
                       refractor
-                  autoAssign: true
                   excludePattern: "^(node_modules/)"
               env:
                   GITHUB_TOKEN: ${{ secrets.ROBOT_TOKEN }}
