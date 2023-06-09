@@ -34,7 +34,13 @@ namespace dot {
             /* id, resourceURI, flags */
             {
                 "home", 
-                "chrome://dot/content/newtab/newtab.html", 
+                "chrome://dot/content/startpage/home.html", 
+                nsIAboutModule::ALLOW_SCRIPT | 
+                    nsIAboutModule::IS_SECURE_CHROME_UI
+            },
+            {
+                "newtab", 
+                "about:home", 
                 nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
@@ -46,18 +52,19 @@ namespace dot {
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
             {
-                "preferences", 
-                "chrome://dot/content/settings/settings.html", 
+                "settings", 
+                "about:preferences", 
                 nsIAboutModule::HIDE_FROM_ABOUTABOUT |
                     nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
             {
-                "settings", 
-                "chrome://dot/content/settings/settings.html", 
-                nsIAboutModule::ALLOW_SCRIPT | 
+                "preferences", 
+                "chrome://browser/content/preferences/preferences.xhtml", 
+                nsIAboutModule::HIDE_FROM_ABOUTABOUT |
+                    nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
-            },
+            }
         };
 
         static nsAutoCString GetAboutModuleName(nsIURI* aURI) {
