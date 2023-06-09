@@ -115,3 +115,6 @@ node_modules/
 
 # Ignore patch file remains
 *.orig
+
+# Ignore internal mozbuild typescript declarations
+mozbuild.d.ts
