@@ -9,7 +9,7 @@
 #
 # - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/update/common/commonupdatedir.cpp#580
 # - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/defaultagent/Policy.cpp#33
-imply_option("MOZ_APP_BASENAME", "dot")
+imply_option("MOZ_APP_BASENAME", "Dot")
 
 set_config("MOZ_APPUPDATE_HOST", "updates.dothq.org")
 add_old_configure_assignment("MOZ_BRANDING_DIRECTORY", "dot/branding/official")
