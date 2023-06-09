@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var BookmarkingUI = shim("BookmarkingUI", {
-    toolbar: () => {
-        return document.createElement("div");
-    }
+	toolbar: () => {
+		return document.createElement("div");
+	}
 });
 var PlacesToolbarHelper = shim("PlacesToolbarHelper");
