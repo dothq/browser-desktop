@@ -8,6 +8,9 @@ include("../../build/node-templates.mozbuild")
 
 TypedModules(
     "browser-init.ts",
+    "browser-remote-control.ts",
+    "browser-tabs.ts",
+    "browser-utility-overlay.ts",
     "browser-utils.ts",
     "browser-window.ts",
     "browser.ts",
