@@ -1,0 +1,30 @@
+From 9c0049cce8ecc529b7b034139129eed50c725dbc Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Sat, 1 Apr 2023 20:06:07 +0100
+Subject: [PATCH] Add build manifest override to mozbuild
+
+---
+ python/mozbuild/mozpack/manifests.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/python/mozbuild/mozpack/manifests.py b/python/mozbuild/mozpack/manifests.py
+index 32ec3f73630c..e19ea9c11d19 100644
+--- a/python/mozbuild/mozpack/manifests.py
++++ b/python/mozbuild/mozpack/manifests.py
+@@ -358,8 +358,11 @@ class InstallManifest(object):
+         )
+ 
+     def _add_entry(self, dest, entry):
+-        if dest in self._dests:
+-            raise ValueError("Item already in manifest: %s" % dest)
++        if dest[-1] == "*" and dest[-2] != "*":
++            dest = dest[:-1]
++        else:
++            if dest in self._dests:
++                raise ValueError("Item already in manifest: %s" % dest)
+ 
+         self._dests[dest] = entry
+ 
+-- 
+2.38.1
+
