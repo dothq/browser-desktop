@@ -369,6 +369,12 @@ def write_post_merge_hook():
 def write_pre_commit_hook():
     path = os.path.join(topsrcdir, "dot", ".git", "hooks", "pre-commit")
 
+    if os.path.isfile(path):
+        os.remove(path)
+
+def write_pre_push_hook():
+    path = os.path.join(topsrcdir, "dot", ".git", "hooks", "pre-push")
+
     with open(path, "w") as pm:
         pm.write("#!/bin/bash\nexec scripts/patchtool.py import\n")
         pm.close()
@@ -416,6 +422,7 @@ def main():
     maybe_write_mozconfig()
     write_post_merge_hook()
     write_pre_commit_hook()
+    write_pre_push_hook()
     copy_vscode_config()
     block_push_to_upstream()
     ensure_fast_forward_reconcile()
