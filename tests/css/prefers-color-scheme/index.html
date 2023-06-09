@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prefers-color-scheme test</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>prefers-color-scheme test</h1>
+
+    <h3 id="text"></h3>
+
+    <script>
+        const textEl = document.getElementById("text");
+        const getMediaQuery = () => window.matchMedia("(prefers-color-scheme: dark)");
+
+        function handleThemeChange() {
+            console.log("changed")
+            const isDark = getMediaQuery().matches;
+
+            if (isDark) {
+                textEl.textContent = "Dark mode!";
+            } else {
+                textEl.textContent = "Light mode!";
+            }
+        }
+
+        handleThemeChange();
+        getMediaQuery().addEventListener("change", () => handleThemeChange());
+    </script>
+</body>
+</html>
