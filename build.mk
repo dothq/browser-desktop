@@ -10,4 +10,5 @@ recurse_pre-export::
 
 recurse_compile:
 	$(topsrcdir)/mach npm install --prefix=$(topsrcdir)/dot
+	$(topsrcdir)/mach node $(topsrcdir)/dot/build/scripts/gen_js_module_types.js
 	$(topsrcdir)/mach node $(topsrcdir)/dot/build/scripts/typecheck.js
