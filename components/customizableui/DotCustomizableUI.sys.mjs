@@ -9,4 +9,3 @@ export const DotCustomizableUI = {
 		console.timeEnd("DotCustomizableUI: init");
 	}
 };
-globalThis.DotCustomizableUI = DotCustomizableUI; // Exposes DotCustomizableUI to global for debugging
