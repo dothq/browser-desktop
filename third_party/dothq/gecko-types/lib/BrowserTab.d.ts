@@ -6,4 +6,10 @@ import { ChromeBrowser } from "./ChromeBrowser";
 
 export interface BrowserTab extends HTMLElement {
 	linkedBrowser: ChromeBrowser;
+
+	_sharingState: {
+		geo?: boolean;
+		xr?: boolean;
+		webRTC?: any;
+	};
 }

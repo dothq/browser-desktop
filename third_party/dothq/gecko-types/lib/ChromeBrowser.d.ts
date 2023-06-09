@@ -8,4 +8,13 @@ import { BrowsingContext } from "./BrowsingContext";
 export interface ChromeBrowser {
 	browserId: number;
 	browsingContext?: BrowsingContext;
+
+	isArticle: boolean;
+
+	sendMessageToActor: (
+		actorMessage: string,
+		args: any,
+		actorName: string,
+		scope?: any
+	) => void;
 }
