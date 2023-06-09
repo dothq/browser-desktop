@@ -14,3 +14,7 @@ declare var WindowIsClosing: any;
 declare var StatusPanel: any;
 declare var LinkTargetDisplay: any;
 declare var dump: (message: string) => void;
+
+declare var require: <T = any>(moduleURI: string) => T;
+
+declare module "resource://*";

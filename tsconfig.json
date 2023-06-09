@@ -4,10 +4,25 @@
 		"module": "es2020",
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"jsx": "react",
-		"jsxFactory": "html",
+		"jsxFactory": "html", // Defines our custom JSX factory
 		"jsxFragmentFactory": "Fragment",
-		"allowJs": true
+		"allowJs": true,
+		"checkJs": true,
+		"outDir": "dist",
+		"baseUrl": ".", // Needed to resolve imports from the root
+		"types": [] // Needed to prevent types of node_modules from being included
 	},
-	"exclude": ["**/app/profile/dot.js", "**/locales/**/*", "**/*.sys.mjs"]
+	"exclude": [
+		/* Globbed folders */
+		"**/app/profile/**/*",
+		"**/locales/**/*",
+		"**/build/**/*",
+		"**/branding/**/*",
+		"**/dist/**/*",
+		/* Individual files */
+		"**/modules/DotAppConstants.sys.mjs" /* Excluded for use of macros */
+	]
 }

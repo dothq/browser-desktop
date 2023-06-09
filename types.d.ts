@@ -6,6 +6,7 @@ import { _dBrowser } from "./base/content/browser";
 import { nsIXULBrowserWindow } from "./base/content/browser-window";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
+import "./mozbuild";
 
 declare global {
 	/* Only available in secure contexts */
@@ -31,5 +32,13 @@ declare global {
 			attributes?: { [key: string]: any },
 			...children: Array<HTMLElement | string>
 		) => HTMLElement;
+		arguments: any;
+		CSS: typeof CSS;
+		openDialog: (
+			url?: string,
+			target?: string,
+			features?: string,
+			...extraArguments: any[]
+		) => void;
 	}
 }
