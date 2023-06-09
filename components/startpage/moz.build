@@ -4,7 +4,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-dot.jar:
-% content dot %content/ contentaccessible=yes
-    content/newtab/newtab.html                  (content/newtab.html)
-    content/newtab/newtab.css                   (content/newtab.css)
+EXTRA_JS_MODULES += [
+    "StartPage.sys.mjs",
+]
+
+JAR_MANIFESTS += ["jar.mn"]
+
+TypedModules(
+    "content/home.ts"
+)
