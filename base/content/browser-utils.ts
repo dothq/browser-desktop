@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/** @global */
 function html(
 	tagName: string,
 	attributes?: { [key: string]: any },
@@ -31,6 +32,7 @@ function html(
 	return element;
 }
 
+/** @global */
 function shim(name: string, props?: any) {
 	return new Proxy(
 		{},
@@ -58,6 +60,7 @@ function shim(name: string, props?: any) {
 	);
 }
 
+/** @global */
 function shimFunction(name: string, returnValue?: () => any) {
 	return (...args: any) => {
 		console.debug(`${name}: Tried calling '${name}'.`);
@@ -66,6 +69,7 @@ function shimFunction(name: string, returnValue?: () => any) {
 	};
 }
 
+/** @global */
 function generateID(rounds: number = 4) {
 	return [...Array(rounds)]
 		.map((i) => Math.round(Date.now() + Math.random() * Date.now()).toString(36))
