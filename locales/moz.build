@@ -8,3 +8,12 @@ JAR_MANIFESTS += ["jar.mn"]
 
 # If DIST_SUBDIR ever gets unset in browser this path might be wrong due to PREF_DIR changing.
 LOCALIZED_PP_FILES.defaults.preferences += ["en-US/dot-l10n.js"]
+
+if CONFIG["MOZ_UPDATER"]:
+    LOCALIZED_GENERATED_FILES += ["updater.ini"]
+    updater = LOCALIZED_GENERATED_FILES["updater.ini"]
+    updater.script = "generate_ini.py"
+    updater.inputs = [
+        "en-US/updater/updater.ini",
+        "../installer/windows/nsis/updater_append.ini",
+    ]
