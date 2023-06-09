@@ -8,40 +8,12 @@
 */
 
 import * as Gecko from "./lib";
-import { nsIDocShell } from "./lib";
-
-export interface Cc {
-	"@mozilla.org/process/environment;1": {
-		getService(service: Gecko.nsIEnvironment): Gecko.Environment;
-	};
-	"@mozilla.org/filepicker;1": {
-		createInstance(
-			instance: Gecko.nsIFilePicker
-		): Gecko.FilePicker;
-	};
-}
-
-export interface Ci {
-	nsIAppWindow: Gecko.nsIAppWindow;
-	nsIChannel: Gecko.nsIChannel;
-	nsIDocShell: Gecko.nsIDocShell;
-	nsIDragService: Gecko.nsIDragService;
-	nsIEnvironment: Gecko.nsIEnvironment;
-	nsIFilePicker: Gecko.nsIFilePicker;
-	nsIInterfaceRequestor: Gecko.nsIInterfaceRequestor;
-	nsILoadContext: Gecko.nsILoadContext;
-	nsIPrefBranch: Gecko.nsIPrefBranch;
-	nsIRequest: Gecko.nsIRequest;
-	nsIURI: Gecko.nsIURI;
-	nsIWebProgress: Gecko.nsIWebProgress;
-	nsIWebProgressListener: Gecko.nsIWebProgressListener;
-	nsIXULBrowserWindow: Gecko.nsIXULBrowserWindow;
-}
+import { Marionette, nsIDocShell, RemoteAgent } from "./lib";
 
 declare const chrome: {
-	Cc: Cc;
-	Ci: Ci;
-	Cu: typeof Cu;
+	Cc: Gecko.Cc;
+	Ci: Gecko.Ci;
+	Cu: Gecko.Cu;
 	Services: Gecko.Services;
 };
 
@@ -52,16 +24,21 @@ interface PathUtilsInterface {
 
 declare global {
 	var ChromeUtils: Gecko.ChromeUtils;
-	var XPCOMUtils: Gecko.XPCOMUtils;
 
 	var PathUtils: PathUtilsInterface;
 
+	var Marionette: Marionette;
+	var RemoteAgent: RemoteAgent;
+
 	// These global objects can be used directly in JSM files only.
 	// In a CommonJS context you need to import them with `require("chrome")`.
-	var Cu: Ci;
-	var Cc: Cc;
-	var Ci: Ci;
+	var Cu: Gecko.Cu;
+	var Cc: Gecko.Cc;
+	var Ci: Gecko.Ci;
+	var Cr: Gecko.Cr;
 	var Services: Gecko.Services;
+
+	var Components: Gecko.Components;
 
 	// Global actor modules
 	class JSWindowActorParent extends Gecko.JSWindowActorParent {}
@@ -152,5 +129,10 @@ declare global {
 		docShell: nsIDocShell;
 		browserDOMWindow: any;
 		XULBrowserWindow: any;
+		InspectorUtils: Gecko.InspectorUtils;
+	}
+
+	interface Element {
+		ownerGlobal: ChromeWindow;
 	}
 }
