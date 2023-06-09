@@ -3,7 +3,11 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 export interface ServicesObs {
-    addObserver: (observer: object, type: string) => void;
-    removeObserver: (observer: object, type: string) => void;
-    notifyObservers: (subject: any, topic: string) => void; 
+	addObserver: (
+		observer: object,
+		type: string,
+		holdWeak?: boolean
+	) => void;
+	removeObserver: (observer: object, type: string) => void;
+	notifyObservers: (subject: any, topic: string) => void;
 }

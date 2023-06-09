@@ -62,4 +62,9 @@ export interface ServicesAppInfo {
 	 * The build ID/date of gecko and the XULRunner platform.
 	 */
 	platformBuildID: string;
+
+	/**
+	 * Determines whether we are in a safe mode session or not.
+	 */
+	inSafeMode: boolean;
 }
