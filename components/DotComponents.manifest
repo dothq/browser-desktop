@@ -6,4 +6,4 @@
 #
 #   dot:        {818c990f-687c-498c-bc9a-a99d9729702a}
 
-category app-startup DotGlue service,@dothq.org/dot/dotglue;1 application={818c990f-687c-498c-bc9a-a99d9729702a}
+category app-startup nsDotGlue @dothq.org/dot/dotglue;1 application={818c990f-687c-498c-bc9a-a99d9729702a}

@@ -9,23 +9,23 @@ DIRS += [
     "about",
     "browser-element",
     "customizableui",
-    "newtab",
+    "navigation",
     "panel",
     "search",
-    "settings",
+    "startpage",
 ]
 
 EXTRA_COMPONENTS += [
-    "/browser/components/BrowserComponents.manifest",
+    "BrowserComponents.manifest", # stub
     "DotComponents.manifest",
 ]
 
 EXTRA_JS_MODULES += [
     "/browser/components/BrowserContentHandler.sys.mjs",
-    "/browser/components/BrowserGlue.sys.mjs",
     "/browser/components/distribution.js",
     "DotBrowserWindow.sys.mjs",
-    "DotGlue.jsm",
+    "DotContentHandler.sys.mjs",
+    "DotGlue.sys.mjs",
 ]
 
 XPIDL_SOURCES += [
