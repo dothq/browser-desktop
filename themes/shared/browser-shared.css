@@ -4,6 +4,7 @@
 
 /* Base */
 @import url("chrome://dot/skin/browser-box.css");
+@import url("chrome://dot/skin/browser-dialog.css");
 
 /* Components */
 @import url("chrome://dot/content/browser-element/statuspanel.css");

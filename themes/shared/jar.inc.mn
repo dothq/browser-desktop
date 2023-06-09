@@ -7,8 +7,9 @@
 # be specified once. As a result, the source file paths are relative
 # to the location of the actual manifest.
 
-  skin/classic/dot/browser-shared.css                   (../shared/browser-shared.css)
   skin/classic/dot/browser-box.css                      (../shared/browser-box.css)
+  skin/classic/dot/browser-dialog.css                   (../shared/browser-dialog.css)
+  skin/classic/dot/browser-shared.css                   (../shared/browser-shared.css)
 
   skin/classic/dot/add.svg                              (../shared/icons/add.svg)
   skin/classic/dot/arrow-down.svg                       (../shared/icons/arrow-down.svg)
