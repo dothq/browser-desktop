@@ -1,0 +1,12 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<html:dialog id="window-modal-dialog" style="visibility: hidden; height: 0; width: 0"/>
+<html:template id="window-modal-dialog-template">
+    <vbox class="dialogTemplate dialogOverlay" align="center" topmost="true">
+        <hbox class="dialogBox">
+            <browser class="dialogFrame" autoscroll="false" disablehistory="true"/>
+        </hbox>
+    </vbox>
+</html:template>
