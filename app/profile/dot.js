@@ -30,3 +30,9 @@ pref("dom.security.https_only_mode", true);
 // @todo: further investigation for this needed
 pref("widget.use-xdg-desktop-portal.file-picker", 1);
 #endif
+
+// Hide the Discover pane in about:addons
+pref("extensions.getAddons.showPane", false);
+
+// Show warning for about:config
+pref("browser.aboutConfig.showWarning", true);
