@@ -2,11 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { DotCustomizableUI } from "../../components/customizableui/CustomizableUI";
-
 ChromeUtils.defineESModuleGetters(globalThis, {
-	DotAppConstants: "resource://app/modules/DotAppConstants.sys.mjs"
+	DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs",
+	DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
 });
+
+const { NavigationHelper } = ChromeUtils.importESModule(
+	"resource:///modules/NavigationHelper.sys.mjs"
+);
 
 /**
  * Registers all web components needed in the UI.
@@ -22,6 +25,9 @@ const registerWebComponents = async () => {
 export const _dBrowser = {
 	_done: false,
 
+	openLinkIn: NavigationHelper.openLinkIn.bind(this, window),
+	loadOneOrMoreURIs: NavigationHelper.loadOneOrMoreURIs.bind(this, window),
+
 	/**
 	 * Initialises the browser and its components
 	 */
@@ -35,7 +41,8 @@ export const _dBrowser = {
 
 		registerWebComponents();
 
-		DotCustomizableUI.initialize();
+		// @todo(EnderDev) add types for DotCustomizableUI
+		globalThis.DotCustomizableUI.initialize();
 
 		this._done = true;
 	}
@@ -49,20 +56,24 @@ export const _dBrowser = {
  *
  * @deprecated This should never be imported directly! Instead use the **gBrowser** global.
  */
-export const _gBrowser = new Proxy(_dBrowser, {
-	get: (target, key) => {
-		const targetToUse = target[key] ? target : window._gBrowser;
-		const value = targetToUse[key];
+export const _gBrowser = (function () {
+	const validator = {
+		get: (target: typeof window.gBrowser, key: string) => {
+			const targetToUse = target[key] ? target : window._gBrowser;
+			const value = targetToUse[key];
 
-		return value instanceof Function ? value.bind(targetToUse) : value;
-	},
-	set(target, key, newValue) {
-		if (target[key]) {
-			target[key] = newValue;
-		} else if (window._gBrowser[key]) {
-			window._gBrowser[key] = newValue;
+			return value instanceof Function ? value.bind(targetToUse) : value;
+		},
+		set(target: typeof window.gBrowser, key: string, newValue: any) {
+			if (target[key]) {
+				target[key] = newValue;
+			} else if (window._gBrowser[key]) {
+				window._gBrowser[key] = newValue;
+			}
+
+			return true;
 		}
+	};
 
-		return true;
-	}
-}) as typeof window.gBrowser;
+	return new Proxy(_dBrowser, validator);
+})() as typeof window.gBrowser;

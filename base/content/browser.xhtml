@@ -10,7 +10,28 @@
     both "content" and "skin" packages, which bug 1385444 will unify later. -->
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 
+<!-- While these stylesheets are defined in Toolkit, they are only used in the
+     main browser window, so we can load them here. Bug 1474241 is on file to
+     consider moving these widgets to the "browser" folder. -->
+<?xml-stylesheet href="chrome://global/content/tabprompts.css" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/tabprompts.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://browser/content/browser.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/tabbrowser.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/downloads/downloads.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/places/places.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/usercontext/usercontext.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+#ifdef XP_WIN
+<?xml-stylesheet href="chrome://browser/skin/browser-aero.css" type="text/css"?>
+#endif
+
+<?xml-stylesheet href="chrome://browser/skin/controlcenter/panel.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/customizableui/panelUI.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/downloads/downloads.css" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/searchbar.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/places/tree-icons.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/places/editBookmark.css" type="text/css"?>
 
 <html id="main-window"
     xmlns:html="http://www.w3.org/1999/xhtml"
@@ -103,6 +124,7 @@
             Services.scriptloader.loadSubScript("chrome://browser/content/browser-pageActions.js", this);
             Services.scriptloader.loadSubScript("chrome://browser/content/browser-sidebar.js", this);
             Services.scriptloader.loadSubScript("chrome://browser/content/browser-tabsintitlebar.js", this);
+            Services.scriptloader.loadSubScript("chrome://browser/content/browser-unified-extensions.js", this);
 
             Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser.js", this);
             Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tab.js", this);
@@ -136,9 +158,8 @@
     </head>
 
     <html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-        <html:div id="popupSets" hidden="true">
-            <html:browser-statuspanel id="statuspanel"></html:browser-statuspanel>
-        </html:div>
+        #include main-popupset.inc.xhtml
+        #include browser-dialog.inc.xhtml
 
         <html:div id="mount">
             
@@ -146,54 +167,14 @@
 
         <html:div id="ff-internals">
             #include ../../../browser/base/content/browser-sets.inc
-
-            #include ../../../browser/base/content/main-popupset.inc.xhtml
     
             #include ../../../browser/base/content/appmenu-viewcache.inc.xhtml
             #include ../../../browser/base/content/unified-extensions-viewcache.inc.xhtml
     
-            <html:dialog id="window-modal-dialog" style="visibility: hidden; height: 0; width: 0"/>
-            <html:template id="window-modal-dialog-template">
-              <vbox class="dialogTemplate dialogOverlay" align="center" topmost="true">
-                <hbox class="dialogBox">
-                  <browser class="dialogFrame" autoscroll="false" disablehistory="true"/>
-                </hbox>
-              </vbox>
-            </html:template>
-    
             #include ../../../browser/base/content/navigator-toolbox.inc.xhtml
         </html:div>
 
-        <hbox flex="1" id="browser">
-            <vbox id="sidebar-box" hidden="true" class="chromeclass-extrachrome">
-                <box id="sidebar-header" align="center">
-                    <toolbarbutton id="sidebar-switcher-target" class="tabbable">
-                        <image id="sidebar-icon" consumeanchor="sidebar-switcher-target"/>
-                        <label id="sidebar-title" crop="end" control="sidebar"/>
-                        <image id="sidebar-switcher-arrow"/>
-                    </toolbarbutton>
-                    <image id="sidebar-throbber"/>
-                    <spacer id="sidebar-spacer"/>
-                    <toolbarbutton id="sidebar-close" class="close-icon tabbable" data-l10n-id="sidebar-close-button" oncommand="SidebarUI.hide();"/>
-                </box>
-                <browser id="sidebar" autoscroll="false" disablehistory="true" disablefullscreen="true" tooltip="aHTMLTooltip"/>
-            </vbox>
-            <splitter id="sidebar-splitter" class="chromeclass-extrachrome sidebar-splitter" resizebefore="sibling" resizeafter="none" hidden="true"/>
-            <vbox id="appcontent" flex="1">
-                <!-- gNotificationBox will be added here lazily. -->
-                <tabbox id="tabbrowser-tabbox"
-                        flex="1" tabcontainer="tabbrowser-tabs">
-                    <tabpanels id="tabbrowser-tabpanels"
-                                flex="1" selectedIndex="0"/>
-                </tabbox>
-            </vbox>
-        </hbox>
-
-        <html:template id="customizationPanel">
-            <box id="customization-container" flex="1" hidden="true"><![CDATA[
-        #include ../../../browser/components/customizableui/content/customizeMode.inc.xhtml
-            ]]></box>
-          </html:template>
+        #include ../../components/browser-element/content/browser-element.inc.xhtml
         
         <html:div id="a11y-announcement" role="alert"/>
     </html:body>
