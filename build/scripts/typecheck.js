@@ -7,34 +7,43 @@ const { lstatSync, existsSync } = require("fs");
 const { parse, resolve } = require("path");
 
 function getRootDir(currPath) {
-    if (lstatSync(currPath).isFile()) {
-        return getRootDir(parse(currPath).dir)
-    }
+	if (lstatSync(currPath).isFile()) {
+		return getRootDir(parse(currPath).dir);
+	}
 
-    if (existsSync(resolve(currPath, "mach")) && existsSync(resolve(currPath, "old-configure.in"))) {
-        return currPath;
-    } else {
-        return getRootDir(resolve(currPath, ".."))
-    }
+	if (
+		existsSync(resolve(currPath, "mach")) &&
+		existsSync(resolve(currPath, "old-configure.in"))
+	) {
+		return currPath;
+	} else {
+		return getRootDir(resolve(currPath, ".."));
+	}
 }
 
 function typecheck() {
-    const rootDir = getRootDir(process.cwd());
+	const rootDir = getRootDir(process.cwd());
 
-    const proc = spawn([
-        resolve(rootDir, "dot", "node_modules", ".bin", "tsc"),
-        "--pretty",
-        "--noEmit",
-        "-p",
-        resolve(rootDir, "dot")
-    ].join(" "), {
-        shell: true,
-        stdio: "inherit"
-    });
+	console.log(`Performing typechecking at ${resolve(rootDir, "dot")}...`);
 
-    proc.on("exit", (exitCode) => {
-        process.exit(exitCode);
-    });
+	const proc = spawn(
+		[
+			resolve(rootDir, "dot", "node_modules", ".bin", "tsc"),
+			"--pretty",
+			"--noEmit",
+			"-p",
+			resolve(rootDir, "dot")
+		].join(" "),
+		{
+			shell: true,
+			cwd: rootDir,
+			stdio: "inherit"
+		}
+	);
+
+	proc.on("exit", (exitCode) => {
+		process.exit(exitCode);
+	});
 }
 
-typecheck()
+typecheck();

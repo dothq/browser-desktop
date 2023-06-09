@@ -1,13 +1,13 @@
 var require = (path) => {
-    const resolved = new URL(path, __ESM_DB_IMPORT_ROOT__).href;
+	const resolved = new URL(path, __ESM_DB_IMPORT_ROOT__).href;
 
-    const mod = {};
+	const mod = {};
 
-    Services.scriptloader.loadSubScript(resolved, mod);
+	Services.scriptloader.loadSubScript(resolved, mod);
 
-    return mod;
-}
+	return mod;
+};
 
 var module = {
-    exports: {}
+	exports: {}
 };

@@ -16,59 +16,64 @@ const fs = require("fs");
 const _path = require("path");
 
 let relativePathCheckerPlugin = {
-    name: "relative-path-checker",
-    setup(build) {
-        build.onResolve({ filter: /.*/ }, args => {
-            if (args.importer) {
-                let path = args.path;
-                const ext = _path.parse(args.path).ext;
+	name: "relative-path-checker",
+	setup(build) {
+		build.onResolve({ filter: /.*/ }, (args) => {
+			if (args.importer) {
+				let path = args.path;
+				const ext = _path.parse(args.path).ext;
 
-                if (ext.length) {
-                    if (ext == ".ts") {
-                        path.replace(".ts", ".js");
-                    }
-                } else {
-                    path = path + ".js"
-                }
+				if (ext.length) {
+					if (ext == ".ts") {
+						path.replace(".ts", ".js");
+					}
+				} else {
+					path = path + ".js";
+				}
 
-                return { path, external: true }
-            }
-        })
-    },
-}
+				return { path, external: true };
+			}
+		});
+	}
+};
 
 function transform(inPath, outPath) {
-    let out;
-    try {
-        out = esbuild.build({
-            entryPoints: [inPath],
-            bundle: true,
-            // Using CJS as Mozilla doesn't support ESM in 
-            // subscripts and then making our own wrapper of require
-            format: "cjs",
-            treeShaking: false,
-            minify: false,
-            platform: "browser",
-            target: "firefox100",
-            jsx: "transform",
-            sourcemap: "inline",
-            plugins: [relativePathCheckerPlugin],
-            banner: {
-                js: esbuild.transformSync(fs.readFileSync(
-                    _path.resolve(__dirname, "inject-head.js"),
-                    "utf-8"
-                ).replace(
-                    /__ESM_DB_IMPORT_ROOT__/,
-                    JSON.stringify(`resource://${_path.parse(outPath.split("dot/modules/")[1]).dir}/`)
-                )).code,
-            },
-            footer: {
-                js: esbuild.transformSync(fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8")).code,
-            },
-            outfile: outPath
-        })
-    } catch (err) {
-        throw new Error(`
+	let out;
+	try {
+		out = esbuild.build({
+			entryPoints: [inPath],
+			bundle: true,
+			// Using CJS as Mozilla doesn't support ESM in
+			// subscripts and then making our own wrapper of require
+			format: "cjs",
+			treeShaking: false,
+			minify: false,
+			platform: "browser",
+			target: "firefox100",
+			jsx: "transform",
+			sourcemap: "inline",
+			plugins: [relativePathCheckerPlugin],
+			banner: {
+				js: esbuild.transformSync(
+					fs
+						.readFileSync(_path.resolve(__dirname, "inject-head.js"), "utf-8")
+						.replace(
+							/__ESM_DB_IMPORT_ROOT__/,
+							JSON.stringify(
+								`resource://${_path.parse(outPath.split("dot/modules/")[1]).dir}/`
+							)
+						)
+				).code
+			},
+			footer: {
+				js: esbuild.transformSync(
+					fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8")
+				).code
+			},
+			outfile: outPath
+		});
+	} catch (err) {
+		throw new Error(`
 ========================
 NODE COMPILATION ERROR!
 
@@ -79,26 +84,26 @@ ${err.stack}
 
 ========================
 `);
-    }
+	}
 
-    return;
+	return;
 }
 
 // fs.mkdirSync's "recursive" option appears not to work, so I'm writing a
 // simple version of the function myself.
 function mkdirs(filePath) {
-    if (fs.existsSync(filePath)) {
-        return;
-    }
-    mkdirs(_path.dirname(filePath));
-    try {
-        fs.mkdirSync(filePath);
-    } catch (err) {
-        // Ignore any errors resulting from the directory already existing.
-        if (err.code != "EEXIST") {
-            throw err;
-        }
-    }
+	if (fs.existsSync(filePath)) {
+		return;
+	}
+	mkdirs(_path.dirname(filePath));
+	try {
+		fs.mkdirSync(filePath);
+	} catch (err) {
+		// Ignore any errors resulting from the directory already existing.
+		if (err.code != "EEXIST") {
+			throw err;
+		}
+	}
 }
 
 const deps = [__filename];
@@ -106,14 +111,14 @@ const outputDir = process.argv[process.argv.length - 1];
 mkdirs(outputDir);
 
 for (let i = 2; i < process.argv.length - 1; i++) {
-    const inPath = process.argv[i];
-    const outPath = _path.join(outputDir, _path.basename(inPath).replace(/\.ts(x)?/, ".js"));
+	const inPath = process.argv[i];
+	const outPath = _path.join(outputDir, _path.basename(inPath).replace(/\.ts(x)?/, ".js"));
 
-    transform(inPath, outPath);
+	transform(inPath, outPath);
 
-    deps.push(inPath);
+	deps.push(inPath);
 }
 
 // Print all dependencies prefixed with 'dep:' in order to help node.py, the script that
 // calls this module, to report back the precise list of all dependencies.
-console.log(deps.map(file => "dep:" + file.replace(/\.ts/, ".js")).join("\n"));
+console.log(deps.map((file) => "dep:" + file.replace(/\.ts/, ".js")).join("\n"));
