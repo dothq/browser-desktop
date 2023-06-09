@@ -2,6 +2,7 @@
 	// Make sure these values are up to date with .gitattributes
 	"files.associations": {
 		"*.jsm": "javascript",
+		"*.sys.mjs": "javascript",
 		"*.configure": "python",
 		"*.build": "python",
 		"*.mn": "properties",
@@ -16,7 +17,7 @@
 	"files.watcherExclude": {
 		"**/.git/objects/**": true,
 		"**/.git/subtree-cache/**": true,
-		"**/node_modules/*/**": true,
+		"**/node_modules/*/**": false,
 		"*.tar.xz": true
 	},
 	"[html]": {
@@ -29,7 +30,7 @@
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"files.exclude": {
-		"**/node_modules": true,
+		"**/node_modules": false,
 		"**/__pycache__": true
 	},
 	"macros.list": {
@@ -62,7 +63,7 @@
 		]
 	},
 	"gitmoji.showEmojiCode": true,
-	"gitmoji.additionalEmojis": [
+	"gitmoji.addCustomEmoji": [
 		{
 			"emoji": "🎭",
 			"code": ":performing_arts:",
