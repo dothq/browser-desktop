@@ -24,9 +24,11 @@ DIRS += [
     "/browser/components/pagedata",
     "/browser/components/places",
     "/browser/components/pocket", # needed to boot the browser (could probably be removed)
+    "/browser/components/preferences", # todo: remove once we have a preferences page
     "/browser/components/search",
     "/browser/components/sessionstore",
     "/browser/components/shell",
+    "/browser/components/tabunloader", # todo: try shim this
 
     "/toolkit/modules",
 
