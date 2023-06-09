@@ -34,7 +34,9 @@ def main():
     if known_latest_remote_revision != revision:
         print("Upstream gecko-dev is not synchronised with browser-desktop.")
         print()
-        print("It is recommended to run ./dot/scripts/sync.py assuming you are in the dot directory.")
+        print("This could happen when the REVISION file does not match with the remote upstream repository.")
+        print()
+        print("It is recommended to run ./mach sync assuming you are in the dot directory.")
         print("Otherwise you will run into problems when pushing and pulling.")
 
         raise

@@ -56,12 +56,18 @@ def main():
             raise e
 
         raise e
-
+    
     print("\n-----")
     check_sync_integrity()
 
     print("\n-----")
-    print("\033[92mSuccessfully synchronised.\033[00m")
+    print("\033[1m\033[92mSuccessfully synchronised.\033[00m")
     print("-----")
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print("\n\033[1m\033[91mFailed to synchronise. Notify a maintainer about this at https://github.com/dothq/browser-desktop to resolve this problem.\033[00m")
+        print("\033[1m\033[91mThe error stack is reported below:\033[00m")
+        raise e
