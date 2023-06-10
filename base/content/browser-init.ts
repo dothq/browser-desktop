@@ -34,10 +34,11 @@ var { LightweightThemeConsumer } = ChromeUtils.importESModule(
 	"resource://gre/modules/LightweightThemeConsumer.sys.mjs"
 );
 
+// Ensure that these icons match up with the actual page favicon
 const gPageIcons = {
 	"about:home": "chrome://dot/skin/home.svg",
 	"about:newtab": "chrome://dot/skin/home.svg",
-	"about:welcome": "chrome://dot/skin/home.svg",
+	"about:welcome": "chrome://branding/content/icon32.png",
 	"about:privatebrowsing": "chrome://browser/skin/privatebrowsing/favicon.svg"
 };
 
