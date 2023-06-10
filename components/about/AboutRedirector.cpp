@@ -64,6 +64,12 @@ namespace dot {
                 nsIAboutModule::HIDE_FROM_ABOUTABOUT |
                     nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
+            },
+            {
+                "welcome", 
+                "chrome://dot/content/onboarding/onboarding.html", 
+                nsIAboutModule::ALLOW_SCRIPT | 
+                    nsIAboutModule::IS_SECURE_CHROME_UI
             }
         };
 
