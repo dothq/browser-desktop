@@ -24,7 +24,6 @@ add_old_configure_assignment("MOZ_OFFICIAL_BRANDING_DIRECTORY", "dot/branding/of
 imply_option("--enable-default-browser-agent", False)
 
 imply_option("--with-ccache", "sccache")
-imply_option("--disable-webdriver", False)
 
 @depends(build_environment, "--help")
 def dot_paths(build_env, _):
