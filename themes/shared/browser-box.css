@@ -49,4 +49,5 @@
 
 .devtools-toolbox-bottom-iframe {
     z-index: 1;
+    flex: unset !important;
 }
