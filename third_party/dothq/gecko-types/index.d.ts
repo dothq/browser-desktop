@@ -135,4 +135,8 @@ declare global {
 	interface Element {
 		ownerGlobal: ChromeWindow;
 	}
+
+    interface CustomElementRegistry {
+        setElementCreationCallback(name: string, callback: () => any): void;
+    }
 }
