@@ -95,8 +95,8 @@
             // Important utilities/globals for browser
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", this);
 
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
             Services.scriptloader.loadSubScript("chrome://global/content/globalOverlay.js", this);
             Services.scriptloader.loadSubScript("chrome://global/content/editMenuOverlay.js", this);
             Services.scriptloader.loadSubScript("chrome://browser/content/utilityOverlay.js", this);
@@ -120,24 +120,26 @@
             }
 
             Services.scriptloader.loadSubScript("chrome://global/content/contentAreaUtils.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-captivePortal.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-pageActions.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-sidebar.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-tabsintitlebar.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/browser-unified-extensions.js", this);
+            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-elements.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-captivePortal.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-pageActions.js", this);
+            // // Services.scriptloader.loadSubScript("chrome://browser/content/browser-sidebar.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-tabsintitlebar.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-unified-extensions.js", this);
 
-            Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tab.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tabs.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tab.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tabs.js", this);
 
-            Services.scriptloader.loadSubScript("chrome://browser/content/places/places-menupopup.js", this);
+            // Services.scriptloader.loadSubScript("chrome://browser/content/places/places-menupopup.js", this);
 
-            Services.scriptloader.loadSubScript(
-                "chrome://browser/content/search/autocomplete-popup.js",
-                this
-            );
-            Services.scriptloader.loadSubScript("chrome://browser/content/search/searchbar.js", this);
+            // Services.scriptloader.loadSubScript(
+            //     "chrome://browser/content/search/autocomplete-popup.js",
+            //     this
+            // );
+            // Services.scriptloader.loadSubScript("chrome://browser/content/search/searchbar.js", this);
 
+            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-compat.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
 
             window.addEventListener(

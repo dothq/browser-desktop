@@ -95,7 +95,7 @@ export class nsIXULBrowserWindow {
 	}
 
 	public getTabCount() {
-		return gBrowser.tabs.length;
+		return 0;
 	}
 
 	public onProgressChange(
@@ -198,15 +198,15 @@ export class nsIXULBrowserWindow {
 
 		const isSameDocument = flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SAME_DOCUMENT;
 
-		if (
-			(location == "about:blank" &&
-				BrowserUIUtils.checkEmptyPageOrigin(gBrowser.selectedBrowser)) ||
-			location == ""
-		) {
-			// Disable reload button
-		} else {
-			// Enable reload button
-		}
+		// if (
+		// 	(location == "about:blank" &&
+		// 		BrowserUIUtils.checkEmptyPageOrigin(gBrowser.selectedBrowser)) ||
+		// 	location == ""
+		// ) {
+		// 	// Disable reload button
+		// } else {
+		// 	// Enable reload button
+		// }
 
 		const isSessionRestore = !!(
 			flags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SESSION_STORE
@@ -329,17 +329,15 @@ export class nsIXULBrowserWindow {
 		// use a pseudo-object instead of a (potentially nonexistent) channel for getting
 		// a correct error message - and make sure that the UI is always either in
 		// loading (STATE_START) or done (STATE_STOP) mode
-		this.onStateChange(
-			gBrowser.webProgress,
-			{ URI: gBrowser.currentURI } as any /* @todo make this partial? */,
-			loadingDone ? nsIWebProgressListener.STATE_STOP : nsIWebProgressListener.STATE_START,
-			status
-		);
+        console.log("this.onStateChange", "gBrowser.webProgress",
+        { URI: "gBrowser.currentURI" } as any /* @todo make this partial? */,
+        loadingDone ? nsIWebProgressListener.STATE_STOP : nsIWebProgressListener.STATE_START,
+        status)
 
 		// Status message and progress value are undefined if we're done with loading
 		if (loadingDone) {
 			return;
 		}
-		this.onStatusChange(gBrowser.webProgress, null, 0, message);
+        console.log("this.onStatusChange", "gBrowser.webProgress", null, 0, message);
 	}
 }

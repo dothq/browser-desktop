@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { AppConstants, Color, nsIArray, nsIURI } from "../../third_party/dothq/gecko-types/lib";
-import { _gBrowser } from "./browser";
+import { _gDot } from "./browser";
 import { BrowserRemoteControl } from "./browser-remote-control";
 import { TabsProgressListener } from "./browser-tabs";
 import { nsIXULBrowserWindow } from "./browser-window";
@@ -112,11 +112,11 @@ var dBrowserInit = {
 			.getInterface(Ci.nsIAppWindow).XULBrowserWindow = XULBrowserWindow;
 		globalThis.XULBrowserWindow = XULBrowserWindow;
 
-		// Exposes dBrowser to global for debugging
-		globalThis.gBrowser = _gBrowser;
+		// Exposes gDot to global for debugging
+		globalThis.gDot = _gDot;
 
-		// Initialise gBrowser
-		gBrowser.init();
+		// Initialise browser
+		gDot.init();
 
 		// Set favicons for special pages on boot to
 		// create the illusion of faster load.
@@ -131,7 +131,7 @@ var dBrowserInit = {
 
 			const nonQuery = url.prePath + url.filePath;
 			if (nonQuery in gPageIcons) {
-				gBrowser.setIcon(gBrowser.selectedTab, gPageIcons[nonQuery]);
+				console.log("gBrowser::setIcon");
 			}
 		});
 
@@ -249,7 +249,7 @@ var dBrowserInit = {
 				// If the URI is malformed, loadTabs will throw an exception.
 				// Ensure we handle this to not disrupt the browser boot.
 				try {
-					gBrowser.loadTabs(uriToLoad, {
+					console.log("gBrowser::loadTabs", uriToLoad, {
 						inBackground: false,
 						replace: true,
 						userContextId: window.arguments[5],
@@ -299,7 +299,7 @@ var dBrowserInit = {
 				}
 
 				try {
-					gBrowser.openLinkIn(uriToLoad, "current", {
+					console.log("gBrowser::openLinkIn", uriToLoad, "current", {
 						referrerInfo: window.arguments[2] || null,
 						postData: window.arguments[3] || null,
 						allowThirdPartyFixup: window.arguments[4] || false,
@@ -327,7 +327,8 @@ var dBrowserInit = {
 			} else {
 				// Note: loadOneOrMoreURIs *must not* be called if window.arguments.length >= 3.
 				// Such callers expect that window.arguments[0] is handled as a single URI.
-				gBrowser.loadOneOrMoreURIs(
+				console.log(
+					"gBrowser::loadOneOrMoreURIs",
 					uriToLoad,
 					Services.scriptSecurityManager.getSystemPrincipal(),
 					null
@@ -353,32 +354,23 @@ var dBrowserInit = {
 		// Listen for any changes to the permission state
 		// This is typically fired when there is user gesture
 		// to a permission request such as block/allow/ignore.
-		gBrowser.addEventListener(
-			"PermissionStateChange",
-			(...args) => {
-				console.log("PermissionStateChange", ...args);
-			},
-			true
-		);
+		console.log("gBrowser::addEventListener", "PermissionStateChange", true);
 
 		this.handleURIToLoad();
 
-		// Services.obs.addObserver(gIdentityHandler, "perm-changed");
-		// Services.obs.addObserver(gRemoteControl, "devtools-socket");
-		// Services.obs.addObserver(gRemoteControl, "marionette-listening");
-		// Services.obs.addObserver(gRemoteControl, "remote-listening");
-		// Services.obs.addObserver(gSessionHistoryObserver, "browser:purge-session-history");
-		// Services.obs.addObserver(gStoragePressureObserver, "QuotaManager::StoragePressure");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-disabled");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-started");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-blocked");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-fullscreen-blocked");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-origin-blocked");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-policy-blocked");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-webapi-blocked");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-failed");
-		// Services.obs.addObserver(gXPInstallObserver, "addon-install-confirmation");
-		// Services.obs.addObserver(gKeywordURIFixup, "keyword-uri-fixup");
+		Services.obs.addObserver(BrowserRemoteControl, "devtools-socket");
+		Services.obs.addObserver(BrowserRemoteControl, "marionette-listening");
+		Services.obs.addObserver(BrowserRemoteControl, "remote-listening");
+
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-disabled");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-started");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-blocked");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-fullscreen-blocked");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-origin-blocked");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-policy-blocked");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-webapi-blocked");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-failed");
+		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-confirmation");
 
 		// BrowserOffline.init();
 		// CanvasPermissionPromptHelper.init();
@@ -586,8 +578,8 @@ var dBrowserInit = {
 		console.time("onLoad");
 
 		// Add our own progress listeners
-		gBrowser.addProgressListener(window.XULBrowserWindow);
-		gBrowser.addTabsProgressListener(TabsProgressListener);
+		console.log("gBrowser::addProgressListener", window.XULBrowserWindow);
+		console.log("gBrowser::addTabsProgressListener", TabsProgressListener);
 
 		Services.obs.notifyObservers(window, "browser-window-before-show");
 
@@ -604,9 +596,9 @@ var dBrowserInit = {
 
 		if (tabToAdopt) {
 			// Stop the about:blank load in the new tab
-			gBrowser.stop();
+			console.log("gBrowser::stop()");
 			// Ensure we have the docShell in memory
-			gBrowser.docShell;
+			console.log("gBrowser::docShell");
 
 			// @todo: we need to write the logic for swapping the browsers out with the new tab to adopt
 			console.log("tabToAdopt", tabToAdopt);

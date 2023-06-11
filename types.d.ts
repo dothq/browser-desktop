@@ -2,7 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { _dBrowser } from "./base/content/browser";
+import { _gDot } from "./base/content/browser";
+import * as BrowserCompat from "./base/content/browser-compat";
 import { nsIXULBrowserWindow } from "./base/content/browser-window";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
@@ -16,11 +17,23 @@ declare global {
 	}
 
 	var BrowserUIUtils: Gecko.BrowserUIUtils;
-	var gBrowser: typeof _dBrowser & Gecko.Browser;
-	var _gBrowser: Gecko.Browser;
+	var gDot: typeof _gDot;
 	var XULBrowserWindow: nsIXULBrowserWindow;
 
 	var XULElement: Gecko.XULElement;
+
+    /**
+     * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
+     * 
+     * When building Dot Browser, we eventually need to use existing code built by Mozilla, and we don't really
+     * want to move code into the Dot tree that could easily be changed upstream.
+     * 
+     * For this reason, it's easier for us to create a compatibility layer between our APIs and the Mozilla APIs,
+     * to avoid breaking these important scripts.
+     * 
+     * @deprecated You shouldn't use this in Dot code directly! This is purely intended for use by existing Mozilla modules and scripts to maintain compatibility.
+     */
+    var gBrowser: typeof BrowserCompat.gBrowser;
 
 	interface Window {
 		setToolbarVisibility: any;

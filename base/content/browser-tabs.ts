@@ -30,10 +30,10 @@ export const TabsProgressListener = {
 			return;
 		}
 
-		// Resets the current sharing state of the browser once we navigate away from the page.
-		let tab = gBrowser.getTabForBrowser(browser);
-		if (tab && tab._sharingState) {
-			gBrowser.resetBrowserSharing(browser);
-		}
+		// // Resets the current sharing state of the browser once we navigate away from the page.
+		// let tab = gBrowser.getTabForBrowser(browser);
+		// if (tab && tab._sharingState) {
+		// 	gBrowser.resetBrowserSharing(browser);
+		// }
 	}
 } as nsITabProgressListener;

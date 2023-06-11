@@ -11,6 +11,10 @@ const { NavigationHelper } = ChromeUtils.importESModule(
 	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
+const { BrowserTabs } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserTabs.sys.mjs"
+);
+
 /**
  * Registers all web components needed in the UI.
  *
@@ -22,11 +26,10 @@ const registerWebComponents = async () => {
 };
 
 // This is exported only for type checking reasons, this should never be imported directly
-export const _dBrowser = {
+export const _gDot = {
 	_done: false,
 
-	openLinkIn: NavigationHelper.openLinkIn.bind(this, window),
-	loadOneOrMoreURIs: NavigationHelper.loadOneOrMoreURIs.bind(this, window),
+    tabs: BrowserTabs,
 
 	/**
 	 * Initialises the browser and its components
@@ -37,7 +40,7 @@ export const _dBrowser = {
 		}
 
 		// Call Mozilla's gBrowser init method
-		window._gBrowser.init();
+		// window._gBrowser.init();
 
 		registerWebComponents();
 
@@ -47,33 +50,3 @@ export const _dBrowser = {
 		this._done = true;
 	}
 };
-
-/**
- * Proxy wrapper for Dot Browser and Mozilla APIs
- *
- * Allows for incremental adoption of features and services
- * without breaking existing functionality in dependent code
- *
- * @deprecated This should never be imported directly! Instead use the **gBrowser** global.
- */
-export const _gBrowser = (function () {
-	const validator = {
-		get: (target: typeof window.gBrowser, key: string) => {
-			const targetToUse = target[key] ? target : window._gBrowser;
-			const value = targetToUse[key];
-
-			return value instanceof Function ? value.bind(targetToUse) : value;
-		},
-		set(target: typeof window.gBrowser, key: string, newValue: any) {
-			if (target[key]) {
-				target[key] = newValue;
-			} else if (window._gBrowser[key]) {
-				window._gBrowser[key] = newValue;
-			}
-
-			return true;
-		}
-	};
-
-	return new Proxy(_dBrowser, validator);
-})() as typeof window.gBrowser;

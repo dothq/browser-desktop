@@ -6,8 +6,9 @@
  * Modules registry used to define the origin file for typing modules imported using Cu.
  */
 const registry = {
-	NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
-	StartPage: "components/startpage/StartPage.sys.mjs"
+    BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
+    NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
+    StartPage: "components/startpage/StartPage.sys.mjs"
 };
 
 export default registry;
