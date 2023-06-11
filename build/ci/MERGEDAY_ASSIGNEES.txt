@@ -1,0 +1,3 @@
+# This list contains all the users that will be assigned to the "merge day" pull request in dothq/gecko-dev
+
+EnderDev
