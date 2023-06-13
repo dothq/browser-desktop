@@ -18,7 +18,7 @@ class DotStatusPanelLabel extends MozHTMLElement {
 
 customElements.define("browser-statuspanel-label", DotStatusPanelLabel);
 
-export default class DotStatusPanel extends MozHTMLElement {
+class DotStatusPanel extends MozHTMLElement {
 	public constructor() {
 		super();
 
