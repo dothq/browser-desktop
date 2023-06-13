@@ -9,6 +9,16 @@ import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
 import "./mozbuild";
 
+type MozXULElement = {
+    prototype: Gecko.MozXULElement;
+    new (): Gecko.MozXULElement;
+} & Gecko.MozElementMixinStatic;
+
+type MozHTMLElement = {
+    prototype: Gecko.MozHTMLElement;
+    new (): Gecko.MozHTMLElement;
+} & Gecko.MozElementMixinStatic;
+
 declare global {
 	/* Only available in secure contexts */
 	interface Screen {
@@ -21,6 +31,9 @@ declare global {
 	var XULBrowserWindow: nsIXULBrowserWindow;
 
 	var XULElement: Gecko.XULElement;
+
+    var MozXULElement: MozXULElement;
+    var MozHTMLElement: MozHTMLElement;
 
     /**
      * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
@@ -53,5 +66,9 @@ declare global {
 			features?: string,
 			...extraArguments: any[]
 		) => void;
+        MozXULElement: MozXULElement;
+        MozHTMLElement: MozHTMLElement;
 	}
+
+    interface Element extends Gecko.CustomElement {}
 }
