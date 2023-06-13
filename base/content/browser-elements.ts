@@ -8,3 +8,17 @@ customElements.setElementCreationCallback("browser-tab", () => {
         window
     );
 });
+
+customElements.setElementCreationCallback("browser-statuspanel", () => {
+    Services.scriptloader.loadSubScript(
+        "resource://dot/components/browser-element/content/StatusPanel.js",
+        window
+    );
+});
+
+customElements.setElementCreationCallback("browser-panel", () => {
+    Services.scriptloader.loadSubScript(
+        "resource://dot/components/panel/Panel.js",
+        window
+    );
+});
