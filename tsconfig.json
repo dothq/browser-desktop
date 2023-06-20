@@ -13,7 +13,7 @@
 		"checkJs": true,
 		"outDir": "dist",
 		"baseUrl": ".", // Needed to resolve imports from the root
-		"types": [] // Needed to prevent types of node_modules from being included
+		"types": [], // Needed to prevent types of node_modules from being included
 	},
 	"exclude": [
 		/* Globbed folders */
