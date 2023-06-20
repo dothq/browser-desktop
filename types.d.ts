@@ -68,6 +68,7 @@ declare global {
 		) => void;
         MozXULElement: MozXULElement;
         MozHTMLElement: MozHTMLElement;
+        gDot: typeof _gDot;
 	}
 
     interface Element extends Gecko.CustomElement {}
