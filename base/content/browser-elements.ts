@@ -9,16 +9,16 @@ customElements.setElementCreationCallback("browser-tab", () => {
     );
 });
 
-customElements.setElementCreationCallback("browser-statuspanel", () => {
+customElements.setElementCreationCallback("browser-panel", () => {
     Services.scriptloader.loadSubScript(
-        "resource://dot/components/browser-element/content/StatusPanel.js",
+        "chrome://dot/content/browser-panel.js",
         window
     );
 });
 
-customElements.setElementCreationCallback("browser-panel", () => {
+customElements.setElementCreationCallback("browser-statuspanel", () => {
     Services.scriptloader.loadSubScript(
-        "resource://dot/components/panel/Panel.js",
+        "resource://dot/components/browser-element/content/StatusPanel.js",
         window
     );
 });
