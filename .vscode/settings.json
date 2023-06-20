@@ -133,7 +133,12 @@
 			"emoji": "🩹",
 			"code": ":bandage:",
 			"description": "Patch browser engine"
-		}
+		},
+        {
+            "emoji": "💞",
+            "code": ":revolving_hearts:",
+            "description": "Work on browser compatibility"
+        }
 	],
 	"git.ignoreLimitWarning": true
 }
