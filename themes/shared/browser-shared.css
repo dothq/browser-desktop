@@ -9,6 +9,7 @@
 /* Components */
 @import url("chrome://dot/content/browser-element/statuspanel.css");
 @import url("chrome://dot/content/browser-tab.css");
+@import url("chrome://dot/content/browser-panel.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
@@ -146,4 +147,10 @@ hr.fdn-separator {
 
 .overflow-visible {
     overflow: visible;
+}
+
+#tabspanel {
+    display: flex;
+    width: 100%;
+    height: 100%;
 }

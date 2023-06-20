@@ -8,3 +8,5 @@ dot.jar:
 % content dot %content/ contentaccessible=yes
     content/browser-tab.js                      (content/browser-tab.js)
     content/browser-tab.css                     (content/browser-tab.css)
+    content/browser-panel.js                    (content/browser-panel.js)
+    content/browser-panel.css                   (content/browser-panel.css)
