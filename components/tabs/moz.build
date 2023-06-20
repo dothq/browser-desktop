@@ -6,6 +6,7 @@
 
 EXTRA_JS_MODULES += [
     "BrowserTabs.sys.mjs",
+    "TabProgressListener.sys.mjs",
 ]
 
 JAR_MANIFESTS += ["jar.mn"]
