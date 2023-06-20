@@ -49,13 +49,20 @@ declare global {
 		 * Create a XUL element of a specific type. Right now this function
 		 * only refines iframes, but more tags could be added.
 		 */
-		createXULElement: ((type: "iframe") => XULIframeElement) &
+		createXULElement: 
+            ((type: "iframe") => XULIframeElement) &
+            ((type: "browser") => Gecko.ChromeBrowser) &
 			((type: string) => XULElement);
 
 		/**
 		 * This is a fluent instance connected to this document.
 		 */
 		l10n: Gecko.FluentLocalization;
+
+        /**
+         * Determines whether we have had a valid user gesture activation
+         */
+        hasValidTransientUserGestureActivation: boolean;
 	}
 
 	/**

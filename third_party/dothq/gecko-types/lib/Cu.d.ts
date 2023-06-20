@@ -12,4 +12,5 @@ export interface Cu {
 	cloneInto: (value: any, scope: object, options?: object) => void;
 	isInAutomation: boolean;
 	now: () => number;
+    getGlobalForObject(obj: any): any;
 }

@@ -18,4 +18,6 @@ export interface nsIDocShell {
     treeOwner: any; /* @todo */
 
     outerWindowID: number;
+
+    QueryInterface: (obj: any) => any;
 }

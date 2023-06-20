@@ -18,6 +18,7 @@ export * from "./Cr";
 export * from "./Cu";
 export * from "./CustomElement";
 export * from "./DevToolsSocketStatus";
+export * from "./E10SUtils";
 export * from "./EventEmitter";
 export * from "./FluentLocalization";
 export * from "./FrameLoader";

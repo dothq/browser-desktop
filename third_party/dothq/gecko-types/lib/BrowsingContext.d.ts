@@ -14,4 +14,8 @@ export interface BrowsingContext {
      * the profiler back-end. See `getActiveBrowserID` for the usage.
      */
     browserId: number;
+
+    hasSiblings: boolean;
+
+    isAppTab: boolean;
 }
