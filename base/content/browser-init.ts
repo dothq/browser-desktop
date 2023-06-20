@@ -35,6 +35,7 @@ var { LightweightThemeConsumer } = ChromeUtils.importESModule(
 );
 
 // Ensure that these icons match up with the actual page favicon
+// Reflect any changes here with components/tabs/BrowserTabs.sys.mjs
 const gPageIcons = {
 	"about:home": "chrome://dot/skin/home.svg",
 	"about:newtab": "chrome://dot/skin/home.svg",
