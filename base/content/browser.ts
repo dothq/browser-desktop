@@ -21,6 +21,24 @@ export const _gDot = {
 
     tabs: BrowserTabs,
 
+    /**
+     * Determines whether the browser session supports multiple processes
+     */
+    get isMultiProcess(): boolean {
+        return window.docShell.QueryInterface(
+            Ci.nsILoadContext
+        ).useRemoteTabs
+    },
+
+    /**
+     * Determines whether this browser session uses remote subframes
+     */
+    get usesRemoteSubframes(): boolean {
+        return window.docShell.QueryInterface(
+            Ci.nsILoadContext
+        ).useRemoteSubframes;
+    },
+
 	/**
 	 * Initialises the browser and its components
 	 */
