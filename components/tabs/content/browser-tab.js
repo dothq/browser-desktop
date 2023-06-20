@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * @typedef {import("third_party/dothq/gecko-types/lib").ChromeBrowser} ChromeBrowser
+ */
+
 class BrowserTab extends MozHTMLElement {
     constructor() {
         super();
@@ -14,15 +18,108 @@ class BrowserTab extends MozHTMLElement {
         ];
     }
 
+    _openerTab = null
+
+    /** 
+     * The opener tab is the tab that opened this current tab
+     * @type {false | BrowserTab} 
+     */
+    get openerTab() {
+        if (!this._openerTab) return false;
+
+        const tabId = this._openerTab.id;
+        const tab = gDot.tabs.getTabByTabId(tabId);
+
+        if (!tab) return false;
+        return this._openerTab;
+    }
+
+    /**
+     * The elements of the Tab
+     * 
+     * @typedef {Object} TabElements
+     * @property {HTMLSpanElement} label - The tab's label/title
+     * @property {HTMLImageElement} icon - The tab's favicon
+     * 
+     * @returns {TabElements}
+     */
     get elements() {
         return {
-            label: this.querySelector(".browser-tab-label")
+            label: this.querySelector(".browser-tab-label"),
+            icon: this.querySelector(".browser-tab-icon")
         }
+    }
+
+    /**
+     * The tab's contents
+     * This can either be a MozBrowser or any other element.
+     * @type {ChromeBrowser | Element}
+     */
+    webContents = null
+
+    /**
+     * The webContents' unique numerical ID
+     * 
+     * The ID can either be from a MozBrowser or from 
+     * any element attached to the Tab as webContents.
+     * @returns {number}
+     */
+    get webContentsId() {
+        // @ts-ignore
+        if (this.webContents.constructor.name == "MozBrowser" && this.webContents.browserId) {
+            // @ts-ignore
+            return this.webContents.browserId;
+        }
+
+        return parseInt(this.webContents.id);
+    }
+
+    _pinned = false
+    get pinned() {
+        return this._pinned;
+    }
+
+    set pinned(val) {
+        this._pinned = val;
+        this.toggleAttribute("pinned", val);
+    }
+
+    /**
+     * The ID of the userContext (container) to use
+     */
+    userContextId = null
+
+    get permanentKey() {
+        // @ts-ignore
+        return this.webContents.permanentKey;
+    }
+
+    _webContentsPanelId = null
+
+    /**
+     * The webContent's panel element
+     * 
+     * The panel element is responsible for containing 
+     * the browser/webContents within the UI.
+     */
+    get webContentsPanel() {
+        return document.getElementById(this._webContentsPanelId);
+    }
+
+    /**
+     * The index of the tab in relation to the tabs list
+     */
+    get index() {
+        return Array.from(gDot.tabs.list).indexOf(
+            // @ts-ignore
+            document.getElementById(this.id)
+        );
     }
 
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
+        this.appendChild(html("img", { class: "browser-tab-icon" }, ""));
         this.appendChild(html("span", { class: "browser-tab-label" }, ""));
 
         if (!this.getAttribute("label")) {
@@ -64,6 +161,16 @@ class BrowserTab extends MozHTMLElement {
         this.setAttribute("label", newLabel);
     }
 
+    /**
+     * Updates the tab's icon
+     * @param {string} newIconURI 
+     */
+    updateIcon(newIconURI) {
+        this.elements.icon.src = newIconURI;
+        this.setAttribute("icon", newIconURI);
+    }
+
+    // @ts-ignore
     _onTabMouseDown(event) {
         gDot.tabs.selectedTab = this;
     }
@@ -84,6 +191,10 @@ class BrowserTab extends MozHTMLElement {
                     this.updateLabel(newValue);
                 }
                 break;
+            case "icon":
+                if (newValue !== oldValue) {
+                    this.updateIcon(newValue);
+                }
         }
     }
 }
