@@ -8,7 +8,8 @@
 const registry = {
     BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
     NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
-    StartPage: "components/startpage/StartPage.sys.mjs"
+    StartPage: "components/startpage/StartPage.sys.mjs",
+    TabProgressListener: "components/tabs/TabProgressListener.sys.mjs"
 };
 
 export default registry;
