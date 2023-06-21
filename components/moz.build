@@ -7,7 +7,6 @@ include("../build/node-templates.mozbuild")
 
 DIRS += [
     "about",
-    "browser-element",
     "customizableui",
     "navigation",
     "onboarding",
