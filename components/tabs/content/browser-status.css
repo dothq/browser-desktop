@@ -1,0 +1,19 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-status {
+    display: flex;
+    padding: 0.3rem 0.4rem;
+
+    background-color: var(--toolbar-bgcolor);
+
+    position: absolute;
+    bottom: 0;
+
+    border-top: 1px solid var(--chrome-content-separator-color);
+    border-right: 1px solid var(--chrome-content-separator-color);
+    border-top-right-radius: 0.4rem;
+}
+
+browser-status .browser-status-label {}

@@ -10,6 +10,7 @@
 @import url("chrome://dot/content/browser-element/statuspanel.css");
 @import url("chrome://dot/content/browser-tab.css");
 @import url("chrome://dot/content/browser-panel.css");
+@import url("chrome://dot/content/browser-status.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
