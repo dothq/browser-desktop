@@ -56,6 +56,8 @@ const {
 export const BrowserTabs = {
     EVENT_TAB_SELECT: "BrowserTabs::TabSelect",
 
+    EVENT_BROWSER_STATUS_CHANGE: "BrowserTabs::BrowserStatusChange",
+
     /** @type {Window} */
     _win: null,
 
@@ -81,6 +83,11 @@ export const BrowserTabs = {
      * @type {Map<BrowserTab, nsIWebProgress>}
      */
     _tabFilters: new Map(),
+
+    /**
+     * Determines whether the browser is in a "busy" state
+     */
+    isBusy: false,
 
     /**
      * All currently open tabs in the browser
@@ -119,7 +126,7 @@ export const BrowserTabs = {
             t.webContentsPanel.hidden = this._selectedTab.id !== t.id;
         }
 
-        this._dispatchEvent(this.EVENT_TAB_SELECT, { detail: tab });
+        this._dispatchDocumentEvent(this.EVENT_TAB_SELECT, { detail: tab });
     },
 
     get _tabslistEl() {
@@ -150,10 +157,22 @@ export const BrowserTabs = {
      * @param {string} type
      * @param {CustomEventInit} options
      */
-    _dispatchEvent(type, options) {
+    _dispatchDocumentEvent(type, options) {
         const ev = new CustomEvent(type, options);
 
         this._win.document.dispatchEvent(ev);
+    },
+
+    /**
+     * Dispatches an event to an element.
+     * @param {Element} element
+     * @param {string} type
+     * @param {CustomEventInit} options
+     */
+    _dispatchElementEvent(element, type, options) {
+        const ev = new CustomEvent(type, options);
+
+        element.dispatchEvent(ev);
     },
 
     /**
@@ -377,7 +396,7 @@ export const BrowserTabs = {
             return null;
         }
 
-        this._dispatchEvent(this.EVENT_TAB_CREATE, { detail: tabEl });
+        this._dispatchDocumentEvent(this.EVENT_TAB_CREATE, { detail: tabEl });
 
         // We should only consider loading anything into the tab if the webContents are a browser element
         if (this._isWebContentsBrowserElement(tabEl.webContents)) {

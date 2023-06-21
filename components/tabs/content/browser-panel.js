@@ -17,6 +17,8 @@ class BrowserPanel extends MozHTMLElement {
 
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
+
+        this.appendChild(html("browser-status"));
     }
 
     disconnectedCallback() {
