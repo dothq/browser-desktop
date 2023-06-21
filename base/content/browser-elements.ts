@@ -16,9 +16,9 @@ customElements.setElementCreationCallback("browser-panel", () => {
     );
 });
 
-customElements.setElementCreationCallback("browser-statuspanel", () => {
+customElements.setElementCreationCallback("browser-status", () => {
     Services.scriptloader.loadSubScript(
-        "resource://dot/components/browser-element/content/StatusPanel.js",
+        "chrome://dot/content/browser-status.js",
         window
     );
 });
