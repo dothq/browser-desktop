@@ -9,6 +9,17 @@ import {
 	nsIWebProgress
 } from "../../third_party/dothq/gecko-types/lib";
 
+const TRIM_URL_PROTOCOL = "http://";
+
+function trimURL(url: string) {
+    url = url.replace(/^((?:http|https|ftp):\/\/[^/]+)\/$/, "$1");
+
+    // Remove "http://" prefix.
+    return url.startsWith(TRIM_URL_PROTOCOL)
+        ? url.substring(TRIM_URL_PROTOCOL.length)
+        : url;
+}
+
 /**
  * Handles communication between the engine to
  * receive events and pass them to their respective
@@ -63,13 +74,20 @@ export class nsIXULBrowserWindow {
 			url = url.replace(/[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g, encodeURIComponent);
 
 			if (Services.prefs.getBoolPref("browser.urlbar.trimURLs", true)) {
-				url = BrowserUIUtils.trimURL(url);
+				url = trimURL(url);
 			}
 		}
 
 		this.overLink = url;
 
-		LinkTargetDisplay.update();
+        const evt = new CustomEvent(gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, {
+            detail: {
+                message: url,
+                type: "overLink"
+            }
+        });
+
+		gDot.tabs.selectedTab.webContents.dispatchEvent(evt);
 	}
 
 	public showTooltip(
@@ -95,7 +113,7 @@ export class nsIXULBrowserWindow {
 	}
 
 	public getTabCount() {
-		return 0;
+		return gDot.tabs.length;
 	}
 
 	public onProgressChange(
