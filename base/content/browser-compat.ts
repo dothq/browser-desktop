@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { LoadURIOptions } from "third_party/dothq/gecko-types/lib/nsIWebNavigation";
+
 /**
  * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
  * 
@@ -73,6 +75,13 @@ var gBrowser = {
 
     getTabForBrowser(browser: ChromeBrowser) {
         return gDot.tabs.getTabForWebContents(browser);
+    },
+
+    addTab(uri: string, options: LoadURIOptions) {
+        return gDot.tabs.createTab({
+            ...options,
+            uri
+        });
     }
 }
 
