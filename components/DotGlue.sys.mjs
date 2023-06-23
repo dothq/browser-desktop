@@ -103,7 +103,7 @@ const JSWINDOWACTORS = {
 
     LightweightTheme: {
         child: {
-            moduleURI: "resource:///actors/LightweightThemeChild.jsm",
+            moduleURI: "resource:///actors/LightweightThemeChild.sys.mjs",
             events: {
                 pageshow: { mozSystemGroup: true },
                 DOMContentLoaded: {}
@@ -127,7 +127,7 @@ const JSWINDOWACTORS = {
             esModuleURI: "resource:///actors/DotLinkHandlerParent.sys.mjs"
         },
         child: {
-            moduleURI: "resource:///actors/LinkHandlerChild.jsm",
+            moduleURI: "resource:///actors/LinkHandlerChild.sys.mjs",
             events: {
                 DOMHeadElementParsed: {},
                 DOMLinkAdded: {},
@@ -152,17 +152,17 @@ const JSWINDOWACTORS = {
 
     Pdfjs: {
         parent: {
-            moduleURI: "resource://pdf.js/PdfjsParent.jsm"
+            moduleURI: "resource://pdf.js/PdfjsParent.sys.mjs"
         },
         child: {
-            moduleURI: "resource://pdf.js/PdfjsChild.jsm"
+            moduleURI: "resource://pdf.js/PdfjsChild.sys.mjs"
         },
         allFrames: true
     },
 
     Prompt: {
         parent: {
-            moduleURI: "resource:///actors/PromptParent.jsm"
+            moduleURI: "resource:///actors/PromptParent.sys.mjs"
         },
         includeChrome: true,
         allFrames: true
