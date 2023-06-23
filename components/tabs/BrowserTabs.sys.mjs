@@ -120,13 +120,24 @@ export const BrowserTabs = {
      * @param {BrowserTab} tab
      */
     set selectedTab(tab) {
+        /** @type {BrowserTab} */
+        const oldTab = this._selectedTab;
+
         this._selectedTab = tab;
 
-        for (const t of this.list) {
-            t.webContentsPanel.hidden = this._selectedTab.id !== t.id;
-        }
+        if (oldTab) oldTab.webContentsPanel.hidden = oldTab.id !== tab.id;
+        tab.webContentsPanel.hidden = tab.id !== tab.id;
 
         this._dispatchDocumentEvent(this.EVENT_TAB_SELECT, { detail: tab });
+
+        if (oldTab && this._isWebContentsBrowserElement(oldTab.webContents)) {
+            /** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
+        }
+
+        if (this._isWebContentsBrowserElement(tab.webContents)) {
+            console.log("tab.docShellIsActive", true);
+			/** @type {ChromeBrowser} */ (tab.webContents).docShellIsActive = true;
+        }
     },
 
     get _tabslistEl() {
@@ -658,6 +669,24 @@ export const BrowserTabs = {
     },
 
     /**
+     * Events for BrowserTabs
+     * @param {Event} event
+     */
+    handleEvent(event) {
+        switch (event.type) {
+            case "visabilitychange":
+                if (this._isWebContentsBrowserElement(this.selectedTab.webContents)) {
+					/** @type {ChromeBrowser} */ (this.selectedTab.webContents).preserveLayers(
+                    document.hidden
+                );
+					/** @type {ChromeBrowser} */ (this.selectedTab.webContents).docShellIsActive =
+                        !document.hidden;
+                }
+                break;
+        }
+    },
+
+    /**
      * Initialises the BrowserTabs
      * @param {Window} win
      */
@@ -665,5 +694,13 @@ export const BrowserTabs = {
         this._win = win;
 
         this._win.MozXULElement.insertFTLIfNeeded("dot/tabs.ftl");
+
+        this._win.addEventListener("visabilitychange", this);
+    },
+
+    destroy() {
+        if (!this._win) throw new Error("BrowserTabs is not initted yet!");
+
+        this._win.removeEventListener("visabilitychange", this);
     }
 };
