@@ -10,28 +10,7 @@
     both "content" and "skin" packages, which bug 1385444 will unify later. -->
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 
-<!-- While these stylesheets are defined in Toolkit, they are only used in the
-     main browser window, so we can load them here. Bug 1474241 is on file to
-     consider moving these widgets to the "browser" folder. -->
-<?xml-stylesheet href="chrome://global/content/tabprompts.css" type="text/css"?>
-<?xml-stylesheet href="chrome://global/skin/tabprompts.css" type="text/css"?>
-
-<?xml-stylesheet href="chrome://browser/content/browser.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/content/tabbrowser.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/content/downloads/downloads.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/content/places/places.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/content/usercontext/usercontext.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
-#ifdef XP_WIN
-<?xml-stylesheet href="chrome://browser/skin/browser-aero.css" type="text/css"?>
-#endif
-
-<?xml-stylesheet href="chrome://browser/skin/controlcenter/panel.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/skin/customizableui/panelUI.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/skin/downloads/downloads.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/skin/searchbar.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/skin/places/tree-icons.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/skin/places/editBookmark.css" type="text/css"?>
+<?xml-stylesheet href="chrome://dot/skin/browser.css" type="text/css"?>
 
 <html id="main-window"
     xmlns:html="http://www.w3.org/1999/xhtml"
@@ -57,8 +36,6 @@
     persist="screenX screenY width height sizemode"
 >
     <head>
-        <link rel="stylesheet" href="chrome://dot/skin/browser.css" />
-
         <link rel="localization" href="branding/brand.ftl"/>
         <link rel="localization" href="dot/browser.ftl"/>
         <link rel="localization" href="browser/browserSets.ftl"/>
@@ -94,15 +71,6 @@
         <script>
             // Important utilities/globals for browser
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", this);
-
-            // Services.scriptloader.loadSubScript("chrome://browser/content/browser.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-places.js", this);
-            Services.scriptloader.loadSubScript("chrome://global/content/globalOverlay.js", this);
-            Services.scriptloader.loadSubScript("chrome://global/content/editMenuOverlay.js", this);
-            Services.scriptloader.loadSubScript("chrome://browser/content/utilityOverlay.js", this);
-            if (AppConstants.platform == "macosx") {
-                Services.scriptloader.loadSubScript("chrome://global/content/macWindowMenu.js", this);
-            }
         </script>
         <script>
             var { AppConstants } = ChromeUtils.importESModule(
@@ -119,26 +87,7 @@
                 document.documentElement.removeAttribute("remotecontrol");
             }
 
-            Services.scriptloader.loadSubScript("chrome://global/content/contentAreaUtils.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-elements.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-captivePortal.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-pageActions.js", this);
-            // // Services.scriptloader.loadSubScript("chrome://browser/content/browser-sidebar.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-tabsintitlebar.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/browser-unified-extensions.js", this);
-
-            // Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tab.js", this);
-            // Services.scriptloader.loadSubScript("chrome://browser/content/tabbrowser-tabs.js", this);
-
-            // Services.scriptloader.loadSubScript("chrome://browser/content/places/places-menupopup.js", this);
-
-            // Services.scriptloader.loadSubScript(
-            //     "chrome://browser/content/search/autocomplete-popup.js",
-            //     this
-            // );
-            // Services.scriptloader.loadSubScript("chrome://browser/content/search/searchbar.js", this);
-
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-compat.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
 
@@ -173,12 +122,6 @@
             </div>
         </html:div>
 
-        <html:div id="ff-internals">
-            #include ../../../browser/base/content/browser-sets.inc
-        </html:div>
-
-        #include ../../components/browser-element/content/browser-element.inc.xhtml
-        
         <html:div id="a11y-announcement" role="alert"/>
     </html:body>
 </html>
