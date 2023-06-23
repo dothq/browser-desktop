@@ -6,6 +6,11 @@ browser-panel {
     display: flex;
 }
 
+browser-panel[hidden] {
+    display: inherit;
+    visibility: hidden;
+}
+
 browser-panel,
 browser-panel .browser-web-contents {
     width: 100%;
