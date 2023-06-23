@@ -9,6 +9,7 @@ import { nsIWebProgress } from "./nsIWebProgress";
 import { nsIDocShell } from "./nsIDocShell";
 import { nsIWebNavigation } from "./nsIWebNavigation";
 import { BrowserTabs } from "components/tabs/BrowserTabs.sys.mjs";
+import { NavigationHelper } from "components/navigation/NavigationHelper.sys.mjs";
 
 type OmitFirstArg<F> = F extends (x: any, ...args: infer P) => infer R ? (...args: P) => R : never;
 
@@ -29,10 +30,13 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
     webNavigation: nsIWebNavigation;
     isNavigating: boolean;
     docShell?: nsIDocShell;
+    docShellIsActive: boolean;
 
     fixupAndLoadURIString: OmitFirstArg<typeof NavigationHelper.fixupAndLoadURIString>;
     loadURI: OmitFirstArg<typeof NavigationHelper.loadURI>;
     droppedLinkHandler: typeof BrowserTabs.onBrowserDroppedLink;
 
     createAboutBlankContentViewer(principal: any, partitionedPrincipal: any): void;
+
+    preserveLayers(preserveLayers: boolean): void;
 }
