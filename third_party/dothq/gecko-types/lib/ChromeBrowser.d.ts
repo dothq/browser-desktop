@@ -31,6 +31,7 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
     isNavigating: boolean;
     docShell?: nsIDocShell;
     docShellIsActive: boolean;
+    contentTitle: string;
 
     fixupAndLoadURIString: OmitFirstArg<typeof NavigationHelper.fixupAndLoadURIString>;
     loadURI: OmitFirstArg<typeof NavigationHelper.loadURI>;
