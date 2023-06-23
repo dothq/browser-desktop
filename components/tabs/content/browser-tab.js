@@ -116,6 +116,16 @@ class BrowserTab extends MozHTMLElement {
         );
     }
 
+    /**
+     * Register any event listeners that require webContents to be setup and ready
+     * 
+     * Putting these into connectedCallback can't guarantee it will work, as 
+     * webContents could get added to the tab too late.
+     */
+    registerEventListeners() {
+        this.webContents.addEventListener("pagetitlechanged", this);
+    }
+
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
@@ -135,6 +145,8 @@ class BrowserTab extends MozHTMLElement {
 
         this.removeEventListener("mousedown", this);
         document.removeEventListener(gDot.tabs.EVENT_TAB_SELECT, this);
+
+        this.webContents.removeEventListener("pagetitlechanged", this);
     }
 
     /**
@@ -149,6 +161,10 @@ class BrowserTab extends MozHTMLElement {
             case gDot.tabs.EVENT_TAB_SELECT:
                 this._onTabSelected(event);
                 break;
+            case "pagetitlechanged":
+                if (this.webContents.tagName == "browser") {
+                    this.updateLabel(/** @type {ChromeBrowser} */(this.webContents).contentTitle);
+                }
         }
     }
 

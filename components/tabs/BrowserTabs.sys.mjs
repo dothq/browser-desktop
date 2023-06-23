@@ -396,6 +396,8 @@ export const BrowserTabs = {
             }
 
             this._insertTabWebContents(tabEl, options.webContents);
+
+            tabEl.registerEventListeners();
         } catch (e) {
             console.error("Error while creating tab!");
             console.error(e);
