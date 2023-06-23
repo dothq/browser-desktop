@@ -7,7 +7,6 @@
 @import url("chrome://dot/skin/browser-dialog.css");
 
 /* Components */
-@import url("chrome://dot/content/browser-element/statuspanel.css");
 @import url("chrome://dot/content/browser-tab.css");
 @import url("chrome://dot/content/browser-panel.css");
 @import url("chrome://dot/content/browser-status.css");
