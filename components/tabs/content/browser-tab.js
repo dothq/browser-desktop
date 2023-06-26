@@ -3,12 +3,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
+ * Compatibility layer over Dot tabs for Mozilla APIs
+ * 
+ * This shouldn't be modified, unless it improves coverage for existing APIs. 
+ * New features should be put into BrowserTab instead.
+ * 
+ * @param {BrowserTab} tab
+ */
+function injectCompat(tab) {
+    const { BrowserCompatibility: compat } = ChromeUtils.importESModule(
+        "resource://gre/modules/BrowserCompatibility.sys.mjs"
+    );
+
+    compat.defineGetter(tab, "linkedBrowser", () => tab.webContents);
+}
+
+/**
  * @typedef {import("third_party/dothq/gecko-types/lib").ChromeBrowser} ChromeBrowser
  */
 
-class BrowserTab extends MozHTMLElement {
+class BrowserTab extends MozElements.MozTab {
     constructor() {
         super();
+
+        injectCompat(this);
     }
 
     static get observedAttributes() {
@@ -129,8 +147,8 @@ class BrowserTab extends MozHTMLElement {
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
-        this.appendChild(html("img", { class: "browser-tab-icon" }, ""));
-        this.appendChild(html("span", { class: "browser-tab-label" }, ""));
+        this.appendChild(html("img", { class: "browser-tab-icon" }));
+        this.appendChild(html("span", { class: "browser-tab-label" }));
 
         if (!this.getAttribute("label")) {
             this.updateLabel("Untitled");
@@ -215,4 +233,4 @@ class BrowserTab extends MozHTMLElement {
     }
 }
 
-customElements.define("browser-tab", BrowserTab);
+customElements.define("browser-tab", BrowserTab, { extends: "tab" });

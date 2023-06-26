@@ -156,7 +156,7 @@ export const BrowserTabs = {
     _createTabElement() {
         /** @type {BrowserTab} */
         // @ts-ignore
-        const el = this._win.document.createElement("browser-tab");
+        const el = this._win.document.createXULElement("tab", { is: "browser-tab" });
 
         el.id = this._generateUniqueTabID();
 
@@ -520,6 +520,20 @@ export const BrowserTabs = {
     },
 
     /**
+     * Creates multiple tabs
+     * @param {string[]} uris 
+     * @param {object} options 
+     */
+    createTabs(uris, options) {
+        for (const uri of uris) {
+            this.createTab({
+                ...options,
+                uri,
+            })
+        }
+    },
+
+    /**
      * Determines whether a webContents is a browser element
      * @param {any} webContents
      * @returns {boolean}
@@ -646,7 +660,11 @@ export const BrowserTabs = {
      */
     getTabForWebContents(webContents) {
         const id = this._getWebContentsId(webContents);
-        return this._tabs.get(id);
+        const idType = this._isWebContentsBrowserElement(webContents)
+            ? "browserId"
+            : "id";
+
+        return this.list.find(tab => tab.webContents[idType] == id);
     },
 
     /**
