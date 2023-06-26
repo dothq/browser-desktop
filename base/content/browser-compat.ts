@@ -17,40 +17,9 @@ import { LoadURIOptions } from "third_party/dothq/gecko-types/lib/nsIWebNavigati
  * of existing Mozilla modules and scripts, to maintain compatibility.**
  */
 
-function defineGetter(object: object, name: string, getter: () => any, options?: PropertyDescriptor) {
-    return Object.defineProperty(object, name, {
-        ...(options || {}),
-        get: getter
-    });
-} 
-
-function defineSetter(object: object, name: string, setter: (v: any) => void, options?: PropertyDescriptor) {
-    return Object.defineProperty(object, name, {
-        ...(options || {}),
-        set: setter
-    });
-} 
-
-function proxyBrowserTab(tab: BrowserTab) {
-    defineGetter(tab, "linkedBrowser", () => {
-        if ((tab.webContents as ChromeBrowser).browserId) {
-            return tab.webContents;
-        }
-
-        // When our webContents isn't a browser, just create a new blank browser
-        return document.createXULElement("browser");
-    });
-
-    return tab;
-}
-
-function proxyBrowserTabsList(list: any[]) {
-    return Array.from(list).map(proxyBrowserTab);
-}
-
 var gBrowser = {
     get tabs() {
-        return proxyBrowserTabsList(gDot.tabs.list);
+        return gDot.tabs.list;
     },
 
     get currentURI() {
@@ -59,6 +28,10 @@ var gBrowser = {
 
     get selectedTab() {
         return gDot.tabs.selectedTab;
+    },
+
+    set selectedTab(newTab: BrowserTab) {
+        gDot.tabs.selectedTab = newTab;
     },
 
     get selectedBrowser() { 
@@ -75,6 +48,11 @@ var gBrowser = {
 
     getTabForBrowser(browser: ChromeBrowser) {
         return gDot.tabs.getTabForWebContents(browser);
+    },
+
+    getBrowserContainer(browser: ChromeBrowser) {
+        const tab = gDot.tabs.getTabForWebContents(browser);
+        return tab.webContentsPanel;
     },
 
     addTab(uri: string, options: LoadURIOptions) {
