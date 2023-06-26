@@ -4,25 +4,24 @@
 
 import { AppConstants } from "resource://gre/modules/AppConstants.sys.mjs";
 
-const { PrivateBrowsingUtils } = ChromeUtils.importESModule("resource://gre/modules/PrivateBrowsingUtils.sys.mjs");
+const { PrivateBrowsingUtils } = ChromeUtils.importESModule(
+    "resource://gre/modules/PrivateBrowsingUtils.sys.mjs"
+);
 
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
  * @typedef {import("third_party/dothq/gecko-types/lib/nsIWebNavigation").LoadURIOptions} LoadURIOptions
  */
 
-const {
-    LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP,
-    LOAD_FLAGS_FIXUP_SCHEME_TYPOS,
-    LOAD_FLAGS_NONE,
-} = Ci.nsIWebNavigation;
+const { LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP, LOAD_FLAGS_FIXUP_SCHEME_TYPOS, LOAD_FLAGS_NONE } =
+    Ci.nsIWebNavigation;
 
 /**
  * Handles any file: URIs that have special functionality
  * Such as XPI addon files that need to be installed
- * 
- * @param {ChromeBrowser} browser 
- * @param {nsIURI} uri 
+ *
+ * @param {ChromeBrowser} browser
+ * @param {nsIURI} uri
  */
 function handleFileURI(browser, uri) {
     if (uri.scheme == "file") {
@@ -36,18 +35,16 @@ function handleFileURI(browser, uri) {
                     "resource://gre/modules/AddonManager.sys.mjs"
                 );
 
-                const systemPrincipal =
-                    Services.scriptSecurityManager.getSystemPrincipal();
+                const systemPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
 
-                AddonManager.getInstallForURL(uri.spec, {})
-                    .then(install => {
-                        AddonManager.installAddonFromWebpage(
-                            mimeType,
-                            browser,
-                            systemPrincipal,
-                            install
-                        );
-                    });
+                AddonManager.getInstallForURL(uri.spec, {}).then((install) => {
+                    AddonManager.installAddonFromWebpage(
+                        mimeType,
+                        browser,
+                        systemPrincipal,
+                        install
+                    );
+                });
 
                 return true;
             }
@@ -78,11 +75,56 @@ export const NavigationHelper = {
      *    `window`: open in new window
      *
      *    `save`: save to disk (with no filename hint!)
-     * @param {object} params
+     * @param {Partial<LoadURIOptions>} params
      */
     openLinkIn(win, url, where, params) {
         /* @todo: add logic for openLinkIn */
-        console.log("todo: openLinkIn", win, url, where, params)
+        console.log("todo: openLinkIn", win, url, where, params);
+    },
+
+    /**
+     * Opens trusted link in a target
+     * 
+     * Identical to openLinkIn, but uses a **system** principal
+     * @param {Window} win 
+     * @param {string} url 
+     * @param {"current" | "tab" | "tabshifted" | "window" | "save"} where 
+     * @param {Partial<LoadURIOptions>} params 
+     */
+    openTrustedLinkIn(win, url, where, params = {}) {
+        if (!params.triggeringPrincipal) {
+            params.triggeringPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
+        }
+
+        params.forceForeground ??= true;
+
+        this.openLinkIn(win, url, where, params);
+    },
+
+    /**
+     * Opens web link in a target
+     * 
+     * Identical to openLinkIn, but uses a null principal
+     * @param {Window} win 
+     * @param {string} url 
+     * @param {"current" | "tab" | "tabshifted" | "window" | "save"} where 
+     * @param {Partial<LoadURIOptions>} params 
+     */
+    openWebLinkIn(win, url, where, params = {}) {
+        if (!params.triggeringPrincipal) {
+            params.triggeringPrincipal =
+                Services.scriptSecurityManager.createNullPrincipal({});
+        }
+
+        if (params.triggeringPrincipal.isSystemPrincipal) {
+            throw new Error(
+                "System principal should never be passed to openWebLinkIn()!"
+            );
+        }
+
+        params.forceForeground ??= true;
+
+        this.openLinkIn(win, url, where, params);
     },
 
     /**
@@ -103,20 +145,20 @@ export const NavigationHelper = {
         // We could encounter malformed URIs here and we don't want to
         // interrupt start-up, so we just wrap it in a try catch.
         try {
-            console.log("gBrowser::loadTabs", uriString.split("|"), {
+            win.gDot.tabs.createTabs(uriString.split("|"), {
                 inBackground: false,
                 replace: true,
                 triggeringPrincipal,
                 csp
-            })
+            });
         } catch (e) { }
     },
 
     /**
      * Loads a URI into a browser
-     * @param {ChromeBrowser} browser 
-     * @param {import("third_party/dothq/gecko-types/lib").nsIURI} uri 
-     * @param {Partial<LoadURIOptions>} loadURIOptions 
+     * @param {ChromeBrowser} browser
+     * @param {import("third_party/dothq/gecko-types/lib").nsIURI} uri
+     * @param {Partial<LoadURIOptions>} loadURIOptions
      */
     loadURI(browser, uri, loadURIOptions = {}) {
         if (!loadURIOptions.triggeringPrincipal) {
@@ -159,9 +201,9 @@ export const NavigationHelper = {
 
     /**
      * Converts load flags to URI fixup flags
-     * @param {ChromeBrowser} browser 
-     * @param {number} loadFlags 
-     * @returns 
+     * @param {ChromeBrowser} browser
+     * @param {number} loadFlags
+     * @returns
      */
     _loadFlagsToFixupFlags(browser, loadFlags) {
         let fixupFlags = Ci.nsIURIFixup.FIXUP_FLAG_NONE;
@@ -179,23 +221,17 @@ export const NavigationHelper = {
 
     /**
      * Fixes up the URI string and loads it into a browser
-     * @param {ChromeBrowser} browser 
+     * @param {ChromeBrowser} browser
      * @param {string} uriString
-     * @param {Partial<LoadURIOptions>} loadURIOptions 
+     * @param {Partial<LoadURIOptions>} loadURIOptions
      */
     fixupAndLoadURIString(browser, uriString, loadURIOptions) {
-        const fixupFlags = this._loadFlagsToFixupFlags(
-            browser,
-            loadURIOptions.loadFlags
-        );
+        const fixupFlags = this._loadFlagsToFixupFlags(browser, loadURIOptions.loadFlags);
 
         let fixupInfo;
 
         try {
-            fixupInfo = Services.uriFixup.getFixupURIInfo(
-                uriString,
-                fixupFlags
-            );
+            fixupInfo = Services.uriFixup.getFixupURIInfo(uriString, fixupFlags);
         } catch (e) {
             return null;
         }
