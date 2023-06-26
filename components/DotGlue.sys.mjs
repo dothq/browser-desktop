@@ -103,7 +103,7 @@ const JSWINDOWACTORS = {
 
     LightweightTheme: {
         child: {
-            moduleURI: "resource:///actors/LightweightThemeChild.sys.mjs",
+            esModuleURI: "resource:///actors/LightweightThemeChild.sys.mjs",
             events: {
                 pageshow: { mozSystemGroup: true },
                 DOMContentLoaded: {}
@@ -473,6 +473,7 @@ export class DotGlue {
                 this.initPdfJs();
                 break;
             case "browser-delayed-startup-finished":
+                console.log("browser-delayed-startup-finished")
                 this.onFirstWindowLoaded(subject);
                 Services.obs.removeObserver(this, "browser-delayed-startup-finished");
                 break;
