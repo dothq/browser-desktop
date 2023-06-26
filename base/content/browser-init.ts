@@ -22,6 +22,10 @@ XPCOMUtils.defineLazyScriptGetter(
 	"chrome://browser/content/browser-addons.js"
 );
 
+XPCOMUtils.defineLazyModuleGetters(globalThis, {
+    AddonManager: "resource://gre/modules/AddonManager.jsm"
+})
+
 XPCOMUtils.defineLazyServiceGetters(globalThis, {
 	BrowserHandler: ["@mozilla.org/browser/clh;1", "nsIBrowserHandler"]
 });
@@ -32,6 +36,10 @@ var { Color } = ChromeUtils.importESModule("resource://gre/modules/Color.sys.mjs
 
 var { LightweightThemeConsumer } = ChromeUtils.importESModule(
 	"resource://gre/modules/LightweightThemeConsumer.sys.mjs"
+);
+
+var { NavigationHelper } = ChromeUtils.importESModule(
+	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
 // Ensure that these icons match up with the actual page favicon
@@ -101,9 +109,6 @@ var dBrowserInit = {
 
 	onDOMContentLoaded() {
 		console.time("onDOMContentLoaded");
-
-		// Shim updateFxaToolbarMenu as we aren't using traditional FF toolbars/menus
-		globalThis.updateFxaToolbarMenu = shimFunction("updateFxaToolbarMenu", () => false);
 
 		// Creates an nsIXULBrowserWindow instance to handle browser communication and events
 		const XULBrowserWindow = new nsIXULBrowserWindow();
@@ -250,7 +255,7 @@ var dBrowserInit = {
 				// If the URI is malformed, loadTabs will throw an exception.
 				// Ensure we handle this to not disrupt the browser boot.
 				try {
-					console.log("gBrowser::loadTabs", uriToLoad, {
+                    gDot.tabs.createTabs(uriToLoad, {
 						inBackground: false,
 						replace: true,
 						userContextId: window.arguments[5],
@@ -300,7 +305,7 @@ var dBrowserInit = {
 				}
 
 				try {
-					console.log("gBrowser::openLinkIn", uriToLoad, "current", {
+                    openLinkIn(uriToLoad, "current", {
 						referrerInfo: window.arguments[2] || null,
 						postData: window.arguments[3] || null,
 						allowThirdPartyFixup: window.arguments[4] || false,
@@ -320,7 +325,7 @@ var dBrowserInit = {
 						fromExternal,
 						globalHistoryOptions,
 						triggeringRemoteType
-					});
+					})
 				} catch (e) {
 					console.error(e);
 				}
@@ -328,12 +333,11 @@ var dBrowserInit = {
 			} else {
 				// Note: loadOneOrMoreURIs *must not* be called if window.arguments.length >= 3.
 				// Such callers expect that window.arguments[0] is handled as a single URI.
-				console.log(
-					"gBrowser::loadOneOrMoreURIs",
-					uriToLoad,
-					Services.scriptSecurityManager.getSystemPrincipal(),
-					null
-				);
+                loadOneOrMoreURIs(
+                    uriToLoad, 
+                    Services.scriptSecurityManager.getSystemPrincipal(), 
+                    null
+                )
 			}
 		});
 	},
