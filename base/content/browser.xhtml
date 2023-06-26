@@ -70,7 +70,8 @@
 
         <script>
             // Important utilities/globals for browser
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-utils.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-utility-overlay.js", this);
+            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-compat.js", this);
         </script>
         <script>
             var { AppConstants } = ChromeUtils.importESModule(
@@ -80,7 +81,7 @@
             // Sets up DevTools connection for debugging if in a non-release build
             if (!AppConstants.MOZILLA_OFFICIAL) {
                 Services.scriptloader.loadSubScript(
-                    "resource://dot/base/content/browser-development-helpers.js", 
+                    "chrome://dot/content/browser-development-helpers.js", 
                     this
                 );
 
@@ -88,7 +89,7 @@
             }
 
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-elements.js", this);
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-compat.js", this);
+            Services.scriptloader.loadSubScript("resource://dot/base/content/browser.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
 
             window.addEventListener(
@@ -111,6 +112,7 @@
     <html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
         #include main-popupset.inc.xhtml
         #include browser-dialog.inc.xhtml
+        #include browser-compat.inc.xhtml
 
         <html:div id="mount">
             <ul id="tabslist">
