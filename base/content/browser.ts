@@ -7,11 +7,11 @@ ChromeUtils.defineESModuleGetters(globalThis, {
 	DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
 });
 
-const { NavigationHelper } = ChromeUtils.importESModule(
+var { NavigationHelper } = ChromeUtils.importESModule(
 	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
-const { BrowserTabs } = ChromeUtils.importESModule(
+var { BrowserTabs } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserTabs.sys.mjs"
 );
 
