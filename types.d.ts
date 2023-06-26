@@ -35,6 +35,8 @@ declare global {
     var MozXULElement: MozXULElement;
     var MozHTMLElement: MozHTMLElement;
 
+    var MozElements: Gecko.MozElements;
+
     /**
      * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
      * 

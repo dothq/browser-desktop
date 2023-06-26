@@ -30,6 +30,7 @@ export * from "./Log";
 export * from "./Marionette";
 export * from "./MessageManager";
 export * from "./MozElementMixin";
+export * from "./MozElements";
 export * from "./MozHTMLElement";
 export * from "./MozXULElement";
 export * from "./nsIAppWindow";
