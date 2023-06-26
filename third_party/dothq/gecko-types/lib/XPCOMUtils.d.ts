@@ -140,7 +140,7 @@ export interface XPCOMUtils {
 		aPreLambda?: Function,
 		aPostLambda?: Function,
 		aProxy?: object
-	) => asserts aObject is AllMozModules[K];
+    ) => void;
 
 	/**
 	 * Defines a lazy module getter on a specified object for each
@@ -156,7 +156,7 @@ export interface XPCOMUtils {
 	defineLazyModuleGetters<Paths extends keyof AllMozModules>(
 		target: object,
 		bindings: Record<Paths, string>
-	): asserts target is { [K in Paths]: AllMozModules[K] };
+	): void;
 
 	/**
 	 * Defines a getter on a specified object for preference value. The
