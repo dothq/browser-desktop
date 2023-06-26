@@ -17,7 +17,7 @@ class BrowserStatus extends MozHTMLElement {
         if (this.delayConnectedCallback()) return;
 
         this.hidden = !gDot.tabs.isBusy;
-        this.appendChild(html("span", { class: "browser-status-label" }, ""));
+        this.appendChild(html("span", { class: "browser-status-label" }));
 
         this.webContents.addEventListener(gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, this);
     }
