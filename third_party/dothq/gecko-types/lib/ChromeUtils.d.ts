@@ -52,14 +52,10 @@ export interface ChromeUtils {
 		path: string
 	) => void;
 	generateQI: (contractIDs: string[]) => any;
-	defineLazyModuleGetters<Paths extends keyof AllMozModules>(
-		target: object,
-		bindings: Record<Paths, string>
-	): asserts target is { [K in Paths]: AllMozModules[K] };
 	defineESModuleGetters<Paths extends keyof AllMozModules>(
 		target: object,
 		bindings: Record<Paths, string>
-	): asserts target is { [K in Paths]: AllMozModules[K] };
+	): void;
 	unregisterProcessActor: (name: string) => void;
 	unregisterWindowActor: (name: string) => void;
 	registerProcessActor: (
