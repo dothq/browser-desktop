@@ -559,11 +559,13 @@ export const BrowserTabs = {
         const panelId = this._generateUniquePanelID();
         panel.id = panelId;
 
-        tab.webContents.classList.add("browser-web-contents");
+        const frame = this._win.document.createElement("browser-frame");
 
-        panel.appendChild(tab.webContents);
+        tab.webContents.classList.add("browser-web-contents");
+        frame.appendChild(tab.webContents);
         tab._webContentsPanelId = panelId;
 
+        panel.appendChild(frame);
         this._tabpanelBoxEl.appendChild(panel);
 
         if (this._isWebContentsBrowserElement(tab.webContents)) {
