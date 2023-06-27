@@ -4,6 +4,9 @@
 
 browser-panel {
     display: flex;
+    flex: 10000 10000;
+    min-height: 0;
+    flex-direction: column;
 }
 
 browser-panel[hidden] {
@@ -11,8 +14,14 @@ browser-panel[hidden] {
     visibility: hidden;
 }
 
-browser-panel,
-browser-panel .browser-web-contents {
+browser-panel browser-frame {
+    flex: 10000 10000;
+    min-height: 25px;
+    min-width: 25px;
+    position: relative;
+}
+
+browser-panel browser-frame .browser-web-contents {
     width: 100%;
     height: 100%;
 }
