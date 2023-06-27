@@ -14,3 +14,5 @@ dot.jar:
 
     content/browser-status.js                   (content/browser-status.js)
     content/browser-status.css                  (content/browser-status.css)
+
+    content/browser-frame.js                    (content/browser-frame.js)

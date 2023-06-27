@@ -16,6 +16,13 @@ customElements.setElementCreationCallback("browser-panel", () => {
     );
 });
 
+customElements.setElementCreationCallback("browser-frame", () => {
+    Services.scriptloader.loadSubScript(
+        "chrome://dot/content/browser-frame.js",
+        window
+    );
+});
+
 customElements.setElementCreationCallback("browser-status", () => {
     Services.scriptloader.loadSubScript(
         "chrome://dot/content/browser-status.js",

@@ -2,17 +2,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserPanel extends MozHTMLElement {
+class BrowserFrame extends MozHTMLElement {
     constructor() {
         super();
     }
 
     get webContents() {
-        return this.querySelector("browser-frame .browser-web-contents")
+        return this.querySelector(".browser-web-contents")
     }
 
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
+
+        this.appendChild(html("browser-status"))
     }
 
     disconnectedCallback() {
@@ -20,4 +22,4 @@ class BrowserPanel extends MozHTMLElement {
     }
 }
 
-customElements.define("browser-panel", BrowserPanel);
+customElements.define("browser-frame", BrowserFrame);
