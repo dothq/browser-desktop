@@ -99,10 +99,6 @@ main a:not(.fdn-not-visited, .fdn-button):visited {
     color: var(--fdn-colours-visited-link);
 }
 
-[hidden] {
-    display: none !important;
-}
-
 pre {
     font-family: monospace;
 }
