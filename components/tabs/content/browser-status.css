@@ -3,17 +3,72 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 browser-status {
-    display: flex;
+    position: absolute;
+    bottom: 0;
+    pointer-events: none;
+    min-height: 0;
+    max-width: calc(100% - 4rem);
+}
+
+browser-status .browser-status-label {
+    display: block;
     padding: 0.3rem 0.4rem;
 
     background-color: var(--toolbar-bgcolor);
 
-    position: absolute;
-    bottom: 0;
-
     border-top: 1px solid var(--chrome-content-separator-color);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+browser-status[inactive] .browser-status-label {
+    visibility: hidden;
+    opacity: 0;
+}
+
+browser-status:not([inactive]) .browser-status-label {
+    opacity: 1;
+    visibility: visible;
+}
+
+browser-status[statustype="busy"] .browser-status-label {
+    min-width: 400px;
+}
+
+browser-status[statustype="overLink"] .browser-status-label {
+    transition: 0.2s opacity ease-out, 0.2s visibility;
+}
+
+
+browser-status[inactive][statustype="overLink"] .browser-status-label {
+    transition: 0.1s opacity ease-out 0.2s, 0.1s visibility 0.2s;
+}
+
+browser-status[inactive][statustype="busy"] .browser-status-label {
+    transition: 0.25s opacity ease-out 0.5s, 0.25s visibility 0.5s;
+}
+
+browser-status[side="left"] {
+    left: 0;
+    padding-right: 4rem;
+}
+
+browser-status[side="left"] .browser-status-label {
     border-right: 1px solid var(--chrome-content-separator-color);
     border-top-right-radius: 0.4rem;
 }
 
-browser-status .browser-status-label {}
+browser-status[side="right"] {
+    right: 0;
+    padding-left: 4rem;
+    max-width: 50%;
+}
+
+browser-status[side="right"] .browser-status-label {
+    border-left: 1px solid var(--chrome-content-separator-color);
+    border-top-left-radius: 0.4rem;
+}

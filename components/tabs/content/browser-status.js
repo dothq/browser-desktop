@@ -7,16 +7,29 @@ class BrowserStatus extends MozHTMLElement {
         super();
     }
 
+    static get observedAttributes() {
+        return [
+            "side"
+        ];
+    }
+
     get webContents() {
         // Get the closest browser webContents
         // We only want browser elements as other webContents won't be firing status changes
         return this.closest("browser-panel").querySelector("browser.browser-web-contents");
     }
 
+    get label() {
+        return this.querySelector(".browser-status-label");
+    }
+
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
-        this.hidden = !gDot.tabs.isBusy;
+        this.toggleAttribute("inactive", true);
+        this.setAttribute("statustype", "");
+        this.setAttribute("side", "left");
+
         this.appendChild(html("span", { class: "browser-status-label" }));
 
         this.webContents.addEventListener(gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, this);
@@ -35,17 +48,18 @@ class BrowserStatus extends MozHTMLElement {
      * @param {"busy" | "overLink"} status.type
      */
     onStatusChanged(status) {
-        this.querySelector("span").textContent = status.message;
+        if (status.message.length) this.label.textContent = status.message;
 
-        let hidden = true;
+        let inactive = true;
 
         if (status.type == "busy") {
-            hidden = !gDot.tabs.isBusy;
+            inactive = !gDot.tabs.isBusy;
         } else if (status.type == "overLink") {
-            hidden = false;
+            inactive = false;
         }
 
-        this.hidden = status.message.length ? hidden : true;
+        this.setAttribute("statustype", status.type);
+        this.toggleAttribute("inactive", status.message.length ? inactive : true);
     }
 
     /**
