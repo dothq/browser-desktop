@@ -11,6 +11,10 @@ var { NavigationHelper } = ChromeUtils.importESModule(
     "resource:///modules/NavigationHelper.sys.mjs"
 );
 
+var { BrowserUtils } = ChromeUtils.importESModule(
+    "resource://gre/modules/BrowserUtils.sys.mjs"
+);
+
 /**
  * Creates a HTML element tree
  * @param {string} tagName 
@@ -141,4 +145,21 @@ function openWebLinkIn(url, where, params) {
  */
 function openLinkIn(url, where, params) {
     return NavigationHelper.openLinkIn(window, url, where, params);
+}
+
+/**
+ * Used to determine where to open a link
+ * 
+ * This is here for historical reasons and is 
+ * currently in the process of being cleaned up 
+ * by Mozilla to use the BrowserUtils singleton.
+ * 
+ * See: https://bugzilla.mozilla.org/show_bug.cgi?id=1742889
+ * @param {Event | Object} e
+ * @param {boolean} ignoreButton 
+ * @param {boolean} ignoreAlt 
+ * @returns {LoadWhere}
+ */
+function whereToOpenLink(e, ignoreButton, ignoreAlt) {
+    return BrowserUtils.whereToOpenLink(e, ignoreButton, ignoreAlt);
 }
