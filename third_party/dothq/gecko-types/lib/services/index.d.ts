@@ -17,6 +17,7 @@ import { ServicesScriptloader } from "./scriptloader";
 import { ServicesSearch } from "./search";
 import { ServicesStartup } from "./startup";
 import { ServicesTextToSubURI } from "./textToSubURI";
+import { ServicesTm } from "./tm";
 import { ServicesUriFixup } from "./uriFixup";
 import { ServicesWm } from "./wm";
 import { ServicesWw } from "./ww";
@@ -38,6 +39,7 @@ export type Services = {
 	search: ServicesSearch;
 	startup: ServicesStartup;
 	textToSubURI: ServicesTextToSubURI;
+    tm: ServicesTm;
 	uriFixup: ServicesUriFixup;
 	wm: ServicesWm;
 	ww: ServicesWw;
