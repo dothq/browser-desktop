@@ -63,6 +63,8 @@ declare global {
          * Determines whether we have had a valid user gesture activation
          */
         hasValidTransientUserGestureActivation: boolean;
+
+        nodePrincipal: any;
 	}
 
 	/**
@@ -104,6 +106,7 @@ declare global {
 			// TS-TODO
 			params?: unknown
 		) => void;
+        isChromeWindow: boolean;
 	}
 
 	class ChromeWorker extends Worker {}
@@ -137,6 +140,7 @@ declare global {
 		browserDOMWindow: any;
 		XULBrowserWindow: any;
 		InspectorUtils: Gecko.InspectorUtils;
+        windowGlobalChild: Gecko.WindowGlobalChildInstance;
 	}
 
 	interface Element {
