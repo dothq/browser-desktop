@@ -3,6 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 export interface ServicesAppInfo {
+    PROCESS_TYPE_CONTENT: 2;
+    PROCESS_TYPE_DEFAULT: 0;
+    PROCESS_TYPE_FORKSERVER: 10;
+    PROCESS_TYPE_GMPLUGIN: 4;
+    PROCESS_TYPE_GPU: 5;
+    PROCESS_TYPE_IPDLUNITTEST: 3;
+    PROCESS_TYPE_RDD: 7;
+    PROCESS_TYPE_REMOTESANDBOXBROKER: 9;
+    PROCESS_TYPE_SOCKET: 8;
+    PROCESS_TYPE_UTILITY: 11;
+    PROCESS_TYPE_VR: 6;
+
 	/**
 	 * @see XREAppData.vendor
 	 * @returns an empty string if XREAppData.vendor is not set.
@@ -67,4 +79,9 @@ export interface ServicesAppInfo {
 	 * Determines whether we are in a safe mode session or not.
 	 */
 	inSafeMode: boolean;
+
+    /**
+     * Determines what type of process the caller is in.
+     */
+    processType: number;
 }
