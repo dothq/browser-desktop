@@ -2,6 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { nsIURI } from "./nsIURI";
+
+export interface BrowsingContextGlobal {
+    getFromWindow(win: Window): BrowsingContext;
+}
+
 export interface BrowsingContext {
     /**
      * A unique identifier for the browser element that is hosting this
@@ -18,4 +24,14 @@ export interface BrowsingContext {
     hasSiblings: boolean;
 
     isAppTab: boolean;
+
+    window: Window;
+
+    top: BrowsingContext;
+
+    embedderElement: Element | null;
+
+    isContent: boolean;
+
+    currentURI: nsIURI;
 }
