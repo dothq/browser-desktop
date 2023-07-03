@@ -42,6 +42,14 @@ var { NavigationHelper } = ChromeUtils.importESModule(
 	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
+var { DotWindowTracker } = ChromeUtils.importESModule(
+    "resource:///modules/DotWindowTracker.sys.mjs"
+)
+
+var { nsBrowserAccess } = ChromeUtils.importESModule(
+    "resource:///modules/DotBrowserWindow.sys.mjs"
+);
+
 // Ensure that these icons match up with the actual page favicon
 // Reflect any changes here with components/tabs/BrowserTabs.sys.mjs
 const gPageIcons = {
@@ -117,12 +125,15 @@ var dBrowserInit = {
 			.QueryInterface(Ci.nsIInterfaceRequestor)
 			.getInterface(Ci.nsIAppWindow).XULBrowserWindow = XULBrowserWindow;
 		globalThis.XULBrowserWindow = XULBrowserWindow;
+        window.browserDOMWindow = new nsBrowserAccess(window);
 
 		// Exposes gDot to global for debugging
 		globalThis.gDot = _gDot;
 
 		// Initialise browser
 		gDot.init();
+
+        DotWindowTracker.track(window);
 
 		// Set favicons for special pages on boot to
 		// create the illusion of faster load.
@@ -140,9 +151,6 @@ var dBrowserInit = {
 				console.log("gBrowser::setIcon");
 			}
 		});
-
-		gBrowserInit._setInitialFocus();
-		gBrowserInit.domContentLoaded = true;
 
 		console.timeEnd("onDOMContentLoaded");
 	},
@@ -199,6 +207,7 @@ var dBrowserInit = {
 				} else if (uri instanceof Ci.nsISupportsString) {
 					return uri.data;
 				}
+                
 				return uri;
 			} else {
 				// Otherwise, we will continue to load the homepage
