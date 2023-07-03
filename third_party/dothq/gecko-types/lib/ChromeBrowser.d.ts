@@ -10,6 +10,7 @@ import { nsIDocShell } from "./nsIDocShell";
 import { nsIWebNavigation } from "./nsIWebNavigation";
 import { BrowserTabs } from "components/tabs/BrowserTabs.sys.mjs";
 import { NavigationHelper } from "components/navigation/NavigationHelper.sys.mjs";
+import { nsIURI } from "./nsIURI";
 
 type OmitFirstArg<F> = F extends (x: any, ...args: infer P) => infer R ? (...args: P) => R : never;
 
@@ -35,9 +36,14 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
 
     fixupAndLoadURIString: OmitFirstArg<typeof NavigationHelper.fixupAndLoadURIString>;
     loadURI: OmitFirstArg<typeof NavigationHelper.loadURI>;
-    droppedLinkHandler: typeof BrowserTabs.onBrowserDroppedLink;
+    droppedLinkHandler: typeof BrowserTabs.prototype.onBrowserDroppedLink;
 
     createAboutBlankContentViewer(principal: any, partitionedPrincipal: any): void;
 
     preserveLayers(preserveLayers: boolean): void;
+
+    currentURI: nsIURI;
+
+    contentDocument: Document;
+    contentWindow: Window;
 }
