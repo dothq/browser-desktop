@@ -75,4 +75,5 @@ export interface ChromeUtils {
 		options?: ProfilerMarkerOptions | DOMHighResTimeStamp,
 		text?: string
 	) => undefined;
+    getClassName(object: object): string;
 }
