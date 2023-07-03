@@ -4,6 +4,7 @@
 
 EXTRA_JS_MODULES += [
     "DevToolsServer.sys.mjs",
+    "DotWindowTracker.sys.mjs",
 ]
 
 EXTRA_PP_JS_MODULES += [

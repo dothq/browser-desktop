@@ -9,13 +9,10 @@ const { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppC
 const lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
+    DotWindowTracker: "resource:///modules/DotWindowTracker.sys.mjs",
     FirstStartup: "resource://gre/modules/FirstStartup.sys.mjs",
     PrivateBrowsingUtils: "resource://gre/modules/PrivateBrowsingUtils.sys.mjs",
     StartPage: "resource:///modules/StartPage.sys.mjs"
-});
-
-XPCOMUtils.defineLazyModuleGetters(lazy, {
-    BrowserWindowTracker: "resource:///modules/BrowserWindowTracker.jsm"
 });
 
 /**
@@ -112,6 +109,7 @@ function openWindow(
     if (!urlOrUrlList) {
         // If we don't have any URL(s) passed to the command line, we'll
         // just use the default arguments for the browser window.
+        console.log("default args", [gDotContentHandler.getArgs()])
         args = [gDotContentHandler.getArgs()];
     } else if (Array.isArray(urlOrUrlList)) {
         // If we have a list of urls, we'll pass them to the browser window.
@@ -193,8 +191,10 @@ function openWindow(
         args = arr;
     }
 
+    console.log("openWindow", args);
+
     // Finally, open the browser window with our arguments
-    return lazy.BrowserWindowTracker.openWindow({
+    return lazy.DotWindowTracker.openWindow({
         args,
         features: gDotContentHandler.getFeatures(cmdLine),
         private: forcePrivate
@@ -214,6 +214,8 @@ function handURIToExistingBrowser(cmdLine, uri, location, triggeringPrincipal, f
     // If we are not allowed to load the URI, just return.
     if (!shouldLoadURI(uri)) return;
 
+    console.log("handURIToExistingBrowser", uri)
+
     const openURIInWindow = (win) =>
         win.browserDOMWindow.openURI(
             uri,
@@ -227,25 +229,12 @@ function handURIToExistingBrowser(cmdLine, uri, location, triggeringPrincipal, f
     // this, or if we have forced a private session with forcePrivate.
     const inPrivateMode = forcePrivate || lazy.PrivateBrowsingUtils.permanentPrivateBrowsing;
 
-    const topWin = lazy.BrowserWindowTracker.getTopWindow({
+    const topWin = lazy.DotWindowTracker.getTopWindow({
         private: inPrivateMode
     });
 
     // If we have a top window, we should load the URI into this window.
     if (topWin) return openURIInWindow(topWin);
-
-    // Check if we have a pending window (windows that are still in the loading stage)
-    const pendingWin = lazy.BrowserWindowTracker.getPendingWindow({
-        private: inPrivateMode
-    });
-
-    if (pendingWin) {
-        // Using a promise .then rather than a function async/await because
-        // other code in this file depends on this function being synchronous
-        // to handle exceptions.
-        pendingWin.then(openURIInWindow);
-        return;
-    }
 
     // If there isn't an available browser window, just make a new one.
     openWindow(
