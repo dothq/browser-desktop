@@ -34,4 +34,5 @@ export type nsIPrefBranch = {
 		aObserver: PrefObserver
 	) => void;
 	getDefaultBranch: (prefRoot: string) => nsIPrefBranch;
+    prefHasUserValue: (prefName: string) => boolean;
 };
