@@ -142,7 +142,7 @@ export class nsBrowserAccess {
             inBackground: loadInBackground,
             forceNotRemote,
             openWindowInfo,
-            openerTabId: win.gDot.tabs.getTabForWebContents(openerBrowser).id,
+            openerBrowser,
             csp,
             skipLoad,
         });
@@ -463,6 +463,8 @@ export class nsBrowserAccess {
         flags,
         name
     ) {
+        console.log("OpenURIInFrame", uri, params, where, flags, name);
+
         return this.getContentWindowOrOpenURIInFrame(
             uri,
             params,
