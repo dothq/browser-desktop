@@ -1,0 +1,28 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+#include "nsISupports.idl"
+
+webidl BrowsingContext;
+interface mozIDOMWindowProxy;
+interface nsIURI;
+interface nsIOpenWindowInfo;
+
+[scriptable, uuid(30cf2cf0-205f-4663-b41c-94e854f92106)]
+interface nsIDBPopupService : nsISupports 
+{
+    /**
+     * Opens a popup with the provided arguments
+     */
+    void openPopup(in mozIDOMWindowProxy aParent,
+                                 in nsIOpenWindowInfo aOpenWindowInfo,
+                                 in unsigned long aChromeFlags,
+                                 in boolean aCalledFromJS,
+                                 in nsIURI aURI,
+                                 in AString aName,
+                                 in AUTF8String aFeatures,
+                                 in boolean aForceNoOpener,
+                                 in boolean aForceNoReferrer,
+                                 in boolean aIsPopupRequested);
+};
