@@ -6,13 +6,13 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-    content/browser-tab.js                      (content/browser-tab.js)
-    content/browser-tab.css                     (content/browser-tab.css)
+    content/widgets/browser-tab.js                      (content/browser-tab.js)
+    content/widgets/browser-tab.css                     (content/browser-tab.css)
 
-    content/browser-panel.js                    (content/browser-panel.js)
-    content/browser-panel.css                   (content/browser-panel.css)
+    content/widgets/browser-panel.js                    (content/browser-panel.js)
+    content/widgets/browser-panel.css                   (content/browser-panel.css)
 
-    content/browser-status.js                   (content/browser-status.js)
-    content/browser-status.css                  (content/browser-status.css)
+    content/widgets/browser-status.js                   (content/browser-status.js)
+    content/widgets/browser-status.css                  (content/browser-status.css)
 
-    content/browser-frame.js                    (content/browser-frame.js)
+    content/widgets/browser-frame.js                    (content/browser-frame.js)

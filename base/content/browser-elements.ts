@@ -2,30 +2,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-customElements.setElementCreationCallback("browser-tab", () => {
-    Services.scriptloader.loadSubScript(
-        "chrome://dot/content/browser-tab.js",
-        window
-    );
-});
+const elements = {
+    "browser-tab": "chrome://dot/content/widgets/browser-tab.js",
+    "browser-panel": "chrome://dot/content/widgets/browser-panel.js",
+    "browser-frame": "chrome://dot/content/widgets/browser-frame.js",
+    "browser-status": "chrome://dot/content/widgets/browser-status.js",
+    "browser-modals": "chrome://dot/content/widgets/browser-modals.js",
+    "browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
+    "browser-window-controls": "chrome://dot/content/widgets/browser-window-controls.js",
+}
 
-customElements.setElementCreationCallback("browser-panel", () => {
-    Services.scriptloader.loadSubScript(
-        "chrome://dot/content/browser-panel.js",
-        window
-    );
-});
-
-customElements.setElementCreationCallback("browser-frame", () => {
-    Services.scriptloader.loadSubScript(
-        "chrome://dot/content/browser-frame.js",
-        window
-    );
-});
-
-customElements.setElementCreationCallback("browser-status", () => {
-    Services.scriptloader.loadSubScript(
-        "chrome://dot/content/browser-status.js",
-        window
-    );
-});
+for (const [element, chromeURI] of Object.entries(elements)) {
+    customElements.setElementCreationCallback(element, () => {
+        Services.scriptloader.loadSubScript(
+            chromeURI,
+            window
+        );
+    });
+}
