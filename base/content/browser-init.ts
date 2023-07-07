@@ -68,7 +68,7 @@ globalThis.delayedStartupPromise = new Promise((resolve) => {
 	globalThis._resolveDelayedStartup = resolve;
 });
 
-var dBrowserInit = {
+var gDotInit = {
 	_startTime: Date.now(),
 
 	onBeforeInitialXULLayout() {
@@ -624,13 +624,11 @@ var dBrowserInit = {
 
 		console.timeEnd("onLoad");
 
-		console.debug(`dBrowserInit: ready in ${Date.now() - this._startTime}ms`);
+		console.debug(`gDotInit: ready in ${Date.now() - this._startTime}ms`);
 	},
 
 	onUnload() {
 		console.time("onUnload");
-
-		gBrowserInit.onUnload.bind(gBrowserInit)();
 
 		console.timeEnd("onUnload");
 	},
@@ -641,4 +639,4 @@ var dBrowserInit = {
 	}
 };
 
-globalThis.dBrowserInit = dBrowserInit; // Exposes dBrowserInit to global for debugging
+globalThis.gDotInit = gDotInit; // Exposes gDotInit to global for debugging
