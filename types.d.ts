@@ -37,6 +37,8 @@ declare global {
 
     var MozElements: Gecko.MozElements;
 
+    var BrowsingContext: Gecko.BrowsingContextGlobal;
+
     /**
      * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
      * 
@@ -67,10 +69,19 @@ declare global {
 			target?: string,
 			features?: string,
 			...extraArguments: any[]
-		) => void;
+		) => Window;
         MozXULElement: MozXULElement;
         MozHTMLElement: MozHTMLElement;
         gDot: typeof _gDot;
+        minimize(): void;
+        maximize(): void;
+        restore(): void;
+        fullScreen: boolean;
+        STATE_MAXIMIZED: 1;
+        STATE_MINIMIZED: 2;
+        STATE_NORMAL: 3;
+        STATE_FULLSCREEN: 4;
+        windowState: number;
 	}
 
     interface Element extends Gecko.CustomElement {}
