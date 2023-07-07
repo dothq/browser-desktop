@@ -102,6 +102,14 @@ class BrowserTab extends MozElements.MozTab {
         this.toggleAttribute("pinned", val);
     }
 
+    get visible() {
+        return !this.hidden;
+    }
+
+    set visible(val) {
+        this.hidden = !val;
+    }
+
     /**
      * The ID of the userContext (container) to use
      */
@@ -132,6 +140,18 @@ class BrowserTab extends MozElements.MozTab {
             // @ts-ignore
             document.getElementById(this.id)
         );
+    }
+
+    /**
+     * The tab's modal box
+     * 
+     * The modal box is responsible for housing any
+     * tab modals or popups in the browser frame.
+     * 
+     * @type {BrowserModals}
+     */
+    get modalBox() {
+        return this.webContents.parentElement.querySelector("browser-modals");
     }
 
     /**

@@ -14,7 +14,8 @@ class BrowserFrame extends MozHTMLElement {
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
-        this.appendChild(html("browser-status"))
+        this.appendChild(html("browser-status"));
+        this.appendChild(html("browser-modals"));
     }
 
     disconnectedCallback() {
