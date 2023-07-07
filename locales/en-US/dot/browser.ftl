@@ -28,3 +28,20 @@ browser-main-window-title = { -brand-full-name }
 # The non-variable portion of this MUST match the translation of
 # "PRIVATE_BROWSING_SHORTCUT_TITLE" in custom.properties
 private-browsing-shortcut-text-2 = { -brand-shortcut-name } (Private Browsing)
+
+## Window Controls
+
+browser-window-minimize-button =
+    .title = Minimize
+
+browser-window-maximize-button =
+    .title = { $isPopup ->
+        [true] Open in New Window
+        *[other] Maximize
+    }
+
+browser-window-restore-button =
+    .title = Restore
+
+browser-window-close-button =
+    .title = Close
