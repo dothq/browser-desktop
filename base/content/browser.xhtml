@@ -38,33 +38,8 @@
     <head>
         <link rel="localization" href="branding/brand.ftl"/>
         <link rel="localization" href="dot/browser.ftl"/>
-        <link rel="localization" href="browser/browserSets.ftl"/>
-
-        <link rel="localization" href="browser/search.ftl"/>
-        <link rel="localization" href="branding/brand.ftl"/>
-        <link rel="localization" href="browser/branding/sync-brand.ftl"/>
-        <link rel="localization" href="browser/branding/brandings.ftl"/>
-        <link rel="localization" href="toolkit/global/textActions.ftl"/>
-        <link rel="localization" href="browser/browser.ftl"/>
-        <link rel="localization" href="browser/browserContext.ftl"/>
-        <link rel="localization" href="browser/menubar.ftl"/>
-        <link rel="localization" href="browser/protectionsPanel.ftl"/>
-        <link rel="localization" href="browser/appmenu.ftl"/>
-        <link rel="localization" href="browser/panelUI.ftl"/>
-        <link rel="localization" href="preview/identityCredentialNotification.ftl"/>
-        <link rel="localization" href="preview/interventions.ftl"/>
-        <link rel="localization" href="browser/sidebarMenu.ftl"/>
-        <link rel="localization" href="browser/allTabsMenu.ftl"/>
-        <link rel="localization" href="browser/places.ftl"/>
-        <link rel="localization" href="toolkit/printing/printUI.ftl"/>
-        <link rel="localization" href="browser/tabbrowser.ftl"/>
-        <link rel="localization" href="preview/firefoxSuggest.ftl"/>
-        <link rel="localization" href="browser/toolbarContextMenu.ftl"/>
-        <link rel="localization" href="browser/screenshots.ftl"/>
-        <link rel="localization" href="browser/firefoxView.ftl"/>
-        <link rel="localization" href="browser/webrtcIndicator.ftl"/>
-        <link rel="localization" href="browser/originControls.ftl"/>
-        <link rel="localization" href="browser/unifiedExtensions.ftl"/>
+        <link rel="localization" href="dot/newtab.ftl"/>
+        <link rel="localization" href="dot/tabs.ftl"/>
 
         <title data-l10n-id="browser-main-window-title"></title>
 
@@ -94,18 +69,18 @@
 
             window.addEventListener(
                 "MozBeforeInitialXULLayout",
-                dBrowserInit.onBeforeInitialXULLayout.bind(dBrowserInit),
+                gDotInit.onBeforeInitialXULLayout.bind(gDotInit),
                 { once: true }
             );
 
-            window.addEventListener("DOMContentLoaded", dBrowserInit.onDOMContentLoaded.bind(dBrowserInit), {
+            window.addEventListener("DOMContentLoaded", gDotInit.onDOMContentLoaded.bind(gDotInit), {
                 once: true
             });
 
             /* Initialise events */
-            window.addEventListener("load", dBrowserInit.onLoad.bind(dBrowserInit));
-            window.addEventListener("unload", dBrowserInit.onUnload.bind(dBrowserInit));
-            window.addEventListener("close", dBrowserInit.onWindowClosing);
+            window.addEventListener("load", gDotInit.onLoad.bind(gDotInit));
+            window.addEventListener("unload", gDotInit.onUnload.bind(gDotInit));
+            window.addEventListener("close", gDotInit.onWindowClosing);
         </script>
     </head>
 
@@ -115,9 +90,13 @@
         #include browser-compat.inc.xhtml
 
         <html:div id="mount">
-            <ul id="tabslist">
+            <div id="toolbox">
+                <ul id="tabslist">
                 
-            </ul>
+                </ul>
+
+                <html:browser-window-controls></html:browser-window-controls>
+            </div>
             
             <div id="tabspanel">
                 
