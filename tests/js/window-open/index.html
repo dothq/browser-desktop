@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>window.open test</title>
+</head>
+<body>
+    <button id="btn">Open popup window</button>
+
+    <script>
+        document.getElementById("btn").addEventListener("click", () => {
+            window.open(
+                "./popup.html",
+                "",
+                "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,centerscreen,width=500,height=500"
+            )
+        })
+    </script>
+</body>
+</html>
