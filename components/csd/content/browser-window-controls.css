@@ -1,0 +1,64 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-window-controls {
+    display: flex;
+    gap: 0.1rem;
+}
+
+:root[chromepopup] browser-window-controls .control-min {
+    display: none;
+}
+
+@media (-moz-gtk-csd-available) {
+    @media (-moz-gtk-csd-minimize-button) {
+        browser-window-controls .control-min {
+            appearance: auto;
+            -moz-default-appearance: -moz-window-button-minimize;
+            order: env(-moz-gtk-csd-minimize-button-position);
+        }
+    }
+
+    @media (-moz-gtk-csd-minimize-button: 0) {
+        browser-window-controls .control-min {
+            display: none;
+        }
+    }
+
+    @media (-moz-gtk-csd-maximize-button) {
+        browser-window-controls .control-max {
+            appearance: auto;
+            -moz-default-appearance: -moz-window-button-maximize;
+            order: env(-moz-gtk-csd-maximize-button-position);
+        }
+
+        browser-window-controls .control-restore {
+            appearance: auto;
+            -moz-default-appearance: -moz-window-button-restore;
+            order: env(-moz-gtk-csd-maximize-button-position);
+        }
+    }
+
+    @media (-moz-gtk-csd-maximize-button: 0) {
+
+        browser-window-controls .control-max,
+        browser-window-controls .control-restore {
+            display: none;
+        }
+    }
+
+    @media (-moz-gtk-csd-close-button) {
+        browser-window-controls .control-close {
+            appearance: auto;
+            -moz-default-appearance: -moz-window-button-close;
+            order: env(-moz-gtk-csd-close-button-position);
+        }
+    }
+
+    @media (-moz-gtk-csd-close-button: 0) {
+        browser-window-controls .control-close {
+            display: none;
+        }
+    }
+}
