@@ -7,9 +7,12 @@
 @import url("chrome://dot/skin/browser-dialog.css");
 
 /* Components */
-@import url("chrome://dot/content/browser-tab.css");
-@import url("chrome://dot/content/browser-panel.css");
-@import url("chrome://dot/content/browser-status.css");
+@import url("chrome://dot/content/widgets/browser-tab.css");
+@import url("chrome://dot/content/widgets/browser-panel.css");
+@import url("chrome://dot/content/widgets/browser-status.css");
+@import url("chrome://dot/content/widgets/browser-modals.css");
+@import url("chrome://dot/content/widgets/browser-content-popup.css");
+@import url("chrome://dot/content/widgets/browser-window-controls.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
@@ -150,4 +153,13 @@ hr.fdn-separator {
 #tabspanel {
     min-height: 0;
     height: 100%;
+}
+
+#tabslist {
+    display: flex;
+    width: 100%;
+}
+
+#toolbox {
+    -moz-window-dragging: drag;
 }
