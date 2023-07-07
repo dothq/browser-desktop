@@ -9,8 +9,8 @@ browser-panel {
     flex-direction: column;
 }
 
-browser-panel[hidden] {
-    display: inherit;
+browser-panel:not([visible]) {
+    display: none;
     visibility: hidden;
 }
 
