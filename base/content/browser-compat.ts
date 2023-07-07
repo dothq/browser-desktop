@@ -22,6 +22,10 @@ var gBrowser = {
         return gDot.tabs.list;
     },
 
+    get visibleTabs() {
+        return gDot.tabs.visibleTabs;
+    },
+
     get currentURI() {
         return this.selectedBrowser.currentURI;
     },
