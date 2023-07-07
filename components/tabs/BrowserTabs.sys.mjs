@@ -17,7 +17,7 @@ const { NavigationHelper } = ChromeUtils.importESModule(
  * @param {number} value
  * @param {number} min
  * @param {number} max
- * @returns
+ * @returns {number}
  */
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -51,10 +51,18 @@ const {
  */
 
 /**
+ * @param {Window} win
+ */
+export function BrowserTabs(win) {
+    this.init(win);
+}
+
+/**
  * Oversees control over all tabs in the current browser window
  */
-export const BrowserTabs = {
+BrowserTabs.prototype = {
     EVENT_TAB_SELECT: "BrowserTabs::TabSelect",
+    EVENT_TAB_CREATE: "BrowserTabs::TabCreate",
 
     EVENT_BROWSER_STATUS_CHANGE: "BrowserTabs::BrowserStatusChange",
 
@@ -105,6 +113,14 @@ export const BrowserTabs = {
         return this.list.length;
     },
 
+    /**
+     * All currently visible tabs in the browser
+     * @returns {BrowserTab[]}
+     */
+    get visibleTabs() {
+        return this.list.filter(tab => tab.visible);
+    },
+
     _selectedTab: null,
 
     /**
@@ -122,13 +138,7 @@ export const BrowserTabs = {
     set selectedTab(tab) {
         /** @type {BrowserTab} */
         const oldTab = this._selectedTab;
-
-        this._selectedTab = tab;
-
-        if (oldTab) oldTab.webContentsPanel.hidden = oldTab.id !== tab.id;
-        tab.webContentsPanel.hidden = tab.id !== tab.id;
-
-        this._dispatchDocumentEvent(this.EVENT_TAB_SELECT, { detail: tab });
+        if (oldTab) oldTab.webContentsPanel.removeAttribute("visible");
 
         if (oldTab && this._isWebContentsBrowserElement(oldTab.webContents)) {
             /** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
@@ -138,6 +148,11 @@ export const BrowserTabs = {
             console.log("tab.docShellIsActive", true);
 			/** @type {ChromeBrowser} */ (tab.webContents).docShellIsActive = true;
         }
+
+        this._selectedTab = tab;
+        tab.webContentsPanel.toggleAttribute("visible", true);
+
+        this._dispatchDocumentEvent(this.EVENT_TAB_SELECT, { detail: tab });
     },
 
     get _tabslistEl() {
@@ -298,7 +313,7 @@ export const BrowserTabs = {
      * @param {string} [options.uri] - The URI to load
      * @param {ChromeBrowser | Element} [options.webContents] - The tab's webContents
      * @param {any} options.triggeringPrincipal - The triggering principal to use for this tab
-     * @param {string} [options.openerTabId] - The tab that opened this new tab
+     * @param {ChromeBrowser} [options.openerBrowser] - The browser that opened this new tab
      * @param {string} [options.title] - The initial title to use for this tab
      * @param {string} [options.preferredRemoteType] - The preferred remote type to use to load this page
      * @param {number} [options.userContextId] - The user context ID (container) to use for this tab
@@ -339,7 +354,9 @@ export const BrowserTabs = {
 
         const tabEl = this._createTabElement();
 
-        const openerTab = options.openerTabId ? this.getTabByTabId(options.openerTabId) : null;
+        const openerTab = options.openerBrowser
+            ? this.getTabForWebContents(options.openerBrowser)
+            : null;
 
         // If this new tab was opened by another existing tab, make
         // sure we tell the new tab who opened this to dictate the
@@ -373,19 +390,13 @@ export const BrowserTabs = {
             // If we didn't provide webContents when creating the tab,
             // we can build a browser element to swap in.
             if (!options.webContents) {
-                const openerBrowser =
-                    openerTab &&
-                        openerTab.webContents &&
-					/** @type {ChromeBrowser} */ (openerTab.webContents).browserId
-                        ? openerTab.webContents
-                        : null;
-                const { preferredRemoteType, referrerInfo, forceNotRemote, openWindowInfo } =
+                const { openerBrowser, preferredRemoteType, referrerInfo, forceNotRemote, openWindowInfo } =
                     options;
 
                 options.webContents = this._createBrowser({
                     uri,
                     preferredRemoteType,
-					/** @type {any} */ openerBrowser,
+                    openerBrowser,
                     uriIsAboutBlank,
                     referrerInfo,
                     forceNotRemote,
@@ -548,10 +559,6 @@ export const BrowserTabs = {
      * @param {Element} webContents
      */
     _insertTabWebContents(tab, webContents) {
-        // Return early if the window happens to be closed
-        if (this._win.closed) {
-            return;
-        }
 
         tab.webContents = webContents;
 
@@ -646,10 +653,7 @@ export const BrowserTabs = {
      * @returns {number}
      */
     _getWebContentsId(webContents) {
-        /** @type {any} */
-        const xulBrowser = this._win.customElements.get("browser");
-
-        if (webContents instanceof xulBrowser && webContents.browserId) {
+        if (ChromeUtils.getClassName(webContents) == "XULFrameElement" && webContents.browserId) {
             return webContents.browserId;
         }
 

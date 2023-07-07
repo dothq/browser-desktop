@@ -19,7 +19,7 @@ var { BrowserTabs } = ChromeUtils.importESModule(
 export const _gDot = {
 	_done: false,
 
-    tabs: BrowserTabs,
+    tabs: null as typeof BrowserTabs.prototype,
 
     /**
      * Determines whether the browser session supports multiple processes
@@ -39,6 +39,16 @@ export const _gDot = {
         ).useRemoteSubframes;
     },
 
+    /**
+     * Determines whether the current browser window is a popup
+     */
+    get isPopupWindow() {
+        return (
+            document.documentElement.hasAttribute("chromehidden") && 
+            document.documentElement.hasAttribute("chromepopup")
+        );
+    },
+
 	/**
 	 * Initialises the browser and its components
 	 */
@@ -47,10 +57,7 @@ export const _gDot = {
 			throw new Error("Browser cannot be initialized twice!");
 		}
 
-		// Call Mozilla's gBrowser init method
-		// window._gBrowser.init();
-
-        gDot.tabs.init(window);
+        gDot.tabs = new BrowserTabs(window);
 
 		// @todo(EnderDev) add types for DotCustomizableUI
 		globalThis.DotCustomizableUI.initialize();
