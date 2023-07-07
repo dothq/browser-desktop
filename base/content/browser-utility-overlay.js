@@ -16,6 +16,18 @@ var { BrowserUtils } = ChromeUtils.importESModule(
 );
 
 /**
+ * Converts a string to use kebab case
+ * @param {string} str 
+ * @returns {string}
+ */
+function convertToKebabCase(str) {
+    return str.replace(
+        /[A-Z]+(?![a-z])|[A-Z]/g,
+        (subs, ofs) => (ofs ? "-" : "") + subs.toLowerCase()
+    );
+}
+
+/**
  * Creates a HTML element tree
  * @param {string} tagName 
  * @param {{ [key: string]: any }} [attributes] 
@@ -35,7 +47,11 @@ function html(
 
     if (tagName !== "fragment") {
         for (const [key, value] of Object.entries(attributes)) {
-            /** @type {HTMLElement} */ (element).setAttribute(key, value);
+            /** @type {HTMLElement} */ (element)
+                .setAttribute(
+                    convertToKebabCase(key),
+                    value
+                );
         }
     }
 
@@ -162,4 +178,16 @@ function openLinkIn(url, where, params) {
  */
 function whereToOpenLink(e, ignoreButton, ignoreAlt) {
     return BrowserUtils.whereToOpenLink(e, ignoreButton, ignoreAlt);
+}
+
+/**
+ * Clamps a number between a min and max value
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ * @global
+ */
+function clamp(value, min, max) {
+    return Math.max(Math.min(Math.max(value, min), max), min);
 }
