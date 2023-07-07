@@ -4,6 +4,9 @@
 # file, you can obtain one at http://mozilla.org/MPL/2.0/.
 
 FINAL_TARGET_FILES.actors += [
+    "DotClickHandlerChild.sys.mjs",
+    "DotClickHandlerParent.sys.mjs",
     "DotContextMenuParent.sys.mjs",
     "DotLinkHandlerParent.sys.mjs",
+    "DotPopupHandlerParent.sys.mjs",
 ]

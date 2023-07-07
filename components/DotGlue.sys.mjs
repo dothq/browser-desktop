@@ -101,6 +101,14 @@ const JSWINDOWACTORS = {
         allFrames: true
     },
 
+    DotPopupHandler: {
+        parent: {
+            esModuleURI: "resource:///actors/DotPopupHandlerParent.sys.mjs"
+        },
+        includeChrome: true,
+        allFrames: true
+    },
+
     LightweightTheme: {
         child: {
             esModuleURI: "resource:///actors/LightweightThemeChild.sys.mjs",
@@ -127,7 +135,7 @@ const JSWINDOWACTORS = {
             esModuleURI: "resource:///actors/DotLinkHandlerParent.sys.mjs"
         },
         child: {
-            moduleURI: "resource:///actors/LinkHandlerChild.sys.mjs",
+            esModuleURI: "resource:///actors/LinkHandlerChild.sys.mjs",
             events: {
                 DOMHeadElementParsed: {},
                 DOMLinkAdded: {},
@@ -152,17 +160,17 @@ const JSWINDOWACTORS = {
 
     Pdfjs: {
         parent: {
-            moduleURI: "resource://pdf.js/PdfjsParent.sys.mjs"
+            esModuleURI: "resource://pdf.js/PdfjsParent.sys.mjs"
         },
         child: {
-            moduleURI: "resource://pdf.js/PdfjsChild.sys.mjs"
+            esModuleURI: "resource://pdf.js/PdfjsChild.sys.mjs"
         },
         allFrames: true
     },
 
     Prompt: {
         parent: {
-            moduleURI: "resource:///actors/PromptParent.sys.mjs"
+            esModuleURI: "resource:///actors/PromptParent.sys.mjs"
         },
         includeChrome: true,
         allFrames: true
