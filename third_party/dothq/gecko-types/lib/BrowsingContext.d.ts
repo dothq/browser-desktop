@@ -34,4 +34,6 @@ export interface BrowsingContext {
     isContent: boolean;
 
     currentURI: nsIURI;
+
+    id: number;
 }
