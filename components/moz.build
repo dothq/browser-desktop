@@ -8,9 +8,11 @@ include("../build/node-templates.mozbuild")
 DIRS += [
     "about",
     "compat",
+    "csd",
     "customizableui",
     "navigation",
     "onboarding",
+    "popups",
     "search",
     "startpage",
     "tabs",
