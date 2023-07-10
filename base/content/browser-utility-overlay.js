@@ -5,6 +5,7 @@
 /**
  * @typedef {"current" | "tab" | "tabshifted" | "window" | "save"} LoadWhere
  * @typedef {import("third_party/dothq/gecko-types/lib/nsIWebNavigation").LoadURIOptions} LoadURIOptions
+ * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
  */
 
 var { NavigationHelper } = ChromeUtils.importESModule(
@@ -190,4 +191,38 @@ function whereToOpenLink(e, ignoreButton, ignoreAlt) {
  */
 function clamp(value, min, max) {
     return Math.max(Math.min(Math.max(value, min), max), min);
+}
+
+/**
+ * If a tab with a URI already exists, switch to it, 
+ * otherwise open a new tab with the URI.
+ * @param {string} url
+ * @param {boolean} openNew 
+ * @param {LoadURIOptions} openParams 
+ */
+function switchToTabHavingURI(url, openNew, openParams) {
+    // todo: implement tab switching behaviour
+    // for now, just load it in the current tab
+
+    NavigationHelper.openLinkIn(window, url, "current", {
+        triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
+    });
+}
+
+/**
+ * Private helper function for creating a 
+ * null principal from a tab's user context ID
+ * @param {BrowserTab} tab 
+ * @private
+ */
+function _newNullPrincipalFromUserContextId(tab = window.gDot.tabs.selectedTab) {
+    let userContextId;
+
+    if (tab.hasAttribute("usercontextid")) {
+        userContextId = tab.getAttribute("usercontextid");
+    }
+
+    return Services.scriptSecurityManager.createNullPrincipal({
+        userContextId,
+    });
 }
