@@ -18,6 +18,9 @@ DIRS += [
     "tabs",
 ]
 
+if not CONFIG["MOZILLA_OFFICIAL"]:
+    DIRS += ["dev"]
+
 EXTRA_COMPONENTS += [
     "BrowserComponents.manifest", # stub
     "DotComponents.manifest",
