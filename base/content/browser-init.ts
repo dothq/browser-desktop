@@ -595,7 +595,7 @@ var gDotInit = {
 		console.log("gBrowser::addProgressListener", window.XULBrowserWindow);
 		console.log("gBrowser::addTabsProgressListener", TabsProgressListener);
 
-		Services.obs.notifyObservers(window, "browser-window-before-show");
+		Services.obs.notifyObservers(window, "browser-window-ready");
 
 		// @todo: make the url bar disabled if the toolbar is not visible
 		// i.e in a popup window
@@ -621,6 +621,11 @@ var gDotInit = {
 		// Wait until chrome is painted before executing code not critical to making the window visible
 		this._boundDelayedStartup = this.doDelayedStartup.bind(this);
 		window.addEventListener("MozAfterPaint", this._boundDelayedStartup);
+
+        if (!AppConstants.MOZILLA_OFFICIAL) {
+            const devPanel = document.createElement("dev-debug-panel");
+            document.body.appendChild(devPanel);
+        }
 
 		console.timeEnd("onLoad");
 
