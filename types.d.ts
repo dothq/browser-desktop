@@ -31,6 +31,12 @@ declare global {
 	var XULBrowserWindow: nsIXULBrowserWindow;
 
 	var XULElement: Gecko.XULElement;
+    var XULFrameElement: XULElement;
+    var XULMenuElement: XULElement;
+    var XULPopupElement: XULElement;
+    var XULResizerElement: XULElement;
+    var XULTextElement: XULElement;
+    var XULTreeElement: XULElement;
 
     var MozXULElement: MozXULElement;
     var MozHTMLElement: MozHTMLElement;

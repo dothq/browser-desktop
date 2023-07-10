@@ -5,9 +5,16 @@
 import { MozElementMixinStatic } from "./MozElementMixin";
 import { MozXULElement as MozXULElementInstance } from "./MozXULElement";
 
-export interface MozElements {
-    [key: string]: {
-        prototype: MozXULElementInstance;
-        new (): MozXULElementInstance;
-    } & MozElementMixinStatic;
+type MozElement = {
+    prototype: MozXULElementInstance;
+    new (): MozXULElementInstance;
+} & MozElementMixinStatic;
+
+interface MozElementsInterface {
+    [key: string]: MozElement;
+    
 }
+
+export type MozElements = {
+    MozElementMixin: (el: Element) => MozElement;
+} & MozElementsInterface;
