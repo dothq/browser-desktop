@@ -343,7 +343,7 @@ export const NavigationHelper = {
 
             // We can't load into a non-browser webContents
             // Instead we can just load into a new tab
-            if (!openerWindow.gDot.tabs._isWebContentsBrowserElement(tab)) {
+            if (!openerWindow.gDot.tabs._isWebContentsBrowserElement(openerBrowser)) {
                 where = "tab";
                 openerBrowser = null;
             } else if (
