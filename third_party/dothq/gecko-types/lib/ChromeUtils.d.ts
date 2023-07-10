@@ -28,6 +28,30 @@ export interface ProfilerMarkerOptions {
 	innerWindowId: number;
 }
 
+export interface Thread {
+    cpuCycleCount: number;
+    cpuTime: number;
+    name: string;
+    tid: number;
+}
+
+export interface ChildProcess extends Process {
+    childID: number;
+    origin: string;
+    utilityActors: any[];
+    windows: any[];
+}
+
+export interface Process {
+    children: ChildProcess[];
+    cpuCycleCount: 0;
+    cpuTime: number;
+    memory: number;
+    pid: number;
+    threads: Thread[];
+    type: string;
+}
+
 type ResolvedModules = AllMozModules;
 
 export interface ChromeUtils {
@@ -76,4 +100,5 @@ export interface ChromeUtils {
 		text?: string
 	) => undefined;
     getClassName(object: object): string;
+    requestProcInfo(): Promise<Process>;
 }
