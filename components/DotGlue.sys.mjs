@@ -58,22 +58,6 @@ const JSWINDOWACTORS = {
         messageManagerGroups: ["browsers"]
     },
 
-    BrowserTab: {
-        parent: {
-            esModuleURI: "resource:///actors/BrowserTabParent.sys.mjs"
-        },
-        child: {
-            esModuleURI: "resource:///actors/BrowserTabChild.sys.mjs",
-
-            events: {
-                DOMDocElementInserted: {},
-                MozAfterPaint: {}
-            }
-        },
-
-        messageManagerGroups: ["browsers"]
-    },
-
     ClickHandler: {
         parent: {
             esModuleURI: "resource:///actors/ClickHandlerParent.sys.mjs"
@@ -190,29 +174,11 @@ export class DotGlue {
 
     _init() {
         [
-            "notifications-open-settings",
             "final-ui-startup",
             "browser-delayed-startup-finished",
-            "sessionstore-windows-restored",
-            "browser:purge-session-history",
-            "quit-application-requested",
-            "quit-application-granted",
-            "fxaccounts:onverified",
-            "fxaccounts:device_connected",
-            "fxaccounts:verify_login",
-            "fxaccounts:device_disconnected",
-            "fxaccounts:commands:open-uri",
-            "session-save",
-            "places-init-complete",
-            "distribution-customization-complete",
             "handle-xul-text-link",
-            "profile-before-change",
-            "keyword-search",
-            "browser-search-engine-modified",
-            "restart-in-safe-mode",
-            "xpi-signature-changed",
-            "sync-ui-state:update",
-            "handlersvc-store-initialized"
+            "handlersvc-store-initialized",
+            "browser-window-ready",
         ].forEach((topic) => Services.obs.addObserver(this, topic, true));
 
         this.maybeRemoveFFActors();
@@ -257,7 +223,7 @@ export class DotGlue {
         // Initialise SessionStore
         lazy.SessionStore.init();
 
-        // Load our built-in themes
+        // Ensure the active theme is loaded
         lazy.BuiltInThemes.maybeInstallActiveBuiltInTheme();
     }
 
@@ -286,9 +252,9 @@ export class DotGlue {
         }
     }
 
-    onWindowsRestored() {
-        if (this._windowsWereRestored) return;
-        this._windowsWereRestored = true;
+    onWindowReady() {
+        if (this._windowIsReady) return;
+        this._windowIsReady = true;
 
         // @todo: see if this is needed/what this does in ff
         // lazy.Interactions.init();
@@ -316,6 +282,8 @@ export class DotGlue {
     }
 
     scheduleStartupIdleTasks() {
+        console.log("scheduleStartupIdleTasks")
+
         const idleTasks = [
             {
                 name: "ContextualIdentityService.load",
@@ -340,27 +308,12 @@ export class DotGlue {
                 }
             },
 
-            // Load the Login Manager data from disk off the main thread, some time
-            // after startup.  If the data is required before this runs, for example
-            // because a restored page contains a password field, it will be loaded on
-            // the main thread, and this initialization request will be ignored.
-            {
-                name: "Services.logins",
-                task: () => {
-                    try {
-                        Services.logins;
-                    } catch (ex) {
-                        console.error(ex);
-                    }
-                },
-                timeout: 3000
-            },
-
             // Install built-in themes. We already installed the active built-in
             // theme, if any, before UI startup.
             {
                 name: "BuiltInThemes.ensureBuiltInThemes",
                 task: async () => {
+                    console.log("ensuring built in themes")
                     await lazy.BuiltInThemes.ensureBuiltInThemes();
                 }
             },
@@ -415,31 +368,32 @@ export class DotGlue {
             },
 
             {
-                name: "browser-startup-idle-tasks-finished",
+                name: "scheduled-startup-idle-tasks-finished",
                 task: () => {
-                    // Use idleDispatch a second time to run this after the per-window
-                    // idle tasks.
-                    ChromeUtils.idleDispatch(() => {
-                        Services.obs.notifyObservers(null, "browser-startup-idle-tasks-finished");
-                    });
+                    console.log("scheduled-startup-idle-tasks-finished")
                 }
             }
             // Do NOT add anything after idle tasks finished.
         ];
 
         for (let task of idleTasks) {
+            console.log(`${task.name} -- READY`)
+
             if ("condition" in task && !task.condition) {
+                console.log(`${task.name} -- SKIPPED`);
                 continue;
             }
 
             ChromeUtils.idleDispatch(
                 () => {
                     if (!Services.startup.shuttingDown) {
-                        let startTime = Cu.now();
+                        const startTime = Cu.now();
+
                         try {
+                            console.log(`${task.name} -- RUNNING`);
                             task.task();
                         } catch (ex) {
-                            console.error(ex);
+                            console.error("Scheduled startup idle task failure: ", ex);
                         } finally {
                             ChromeUtils.addProfilerMarker("startupIdleTask", startTime, task.name);
                         }
@@ -448,10 +402,6 @@ export class DotGlue {
                 task.timeout ? { timeout: task.timeout } : undefined
             );
         }
-    }
-
-    onFirstWindowLoaded(win) {
-        this.firstWindowLoaded();
     }
 
     handleLink(subject, data) {
@@ -481,12 +431,11 @@ export class DotGlue {
                 this.initPdfJs();
                 break;
             case "browser-delayed-startup-finished":
-                console.log("browser-delayed-startup-finished")
-                this.onFirstWindowLoaded(subject);
+                this.firstWindowLoaded();
                 Services.obs.removeObserver(this, "browser-delayed-startup-finished");
                 break;
-            case "sessionstore-windows-restored":
-                this.onWindowsRestored();
+            case "browser-window-ready":
+                this.onWindowReady();
                 break;
         }
     };
