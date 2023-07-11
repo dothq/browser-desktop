@@ -12,12 +12,12 @@
 
 /* Apply GTK rounded top corners */
 @media (-moz-gtk-csd-available) {
-    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) {
+    :root:not([chromemargin=""])[chromemargin][sizemode="normal"]:not([gtktiledwindow="true"]) {
         -moz-default-appearance: -moz-window-titlebar;
         appearance: auto;
     }
 
-    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
+    :root:not([chromemargin=""])[chromemargin][sizemode="normal"]:not([gtktiledwindow="true"]) body {
         border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
         border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
     }

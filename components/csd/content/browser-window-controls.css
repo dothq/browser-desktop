@@ -7,6 +7,11 @@ browser-window-controls {
     gap: 0.1rem;
 }
 
+:root[chromemargin=""] browser-window-controls,
+:root:not([chromemargin]) browser-window-controls {
+    display: none;
+}
+
 :root[chromepopup] browser-window-controls .control-min {
     display: none;
 }

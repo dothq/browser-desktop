@@ -15,6 +15,10 @@ var { BrowserTabs } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserTabs.sys.mjs"
 );
 
+var { NativeTitlebar } = ChromeUtils.importESModule(
+    "resource:///modules/NativeTitlebar.sys.mjs"
+);
+
 // This is exported only for type checking reasons, this should never be imported directly
 export const _gDot = {
 	_done: false,
@@ -47,6 +51,10 @@ export const _gDot = {
             document.documentElement.hasAttribute("chromehidden") && 
             document.documentElement.hasAttribute("chromepopup")
         );
+    },
+
+    get usesNativeTitlebar() {
+        return NativeTitlebar.enabled;
     },
 
 	/**

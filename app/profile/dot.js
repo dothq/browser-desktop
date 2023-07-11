@@ -36,3 +36,6 @@ pref("extensions.getAddons.showPane", false);
 
 // Show warning for about:config
 pref("browser.aboutConfig.showWarning", true);
+
+// Determines whether the window should have a native titlebar
+pref("dot.window.use-native-titlebar", false);

@@ -50,6 +50,10 @@ var { nsBrowserAccess } = ChromeUtils.importESModule(
     "resource:///modules/DotBrowserWindow.sys.mjs"
 );
 
+var { NativeTitlebar } = ChromeUtils.importESModule(
+    "resource:///modules/NativeTitlebar.sys.mjs"
+);
+
 // Ensure that these icons match up with the actual page favicon
 // Reflect any changes here with components/tabs/BrowserTabs.sys.mjs
 const gPageIcons = {
@@ -93,6 +97,8 @@ var gDotInit = {
 				document.documentElement.setAttribute("sizemode", "maximized");
 			}
 		}
+
+        NativeTitlebar.init(document);
 
 		new LightweightThemeConsumer(document);
 

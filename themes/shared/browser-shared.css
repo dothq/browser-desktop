@@ -160,6 +160,6 @@ hr.fdn-separator {
     width: 100%;
 }
 
-#toolbox {
+:root[chromemargin]:not([chromemargin=""]) #toolbox {
     -moz-window-dragging: drag;
 }
