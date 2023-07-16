@@ -36,6 +36,7 @@ export interface AppConstants {
     MOZ_NORMANDY: boolean;
     MOZ_MAINTENANCE_SERVICE: boolean;
     MOZ_BACKGROUNDTASKS: boolean;
+    MOZ_BUILDID: string;
     MOZ_UPDATE_AGENT: boolean;
     MOZ_BITS_DOWNLOAD: boolean;
     DEBUG: boolean;
