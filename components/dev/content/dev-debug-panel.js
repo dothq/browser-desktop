@@ -6,6 +6,14 @@ var { AddonManager } = ChromeUtils.importESModule(
     "resource://gre/modules/AddonManager.sys.mjs"
 );
 
+var { AppConstants } = ChromeUtils.importESModule(
+    "resource://gre/modules/AppConstants.sys.mjs"
+);
+
+var { DotAppConstants } = ChromeUtils.importESModule(
+    "resource://gre/modules/DotAppConstants.sys.mjs"
+);
+
 /**
  * Utility function to convert bytes to a human-readable format
  * @param {number} bytes 
@@ -40,8 +48,10 @@ class DeveloperDebugPanel extends MozHTMLElement {
     }
 
     elements = {
+        app_info: html("span"),
         proc_info: html("span"),
-        active_theme: html("span")
+        active_theme: html("span"),
+        user_agent: html("span"),
     }
 
     resourceUsageInt = null;
@@ -95,6 +105,19 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
         this.onAddonEnabled(activeTheme);
         this.calculateResourceUsage();
+
+        const dotVersion = document.createElement("strong");
+        dotVersion.textContent = `Dot Browser v${DotAppConstants.DOT_APP_VERSION} (${AppConstants.MOZ_BUILDID})`;
+
+        this.elements.app_info.append(
+            dotVersion,
+            document.createElement("br"),
+            `Firefox v${AppConstants.MOZ_APP_VERSION}`
+        )
+
+        this.elements.user_agent.textContent = `user_agent = ${Cc["@mozilla.org/network/protocol;1?name=http"].getService(
+            Ci.nsIHttpProtocolHandler
+        ).userAgent}`;
     }
 
     insertStylesheet() {
@@ -113,8 +136,10 @@ class DeveloperDebugPanel extends MozHTMLElement {
         if (this.delayConnectedCallback()) return;
         this.classList.add("dev-panel");
 
+        this.appendChild(this.elements.app_info);
         this.appendChild(this.elements.proc_info);
         this.appendChild(this.elements.active_theme);
+        this.appendChild(this.elements.user_agent);
 
         this.init();
 
