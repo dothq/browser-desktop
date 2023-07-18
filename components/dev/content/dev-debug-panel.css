@@ -15,4 +15,5 @@ dev-debug-panel {
     flex-direction: column;
     white-space: break-spaces;
     gap: 1rem;
+    z-index: 2147483647;
 }
