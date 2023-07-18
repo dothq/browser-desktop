@@ -17,7 +17,6 @@ DIRS += [
     "/browser/components/build",
     "/browser/components/customizableui",
     "/browser/components/downloads",
-    "/browser/components/extensions",
     "/browser/components/firefoxview", # todo: remove
     "/browser/components/urlbar",
     "/browser/components/migration",
