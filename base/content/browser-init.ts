@@ -72,6 +72,25 @@ globalThis.delayedStartupPromise = new Promise((resolve) => {
 	globalThis._resolveDelayedStartup = resolve;
 });
 
+if (AppConstants.ENABLE_WEBDRIVER) {
+    XPCOMUtils.defineLazyServiceGetter(
+        globalThis,
+        "Marionette",
+        "@mozilla.org/remote/marionette;1",
+        "nsIMarionette"
+    );
+  
+    XPCOMUtils.defineLazyServiceGetter(
+        globalThis,
+        "RemoteAgent",
+        "@mozilla.org/remote/agent;1",
+        "nsIRemoteAgent"
+    );
+} else {
+    globalThis.Marionette = { running: false };
+    globalThis.RemoteAgent = { running: false };
+}
+
 var gDotInit = {
 	_startTime: Date.now(),
 
