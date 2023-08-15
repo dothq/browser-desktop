@@ -32,7 +32,7 @@ function convertToKebabCase(str) {
  * Creates a HTML element tree
  * @param {string} tagName 
  * @param {{ [key: string]: any }} [attributes] 
- * @param {(HTMLElement | string)[]} [children] 
+ * @param {(HTMLElement | DocumentFragment | string)[]} [children] 
  * @returns 
  */
 function html(
