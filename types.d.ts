@@ -8,6 +8,7 @@ import { nsIXULBrowserWindow } from "./base/content/browser-window";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
 import "./mozbuild";
+import * as BrowserInit from "base/content/browser-init";
 
 type MozXULElement = {
     prototype: Gecko.MozXULElement;
@@ -28,6 +29,7 @@ declare global {
 
 	var BrowserUIUtils: Gecko.BrowserUIUtils;
 	var gDot: typeof _gDot;
+    var gDotInit: typeof BrowserInit.gDotInit;
 	var XULBrowserWindow: nsIXULBrowserWindow;
 
 	var XULElement: Gecko.XULElement;
@@ -88,6 +90,7 @@ declare global {
         STATE_NORMAL: 3;
         STATE_FULLSCREEN: 4;
         windowState: number;
+        gDotInit: typeof gDotInit;
 	}
 
     interface Element extends Gecko.CustomElement {}
