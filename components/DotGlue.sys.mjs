@@ -131,7 +131,7 @@ const JSWINDOWACTORS = {
             }
         },
 
-        messageManagerGroups: ["browser"]
+        messageManagerGroups: ["browsers"]
     },
 
     PageInfo: {
