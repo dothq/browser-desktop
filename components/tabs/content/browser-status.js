@@ -32,13 +32,13 @@ class BrowserStatus extends MozHTMLElement {
 
         this.appendChild(html("span", { class: "browser-status-label" }));
 
-        this.webContents.addEventListener(gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, this);
+        this.webContents.addEventListener("BrowserTabs::BrowserStatusChange", this);
     }
 
     disconnectedCallback() {
         if (this.delayConnectedCallback()) return;
 
-        this.webContents.removeEventListener(gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, this);
+        this.webContents.removeEventListener("BrowserTabs::BrowserStatusChange", this);
     }
 
     /**
@@ -68,7 +68,7 @@ class BrowserStatus extends MozHTMLElement {
      */
     handleEvent(event) {
         switch (event.type) {
-            case gDot.tabs.EVENT_BROWSER_STATUS_CHANGE:
+            case "BrowserTabs::BrowserStatusChange":
                 this.onStatusChanged(event.detail);
                 break;
         }

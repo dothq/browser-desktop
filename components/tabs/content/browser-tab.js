@@ -168,21 +168,27 @@ class BrowserTab extends MozElements.MozTab {
         if (this.delayConnectedCallback()) return;
 
         this.appendChild(html("img", { class: "browser-tab-icon" }));
-        this.appendChild(html("span", { class: "browser-tab-label" }));
+        this.appendChild(
+            html(
+                "div",
+                { class: "browser-tab-label-container" },
+                html("span", { class: "browser-tab-label" })
+            )
+        );
 
         if (!this.getAttribute("label")) {
             this.updateLabel("Untitled");
         }
 
         this.addEventListener("mousedown", this);
-        document.addEventListener(gDot.tabs.EVENT_TAB_SELECT, this);
+        document.addEventListener("BrowserTabs::TabSelect", this);
     }
 
     disconnectedCallback() {
         if (this.delayConnectedCallback()) return;
 
         this.removeEventListener("mousedown", this);
-        document.removeEventListener(gDot.tabs.EVENT_TAB_SELECT, this);
+        document.removeEventListener("BrowserTabs::TabSelect", this);
 
         this.webContents.removeEventListener("pagetitlechanged", this);
     }
@@ -196,7 +202,7 @@ class BrowserTab extends MozElements.MozTab {
             case "mousedown":
                 this._onTabMouseDown(event);
                 break;
-            case gDot.tabs.EVENT_TAB_SELECT:
+            case "BrowserTabs::TabSelect":
                 this._onTabSelected(event);
                 break;
             case "pagetitlechanged":

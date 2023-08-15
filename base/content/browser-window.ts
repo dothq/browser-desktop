@@ -80,7 +80,7 @@ export class nsIXULBrowserWindow {
 
 		this.overLink = url;
 
-        const evt = new CustomEvent(gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, {
+        const evt = new CustomEvent("BrowserTabs::BrowserStatusChange", {
             detail: {
                 message: url,
                 type: "overLink"
@@ -253,10 +253,6 @@ export class nsIXULBrowserWindow {
 		if (!isSameDocument) {
 			// We should close any open popups / panels here
 		}
-
-		// It is now safe to call our other onLocationChange handlers here
-
-		// -- End --
 
 		// See bug 358202, when tabs are switched during a drag operation,
 		// timers don't fire on windows (bug 203573)

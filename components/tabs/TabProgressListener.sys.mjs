@@ -8,10 +8,8 @@
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
  */
 
-function fireBrowserStatusChange(browser, data) {
-    const win = browser.ownerGlobal;
-
-    const evt = new CustomEvent(win.gDot.tabs.EVENT_BROWSER_STATUS_CHANGE, {
+function fireBrowserEvent(event, browser, data) {
+    const evt = new CustomEvent(`BrowserTabs::${event}`, {
         detail: data
     });
 
@@ -59,7 +57,7 @@ export class TabProgressListener {
     onStatusChange(webProgress, request, status, message) {
         console.log("TabProgressListener::onStatusChange", webProgress, request, status, message);
 
-        fireBrowserStatusChange(this.browser, {
+        fireBrowserEvent("BrowserStatusChange", this.browser, {
             webProgress,
             request,
             status,
@@ -77,6 +75,17 @@ export class TabProgressListener {
      * @param {boolean} isSimulated
      */
     onLocationChange(webProgress, request, locationURI, flags, isSimulated) {
+        const evt = new CustomEvent("BrowserTabs::LocationChange", {
+            detail: {
+                webProgress,
+                request,
+                locationURI,
+                flags,
+                isSimulated
+            }
+        });
+        this.win.dispatchEvent(evt);
+
         // We only care about the top level location changes
         // Any changes to subframes should be ignored
         if (!webProgress.isTopLevel) return;
@@ -110,7 +119,7 @@ export class TabProgressListener {
         } else if (stateFlags & STATE_STOP) {
             win.gDot.tabs.isBusy = false;
 
-            fireBrowserStatusChange(this.browser, {
+            fireBrowserEvent("BrowserStatusChange", this.browser, {
                 message: "",
                 type: "busy"
             });
