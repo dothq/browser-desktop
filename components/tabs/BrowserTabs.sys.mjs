@@ -142,17 +142,19 @@ BrowserTabs.prototype = {
 
         if (oldTab && this._isWebContentsBrowserElement(oldTab.webContents)) {
             /** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
+            oldTab.webContents.removeAttribute("primary");
         }
 
         if (this._isWebContentsBrowserElement(tab.webContents)) {
             console.log("tab.docShellIsActive", true);
 			/** @type {ChromeBrowser} */ (tab.webContents).docShellIsActive = true;
+            tab.webContents.setAttribute("primary", "true");
         }
 
         this._selectedTab = tab;
         tab.webContentsPanel.toggleAttribute("visible", true);
 
-        this._dispatchDocumentEvent(this.EVENT_TAB_SELECT, { detail: tab });
+        this._dispatchDocumentEvent("BrowserTabs::TabSelect", { detail: tab });
     },
 
     get _tabslistEl() {
@@ -242,6 +244,7 @@ BrowserTabs.prototype = {
      * @param {ChromeBrowser} [options.openerBrowser] - The existing browser element that opened this new browser
      * @param {any} [options.referrerInfo] - Information relating to the referrer of this browser
      * @param {boolean} [options.forceNotRemote] - Force a not remote state onto the browser
+     * @param {string} [options.initialBrowsingContextGroupId] - The initial browsing context group ID for this new browser
      */
     _createBrowser(options) {
         if (!options.preferredRemoteType && options.openerBrowser) {
@@ -295,6 +298,13 @@ BrowserTabs.prototype = {
             browser.openWindowInfo = options.openWindowInfo;
         }
 
+        if (options.initialBrowsingContextGroupId) {
+            browser.setAttribute(
+                "initialBrowsingContextGroupId",
+                options.initialBrowsingContextGroupId
+            );
+        }
+
         if (options.name) {
             browser.setAttribute("name", options.name);
         }
@@ -335,6 +345,7 @@ BrowserTabs.prototype = {
      * @param {boolean} [options.disableTRR] - Disables TRR for resolving host names
      * @param {boolean} [options.forceAllowDataURI] - Allows for data: URI navigation
      * @param {any} [options.postData] - The POST data to submit with the returned URI (see nsISearchSubmission).
+     * @param {string} [options.initialBrowsingContextGroupId] - The initial browsing context group ID to use for the browser.
      */
     createTab(options) {
         if (!options.triggeringPrincipal) {
@@ -420,7 +431,7 @@ BrowserTabs.prototype = {
             return null;
         }
 
-        this._dispatchDocumentEvent(this.EVENT_TAB_CREATE, { detail: tabEl });
+        this._dispatchDocumentEvent("BrowserTabs::TabCreate", { detail: tabEl });
 
         // We should only consider loading anything into the tab if the webContents are a browser element
         if (this._isWebContentsBrowserElement(tabEl.webContents)) {
@@ -534,13 +545,63 @@ BrowserTabs.prototype = {
      * Creates multiple tabs
      * @param {string[]} uris 
      * @param {object} options 
+     * @params {boolean} [options.replaceInitialTab] - Determines whether we are allowed to replace the initial tab with the first URI in the list.
      */
     createTabs(uris, options) {
-        for (const uri of uris) {
+        let tabOptions = {
+            ...options
+        }
+
+        // We want to handle this ourselves, rather than 
+        // update each tab's active state one by one
+        tabOptions.inBackground = true;
+
+        let initialTab;
+
+        if (tabOptions.replaceInitialTab && this.selectedTab) {
+            initialTab = this.selectedTab;
+            const browser = /** @type {ChromeBrowser} */ (initialTab.webContents);
+
+            let flags = LOAD_FLAGS_NONE;
+            if (tabOptions.allowThirdPartyFixup) {
+                flags |= LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP | LOAD_FLAGS_FIXUP_SCHEME_TYPOS;
+            }
+            if (tabOptions.fromExternal) flags |= LOAD_FLAGS_FROM_EXTERNAL;
+            if (!tabOptions.allowInheritPrincipal) flags |= LOAD_FLAGS_DISALLOW_INHERIT_PRINCIPAL;
+            if (tabOptions.disableTRR) flags |= LOAD_FLAGS_DISABLE_TRR;
+            if (tabOptions.forceAllowDataURI) flags |= LOAD_FLAGS_FORCE_ALLOW_DATA_URI;
+
+            if (this._isWebContentsBrowserElement(browser)) {
+                try {
+                    browser.fixupAndLoadURIString(uris[0], {
+                        ...tabOptions,
+                        flags,
+                        postData: tabOptions.postDatas && tabOptions.postDatas[0],
+                    });
+                } catch (e) {
+                    console.error("Failed to load URI into initial tab", e);
+                }
+            }
+        } else {
+            initialTab = this.createTab({
+                ...tabOptions,
+                postData: tabOptions.postDatas && tabOptions.postDatas[0],
+                uri: uris[0],
+            });
+        }
+
+        for (let i = 1; i < uris.length; i++) {
+            const uri = uris[i];
+
             this.createTab({
-                ...options,
+                ...tabOptions,
+                postData: tabOptions.postDatas && tabOptions.postDatas[i],
                 uri,
-            })
+            });
+        }
+
+        if (!options.inBackground) {
+            this.selectedTab = initialTab;
         }
     },
 
@@ -559,7 +620,6 @@ BrowserTabs.prototype = {
      * @param {Element} webContents
      */
     _insertTabWebContents(tab, webContents) {
-
         tab.webContents = webContents;
 
         const panel = this._win.document.createElement("browser-panel");
@@ -636,6 +696,100 @@ BrowserTabs.prototype = {
         if (this._isWebContentsBrowserElement(tab.webContents)) {
 			/** @type {ChromeBrowser} */ (tab.webContents).browsingContext.isAppTab = tab.pinned;
         }
+    },
+
+    /**
+     * Creates a browser for the initial load
+     * 
+     * We need a tab to exist right as we boot the browser so we can adopt 
+     * tabs in window.arguments or have a browser ready for popup windows.
+     */
+    _setupInitialBrowser() {
+        const args = this._win.arguments;
+
+        // Get the userContextId from args if we have it
+        let userContextId = args && args[5];
+
+        let openWindowInfo = this._win.docShell.treeOwner
+            .QueryInterface(Ci.nsIInterfaceRequestor)
+            .getInterface(Ci.nsIAppWindow).initialOpenWindowInfo;
+
+        // If we have provided openWindowInfo as an argument, use that instead
+        if (!openWindowInfo && args && args[11]) {
+            openWindowInfo = args[11];
+        }
+
+        // If we are providing a tab for adoption, make sure this is used
+        const adoptedTab = this._win.gDotInit.getTabToAdopt();
+
+        // If the adopted tab has a userContextId, we can use that instead
+        if (adoptedTab && adoptedTab.hasAttribute("usercontextid")) {
+            userContextId = parseInt(adoptedTab.getAttribute("usercontextid"), 10);
+        }
+
+        let remoteType;
+        let initialBrowsingContextGroupId;
+
+        // If we have an adoptedTab and it has a <browser> type webContents
+        // Make sure we inherit the remoteType and browsing context group ID.
+        if (adoptedTab && adoptedTab.webContents && this._isWebContentsBrowserElement(adoptedTab)) {
+            remoteType = adoptedTab.linkedBrowser.remoteType;
+            initialBrowsingContextGroupId =
+                adoptedTab.linkedBrowser.browsingContext?.group.id;
+        } else if (openWindowInfo) {
+            // If we have openWindowInfo, inherit the userContextId from that
+            userContextId = openWindowInfo.originAttributes.userContextId;
+
+            // And, if we're remote, make sure we are using the correct remoteType
+            if (openWindowInfo.isRemote) {
+                remoteType = E10SUtils.DEFAULT_REMOTE_TYPE;
+            } else {
+                remoteType = E10SUtils.NOT_REMOTE;
+            }
+        } else {
+            let uriToLoad = this._win.gDotInit.uriToLoadPromise;
+            // If we have a URI to load, we only need the first item
+            if (uriToLoad && Array.isArray(uriToLoad)) {
+                uriToLoad = uriToLoad[0];
+            }
+
+            // Check if our URI is a string
+            if (uriToLoad && typeof uriToLoad == "string") {
+                const oa = E10SUtils.predictOriginAttributes({
+                    window: this._win,
+                    userContextId,
+                });
+
+                remoteType = E10SUtils.getRemoteTypeForURI(
+                    uriToLoad,
+                    this._win.gDot.isMultiProcess,
+                    this._win.gDot.usesRemoteSubframes,
+                    E10SUtils.DEFAULT_REMOTE_TYPE,
+                    null,
+                    oa
+                );
+            } else {
+                // If the URI doesn't exist or isn't a string, we can assume
+                // it's probably still a promise, since uriToLoadPromise returns
+                // a promise waiting to be resolved
+
+                // In this case, we need to assume that the browser will be null
+                // Our best guess for the remoteType would be a privilaged about
+                // process, which we can use for the time being.
+                remoteType = E10SUtils.PRIVILEGEDABOUT_REMOTE_TYPE;
+            }
+        }
+        const triggeringPrincipal = Services.scriptSecurityManager.createNullPrincipal({ userContextId });
+
+        this.createTab({
+            uri: "about:blank",
+            inBackground: false,
+            userContextId,
+            initialBrowsingContextGroupId,
+            preferredRemoteType: remoteType,
+            openWindowInfo,
+            triggeringPrincipal,
+        });
     },
 
     /**
@@ -722,6 +876,8 @@ BrowserTabs.prototype = {
         this._win.MozXULElement.insertFTLIfNeeded("dot/tabs.ftl");
 
         this._win.addEventListener("visabilitychange", this);
+
+        this._setupInitialBrowser();
     },
 
     destroy() {
