@@ -7,13 +7,18 @@ var { AppConstants } = ChromeUtils.importESModule(
 );
 
 let elements = {
-    "browser-tab": "chrome://dot/content/widgets/browser-tab.js",
-    "browser-panel": "chrome://dot/content/widgets/browser-panel.js",
-    "browser-frame": "chrome://dot/content/widgets/browser-frame.js",
-    "browser-status": "chrome://dot/content/widgets/browser-status.js",
-    "browser-modals": "chrome://dot/content/widgets/browser-modals.js",
     "browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
+    "browser-frame": "chrome://dot/content/widgets/browser-frame.js",
+    "browser-icon": "chrome://dot/content/widgets/browser-icon.js",
+    "browser-modals": "chrome://dot/content/widgets/browser-modals.js",
+    "browser-panel": "chrome://dot/content/widgets/browser-panel.js",
+    "browser-status": "chrome://dot/content/widgets/browser-status.js",
+    "browser-tab": "chrome://dot/content/widgets/browser-tab.js",
     "browser-window-controls": "chrome://dot/content/widgets/browser-window-controls.js",
+
+    "back-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
+    "forward-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
+    "reload-button": "chrome://dot/content/widgets/browser-reload-button.js",
 }
 
 // Define developer-only elements
@@ -21,7 +26,8 @@ let elements = {
 if (!AppConstants.MOZILLA_OFFICIAL) {
     elements = {
         ...elements,
-        "dev-debug-panel": "chrome://dot/content/widgets/dev-debug-panel.js"
+        "dev-debug-panel": "chrome://dot/content/widgets/dev-debug-panel.js",
+        "dev-debug-graph": "chrome://dot/content/widgets/dev-debug-graph.js",
     } as any;
 }
 

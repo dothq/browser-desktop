@@ -4,8 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-EXTRA_JS_MODULES += [
-    "NavigationHelper.sys.mjs",
-]
-
-JAR_MANIFESTS += ["jar.mn"]
+dot.jar:
+% content dot %content/ contentaccessible=yes
+    content/widgets/browser-history-navigation-button.js        (content/browser-history-navigation-button.js)
+    content/widgets/browser-reload-button.js                    (content/browser-reload-button.js)
