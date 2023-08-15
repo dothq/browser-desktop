@@ -91,6 +91,7 @@ if (AppConstants.ENABLE_WEBDRIVER) {
     globalThis.RemoteAgent = { running: false };
 }
 
+/** @global */
 var gDotInit = {
 	_startTime: Date.now(),
 
@@ -269,6 +270,8 @@ var gDotInit = {
 			// If we don't have a URL to load, we don't need to do anything
 			if (!uriToLoad) return;
 
+            console.log("uriToLoad", uriToLoad);
+
 			// window.arguments[1]: extraOptions (nsIPropertyBag)
 			//                 [2]: referrerInfo (nsIReferrerInfo)
 			//                 [3]: postData (nsIInputStream)
@@ -291,7 +294,7 @@ var gDotInit = {
 				try {
                     gDot.tabs.createTabs(uriToLoad, {
 						inBackground: false,
-						replace: true,
+						replaceInitialTab: true,
 						userContextId: window.arguments[5],
 						triggeringPrincipal:
 							window.arguments[8] ||
@@ -300,7 +303,9 @@ var gDotInit = {
 						csp: window.arguments[10],
 						fromExternal: true
 					});
-				} catch (e) {}
+				} catch (e) {
+                    console.error("Failed to create multiple tabs", e);
+                }
 			} else if (window.arguments.length >= 3) {
 				const userContextId =
 					window.arguments[5] != undefined
@@ -668,5 +673,8 @@ var gDotInit = {
 		return WindowIsClosing(event);
 	}
 };
+
+// Exported for types
+export { gDotInit };
 
 globalThis.gDotInit = gDotInit; // Exposes gDotInit to global for debugging

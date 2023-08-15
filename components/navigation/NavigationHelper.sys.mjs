@@ -530,11 +530,13 @@ export const NavigationHelper = {
         try {
             win.gDot.tabs.createTabs(uriString.split("|"), {
                 inBackground: false,
-                replace: true,
+                replaceInitialTab: true,
                 triggeringPrincipal,
                 csp
             });
-        } catch (e) { }
+        } catch (e) {
+            console.error("Failed to create multiple tabs", e);
+        }
     },
 
     /**
