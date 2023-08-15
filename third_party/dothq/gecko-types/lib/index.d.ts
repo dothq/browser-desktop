@@ -56,5 +56,6 @@ export * from "./RemoteAgent";
 export * from "./SharedLibrary";
 export * from "./WindowGlobalChild";
 export * from "./WindowGlobalParent";
+export * from "./WindowUtils";
 export * from "./XPCOMUtils";
 export * from "./XULElement";

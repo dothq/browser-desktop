@@ -141,6 +141,7 @@ declare global {
 		XULBrowserWindow: any;
 		InspectorUtils: Gecko.InspectorUtils;
         windowGlobalChild: Gecko.WindowGlobalChildInstance;
+        windowUtils: Gecko.WindowUtils;
 	}
 
 	interface Element {
