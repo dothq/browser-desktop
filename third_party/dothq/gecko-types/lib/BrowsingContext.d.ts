@@ -29,7 +29,7 @@ export interface BrowsingContext {
 
     top: BrowsingContext;
 
-    embedderElement: Element | null;
+    embedderElement?: ChromeBrowser;
 
     isContent: boolean;
 
