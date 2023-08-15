@@ -30,6 +30,10 @@ var gBrowser = {
         return this.selectedBrowser.currentURI;
     },
 
+    get contentPrincipal() {
+        return this.selectedBrowser.contentPrincipal;
+    },
+
     get selectedTab() {
         return gDot.tabs.selectedTab;
     },
