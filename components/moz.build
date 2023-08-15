@@ -30,7 +30,7 @@ EXTRA_COMPONENTS += [
 
 EXTRA_JS_MODULES += [
     "/browser/components/BrowserContentHandler.sys.mjs",
-    "/browser/components/distribution.js",
+    "/browser/components/distribution.sys.mjs",
     "DotBrowserWindow.sys.mjs",
     "DotContentHandler.sys.mjs",
     "DotGlue.sys.mjs",
