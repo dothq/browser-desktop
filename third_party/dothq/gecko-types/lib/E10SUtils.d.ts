@@ -6,6 +6,8 @@ import { ChromeBrowser } from "./ChromeBrowser";
 
 export interface E10SUtils {
     NOT_REMOTE: null;
+    DEFAULT_REMOTE_TYPE: string;
+    PRIVILEGEDABOUT_REMOTE_TYPE: string;
 
     getRemoteTypeForURI(url: string, multiProcess: boolean, remoteSubframes: boolean, preferredRemoteType: string, currentURI: string, originAttributes: object): string;
     predictOriginAttributes({
