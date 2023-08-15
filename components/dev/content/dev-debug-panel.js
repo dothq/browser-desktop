@@ -58,7 +58,7 @@ class DeveloperDebugPanel extends MozHTMLElement {
     resourceUsageInt = null;
 
     onAddonEnabled(addon) {
-        if (addon.type != "theme") return;
+        if (!addon || addon.type != "theme") return;
 
         const icon = /** @type {HTMLImageElement} */ (this.elements.active_theme
             .querySelector(".dev-active-theme-icon")
