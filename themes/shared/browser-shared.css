@@ -13,6 +13,7 @@
 @import url("chrome://dot/content/widgets/browser-modals.css");
 @import url("chrome://dot/content/widgets/browser-content-popup.css");
 @import url("chrome://dot/content/widgets/browser-window-controls.css");
+@import url("chrome://dot/content/widgets/browser-icon.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
@@ -162,4 +163,14 @@ hr.fdn-separator {
 
 :root[chromemargin]:not([chromemargin=""]) #toolbox {
     -moz-window-dragging: drag;
+}
+
+html|button {
+    background-color: var(--button-bgcolor);
+    color: var(--lwt-text-color);
+}
+
+html|button:disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
