@@ -46,4 +46,14 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
 
     contentDocument: Document;
     contentWindow: Window;
+
+    canGoBack: boolean;
+    canGoForward: boolean;
+
+    goBack(requiresUserInteraction?: boolean): void;
+    goForward(requiresUserInteraction?: boolean): void;
+
+    reloadWithFlags(flags: number): void;
+
+    contentPrincipal: any; // @todo: nsIPrincipal
 }
