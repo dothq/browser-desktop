@@ -20,10 +20,9 @@ var { DotAppConstants } = ChromeUtils.importESModule(
  * @param {number} decimals 
  * @returns {string}
  */
-function formatBytes(bytes, decimals = 2) {
+function formatBytes(bytes, decimals = 2, k = 1024) {
     if (!+bytes) return '0 Bytes'
 
-    const k = 1024
     const dm = decimals < 0 ? 0 : decimals
     const sizes = ['Bytes', 'kB', 'MB', 'GB', 'TB']
 
@@ -49,9 +48,11 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
     elements = {
         app_info: html("span"),
-        proc_info: html("span"),
-        active_theme: html("span"),
+        proc_info: html("div"),
+        active_theme: html("div", { class: "dev-active-theme" }),
         user_agent: html("span"),
+
+        graph: /** @type {DeveloperDebugGraph} */ (html("dev-debug-graph")),
     }
 
     resourceUsageInt = null;
@@ -59,36 +60,63 @@ class DeveloperDebugPanel extends MozHTMLElement {
     onAddonEnabled(addon) {
         if (addon.type != "theme") return;
 
-        this.elements.active_theme.textContent = `active_theme_id = ${addon.id}`;
+        const icon = /** @type {HTMLImageElement} */ (this.elements.active_theme
+            .querySelector(".dev-active-theme-icon")
+        );
+
+        this.elements.active_theme.querySelector(".dev-active-theme-id").textContent = addon.id;
+
+        icon.hidden = !(addon.iconURL && addon.iconURL.length);
+        icon.src = addon.iconURL || "";
     }
 
     async calculateResourceUsage() {
         const procInfo = await ChromeUtils.requestProcInfo();
 
+        /** @type {any[]} */
         let data = [
-            `PID: ${procInfo.pid}`,
-            `Memory: ${formatBytes(procInfo.memory)}`,
-            `Processes: ${procInfo.children.length}`,
-            `Threads: ${procInfo.threads.length}`,
+            html("span", {}, `PID: ${procInfo.pid}`),
+            html("span", {}, `Memory: ${formatBytes(procInfo.memory)}`),
+            html("span", {}, `Processes: ${procInfo.children.length}`),
+            html("span", {}, `Threads: ${procInfo.threads.length}`)
         ];
 
-        if (procInfo.children.length) {
-            data.push("");
+        if (procInfo.memory >= Math.max(...(this.elements.graph.points.default || []))) {
+            this.elements.graph.max = Math.ceil((procInfo.memory + 50000000 /* 50mb */) / 50000000) * 50000000;
+        }
+        this.elements.graph.addPoint(procInfo.memory);
 
-            for (const child of procInfo.children) {
-                data.push(`${child.type} (id=${child.childID} pid=${child.pid})`);
-                data.push(`    Memory: ${formatBytes(child.memory)} (${perDiff(child.memory, procInfo.memory)}%)`);
-                data.push(`    Threads: ${child.threads.length}`);
-                data.push(`    Windows: ${child.windows.length}`);
+        if (procInfo.children.length) {
+            data.push(html("br"));
+
+            for (const child of procInfo.children.sort((a, b) => b.memory - a.memory)) {
+                this.elements.graph.addPoint(child.memory, child.pid.toString());
+
+                const groupColour = this.elements.graph.pointGroupColours[child.pid.toString()];
+
+                const groupDot = /** @type {HTMLSpanElement} */ (html("div", { class: "dev-graph-group-dot" }));
+                groupDot.style.setProperty("--color", groupColour);
+
+                data.push(html("div", { class: "dev-graph-group" },
+                    groupDot,
+                    html("span", {}, `${child.type} (id=${child.childID} pid=${child.pid}, mem=${formatBytes(child.memory)}, thds=${child.threads.length}, wins=${child.windows.length})`)
+                ))
             }
         }
 
-        this.elements.proc_info.textContent = data.join("\n");
+        this.elements.proc_info.textContent = "";
+        this.elements.proc_info.append(...data);
     }
 
     async init() {
         const activeTheme = (await AddonManager.getAddonsByTypes(["theme"]))
             .find(ext => ext.isActive);
+
+        this.elements.active_theme.append(
+            "active_theme_id =",
+            html("img", { class: "dev-active-theme-icon" }),
+            html("span", { class: "dev-active-theme-id" })
+        );
 
         AddonManager.addAddonListener({
             onEnabled: this.onAddonEnabled.bind(this)
@@ -140,6 +168,8 @@ class DeveloperDebugPanel extends MozHTMLElement {
         this.appendChild(this.elements.proc_info);
         this.appendChild(this.elements.active_theme);
         this.appendChild(this.elements.user_agent);
+
+        this.appendChild(this.elements.graph);
 
         this.init();
 

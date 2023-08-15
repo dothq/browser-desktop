@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import url("chrome://dot/content/widgets/dev-debug-graph.css");
+
 dev-debug-panel {
     position: absolute;
     bottom: 0;
@@ -15,5 +17,32 @@ dev-debug-panel {
     flex-direction: column;
     white-space: break-spaces;
     gap: 1rem;
+    width: 100%;
+    max-width: 500px;
     z-index: 2147483647;
+}
+
+dev-debug-panel span {
+    display: flex;
+    flex-direction: column;
+    min-height: 20px;
+}
+
+dev-debug-panel .dev-graph-group,
+dev-debug-panel .dev-active-theme {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+dev-debug-panel .dev-graph-group-dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-color: var(--color);
+}
+
+dev-debug-panel .dev-active-theme-icon {
+    width: 1rem;
+    height: 1rem;
 }

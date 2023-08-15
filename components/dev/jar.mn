@@ -8,3 +8,6 @@ dot.jar:
 % content dot %content/ contentaccessible=yes
     content/widgets/dev-debug-panel.js               (content/dev-debug-panel.js)
     content/widgets/dev-debug-panel.css              (content/dev-debug-panel.css)
+
+    content/widgets/dev-debug-graph.js               (content/dev-debug-graph.js)
+    content/widgets/dev-debug-graph.css              (content/dev-debug-graph.css)
