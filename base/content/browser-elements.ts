@@ -7,6 +7,8 @@ var { AppConstants } = ChromeUtils.importESModule(
 );
 
 let elements = {
+    "address-bar": "chrome://dot/content/widgets/browser-address-bar.js",
+
     "browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
     "browser-frame": "chrome://dot/content/widgets/browser-frame.js",
     "browser-icon": "chrome://dot/content/widgets/browser-icon.js",

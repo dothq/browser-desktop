@@ -6,3 +6,5 @@ dot.jar:
     search-extensions/                                          (extensions/**)
 
 % resource search-extensions %search-extensions/ contentaccessible=yes
+% content dot %content/ contentaccessible=yes
+    content/widgets/browser-address-bar.js                      (content/browser-address-bar.js)

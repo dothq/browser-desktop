@@ -85,17 +85,23 @@
 
         <html:div id="mount">
             <div id="toolbox">
-                <html:button is="back-button"></html:button>
-                <html:button is="forward-button"></html:button>
-                <html:button is="reload-button"></html:button>
+                <div>
+                    <ul id="tabslist">
+                    
+                    </ul>
 
-                <ul id="tabslist">
-                
-                </ul>
+                    <html:browser-window-controls></html:browser-window-controls>
+                </div>
 
-                <html:browser-window-controls></html:browser-window-controls>
+                <div>
+                    <html:button is="back-button"></html:button>
+                    <html:button is="forward-button"></html:button>
+                    <html:button is="reload-button"></html:button>
+
+                    <html:input is="address-bar"></html:input>
+                </div>
             </div>
-            
+
             <div id="tabspanel">
                 
             </div>
