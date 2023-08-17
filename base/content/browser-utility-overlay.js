@@ -7,14 +7,21 @@
  * @typedef {import("third_party/dothq/gecko-types/lib/nsIWebNavigation").LoadURIOptions} LoadURIOptions
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
  */
+var { AppConstants } = ChromeUtils.importESModule(
+    "resource://gre/modules/AppConstants.sys.mjs"
+);
+
+var { XPCOMUtils } = ChromeUtils.importESModule(
+    "resource://gre/modules/XPCOMUtils.sys.mjs"
+);
 
 var { NavigationHelper } = ChromeUtils.importESModule(
     "resource:///modules/NavigationHelper.sys.mjs"
 );
 
-var { BrowserUtils } = ChromeUtils.importESModule(
-    "resource://gre/modules/BrowserUtils.sys.mjs"
-);
+ChromeUtils.defineESModuleGetters(globalThis, {
+    BrowserUtils: "resource://gre/modules/BrowserUtils.sys.mjs",
+});
 
 /**
  * Converts a string to use kebab case
@@ -178,7 +185,7 @@ function openLinkIn(url, where, params) {
  * @returns {LoadWhere}
  */
 function whereToOpenLink(e, ignoreButton, ignoreAlt) {
-    return BrowserUtils.whereToOpenLink(e, ignoreButton, ignoreAlt);
+    return (globalThis.BrowserUtils).whereToOpenLink(e, ignoreButton, ignoreAlt);
 }
 
 /**
