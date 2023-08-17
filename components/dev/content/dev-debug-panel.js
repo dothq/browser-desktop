@@ -171,7 +171,11 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
         this.appendChild(this.elements.graph);
 
-        this.init();
+        window.addEventListener(
+            "DOMContentLoaded",
+            () => this.init(),
+            { once: true }
+        );
 
         this.insertStylesheet();
     }
