@@ -23,6 +23,9 @@
 	"[html]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+    "[xhtml]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
 	"javascript.updateImportsOnFileMove.enabled": "always",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
