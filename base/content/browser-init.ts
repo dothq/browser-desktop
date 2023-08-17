@@ -387,6 +387,8 @@ var gDotInit = {
 	},
 
 	doDelayedStartup() {
+        console.log("doDelayedStartup");
+
 		// Cancel delayed startup to avoid duplicate calls to this function
 		this.cancelDelayedStartup();
 
