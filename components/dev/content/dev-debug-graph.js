@@ -19,6 +19,18 @@ function formatBytes(bytes, decimals = 2, k = 1024) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
+/**
+ * Utility function to generate a hexadecimal string with a size
+ * @param {number} size 
+ * @returns {string}
+ */
+function hex(size) {
+    return [...Array(size)]
+        .map(() => Math.floor(Math.random() * 16)
+            .toString(16))
+        .join("");
+}
+
 class DeveloperDebugGraph extends MozHTMLElement {
     constructor() {
         super();
@@ -181,7 +193,7 @@ class DeveloperDebugGraph extends MozHTMLElement {
         if (!this.pointGroupColours[name] && name !== "default") {
             if (this.groupColours.length < 5) {
                 this.groupColours.push(
-                    (Math.random() * 0xFFFFFF << 0).toString(16)
+                    "#" + hex(6)
                 );
             }
 
