@@ -283,8 +283,10 @@ BrowserTabs.prototype = {
 
         if (this._win.gDot.isMultiProcess) browser.setAttribute("maychangeremoteness", "true");
 
-        browser.setAttribute("remoteType", remoteType);
-        browser.setAttribute("remote", "true");
+        if (remoteType) {
+            browser.setAttribute("remoteType", remoteType);
+            browser.setAttribute("remote", "true");
+        }
 
         if (!options.initiallyActive) {
             browser.setAttribute("initiallyactive", "false");
@@ -755,10 +757,14 @@ BrowserTabs.prototype = {
 
             // Check if our URI is a string
             if (uriToLoad && typeof uriToLoad == "string") {
+                console.log("URI to load is a string", uriToLoad);
+
                 const oa = E10SUtils.predictOriginAttributes({
                     window: this._win,
                     userContextId,
                 });
+
+                console.log("origin attributes", oa);
 
                 remoteType = E10SUtils.getRemoteTypeForURI(
                     uriToLoad,
@@ -768,6 +774,8 @@ BrowserTabs.prototype = {
                     null,
                     oa
                 );
+
+                console.log("Using", remoteType, "as URI to load remote type")
             } else {
                 // If the URI doesn't exist or isn't a string, we can assume
                 // it's probably still a promise, since uriToLoadPromise returns
