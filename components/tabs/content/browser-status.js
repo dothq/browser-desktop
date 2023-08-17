@@ -33,12 +33,14 @@ class BrowserStatus extends MozHTMLElement {
         this.appendChild(html("span", { class: "browser-status-label" }));
 
         this.webContents.addEventListener("BrowserTabs::BrowserStatusChange", this);
+        document.addEventListener("BrowserTabs::TabSelect", this);
     }
 
     disconnectedCallback() {
         if (this.delayConnectedCallback()) return;
 
         this.webContents.removeEventListener("BrowserTabs::BrowserStatusChange", this);
+        document.removeEventListener("BrowserTabs::TabSelect", this);
     }
 
     /**
@@ -63,6 +65,17 @@ class BrowserStatus extends MozHTMLElement {
     }
 
     /**
+     * Fired when the active tab is changed
+     * @param {BrowserTab} tab 
+     */
+    onActiveTabChanged(tab) {
+        // The tab change wasn't for our linked browser, so we can safely ignore this
+        if (tab.webContents !== this.webContents) return;
+
+        this.toggleAttribute("inactive", true);
+    }
+
+    /**
      * Handles incoming events to the BrowserStatus element
      * @param {CustomEvent} event 
      */
@@ -70,6 +83,9 @@ class BrowserStatus extends MozHTMLElement {
         switch (event.type) {
             case "BrowserTabs::BrowserStatusChange":
                 this.onStatusChanged(event.detail);
+                break;
+            case "BrowserTabs::TabSelect":
+                this.onActiveTabChanged(event.detail);
                 break;
         }
     }
