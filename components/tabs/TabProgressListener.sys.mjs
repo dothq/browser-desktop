@@ -111,6 +111,7 @@ export class TabProgressListener {
         const { STATE_START, STATE_STOP, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
 
         console.log("TabProgressListener::onStateChange", webProgress, request, stateFlags, status);
+        console.log("REMOTE_TYPE", this.browser.remoteType);
 
         const win = this.browser.ownerGlobal;
 
