@@ -35,14 +35,20 @@ namespace dot {
             {
                 "home", 
                 "chrome://dot/content/startpage/home.html", 
-                nsIAboutModule::ALLOW_SCRIPT | 
-                    nsIAboutModule::IS_SECURE_CHROME_UI
+                nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
+                    nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
+                    nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
+                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::ALLOW_UNSANITIZED_CONTENT
             },
             {
                 "newtab", 
                 "about:home", 
-                nsIAboutModule::ALLOW_SCRIPT | 
-                    nsIAboutModule::IS_SECURE_CHROME_UI
+                nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
+                    nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
+                    nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
+                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::ALLOW_UNSANITIZED_CONTENT
             },
             {
                 "rights", 
@@ -68,8 +74,11 @@ namespace dot {
             {
                 "welcome", 
                 "chrome://dot/content/onboarding/onboarding.html", 
-                nsIAboutModule::ALLOW_SCRIPT | 
-                    nsIAboutModule::IS_SECURE_CHROME_UI
+                nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
+                    nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
+                    nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
+                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::ALLOW_UNSANITIZED_CONTENT
             }
         };
 
