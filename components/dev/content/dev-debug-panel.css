@@ -4,28 +4,50 @@
 
 @import url("chrome://dot/content/widgets/dev-debug-graph.css");
 
+#devDebugPopout {
+    display: flex;
+    font: message-box;
+    max-width: 552px;
+    min-width: 552px;
+    max-height: var(--height);
+    min-height: var(--height);
+    background-color: #080809;
+    overflow: clip;
+    box-shadow: inset 0px 0px 0px 1px #9393934f;
+    -moz-window-dragging: drag;
+}
+
+#devDebugPopout body {
+    margin: 0;
+}
+
+#devDebugPopout dev-debug-panel {
+    pointer-events: all;
+}
+
 dev-debug-panel {
-    position: absolute;
-    bottom: 0;
-    right: 0;
     pointer-events: none;
-    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     text-shadow: 1px 1px 4px black;
-    padding: 8px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     white-space: break-spaces;
     gap: 1rem;
-    width: 100%;
-    max-width: 500px;
+    width: calc(100% - 16px * 2);
     z-index: 2147483647;
 }
 
 dev-debug-panel span {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     min-height: 20px;
+}
+
+dev-debug-panel img {
+    -moz-context-properties: fill;
+    fill: currentColor;
 }
 
 dev-debug-panel .dev-graph-group,
@@ -45,4 +67,10 @@ dev-debug-panel .dev-graph-group-dot {
 dev-debug-panel .dev-active-theme-icon {
     width: 1rem;
     height: 1rem;
+}
+
+dev-debug-panel .dev-branding-lockup {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="devDebugPopout"
+	windowtype="Dot:DevDebugPopout"
+>
+	<head>
+		<title>Process Information</title>
+
+		<script>
+			Services.scriptloader.loadSubScript(
+				"chrome://dot/content/browser-utility-overlay.js",
+				this
+			);
+			Services.scriptloader.loadSubScript(
+				"resource://dot/base/content/browser-elements.js",
+				this
+			);
+
+			window.addEventListener("load", () => {
+				const panel = document.createElement("dev-debug-panel");
+
+				document.body.appendChild(panel);
+
+				panel.init();
+			});
+		</script>
+	</head>
+
+	<body></body>
+
+	<xul:keyset>
+		<xul:key keycode="VK_ESCAPE" oncommand="window.minimize();" />
+	</xul:keyset>
+</html>

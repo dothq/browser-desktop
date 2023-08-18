@@ -654,12 +654,6 @@ var gDotInit = {
 		this._boundDelayedStartup = this.doDelayedStartup.bind(this);
 		window.addEventListener("MozAfterPaint", this._boundDelayedStartup);
 
-        if (!AppConstants.MOZILLA_OFFICIAL) {
-            const devPanel = document.createElement("dev-debug-panel") as DeveloperDebugPanel;
-            document.body.appendChild(devPanel);
-            devPanel.init();
-        }
-
 		console.timeEnd("onLoad");
 
 		console.debug(`gDotInit: ready in ${Date.now() - this._startTime}ms`);

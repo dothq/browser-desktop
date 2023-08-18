@@ -138,8 +138,13 @@ class DeveloperDebugPanel extends MozHTMLElement {
         dotVersion.textContent = `Dot Browser v${DotAppConstants.DOT_APP_VERSION} (${AppConstants.MOZ_BUILDID})`;
 
         this.elements.app_info.append(
+            html("div", { class: "dev-branding-lockup" },
+                html("img", { src: "chrome://branding/content/icon32.png" }),
+                html("img", { src: "chrome://branding/content/about-wordmark.svg", height: "48" }),
+            ),
+            html("br"),
             dotVersion,
-            document.createElement("br"),
+            html("br"),
             `Firefox v${AppConstants.MOZ_APP_VERSION}`
         )
 
@@ -172,6 +177,27 @@ class DeveloperDebugPanel extends MozHTMLElement {
         this.appendChild(this.elements.graph);
 
         this.insertStylesheet();
+
+        if (window.location.href == "chrome://dot/content/dev-debug-popout.xhtml") {
+            new ResizeObserver(() => {
+                window.document.documentElement.style.setProperty(
+                    "--height",
+                    this.getBoundingClientRect().height + "px"
+                )
+            }).observe(this);
+
+            const devtoolsButton = html("button");
+            devtoolsButton.textContent = "Open Browser Toolbox";
+            devtoolsButton.addEventListener("click", () => {
+                var { BrowserToolboxLauncher } = ChromeUtils.importESModule(
+                    "resource://devtools/client/framework/browser-toolbox/Launcher.sys.mjs"
+                );
+
+                BrowserToolboxLauncher.init();
+            })
+
+            this.appendChild(devtoolsButton);
+        }
     }
 
     disconnectedCallback() {

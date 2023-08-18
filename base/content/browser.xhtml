@@ -47,6 +47,18 @@
                 "resource://gre/modules/AppConstants.sys.mjs"
             );
 
+            if (!AppConstants.MOZILLA_OFFICIAL) {
+                if (!Services.wm.getMostRecentWindow("Dot:DevDebugPopout")) {
+                    Services.ww.openWindow(
+                        null,
+                        "chrome://dot/content/dev-debug-popout.xhtml",
+                        "_blank",
+                        "chrome,alwaysontop,dialog",
+                        null
+                    );
+                }
+            }
+
             // Sets up DevTools connection for debugging if in a non-release build
             if (!AppConstants.MOZILLA_OFFICIAL) {
                 Services.scriptloader.loadSubScript(
