@@ -40,6 +40,7 @@ export * from "./nsIDocShell";
 export * from "./nsIDragService";
 export * from "./nsIEnvironment";
 export * from "./nsIFilePicker";
+export * from "./nsIHttpActivityObserver";
 export * from "./nsIInterfaceRequestor";
 export * from "./nsIJSIID";
 export * from "./nsILoadContext";
