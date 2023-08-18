@@ -25,6 +25,7 @@ function fireBrowserEvent(event, browser, data) {
  */
 function shouldShowProgress(request) {
     return !(
+        // @ts-ignore
         request instanceof Ci.nsIChannel &&
         request.originalURI.schemeIs("about")
     )
