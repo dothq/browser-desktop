@@ -8,3 +8,6 @@ dot.jar:
 % content dot %content/ contentaccessible=yes
     content/widgets/browser-icon.js                      (content/browser-icon.js)
     content/widgets/browser-icon.css                     (content/browser-icon.css)
+
+    content/widgets/browser-toolbar.js                   (content/browser-toolbar.js)
+    content/widgets/browser-toolbar.css                  (content/browser-toolbar.css)

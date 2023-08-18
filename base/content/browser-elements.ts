@@ -16,6 +16,7 @@ let elements = {
     "browser-panel": "chrome://dot/content/widgets/browser-panel.js",
     "browser-status": "chrome://dot/content/widgets/browser-status.js",
     "browser-tab": "chrome://dot/content/widgets/browser-tab.js",
+    "browser-toolbar": "chrome://dot/content/widgets/browser-toolbar.js",
     "browser-window-controls": "chrome://dot/content/widgets/browser-window-controls.js",
 
     "back-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",

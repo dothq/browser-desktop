@@ -14,6 +14,7 @@
 @import url("chrome://dot/content/widgets/browser-content-popup.css");
 @import url("chrome://dot/content/widgets/browser-window-controls.css");
 @import url("chrome://dot/content/widgets/browser-icon.css");
+@import url("chrome://dot/content/widgets/browser-toolbar.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
@@ -73,13 +74,13 @@ body {
     flex-direction: column;
     color: -moz-dialogtext;
     font: message-box;
-    font-size: 16px;
     box-sizing: border-box;
     height: 100%;
     margin: 0;
     padding: 0;
     min-width: 400px;
     min-height: 250px;
+    overflow: clip;
 }
 
 #mount {
@@ -155,6 +156,7 @@ hr.fdn-separator {
 #tabspanel {
     min-height: 0;
     height: 100%;
+    border-top: 1px solid var(--chrome-content-separator-color);
 }
 
 #tabslist {
@@ -167,9 +169,19 @@ hr.fdn-separator {
 }
 
 button {
-    background-color: var(--button-bgcolor);
+    appearance: none;
+    border: none;
+    background-color: transparent;
     color: var(--lwt-text-color);
     -moz-window-dragging: no-drag;
+}
+
+button:hover {
+    background-color: var(--button-hover-bgcolor);
+}
+
+button:active {
+    background-color: var(--button-active-bgcolor);
 }
 
 button:disabled {
@@ -180,4 +192,7 @@ button:disabled {
 #toolbox {
     display: flex;
     flex-direction: column;
+    color: var(--lwt-text-color);
+    background-color: var(--toolbar-bgcolor);
+    accent-color: var(--fdn-colours-blue);
 }
