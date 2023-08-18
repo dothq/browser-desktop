@@ -31,6 +31,18 @@ function shouldShowProgress(request) {
     )
 }
 
+/**
+ * Increments the progress bar by a random amount
+ * @param {BrowserTab} tab 
+ */
+function incrementProgress(tab) {
+    const newPercent = Math.floor(Math.random() * (10 - 2 + 1) + 2);
+
+    if ((tab.progressPercent + newPercent) <= 70) {
+        tab.progressPercent += newPercent;
+    }
+}
+
 export class TabProgressListener {
     QueryInterface = ChromeUtils.generateQI(["nsIWebProgressListener"]);
 
@@ -62,6 +74,8 @@ export class TabProgressListener {
         this.browser = browser;
     }
 
+    _burstInt = null;
+
     /**
      * Fired when the status of the browser is updated
      * @param {nsIWebProgress} webProgress
@@ -71,6 +85,10 @@ export class TabProgressListener {
      */
     onStatusChange(webProgress, request, status, message) {
         console.log("TabProgressListener::onStatusChange", webProgress, request, status, message);
+
+        if (this.tab.progress == this.tab.TAB_PROGRESS_TRANSIT && message) {
+            incrementProgress(this.tab);
+        }
 
         fireBrowserEvent("BrowserStatusChange", this.browser, {
             webProgress,
@@ -129,24 +147,41 @@ export class TabProgressListener {
         console.log("TabProgressListener::onStatusChange", webProgress, request, stateFlags, status);
         console.log("REMOTE_TYPE", this.browser.remoteType);
 
-        const win = this.browser.ownerGlobal;
+        const { clearTimeout, setTimeout } = this.win;
 
         if (stateFlags & STATE_START && stateFlags & STATE_IS_NETWORK) {
             if (webProgress && webProgress.isTopLevel) {
+                clearTimeout(this._burstInt);
+                this.tab.progressPercent = 0;
                 this.tab.progress = TAB_PROGRESS_BUSY;
+                this.tab.progressPercent = 20;
+                incrementProgress(this.tab);
+
                 this.tab.updateLabel("");
             }
 
             if (this.tab.selected) {
-                win.gDot.tabs.isBusy = true;
+                this.win.gDot.tabs.isBusy = true;
             }
         } else if (stateFlags & STATE_STOP) {
             if (this.tab.progress) {
-                this.tab.progress = TAB_PROGRESS_NONE;
+                this.tab.progressPercent = 100;
+
+                clearTimeout(this._burstInt);
+                this._burstInt = setTimeout(() => {
+                    this.tab.progress = TAB_PROGRESS_NONE;
+
+                    clearTimeout(this._burstInt);
+                    this._burstInt = setTimeout(() => {
+                        clearTimeout(this._burstInt);
+
+                        this.tab.progressPercent = 0;
+                    }, 400);
+                }, 400);
             }
 
             if (this.tab.selected) {
-                win.gDot.tabs.isBusy = false;
+                this.win.gDot.tabs.isBusy = false;
             }
         }
     }
@@ -180,10 +215,14 @@ export class TabProgressListener {
 
         if (totalProgress && this.tab.progress) {
             this.tab.progress = TAB_PROGRESS_TRANSIT;
+
+            incrementProgress(this.tab);
         }
 
+        console.log(curSelfProgress, maxSelfProgress, curTotalProgress, maxTotalProgress);
+
         if (curTotalProgress && maxTotalProgress) {
-            this.tab.progressPercent = curTotalProgress / maxTotalProgress;
+            this.tab.progressPercent = (curTotalProgress / maxTotalProgress) * 100;
         }
     }
 }

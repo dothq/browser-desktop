@@ -138,10 +138,19 @@ class BrowserTab extends MozElements.MozTab {
         this.setAttribute("progress", val.toString());
     }
 
+    _progressPercent = 0;
+
     /**
      * The percentage of content loaded for tab
      */
-    progressPercent = 0
+    get progressPercent() {
+        return this._progressPercent;
+    }
+
+    set progressPercent(val) {
+        this.style.setProperty("--tab-load-percent", val + "%");
+        this._progressPercent = val;
+    }
 
     /**
      * Determines whether the tab is selected or not
