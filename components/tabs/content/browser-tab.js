@@ -290,6 +290,8 @@ class BrowserTab extends MozElements.MozTab {
 
     // @ts-ignore
     _onTabMouseDown(event) {
+        if (this.selected) return;
+
         gDot.tabs.selectedTab = this;
     }
 
