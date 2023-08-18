@@ -43,6 +43,7 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
     preserveLayers(preserveLayers: boolean): void;
 
     currentURI: nsIURI;
+    documentURI: nsIURI;
 
     contentDocument: Document;
     contentWindow: Window;

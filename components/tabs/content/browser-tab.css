@@ -14,7 +14,32 @@ tab[selected] {
     border-bottom: 2px solid red;
 }
 
-tab .browser-tab-icon {
+tab .browser-tab-icon,
+tab .browser-tab-spinner {
+    display: flex;
     width: 1rem;
     height: 1rem;
+    -moz-context-properties: fill;
+    fill: currentColor;
+}
+
+tab[progress] .browser-tab-icon,
+tab:not([progress]) .browser-tab-spinner {
+    display: none;
+}
+
+tab .browser-tab-spinner {
+    background-image: url(chrome://dot/skin/tab-loading.svg);
+    background-size: cover;
+    background-position-x: 0px;
+}
+
+/* Busy */
+tab[progress="1"] .browser-tab-spinner {
+    background-position-x: 0px;
+}
+
+/* In Transit */
+tab[progress="2"] .browser-tab-spinner {
+    background-position-x: 16px;
 }

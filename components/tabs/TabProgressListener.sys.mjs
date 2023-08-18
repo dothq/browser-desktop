@@ -6,6 +6,7 @@
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIWebProgress} nsIWebProgress
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIRequest} nsIRequest
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
+ * @typedef {import("third_party/dothq/gecko-types/lib").nsIChannel} nsIChannel
  */
 
 function fireBrowserEvent(event, browser, data) {
@@ -14,6 +15,19 @@ function fireBrowserEvent(event, browser, data) {
     });
 
     browser.dispatchEvent(evt);
+}
+
+/**
+ * Determines whether we should show the 
+ * progress spinner for a particular page
+ * @param {nsIChannel} request 
+ * @returns 
+ */
+function shouldShowProgress(request) {
+    return !(
+        request instanceof Ci.nsIChannel &&
+        request.originalURI.schemeIs("about")
+    )
 }
 
 export class TabProgressListener {
@@ -109,21 +123,66 @@ export class TabProgressListener {
      */
     onStateChange(webProgress, request, stateFlags, status) {
         const { STATE_START, STATE_STOP, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
+        const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY } = this.tab;
 
-        console.log("TabProgressListener::onStateChange", webProgress, request, stateFlags, status);
+        console.log("TabProgressListener::onStatusChange", webProgress, request, stateFlags, status);
         console.log("REMOTE_TYPE", this.browser.remoteType);
 
         const win = this.browser.ownerGlobal;
 
         if (stateFlags & STATE_START && stateFlags & STATE_IS_NETWORK) {
-            win.gDot.tabs.isBusy = true;
-        } else if (stateFlags & STATE_STOP) {
-            win.gDot.tabs.isBusy = false;
+            if (webProgress && webProgress.isTopLevel) {
+                this.tab.progress = TAB_PROGRESS_BUSY;
+                this.tab.updateLabel("");
+            }
 
-            fireBrowserEvent("BrowserStatusChange", this.browser, {
-                message: "",
-                type: "busy"
-            });
+            if (this.tab.selected) {
+                win.gDot.tabs.isBusy = true;
+            }
+        } else if (stateFlags & STATE_STOP) {
+            if (this.tab.progress) {
+                this.tab.progress = TAB_PROGRESS_NONE;
+            }
+
+            if (this.tab.selected) {
+                win.gDot.tabs.isBusy = false;
+            }
+        }
+    }
+
+    /**
+     * Fired when the progress of the browser changes
+     * @param {nsIWebProgress} webProgress 
+     * @param {nsIRequest} request 
+     * @param {number} curSelfProgress 
+     * @param {number} maxSelfProgress 
+     * @param {number} curTotalProgress 
+     * @param {number} maxTotalProgress 
+     */
+    onProgressChange(
+        webProgress,
+        request,
+        curSelfProgress,
+        maxSelfProgress,
+        curTotalProgress,
+        maxTotalProgress
+    ) {
+        const { TAB_PROGRESS_TRANSIT } = this.tab;
+
+        const totalProgress = maxTotalProgress
+            ? curTotalProgress / maxTotalProgress
+            : 0;
+
+        if (!shouldShowProgress(/** @type {nsIChannel} */(request))) {
+            return;
+        }
+
+        if (totalProgress && this.tab.progress) {
+            this.tab.progress = TAB_PROGRESS_TRANSIT;
+        }
+
+        if (curTotalProgress && maxTotalProgress) {
+            this.tab.progressPercent = curTotalProgress / maxTotalProgress;
         }
     }
 }

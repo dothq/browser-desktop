@@ -1,0 +1,52 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16">
+    <defs>
+        <style>
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(1turn);
+                }
+            }
+
+            image {
+                animation: 0.6s spin infinite linear;
+                transform-origin: center;
+            }
+
+            image#busy {
+                animation-duration: 1.25s;
+            }
+        </style>
+
+        <clipPath id="spinner_busy">
+            <path xmlns="http://www.w3.org/2000/svg"
+                d="M10.747 2.66578C9.83709 2.19719 8.82243 1.96915 7.7995 2.00335C6.77658 2.03755 5.77941 2.33286 4.90282 2.86118C4.02622 3.38951 3.29935 4.13329 2.79132 5.0218C2.28329 5.91031 2.011 6.914 2.00033 7.93744C1.98965 8.96088 2.24096 9.97004 2.73036 10.8689C3.21975 11.7679 3.93095 12.5266 4.79634 13.0731C5.02982 13.2206 5.09957 13.5294 4.95213 13.7629C4.80468 13.9963 4.49588 14.0661 4.26239 13.9186C3.25278 13.2811 2.42304 12.3958 1.85208 11.3471C1.28113 10.2984 0.987931 9.12103 1.00038 7.92702C1.01283 6.733 1.33051 5.56202 1.92321 4.52543C2.51591 3.48884 3.36393 2.62109 4.38662 2.00471C5.40931 1.38833 6.57268 1.04381 7.76609 1.00391C8.9595 0.964009 10.1433 1.23005 11.2049 1.77675C12.2664 2.32344 13.1705 3.1326 13.8311 4.12729C14.4917 5.12198 14.8869 6.26913 14.9791 7.45964C15.0004 7.73496 14.7945 7.97543 14.5192 7.99674C14.2439 8.01806 14.0034 7.81215 13.9821 7.53683C13.9031 6.51639 13.5644 5.53313 12.9981 4.68054C12.4319 3.82794 11.6569 3.13438 10.747 2.66578Z" />
+        </clipPath>
+
+        <clipPath id="spinner_transit">
+            <path xmlns="http://www.w3.org/2000/svg"
+                d="M13.1065 3.21216C13.1514 3.26009 13.1957 3.30871 13.2394 3.358C13.6566 3.82888 14.0057 4.35066 14.2801 4.90796C14.6707 5.70134 14.91 6.56673 14.9791 7.4597C15.0004 7.73502 14.7945 7.97549 14.5192 7.9968C14.2439 8.01812 14.0034 7.81221 13.9821 7.53689C13.8812 6.23385 13.3576 4.99938 12.4909 4.02115C12.3781 3.89382 12.2603 3.77173 12.1378 3.65512C11.3196 2.87586 10.295 2.34097 9.18041 2.11732C7.899 1.8602 6.56869 2.02851 5.3917 2.59666C4.21471 3.16482 3.25541 4.10174 2.65965 5.265C2.06389 6.42826 1.86424 7.75424 2.09106 9.04135C2.31788 10.3285 2.95876 11.5063 3.91627 12.3959C4.74915 13.1696 5.78197 13.6884 6.8925 13.897C7.05868 13.9282 7.22661 13.9524 7.39586 13.9696C8.69617 14.1012 10.0039 13.8046 11.1202 13.1249C11.3561 12.9813 11.6637 13.0561 11.8073 13.292C11.9509 13.5279 11.8761 13.8355 11.6402 13.9791C10.8752 14.4449 10.0332 14.7564 9.16106 14.9031C8.54849 15.0061 7.92109 15.0278 7.29517 14.9645C7.22966 14.9579 7.16431 14.9503 7.09915 14.9419C5.6556 14.7545 4.3045 14.1215 3.23565 13.1285C2.11855 12.0907 1.37086 10.7165 1.10624 9.2149C0.841615 7.71327 1.07454 6.1663 1.76959 4.80916C2.46465 3.45202 3.58382 2.35895 4.95698 1.6961C6.33013 1.03325 7.88217 0.836887 9.37714 1.13686C10.8075 1.42387 12.1109 2.15026 13.1065 3.21216Z" />
+        </clipPath>
+    </defs>
+
+    <svg viewBox="0 0 16 16" width="16" height="16" x="0" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <image id="busy" clip-path="url(#spinner_busy)" width="16" height="16"
+            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfSURBVHgBLY+5DcJAEEX3wB7ACSE90AOV0Qw5/UAFZCARYGy8h9+3vNLT/Dl3xjvnbtDCDjrvfVdr7dBbtAXeH0dMBArJgG3wDW0bxA8SOAKa0mL3WNGooAevQjpVdEIfICoeCZ4JDjgfuMcYr/gP9BeO6rzof00i+abhmVJ6rZMnfTGw6FhK6XPOKtSCusKZ2Rh0AcnlCiZkbFiLlitmTbhF71JsqtQAAAAASUVORK5CYII=">
+        </image>
+    </svg>
+
+    <svg viewBox="0 0 16 16" width="16" height="16" x="16" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <image id="transit" clip-path="url(#spinner_transit)" width="16" height="16"
+            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAWJAAAFiQFtaJ36AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC7SURBVHgBHY7LTcRAEERf9cys1wsSaXAgAe7EQlwEwIEzZ0IgDm7GrD2eoqGlllrqVx/p+eM15AkzQ8zGt8BN7hk81bC3gQgoaJyxiuRTCibQVC1W4Y7yQnOIZrigmLFblWLBo5qypvJvHpDuGE5HlA5OgJHQbvQ5Rn+JaPcJP6XjY83MJRV7FvrW4KuqLT3K+yS/6eq95uOn/Bf1Som9j6Oxc3ErZMiWANfDbAptGTOqIig6bePoLYv/AmFjXbj54XxAAAAAAElFTkSuQmCC">
+        </image>
+    </svg>
+</svg>

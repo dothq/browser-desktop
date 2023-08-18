@@ -18,11 +18,17 @@ function injectCompat(tab) {
     compat.defineGetter(tab, "linkedBrowser", () => tab.webContents);
 }
 
+const kDefaultTabIcon = "chrome://dot/skin/globe.svg";
+
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").ChromeBrowser} ChromeBrowser
  */
 
 class BrowserTab extends MozElements.MozTab {
+    TAB_PROGRESS_NONE = 0;
+    TAB_PROGRESS_BUSY = 1;
+    TAB_PROGRESS_TRANSIT = 2;
+
     constructor() {
         super();
 
@@ -58,13 +64,15 @@ class BrowserTab extends MozElements.MozTab {
      * @typedef {Object} TabElements
      * @property {HTMLSpanElement} label - The tab's label/title
      * @property {HTMLImageElement} icon - The tab's favicon
+     * @property {HTMLDivElement} spinner - The tab's loading spinner
      * 
      * @returns {TabElements}
      */
     get elements() {
         return {
             label: this.querySelector(".browser-tab-label"),
-            icon: this.querySelector(".browser-tab-icon")
+            icon: this.querySelector(".browser-tab-icon"),
+            spinner: this.querySelector(".browser-tab-spinner"),
         }
     }
 
@@ -108,6 +116,38 @@ class BrowserTab extends MozElements.MozTab {
 
     set visible(val) {
         this.hidden = !val;
+    }
+
+    /**
+     * Determines the tab's loading progress state
+     */
+    get progress() {
+        return parseInt(this.getAttribute("progress"));
+    }
+
+    /**
+     * Updates the tab's loading progress state
+     * @property {number} val
+     */
+    set progress(val) {
+        if (!val) {
+            this.removeAttribute("progress");
+            return;
+        }
+
+        this.setAttribute("progress", val.toString());
+    }
+
+    /**
+     * The percentage of content loaded for tab
+     */
+    progressPercent = 0
+
+    /**
+     * Determines whether the tab is selected or not
+     */
+    get selected() {
+        return gDot.tabs.selectedTab.id == this.id;
     }
 
     /**
@@ -168,6 +208,7 @@ class BrowserTab extends MozElements.MozTab {
         if (this.delayConnectedCallback()) return;
 
         this.appendChild(html("img", { class: "browser-tab-icon" }));
+        this.appendChild(html("div", { class: "browser-tab-spinner" }));
         this.appendChild(
             html(
                 "div",
@@ -178,6 +219,10 @@ class BrowserTab extends MozElements.MozTab {
 
         if (!this.getAttribute("label")) {
             this.updateLabel("Untitled");
+        }
+
+        if (!this.getAttribute("icon")) {
+            this.updateIcon(kDefaultTabIcon);
         }
 
         this.addEventListener("mousedown", this);
@@ -217,6 +262,19 @@ class BrowserTab extends MozElements.MozTab {
      * @param {string} newLabel 
      */
     updateLabel(newLabel) {
+        if (newLabel.trim().length <= 0) {
+            try {
+                newLabel = /** @type {ChromeBrowser} */(this.webContents).currentURI.spec
+
+                if (newLabel == "about:blank") {
+                    newLabel = "New Tab";
+                }
+            } catch (e) {
+                console.error("Unable to use currentURI for tab title:", e);
+                newLabel = "Untitled";
+            }
+        }
+
         this.elements.label.textContent = newLabel;
         this.setAttribute("label", newLabel);
     }
