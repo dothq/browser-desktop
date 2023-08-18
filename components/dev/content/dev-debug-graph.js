@@ -11,10 +11,12 @@
 function formatBytes(bytes, decimals = 2, k = 1024) {
     if (!+bytes) return '0 MB'
 
-    const dm = decimals < 0 ? 0 : decimals
+    let dm = decimals < 0 ? 0 : decimals
     const sizes = ['b', 'kB', 'MB', 'GB', 'TB']
 
     const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    if (i >= 4) dm = 2;
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
@@ -112,7 +114,7 @@ class DeveloperDebugGraph extends MozHTMLElement {
                         const clone = points.slice().reverse();
                         const actualIndex = i;
                         clone[actualIndex] = NaN;
-                        points = clone.reverse();
+                        this.points[key] = clone.reverse().filter(f => !isNaN(f));
                     }
 
                     const index = Object.keys(this.points).findIndex(k => k == key);
