@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { BrowserTabsUtils } = ChromeUtils.importESModule(
+    "resource://gre/modules/BrowserTabsUtils.sys.mjs"
+);
+
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIWebProgress} nsIWebProgress
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIRequest} nsIRequest
@@ -15,20 +19,6 @@ function fireBrowserEvent(event, browser, data) {
     });
 
     browser.dispatchEvent(evt);
-}
-
-/**
- * Determines whether we should show the 
- * progress spinner for a particular page
- * @param {nsIChannel} request 
- * @returns 
- */
-function shouldShowProgress(request) {
-    return !(
-        // @ts-ignore
-        request instanceof Ci.nsIChannel &&
-        request.originalURI.schemeIs("about")
-    )
 }
 
 /**
@@ -141,7 +131,7 @@ export class TabProgressListener {
      * @param {number} status
      */
     onStateChange(webProgress, request, stateFlags, status) {
-        const { STATE_START, STATE_STOP, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
+        const { STATE_START, STATE_STOP, STATE_IS_NETWORK, STATE_RESTORING } = Ci.nsIWebProgressListener;
         const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY } = this.tab;
 
         console.log("TabProgressListener::onStatusChange", webProgress, request, stateFlags, status);
@@ -150,21 +140,30 @@ export class TabProgressListener {
         const { clearTimeout, setTimeout } = this.win;
 
         if (stateFlags & STATE_START && stateFlags & STATE_IS_NETWORK) {
-            if (webProgress && webProgress.isTopLevel) {
-                clearTimeout(this._burstInt);
-                this.tab.progressPercent = 0;
-                this.tab.progress = TAB_PROGRESS_BUSY;
-                this.tab.progressPercent = 20;
-                incrementProgress(this.tab);
+            if (BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */(request))) {
+                if (
+                    webProgress &&
+                    webProgress.isTopLevel &&
+                    !(stateFlags & STATE_RESTORING)
+                ) {
+                    clearTimeout(this._burstInt);
+                    this.tab.progressPercent = 0;
+                    this.tab.progress = TAB_PROGRESS_BUSY;
+                    this.tab.progressPercent = 20;
+                    incrementProgress(this.tab);
 
-                this.tab.updateLabel("");
-            }
+                    this.tab.updateLabel("");
+                }
 
-            if (this.tab.selected) {
-                this.win.gDot.tabs.isBusy = true;
+                if (this.tab.selected) {
+                    this.win.gDot.tabs.isBusy = true;
+                }
             }
         } else if (stateFlags & STATE_STOP) {
-            if (this.tab.progress) {
+            if (
+                this.tab.progress &&
+                BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */(request))
+            ) {
                 this.tab.progressPercent = 100;
 
                 clearTimeout(this._burstInt);
@@ -176,14 +175,24 @@ export class TabProgressListener {
                         clearTimeout(this._burstInt);
 
                         this.tab.progressPercent = 0;
-                    }, 400);
-                }, 400);
+                    }, 300);
+                }, 300);
             }
+
+            this.tab.updateLabel("");
 
             if (this.tab.selected) {
                 this.win.gDot.tabs.isBusy = false;
             }
         }
+
+        fireBrowserEvent("BrowserStateChange", this.win, {
+            browser: this.browser,
+            webProgress,
+            request,
+            stateFlags,
+            status
+        });
     }
 
     /**
@@ -209,7 +218,7 @@ export class TabProgressListener {
             ? curTotalProgress / maxTotalProgress
             : 0;
 
-        if (!shouldShowProgress(/** @type {nsIChannel} */(request))) {
+        if (!BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */(request))) {
             return;
         }
 
