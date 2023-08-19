@@ -9,6 +9,7 @@ const registry = {
     DotWindowTracker: "modules/DotWindowTracker.sys.mjs",
     BrowserCompatibility: "components/compat/BrowserCompatibility.sys.mjs",
     BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
+    BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",
     NativeTitlebar: "components/csd/NativeTitlebar.sys.mjs",
     NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
     StartPage: "components/startpage/StartPage.sys.mjs",

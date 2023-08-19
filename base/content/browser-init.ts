@@ -54,14 +54,9 @@ var { NativeTitlebar } = ChromeUtils.importESModule(
     "resource:///modules/NativeTitlebar.sys.mjs"
 );
 
-// Ensure that these icons match up with the actual page favicon
-// Reflect any changes here with components/tabs/BrowserTabs.sys.mjs
-const gPageIcons = {
-	"about:home": "chrome://dot/skin/home.svg",
-	"about:newtab": "chrome://dot/skin/home.svg",
-	"about:welcome": "chrome://branding/content/icon32.png",
-	"about:privatebrowsing": "chrome://browser/skin/privatebrowsing/favicon.svg"
-};
+var { BrowserTabsUtils } = ChromeUtils.importESModule(
+    "resource://gre/modules/BrowserTabsUtils.sys.mjs"
+);
 
 /**
  * This is used to delay the startup of the browser
@@ -173,8 +168,8 @@ var gDotInit = {
 			}
 
 			const nonQuery = url.prePath + url.filePath;
-			if (nonQuery in gPageIcons) {
-				console.log("gBrowser::setIcon");
+			if (nonQuery in BrowserTabsUtils.INTERNAL_PAGES) {
+				gDot.tabs.setInitialMetadata(gDot.tabs.selectedTab, nonQuery);
 			}
 		});
 
