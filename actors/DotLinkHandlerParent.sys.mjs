@@ -15,6 +15,15 @@ export class LinkHandlerParent extends JSWindowActorParent {
                     msg.data.canUseForTab
                 );
                 break;
+            case "Link:SetFailedIcon":
+                const { gDot } = browser.ownerGlobal;
+                if (!gDot) return;
+
+                const tab = gDot.tabs.getTabForWebContents(browser);
+                if (!tab) return;
+
+                gDot.tabs.clearIcon(tab);
+                break;
             default:
                 console.debug(`LinkHandlerParent: Unhandled event ${msg.name}`);
         }
