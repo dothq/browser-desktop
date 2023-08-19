@@ -12,6 +12,10 @@ const { NavigationHelper } = ChromeUtils.importESModule(
     "resource://gre/modules/NavigationHelper.sys.mjs"
 );
 
+const { BrowserTabsUtils } = ChromeUtils.importESModule(
+    "resource://gre/modules/BrowserTabsUtils.sys.mjs"
+);
+
 /**
  * Clamps a number between a min and max value
  * @param {number} value
@@ -22,15 +26,6 @@ const { NavigationHelper } = ChromeUtils.importESModule(
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
-
-// Ensure that these icons match up with the actual page favicon
-// Reflect any changes here with base/content/browser-init.ts
-const INITIAL_FAVICONS = {
-    "about:home": "chrome://dot/skin/home.svg",
-    "about:newtab": "chrome://dot/skin/home.svg",
-    "about:welcome": "chrome://branding/content/icon32.png",
-    "about:privatebrowsing": "chrome://browser/skin/privatebrowsing/favicon.svg"
-};
 
 const {
     LOAD_FLAGS_NONE,
@@ -164,6 +159,12 @@ BrowserTabs.prototype = {
     get _tabpanelBoxEl() {
         return this._win.document.getElementById("tabspanel");
     },
+
+    /**
+     * The tab that is currently being dragged
+     * @type {BrowserTab}
+     */
+    draggingTab: null,
 
     /**
      * Initialises and creates the <tab> element
@@ -416,12 +417,13 @@ BrowserTabs.prototype = {
                     openWindowInfo
                 });
 
-                this._setInitialIcon(tabEl, uri.spec);
+                this.setInitialMetadata(tabEl, uri.spec);
             }
 
             this._insertTabWebContents(tabEl, options.webContents);
 
             tabEl.registerEventListeners();
+            this._setupTabDragListeners();
         } catch (e) {
             console.error("Error while creating tab!");
             console.error(e);
@@ -533,13 +535,35 @@ BrowserTabs.prototype = {
     },
 
     /**
-     * Sets the initial icon of a tab to avoid preloading
+     * Clear a tab's favicon
+     * 
+     * @param {BrowserTab} tab 
+     */
+    clearIcon(tab) {
+        tab.clearIcon();
+    },
+
+    /**
+     * Update a tab's title
+     * 
+     * @param {BrowserTab} tab 
+     * @param {string} title 
+     */
+    setTitle(tab, title) {
+        tab.updateLabel(title);
+    },
+
+    /**
+     * Sets the initial metadata of a tab to avoid preloading
      * @param {BrowserTab} tab
      * @param {string} uri
      */
-    _setInitialIcon(tab, uri) {
-        if (uri && uri in INITIAL_FAVICONS) {
-            this.setIcon(tab, INITIAL_FAVICONS[uri]);
+    setInitialMetadata(tab, uri) {
+        if (uri && uri in BrowserTabsUtils.INTERNAL_PAGES) {
+            const data = BrowserTabsUtils.INTERNAL_PAGES[uri];
+
+            this.setIcon(tab, data.icon);
+            this.setTitle(tab, data.title);
         }
     },
 
@@ -820,6 +844,52 @@ BrowserTabs.prototype = {
         }
 
         return parseInt(webContents.id);
+    },
+
+    /**
+     * Handles incoming tab drag events
+     * @param {MouseEvent} event 
+     */
+    _onHandleTabDragEvent(event) {
+        const target = /** @type {HTMLElement} */ (event.target);
+        const tab = /** @type {BrowserTab} */ (target && target.nodeType == Node.ELEMENT_NODE && target.closest("tab"));
+
+        if (tab) {
+            switch (event.type) {
+                case "mousedown":
+                    this.draggingTab = tab;
+                    break;
+            }
+        }
+
+        switch (event.type) {
+            case "mouseup":
+                if (this.draggingTab) {
+                    this.draggingTab.style.transform = `translateX(0px)`
+                    this.draggingTab = null;
+                }
+                break;
+            case "mousemove":
+                if (this.draggingTab) {
+                    this.draggingTab.style.transform = `translateX(${event.clientX}px)`
+                }
+                break;
+        }
+    },
+
+    _tabDragListenersInit: false,
+
+    /**
+     * Initialises the tab dragging event listeners
+     */
+    _setupTabDragListeners() {
+        if (this._tabDragListenersInit) return;
+
+        this._win.addEventListener("mousemove", this._onHandleTabDragEvent.bind(this));
+        this._win.addEventListener("mouseup", this._onHandleTabDragEvent.bind(this));
+        this._win.addEventListener("mousedown", this._onHandleTabDragEvent.bind(this));
+
+        this._tabDragListenersInit = true;
     },
 
     /**
