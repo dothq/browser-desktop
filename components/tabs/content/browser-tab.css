@@ -22,6 +22,10 @@ tab[selected] {
     background-color: var(--lwt-accent-color);
 }
 
+tab .browser-tab-icon-container {
+    display: flex;
+}
+
 tab .browser-tab-icon,
 tab .browser-tab-spinner {
     display: flex;
@@ -41,19 +45,33 @@ tab:not([progress]) .browser-tab-spinner {
 }
 
 tab .browser-tab-spinner {
-    background-image: url(chrome://dot/skin/tab-loading.svg);
-    background-size: cover;
-    background-position-x: 0px;
+    mask-size: cover;
+    background-color: currentColor;
+}
+
+tab .browser-tab-label-container {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+}
+
+tab .browser-tab-label-container:-moz-locale-dir(ltr) {
+    mask-image: linear-gradient(to right, black 80%, #fff0);
+}
+
+tab .browser-tab-label-container:-moz-locale-dir(rtl) {
+    mask-image: linear-gradient(to left, black 80%, #fff0);
 }
 
 /* Busy */
 tab[progress="1"] .browser-tab-spinner {
-    background-position-x: 0px;
+    mask-image: url(chrome://dot/skin/tab-loading-busy.svg);
 }
 
 /* In Transit */
 tab[progress="2"] .browser-tab-spinner {
-    background-position-x: 16px;
+    mask-image: url(chrome://dot/skin/tab-loading-transit.svg);
+    background-color: var(--fdn-colours-blue);
 }
 
 tab::before {
@@ -65,11 +83,11 @@ tab::before {
     left: 0;
     top: 0;
     opacity: 0;
-    transition: 1s opacity cubic-bezier(.19, 1, .22, 1), 0s width;
+    transition: 0.6s opacity cubic-bezier(.19, 1, .22, 1), 0s width;
     z-index: 0;
 }
 
 tab[progress]::before {
     opacity: 0.2;
-    transition: 1s opacity cubic-bezier(.19, 1, .22, 1), 0.1s width cubic-bezier(.19, 1, .22, 1);
+    transition: 0.6s opacity cubic-bezier(.19, 1, .22, 1), 0.1s width cubic-bezier(.19, 1, .22, 1);
 }

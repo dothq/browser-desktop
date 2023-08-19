@@ -1,0 +1,34 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <defs>
+        <style>
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(1turn);
+                }
+            }
+
+            image {
+                animation: 0.6s spin infinite linear;
+                transform-origin: center;
+            }
+        </style>
+
+        <clipPath id="spinner_transit">
+            <path xmlns="http://www.w3.org/2000/svg"
+                d="M9.1804 2.11726C7.899 1.86015 6.56868 2.02846 5.39169 2.59661C4.2147 3.16477 3.25541 4.10169 2.65965 5.26495C2.06388 6.42821 1.86424 7.75419 2.09106 9.0413C2.31788 10.3284 2.95875 11.5063 3.91627 12.3958C4.87378 13.2853 6.09555 13.8379 7.39586 13.9695C8.69616 14.1011 10.0039 13.8045 11.1202 13.1249C11.3561 12.9813 11.6637 13.0561 11.8073 13.2919C11.9509 13.5278 11.8761 13.8354 11.6402 13.979C10.3379 14.772 8.81218 15.118 7.29516 14.9644C5.77814 14.8109 4.35274 14.1662 3.23564 13.1284C2.11855 12.0906 1.37085 10.7165 1.10623 9.21485C0.841609 7.71322 1.07453 6.16625 1.76959 4.80911C2.46464 3.45197 3.58381 2.35889 4.95697 1.69605C6.33013 1.0332 7.88216 0.836835 9.37713 1.13681C10.8721 1.43678 12.2282 2.21668 13.2394 3.35794C14.2506 4.49921 14.8614 5.93943 14.9791 7.45965C15.0004 7.73496 14.7945 7.97543 14.5192 7.99675C14.2439 8.01807 14.0034 7.81216 13.9821 7.53684C13.8812 6.23379 13.3576 4.99932 12.4909 4.0211C11.6242 3.04287 10.4618 2.37438 9.1804 2.11726Z" />
+        </clipPath>
+    </defs>
+
+    <image xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="transit"
+        clip-path="url(#spinner_transit)" width="16" height="16"
+        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfSURBVHgBLY+5DcJAEEX3wB7ACSE90AOV0Qw5/UAFZCARYGy8h9+3vNLT/Dl3xjvnbtDCDjrvfVdr7dBbtAXeH0dMBArJgG3wDW0bxA8SOAKa0mL3WNGooAevQjpVdEIfICoeCZ4JDjgfuMcYr/gP9BeO6rzof00i+abhmVJ6rZMnfTGw6FhK6XPOKtSCusKZ2Rh0AcnlCiZkbFiLlitmTbhF71JsqtQAAAAASUVORK5CYII=">
+    </image>
+</svg>
