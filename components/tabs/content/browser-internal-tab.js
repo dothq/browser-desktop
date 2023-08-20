@@ -35,10 +35,6 @@ class BrowserTab extends MozElements.MozTab {
     TAB_PROGRESS_BUSY = 1;
     TAB_PROGRESS_TRANSIT = 2;
 
-    REGISTERED_EVENTS = [
-        "mousedown",
-    ]
-
     constructor() {
         super();
 
@@ -226,19 +222,11 @@ class BrowserTab extends MozElements.MozTab {
             this.updateIcon(kDefaultTabIcon);
         }
 
-        for (const event of this.REGISTERED_EVENTS) {
-            this.addEventListener(event, this);
-        }
-
         document.addEventListener("BrowserTabs::TabSelect", this);
     }
 
     disconnectedCallback() {
         if (this.delayConnectedCallback()) return;
-
-        for (const event of this.REGISTERED_EVENTS) {
-            this.removeEventListener(event, this);
-        }
 
         document.removeEventListener("BrowserTabs::TabSelect", this);
 
