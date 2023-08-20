@@ -83,12 +83,16 @@
         #include browser-dialog.inc.xhtml
         #include browser-compat.inc.xhtml
 
+        <html:browser-tabs-collator></html:browser-tabs-collator>
+
         <html:div id="mount">
             <div id="toolbox">
                 <html:browser-toolbar>
-                    <ul id="tabslist">
-                    
-                    </ul>
+                    <div>
+                        <html:browser-tabs></html:browser-tabs>
+
+                        <html:button is="add-tab-button"></html:button>
+                    </div>
 
                     <html:browser-window-controls></html:browser-window-controls>
                 </html:browser-toolbar>
@@ -99,6 +103,8 @@
                     <html:button is="reload-button"></html:button>
 
                     <html:input is="address-bar"></html:input>
+
+                    <html:browser-tabs></html:browser-tabs>
                 </html:browser-toolbar>
             </div>
 

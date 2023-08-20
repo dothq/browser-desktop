@@ -6,6 +6,8 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
+    content/widgets/browser-internal-tab.js             (content/browser-internal-tab.js)
+
     content/widgets/browser-tab.js                      (content/browser-tab.js)
     content/widgets/browser-tab.css                     (content/browser-tab.css)
 
@@ -16,3 +18,10 @@ dot.jar:
     content/widgets/browser-status.css                  (content/browser-status.css)
 
     content/widgets/browser-frame.js                    (content/browser-frame.js)
+
+    content/widgets/browser-tabs.js                     (content/browser-tabs.js)
+    content/widgets/browser-tabs.css                    (content/browser-tabs.css)
+    
+    content/widgets/browser-tabs-collator.js            (content/browser-tabs-collator.js)
+
+    content/widgets/browser-add-tab-button.js           (content/browser-add-tab-button.js)

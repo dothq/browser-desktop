@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-tab {
+browser-tab {
     display: flex;
     max-width: 220px;
     width: 100%;
@@ -14,20 +14,20 @@ tab {
     justify-content: flex-start;
 }
 
-tab>* {
+browser-tab>* {
     z-index: 1;
 }
 
-tab[selected] {
+browser-tab[selected] {
     background-color: var(--lwt-accent-color);
 }
 
-tab .browser-tab-icon-container {
+browser-tab .browser-tab-icon-container {
     display: flex;
 }
 
-tab .browser-tab-icon,
-tab .browser-tab-spinner {
+browser-tab .browser-tab-icon,
+browser-tab .browser-tab-spinner {
     display: flex;
     width: 16px;
     height: 16px;
@@ -39,42 +39,42 @@ tab .browser-tab-spinner {
     fill: currentColor;
 }
 
-tab[progress] .browser-tab-icon,
-tab:not([progress]) .browser-tab-spinner {
+browser-tab[progress] .browser-tab-icon,
+browser-tab:not([progress]) .browser-tab-spinner {
     display: none;
 }
 
-tab .browser-tab-spinner {
+browser-tab .browser-tab-spinner {
     mask-size: cover;
     background-color: currentColor;
 }
 
-tab .browser-tab-label-container {
+browser-tab .browser-tab-label-container {
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
 }
 
-tab .browser-tab-label-container:-moz-locale-dir(ltr) {
+browser-tab .browser-tab-label-container:-moz-locale-dir(ltr) {
     mask-image: linear-gradient(to right, black 80%, #fff0);
 }
 
-tab .browser-tab-label-container:-moz-locale-dir(rtl) {
+browser-tab .browser-tab-label-container:-moz-locale-dir(rtl) {
     mask-image: linear-gradient(to left, black 80%, #fff0);
 }
 
 /* Busy */
-tab[progress="1"] .browser-tab-spinner {
+browser-tab[progress="1"] .browser-tab-spinner {
     mask-image: url(chrome://dot/skin/tab-loading-busy.svg);
 }
 
 /* In Transit */
-tab[progress="2"] .browser-tab-spinner {
+browser-tab[progress="2"] .browser-tab-spinner {
     mask-image: url(chrome://dot/skin/tab-loading-transit.svg);
     background-color: var(--fdn-colours-blue);
 }
 
-tab::before {
+browser-tab::before {
     content: "";
     background-color: var(--fdn-colours-blue);
     width: var(--tab-load-percent);
@@ -87,7 +87,12 @@ tab::before {
     z-index: 0;
 }
 
-tab[progress]::before {
+browser-tab[progress]::before {
     opacity: 0.2;
     transition: 0.6s opacity cubic-bezier(.19, 1, .22, 1), 0.1s width cubic-bezier(.19, 1, .22, 1);
+}
+
+browser-tab:not([dragging]) {
+    transition: 0.3s translate cubic-bezier(.19, 1, .22, 1);
+    will-change: translate;
 }

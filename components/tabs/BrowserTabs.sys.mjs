@@ -98,7 +98,7 @@ BrowserTabs.prototype = {
      */
     get list() {
         // @ts-ignore
-        return Array.from(this._tabslistEl.children).map((child) => child);
+        return Array.from(this.collator.children).map((child) => child);
     },
 
     /**
@@ -113,7 +113,7 @@ BrowserTabs.prototype = {
      * @returns {BrowserTab[]}
      */
     get visibleTabs() {
-        return this.list.filter(tab => tab.visible);
+        return this.list.filter((tab) => tab.visible);
     },
 
     _selectedTab: null,
@@ -136,7 +136,7 @@ BrowserTabs.prototype = {
         if (oldTab) oldTab.webContentsPanel.removeAttribute("visible");
 
         if (oldTab && this._isWebContentsBrowserElement(oldTab.webContents)) {
-            /** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
+			/** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
             oldTab.webContents.removeAttribute("primary");
         }
 
@@ -152,19 +152,45 @@ BrowserTabs.prototype = {
         this._dispatchDocumentEvent("BrowserTabs::TabSelect", { detail: tab });
     },
 
-    get _tabslistEl() {
-        return this._win.document.getElementById("tabslist");
+    /** 
+     * The global tabs collator element for this window
+     * @type {BrowserTabsCollator} 
+     */
+    get collator() {
+        return this._win.document.querySelector("browser-tabs-collator");
     },
 
     get _tabpanelBoxEl() {
         return this._win.document.getElementById("tabspanel");
     },
 
+    _draggingTab: null,
+
     /**
      * The tab that is currently being dragged
      * @type {BrowserTab}
      */
-    draggingTab: null,
+    get draggingTab() {
+        return this._draggingTab;
+    },
+
+    /**
+     * Updates the currently dragged tab
+     * @param {BrowserTab} tab
+     */
+    set draggingTab(tab) {
+        const oldTab = this._draggingTab;
+
+        if (oldTab) {
+            oldTab.removeAttribute("dragging");
+        }
+
+        if (tab && typeof tab !== "undefined") {
+            tab.toggleAttribute("dragging", true);
+        }
+
+        this._draggingTab = tab;
+    },
 
     /**
      * Initialises and creates the <tab> element
@@ -174,7 +200,7 @@ BrowserTabs.prototype = {
     _createTabElement() {
         /** @type {BrowserTab} */
         // @ts-ignore
-        const el = this._win.document.createXULElement("tab", { is: "browser-tab" });
+        const el = this._win.document.createXULElement("tab", { is: "browser-internal-tab" });
 
         el.id = this._generateUniqueTabID();
 
@@ -404,8 +430,13 @@ BrowserTabs.prototype = {
             // If we didn't provide webContents when creating the tab,
             // we can build a browser element to swap in.
             if (!options.webContents) {
-                const { openerBrowser, preferredRemoteType, referrerInfo, forceNotRemote, openWindowInfo } =
-                    options;
+                const {
+                    openerBrowser,
+                    preferredRemoteType,
+                    referrerInfo,
+                    forceNotRemote,
+                    openWindowInfo
+                } = options;
 
                 options.webContents = this._createBrowser({
                     uri,
@@ -521,7 +552,7 @@ BrowserTabs.prototype = {
         }
 
         const tabAfter = this.list[pos] || null;
-        this._tabslistEl.insertBefore(tab, tabAfter);
+        this.collator.insertBefore(tab, tabAfter);
     },
 
     /**
@@ -536,8 +567,8 @@ BrowserTabs.prototype = {
 
     /**
      * Clear a tab's favicon
-     * 
-     * @param {BrowserTab} tab 
+     *
+     * @param {BrowserTab} tab
      */
     clearIcon(tab) {
         tab.clearIcon();
@@ -545,9 +576,9 @@ BrowserTabs.prototype = {
 
     /**
      * Update a tab's title
-     * 
-     * @param {BrowserTab} tab 
-     * @param {string} title 
+     *
+     * @param {BrowserTab} tab
+     * @param {string} title
      */
     setTitle(tab, title) {
         tab.updateLabel(title);
@@ -569,16 +600,16 @@ BrowserTabs.prototype = {
 
     /**
      * Creates multiple tabs
-     * @param {string[]} uris 
-     * @param {object} options 
+     * @param {string[]} uris
+     * @param {object} options
      * @params {boolean} [options.replaceInitialTab] - Determines whether we are allowed to replace the initial tab with the first URI in the list.
      */
     createTabs(uris, options) {
         let tabOptions = {
             ...options
-        }
+        };
 
-        // We want to handle this ourselves, rather than 
+        // We want to handle this ourselves, rather than
         // update each tab's active state one by one
         tabOptions.inBackground = true;
 
@@ -602,7 +633,7 @@ BrowserTabs.prototype = {
                     browser.fixupAndLoadURIString(uris[0], {
                         ...tabOptions,
                         flags,
-                        postData: tabOptions.postDatas && tabOptions.postDatas[0],
+                        postData: tabOptions.postDatas && tabOptions.postDatas[0]
                     });
                 } catch (e) {
                     console.error("Failed to load URI into initial tab", e);
@@ -612,7 +643,7 @@ BrowserTabs.prototype = {
             initialTab = this.createTab({
                 ...tabOptions,
                 postData: tabOptions.postDatas && tabOptions.postDatas[0],
-                uri: uris[0],
+                uri: uris[0]
             });
         }
 
@@ -622,7 +653,7 @@ BrowserTabs.prototype = {
             this.createTab({
                 ...tabOptions,
                 postData: tabOptions.postDatas && tabOptions.postDatas[i],
-                uri,
+                uri
             });
         }
 
@@ -726,8 +757,8 @@ BrowserTabs.prototype = {
 
     /**
      * Creates a browser for the initial load
-     * 
-     * We need a tab to exist right as we boot the browser so we can adopt 
+     *
+     * We need a tab to exist right as we boot the browser so we can adopt
      * tabs in window.arguments or have a browser ready for popup windows.
      */
     _setupInitialBrowser() {
@@ -760,8 +791,7 @@ BrowserTabs.prototype = {
         // Make sure we inherit the remoteType and browsing context group ID.
         if (adoptedTab && adoptedTab.webContents && this._isWebContentsBrowserElement(adoptedTab)) {
             remoteType = adoptedTab.linkedBrowser.remoteType;
-            initialBrowsingContextGroupId =
-                adoptedTab.linkedBrowser.browsingContext?.group.id;
+            initialBrowsingContextGroupId = adoptedTab.linkedBrowser.browsingContext?.group.id;
         } else if (openWindowInfo) {
             // If we have openWindowInfo, inherit the userContextId from that
             userContextId = openWindowInfo.originAttributes.userContextId;
@@ -785,7 +815,7 @@ BrowserTabs.prototype = {
 
                 const oa = E10SUtils.predictOriginAttributes({
                     window: this._win,
-                    userContextId,
+                    userContextId
                 });
 
                 console.log("origin attributes", oa);
@@ -799,7 +829,7 @@ BrowserTabs.prototype = {
                     oa
                 );
 
-                console.log("Using", remoteType, "as URI to load remote type")
+                console.log("Using", remoteType, "as URI to load remote type");
             } else {
                 // If the URI doesn't exist or isn't a string, we can assume
                 // it's probably still a promise, since uriToLoadPromise returns
@@ -811,7 +841,9 @@ BrowserTabs.prototype = {
                 remoteType = E10SUtils.PRIVILEGEDABOUT_REMOTE_TYPE;
             }
         }
-        const triggeringPrincipal = Services.scriptSecurityManager.createNullPrincipal({ userContextId });
+        const triggeringPrincipal = Services.scriptSecurityManager.createNullPrincipal({
+            userContextId
+        });
 
         this.createTab({
             uri: "about:blank",
@@ -820,7 +852,7 @@ BrowserTabs.prototype = {
             initialBrowsingContextGroupId,
             preferredRemoteType: remoteType,
             openWindowInfo,
-            triggeringPrincipal,
+            triggeringPrincipal
         });
     },
 
@@ -830,7 +862,7 @@ BrowserTabs.prototype = {
      * @returns {BrowserTab | null}
      */
     getTabByTabId(id) {
-        return this._tabslistEl.querySelector(`#tab-${id}`);
+        return this.collator.querySelector(`#tab-${id}`);
     },
 
     /**
@@ -848,16 +880,19 @@ BrowserTabs.prototype = {
 
     /**
      * Handles incoming tab drag events
-     * @param {MouseEvent} event 
+     * @param {MouseEvent} event
      */
     _onHandleTabDragEvent(event) {
         const target = /** @type {HTMLElement} */ (event.target);
-        const tab = /** @type {BrowserTab} */ (target && target.nodeType == Node.ELEMENT_NODE && target.closest("tab"));
+        const tab = /** @type {BrowserTab} */ (
+            target && target.nodeType == Node.ELEMENT_NODE && target.closest("tab")
+        );
 
         if (tab) {
             switch (event.type) {
                 case "mousedown":
                     this.draggingTab = tab;
+                    this.draggingTab.initialDragX = event.x;
                     break;
             }
         }
@@ -865,16 +900,45 @@ BrowserTabs.prototype = {
         switch (event.type) {
             case "mouseup":
                 if (this.draggingTab) {
-                    this.draggingTab.style.transform = `translateX(0px)`
+                    this.draggingTab.style.removeProperty("translate");
                     this.draggingTab = null;
                 }
                 break;
             case "mousemove":
                 if (this.draggingTab) {
-                    this.draggingTab.style.transform = `translateX(${event.clientX}px)`
+                    const zero = this.draggingTab.parentElement.getBoundingClientRect().x;
+                    const relativeX = zero + (event.x - this.draggingTab.initialDragX);
+                    const translateX = Math.max(relativeX - zero, zero);
+
+                    // console.log(relativeX, this.draggingTab.getBoundingClientRect().width, translateX, this.draggingTab.initialDragX);
+                    if (
+                        relativeX < translateX
+                    ) {
+                        this.draggingTab.initialDragX = event.x;
+                        return;
+                    }
+
+                    if (
+                        event.x < zero
+                    ) {
+                        this.draggingTab.initialDragX = this.draggingTab.getBoundingClientRect().x;
+                        return;
+                    }
+
+                    if (
+                        event.x < zero ||
+                        relativeX < zero
+                    ) return;
+
+                    this.draggingTab.style.translate = `${relativeX - zero}px`;
                 }
                 break;
         }
+
+        this._win.document.documentElement.classList.toggle(
+            "auxiliary-dragging",
+            this.draggingTab && this.draggingTab.constructor.name == "BrowserTab"
+        );
     },
 
     _tabDragListenersInit: false,
@@ -898,11 +962,9 @@ BrowserTabs.prototype = {
      */
     getTabForWebContents(webContents) {
         const id = this._getWebContentsId(webContents);
-        const idType = this._isWebContentsBrowserElement(webContents)
-            ? "browserId"
-            : "id";
+        const idType = this._isWebContentsBrowserElement(webContents) ? "browserId" : "id";
 
-        return this.list.find(tab => tab.webContents[idType] == id);
+        return this.list.find((tab) => tab.webContents[idType] == id);
     },
 
     /**

@@ -153,15 +153,14 @@ hr.fdn-separator {
     overflow: visible;
 }
 
+.auxiliary-dragging * {
+    cursor: -moz-grabbing;
+}
+
 #tabspanel {
     min-height: 0;
     height: 100%;
     border-top: 1px solid var(--chrome-content-separator-color);
-}
-
-#tabslist {
-    display: flex;
-    width: 100%;
 }
 
 :root[chromemargin]:not([chromemargin=""]) #toolbox {
