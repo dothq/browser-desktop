@@ -5,6 +5,7 @@
 /* Base */
 @import url("chrome://dot/skin/browser-box.css");
 @import url("chrome://dot/skin/browser-dialog.css");
+@import url("chrome://dot/skin/browser-layouts.css");
 
 /* Components */
 @import url("chrome://dot/content/widgets/browser-tab.css");
@@ -15,6 +16,8 @@
 @import url("chrome://dot/content/widgets/browser-window-controls.css");
 @import url("chrome://dot/content/widgets/browser-icon.css");
 @import url("chrome://dot/content/widgets/browser-toolbar.css");
+@import url("chrome://dot/content/widgets/browser-tabs.css");
+@import url("chrome://dot/content/widgets/browser-spring.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
@@ -155,6 +158,10 @@ hr.fdn-separator {
 
 .auxiliary-dragging * {
     cursor: -moz-grabbing;
+}
+
+.auxiliary-resizing * {
+    cursor: ew-resize;
 }
 
 #tabspanel {

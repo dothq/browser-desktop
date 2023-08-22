@@ -1,0 +1,20 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-spring {
+    flex: 80 80;
+    min-width: 1px;
+    max-width: var(--spring-grip);
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+browser-spring[customising] {
+    display: flex;
+    -moz-window-dragging: no-drag;
+    outline: 2px dashed;
+    outline-offset: -6px;
+    border-radius: 8px;
+}

@@ -9,6 +9,7 @@
 
   skin/classic/dot/browser-box.css                      (../shared/browser-box.css)
   skin/classic/dot/browser-dialog.css                   (../shared/browser-dialog.css)
+  skin/classic/dot/browser-layouts.css                  (../shared/browser-layouts.css)
   skin/classic/dot/browser-shared.css                   (../shared/browser-shared.css)
 
   skin/classic/dot/add.svg                              (../shared/icons/add.svg)

@@ -15,6 +15,7 @@ let elements = {
     "browser-internal-tab": "chrome://dot/content/widgets/browser-internal-tab.js",
     "browser-modals": "chrome://dot/content/widgets/browser-modals.js",
     "browser-panel": "chrome://dot/content/widgets/browser-panel.js",
+    "browser-spring": "chrome://dot/content/widgets/browser-spring.js",
     "browser-status": "chrome://dot/content/widgets/browser-status.js",
     "browser-tab": "chrome://dot/content/widgets/browser-tab.js",
     "browser-tabs": "chrome://dot/content/widgets/browser-tabs.js",
