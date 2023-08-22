@@ -123,11 +123,6 @@ class DeveloperDebugPanel extends MozHTMLElement {
         });
 
         this.resourceUsageInt = setInterval(() => {
-            if (document.visibilityState == "hidden") {
-                this.elements.proc_info.textContent = "proc_info paused";
-                return;
-            }
-
             this.calculateResourceUsage();
         }, 1000);
 
