@@ -42,6 +42,13 @@ class BrowserRenderedTab extends MozHTMLElement {
         }
     }
 
+    /**
+     * Fired whenever the user clicks down onto the tab
+     */
+    _onTabMouseDown() {
+        this.linkedTab.select();
+    }
+
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
@@ -61,10 +68,28 @@ class BrowserRenderedTab extends MozHTMLElement {
                 html("span", { class: "browser-tab-label" })
             )
         );
+
+        this.style.width = "220px";
+
+        this.addEventListener("mousedown", this);
     }
 
     disconnectedCallback() {
         if (this.delayConnectedCallback()) return;
+
+        this.removeEventListener("mousedown", this);
+    }
+
+    /**
+     * Handles incoming tab events
+     * @param {CustomEvent} event 
+     */
+    handleEvent(event) {
+        switch (event.type) {
+            case "mousedown":
+                this._onTabMouseDown();
+                break;
+        }
     }
 
     /**

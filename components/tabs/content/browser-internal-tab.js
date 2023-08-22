@@ -110,7 +110,7 @@ class BrowserTab extends MozElements.MozTab {
      * Determines the tab's loading progress state
      */
     get progress() {
-        return parseInt(this.getAttribute("progress"));
+        return parseInt(this.getAttribute("progress")) || this.TAB_PROGRESS_NONE;
     }
 
     /**
@@ -155,6 +155,15 @@ class BrowserTab extends MozElements.MozTab {
      */
     get selected() {
         return gDot.tabs.selectedTab.id == this.id;
+    }
+
+    /**
+     * Makes this tab the selectedTab
+     */
+    select() {
+        if (this.selected) return;
+
+        gDot.tabs.selectedTab = this;
     }
 
     /**
