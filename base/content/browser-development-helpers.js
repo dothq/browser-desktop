@@ -16,7 +16,7 @@ const DevelopmentHelpers = {
                 null,
                 "chrome://dot/content/dev-debug-popout.xhtml",
                 "_blank",
-                "chrome,alwaysontop,dialog",
+                "chrome,alwaysontop",
                 null
             );
         }
