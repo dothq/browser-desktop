@@ -60,6 +60,7 @@
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-elements.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-commands.js", this);
 
             window.addEventListener(
                 "MozBeforeInitialXULLayout",
@@ -88,10 +89,14 @@
         <html:div id="mount">
             <div id="toolbox">
                 <html:browser-toolbar>
-                    <div>
+                    <div flex="">
+                        <html:browser-spring></html:browser-spring>
+
                         <html:browser-tabs></html:browser-tabs>
 
                         <html:button is="add-tab-button"></html:button>
+
+                        <html:browser-spring></html:browser-spring>
                     </div>
 
                     <html:browser-window-controls></html:browser-window-controls>
@@ -102,9 +107,11 @@
                     <html:button is="forward-button"></html:button>
                     <html:button is="reload-button"></html:button>
 
-                    <html:input is="address-bar"></html:input>
+                    <html:browser-spring></html:browser-spring>
 
-                    <html:browser-tabs></html:browser-tabs>
+                    <html:input is="address-bar" flex=""></html:input>
+
+                    <html:browser-spring></html:browser-spring>
                 </html:browser-toolbar>
             </div>
 
