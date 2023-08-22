@@ -24,6 +24,8 @@ browser-tab[selected] {
 
 browser-tab .browser-tab-icon-container {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 browser-tab .browser-tab-icon,
@@ -50,6 +52,8 @@ browser-tab .browser-tab-spinner {
 }
 
 browser-tab .browser-tab-label-container {
+    display: flex;
+    align-items: center;
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
