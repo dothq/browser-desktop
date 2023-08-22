@@ -60,10 +60,16 @@ const createButton = (direction) => class extends HTMLButtonElement {
                     event.command.toLowerCase() !== this.direction
                 ) return;
 
-                if (this.direction == "back" && this.browser.canGoBack) {
-                    this.browser.goBack();
-                } else if (this.direction == "forward" && this.browser.canGoForward) {
-                    this.browser.goForward();
+                if (this.direction == "back") {
+                    gDotCommands.execCommand(
+                        "browsing.navigate_back",
+                        { browser: this.browser }
+                    );
+                } else if (this.direction == "forward") {
+                    gDotCommands.execCommand(
+                        "browsing.navigate_forward",
+                        { browser: this.browser }
+                    );
                 }
 
                 break;

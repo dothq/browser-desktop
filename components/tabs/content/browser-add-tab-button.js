@@ -45,9 +45,9 @@ class BrowserAddTabButton extends HTMLButtonElement {
     }
 
     handleClick() {
-        const [urlToLoad] = StartPage.getHomePage();
-
-        NavigationHelper.openTrustedLinkIn(window, urlToLoad, "tab");
+        gDotCommands.execCommand(
+            "application.new_tab"
+        );
     }
 
     /**

@@ -46,20 +46,10 @@ class BrowserReloadButton extends HTMLButtonElement {
     }
 
     handleReload(cached = false) {
-        const { LOAD_FLAGS_NONE, LOAD_FLAGS_BYPASS_CACHE, STOP_ALL } = Ci.nsIWebNavigation;
-
-        if (gDot.tabs.isBusy) {
-            this.browser.stop(STOP_ALL);
-            return;
-        }
-
-        let flags = LOAD_FLAGS_NONE;
-
-        if (cached == true) {
-            flags |= LOAD_FLAGS_BYPASS_CACHE;
-        }
-
-        this.browser.reloadWithFlags(flags);
+        gDotCommands.execCommand(
+            "browsing.reload_stop_page",
+            { browser: this.browser, cached }
+        );
     }
 
     /**
@@ -72,9 +62,6 @@ class BrowserReloadButton extends HTMLButtonElement {
      * @param {string} data.status
      */
     onStateChanged({ browser, webProgress, request, stateFlags, status }) {
-        // Not our browser, we can ignore this event
-        if (browser.browserId !== this.browser.browserId) return;
-
         const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
 
         this.icon.name = (
