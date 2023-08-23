@@ -36,7 +36,7 @@ if (!AppConstants.MOZILLA_OFFICIAL) {
         ...elements,
         "dev-debug-panel": "chrome://dot/content/widgets/dev-debug-panel.js",
         "dev-debug-graph": "chrome://dot/content/widgets/dev-debug-graph.js",
-    } as any;
+    };
 }
 
 for (const [element, chromeURI] of Object.entries(elements)) {
