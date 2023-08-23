@@ -5,7 +5,6 @@
 import { AppConstants, Color, nsIArray, nsIURI } from "../../third_party/dothq/gecko-types/lib";
 import { _gDot } from "./browser";
 import { BrowserRemoteControl } from "./browser-remote-control";
-import { TabsProgressListener } from "./browser-tabs";
 import { nsIXULBrowserWindow } from "./browser-window";
 
 const { XPCOMUtils } = ChromeUtils.importESModule("resource://gre/modules/XPCOMUtils.sys.mjs");
@@ -617,10 +616,6 @@ var gDotInit = {
 
 	onLoad() {
 		console.time("onLoad");
-
-		// Add our own progress listeners
-		console.log("gBrowser::addProgressListener", window.XULBrowserWindow);
-		console.log("gBrowser::addTabsProgressListener", TabsProgressListener);
 
 		Services.obs.notifyObservers(window, "browser-window-ready");
 
