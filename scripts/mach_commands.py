@@ -17,7 +17,7 @@ def run_py(command_context, args):
 
 @Command(
     "import-patches",
-    category="misc",
+    category="dot",
     description="Imports patches into the FF tree",
 )
 def import_patches_run(command_context):
@@ -25,7 +25,7 @@ def import_patches_run(command_context):
 
 @Command(
     "export-patch",
-    category="misc",
+    category="dot",
     description="Exports a commit to a .patch file",
 )
 @CommandArgument("args", nargs=argparse.REMAINDER)
@@ -34,7 +34,7 @@ def export_patch_run(command_context, args):
 
 @Command(
     "sync",
-    category="misc",
+    category="dot",
     description="Syncs changes from both the Dot and FF tree",
 )
 def sync_run(command_context):
