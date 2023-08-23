@@ -4,7 +4,6 @@
 
 import { _gDot } from "./base/content/browser";
 import * as BrowserCompat from "./base/content/browser-compat";
-import { nsIXULBrowserWindow } from "./base/content/browser-window";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
 import "./mozbuild";
