@@ -14,11 +14,6 @@ import sys
 
 from build import mach_initialize as mach_init
 
-# Individual files that provide mach commands
-MACH_MODULES = [
-    "dot/scripts/mach_commands.py"
-]
-
 CATEGORIES = {
     "dot": {
         "short": "Dot Browser Development",
@@ -27,14 +22,28 @@ CATEGORIES = {
     },
 }
 
-def initialize(topsrcdir):
-    driver = mach_init.initialize(topsrcdir)
+def initialize(topsrcdir, args=()):
+    sys.path[0:0] = [
+        os.path.join(topsrcdir, module)
+        for module in (
+            os.path.join("python", "mach"),
+            os.path.join("third_party", "python", "packaging"),
+            os.path.join("third_party", "python", "pyparsing"),
+        )
+    ]
 
-    # Define Dot mach command categories
-    for category, meta in CATEGORIES.items():
-        driver.define_category(category, meta["short"], meta["long"], meta["priority"])
 
-    for path in MACH_MODULES:
-        driver.load_commands_from_file(os.path.join(topsrcdir, path))
+    mach_init.CATEGORIES.update(CATEGORIES)
+
+    from mach.command_util import MACH_COMMANDS, MachCommandReference
+
+    DOT_MACH_COMMANDS = {
+        "import-patches": MachCommandReference("dot/scripts/mach_commands.py"),
+        "export-patch": MachCommandReference("dot/scripts/mach_commands.py"),
+        "sync": MachCommandReference("dot/scripts/mach_commands.py"),
+    }
+    MACH_COMMANDS.update(DOT_MACH_COMMANDS)
+
+    driver = mach_init.initialize(topsrcdir, args)
 
     return driver
