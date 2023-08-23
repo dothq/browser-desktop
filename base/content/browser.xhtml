@@ -57,7 +57,8 @@
                 document.documentElement.removeAttribute("remotecontrol");
             }
 
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-elements.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-elements.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-window.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-commands.js", this);

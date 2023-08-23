@@ -19,10 +19,7 @@
 				"chrome://dot/content/browser-utility-overlay.js",
 				this
 			);
-			Services.scriptloader.loadSubScript(
-				"resource://dot/base/content/browser-elements.js",
-				this
-			);
+			Services.scriptloader.loadSubScript("chrome://dot/content/browser-elements.js", this);
 
 			window.addEventListener("load", () => {
 				const panel = document.createElement("dev-debug-panel");
