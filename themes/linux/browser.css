@@ -6,8 +6,13 @@
 
 @namespace html url("http://www.w3.org/1999/xhtml");
 
-:root {
+:root:not(:-moz-lwtheme) {
     --chrome-content-separator-color: ThreeDShadow;
+    --lwt-accent-color: transparent !important;
+    --lwt-text-color: -moz-dialogtext !important;
+    --toolbar-bgcolor: color-mix(in srgb, -moz-dialog 85%, white);
+    --button-hover-bgcolor: color-mix(in srgb, currentColor 17%, transparent) !important;
+    --button-active-bgcolor: color-mix(in srgb, currentColor 30%, transparent) !important;
 }
 
 /* Apply GTK rounded top corners */
@@ -15,6 +20,10 @@
     :root:not([chromemargin=""])[chromemargin][sizemode="normal"]:not([gtktiledwindow="true"]) {
         -moz-default-appearance: -moz-window-titlebar;
         appearance: auto;
+    }
+
+    :root:not([chromemargin])[sizemode="normal"]:not([gtktiledwindow="true"]) {
+        background-color: -moz-headerbar;
     }
 
     :root:not([chromemargin=""])[chromemargin][sizemode="normal"]:not([gtktiledwindow="true"]) body {
