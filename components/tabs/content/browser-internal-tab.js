@@ -282,6 +282,10 @@ class BrowserTab extends MozElements.MozTab {
         }
 
         this.setAttribute("label", newLabel);
+
+        if (this.selected) {
+            gDot.tabs.shouldUpdateWindowTitle();
+        }
     }
 
     /**

@@ -149,6 +149,8 @@ BrowserTabs.prototype = {
         this._selectedTab = tab;
         tab.webContentsPanel.toggleAttribute("visible", true);
 
+        this.shouldUpdateWindowTitle();
+
         this._dispatchDocumentEvent("BrowserTabs::TabSelect", { detail: tab });
     },
 
@@ -954,6 +956,56 @@ BrowserTabs.prototype = {
         this._win.addEventListener("mousedown", this._onHandleTabDragEvent.bind(this));
 
         this._tabDragListenersInit = true;
+    },
+
+    /**
+     * Updates the window's title based on the selectedTab's title
+     */
+    shouldUpdateWindowTitle() {
+        const doc = this._win.document.documentElement;
+        const tab = this.selectedTab;
+        let title = "";
+
+        // If we happen to encounter a situation where chrome and 
+        // URL bar is hidden, we will need to make sure the URL is
+        // visible in some form prevent spoofing or phishing,
+        // especially from untrusted sources like extensions.
+        if (doc.getAttribute("chromehidden").includes("location")) {
+            if (this._isWebContentsBrowserElement(tab.webContents)) {
+                const uri = Services.io.createExposableURI(
+                    /** @type {ChromeBrowser} */(tab.webContents).currentURI
+                );
+
+                switch (uri.scheme) {
+                    case "about":
+                        title += `${uri.spec}: `;
+                        break;
+                    case "moz-extension":
+                        const ext = WebExtensionPolicy.getByHostname(uri.host);
+
+                        if (ext && ext.name) {
+                            title += `${ext.name}: `;
+                        }
+                        break;
+                }
+            }
+        }
+
+        if (tab.getAttribute("label")) {
+            // Strip out any null bytes in the content title, since the
+            // underlying widget implementations of nsWindow::SetTitle pass
+            // null-terminated strings to system APIs.
+            title += tab.getAttribute("label").replace(/\0/g, "");
+        }
+
+        const dataSuffix =
+            doc.getAttribute("privatebrowsingmode") == "temporary"
+                ? "Private"
+                : "Default";
+
+        this._win.document.title = title && title.trim().length
+            ? doc.dataset["contentTitle" + dataSuffix].replace("CONTENTTITLE", () => title)
+            : doc.dataset["title" + dataSuffix];
     },
 
     /**
