@@ -113,6 +113,10 @@ browser-icon[name="edit"] {
     --src: url(chrome://dot/skin/edit.svg);
 }
 
+browser-icon[name="error"] {
+    --src: url(chrome://dot/skin/error.svg);
+}
+
 browser-icon[name="exit-fullscreen"] {
     --src: url(chrome://dot/skin/exit-fullscreen.svg);
 }
@@ -135,6 +139,10 @@ browser-icon[name="heart"] {
 
 browser-icon[name="home"] {
     --src: url(chrome://dot/skin/home.svg);
+}
+
+browser-icon[name="info"] {
+    --src: url(chrome://dot/skin/info.svg);
 }
 
 browser-icon[name="jigsaw"] {
@@ -197,6 +205,10 @@ browser-icon[name="print"] {
     --src: url(chrome://dot/skin/print.svg);
 }
 
+browser-icon[name="question"] {
+    --src: url(chrome://dot/skin/question.svg);
+}
+
 browser-icon[name="redo"] {
     --src: url(chrome://dot/skin/redo.svg);
 }
@@ -243,6 +255,10 @@ browser-icon[name="undo"] {
 
 browser-icon[name="user"] {
     --src: url(chrome://dot/skin/user.svg);
+}
+
+browser-icon[name="warning"] {
+    --src: url(chrome://dot/skin/warning.svg);
 }
 
 browser-icon[name="zoom-in"] {
