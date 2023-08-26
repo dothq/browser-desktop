@@ -19,7 +19,7 @@ dev-debug-graph .graph-y-axis .graph-canvas-container {
     display: flex;
     flex: 1;
     background-size: var(--size) var(--size);
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-image: linear-gradient(to right, color-mix(in srgb, currentColor 10%, transparent 0%) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, currentColor 10%, transparent 0%) 1px, transparent 1px);
     --size: 8px;
 }
 

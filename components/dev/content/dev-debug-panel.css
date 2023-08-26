@@ -11,9 +11,9 @@
     min-width: 552px;
     max-height: var(--height);
     min-height: var(--height);
-    background-color: #080809;
+    background-color: var(--lwt-accent-color, #080809);
+    color: var(--lwt-text-color, white);
     overflow: clip;
-    box-shadow: inset 0px 0px 0px 1px #9393934f;
     -moz-window-dragging: drag;
 }
 
@@ -27,8 +27,6 @@
 
 dev-debug-panel {
     pointer-events: none;
-    color: white;
-    text-shadow: 1px 1px 4px black;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -64,13 +62,14 @@ dev-debug-panel .dev-graph-group-dot {
     background-color: var(--color);
 }
 
-dev-debug-panel .dev-active-theme-icon {
-    width: 1rem;
-    height: 1rem;
-}
-
 dev-debug-panel .dev-branding-lockup {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+}
+
+dev-debug-panel .dev-active-theme-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
