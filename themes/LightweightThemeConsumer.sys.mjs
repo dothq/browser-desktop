@@ -596,12 +596,7 @@ export class LightweightThemeConsumer {
                 );
             }
 
-            // When applying the dark theme for a PBM window we need to skip calling
-            // determineInterfaceTheme, because it applies the color scheme
-            // globally for all windows. Skipping this method also means we don't
-            // switch the content theme to dark.
-            updateGlobalThemeData = false;
-            return true;
+            return false;
         })();
 
         // If this is a per-window dark theme, set the color scheme override so
