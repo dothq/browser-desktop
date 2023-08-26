@@ -6,3 +6,4 @@ dot.jar:
 % skin dot classic/1.0 %skin/classic/dot/
 #include ../shared/jar.inc.mn
   skin/classic/dot/browser.css
+  skin/classic/dot/global.css

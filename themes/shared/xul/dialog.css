@@ -1,0 +1,66 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@import url("chrome://dot/skin/input.css");
+
+:root {
+    background-color: var(--lwt-accent-color, -moz-dialog);
+    color: var(--lwt-text-color, -moz-DialogText);
+}
+
+#commonDialog {
+    display: flex;
+    padding: 14px;
+    gap: 14px;
+}
+
+/* Icons */
+.message-icon {
+    list-style-image: url("chrome://dot/skin/info.svg");
+}
+
+.alert-dialog #infoIcon,
+.alert-icon {
+    list-style-image: url("chrome://dot/skin/warning.svg");
+}
+
+.error-icon {
+    list-style-image: url("chrome://dot/skin/error.svg");
+}
+
+.question-icon {
+    list-style-image: url("chrome://dot/skin/question.svg");
+}
+
+#dialogGrid {
+    --spacing: 10px;
+    --icon-width: 48px;
+}
+
+#infoRow {
+    display: flex;
+}
+
+.dialogRow:not(#infoRow) {
+    margin-inline-start: calc(var(--icon-width) + var(--spacing));
+}
+
+#iconContainer {
+    width: var(--icon-width);
+    height: var(--icon-width);
+    min-width: var(--icon-width);
+    min-height: var(--icon-width);
+    margin-inline-end: var(--spacing);
+}
+
+#infoBody {
+    white-space: break-spaces;
+}
+
+#infoIcon {
+    width: 100%;
+    height: 100%;
+    -moz-context-properties: fill;
+    fill: currentColor;
+}

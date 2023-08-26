@@ -5,6 +5,7 @@
 dot.jar:
 % content dot %content/ contentaccessible=yes
 *   content/browser.xhtml                             (content/browser.xhtml)
+    content/commonDialog.xhtml                        (content/commonDialog.xhtml)
 
     content/                                          (content/*.js)
 
@@ -14,6 +15,7 @@ dot.jar:
 % resource dot %modules/dot/
 % override chrome://dot/content/safeMode.xhtml chrome://browser/content/safeMode.xhtml
 % override chrome://browser/content/utilityOverlay.js chrome://dot/content/browser-utility-overlay.js
+% override chrome://global/content/commonDialog.xhtml chrome://dot/content/commonDialog.xhtml
 
 browser.jar:
 % content browser %content/

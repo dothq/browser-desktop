@@ -199,6 +199,6 @@ button:disabled {
     display: flex;
     flex-direction: column;
     color: var(--lwt-text-color);
-    background-color: var(--toolbar-bgcolor);
+    background-color: var(--lwt-accent-color);
     accent-color: var(--fdn-colours-blue);
 }

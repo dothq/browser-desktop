@@ -12,6 +12,8 @@
   skin/classic/dot/browser-layouts.css                  (../shared/browser-layouts.css)
   skin/classic/dot/browser-shared.css                   (../shared/browser-shared.css)
 
+  skin/classic/dot/global-shared.css                    (../shared/global-shared.css)
+
   skin/classic/dot/add.svg                              (../shared/icons/add.svg)
   skin/classic/dot/arrow-down.svg                       (../shared/icons/arrow-down.svg)
   skin/classic/dot/arrow-left.svg                       (../shared/icons/arrow-left.svg)
@@ -36,12 +38,14 @@
   skin/classic/dot/cut.svg                              (../shared/icons/cut.svg)
   skin/classic/dot/download.svg                         (../shared/icons/download.svg)
   skin/classic/dot/edit.svg                             (../shared/icons/edit.svg)
+  skin/classic/dot/error.svg                            (../shared/icons/error.svg)
   skin/classic/dot/exit-fullscreen.svg                  (../shared/icons/exit-fullscreen.svg)
   skin/classic/dot/folder.svg                           (../shared/icons/folder.svg)
   skin/classic/dot/fullscreen.svg                       (../shared/icons/fullscreen.svg)
   skin/classic/dot/globe.svg                            (../shared/icons/globe.svg)
   skin/classic/dot/heart.svg                            (../shared/icons/heart.svg)
   skin/classic/dot/home.svg                             (../shared/icons/home.svg)
+  skin/classic/dot/info.svg                             (../shared/icons/info.svg)
   skin/classic/dot/jigsaw.svg                           (../shared/icons/jigsaw.svg)
   skin/classic/dot/key.svg                              (../shared/icons/key.svg)
   skin/classic/dot/media-pause.svg                      (../shared/icons/media-pause.svg)
@@ -57,6 +61,7 @@
   skin/classic/dot/picture.svg                          (../shared/icons/picture.svg)
   skin/classic/dot/pinpoint.svg                         (../shared/icons/pinpoint.svg)
   skin/classic/dot/print.svg                            (../shared/icons/print.svg)
+  skin/classic/dot/question.svg                         (../shared/icons/question.svg)
   skin/classic/dot/redo.svg                             (../shared/icons/redo.svg)
   skin/classic/dot/reload.svg                           (../shared/icons/reload.svg)
   skin/classic/dot/rubbish-bin.svg                      (../shared/icons/rubbish-bin.svg)
@@ -72,6 +77,7 @@
   skin/classic/dot/toggle.svg                           (../shared/icons/toggle.svg)
   skin/classic/dot/undo.svg                             (../shared/icons/undo.svg)
   skin/classic/dot/user.svg                             (../shared/icons/user.svg)
+  skin/classic/dot/warning.svg                          (../shared/icons/warning.svg)
   skin/classic/dot/zoom-in.svg                          (../shared/icons/zoom-in.svg)
   skin/classic/dot/zoom-out.svg                         (../shared/icons/zoom-out.svg)
 
@@ -100,8 +106,13 @@
 % override chrome://mozapps/skin/extensions/category-extensions.svg chrome://dot/skin/jigsaw.svg
 % override chrome://mozapps/skin/extensions/themeGeneric.svg chrome://dot/skin/brush.svg
 % override chrome://global/skin/icons/settings.svg chrome://dot/skin/settings.svg
+% override chrome://global/skin/dialog.css chrome://dot/skin/dialog.css
+% override chrome://global/content/commonDialog.css chrome://dot/skin/dialog.css
 
   skin/classic/dot/customizableui/customizableui.css           (../shared/customizableui/customizableui.css)
   skin/classic/dot/customizableui/customizableui-area.css      (../shared/customizableui/customizableui-area.css)
   skin/classic/dot/customizableui/widgets/browser-frame.css    (../shared/customizableui/widgets/browser-frame.css)
   skin/classic/dot/customizableui/widgets/toolbar-button.css   (../shared/customizableui/widgets/toolbar-button.css)
+
+  skin/classic/dot/dialog.css                                  (../shared/xul/dialog.css)
+  skin/classic/dot/input.css                                   (../shared/xul/input.css)

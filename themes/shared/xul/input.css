@@ -1,0 +1,76 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+    --button-disabled-opacity: 0.5;
+
+    --button-color: color-mix(in srgb, currentColor 10%, transparent);
+    --button-hover-color: color-mix(in srgb, currentColor 15%, transparent);
+    --button-active-color: color-mix(in srgb, currentColor 30%, transparent);
+    --button-checked-color: color-mix(in srgb, currentColor 30%, transparent);
+    --button-checked-hover-color: color-mix(in srgb, currentColor 35%, transparent);
+    --button-checked-active-color: color-mix(in srgb, currentColor 40%, transparent);
+
+    --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+button,
+select {
+    appearance: none;
+
+    min-height: 24px;
+    min-width: 16px;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: unset;
+    background-color: var(--button-color);
+
+    transition: background 200ms var(--ease-out-quad);
+}
+
+button {
+    padding: 6px 24px;
+}
+
+select {
+    padding: 6px 14px;
+
+    background-image: url(chrome://dot/skin/chevron-down.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 10px) center;
+    -moz-context-properties: fill;
+    fill: currentColor;
+}
+
+button:hover,
+select:hover,
+select:focus {
+    background-color: var(--button-hover-color);
+}
+
+button:active,
+select:active {
+    background-color: var(--button-active-color);
+}
+
+button:disabled,
+select:disabled {
+    filter: opacity(var(--button-disabled-opacity));
+}
+
+button:focus-visible,
+select:focus-visible {
+    outline: 2px solid AccentColor;
+    outline-offset: 2px;
+}
+
+button:disabled *,
+select:disabled * {
+    filter: none;
+}
