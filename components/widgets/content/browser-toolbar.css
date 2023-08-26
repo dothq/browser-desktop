@@ -10,5 +10,5 @@ browser-toolbar {
 }
 
 browser-toolbar.accent {
-    background-color: var(--lwt-accent-color);
+    background-color: var(--toolbar-bgcolor);
 }

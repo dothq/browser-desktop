@@ -19,7 +19,7 @@ browser-tab>* {
 }
 
 browser-tab[selected] {
-    background-color: var(--lwt-accent-color);
+    background-color: var(--toolbar-bgcolor);
 }
 
 browser-tab .browser-tab-icon-container {
