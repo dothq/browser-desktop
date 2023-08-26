@@ -7,7 +7,6 @@ EXTRA_JS_MODULES += [
     "BuiltInThemeConfig.sys.mjs",
     "BuiltInThemes.sys.mjs",
     "LightweightThemeConsumer.sys.mjs*", # Using manifests.py entry overwrite
-    "LightweightThemeManager.jsm*", # Using manifests.py entry overwrite
     "ThemeVariableMap.sys.mjs"
 ]
 
