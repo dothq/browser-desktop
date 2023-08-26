@@ -3,6 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class BrowserTabsCollator extends MozHTMLElement {
+    EVENT_TAB_ADDED = "BrowserTabsCollator::TabAdded";
+    EVENT_TAB_REMOVED = "BrowserTabsCollator::TabRemoved";
+    EVENT_TAB_ATTRIBUTE_UPDATE = "BrowserTabsCollator::TabAttributeUpdate";
+
     constructor() {
         super();
 
@@ -75,7 +79,7 @@ class BrowserTabsCollator extends MozHTMLElement {
      * @param {BrowserTab} tab
      */
     _onTabAdded(tab) {
-        this._dispatchToTabsLists("BrowserTabsCollator::TabAdded", { tab });
+        this._dispatchToTabsLists(this.EVENT_TAB_ADDED, { tab });
     }
 
     /**
@@ -83,7 +87,7 @@ class BrowserTabsCollator extends MozHTMLElement {
      * @param {BrowserTab} tab
      */
     _onTabRemoved(tab) {
-        this._dispatchToTabsLists("BrowserTabsCollator::TabRemoved", { tab });
+        this._dispatchToTabsLists(this.EVENT_TAB_REMOVED, { tab });
     }
 
     /**
@@ -93,7 +97,7 @@ class BrowserTabsCollator extends MozHTMLElement {
      * @param {string} oldValue
      */
     _onTabAttributeUpdate(tab, attributeName, oldValue) {
-        this._dispatchToTabsLists("BrowserTabsCollator::TabAttributeUpdate", {
+        this._dispatchToTabsLists(this.EVENT_TAB_ATTRIBUTE_UPDATE, {
             tab,
             attributeName,
             oldValue,
