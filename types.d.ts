@@ -46,6 +46,8 @@ declare global {
 
     var BrowsingContext: Gecko.BrowsingContextGlobal;
 
+    var WebExtensionPolicy: Gecko.WebExtensionPolicy;
+
     /**
      * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
      * 

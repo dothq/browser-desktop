@@ -55,6 +55,7 @@ export * from "./ReceiveMessageArgument";
 export * from "./services";
 export * from "./RemoteAgent";
 export * from "./SharedLibrary";
+export * from "./WebExtensionPolicy";
 export * from "./WindowGlobalChild";
 export * from "./WindowGlobalParent";
 export * from "./WindowUtils";
