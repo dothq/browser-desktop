@@ -18,6 +18,10 @@
 @import url("chrome://dot/content/widgets/browser-toolbar.css");
 @import url("chrome://dot/content/widgets/browser-tabs.css");
 @import url("chrome://dot/content/widgets/browser-spring.css");
+@import url("chrome://dot/content/widgets/browser-toolbar-button.css");
+
+/* XUL */
+@import url("chrome://dot/skin/input.css");
 
 /* Customizable UI */
 @import url("chrome://dot/skin/customizableui/customizableui.css");
@@ -69,6 +73,15 @@
 /* Define LWT variables */
 :root {
     --devtools-splitter-color: var(--chrome-content-separator-color, var(--fdn-border-colour));
+}
+
+:root {
+    /*
+     * Compact = 4px
+     * Default = 8px
+     * Touch = 16px
+     */
+    --browser-ui-density: 8px;
 }
 
 html,
@@ -174,23 +187,7 @@ hr.fdn-separator {
     -moz-window-dragging: drag;
 }
 
-button {
-    appearance: none;
-    border: none;
-    background-color: transparent;
-    color: var(--lwt-text-color);
-    -moz-window-dragging: no-drag;
-}
-
-button:hover {
-    background-color: var(--button-hover-bgcolor);
-}
-
-button:active {
-    background-color: var(--button-active-bgcolor);
-}
-
-button:disabled {
+:disabled {
     opacity: 0.5;
     pointer-events: none;
 }
