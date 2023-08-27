@@ -12,39 +12,21 @@ var { NavigationHelper } = ChromeUtils.importESModule(
 
 var { StartPage } = ChromeUtils.importESModule("resource:///modules/StartPage.sys.mjs");
 
-class BrowserAddTabButton extends HTMLButtonElement {
+class BrowserAddTabButton extends BrowserToolbarButton {
     constructor() {
         super();
     }
 
-    /**
-     * The currently selected browser
-     */
-    get browser() {
-        const tab = gDot.tabs.selectedTab;
-
-        if (!gDot.tabs._isWebContentsBrowserElement(tab.webContents)) {
-            return null;
-        }
-
-        return /** @type {ChromeBrowser} */ (tab.webContents);
-    }
-
-    /**
-     * The icon for the add tab button
-     * @returns {BrowserIcon}
-     */
-    get icon() {
-        return this.querySelector("browser-icon");
-    }
-
     connectedCallback() {
-        this.appendChild(html("browser-icon", { name: "add" }));
+        super.connectedCallback();
+
+        this.label = "New Tab";
+        this.icon = "add";
 
         this.addEventListener("click", this);
     }
 
-    handleClick() {
+    handleClick(event) {
         gDotCommands.execCommand(
             "application.new_tab"
         );
@@ -52,17 +34,19 @@ class BrowserAddTabButton extends HTMLButtonElement {
 
     /**
      * Handle incoming events
-     * @param {MouseEvent | CustomEvent} event
+     * @param {MouseEvent} event 
      */
     handleEvent(event) {
         switch (event.type) {
             case "click":
-                this.handleClick();
+                this.handleClick(event);
                 break;
         }
     }
 
     disconnectedCallback() {
+        super.disconnectedCallback();
+
         this.removeEventListener("click", this);
     }
 }

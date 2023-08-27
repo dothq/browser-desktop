@@ -14,3 +14,6 @@ dot.jar:
 
     content/widgets/browser-spring.js                    (content/browser-spring.js)
     content/widgets/browser-spring.css                   (content/browser-spring.css)
+
+    content/widgets/browser-toolbar-button.js            (content/browser-toolbar-button.js)
+    content/widgets/browser-toolbar-button.css           (content/browser-toolbar-button.css)

@@ -7,6 +7,10 @@ browser-toolbar {
     align-items: stretch;
     background-color: transparent;
     color: var(--lwt-text-color);
+    gap: 4px;
+    padding-inline: 4px;
+    -moz-window-dragging: drag;
+    flex: 1;
 }
 
 browser-toolbar.accent {

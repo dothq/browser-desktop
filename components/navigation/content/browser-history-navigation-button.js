@@ -2,33 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const createButton = (direction) => class extends HTMLButtonElement {
+const createButton = (direction) => class extends BrowserToolbarButton {
     constructor() {
         super();
-
-        this.direction = direction;
-    }
-
-    direction = ""
-
-    get browser() {
-        const tab = gDot.tabs.selectedTab;
-
-        if (!gDot.tabs._isWebContentsBrowserElement(tab.webContents)) {
-            return null;
-        }
-
-        return /** @type {ChromeBrowser} */ (tab.webContents);
     }
 
     connectedCallback() {
-        const iconName = this.direction == "back"
-            ? "arrow-left"
-            : this.direction == "forward"
-                ? "arrow-right"
-                : ""
+        super.connectedCallback();
 
-        this.appendChild(html("browser-icon", { name: iconName }));
+        this.label = direction == "back" ? "Back" : "Forward";
+        this.icon = direction == "back" ? "arrow-left" : "arrow-right";
 
         this.addEventListener("click", this);
         window.addEventListener("AppCommand", this);
@@ -36,14 +19,6 @@ const createButton = (direction) => class extends HTMLButtonElement {
         window.addEventListener("load", this);
 
         this.disabled = true;
-    }
-
-    updateDisabled() {
-        if (this.direction == "back") {
-            this.disabled = !this.browser.canGoBack;
-        } else if (this.direction == "forward") {
-            this.disabled = !this.browser.canGoForward;
-        }
     }
 
     /**
@@ -57,33 +32,34 @@ const createButton = (direction) => class extends HTMLButtonElement {
             case "AppCommand":
                 if (
                     event.type == "AppCommand" &&
-                    event.command.toLowerCase() !== this.direction
+                    event.command.toLowerCase() !== direction
                 ) return;
 
-                if (this.direction == "back") {
-                    gDotCommands.execCommand(
-                        "browsing.navigate_back",
-                        { browser: this.browser }
-                    );
-                } else if (this.direction == "forward") {
-                    gDotCommands.execCommand(
-                        "browsing.navigate_forward",
-                        { browser: this.browser }
-                    );
-                }
+                gDotCommands.execCommand(
+                    `browsing.navigate_${direction}`,
+                    { browser: this.context.browser }
+                );
 
                 break;
             case "load":
             case "BrowserTabs::LocationChange":
-                this.updateDisabled();
+                if (direction == "back") {
+                    this.disabled = !this.context.browser.canGoBack;
+                } else if (direction == "forward") {
+                    this.disabled = !this.context.browser.canGoForward;
+                }
 
                 break;
         }
     }
 
     disconnectedCallback() {
+        super.disconnectedCallback();
+
         this.removeEventListener("click", this);
         window.removeEventListener("AppCommand", this);
+        window.removeEventListener("BrowserTabs::LocationChange", this);
+        window.removeEventListener("load", this);
     }
 }
 

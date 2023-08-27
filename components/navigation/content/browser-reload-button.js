@@ -12,34 +12,16 @@ var { BrowserTabsUtils } = ChromeUtils.importESModule(
     "resource://gre/modules/BrowserTabsUtils.sys.mjs"
 );
 
-class BrowserReloadButton extends HTMLButtonElement {
+class BrowserReloadButton extends BrowserToolbarButton {
     constructor() {
         super();
     }
 
-    /**
-     * The currently selected browser
-     */
-    get browser() {
-        const tab = gDot.tabs.selectedTab;
-
-        if (!gDot.tabs._isWebContentsBrowserElement(tab.webContents)) {
-            return null;
-        }
-
-        return /** @type {ChromeBrowser} */ (tab.webContents);
-    }
-
-    /**
-     * The icon for the relaod button
-     * @returns {BrowserIcon}
-     */
-    get icon() {
-        return this.querySelector("browser-icon");
-    }
-
     connectedCallback() {
-        this.appendChild(html("browser-icon", { name: "reload" }));
+        super.connectedCallback();
+
+        this.label = "Reload";
+        this.icon = "reload";
 
         this.addEventListener("click", this);
         window.addEventListener("BrowserTabs::BrowserStateChange", this);
@@ -48,7 +30,10 @@ class BrowserReloadButton extends HTMLButtonElement {
     handleReload(cached = false) {
         gDotCommands.execCommand(
             "browsing.reload_stop_page",
-            { browser: this.browser, cached }
+            {
+                browser: this.context.browser,
+                cached
+            }
         );
     }
 
@@ -64,12 +49,15 @@ class BrowserReloadButton extends HTMLButtonElement {
     onStateChanged({ browser, webProgress, request, stateFlags, status }) {
         const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
 
-        this.icon.name = (
+        const isLoading = (
             webProgress.isTopLevel &&
             stateFlags & STATE_START &&
             stateFlags & STATE_IS_NETWORK &&
             BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */(request))
-        ) ? "close" : "reload";
+        );
+
+        this.icon = isLoading ? "close" : "reload";
+        this.label = isLoading ? "Stop" : "Reload";
     }
 
     /**
@@ -88,6 +76,8 @@ class BrowserReloadButton extends HTMLButtonElement {
     }
 
     disconnectedCallback() {
+        super.disconnectedCallback();
+
         this.removeEventListener("click", this);
         window.removeEventListener("BrowserTabs::BrowserStateChange", this);
     }

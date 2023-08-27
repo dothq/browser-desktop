@@ -7,8 +7,30 @@ class BrowserToolbar extends MozHTMLElement {
         super();
     }
 
+    /**
+     * Determines the toolbar's display mode
+     *
+     * `icons` - Only show icons in toolbar buttons
+     *
+     * `text` - Only show text in toolbar buttons
+     *
+     * `icons_beside_text` - Show icons beside text in toolbar buttons
+     */
+    get mode() {
+        return this.getAttribute("mode");
+    }
+
+    /**
+     * Update the toolbar's display mode
+     */
+    set mode(newMode) {
+        this.setAttribute("mode", newMode);
+    }
+
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
+
+        this.mode = "icons";
     }
 
     disconnectedCallback() {

@@ -1,0 +1,42 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.toolbar-button {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+
+    margin-block: 4px;
+    padding: var(--browser-ui-density) calc(var(--browser-ui-density) + 6px);
+
+    border-radius: 6px;
+
+    gap: 6px;
+
+    transition: background 200ms var(--button-ease-out-quad),
+        outline 25ms var(--button-ease-out-quad);
+
+    -moz-window-dragging: no-drag;
+}
+
+.toolbar-button:disabled {
+    pointer-events: auto;
+}
+
+/* Make sure in icons mode that the toolbar button is exactly a square */
+browser-toolbar[mode=icons] .toolbar-button {
+    aspect-ratio: 1;
+    padding: var(--browser-ui-density);
+}
+
+browser-toolbar[mode=icons] .toolbar-button>*:not(.toolbar-button-icon) {
+    display: none;
+}
+
+browser-toolbar[mode=text] .toolbar-button>*:not(.toolbar-button-label) {
+    display: none;
+}
