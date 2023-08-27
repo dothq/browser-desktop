@@ -6,6 +6,9 @@ var { AppConstants } = ChromeUtils.importESModule(
     "resource://gre/modules/AppConstants.sys.mjs"
 );
 
+let kNativeTitlebarInitted = false;
+let kNativeTitlebarEnabled = false;
+
 export const NativeTitlebar = {
     QueryInterface: ChromeUtils.generateQI([
         "nsIObserver",
@@ -13,18 +16,16 @@ export const NativeTitlebar = {
         "nsISupportsWeakReference",
     ]),
 
-    _doc: null,
-
-    _enabled: Services.prefs.getBoolPref(
-        "dot.window.use-native-titlebar",
-        false
-    ),
+    _docs: new Set(),
 
     /**
      * Determines whether we are using a native titlebar
      */
     get enabled() {
-        return this._enabled;
+        return kNativeTitlebarEnabled || Services.prefs.getBoolPref(
+            "dot.window.use-native-titlebar",
+            false
+        );
     },
 
     /**
@@ -42,18 +43,26 @@ export const NativeTitlebar = {
      * @param {boolean} permanent - Whether the state should persist between restarts
      */
     set(enabled, permanent) {
-        if (enabled) {
-            this._doc.documentElement.removeAttribute("chromemargin");
-        } else {
-            this._doc.documentElement.setAttribute(
-                "chromemargin",
-                AppConstants.platform == "macosx"
-                    ? "0,-1,-1,-1"
-                    : "0,2,2,2"
-            );
+        for (const doc of this._docs) {
+            // Ensure popup windows don't get the custom titlebar treatment
+            if (doc.documentElement.getAttribute("chromehidden")) {
+                doc.documentElement.removeAttribute("chromemargin");
+                continue;
+            }
+
+            if (enabled) {
+                doc.documentElement.removeAttribute("chromemargin");
+            } else {
+                doc.documentElement.setAttribute(
+                    "chromemargin",
+                    AppConstants.platform == "macosx"
+                        ? "0,-1,-1,-1"
+                        : "0,2,2,2"
+                );
+            }
         }
 
-        this._enabled = enabled;
+        kNativeTitlebarEnabled = enabled;
 
         if (permanent) {
             Services.prefs.setBoolPref(
@@ -87,10 +96,15 @@ export const NativeTitlebar = {
      * @param {Document} doc 
      */
     init(doc) {
-        this._doc = doc;
+        if (this._docs.has(doc)) return;
+        this._docs.add(doc);
 
-        this.set(this.enabled, false);
+        const initValue = Services.prefs.getBoolPref("dot.window.use-native-titlebar", true);
+        this.set(initValue, true);
 
-        Services.prefs.addObserver("dot.window.", this);
+        if (!kNativeTitlebarInitted) {
+            kNativeTitlebarInitted = true;
+            Services.prefs.addObserver("dot.window.", this);
+        }
     }
 }
