@@ -283,7 +283,9 @@ class BrowserTab extends MozElements.MozTab {
 
         this.setAttribute("label", newLabel);
 
-        if (this.selected) {
+        // We need to make sure gDot.tabs is initialised 
+        // before we start updating the window title
+        if (gDot.tabs && this.selected) {
             gDot.tabs.shouldUpdateWindowTitle();
         }
     }
