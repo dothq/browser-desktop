@@ -12,6 +12,7 @@ browser-tab {
     gap: 6px;
     user-select: none;
     justify-content: flex-start;
+    -moz-window-dragging: no-drag;
 }
 
 browser-tab>* {
