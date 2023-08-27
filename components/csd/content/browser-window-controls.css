@@ -8,7 +8,7 @@ browser-window-controls {
 }
 
 browser-window-controls button:focus-visible {
-    outline: none;
+    outline: none !important;
 }
 
 :root[chromemargin=""] browser-window-controls,
