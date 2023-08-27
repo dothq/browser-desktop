@@ -4,6 +4,6 @@
 
 browser-tabs {
     display: flex;
-    background-color: var(--toolbar-bgcolor);
+    background-color: var(--lwt-accent-color);
     width: max-content;
 }
