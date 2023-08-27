@@ -4,6 +4,8 @@
 
 @import url("chrome://dot/skin/input.css");
 
+@namespace xul url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
 :root {
     background-color: var(--lwt-accent-color, -moz-dialog);
     color: var(--lwt-text-color, -moz-DialogText);
@@ -34,8 +36,14 @@
 }
 
 #dialogGrid {
-    --spacing: 10px;
+    --spacing: 14px;
     --icon-width: 48px;
+}
+
+#dialogGrid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
 }
 
 #infoRow {
@@ -54,8 +62,22 @@
     margin-inline-end: var(--spacing);
 }
 
+#infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-self: center;
+}
+
+#infoTitle {
+    font-weight: bold;
+    margin: 0;
+}
+
 #infoBody {
     white-space: break-spaces;
+    max-width: 600px;
+    margin: 0;
 }
 
 #infoIcon {
@@ -63,4 +85,20 @@
     height: 100%;
     -moz-context-properties: fill;
     fill: currentColor;
+}
+
+#loginContainer:not([hidden]),
+#password1Container:not([hidden]) {
+    display: flex;
+    align-items: center;
+}
+
+#loginContainer xul|label,
+#loginContainer input,
+#checkboxContainer xul|checkbox {
+    margin: 0;
+}
+
+#loginContainer xul|label:not([value=""]) {
+    margin-inline-end: 8px;
 }
