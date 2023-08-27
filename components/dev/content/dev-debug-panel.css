@@ -73,3 +73,8 @@ dev-debug-panel .dev-active-theme-container {
     flex-direction: column;
     gap: 0.5rem;
 }
+
+dev-debug-panel .dev-native-titlebar-container {
+    display: flex;
+    gap: 0.5rem;
+}

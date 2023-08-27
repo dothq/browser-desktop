@@ -10,6 +10,10 @@ var { DotAppConstants } = ChromeUtils.importESModule(
     "resource://gre/modules/DotAppConstants.sys.mjs"
 );
 
+var { NativeTitlebar } = ChromeUtils.importESModule(
+    "resource:///modules/NativeTitlebar.sys.mjs"
+);
+
 /**
  * Utility function to convert bytes to a human-readable format
  * @param {number} bytes
@@ -51,6 +55,10 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
         active_theme: /** @type {HTMLSelectElement} */ (
             html("select", { class: "dev-active-theme" })
+        ),
+
+        native_titlebar: /** @type {HTMLInputElement} */ (
+            html("input", { type: "checkbox", id: "dev-native-theme-enabled" })
         )
     };
 
@@ -113,6 +121,9 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
         this.elements.proc_info.textContent = "";
         this.elements.proc_info.append(...data);
+
+        // Lazy way of updating this value
+        this.elements.native_titlebar.checked = NativeTitlebar.enabled;
     }
 
     async renderThemes() {
@@ -173,6 +184,12 @@ class DeveloperDebugPanel extends MozHTMLElement {
                 addon.enable();
             }
         });
+
+        this.elements.native_titlebar.addEventListener("change", async (event) => {
+            const { checked } = /** @type {HTMLInputElement} */ (event.target);
+
+            NativeTitlebar.set(checked, true);
+        })
     }
 
     insertStylesheet() {
@@ -199,6 +216,16 @@ class DeveloperDebugPanel extends MozHTMLElement {
                 this.elements.active_theme
             )
         );
+
+        this.appendChild(
+            html(
+                "div",
+                { class: "dev-native-titlebar-container" },
+                html("label", { for: "dev-native-theme-enabled" }, "Native Titlebar:"),
+                this.elements.native_titlebar
+            )
+        );
+        this.elements.native_titlebar.checked = NativeTitlebar.enabled;
 
         this.appendChild(this.elements.graph);
 
