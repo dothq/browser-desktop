@@ -199,3 +199,8 @@ hr.fdn-separator {
     background-color: var(--lwt-accent-color);
     accent-color: var(--fdn-colours-blue);
 }
+
+/* Hide the toolbar if it has been requested to be hidden */
+:root[chromehidden~="toolbar"] browser-toolbar[name=toolbar] {
+    display: none;
+}
