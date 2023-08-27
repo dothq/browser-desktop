@@ -5,7 +5,10 @@
 browser-window-controls {
     display: flex;
     align-items: center;
-    gap: 0.1rem;
+}
+
+browser-window-controls button:focus-visible {
+    outline: none;
 }
 
 :root[chromemargin=""] browser-window-controls,
@@ -65,6 +68,18 @@ browser-window-controls {
     @media (-moz-gtk-csd-close-button: 0) {
         browser-window-controls .control-close {
             display: none;
+        }
+    }
+
+    @media (-moz-gtk-csd-reversed-placement) {
+        browser-window-controls {
+            order: -2147483647;
+        }
+    }
+
+    @media not (-moz-gtk-csd-reversed-placement) {
+        browser-window-controls {
+            margin-left: auto;
         }
     }
 }
