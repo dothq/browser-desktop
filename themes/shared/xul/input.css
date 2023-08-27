@@ -2,6 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@namespace xul url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
 :root {
     --button-disabled-opacity: 0.5;
 
@@ -12,11 +15,14 @@
     --button-checked-hover-color: color-mix(in srgb, currentColor 35%, transparent);
     --button-checked-active-color: color-mix(in srgb, currentColor 40%, transparent);
 
-    --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --button-ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 button,
-select {
+select,
+xul|button,
+html|button,
+html|select {
     appearance: none;
 
     min-height: 24px;
@@ -31,14 +37,18 @@ select {
     color: unset;
     background-color: var(--button-color);
 
-    transition: background 200ms var(--ease-out-quad);
+    transition: background 200ms var(--button-ease-out-quad),
+        outline 25ms var(--button-ease-out-quad);
 }
 
-button {
+button,
+xul|button,
+html|button {
     padding: 6px 24px;
 }
 
-select {
+select,
+html|select {
     padding: 6px 14px;
 
     background-image: url(chrome://dot/skin/chevron-down.svg);
@@ -48,29 +58,48 @@ select {
     fill: currentColor;
 }
 
-button:hover,
-select:hover,
-select:focus {
+button:hover:not(:disabled),
+select:focus:not(:disabled),
+xul|button:hover:not(:disabled),
+html|button:hover:not(:disabled),
+html|select:hover:not(:disabled),
+html|select:focus:not(:disabled) {
     background-color: var(--button-hover-color);
 }
 
-button:active,
-select:active {
+button:active:not(:disabled),
+select:active:not(:disabled),
+xul|button:active:not(:disabled),
+html|button:active:not(:disabled),
+html|select:active:not(:disabled) {
     background-color: var(--button-active-color);
 }
 
 button:disabled,
-select:disabled {
+select:disabled,
+xul|button:disabled,
+html|button:disabled,
+html|select:disabled {
     filter: opacity(var(--button-disabled-opacity));
 }
 
-button:focus-visible,
-select:focus-visible {
+button:focus-visible:not(:active),
+select:focus-visible,
+xul|button:focus-visible:not(:active),
+html|button:focus-visible:not(:active),
+html|select:focus-visible {
+    background-color: var(--button-color);
+
     outline: 2px solid AccentColor;
     outline-offset: 2px;
+
+    z-index: 1;
 }
 
 button:disabled *,
-select:disabled * {
+select:disabled *,
+xul|button:disabled *,
+html|button:disabled *,
+html|select:disabled * {
     filter: none;
 }
