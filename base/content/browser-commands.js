@@ -10,6 +10,8 @@ var { NavigationHelper } = ChromeUtils.importESModule(
     "resource:///modules/NavigationHelper.sys.mjs"
 );
 
+var { StartPage } = ChromeUtils.importESModule("resource:///modules/StartPage.sys.mjs");
+
 /**
  * @callback BrowserCommandAction
  * @param {BrowserCommandContext} [data] - The action's payload
@@ -137,8 +139,6 @@ var gDotCommands = {
                 action: ({ browser, tab }) => {
                     const { STOP_ALL } = Ci.nsIWebNavigation;
 
-                    console.log("stoppnig")
-
                     browser.stop(STOP_ALL);
                 },
 
@@ -174,7 +174,7 @@ var gDotCommands = {
      * 
      * @returns {BrowserCommandContext}
      */
-    _createContext(overrides) {
+    createContext(overrides) {
         return {
             win: overrides.win,
 
@@ -243,7 +243,7 @@ var gDotCommands = {
             return;
         }
 
-        const context = this._createContext({
+        const context = this.createContext({
             ...ctx,
             win: window,
         });

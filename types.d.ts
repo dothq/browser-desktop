@@ -92,6 +92,7 @@ declare global {
         STATE_FULLSCREEN: 4;
         windowState: number;
         gDotInit: typeof gDotInit;
+        gDotCommands: typeof gDotCommands;
 	}
 
     interface Element extends Gecko.CustomElement {}
