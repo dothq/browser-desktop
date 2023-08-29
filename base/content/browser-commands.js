@@ -23,6 +23,7 @@ var { StartPage } = ChromeUtils.importESModule("resource:///modules/StartPage.sy
  * @typedef {{
  *      win: Window;
  *      tab: BrowserTab;
+ *      gDot: typeof gDot;
  *      browser: ChromeBrowser;
  *      selectedTab: BrowserTab;
  *      execCommand: typeof gDotCommands.execCommand;
@@ -34,11 +35,22 @@ var { StartPage } = ChromeUtils.importESModule("resource:///modules/StartPage.sy
  * @property {BrowserCommandAction} action - The command's action
  * @property {BrowserCommandEnabled} enabled - Determines if the command is enabled
  * @property {string} category - The command's category
+ * @property {string[]} [keybindings] - The command's key bindings
  */
 
 var gDotCommands = {
     COMMAND_CATEGORY_APPLICATION: "application",
     COMMAND_CATEGORY_BROWSING: "browsing",
+    COMMAND_CATEGORY_BROWSER: "browser",
+
+    /**
+     * Locates a command by its ID
+     * @param {string} id 
+     * @returns {BrowserCommand}
+     */
+    getCommandById(id) {
+        return this.commands.find(c => c.name == id);
+    },
 
     /**
      * A list of commands
@@ -46,6 +58,7 @@ var gDotCommands = {
      */
     get commands() {
         return [
+            /* Application */
             {
                 name: "application.new_window",
                 action: () => DotWindowTracker.openWindow(),
@@ -88,6 +101,8 @@ var gDotCommands = {
 
                 category: this.COMMAND_CATEGORY_APPLICATION
             },
+
+            /* Browsing */
             {
                 name: "browsing.navigate_back",
 
@@ -117,12 +132,12 @@ var gDotCommands = {
             {
                 name: "browsing.reload_page",
 
-                action: ({ browser, cached }) => {
+                action: ({ browser, bypassCache }) => {
                     const { LOAD_FLAGS_NONE, LOAD_FLAGS_BYPASS_CACHE } = Ci.nsIWebNavigation;
 
                     let flags = LOAD_FLAGS_NONE;
 
-                    if (cached == true) {
+                    if (bypassCache == true) {
                         flags |= LOAD_FLAGS_BYPASS_CACHE;
                     }
 
@@ -165,6 +180,24 @@ var gDotCommands = {
 
                 category: this.COMMAND_CATEGORY_BROWSING,
             },
+
+            /* Browser */
+            {
+                name: "browser.toolbar.toggle",
+
+                action: ({ gDot, name }) => {
+                    const toolbar = gDot.toolbox.getToolbarByName(name);
+                    if (!toolbar) {
+                        throw new Error(`Toolbar with name '${name}' could not be found!`);
+                    }
+
+                    toolbar.toggleCollapsed();
+                },
+
+                enabled: () => true,
+
+                category: this.COMMAND_CATEGORY_BROWSER,
+            },
         ];
     },
 
@@ -176,6 +209,8 @@ var gDotCommands = {
      */
     createContext(overrides) {
         return {
+            ...overrides,
+
             win: overrides.win,
 
             /**
@@ -219,6 +254,10 @@ var gDotCommands = {
                 return this.win.gDot.tabs._isWebContentsBrowserElement(this.selectedTab.webContents)
                     ? /** @type {ChromeBrowser} */ (this.selectedTab.webContents)
                     : null;
+            },
+
+            get gDot() {
+                return this.win.gDot;
             },
 
             /**
