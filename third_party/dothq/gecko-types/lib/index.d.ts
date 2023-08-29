@@ -26,6 +26,7 @@ export * from "./InspectorUtils";
 export * from "./JSActor";
 export * from "./JSWindowActorChild";
 export * from "./JSWindowActorParent";
+export * from "./Localization";
 export * from "./Log";
 export * from "./Marionette";
 export * from "./MessageManager";

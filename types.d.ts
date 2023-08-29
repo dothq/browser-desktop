@@ -48,6 +48,8 @@ declare global {
 
     var WebExtensionPolicy: Gecko.WebExtensionPolicy;
 
+    var Localization: Gecko.Localization;
+
     /**
      * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
      * 
@@ -93,7 +95,13 @@ declare global {
         windowState: number;
         gDotInit: typeof gDotInit;
         gDotCommands: typeof gDotCommands;
+        mozInnerScreenX: number;
+        mozInnerScreenY: number;
 	}
+
+    interface Document {
+        l10n: Gecko.LocalizationInstance;
+    }
 
     interface Element extends Gecko.CustomElement {}
 }

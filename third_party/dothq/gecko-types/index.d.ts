@@ -54,11 +54,6 @@ declare global {
             ((type: "browser") => Gecko.ChromeBrowser) &
 			((type: string) => XULElement);
 
-		/**
-		 * This is a fluent instance connected to this document.
-		 */
-		l10n: Gecko.FluentLocalization;
-
         /**
          * Determines whether we have had a valid user gesture activation
          */
