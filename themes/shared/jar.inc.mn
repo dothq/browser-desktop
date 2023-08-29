@@ -109,10 +109,5 @@
 % override chrome://global/skin/dialog.css chrome://dot/skin/dialog.css
 % override chrome://global/content/commonDialog.css chrome://dot/skin/dialog.css
 
-  skin/classic/dot/customizableui/customizableui.css           (../shared/customizableui/customizableui.css)
-  skin/classic/dot/customizableui/customizableui-area.css      (../shared/customizableui/customizableui-area.css)
-  skin/classic/dot/customizableui/widgets/browser-frame.css    (../shared/customizableui/widgets/browser-frame.css)
-  skin/classic/dot/customizableui/widgets/toolbar-button.css   (../shared/customizableui/widgets/toolbar-button.css)
-
   skin/classic/dot/dialog.css                                  (../shared/xul/dialog.css)
   skin/classic/dot/input.css                                   (../shared/xul/input.css)

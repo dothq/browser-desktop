@@ -24,9 +24,6 @@
 /* XUL */
 @import url("chrome://dot/skin/input.css");
 
-/* Customizable UI */
-@import url("chrome://dot/skin/customizableui/customizableui.css");
-
 /* Globals */
 :root {
     /* Colours */
