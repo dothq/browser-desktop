@@ -970,7 +970,7 @@ BrowserTabs.prototype = {
         // URL bar is hidden, we will need to make sure the URL is
         // visible in some form prevent spoofing or phishing,
         // especially from untrusted sources like extensions.
-        if (doc.getAttribute("chromehidden").includes("location")) {
+        if (doc.hasAttribute("chromehidden") && doc.getAttribute("chromehidden").includes("location")) {
             if (this._isWebContentsBrowserElement(tab.webContents)) {
                 const uri = Services.io.createExposableURI(
                     /** @type {ChromeBrowser} */(tab.webContents).currentURI

@@ -42,7 +42,10 @@ export const NativeTitlebar = {
      */
     shouldEnforceTitlebar(doc) {
         // Ensure popup windows don't get the custom titlebar treatment
-        if (doc.documentElement.getAttribute("chromehidden")) {
+        if (
+            doc.documentElement.hasAttribute("chromehidden") &&
+            doc.documentElement.getAttribute("chromehidden").length
+        ) {
             doc.documentElement.removeAttribute("chromemargin");
 
             return false;
