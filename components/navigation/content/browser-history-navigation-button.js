@@ -5,16 +5,13 @@
 const createButton = (direction) => class extends BrowserToolbarButton {
     constructor() {
         super();
+
+        this.routineId = direction == "back" ? "navigate-back" : "navigate-forward";
     }
 
     connectedCallback() {
         super.connectedCallback();
 
-        this.label = direction == "back" ? "Back" : "Forward";
-        this.icon = direction == "back" ? "arrow-left" : "arrow-right";
-
-        this.addEventListener("click", this);
-        window.addEventListener("AppCommand", this);
         window.addEventListener("BrowserTabs::LocationChange", this);
         window.addEventListener("load", this);
 
@@ -28,19 +25,6 @@ const createButton = (direction) => class extends BrowserToolbarButton {
      */
     handleEvent(event) {
         switch (event.type) {
-            case "click":
-            case "AppCommand":
-                if (
-                    event.type == "AppCommand" &&
-                    event.command.toLowerCase() !== direction
-                ) return;
-
-                gDotCommands.execCommand(
-                    `browsing.navigate_${direction}`,
-                    { browser: this.context.browser }
-                );
-
-                break;
             case "load":
             case "BrowserTabs::LocationChange":
                 if (direction == "back") {
@@ -56,8 +40,6 @@ const createButton = (direction) => class extends BrowserToolbarButton {
     disconnectedCallback() {
         super.disconnectedCallback();
 
-        this.removeEventListener("click", this);
-        window.removeEventListener("AppCommand", this);
         window.removeEventListener("BrowserTabs::LocationChange", this);
         window.removeEventListener("load", this);
     }

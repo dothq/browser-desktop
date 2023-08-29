@@ -15,26 +15,14 @@ var { BrowserTabsUtils } = ChromeUtils.importESModule(
 class BrowserReloadButton extends BrowserToolbarButton {
     constructor() {
         super();
+
+        this.routineId = "reload-page";
     }
 
     connectedCallback() {
         super.connectedCallback();
 
-        this.label = "Reload";
-        this.icon = "reload";
-
-        this.addEventListener("click", this);
-        window.addEventListener("BrowserTabs::BrowserStateChange", this);
-    }
-
-    handleReload(cached = false) {
-        gDotCommands.execCommand(
-            "browsing.reload_stop_page",
-            {
-                browser: this.context.browser,
-                cached
-            }
-        );
+        window.addEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
     }
 
     /**
@@ -56,8 +44,7 @@ class BrowserReloadButton extends BrowserToolbarButton {
             BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */(request))
         );
 
-        this.icon = isLoading ? "close" : "reload";
-        this.label = isLoading ? "Stop" : "Reload";
+        this.routineId = isLoading ? "stop-page" : "reload-page";
     }
 
     /**
@@ -66,9 +53,6 @@ class BrowserReloadButton extends BrowserToolbarButton {
      */
     handleEvent(event) {
         switch (event.type) {
-            case "click":
-                this.handleReload(/** @type {MouseEvent} */(event).shiftKey);
-                break;
             case "BrowserTabs::BrowserStateChange":
                 this.onStateChanged(event.detail);
                 break;
@@ -78,8 +62,7 @@ class BrowserReloadButton extends BrowserToolbarButton {
     disconnectedCallback() {
         super.disconnectedCallback();
 
-        this.removeEventListener("click", this);
-        window.removeEventListener("BrowserTabs::BrowserStateChange", this);
+        window.removeEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
     }
 }
 
