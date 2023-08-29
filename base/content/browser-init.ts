@@ -151,6 +151,10 @@ var gDotInit = {
 			}
 		}
 
+        // Track the window focus state and record it to the root
+        window.addEventListener("focus", () => document.documentElement.toggleAttribute("blurred", false));
+        window.addEventListener("blur", () => document.documentElement.toggleAttribute("blurred", true));
+
         NativeTitlebar.init(document);
 
 		new LightweightThemeConsumer(document);
