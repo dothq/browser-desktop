@@ -26,6 +26,13 @@ export const _gDot = {
     tabs: null as typeof BrowserTabs.prototype,
 
     /**
+     * The toolbox for this browser session
+     */
+    get toolbox() {
+        return document.querySelector("browser-toolbox") as BrowserToolbox;
+    },
+
+    /**
      * Determines whether the browser session supports multiple processes
      */
     get isMultiProcess(): boolean {
@@ -69,6 +76,8 @@ export const _gDot = {
 
 		// @todo(EnderDev) add types for DotCustomizableUI
 		globalThis.DotCustomizableUI.initialize();
+
+        gDotRoutines.init();
 
 		gDot._done = true;
 	}

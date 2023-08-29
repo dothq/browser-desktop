@@ -5,14 +5,43 @@
 browser-toolbar {
     display: flex;
     align-items: stretch;
+    flex: 1;
+
     background-color: transparent;
     color: var(--lwt-text-color);
-    gap: 4px;
+
     padding-inline: 4px;
+
     -moz-window-dragging: drag;
-    flex: 1;
+
+    overflow: clip;
 }
 
 browser-toolbar.accent {
     background-color: var(--toolbar-bgcolor);
+}
+
+browser-toolbar:not([initial])::part(csd) {
+    display: none !important;
+}
+
+browser-toolbar::part(content) {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+}
+
+:root[chromemargin=""] browser-window-controls,
+:root:not([chromemargin]) browser-window-controls {
+    display: none;
+}
+
+:root[chromemargin=""] browser-toolbar::part(csd),
+:root:not([chromemargin]) browser-toolbar::part(csd) {
+    visibility: hidden;
+    max-width: 0;
+}
+
+browser-toolbar[collapse] {
+    display: none;
 }

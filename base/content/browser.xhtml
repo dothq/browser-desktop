@@ -63,6 +63,7 @@
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser.js", this);
             Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-commands.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-routines.js", this);
 
             window.addEventListener(
                 "MozBeforeInitialXULLayout",
@@ -89,17 +90,27 @@
         <html:browser-tabs-collator></html:browser-tabs-collator>
 
         <html:div id="mount">
-            <div id="toolbox">
+            <html:browser-toolbox>
+                <html:browser-toolbar name="menubar" mode="text">
+                    <html:span>File</html:span>
+                    <html:span>Edit</html:span>
+                    <html:span>View</html:span>
+                    <html:span>History</html:span>
+                    <html:span>Bookmarks</html:span>
+                    <html:span>Tools</html:span>
+                    <html:span>Help</html:span>
+
+                    <html:browser-spring></html:browser-spring>
+                </html:browser-toolbar>
+
                 <html:browser-toolbar name="toolbar">
-                    <html:browser-spring  style="--spring-grip: 40px;"></html:browser-spring>
+                    <html:browser-spring style="--spring-grip: 40px;"></html:browser-spring>
 
                     <html:browser-tabs></html:browser-tabs>
 
                     <html:button is="add-tab-button"></html:button>
 
                     <html:browser-spring></html:browser-spring>
-
-                    <html:browser-window-controls></html:browser-window-controls>
                 </html:browser-toolbar>
 
                 <html:browser-toolbar name="navbar" class="accent">
@@ -113,7 +124,7 @@
 
                     <html:browser-spring style="--spring-grip: 80px;"></html:browser-spring>
                 </html:browser-toolbar>
-            </div>
+            </html:browser-toolbox>
 
             <div id="tabspanel">
                 

@@ -21,6 +21,7 @@ let elements = {
     "browser-tabs": "chrome://dot/content/widgets/browser-tabs.js",
     "browser-tabs-collator": "chrome://dot/content/widgets/browser-tabs-collator.js",
     "browser-toolbar": "chrome://dot/content/widgets/browser-toolbar.js",
+    "browser-toolbox": "chrome://dot/content/widgets/browser-toolbox.js",
     "browser-window-controls": "chrome://dot/content/widgets/browser-window-controls.js",
 
     "add-tab-button": "chrome://dot/content/widgets/browser-add-tab-button.js",

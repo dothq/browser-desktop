@@ -11,9 +11,8 @@ browser-window-controls button:focus-visible {
     outline: none !important;
 }
 
-:root[chromemargin=""] browser-window-controls,
-:root:not([chromemargin]) browser-window-controls {
-    display: none;
+browser-window-controls[hidden] {
+    display: none !important;
 }
 
 :root[chromepopup] browser-window-controls .control-min {
@@ -74,12 +73,14 @@ browser-window-controls button:focus-visible {
     @media (-moz-gtk-csd-reversed-placement) {
         browser-window-controls {
             order: -2147483647;
+            margin-inline-end: 8px;
         }
     }
 
     @media not (-moz-gtk-csd-reversed-placement) {
         browser-window-controls {
             margin-left: auto;
+            margin-inline-start: 4px;
         }
     }
 }

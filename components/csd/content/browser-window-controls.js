@@ -17,12 +17,12 @@ class BrowserWindowControls extends MozHTMLElement {
             max: this.querySelector(".control-max"),
             restore: this.querySelector(".control-restore"),
             close: this.querySelector(".control-close")
-        }
+        };
     }
 
     /**
      * Handle incoming events to window controls
-     * @param {Event} event 
+     * @param {Event} event
      */
     handleEvent(event) {
         switch (event.type) {
@@ -35,14 +35,15 @@ class BrowserWindowControls extends MozHTMLElement {
                     "data-l10n-args",
                     JSON.stringify({
                         isPopup: window.gDot.isPopupWindow
-                    }));
+                    })
+                );
                 break;
         }
     }
 
     /**
      * Handle clicks to a window control
-     * @param {Event} event 
+     * @param {Event} event
      */
     onControlClick(event) {
         switch (event.target) {
@@ -68,26 +69,34 @@ class BrowserWindowControls extends MozHTMLElement {
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
-        this.appendChild(html("button", {
-            class: "control-min",
-            dataL10nId: "browser-window-minimize-button"
-        }));
+        this.appendChild(
+            html("button", {
+                class: "control-min",
+                dataL10nId: "browser-window-minimize-button"
+            })
+        );
 
-        this.appendChild(html("button", {
-            class: "control-max",
-            dataL10nId: "browser-window-maximize-button",
-            dataL10nArgs: JSON.stringify({ isPopup: false })
-        }));
+        this.appendChild(
+            html("button", {
+                class: "control-max",
+                dataL10nId: "browser-window-maximize-button",
+                dataL10nArgs: JSON.stringify({ isPopup: false })
+            })
+        );
 
-        this.appendChild(html("button", {
-            class: "control-restore",
-            dataL10nId: "browser-window-restore-button"
-        }));
+        this.appendChild(
+            html("button", {
+                class: "control-restore",
+                dataL10nId: "browser-window-restore-button"
+            })
+        );
 
-        this.appendChild(html("button", {
-            class: "control-close",
-            dataL10nId: "browser-window-close-button"
-        }));
+        this.appendChild(
+            html("button", {
+                class: "control-close",
+                dataL10nId: "browser-window-close-button"
+            })
+        );
 
         this.elements.min.addEventListener("click", this);
         this.elements.max.addEventListener("click", this);

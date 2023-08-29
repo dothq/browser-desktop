@@ -1,0 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-toolbox {
+    display: flex;
+    flex-direction: column;
+    color: var(--lwt-text-color);
+    background-color: var(--lwt-accent-color);
+    accent-color: var(--fdn-colours-blue);
+}
+
+:root[chromemargin]:not([chromemargin=""]) browser-toolbox {
+    -moz-window-dragging: drag;
+}

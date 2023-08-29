@@ -14,7 +14,7 @@ class BrowserToolbar extends MozHTMLElement {
      *
      * `text` - Only show text in toolbar buttons
      *
-     * `icons_beside_text` - Show icons beside text in toolbar buttons
+     * `icons_text` - Show icons beside text in toolbar buttons
      */
     get mode() {
         return this.getAttribute("mode");
@@ -27,10 +27,69 @@ class BrowserToolbar extends MozHTMLElement {
         this.setAttribute("mode", newMode);
     }
 
+    /**
+     * The name of this toolbar
+     */
+    get name() {
+        return this.getAttribute("name");
+    }
+
+    /**
+     * Update the toolbar's name
+     */
+    set name(newName) {
+        this.setAttribute("name", newName);
+    }
+
+    /**
+     * Determine whether this toolbar is the initial toolbar in the browser
+     * 
+     * We need a way of working out which toolbar is the first in the DOM
+     * so we can display the CSD in the correct location.
+     */
+    maybePromoteToolbar() {
+        const allToolbars = Array.from(document.querySelectorAll("browser-toolbar"));
+
+        const index = allToolbars.findIndex(n => n.isEqualNode(this));
+
+        const bounds = this.getBoundingClientRect();
+
+        const isInitial = (
+            bounds.width > 0 &&
+            bounds.height > 0 &&
+            !Array.from(document.querySelectorAll("browser-toolbar")).find(tb => tb.hasAttribute("initial"))
+        );
+
+        console.log(isInitial);
+
+        this.toggleAttribute("initial", isInitial);
+    }
+
+    /**
+     * Toggles the collapsed state of this toolbar
+     */
+    toggleCollapsed() {
+        this.toggleAttribute("collapse");
+    }
+
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
+        this.attachShadow({ mode: "open" });
+
+        this.shadowRoot.appendChild(
+            html("link", {
+                rel: "stylesheet",
+                href: "chrome://dot/content/widgets/browser-window-controls.css"
+            })
+        );
+
+        this.shadowRoot.appendChild(html("slot", { part: "content" }));
+        this.shadowRoot.appendChild(html("browser-window-controls", { part: "csd" }));
+
         this.mode = "icons";
+
+        this.maybePromoteToolbar();
     }
 
     disconnectedCallback() {

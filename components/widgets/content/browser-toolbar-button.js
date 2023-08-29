@@ -19,6 +19,12 @@ class BrowserToolbarButton extends HTMLButtonElement {
         this._context = gDotCommands.createContext({ win: window });
     }
 
+    static get observedAttributes() {
+        return [
+            "routine"
+        ]
+    }
+
     /**
      * Button handler context
      */
@@ -82,17 +88,54 @@ class BrowserToolbarButton extends HTMLButtonElement {
      */
     get toolbar() {
         return this.closest("browser-toolbar");
+
     }
 
     /**
-     * Handles clicks when the toolbar button is disabled
+     * The routine ID for this toolbar button
+     * Used to determine what icon, label and action to use
+     */
+    get routineId() {
+        return this.getAttribute("routine");
+    }
+
+    /**
+     * Updates the routine ID of the toolbar button
+     */
+    set routineId(newRoutine) {
+        this.setAttribute("routine", newRoutine);
+        this.handleRoutineUpdate();
+    }
+
+    /**
+     * Gets the routine data using the routine ID attribute
+     */
+    get routine() {
+        return gDotRoutines.getRoutineById(this.routineId);
+    }
+
+    /**
+     * Handles clicks to the toolbar button
      * @param {MouseEvent} event 
      */
-    onDisabledClick(event) {
+    handleClick(event) {
         if (this.disabled) {
             event.preventDefault();
             event.stopPropagation();
+            return;
         }
+
+        console.log("CLICK", this.routine);
+
+        if (this.routine) {
+            this.routine.performRoutine(event);
+        }
+    }
+
+    handleRoutineUpdate() {
+        this.label = this.routine.localizedLabel;
+        this.title = this.routine.localizedLabelAndKeybind;
+        this.icon = this.routine.icon;
     }
 
     connectedCallback() {
@@ -101,13 +144,43 @@ class BrowserToolbarButton extends HTMLButtonElement {
         this.appendChild(this.elements.icon);
         this.appendChild(this.elements.label);
 
-        this.title = this.label;
+        if (this.routine) {
+            this.handleRoutineUpdate();
+        } else {
+            if (this.getAttribute("label")) {
+                this.label = this.getAttribute("label");
+                this.title = this.label;
+                this.removeAttribute("label");
+            }
 
-        this.addEventListener("click", this.onDisabledClick.bind(this));
+            if (this.getAttribute("icon")) {
+                this.icon = this.getAttribute("icon");
+                this.removeAttribute("icon");
+            }
+        }
+
+        this.addEventListener("click", this.handleClick);
+    }
+
+    /**
+     * Handles attribute changes to the component
+     * @param {string} attribute 
+     * @param {any} oldValue 
+     * @param {any} newValue 
+     */
+    attributeChangedCallback(attribute, oldValue, newValue) {
+        if (oldValue == newValue || !newValue) return;
+
+        switch (attribute) {
+            case "routine":
+                this.routineId = newValue;
+
+                break;
+        }
     }
 
     disconnectedCallback() {
-        this.removeEventListener("click", this.onDisabledClick.bind(this));
+        this.removeEventListener("click", this.handleClick);
     }
 }
 

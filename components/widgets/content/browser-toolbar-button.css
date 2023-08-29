@@ -11,11 +11,11 @@
     background-color: transparent;
 
     margin-block: 4px;
-    padding: var(--browser-ui-density) calc(var(--browser-ui-density) + 6px);
+    padding: calc(var(--browser-ui-density) - 2px) calc(var(--browser-ui-density) + 2px);
 
     border-radius: 6px;
 
-    gap: 6px;
+    gap: 8px;
 
     transition: background 200ms var(--button-ease-out-quad),
         outline 25ms var(--button-ease-out-quad);
@@ -28,15 +28,18 @@
 }
 
 /* Make sure in icons mode that the toolbar button is exactly a square */
-browser-toolbar[mode=icons] .toolbar-button {
+.toolbar-button[mode=icons],
+browser-toolbar[mode=icons] .toolbar-button:not([mode]) {
     aspect-ratio: 1;
     padding: var(--browser-ui-density);
 }
 
-browser-toolbar[mode=icons] .toolbar-button>*:not(.toolbar-button-icon) {
+.toolbar-button[mode=icons]>*:not(.toolbar-button-icon),
+browser-toolbar[mode=icons] .toolbar-button:not([mode])>*:not(.toolbar-button-icon) {
     display: none;
 }
 
-browser-toolbar[mode=text] .toolbar-button>*:not(.toolbar-button-label) {
+.toolbar-button[mode=text]>*:not(.toolbar-button-label),
+browser-toolbar[mode=text] .toolbar-button:not([mode])>*:not(.toolbar-button-label) {
     display: none;
 }

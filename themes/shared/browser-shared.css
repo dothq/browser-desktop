@@ -19,6 +19,7 @@
 @import url("chrome://dot/content/widgets/browser-tabs.css");
 @import url("chrome://dot/content/widgets/browser-spring.css");
 @import url("chrome://dot/content/widgets/browser-toolbar-button.css");
+@import url("chrome://dot/content/widgets/browser-toolbox.css");
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");
@@ -183,24 +184,17 @@ hr.fdn-separator {
     border-top: 1px solid var(--chrome-content-separator-color);
 }
 
-:root[chromemargin]:not([chromemargin=""]) #toolbox {
-    -moz-window-dragging: drag;
-}
-
 :disabled {
     opacity: 0.5;
     pointer-events: none;
 }
 
-#toolbox {
-    display: flex;
-    flex-direction: column;
-    color: var(--lwt-text-color);
-    background-color: var(--lwt-accent-color);
-    accent-color: var(--fdn-colours-blue);
-}
-
 /* Hide the toolbar if it has been requested to be hidden */
 :root[chromehidden~="toolbar"] browser-toolbar[name=toolbar] {
+    display: none;
+}
+
+/* Hide the menubar if it has been requested to be hidden */
+:root[chromehidden~="menubar"] browser-toolbar[name=menubar] {
     display: none;
 }
