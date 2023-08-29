@@ -94,6 +94,17 @@ html|select:focus-visible {
     outline-offset: 2px;
 
     z-index: 1;
+
+    transition: outline-offset 50ms var(--button-ease-out-quad);
+}
+
+button:focus-visible:active,
+xul|button:focus-visible:active,
+html|button:focus-visible:active {
+    outline: 2px solid AccentColor;
+    outline-offset: 0px;
+
+    transition: outline-offset 100ms var(--button-ease-out-quad);
 }
 
 button:disabled *,
