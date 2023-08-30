@@ -8,6 +8,21 @@ class BrowserToolbar extends MozHTMLElement {
     }
 
     /**
+     * The anatomy of the toolbar's shadow DOM
+     */
+    get shadowElements() {
+        return {
+            slot: /** @type {HTMLSlotElement} */ (
+                this.shadowRoot.querySelector("slot") || html("slot", { part: "content" })
+            ),
+            csd: /** @type {BrowserWindowControls} */ (
+                this.shadowRoot.querySelector("browser-window-controls") ||
+                html("browser-window-controls", { part: "csd" })
+            )
+        };
+    }
+
+    /**
      * Determines the toolbar's display mode
      *
      * `icons` - Only show icons in toolbar buttons
@@ -43,24 +58,19 @@ class BrowserToolbar extends MozHTMLElement {
 
     /**
      * Determine whether this toolbar is the initial toolbar in the browser
-     * 
+     *
      * We need a way of working out which toolbar is the first in the DOM
      * so we can display the CSD in the correct location.
      */
     maybePromoteToolbar() {
-        const allToolbars = Array.from(document.querySelectorAll("browser-toolbar"));
-
-        const index = allToolbars.findIndex(n => n.isEqualNode(this));
-
         const bounds = this.getBoundingClientRect();
 
-        const isInitial = (
+        const isInitial =
             bounds.width > 0 &&
             bounds.height > 0 &&
-            !Array.from(document.querySelectorAll("browser-toolbar")).find(tb => tb.hasAttribute("initial"))
-        );
-
-        console.log(isInitial);
+            !Array.from(document.querySelectorAll("browser-toolbar")).find((tb) =>
+                tb.hasAttribute("initial")
+            );
 
         this.toggleAttribute("initial", isInitial);
     }
@@ -70,6 +80,32 @@ class BrowserToolbar extends MozHTMLElement {
      */
     toggleCollapsed() {
         this.toggleAttribute("collapse");
+    }
+
+    /**
+     * Handles incoming events
+     * @param {Event} event
+     */
+    handleEvent(event) {
+        switch (event.type) {
+            case "change":
+                this.onCSDPositionChange(/** @type {MediaQueryListEvent} */(event));
+                break;
+        }
+    }
+
+    /**
+     * Handles changes to the CSD's position
+     * @param {MediaQueryListEvent | MediaQueryList} event
+     */
+    onCSDPositionChange(event) {
+        const reversed = event.matches;
+
+        if (reversed) {
+            this.shadowRoot.prepend(this.shadowElements.csd);
+        } else {
+            this.shadowRoot.append(this.shadowElements.csd);
+        }
     }
 
     connectedCallback() {
@@ -84,8 +120,13 @@ class BrowserToolbar extends MozHTMLElement {
             })
         );
 
-        this.shadowRoot.appendChild(html("slot", { part: "content" }));
-        this.shadowRoot.appendChild(html("browser-window-controls", { part: "csd" }));
+        this.shadowRoot.appendChild(this.shadowElements.slot);
+        this.shadowRoot.appendChild(this.shadowElements.csd);
+
+        const { csdReversedMediaQuery } = this.shadowElements.csd;
+
+        csdReversedMediaQuery.addEventListener("change", this);
+        this.onCSDPositionChange(csdReversedMediaQuery);
 
         this.mode = "icons";
 

@@ -7,16 +7,43 @@ class BrowserWindowControls extends MozHTMLElement {
         super();
     }
 
+    /** @type {MediaQueryList} */
+    csdReversedMediaQuery = null;
+
     /**
      * All window control elements
-     * @type {Record<string, HTMLButtonElement>}
      */
     get elements() {
         return {
-            min: this.querySelector(".control-min"),
-            max: this.querySelector(".control-max"),
-            restore: this.querySelector(".control-restore"),
-            close: this.querySelector(".control-close")
+            min: /** @type {HTMLButtonElement} */ (
+                this.querySelector(".control-min") ||
+                html("button", {
+                    class: "control-min",
+                    dataL10nId: "browser-window-minimize-button"
+                })
+            ),
+            max: /** @type {HTMLButtonElement} */ (
+                this.querySelector(".control-max") ||
+                html("button", {
+                    class: "control-max",
+                    dataL10nId: "browser-window-maximize-button",
+                    dataL10nArgs: JSON.stringify({ isPopup: false })
+                })
+            ),
+            restore: /** @type {HTMLButtonElement} */ (
+                this.querySelector(".control-restore") ||
+                html("button", {
+                    class: "control-restore",
+                    dataL10nId: "browser-window-restore-button"
+                })
+            ),
+            close: /** @type {HTMLButtonElement} */ (
+                this.querySelector(".control-close") ||
+                html("button", {
+                    class: "control-close",
+                    dataL10nId: "browser-window-close-button"
+                })
+            )
         };
     }
 
@@ -27,9 +54,11 @@ class BrowserWindowControls extends MozHTMLElement {
     handleEvent(event) {
         switch (event.type) {
             case "click":
-                return this.onControlClick(event);
+                this.onControlClick(event);
+                break;
             case "sizemodechange":
-                return this.onSizeModeChange(event);
+                this.onSizeModeChange(event);
+                break;
             case "DOMContentLoaded":
                 this.elements.max.setAttribute(
                     "data-l10n-args",
@@ -37,6 +66,9 @@ class BrowserWindowControls extends MozHTMLElement {
                         isPopup: window.gDot.isPopupWindow
                     })
                 );
+                break;
+            case "change":
+                this.render(/** @type {MediaQueryListEvent} */(event).matches);
                 break;
         }
     }
@@ -69,42 +101,43 @@ class BrowserWindowControls extends MozHTMLElement {
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
 
-        this.appendChild(
-            html("button", {
-                class: "control-min",
-                dataL10nId: "browser-window-minimize-button"
-            })
-        );
+        this.csdReversedMediaQuery = window.matchMedia("(-moz-gtk-csd-available) and (-moz-gtk-csd-reversed-placement)")
+        this.csdReversedMediaQuery.addEventListener("change", this);
 
-        this.appendChild(
-            html("button", {
-                class: "control-max",
-                dataL10nId: "browser-window-maximize-button",
-                dataL10nArgs: JSON.stringify({ isPopup: false })
-            })
-        );
+        window.addEventListener("sizemodechange", this);
+        window.addEventListener("DOMContentLoaded", this);
 
-        this.appendChild(
-            html("button", {
-                class: "control-restore",
-                dataL10nId: "browser-window-restore-button"
-            })
-        );
+        this.render(this.csdReversedMediaQuery.matches);
+    }
 
-        this.appendChild(
-            html("button", {
-                class: "control-close",
-                dataL10nId: "browser-window-close-button"
-            })
-        );
+    render(reversed = false) {
+        this.elements.min.removeEventListener("click", this);
+        this.elements.max.removeEventListener("click", this);
+        this.elements.restore.removeEventListener("click", this);
+        this.elements.close.removeEventListener("click", this);
+
+        this.replaceChildren();
+
+        if (reversed) {
+            this.append(
+                this.elements.close,
+                this.elements.min,
+                this.elements.max,
+                this.elements.restore
+            );
+        } else {
+            this.append(
+                this.elements.min,
+                this.elements.max,
+                this.elements.restore,
+                this.elements.close
+            );
+        }
 
         this.elements.min.addEventListener("click", this);
         this.elements.max.addEventListener("click", this);
         this.elements.restore.addEventListener("click", this);
         this.elements.close.addEventListener("click", this);
-
-        window.addEventListener("sizemodechange", this);
-        window.addEventListener("DOMContentLoaded", this);
 
         this.onSizeModeChange();
     }

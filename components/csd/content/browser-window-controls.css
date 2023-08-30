@@ -5,6 +5,7 @@
 browser-window-controls {
     display: flex;
     align-items: center;
+    -moz-window-dragging: no-drag;
 }
 
 browser-window-controls button:focus-visible {
@@ -24,7 +25,6 @@ browser-window-controls[hidden] {
         browser-window-controls .control-min {
             appearance: auto;
             -moz-default-appearance: -moz-window-button-minimize;
-            order: env(-moz-gtk-csd-minimize-button-position);
         }
     }
 
@@ -38,13 +38,11 @@ browser-window-controls[hidden] {
         browser-window-controls .control-max {
             appearance: auto;
             -moz-default-appearance: -moz-window-button-maximize;
-            order: env(-moz-gtk-csd-maximize-button-position);
         }
 
         browser-window-controls .control-restore {
             appearance: auto;
             -moz-default-appearance: -moz-window-button-restore;
-            order: env(-moz-gtk-csd-maximize-button-position);
         }
     }
 
@@ -60,7 +58,6 @@ browser-window-controls[hidden] {
         browser-window-controls .control-close {
             appearance: auto;
             -moz-default-appearance: -moz-window-button-close;
-            order: env(-moz-gtk-csd-close-button-position);
         }
     }
 
@@ -72,7 +69,6 @@ browser-window-controls[hidden] {
 
     @media (-moz-gtk-csd-reversed-placement) {
         browser-window-controls {
-            order: -2147483647;
             margin-inline-end: 8px;
         }
     }
