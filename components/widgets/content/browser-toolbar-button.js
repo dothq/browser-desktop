@@ -118,7 +118,7 @@ class BrowserToolbarButton extends HTMLButtonElement {
      * Handles clicks to the toolbar button
      * @param {MouseEvent} event 
      */
-    handleClick(event) {
+    _handleTBClick(event) {
         if (this.disabled) {
             event.preventDefault();
             event.stopPropagation();
@@ -159,7 +159,7 @@ class BrowserToolbarButton extends HTMLButtonElement {
             }
         }
 
-        this.addEventListener("click", this.handleClick);
+        this.addEventListener("click", this._handleTBClick);
     }
 
     /**
@@ -180,7 +180,7 @@ class BrowserToolbarButton extends HTMLButtonElement {
     }
 
     disconnectedCallback() {
-        this.removeEventListener("click", this.handleClick);
+        this.removeEventListener("click", this._handleTBClick);
     }
 }
 
