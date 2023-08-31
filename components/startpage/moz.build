@@ -9,7 +9,3 @@ EXTRA_JS_MODULES += [
 ]
 
 JAR_MANIFESTS += ["jar.mn"]
-
-TypedModules(
-    "content/home.ts"
-)

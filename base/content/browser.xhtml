@@ -40,7 +40,7 @@
         <script>
             // Important utilities/globals for browser
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-utility-overlay.js", this);
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-compat.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-compat.js", this);
         </script>
         <script>
             var { AppConstants } = ChromeUtils.importESModule(
@@ -60,8 +60,8 @@
             Services.scriptloader.loadSubScript("chrome://dot/content/widgets/browser-toolbar-button.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-elements.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-window.js", this);
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser.js", this);
-            Services.scriptloader.loadSubScript("resource://dot/base/content/browser-init.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser.js", this);
+            Services.scriptloader.loadSubScript("chrome://dot/content/browser-init.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-commands.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-routines.js", this);
 

@@ -2,8 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { LoadURIOptions } from "third_party/dothq/gecko-types/lib/nsIWebNavigation";
-
 /**
  * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
  * 
@@ -27,22 +25,30 @@ var gBrowser = {
     },
 
     get currentURI() {
-        return this.selectedBrowser.currentURI;
+        if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
+            return Services.io.newURI("about:blank");
+        }
+
+        return /** @type {ChromeBrowser} */ (this.selectedBrowser).currentURI;
     },
 
     get contentPrincipal() {
-        return this.selectedBrowser.contentPrincipal;
+        if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
+            return null;
+        }
+
+        return /** @type {ChromeBrowser} */ (this.selectedBrowser).contentPrincipal;
     },
 
     get selectedTab() {
         return gDot.tabs.selectedTab;
     },
 
-    set selectedTab(newTab: BrowserTab) {
+    set selectedTab(newTab) {
         gDot.tabs.selectedTab = newTab;
     },
 
-    get selectedBrowser() { 
+    get selectedBrowser() {
         return gDot.tabs.selectedTab.webContents;
     },
 
@@ -54,23 +60,32 @@ var gBrowser = {
         return document
     },
 
-    getTabForBrowser(browser: ChromeBrowser) {
+    /**
+     * @param {ChromeBrowser} browser 
+     * @returns {BrowserTab}
+     */
+    getTabForBrowser(browser) {
         return gDot.tabs.getTabForWebContents(browser);
     },
 
-    getBrowserContainer(browser: ChromeBrowser) {
+    /**
+     * @param {ChromeBrowser} browser 
+     * @returns {HTMLElement}
+     */
+    getBrowserContainer(browser) {
         const tab = gDot.tabs.getTabForWebContents(browser);
         return tab.webContentsPanel;
     },
 
-    addTab(uri: string, options: LoadURIOptions) {
+    /**
+     * @param {string} uri
+     * @param {LoadURIOptions} options
+     * @returns {HTMLElement}
+     */
+    addTab(uri, options) {
         return gDot.tabs.createTab({
             ...options,
             uri
         });
     }
 }
-
-export {
-    gBrowser
-};

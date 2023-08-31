@@ -10,3 +10,4 @@ dot.jar:
 
     content/startpage/home.html                    (content/home.html)
     content/startpage/home.css                     (content/home.css)
+    content/startpage/home.js                      (content/home.js)

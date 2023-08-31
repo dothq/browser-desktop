@@ -3,16 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 ChromeUtils.defineESModuleGetters(globalThis, {
-	DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs",
-	DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
+    DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs",
+    DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
 });
 
 var { NavigationHelper } = ChromeUtils.importESModule(
-	"resource:///modules/NavigationHelper.sys.mjs"
+    "resource:///modules/NavigationHelper.sys.mjs"
 );
 
 var { BrowserTabs } = ChromeUtils.importESModule(
-	"resource:///modules/BrowserTabs.sys.mjs"
+    "resource:///modules/BrowserTabs.sys.mjs"
 );
 
 var { NativeTitlebar } = ChromeUtils.importESModule(
@@ -20,22 +20,25 @@ var { NativeTitlebar } = ChromeUtils.importESModule(
 );
 
 // This is exported only for type checking reasons, this should never be imported directly
-export const _gDot = {
-	_done: false,
+const _gDot = {
+    _done: false,
 
-    tabs: null as typeof BrowserTabs.prototype,
+    /** @type {typeof BrowserTabs.prototype} */
+    tabs: null,
 
     /**
      * The toolbox for this browser session
+     * @returns {BrowserToolbox}
      */
     get toolbox() {
-        return document.querySelector("browser-toolbox") as BrowserToolbox;
+        return document.querySelector("browser-toolbox");
     },
 
     /**
      * Determines whether the browser session supports multiple processes
+     * @returns {boolean}
      */
-    get isMultiProcess(): boolean {
+    get isMultiProcess() {
         return window.docShell.QueryInterface(
             Ci.nsILoadContext
         ).useRemoteTabs
@@ -43,8 +46,9 @@ export const _gDot = {
 
     /**
      * Determines whether this browser session uses remote subframes
+     * @returns {boolean}
      */
-    get usesRemoteSubframes(): boolean {
+    get usesRemoteSubframes() {
         return window.docShell.QueryInterface(
             Ci.nsILoadContext
         ).useRemoteSubframes;
@@ -55,7 +59,7 @@ export const _gDot = {
      */
     get isPopupWindow() {
         return (
-            document.documentElement.hasAttribute("chromehidden") && 
+            document.documentElement.hasAttribute("chromehidden") &&
             document.documentElement.hasAttribute("chromepopup")
         );
     },
@@ -64,21 +68,21 @@ export const _gDot = {
         return NativeTitlebar.enabled;
     },
 
-	/**
-	 * Initialises the browser and its components
-	 */
-	init() {
-		if (gDot._done) {
-			throw new Error("Browser cannot be initialized twice!");
-		}
+    /**
+     * Initialises the browser and its components
+     */
+    init() {
+        if (gDot._done) {
+            throw new Error("Browser cannot be initialized twice!");
+        }
 
         gDot.tabs = new BrowserTabs(window);
 
-		// @todo(EnderDev) add types for DotCustomizableUI
-		globalThis.DotCustomizableUI.initialize();
+        // @todo(EnderDev) add types for DotCustomizableUI
+        globalThis.DotCustomizableUI.initialize();
 
         gDotRoutines.init();
 
-		gDot._done = true;
-	}
+        gDot._done = true;
+    }
 };
