@@ -8,6 +8,13 @@ class BrowserTabsElement extends MozHTMLElement {
     }
 
     /**
+     * The currently selected tab
+     */
+    get selectedTab() {
+        return this.getRenderedTabByInternalId(gDot.tabs.selectedTab.id);
+    }
+
+    /**
      * Fired when we have incoming events
      * @param {CustomEvent} event 
      */
