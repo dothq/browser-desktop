@@ -2,12 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { _gDot } from "./base/content/browser";
-import * as BrowserCompat from "./base/content/browser-compat";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
 import "./mozbuild";
-import * as BrowserInit from "base/content/browser-init";
 
 type MozXULElement = {
     prototype: Gecko.MozXULElement;
@@ -28,7 +25,7 @@ declare global {
 
 	var BrowserUIUtils: Gecko.BrowserUIUtils;
 	var gDot: typeof _gDot;
-    var gDotInit: typeof BrowserInit.gDotInit;
+    var gDotInit: typeof gDotInit;
 	var XULBrowserWindow: nsIXULBrowserWindow;
 
 	var XULElement: Gecko.XULElement;
@@ -61,7 +58,7 @@ declare global {
      * 
      * @deprecated You shouldn't use this in Dot code directly! This is purely intended for use by existing Mozilla modules and scripts to maintain compatibility.
      */
-    var gBrowser: typeof BrowserCompat.gBrowser;
+    var gBrowser: typeof gBrowser;
 
 	interface Window {
 		setToolbarVisibility: any;
@@ -97,6 +94,7 @@ declare global {
         gDotCommands: typeof gDotCommands;
         mozInnerScreenX: number;
         mozInnerScreenY: number;
+        windowRoot: Gecko.WindowRoot;
 	}
 
     interface Document {

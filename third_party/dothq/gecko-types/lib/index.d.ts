@@ -59,6 +59,7 @@ export * from "./SharedLibrary";
 export * from "./WebExtensionPolicy";
 export * from "./WindowGlobalChild";
 export * from "./WindowGlobalParent";
+export * from "./WindowRoot";
 export * from "./WindowUtils";
 export * from "./XPCOMUtils";
 export * from "./XULElement";
