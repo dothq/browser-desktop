@@ -6,6 +6,7 @@ browser-tabs {
     display: flex;
     background-color: var(--lwt-accent-color);
     width: max-content;
+    gap: 1px;
 }
 
 browser-toolbar[initial] browser-tabs {

@@ -49,8 +49,22 @@ class BrowserRenderedTab extends MozHTMLElement {
         this.linkedTab.select();
     }
 
+    _onTabMouseOver() {
+        if (this.previousElementSibling) {
+            this.previousElementSibling.toggleAttribute("precedes-hover", true);
+        }
+    }
+
+    _onTabMouseOut() {
+        if (this.previousElementSibling) {
+            this.previousElementSibling.removeAttribute("precedes-hover");
+        }
+    }
+
     connectedCallback() {
         if (this.delayConnectedCallback()) return;
+
+        this.appendChild(html("div", { class: "browser-tab-background" }));
 
         this.appendChild(
             html(
@@ -72,12 +86,16 @@ class BrowserRenderedTab extends MozHTMLElement {
         this.style.width = "220px";
 
         this.addEventListener("mousedown", this);
+        this.addEventListener("mouseover", this);
+        this.addEventListener("mouseout", this);
     }
 
     disconnectedCallback() {
         if (this.delayConnectedCallback()) return;
 
         this.removeEventListener("mousedown", this);
+        this.removeEventListener("mouseover", this);
+        this.removeEventListener("mouseout", this);
     }
 
     /**
@@ -88,6 +106,12 @@ class BrowserRenderedTab extends MozHTMLElement {
         switch (event.type) {
             case "mousedown":
                 this._onTabMouseDown();
+                break;
+            case "mouseover":
+                this._onTabMouseOver();
+                break;
+            case "mouseout":
+                this._onTabMouseOut();
                 break;
         }
     }

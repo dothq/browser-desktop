@@ -135,9 +135,13 @@ BrowserTabs.prototype = {
         const oldTab = this._selectedTab;
         if (oldTab) oldTab.webContentsPanel.removeAttribute("visible");
 
-        if (oldTab && this._isWebContentsBrowserElement(oldTab.webContents)) {
-			/** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
-            oldTab.webContents.removeAttribute("primary");
+        if (oldTab) {
+            if (this._isWebContentsBrowserElement(oldTab.webContents)) {
+                /** @type {ChromeBrowser} */ (oldTab.webContents).docShellIsActive = false;
+                oldTab.webContents.removeAttribute("primary");
+            }
+
+            if (oldTab.previousElementSibling) oldTab.previousElementSibling.removeAttribute("precedes-selected");
         }
 
         if (this._isWebContentsBrowserElement(tab.webContents)) {
@@ -148,6 +152,7 @@ BrowserTabs.prototype = {
 
         this._selectedTab = tab;
         tab.webContentsPanel.toggleAttribute("visible", true);
+        if (tab.previousElementSibling) tab.previousElementSibling.toggleAttribute("precedes-selected", true);
 
         this.shouldUpdateWindowTitle();
 
