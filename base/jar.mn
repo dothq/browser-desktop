@@ -9,9 +9,6 @@ dot.jar:
 
     content/                                          (content/*.js)
 
-# Shims
-    content/shims                                     (content/*.js)
-
 % resource dot %modules/dot/
 % override chrome://dot/content/safeMode.xhtml chrome://browser/content/safeMode.xhtml
 % override chrome://browser/content/utilityOverlay.js chrome://dot/content/browser-utility-overlay.js
