@@ -7,3 +7,7 @@ browser-tabs {
     background-color: var(--lwt-accent-color);
     width: max-content;
 }
+
+browser-toolbar[initial] browser-tabs {
+    padding-block-start: calc(var(--browser-ui-density) / 3);
+}
