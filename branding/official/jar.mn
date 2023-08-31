@@ -17,3 +17,9 @@ dot.jar:
   content/branding/icon128.png                      (default128.png)
   content/branding/icon256.png                      (default256.png)
   content/branding/aboutDialog.css                  (content/aboutDialog.css)
+  content/branding/aboutdebugging-logo.svg          (content/aboutdebugging-logo.svg)
+
+% override chrome://devtools/skin/images/aboutdebugging-firefox-nightly.svg chrome://branding/content/about-logo.svg
+% override chrome://devtools/skin/images/aboutdebugging-firefox-release.svg chrome://branding/content/about-logo.svg
+% override chrome://devtools/skin/images/aboutdebugging-firefox-beta.svg chrome://branding/content/about-logo.svg
+% override chrome://devtools/skin/images/aboutdebugging-firefox-logo.svg chrome://branding/content/aboutdebugging-logo.svg
