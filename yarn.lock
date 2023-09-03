@@ -173,10 +173,10 @@
     "lru-cache" "^9.0.0"
     "minipass" "^5.0.0"
 
-"prettier@^2.7.1":
-  "integrity" "sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg=="
-  "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.8.1.tgz"
-  "version" "2.8.1"
+"prettier@^3.0.3":
+  "integrity" "sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg=="
+  "resolved" "https://registry.npmjs.org/prettier/-/prettier-3.0.3.tgz"
+  "version" "3.0.3"
 
 "shebang-command@^2.0.0":
   "integrity" "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA=="

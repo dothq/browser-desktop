@@ -14,10 +14,22 @@ pref("app.update.promptWaitTime", 691200);
 // app.update.url.details: a default value for the "More information about this
 // update" link supplied in the "An update is available" page of the update
 // wizard.
-pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/new?reason=manual-update");
-pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/notes");
-pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/");
-pref("app.releaseNotesURL.aboutDialog", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/");
+pref(
+	"app.update.url.manual",
+	"https://www.mozilla.org/%LOCALE%/firefox/new?reason=manual-update",
+);
+pref(
+	"app.update.url.details",
+	"https://www.mozilla.org/%LOCALE%/firefox/notes",
+);
+pref(
+	"app.releaseNotesURL",
+	"https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/",
+);
+pref(
+	"app.releaseNotesURL.aboutDialog",
+	"https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/",
+);
 
 // The number of days a binary is permitted to be old
 // without checking for an update.  This assumes that

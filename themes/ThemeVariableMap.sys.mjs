@@ -143,8 +143,8 @@ export const ThemeVariableMap = [
 				}
 
 				const { r, g, b } = rgbaChannels;
-				let luminance = 0.2125 * r + 0.7154 * g + 0.0721 * b;
-				let brighttext = luminance > 110;
+				const luminance = 0.2125 * r + 0.7154 * g + 0.0721 * b;
+				const brighttext = luminance > 110;
 
 				element.setAttribute("lwt-tree", "true");
 				if (!brighttext) {

@@ -9,61 +9,62 @@
  */
 
 var { BrowserTabsUtils } = ChromeUtils.importESModule(
-    "resource://gre/modules/BrowserTabsUtils.sys.mjs"
+	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
 );
 
 class BrowserReloadButton extends BrowserToolbarButton {
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.routineId = "reload-page";
-    }
+		this.routineId = "reload-page";
+	}
 
-    connectedCallback() {
-        super.connectedCallback();
+	connectedCallback() {
+		super.connectedCallback();
 
-        window.addEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
-    }
+		window.addEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
+	}
 
-    /**
-     * Fired when the state changes a browser
-     * @param {object} data
-     * @param {ChromeBrowser} data.browser
-     * @param {nsIWebProgress} data.webProgress
-     * @param {nsIRequest} data.request
-     * @param {number} data.stateFlags
-     * @param {string} data.status
-     */
-    onStateChanged({ browser, webProgress, request, stateFlags, status }) {
-        const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
+	/**
+	 * Fired when the state changes a browser
+	 * @param {object} data
+	 * @param {ChromeBrowser} data.browser
+	 * @param {nsIWebProgress} data.webProgress
+	 * @param {nsIRequest} data.request
+	 * @param {number} data.stateFlags
+	 * @param {string} data.status
+	 */
+	onStateChanged({ browser, webProgress, request, stateFlags, status }) {
+		const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
 
-        const isLoading = (
-            webProgress.isTopLevel &&
-            stateFlags & STATE_START &&
-            stateFlags & STATE_IS_NETWORK &&
-            BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */(request))
-        );
+		const isLoading =
+			webProgress.isTopLevel &&
+			stateFlags & STATE_START &&
+			stateFlags & STATE_IS_NETWORK &&
+			BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */ (request));
 
-        this.routineId = isLoading ? "stop-page" : "reload-page";
-    }
+		this.routineId = isLoading ? "stop-page" : "reload-page";
+	}
 
-    /**
-     * Handle incoming events
-     * @param {MouseEvent | CustomEvent} event 
-     */
-    handleEvent(event) {
-        switch (event.type) {
-            case "BrowserTabs::BrowserStateChange":
-                this.onStateChanged(event.detail);
-                break;
-        }
-    }
+	/**
+	 * Handle incoming events
+	 * @param {MouseEvent | CustomEvent} event
+	 */
+	handleEvent(event) {
+		switch (event.type) {
+			case "BrowserTabs::BrowserStateChange":
+				this.onStateChanged(event.detail);
+				break;
+		}
+	}
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
+	disconnectedCallback() {
+		super.disconnectedCallback();
 
-        window.removeEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
-    }
+		window.removeEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
+	}
 }
 
-customElements.define("reload-button", BrowserReloadButton, { extends: "button" });
+customElements.define("reload-button", BrowserReloadButton, {
+	extends: "button"
+});

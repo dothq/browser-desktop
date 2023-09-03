@@ -3,86 +3,78 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 ChromeUtils.defineESModuleGetters(globalThis, {
-    DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs",
-    DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
+	DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs",
+	DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
 });
 
 var { NavigationHelper } = ChromeUtils.importESModule(
-    "resource:///modules/NavigationHelper.sys.mjs"
+	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
-var { BrowserTabs } = ChromeUtils.importESModule(
-    "resource:///modules/BrowserTabs.sys.mjs"
-);
+var { BrowserTabs } = ChromeUtils.importESModule("resource:///modules/BrowserTabs.sys.mjs");
 
-var { NativeTitlebar } = ChromeUtils.importESModule(
-    "resource:///modules/NativeTitlebar.sys.mjs"
-);
+var { NativeTitlebar } = ChromeUtils.importESModule("resource:///modules/NativeTitlebar.sys.mjs");
 
 // This is exported only for type checking reasons, this should never be imported directly
 const _gDot = {
-    _done: false,
+	_done: false,
 
-    /** @type {typeof BrowserTabs.prototype} */
-    tabs: null,
+	/** @type {typeof BrowserTabs.prototype} */
+	tabs: null,
 
-    /**
-     * The toolbox for this browser session
-     * @returns {BrowserToolbox}
-     */
-    get toolbox() {
-        return document.querySelector("browser-toolbox");
-    },
+	/**
+	 * The toolbox for this browser session
+	 * @returns {BrowserToolbox}
+	 */
+	get toolbox() {
+		return document.querySelector("browser-toolbox");
+	},
 
-    /**
-     * Determines whether the browser session supports multiple processes
-     * @returns {boolean}
-     */
-    get isMultiProcess() {
-        return window.docShell.QueryInterface(
-            Ci.nsILoadContext
-        ).useRemoteTabs
-    },
+	/**
+	 * Determines whether the browser session supports multiple processes
+	 * @returns {boolean}
+	 */
+	get isMultiProcess() {
+		return window.docShell.QueryInterface(Ci.nsILoadContext).useRemoteTabs;
+	},
 
-    /**
-     * Determines whether this browser session uses remote subframes
-     * @returns {boolean}
-     */
-    get usesRemoteSubframes() {
-        return window.docShell.QueryInterface(
-            Ci.nsILoadContext
-        ).useRemoteSubframes;
-    },
+	/**
+	 * Determines whether this browser session uses remote subframes
+	 * @returns {boolean}
+	 */
+	get usesRemoteSubframes() {
+		return window.docShell.QueryInterface(Ci.nsILoadContext).useRemoteSubframes;
+	},
 
-    /**
-     * Determines whether the current browser window is a popup
-     */
-    get isPopupWindow() {
-        return (
-            document.documentElement.hasAttribute("chromehidden") &&
-            document.documentElement.hasAttribute("chromepopup")
-        );
-    },
+	/**
+	 * Determines whether the current browser window is a popup
+	 */
+	get isPopupWindow() {
+		return (
+			document.documentElement.hasAttribute("chromehidden") &&
+			document.documentElement.hasAttribute("chromepopup")
+		);
+	},
 
-    get usesNativeTitlebar() {
-        return NativeTitlebar.enabled;
-    },
+	get usesNativeTitlebar() {
+		return NativeTitlebar.enabled;
+	},
 
-    /**
-     * Initialises the browser and its components
-     */
-    init() {
-        if (gDot._done) {
-            throw new Error("Browser cannot be initialized twice!");
-        }
+	/**
+	 * Initialises the browser and its components
+	 */
+	init() {
+		if (gDot._done) {
+			throw new Error("Browser cannot be initialized twice!");
+		}
 
-        gDot.tabs = new BrowserTabs(window);
+		gDot.tabs = new BrowserTabs(window);
 
-        // @todo(EnderDev) add types for DotCustomizableUI
-        globalThis.DotCustomizableUI.initialize();
+		// @todo(EnderDev) add types for DotCustomizableUI
+		globalThis.DotCustomizableUI.initialize();
 
-        gDotRoutines.init();
+		gDotRoutines.init();
 
-        gDot._done = true;
-    }
+		gDot._done = true;
+	}
 };

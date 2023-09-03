@@ -3,24 +3,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class BrowserFrame extends MozHTMLElement {
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    get webContents() {
-        return this.querySelector(".browser-web-contents")
-    }
+	get webContents() {
+		return this.querySelector(".browser-web-contents");
+	}
 
-    connectedCallback() {
-        if (this.delayConnectedCallback()) return;
+	connectedCallback() {
+		if (this.delayConnectedCallback()) return;
 
-        this.appendChild(html("browser-status"));
-        this.appendChild(html("browser-modals"));
-    }
+		this.appendChild(html("browser-status"));
+		this.appendChild(html("browser-modals"));
+	}
 
-    disconnectedCallback() {
-        if (this.delayConnectedCallback()) return;
-    }
+	disconnectedCallback() {
+		if (this.delayConnectedCallback()) return;
+	}
 }
 
 customElements.define("browser-frame", BrowserFrame);

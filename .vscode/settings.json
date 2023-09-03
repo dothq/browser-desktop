@@ -21,15 +21,18 @@
 		"*.tar.xz": true
 	},
 	"[html]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
 	},
     "[xhtml]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+	},
+	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"javascript.updateImportsOnFileMove.enabled": "always",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.fixAll": true
+		"source.fixAll": true,
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"files.exclude": {

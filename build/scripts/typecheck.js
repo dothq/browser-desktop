@@ -32,13 +32,13 @@ function typecheck() {
 			"--pretty",
 			"--noEmit",
 			"-p",
-			resolve(rootDir, "dot")
+			resolve(rootDir, "dot"),
 		].join(" "),
 		{
 			shell: true,
 			cwd: rootDir,
-			stdio: "inherit"
-		}
+			stdio: "inherit",
+		},
 	);
 
 	proc.on("exit", (exitCode) => {

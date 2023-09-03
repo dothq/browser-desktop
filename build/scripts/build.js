@@ -9,13 +9,11 @@
  * OUTPUT_DIR.
  */
 
-"use strict";
-
 const esbuild = require("esbuild");
 const fs = require("fs");
 const _path = require("path");
 
-let relativePathCheckerPlugin = {
+const relativePathCheckerPlugin = {
 	name: "relative-path-checker",
 	setup(build) {
 		build.onResolve({ filter: /.*/ }, (args) => {
@@ -24,17 +22,17 @@ let relativePathCheckerPlugin = {
 				const ext = _path.parse(args.path).ext;
 
 				if (ext.length) {
-					if (ext == ".ts") {
+					if (ext === ".ts") {
 						path.replace(".ts", ".js");
 					}
 				} else {
-					path = path + ".js";
+					path = `${path}.js`;
 				}
 
 				return { path, external: true };
 			}
 		});
-	}
+	},
 };
 
 function transform(inPath, outPath) {
@@ -60,17 +58,19 @@ function transform(inPath, outPath) {
 						.replace(
 							/__ESM_DB_IMPORT_ROOT__/,
 							JSON.stringify(
-								`resource://${_path.parse(outPath.split("dot/modules/")[1]).dir}/`
-							)
-						)
-				).code
+								`resource://${
+									_path.parse(outPath.split("dot/modules/")[1]).dir
+								}/`,
+							),
+						),
+				).code,
 			},
 			footer: {
 				js: esbuild.transformSync(
-					fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8")
-				).code
+					fs.readFileSync(_path.resolve(__dirname, "inject-foot.js"), "utf-8"),
+				).code,
 			},
-			outfile: outPath
+			outfile: outPath,
 		});
 	} catch (err) {
 		throw new Error(`
@@ -100,7 +100,7 @@ function mkdirs(filePath) {
 		fs.mkdirSync(filePath);
 	} catch (err) {
 		// Ignore any errors resulting from the directory already existing.
-		if (err.code != "EEXIST") {
+		if (err.code !== "EEXIST") {
 			throw err;
 		}
 	}
@@ -112,7 +112,10 @@ mkdirs(outputDir);
 
 for (let i = 2; i < process.argv.length - 1; i++) {
 	const inPath = process.argv[i];
-	const outPath = _path.join(outputDir, _path.basename(inPath).replace(/\.ts(x)?/, ".js"));
+	const outPath = _path.join(
+		outputDir,
+		_path.basename(inPath).replace(/\.ts(x)?/, ".js"),
+	);
 
 	transform(inPath, outPath);
 
@@ -121,4 +124,6 @@ for (let i = 2; i < process.argv.length - 1; i++) {
 
 // Print all dependencies prefixed with 'dep:' in order to help node.py, the script that
 // calls this module, to report back the precise list of all dependencies.
-console.log(deps.map((file) => "dep:" + file.replace(/\.ts/, ".js")).join("\n"));
+console.log(
+	deps.map((file) => `dep:${file.replace(/\.ts/, ".js")}`).join("\n"),
+);

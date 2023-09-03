@@ -4,88 +4,88 @@
 
 /**
  * browser-compat is used as a compatibility layer to translate Dot APIs to the original FF/Gecko APIs
- * 
+ *
  * When building Dot Browser, we eventually need to use existing code built by Mozilla, and we don't really
  * want to move code into the Dot tree that could easily be changed upstream.
- * 
+ *
  * For this reason, it's easier for us to create a compatibility layer between our APIs and the Mozilla APIs,
  * to avoid breaking these important scripts.
- * 
- * **You shouldn't use this in Dot code directly! This is purely intended to preserve the functionality 
+ *
+ * **You shouldn't use this in Dot code directly! This is purely intended to preserve the functionality
  * of existing Mozilla modules and scripts, to maintain compatibility.**
  */
 
 var gBrowser = {
-    get tabs() {
-        return gDot.tabs.list;
-    },
+	get tabs() {
+		return gDot.tabs.list;
+	},
 
-    get visibleTabs() {
-        return gDot.tabs.visibleTabs;
-    },
+	get visibleTabs() {
+		return gDot.tabs.visibleTabs;
+	},
 
-    get currentURI() {
-        if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
-            return Services.io.newURI("about:blank");
-        }
+	get currentURI() {
+		if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
+			return Services.io.newURI("about:blank");
+		}
 
-        return /** @type {ChromeBrowser} */ (this.selectedBrowser).currentURI;
-    },
+		return /** @type {ChromeBrowser} */ (this.selectedBrowser).currentURI;
+	},
 
-    get contentPrincipal() {
-        if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
-            return null;
-        }
+	get contentPrincipal() {
+		if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
+			return null;
+		}
 
-        return /** @type {ChromeBrowser} */ (this.selectedBrowser).contentPrincipal;
-    },
+		return /** @type {ChromeBrowser} */ (this.selectedBrowser).contentPrincipal;
+	},
 
-    get selectedTab() {
-        return gDot.tabs.selectedTab;
-    },
+	get selectedTab() {
+		return gDot.tabs.selectedTab;
+	},
 
-    set selectedTab(newTab) {
-        gDot.tabs.selectedTab = newTab;
-    },
+	set selectedTab(newTab) {
+		gDot.tabs.selectedTab = newTab;
+	},
 
-    get selectedBrowser() {
-        return gDot.tabs.selectedTab.webContents;
-    },
+	get selectedBrowser() {
+		return gDot.tabs.selectedTab.webContents;
+	},
 
-    get ownerGlobal() {
-        return window
-    },
+	get ownerGlobal() {
+		return window;
+	},
 
-    get ownerDocument() {
-        return document
-    },
+	get ownerDocument() {
+		return document;
+	},
 
-    /**
-     * @param {ChromeBrowser} browser 
-     * @returns {BrowserTab}
-     */
-    getTabForBrowser(browser) {
-        return gDot.tabs.getTabForWebContents(browser);
-    },
+	/**
+	 * @param {ChromeBrowser} browser
+	 * @returns {BrowserTab}
+	 */
+	getTabForBrowser(browser) {
+		return gDot.tabs.getTabForWebContents(browser);
+	},
 
-    /**
-     * @param {ChromeBrowser} browser 
-     * @returns {HTMLElement}
-     */
-    getBrowserContainer(browser) {
-        const tab = gDot.tabs.getTabForWebContents(browser);
-        return tab.webContentsPanel;
-    },
+	/**
+	 * @param {ChromeBrowser} browser
+	 * @returns {HTMLElement}
+	 */
+	getBrowserContainer(browser) {
+		const tab = gDot.tabs.getTabForWebContents(browser);
+		return tab.webContentsPanel;
+	},
 
-    /**
-     * @param {string} uri
-     * @param {LoadURIOptions} options
-     * @returns {HTMLElement}
-     */
-    addTab(uri, options) {
-        return gDot.tabs.createTab({
-            ...options,
-            uri
-        });
-    }
-}
+	/**
+	 * @param {string} uri
+	 * @param {LoadURIOptions} options
+	 * @returns {HTMLElement}
+	 */
+	addTab(uri, options) {
+		return gDot.tabs.createTab({
+			...options,
+			uri,
+		});
+	},
+};

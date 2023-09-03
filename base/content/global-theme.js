@@ -4,9 +4,9 @@
 
 // Scoped
 (() => {
-    var { LightweightThemeConsumer } = ChromeUtils.importESModule(
-        "resource://gre/modules/LightweightThemeConsumer.sys.mjs"
-    );
+	const { LightweightThemeConsumer } = ChromeUtils.importESModule(
+		"resource://gre/modules/LightweightThemeConsumer.sys.mjs"
+	);
 
-    new LightweightThemeConsumer(document);
+	new LightweightThemeConsumer(document);
 })();

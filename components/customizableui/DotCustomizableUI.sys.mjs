@@ -7,5 +7,5 @@ export const DotCustomizableUI = {
 		console.time("DotCustomizableUI: init");
 
 		console.timeEnd("DotCustomizableUI: init");
-	}
+	},
 };

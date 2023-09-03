@@ -3,52 +3,50 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var { BrowserTabsUtils } = ChromeUtils.importESModule(
-    "resource://gre/modules/BrowserTabsUtils.sys.mjs"
+	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
 );
 
 var { NavigationHelper } = ChromeUtils.importESModule(
-    "resource:///modules/NavigationHelper.sys.mjs"
+	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
 var { StartPage } = ChromeUtils.importESModule("resource:///modules/StartPage.sys.mjs");
 
 class BrowserAddTabButton extends BrowserToolbarButton {
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    connectedCallback() {
-        super.connectedCallback();
+	connectedCallback() {
+		super.connectedCallback();
 
-        this.label = "New Tab";
-        this.icon = "add";
+		this.label = "New Tab";
+		this.icon = "add";
 
-        this.addEventListener("click", this);
-    }
+		this.addEventListener("click", this);
+	}
 
-    handleClick(event) {
-        gDotCommands.execCommand(
-            "application.new_tab"
-        );
-    }
+	handleClick(event) {
+		gDotCommands.execCommand("application.new_tab");
+	}
 
-    /**
-     * Handle incoming events
-     * @param {MouseEvent} event 
-     */
-    handleEvent(event) {
-        switch (event.type) {
-            case "click":
-                this.handleClick(event);
-                break;
-        }
-    }
+	/**
+	 * Handle incoming events
+	 * @param {MouseEvent} event
+	 */
+	handleEvent(event) {
+		switch (event.type) {
+			case "click":
+				this.handleClick(event);
+				break;
+		}
+	}
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
+	disconnectedCallback() {
+		super.disconnectedCallback();
 
-        this.removeEventListener("click", this);
-    }
+		this.removeEventListener("click", this);
+	}
 }
 
 customElements.define("add-tab-button", BrowserAddTabButton, { extends: "button" });

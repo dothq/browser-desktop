@@ -3,53 +3,52 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class BrowserAddressBar extends HTMLInputElement {
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.placeholder = "Search the web";
-    }
+		this.placeholder = "Search the web";
+	}
 
-    connectedCallback() {
-        this.addEventListener("keypress", this);
-    }
+	connectedCallback() {
+		this.addEventListener("keypress", this);
+	}
 
-    /**
-     * Handles key down events
-     * @param {KeyboardEvent} event 
-     */
-    onKeyDown(event) {
-        switch (event.code) {
-            case "Enter":
-                this.onBeforeNavigate(event);
-                break;
-        }
-    }
+	/**
+	 * Handles key down events
+	 * @param {KeyboardEvent} event
+	 */
+	onKeyDown(event) {
+		switch (event.code) {
+			case "Enter":
+				this.onBeforeNavigate(event);
+				break;
+		}
+	}
 
-    /**
-     * Handles the process before we start to navigate
-     * @param {Event} event 
-     */
-    async onBeforeNavigate(event) {
-        if (this.value.startsWith("http:")) {
+	/**
+	 * Handles the process before we start to navigate
+	 * @param {Event} event
+	 */
+	async onBeforeNavigate(event) {
+		if (this.value.startsWith("http:")) {
+		} else {
+			const defaultEngine = await Services.search.getDefault();
 
-        } else {
-            const defaultEngine = await Services.search.getDefault();
+			defaultEngine;
+		}
+	}
 
-            defaultEngine
-        }
-    }
-
-    /**
-     * Handles incoming events
-     * @param {KeyboardEvent | Event} event 
-     */
-    handleEvent(event) {
-        switch (event.type) {
-            case "keydown":
-                this.onKeyDown(/** @type {KeyboardEvent} */(event));
-                break;
-        }
-    }
+	/**
+	 * Handles incoming events
+	 * @param {KeyboardEvent | Event} event
+	 */
+	handleEvent(event) {
+		switch (event.type) {
+			case "keydown":
+				this.onKeyDown(/** @type {KeyboardEvent} */ (event));
+				break;
+		}
+	}
 }
 
 customElements.define("address-bar", BrowserAddressBar, { extends: "input" });

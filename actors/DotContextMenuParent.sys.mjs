@@ -6,8 +6,8 @@ export class ContextMenuParent extends JSWindowActorParent {
 	receiveMessage(message) {
 		if (message.name !== "contextmenu") return;
 
-		let browser = this.manager.rootFrameLoader.ownerElement;
-		let win = browser.ownerGlobal.top;
+		const browser = this.manager.rootFrameLoader.ownerElement;
+		const win = browser.ownerGlobal.top;
 
 		console.log(message, browser, win);
 	}

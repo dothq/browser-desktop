@@ -34,9 +34,7 @@ export interface Browser {
 	setIcon: (tab: BrowserTab, iconURL: string) => void;
 
 	addProgressListener: (listener: nsIWebProgressListener) => void;
-	addTabsProgressListener: (
-		listener: nsITabProgressListener
-	) => void;
+	addTabsProgressListener: (listener: nsITabProgressListener) => void;
 
 	resetBrowserSharing: (browser: ChromeBrowser) => void;
 
@@ -59,6 +57,6 @@ export interface Browser {
 			csp?: any /* todo: csp: nsIContentSecurityPolicy */;
 			userContextId?: number;
 			fromExternal?: boolean;
-		}
+		},
 	) => void;
 }

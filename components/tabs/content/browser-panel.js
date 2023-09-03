@@ -3,21 +3,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class BrowserPanel extends MozHTMLElement {
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    get webContents() {
-        return this.querySelector("browser-frame .browser-web-contents")
-    }
+	get webContents() {
+		return this.querySelector("browser-frame .browser-web-contents");
+	}
 
-    connectedCallback() {
-        if (this.delayConnectedCallback()) return;
-    }
+	connectedCallback() {
+		if (this.delayConnectedCallback()) return;
+	}
 
-    disconnectedCallback() {
-        if (this.delayConnectedCallback()) return;
-    }
+	disconnectedCallback() {
+		if (this.delayConnectedCallback()) return;
+	}
 }
 
 customElements.define("browser-panel", BrowserPanel);

@@ -8,7 +8,6 @@
 */
 
 import * as Gecko from "./lib";
-import { Marionette, nsIDocShell, RemoteAgent } from "./lib";
 
 declare const chrome: {
 	Cc: Gecko.Cc;
@@ -27,8 +26,8 @@ declare global {
 
 	var PathUtils: PathUtilsInterface;
 
-	var Marionette: Marionette;
-	var RemoteAgent: RemoteAgent;
+	var Marionette: Gecko.Marionette;
+	var RemoteAgent: Gecko.RemoteAgent;
 
 	// These global objects can be used directly in JSM files only.
 	// In a CommonJS context you need to import them with `require("chrome")`.
@@ -49,17 +48,16 @@ declare global {
 		 * Create a XUL element of a specific type. Right now this function
 		 * only refines iframes, but more tags could be added.
 		 */
-		createXULElement: 
-            ((type: "iframe") => XULIframeElement) &
-            ((type: "browser") => Gecko.ChromeBrowser) &
+		createXULElement: ((type: "iframe") => XULIframeElement) &
+			((type: "browser") => Gecko.ChromeBrowser) &
 			((type: string) => XULElement);
 
-        /**
-         * Determines whether we have had a valid user gesture activation
-         */
-        hasValidTransientUserGestureActivation: boolean;
+		/**
+		 * Determines whether we have had a valid user gesture activation
+		 */
+		hasValidTransientUserGestureActivation: boolean;
 
-        nodePrincipal: any;
+		nodePrincipal: any;
 	}
 
 	/**
@@ -81,27 +79,17 @@ declare global {
 	interface ChromeWindow extends Window {
 		openWebLinkIn: (
 			url: string,
-			where:
-				| "current"
-				| "tab"
-				| "tabshifted"
-				| "window"
-				| "save",
+			where: "current" | "tab" | "tabshifted" | "window" | "save",
 			// TS-TODO
-			params?: unknown
+			params?: unknown,
 		) => void;
 		openTrustedLinkIn: (
 			url: string,
-			where:
-				| "current"
-				| "tab"
-				| "tabshifted"
-				| "window"
-				| "save",
+			where: "current" | "tab" | "tabshifted" | "window" | "save",
 			// TS-TODO
-			params?: unknown
+			params?: unknown,
 		) => void;
-        isChromeWindow: boolean;
+		isChromeWindow: boolean;
 	}
 
 	class ChromeWorker extends Worker {}
@@ -119,31 +107,29 @@ declare global {
 		addEventListener: (
 			type: "command",
 			handler: (event: XULCommandEvent) => void,
-			isCapture?: boolean
+			isCapture?: boolean,
 		) => void;
 		removeEventListener: (
 			type: "command",
 			handler: (event: XULCommandEvent) => void,
-			isCapture?: boolean
+			isCapture?: boolean,
 		) => void;
 	}
 
 	type nsIPrefBranch = Gecko.nsIPrefBranch;
 
 	interface Window {
-		docShell: nsIDocShell;
-		browserDOMWindow: any;
-		XULBrowserWindow: any;
+		docShell: Gecko.nsIDocShell;
 		InspectorUtils: Gecko.InspectorUtils;
-        windowGlobalChild: Gecko.WindowGlobalChildInstance;
-        windowUtils: Gecko.WindowUtils;
+		windowGlobalChild: Gecko.WindowGlobalChildInstance;
+		windowUtils: Gecko.WindowUtils;
 	}
 
-	interface Element {
+	interface Element extends Gecko.CustomElement {
 		ownerGlobal: ChromeWindow;
 	}
 
-    interface CustomElementRegistry {
-        setElementCreationCallback(name: string, callback: () => any): void;
-    }
+	interface CustomElementRegistry {
+		setElementCreationCallback(name: string, callback: () => void): void;
+	}
 }

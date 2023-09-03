@@ -7,7 +7,7 @@ import { XPCOMUtils } from "resource://gre/modules/XPCOMUtils.sys.mjs";
 const lazy = {};
 
 XPCOMUtils.defineLazyModuleGetters(lazy, {
-	AddonManager: "resource://gre/modules/AddonManager.jsm",
+	AddonManager: "resource://gre/modules/AddonManager.jsm"
 });
 
 ChromeUtils.defineESModuleGetters(lazy, {

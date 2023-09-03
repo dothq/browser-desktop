@@ -5,7 +5,7 @@
 const lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
-	PrivateBrowsingUtils: "resource://gre/modules/PrivateBrowsingUtils.sys.mjs"
+	PrivateBrowsingUtils: "resource://gre/modules/PrivateBrowsingUtils.sys.mjs",
 });
 
 function getHomePagePref() {
@@ -37,10 +37,12 @@ export const StartPage = {
 		// This is to ensure we have "New Tab" branding
 		if (homePages.includes("about:blank")) {
 			homePages = homePages.map((page) =>
-				page.startsWith("about:blank") ? "chrome://dot/content/startpage/blank.html" : page
+				page.startsWith("about:blank")
+					? "chrome://dot/content/startpage/blank.html"
+					: page,
 			);
 		}
 
 		return homePages;
-	}
+	},
 };
