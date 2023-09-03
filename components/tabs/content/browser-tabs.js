@@ -57,12 +57,13 @@ class BrowserTabsElement extends MozHTMLElement {
 			document.createElement("browser-tab")
 		);
 		renderedTab.linkedTab = tab;
+		this.appendChild(renderedTab);
+
+		console.log(tab.attributes);
 
 		for (const attr of Array.from(tab.attributes)) {
 			this._onTabAttributeUpdated(tab, attr.name, null, attr.value);
 		}
-
-		this.appendChild(renderedTab);
 	}
 
 	/**
@@ -74,6 +75,8 @@ class BrowserTabsElement extends MozHTMLElement {
 
 		if (renderedTab) {
 			renderedTab.remove();
+		} else {
+			console.warn(`No rendered tab with ID '${tab.id}'!`);
 		}
 	}
 
@@ -89,6 +92,8 @@ class BrowserTabsElement extends MozHTMLElement {
 
 		if (renderedTab) {
 			renderedTab.attributeChangedCallback(attributeName, oldValue, newValue);
+		} else {
+			console.warn(`No rendered tab with ID '${tab.id}'!`);
 		}
 	}
 
