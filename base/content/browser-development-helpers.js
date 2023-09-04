@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { DevToolsServer } = ChromeUtils.importESModule(
-	"resource://app/modules/DevToolsServer.sys.mjs",
+	"resource://app/modules/DevToolsServer.sys.mjs"
 );
 
 const DevelopmentHelpers = {
@@ -16,11 +16,11 @@ const DevelopmentHelpers = {
 				null,
 				"chrome://dot/content/dev-debug-popout.xhtml",
 				"_blank",
-				"chrome,alwaysontop",
-				null,
+				"chrome",
+				null
 			);
 		}
-	},
+	}
 };
 
 DevelopmentHelpers.init();
