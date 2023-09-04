@@ -11,7 +11,10 @@ export const BrowserTabsUtils = {
 	// Reflect any changes here with base/content/browser-init.ts
 	INTERNAL_PAGES: {
 		"about:home": { title: "New Tab", icon: "chrome://dot/skin/home.svg" },
-		"about:newtab": { title: "New Tab", icon: "chrome://dot/skin/home.svg" },
+		"about:newtab": {
+			title: "New Tab",
+			icon: "chrome://dot/skin/home.svg"
+		},
 		"about:welcome": {
 			title: "Welcome to Dot Browser",
 			icon: "chrome://branding/content/icon32.png"
@@ -32,7 +35,9 @@ export const BrowserTabsUtils = {
 	shouldShowProgress(request) {
 		return !(
 			// @ts-ignore
-			(request instanceof Ci.nsIChannel && request.originalURI.schemeIs("about"))
+			// prettier-ignore
+			(request instanceof Ci.nsIChannel &&
+				request.originalURI.schemeIs("about"))
 		);
 	}
 };

@@ -110,7 +110,9 @@ class BrowserTab extends MozElements.MozTab {
 	 * Determines the tab's loading progress state
 	 */
 	get progress() {
-		return parseInt(this.getAttribute("progress")) || this.TAB_PROGRESS_NONE;
+		return (
+			parseInt(this.getAttribute("progress")) || this.TAB_PROGRESS_NONE
+		);
 	}
 
 	/**
@@ -252,7 +254,10 @@ class BrowserTab extends MozElements.MozTab {
 				break;
 			case "pagetitlechanged":
 				if (this.webContents.tagName === "browser") {
-					this.updateLabel(/** @type {ChromeBrowser} */ (this.webContents).contentTitle);
+					this.updateLabel(
+						/** @type {ChromeBrowser} */ (this.webContents)
+							.contentTitle
+					);
 				}
 				break;
 		}
@@ -266,12 +271,14 @@ class BrowserTab extends MozElements.MozTab {
 		let label = newLabel;
 
 		if (label.trim().length <= 0) {
-			label = /** @type {ChromeBrowser} */ (this.webContents).contentTitle;
+			label = /** @type {ChromeBrowser} */ (this.webContents)
+				.contentTitle;
 		}
 
 		if (label.trim().length <= 0) {
 			try {
-				label = /** @type {ChromeBrowser} */ (this.webContents).currentURI.spec;
+				label = /** @type {ChromeBrowser} */ (this.webContents)
+					.currentURI.spec;
 
 				if (kDefaultTabTitles[label]) {
 					label = kDefaultTabTitles[label];

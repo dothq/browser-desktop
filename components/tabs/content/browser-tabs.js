@@ -31,7 +31,12 @@ class BrowserTabsElement extends MozHTMLElement {
 			case "BrowserTabsCollator::TabAttributeUpdate":
 				const { attributeName, oldValue, newValue } = event.detail;
 
-				this._onTabAttributeUpdated(tab, attributeName, oldValue, newValue);
+				this._onTabAttributeUpdated(
+					tab,
+					attributeName,
+					oldValue,
+					newValue
+				);
 				break;
 			case "load":
 				this._init();
@@ -59,8 +64,6 @@ class BrowserTabsElement extends MozHTMLElement {
 		renderedTab.linkedTab = tab;
 		this.appendChild(renderedTab);
 
-		console.log(tab.attributes);
-
 		for (const attr of Array.from(tab.attributes)) {
 			this._onTabAttributeUpdated(tab, attr.name, null, attr.value);
 		}
@@ -75,8 +78,6 @@ class BrowserTabsElement extends MozHTMLElement {
 
 		if (renderedTab) {
 			renderedTab.remove();
-		} else {
-			console.warn(`No rendered tab with ID '${tab.id}'!`);
 		}
 	}
 
@@ -91,9 +92,11 @@ class BrowserTabsElement extends MozHTMLElement {
 		const renderedTab = this.getRenderedTabByInternalId(tab.id);
 
 		if (renderedTab) {
-			renderedTab.attributeChangedCallback(attributeName, oldValue, newValue);
-		} else {
-			console.warn(`No rendered tab with ID '${tab.id}'!`);
+			renderedTab.attributeChangedCallback(
+				attributeName,
+				oldValue,
+				newValue
+			);
 		}
 	}
 
@@ -109,7 +112,10 @@ class BrowserTabsElement extends MozHTMLElement {
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		window.addEventListener("BrowserTabsCollator::TabAttributeUpdate", this);
+		window.addEventListener(
+			"BrowserTabsCollator::TabAttributeUpdate",
+			this
+		);
 
 		window.addEventListener("load", this);
 	}
@@ -119,7 +125,10 @@ class BrowserTabsElement extends MozHTMLElement {
 
 		window.removeEventListener("BrowserTabsCollator::TabAdded", this);
 		window.removeEventListener("BrowserTabsCollator::TabRemoved", this);
-		window.removeEventListener("BrowserTabsCollator::TabAttributeUpdate", this);
+		window.removeEventListener(
+			"BrowserTabsCollator::TabAttributeUpdate",
+			this
+		);
 
 		window.removeEventListener("load", this);
 	}
