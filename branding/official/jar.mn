@@ -4,7 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 dot.jar:
-% content branding %content/branding/
+% content branding %content/branding/ contentaccessible=yes
   content/branding/about-logo.svg                   (content/about-logo.svg)
   content/branding/about-wordmark.svg               (content/about-wordmark.svg)
   content/branding/about.png                        (content/about.png)
