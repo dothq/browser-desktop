@@ -4,7 +4,9 @@
 
 import { XPCOMUtils } from "resource://gre/modules/XPCOMUtils.sys.mjs";
 
-const { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+const { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
 const lazy = {};
 
@@ -40,7 +42,9 @@ function shouldLoadURI(uri) {
 		// Block direct loading of chrome URIs into the browser window.
 		// --chrome param should be used instead.
 		if (uri.schemeIs("chrome")) {
-			dump("*** Preventing external load of chrome: URI into browser window\n");
+			dump(
+				"*** Preventing external load of chrome: URI into browser window\n"
+			);
 			dump("    Use --chrome <uri> instead\n");
 
 			return false;
@@ -59,8 +63,10 @@ function resolveURIInternal(cmdLine, argument) {
 
 	// If the URI is not a file URI, we can just return it.
 	if (!(uri instanceof Ci.nsIFileURL)) {
-		return Services.uriFixup.getFixupURIInfo(argument, FIXUP_FLAG_FIX_SCHEME_TYPOS)
-			.preferredURI;
+		return Services.uriFixup.getFixupURIInfo(
+			argument,
+			FIXUP_FLAG_FIX_SCHEME_TYPOS
+		).preferredURI;
 	}
 
 	// Check if the file URI exists, otherwise throw an error and try to fix it up later on.
@@ -102,7 +108,8 @@ function openWindow(
 	forcePrivate = false
 ) {
 	// Check if we are in the intial startup phase
-	const isStartup = cmdLine && cmdLine.state == Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
+	const isStartup =
+		cmdLine && cmdLine.state == Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
 
 	let args;
 
@@ -117,14 +124,20 @@ function openWindow(
 		// Ensure we have a system-level triggeringPrincipal set for the request
 		if (
 			!triggeringPrincipal ||
-			!triggeringPrincipal.equals(Services.scriptSecurityManager.getSystemPrincipal())
+			!triggeringPrincipal.equals(
+				Services.scriptSecurityManager.getSystemPrincipal()
+			)
 		) {
-			throw new Error("Can't open multiple URLs with something other than system principal.");
+			throw new Error(
+				"Can't open multiple URLs with something other than system principal."
+			);
 		}
 
 		// Create a new mutable array instance for us to put our URIs into
 		// Avoids having to join each URI with a vertical pipe character
-		const uriArray = Cc["@mozilla.org/array;1"].createInstance(Ci.nsIMutableArray);
+		const uriArray = Cc["@mozilla.org/array;1"].createInstance(
+			Ci.nsIMutableArray
+		);
 
 		// Iterate over each url and add it to our array
 		urlOrUrlList.forEach((uri) => {
@@ -141,9 +154,9 @@ function openWindow(
 		args = [uriArray];
 	} else {
 		// Create a new writeble property bag instance for us to put our extra options into
-		const writablePropBag = Cc["@mozilla.org/hash-property-bag;1"].createInstance(
-			Ci.nsIWritablePropertyBag2
-		);
+		const writablePropBag = Cc[
+			"@mozilla.org/hash-property-bag;1"
+		].createInstance(Ci.nsIWritablePropertyBag2);
 
 		writablePropBag.setPropertyAsBool("fromExternal", true);
 
@@ -167,7 +180,9 @@ function openWindow(
 	if (!urlOrUrlList) {
 		// If we haven't passed any URL(s) to the browser window, we can
 		// just wrap the default arguments in a nsISupportsString instance.
-		const str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+		const str = Cc["@mozilla.org/supports-string;1"].createInstance(
+			Ci.nsISupportsString
+		);
 
 		str.data = args[0]; // args[0] is the URI string
 		args[0] = str;
@@ -175,7 +190,9 @@ function openWindow(
 		// Otherwise, pass an nsIArray.
 		if (args.length > 1) {
 			// Ensure that the URI is wrapped in a nsISupportsString instance.
-			let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+			let str = Cc["@mozilla.org/supports-string;1"].createInstance(
+				Ci.nsISupportsString
+			);
 
 			str.data = args[0]; // args[0] is the URI string
 			args[0] = str;
@@ -210,7 +227,13 @@ function openWindow(
  * @param {boolean} forcePrivate
  * @returns
  */
-function handURIToExistingBrowser(cmdLine, uri, location, triggeringPrincipal, forcePrivate) {
+function handURIToExistingBrowser(
+	cmdLine,
+	uri,
+	location,
+	triggeringPrincipal,
+	forcePrivate
+) {
 	// If we are not allowed to load the URI, just return.
 	if (!shouldLoadURI(uri)) return;
 
@@ -227,7 +250,8 @@ function handURIToExistingBrowser(cmdLine, uri, location, triggeringPrincipal, f
 
 	// Only if we are in a permanent private browsing state can we use
 	// this, or if we have forced a private session with forcePrivate.
-	const inPrivateMode = forcePrivate || lazy.PrivateBrowsingUtils.permanentPrivateBrowsing;
+	const inPrivateMode =
+		forcePrivate || lazy.PrivateBrowsingUtils.permanentPrivateBrowsing;
 
 	const topWin = lazy.DotWindowTracker.getTopWindow({
 		private: inPrivateMode
@@ -291,6 +315,7 @@ export class nsDotContentHandler {
 	}
 
 	get defaultArgs() {
+		console.log("nsDotContentHandler::defaultArgs");
 		return this.getArgs();
 	}
 
@@ -339,7 +364,10 @@ export class nsDotContentHandler {
 
 		if (
 			Services.prefs.getBoolPref("browser.aboutwelcome.enabled", true) &&
-			!Services.prefs.getBoolPref("browser.aboutwelcome.didFirstRun", false)
+			!Services.prefs.getBoolPref(
+				"browser.aboutwelcome.didFirstRun",
+				false
+			)
 		) {
 			pages.push("about:welcome");
 		}
@@ -353,7 +381,10 @@ export class nsDotContentHandler {
 			pages = pages.concat(lazy.StartPage.getHomePage());
 		}
 
-		console.log("nsDotContentHandler::getArgs()", pages);
+		console.log(
+			"nsDotContentHandler::getArgs()",
+			pages.length ? pages.join("|") : "about:blank"
+		);
 
 		return pages.length ? pages.join("|") : "about:blank";
 	}
@@ -363,7 +394,10 @@ export class nsDotContentHandler {
 		let forcePrivate = false;
 
 		// If the --private flag is set, we'll force a private session.
-		if (cmdLine.handleFlag("private", false) && lazy.PrivateBrowsingUtils.enabled) {
+		if (
+			cmdLine.handleFlag("private", false) &&
+			lazy.PrivateBrowsingUtils.enabled
+		) {
 			forcePrivate = true;
 		}
 
@@ -389,7 +423,11 @@ export class nsDotContentHandler {
 
 		// If the --browser flag is set, just create a new browser window.
 		if (cmdLine.handleFlag("browser", false)) {
-			openWindow(cmdLine, null, Services.scriptSecurityManager.getSystemPrincipal());
+			openWindow(
+				cmdLine,
+				null,
+				Services.scriptSecurityManager.getSystemPrincipal()
+			);
 			cmdLine.preventDefault = true;
 		}
 
@@ -464,7 +502,10 @@ export class nsDotContentHandler {
 
 		try {
 			// Iterate until the urlParam is set.
-			while ((uriParam = cmdLine.handleFlagWithParam("new-tab", false)) != null) {
+			while (
+				(uriParam = cmdLine.handleFlagWithParam("new-tab", false)) !=
+				null
+			) {
 				// Resolve the URI passed into an nsIURI.
 				const uri = resolveURIInternal(cmdLine, uriParam);
 
@@ -490,25 +531,30 @@ export class nsDotContentHandler {
 			// Ensure old preference URIs are redirected to about:preferences
 			if (
 				chromeParam == "chrome://browser/content/pref/pref.xul" ||
-				chromeParam == "chrome://browser/content/preferences/preferences.xul"
+				chromeParam ==
+					"chrome://browser/content/preferences/preferences.xul"
 			) {
 				openPreferences(cmdLine);
 				cmdLine.preventDefault = true;
 			} else {
 				try {
-					const resolvedURI = resolveURIInternal(cmdLine, chromeParam);
+					const resolvedURI = resolveURIInternal(
+						cmdLine,
+						chromeParam
+					);
 
 					// Make sure the URL that is trying to be loaded
 					// is safe for loading into chrome contexts
 					if (isLocal(resolvedURI)) {
 						// If the URI is local, we are sure it won't wrongly inherit chrome privs
-						const features = "chrome,dialog=no,all" + this.getFeatures(cmdLine);
+						const features =
+							"chrome,dialog=no,all" + this.getFeatures(cmdLine);
 
 						// Provide 1 null argument, as openWindow has a different behavior
 						// when the arg count is 0.
-						let argArray = Cc["@mozilla.org/array;1"].createInstance(
-							Ci.nsIMutableArray
-						);
+						let argArray = Cc[
+							"@mozilla.org/array;1"
+						].createInstance(Ci.nsIMutableArray);
 						argArray.appendElement(null);
 
 						// Launch the new chrome window
@@ -524,7 +570,9 @@ export class nsDotContentHandler {
 					} else {
 						// Keep this error message the same as FF to avoid breaking existing things
 						dump("*** Preventing load of web URI as chrome\n");
-						dump("    If you're trying to load a webpage, do not pass --chrome.\n");
+						dump(
+							"    If you're trying to load a webpage, do not pass --chrome.\n"
+						);
 					}
 				} catch (e) {
 					console.error(e);
@@ -575,7 +623,11 @@ export class nsDotContentHandler {
 			const file = cmdLine.resolveFile(fileParam);
 			const uri = Services.io.newFileURI(file);
 
-			openWindow(cmdLine, uri.spec, Services.scriptSecurityManager.getSystemPrincipal());
+			openWindow(
+				cmdLine,
+				uri.spec,
+				Services.scriptSecurityManager.getSystemPrincipal()
+			);
 			cmdLine.preventDefault = true;
 		}
 
@@ -600,10 +652,16 @@ export class nsDotContentHandler {
 	validate(cmdLine) {
 		const urlId = cmdLine.findFlag("url", false);
 
-		if (urlId > -1 && cmdLine.state == Ci.nsICommandLine.STATE_REMOTE_EXPLICIT) {
+		if (
+			urlId > -1 &&
+			cmdLine.state == Ci.nsICommandLine.STATE_REMOTE_EXPLICIT
+		) {
 			const urlParam = cmdLine.getArgument(urlId + 1);
 
-			if (cmdLine.length != urlId + 2 || /firefoxurl(-[a-f0-9]+)?:/i.test(urlParam)) {
+			if (
+				cmdLine.length != urlId + 2 ||
+				/firefoxurl(-[a-f0-9]+)?:/i.test(urlParam)
+			) {
 				throw Components.Exception("", Cr.NS_ERROR_ABORT);
 			}
 		}
@@ -634,8 +692,14 @@ export class nsDotContentHandler {
 		register("--browser", "Open a new browser window.");
 		register("--new-window <url>", "Open <url> in a new window.");
 		register("--new-tab <url>", "Open <url> in a new tab.");
-		register("--private-window <url>", "Open <url> in a new private window.");
-		register("--search <term>", "Search <term> with your default search engine.");
+		register(
+			"--private-window <url>",
+			"Open <url> in a new private window."
+		);
+		register(
+			"--search <term>",
+			"Search <term> with your default search engine."
+		);
 
 		blank();
 		section("Options");
@@ -646,7 +710,10 @@ export class nsDotContentHandler {
 			`Set ${AppConstants.MOZ_APP_BASENAME} as your default browser.`
 		);
 		register("--kiosk", "Start the browser in kiosk mode.");
-		register("--disable-pinch", "Disable touchscreen and touchpad pinch gestures.");
+		register(
+			"--disable-pinch",
+			"Disable touchscreen and touchpad pinch gestures."
+		);
 
 		return info;
 	}

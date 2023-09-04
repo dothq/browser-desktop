@@ -2,7 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { XPCOMUtils } = ChromeUtils.importESModule("resource://gre/modules/XPCOMUtils.sys.mjs");
+var { XPCOMUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/XPCOMUtils.sys.mjs"
+);
 
 ChromeUtils.defineESModuleGetters(globalThis, {
 	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs",
@@ -12,7 +14,12 @@ ChromeUtils.defineESModuleGetters(globalThis, {
 
 XPCOMUtils.defineLazyScriptGetter(
 	globalThis,
-	["BrowserAddonUI", "gExtensionsNotifications", "gUnifiedExtensions", "gXPInstallObserver"],
+	[
+		"BrowserAddonUI",
+		"gExtensionsNotifications",
+		"gUnifiedExtensions",
+		"gXPInstallObserver"
+	],
 	"chrome://browser/content/browser-addons.js"
 );
 
@@ -24,9 +31,13 @@ XPCOMUtils.defineLazyServiceGetters(globalThis, {
 	BrowserHandler: ["@mozilla.org/browser/clh;1", "nsIBrowserHandler"]
 });
 
-var { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+var { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
-var { Color } = ChromeUtils.importESModule("resource://gre/modules/Color.sys.mjs");
+var { Color } = ChromeUtils.importESModule(
+	"resource://gre/modules/Color.sys.mjs"
+);
 
 var { LightweightThemeConsumer } = ChromeUtils.importESModule(
 	"resource://gre/modules/LightweightThemeConsumer.sys.mjs"
@@ -44,7 +55,9 @@ var { nsBrowserAccess } = ChromeUtils.importESModule(
 	"resource:///modules/DotBrowserWindow.sys.mjs"
 );
 
-var { NativeTitlebar } = ChromeUtils.importESModule("resource:///modules/NativeTitlebar.sys.mjs");
+var { NativeTitlebar } = ChromeUtils.importESModule(
+	"resource:///modules/NativeTitlebar.sys.mjs"
+);
 
 var { BrowserTabsUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
@@ -161,11 +174,20 @@ var gDotInit = {
 				var { Windows8WindowFrameColor } = ChromeUtils.importESModule(
 					"resource:///modules/Windows8WindowFrameColor.sys.mjs"
 				);
-				const windowFrameColor = new Color(Windows8WindowFrameColor.get());
+				const windowFrameColor = new Color(
+					Windows8WindowFrameColor.get()
+				);
 
 				// Default to black for foreground text.
-				if (!windowFrameColor.isContrastRatioAcceptable(new Color(0, 0, 0))) {
-					document.documentElement.setAttribute("darkwindowframe", "true");
+				if (
+					!windowFrameColor.isContrastRatioAcceptable(
+						new Color(0, 0, 0)
+					)
+				) {
+					document.documentElement.setAttribute(
+						"darkwindowframe",
+						"true"
+					);
 				}
 			}
 		}
@@ -194,23 +216,6 @@ var gDotInit = {
 
 		DotWindowTracker.track(window);
 
-		// Set favicons for special pages on boot to
-		// create the illusion of faster load.
-		this.callWithURIToLoad((uriToLoad) => {
-			let url;
-
-			try {
-				url = Services.io.newURI(uriToLoad.toString());
-			} catch (e) {
-				return;
-			}
-
-			const nonQuery = url.prePath + url.filePath;
-			if (nonQuery in BrowserTabsUtils.INTERNAL_PAGES) {
-				gDot.tabs.setInitialMetadata(gDot.tabs.selectedTab, nonQuery);
-			}
-		});
-
 		console.timeEnd("onDOMContentLoaded");
 	},
 
@@ -219,7 +224,10 @@ var gDotInit = {
 		if (this._tabToAdopt !== undefined) return this._tabToAdopt;
 
 		// Checking whether the first argument provided to the window is a XULElement type
-		if (window.arguments && window.XULElement.isInstance(window.arguments[0])) {
+		if (
+			window.arguments &&
+			window.XULElement.isInstance(window.arguments[0])
+		) {
 			this._tabToAdopt = window.arguments[0];
 
 			// Remove the tab property from arguments
@@ -257,33 +265,29 @@ var gDotInit = {
 				// If the argument passed url is not the same as the one
 				// in the default arguments, we want to load it.
 
+				console.log("Not default", uri);
+
 				if (uri instanceof Ci.nsIArray) {
 					// Transform the nsIArray of nsISupportsString's into a JS Array of
 					// JS strings.
 					return Array.from(
-						/** @type {any} */ (uri).enumerate(Ci.nsISupportsString),
+						/** @type {any} */ (uri).enumerate(
+							Ci.nsISupportsString
+						),
 						(supportStr) => supportStr.data
 					);
 				} else if (uri instanceof Ci.nsISupportsString) {
 					return uri.data;
+				} else if (defaultArgs.includes("|")) {
+					return Array.from(
+						new Set([...defaultArgs.split("|"), uri])
+					);
 				}
 
 				return uri;
-			} else {
-				// Otherwise, we will continue to load the homepage
-				// only if Session Restore isn't about to override it.
-				const willOverride = globalThis.SessionStartup.willOverrideHomepage;
-
-				// If willOverride is a boolean, we can return the homepage synchronously
-				if (typeof willOverride == "boolean") {
-					return willOverride ? null : uri;
-				}
-
-				// Otherwise, we need to wait for the promise to resolve before returning
-				return willOverride.then((/** @type {boolean} */ willOverrideHomepage) =>
-					willOverrideHomepage ? null : uri
-				);
 			}
+
+			return uri;
 		})());
 	},
 
@@ -359,25 +363,32 @@ var gDotInit = {
 				if (window.arguments[1]) {
 					// Check if the extra options are a type of property bag
 					if (!(window.arguments[1] instanceof Ci.nsIPropertyBag2)) {
-						throw new Error("window.arguments[1] must be null or Ci.nsIPropertyBag2!");
+						throw new Error(
+							"window.arguments[1] must be null or Ci.nsIPropertyBag2!"
+						);
 					}
 
 					const extraOptions = window.arguments[1];
 
 					if (extraOptions.hasKey("hasValidUserGestureActivation"))
-						hasValidUserGestureActivation = extraOptions.getPropertyAsBool(
-							"hasValidUserGestureActivation"
-						);
+						hasValidUserGestureActivation =
+							extraOptions.getPropertyAsBool(
+								"hasValidUserGestureActivation"
+							);
 
 					if (extraOptions.hasKey("fromExternal"))
-						fromExternal = extraOptions.getPropertyAsBool("fromExternal");
+						fromExternal =
+							extraOptions.getPropertyAsBool("fromExternal");
 
 					if (extraOptions.hasKey("triggeringRemoteType"))
 						triggeringRemoteType =
-							extraOptions.getPropertyAsACString("triggeringRemoteType");
+							extraOptions.getPropertyAsACString(
+								"triggeringRemoteType"
+							);
 
 					if (extraOptions.hasKey("forceAllowDataURI"))
-						forceAllowDataURI = extraOptions.getPropertyAsBool("forceAllowDataURI");
+						forceAllowDataURI =
+							extraOptions.getPropertyAsBool("forceAllowDataURI");
 				}
 
 				try {
@@ -407,6 +418,7 @@ var gDotInit = {
 				}
 				window.focus();
 			} else {
+				console.log(uriToLoad);
 				// Note: loadOneOrMoreURIs *must not* be called if window.arguments.length >= 3.
 				// Such callers expect that window.arguments[0] is handled as a single URI.
 				loadOneOrMoreURIs(
@@ -437,7 +449,11 @@ var gDotInit = {
 		// Listen for any changes to the permission state
 		// This is typically fired when there is user gesture
 		// to a permission request such as block/allow/ignore.
-		console.log("gBrowser::addEventListener", "PermissionStateChange", true);
+		console.log(
+			"gBrowser::addEventListener",
+			"PermissionStateChange",
+			true
+		);
 
 		this.handleURIToLoad();
 
@@ -445,19 +461,49 @@ var gDotInit = {
 		Services.obs.addObserver(gRemoteControl, "marionette-listening");
 		Services.obs.addObserver(gRemoteControl, "remote-listening");
 
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-disabled");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-started");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-blocked");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-fullscreen-blocked");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-origin-blocked");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-policy-blocked");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-webapi-blocked");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-failed");
-		Services.obs.addObserver(globalThis.gXPInstallObserver, "addon-install-confirmation");
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-disabled"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-started"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-blocked"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-fullscreen-blocked"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-origin-blocked"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-policy-blocked"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-webapi-blocked"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-failed"
+		);
+		Services.obs.addObserver(
+			globalThis.gXPInstallObserver,
+			"addon-install-confirmation"
+		);
 
 		this.delayedStartupFinished = true;
 		globalThis._resolveDelayedStartup();
-		Services.obs.notifyObservers(window, "browser-delayed-startup-finished");
+		Services.obs.notifyObservers(
+			window,
+			"browser-delayed-startup-finished"
+		);
 	},
 
 	onLoad() {
