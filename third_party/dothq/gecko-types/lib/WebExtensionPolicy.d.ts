@@ -38,27 +38,27 @@ export interface WebExtensionPolicy {
 	/**
 	 * Returns the list of currently active extension policies.
 	 */
-	getActiveExtensions(): WebExtensionPolicy[];
+	getActiveExtensions(): WebExtensionPolicyInstance[];
 
 	/**
 	 * Returns the currently-active policy for the extension with the given ID,
 	 * or null if no policy is active for that ID.
 	 */
-	getByID(id: string): WebExtensionPolicy | null;
+	getByID(id: string): WebExtensionPolicyInstance | null;
 
 	/**
 	 * Returns the currently-active policy for the extension with the given
 	 * moz-extension: hostname, or null if no policy is active for that
 	 * hostname.
 	 */
-	getByHostname(hostname: string): WebExtensionPolicy | null;
+	getByHostname(hostname: string): WebExtensionPolicyInstance | null;
 
 	/**
 	 * Returns the currently-active policy for the extension extension URI, or
 	 * null if the URI is not an extension URI, or no policy is currently active
 	 * for it.
 	 */
-	getByURI(uri: nsIURI): WebExtensionPolicy | null;
+	getByURI(uri: nsIURI): WebExtensionPolicyInstance | null;
 
 	/**
 	 * Returns true if the URI is restricted for any extension.
@@ -280,4 +280,6 @@ interface WebExtensionPolicyInstance {
 	 */
 
 	readonly browsingContextGroupId: number;
+
+    readonly extension: any;
 }
