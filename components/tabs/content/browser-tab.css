@@ -10,6 +10,7 @@ browser-tab {
     width: 100%;
 
     padding: var(--browser-ui-density) calc(var(--browser-ui-density) * 1.25);
+    padding-inline-end: var(--browser-ui-density);
     margin: 0;
 
     appearance: none;
@@ -34,7 +35,7 @@ browser-tab .browser-tab-background {
     top: 0;
     left: 0;
 
-    background-color: transparent;
+    background-color: var(--tab-background);
 
     border-radius: var(--browser-ui-density) var(--browser-ui-density) 0 0;
 
@@ -44,12 +45,12 @@ browser-tab .browser-tab-background {
     overflow: clip;
 }
 
-browser-tab:hover .browser-tab-background {
-    background-color: rgba(128, 128, 128, 0.125);
+browser-tab:hover {
+    --tab-background: rgba(128, 128, 128, 0.125);
 }
 
-browser-tab[selected] .browser-tab-background {
-    background-color: var(--toolbar-bgcolor);
+browser-tab[selected] {
+    --tab-background: var(--toolbar-bgcolor);
 }
 
 browser-tab .browser-tab-icon-container {
@@ -97,20 +98,28 @@ browser-tab .browser-tab-spinner {
     background-color: currentColor;
 }
 
-browser-tab .browser-tab-label-container {
+browser-tab .browser-tab-contents {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: var(--browser-ui-density);
+    overflow: hidden;
+}
+
+browser-tab .browser-tab-contents .browser-tab-label-container {
     display: flex;
     align-items: center;
     white-space: nowrap;
     overflow: hidden;
-    width: 100%;
+    flex: 1;
 }
 
-browser-tab .browser-tab-label-container:-moz-locale-dir(ltr) {
-    mask-image: linear-gradient(to right, black 80%, #fff0);
+browser-tab .browser-tab-contents .browser-tab-label-container:-moz-locale-dir(ltr) {
+    mask-image: linear-gradient(to right, black 90%, #fff0);
 }
 
-browser-tab .browser-tab-label-container:-moz-locale-dir(rtl) {
-    mask-image: linear-gradient(to left, black 80%, #fff0);
+browser-tab .browser-tab-contents .browser-tab-label-container:-moz-locale-dir(rtl) {
+    mask-image: linear-gradient(to left, black 90%, #fff0);
 }
 
 /* Busy */
@@ -240,4 +249,13 @@ browser-tab[dragging][dragging-feedback="left"] {
     browser-tab::before {
         display: none;
     }
+}
+
+browser-tab .browser-tab-icons {
+    display: flex;
+}
+
+browser-tab .toolbar-button {
+    padding: calc(var(--padding-y) / 2) calc(var(--padding-x) / 2);
+    --size: 12px;
 }
