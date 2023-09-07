@@ -23,6 +23,22 @@ class BrowserRoutine {
 	}
 
 	/**
+	 * The routine's action data
+	 * @param {object} options
+	 * @param {boolean} [options.keybindings]
+	 */
+	getActionData({ keybindings }) {
+		return {
+			label: this.localizedLabel,
+			tooltip: keybindings
+				? this.localizedLabelAndKeybind
+				: this.localizedLabel,
+			icon: this.icon,
+			keybindings: this.keybindings
+		};
+	}
+
+	/**
 	 * The localized label for this routine
 	 */
 	get localizedLabel() {
@@ -71,10 +87,10 @@ class BrowserRoutine {
 
 	/**
 	 * Performs the routine
-	 * @param {Event} event
+	 * @param {Partial<ReturnType<typeof gDotCommands.createContext>>} ctx
 	 * @returns
 	 */
-	async performRoutine(event) {
+	async performRoutine(ctx) {
 		for await (const block of this.routine) {
 			const blockId = Array.isArray(block) ? block[0] : block;
 			const blockArgs = Array.isArray(block) ? block[1] || {} : {};
@@ -84,7 +100,10 @@ class BrowserRoutine {
 			if (command) {
 				try {
 					await Promise.resolve(
-						gDotCommands.execCommand(command.name, blockArgs)
+						gDotCommands.execCommand(command.name, {
+							...blockArgs,
+							...(ctx || {})
+						})
 					);
 				} catch (e) {
 					console.error(
@@ -152,11 +171,18 @@ var gDotRoutines = {
 				keybindings: ["Ctrl+Q"]
 			},
 			{
-				id: "new-window",
+				id: "new-tab",
 				icon: "add",
 
 				routine: ["application.new_tab"],
 				keybindings: ["Ctrl+T"]
+			},
+			{
+				id: "close-tab",
+				icon: "close",
+
+				routine: ["application.close_tab"],
+				keybindings: ["Ctrl+W"]
 			},
 			{
 				id: "navigate-back",
@@ -202,7 +228,7 @@ var gDotRoutines = {
 			},
 			{
 				id: "toggle-identity-popout",
-				icon: "toggle",
+				icon: "info",
 
 				routine: [
 					["browser.popouts.toggle", { name: "page-identity" }]
@@ -232,6 +258,18 @@ var gDotRoutines = {
 
 	init() {
 		window.addEventListener("keydown", this);
+
+		for (const bind of this._bindings) {
+			const [msg] = gRoutinesLocalization.formatMessagesSync([
+				{ id: `routine-${bind.id.split(".")[0]}` }
+			]);
+
+			if (!msg) {
+				console.warn(
+					`No localization found for routine with ID '${bind.id}'!`
+				);
+			}
+		}
 	},
 
 	deinit() {

@@ -6,6 +6,10 @@ var { ModifierKeyManager } = ChromeUtils.importESModule(
 	"resource://gre/modules/ModifierKeyManager.sys.mjs"
 );
 
+var { DotCustomizableUI } = ChromeUtils.importESModule(
+	"resource:///modules/DotCustomizableUI.sys.mjs"
+);
+
 /**
  * @callback Resolvable
  * @param {ReturnType<typeof gDotCommands.createContext>} [data]
@@ -21,8 +25,6 @@ class BrowserToolbarButton extends HTMLButtonElement {
 
 	constructor() {
 		super();
-
-		this._context = gDotCommands.createContext({ win: window });
 	}
 
 	static get observedAttributes() {
@@ -33,7 +35,51 @@ class BrowserToolbarButton extends HTMLButtonElement {
 	 * Button handler context
 	 */
 	get context() {
-		return this._context;
+		const area = this.associatedArea
+			? { [this.associatedArea]: this.associatedAreaElement }
+			: {};
+
+		return gDotCommands.createContext({
+			...area,
+			...(this.contextOverrides || {}),
+			win: window
+		});
+	}
+
+	/**
+	 * The associated area ID for this toolbar button
+	 */
+	get associatedArea() {
+		return this.associatedAreaElement?.getAttribute("customizablename");
+	}
+
+	/**
+	 * The associated area element for this toolbar button
+	 *
+	 * @returns {typeof DotCustomizableUI.CustomizableAreaElement.prototype}
+	 */
+	get associatedAreaElement() {
+		return this.closest(".customizable-area");
+	}
+
+	/**
+	 * Overrides to be passed to the routine on command
+	 * @type {Partial<ReturnType<typeof gDotCommands.createContext>>}
+	 */
+	get contextOverrides() {
+		return null;
+	}
+
+	/**
+	 * Determines whether keybindings should be show in tooltips
+	 * @type {boolean}
+	 */
+	get showKeybindings() {
+		return (
+			!!this.associatedAreaElement?.getAttribute(
+				"customizableshowkeybindings"
+			) ?? true
+		);
 	}
 
 	/**
@@ -225,16 +271,15 @@ class BrowserToolbarButton extends HTMLButtonElement {
 	 * @param {MouseEvent} event
 	 */
 	_handleTBClick(event) {
+		event.stopPropagation();
+
 		if (this.disabled) {
 			event.preventDefault();
-			event.stopPropagation();
 			return;
 		}
 
 		if (this.routine) {
-			console.log("Performing routine", this.routineId);
-
-			this.routine.performRoutine(event);
+			this.routine.performRoutine(this.context);
 		}
 	}
 
@@ -265,9 +310,13 @@ class BrowserToolbarButton extends HTMLButtonElement {
 	}
 
 	handleRoutineUpdate() {
-		this.label = this.routine.localizedLabel;
-		this.title = this.routine.localizedLabelAndKeybind;
-		this.icon = this.routine.icon;
+		const data = this.routine.getActionData({
+			keybindings: this.showKeybindings
+		});
+
+		this.label = data.label;
+		this.title = data.tooltip;
+		this.icon = data.icon;
 	}
 
 	/** @type {IntersectionObserverCallback} */
