@@ -7,9 +7,13 @@
  * @typedef {import("third_party/dothq/gecko-types/lib/nsIWebNavigation").LoadURIOptions} LoadURIOptions
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
  */
-var { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+var { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
-var { XPCOMUtils } = ChromeUtils.importESModule("resource://gre/modules/XPCOMUtils.sys.mjs");
+var { XPCOMUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/XPCOMUtils.sys.mjs"
+);
 
 var { NavigationHelper } = ChromeUtils.importESModule(
 	"resource:///modules/NavigationHelper.sys.mjs"
@@ -43,11 +47,16 @@ function html(tagName, attributes, ...children) {
 	children = children || [];
 
 	const element =
-		tagName == "fragment" ? document.createDocumentFragment() : document.createElement(tagName);
+		tagName == "fragment"
+			? document.createDocumentFragment()
+			: document.createElement(tagName);
 
 	if (tagName !== "fragment") {
 		for (const [key, value] of Object.entries(attributes)) {
-			/** @type {HTMLElement} */ (element).setAttribute(convertToKebabCase(key), value);
+			/** @type {HTMLElement} */ (element).setAttribute(
+				convertToKebabCase(key),
+				value
+			);
 		}
 	}
 
@@ -69,7 +78,9 @@ function shim(name, props) {
 		{},
 		{
 			get(target, property) {
-				console.debug(`${name}: Tried accessing getter '${property.toString()}'.`);
+				console.debug(
+					`${name}: Tried accessing getter '${property.toString()}'.`
+				);
 
 				return props && props[property.toString()]
 					? props[property.toString()]()
@@ -107,7 +118,9 @@ function shimFunction(name, returnValue) {
  */
 function generateID(rounds = 4) {
 	return [...Array(rounds)]
-		.map((i) => Math.round(Date.now() + Math.random() * Date.now()).toString(36))
+		.map((i) =>
+			Math.round(Date.now() + Math.random() * Date.now()).toString(36)
+		)
 		.join("");
 }
 
@@ -119,7 +132,12 @@ function generateID(rounds = 4) {
  * @param {any} csp
  */
 function loadOneOrMoreURIs(urlString, triggeringPrincipal, csp) {
-	return NavigationHelper.loadOneOrMoreURIs(window, urlString, triggeringPrincipal, csp);
+	return NavigationHelper.loadOneOrMoreURIs(
+		window,
+		urlString,
+		triggeringPrincipal,
+		csp
+	);
 }
 
 /**
@@ -129,7 +147,7 @@ function loadOneOrMoreURIs(urlString, triggeringPrincipal, csp) {
  * @global
  * @param {string} url
  * @param {LoadWhere} where
- * @param {Partial<LoadURIOptions>} params
+ * @param {Partial<LoadURIOptions>} [params]
  */
 function openTrustedLinkIn(url, where, params) {
 	NavigationHelper.openTrustedLinkIn(window, url, where, params);
@@ -210,7 +228,9 @@ function switchToTabHavingURI(url, openNew, openParams) {
  * @param {BrowserTab} tab
  * @private
  */
-function _newNullPrincipalFromUserContextId(tab = window.gDot.tabs.selectedTab) {
+function _newNullPrincipalFromUserContextId(
+	tab = window.gDot.tabs.selectedTab
+) {
 	let userContextId;
 
 	if (tab.hasAttribute("usercontextid")) {
@@ -220,4 +240,30 @@ function _newNullPrincipalFromUserContextId(tab = window.gDot.tabs.selectedTab) 
 	return Services.scriptSecurityManager.createNullPrincipal({
 		userContextId
 	});
+}
+
+/**
+ * Gets the help link URL for a specific help topic
+ * @param {string} helpTopic
+ * @returns {string}
+ */
+function getHelpLinkURL(helpTopic) {
+	const url = Services.urlFormatter.formatURLPref("app.support.baseURL");
+	return url + helpTopic;
+}
+
+/**
+ * Opens a help topic page
+ * @param {string} helpTopic
+ * @param {boolean} calledFromModal
+ * @param {LoadWhere} where
+ */
+function openHelpLink(helpTopic, calledFromModal, where) {
+	const url = getHelpLinkURL(helpTopic);
+
+	if (!where) {
+		where = calledFromModal ? "window" : "tab";
+	}
+
+	openTrustedLinkIn(url, where);
 }
