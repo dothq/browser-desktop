@@ -11,9 +11,17 @@ var { NavigationHelper } = ChromeUtils.importESModule(
 	"resource:///modules/NavigationHelper.sys.mjs"
 );
 
-var { BrowserTabs } = ChromeUtils.importESModule("resource:///modules/BrowserTabs.sys.mjs");
+var { BrowserTabs } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserTabs.sys.mjs"
+);
 
-var { NativeTitlebar } = ChromeUtils.importESModule("resource:///modules/NativeTitlebar.sys.mjs");
+var { BrowserSearch } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserSearch.sys.mjs"
+);
+
+var { NativeTitlebar } = ChromeUtils.importESModule(
+	"resource:///modules/NativeTitlebar.sys.mjs"
+);
 
 // This is exported only for type checking reasons, this should never be imported directly
 const _gDot = {
@@ -21,6 +29,9 @@ const _gDot = {
 
 	/** @type {typeof BrowserTabs.prototype} */
 	tabs: null,
+
+	/** @type {typeof BrowserSearch.prototype} */
+	search: null,
 
 	/**
 	 * The toolbox for this browser session
@@ -43,7 +54,8 @@ const _gDot = {
 	 * @returns {boolean}
 	 */
 	get usesRemoteSubframes() {
-		return window.docShell.QueryInterface(Ci.nsILoadContext).useRemoteSubframes;
+		return window.docShell.QueryInterface(Ci.nsILoadContext)
+			.useRemoteSubframes;
 	},
 
 	/**
@@ -60,6 +72,10 @@ const _gDot = {
 		return NativeTitlebar.enabled;
 	},
 
+	get prefersReducedMotion() {
+		return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	},
+
 	/**
 	 * Initialises the browser and its components
 	 */
@@ -69,11 +85,22 @@ const _gDot = {
 		}
 
 		gDot.tabs = new BrowserTabs(window);
+		gDot.search = new BrowserSearch(window);
 
 		// @todo(EnderDev) add types for DotCustomizableUI
 		globalThis.DotCustomizableUI.initialize();
 
 		gDotRoutines.init();
+
+		// Listens for changes to the reduced motion preference
+		window
+			.matchMedia("(prefers-reduced-motion: reduce)")
+			.addEventListener("change", (e) => {
+				document.documentElement.toggleAttribute(
+					"reducedmotion",
+					e.matches
+				);
+			});
 
 		gDot._done = true;
 	}
