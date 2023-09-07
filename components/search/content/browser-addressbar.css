@@ -16,7 +16,7 @@ browser-addressbar {
 
     outline: 0px solid var(--toolbar-field-focus-background-color);
 
-    transition: 0.3s outline cubic-bezier(0.19, 1, 0.22, 1), 0.3s background-color cubic-bezier(0.19, 1, 0.22, 1);
+    transition: 0s all 0.01s;
 
     z-index: 2147483647;
 }
@@ -35,8 +35,15 @@ browser-addressbar .addressbar-input {
 browser-addressbar[focuswithin] {
     background-color: var(--toolbar-field-focus-background-color);
     outline: 6px solid var(--toolbar-field-focus-background-color);
-    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, .132), 0 1.2px 3.6px 0 rgba(0, 0, 0, .108), 0px 0px 0px 7px var(--outline-color, rgba(0, 0, 0, .05));
-    transition-duration: 0.1s;
+    box-shadow:
+        0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
+        0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108),
+        0px 0px 0px 7px var(--outline-color, rgba(0, 0, 0, 0.075));
+
+    transition:
+        0.2s outline cubic-bezier(0.19, 1, 0.22, 1) 0s,
+        0.2s background-color cubic-bezier(0.19, 1, 0.22, 1) 0s,
+        0.2s box-shadow cubic-bezier(0.19, 1, 0.22, 1) 0s;
 }
 
 browser-addressbar .addressbar-identity-box {
@@ -75,7 +82,6 @@ browser-addressbar .addressbar-identity-box .toolbar-button::before {
     --height: 25%;
 }
 
-
 browser-addressbar .addressbar-identity-box .toolbar-button:not(:disabled):hover::before,
 browser-addressbar .addressbar-identity-box .toolbar-button:not(:disabled):active::before,
 browser-addressbar .addressbar-identity-box .toolbar-button:last-of-type::before,
@@ -93,7 +99,7 @@ browser-addressbar .addressbar-identity-box[onlychild] .addressbar-identity-butt
     box-shadow: none;
 }
 
-browser-addressbar .addressbar-identity-box .addressbar-identity-button[identitytype=search] {
+browser-addressbar .addressbar-identity-box .addressbar-identity-button[identitytype="search"] {
     pointer-events: none;
 }
 
