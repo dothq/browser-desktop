@@ -6,10 +6,16 @@ export type PrefObserverFunction = (
 	aSubject: nsIPrefBranch,
 	aTopic: "nsPref:changed",
 	aData: string
-) => unknown;
+) => void;
+
+export type PrefObserverObject = { 
+    observe: PrefObserverFunction; 
+    [key: string]: any; 
+};
+
 export type PrefObserver =
 	| PrefObserverFunction
-	| { observe: PrefObserverFunction };
+	| PrefObserverObject;
 
 export type GetPref<T> = (prefName: string, defaultValue?: T) => T;
 export type SetPref<T> = (prefName: string, value?: T) => T;
