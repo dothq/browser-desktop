@@ -67,6 +67,10 @@ var { DevToolsSocketStatus } = ChromeUtils.importESModule(
 	"resource://devtools/shared/security/DevToolsSocketStatus.sys.mjs"
 );
 
+var { ModifierKeyManager } = ChromeUtils.importESModule(
+	"resource://gre/modules/ModifierKeyManager.sys.mjs"
+);
+
 /**
  * This is used to delay the startup of the browser
  * until we have completed the delayed startup.
@@ -162,6 +166,7 @@ var gDotInit = {
 		}
 
 		NativeTitlebar.init(document);
+		ModifierKeyManager.init(window);
 
 		new LightweightThemeConsumer(document);
 

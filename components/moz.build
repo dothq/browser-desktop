@@ -9,6 +9,7 @@ DIRS += [
     "csd",
     "customizableui",
     "extensions",
+    "keyboard",
     "navigation",
     "onboarding",
     "popups",

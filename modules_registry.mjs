@@ -10,10 +10,13 @@ const registry = {
 	BrowserCompatibility: "components/compat/BrowserCompatibility.sys.mjs",
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",
+	BrowserSearch: "components/search/BrowserSearch.sys.mjs",
 	NativeTitlebar: "components/csd/NativeTitlebar.sys.mjs",
 	NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
+	ModifierKeyManager: "components/keyboard/ModifierKeyManager.sys.mjs",
 	StartPage: "components/startpage/StartPage.sys.mjs",
-	TabProgressListener: "components/tabs/TabProgressListener.sys.mjs",
+	TabIdentityHandler: "components/tabs/TabIdentityHandler.sys.mjs",
+	TabProgressListener: "components/tabs/TabProgressListener.sys.mjs"
 };
 
 export default registry;
