@@ -103,6 +103,17 @@ var gDotCommands = {
 
 				category: this.COMMAND_CATEGORY_APPLICATION
 			},
+			{
+				name: "application.close_tab",
+
+				action: ({ tab }) => {
+					tab.maybeClose();
+				},
+
+				enabled: () => true,
+
+				category: this.COMMAND_CATEGORY_APPLICATION
+			},
 
 			/* Browsing */
 			{
@@ -205,15 +216,21 @@ var gDotCommands = {
 			{
 				name: "browser.popouts.toggle",
 
-				action: ({ win, name, selectedTab }) => {
+				action: ({ win, name, tab, gDot }) => {
 					switch (name) {
 						case "page-identity": {
-							win.openDialog(
-								"chrome://browser/content/pageinfo/pageInfo.xhtml",
-								"",
-								"chrome,toolbar,dialog=no,resizable",
-								{ initialTab: selectedTab }
-							);
+							if (
+								gDot.tabs._isWebContentsBrowserElement(
+									tab.webContents
+								)
+							) {
+								win.openDialog(
+									"chrome://browser/content/pageinfo/pageInfo.xhtml",
+									"",
+									"chrome,toolbar,dialog=no,resizable",
+									{ browser: tab.webContents }
+								);
+							}
 						}
 					}
 				},
@@ -227,35 +244,47 @@ var gDotCommands = {
 
 	/**
 	 * Create a combined context object using provided overrides
-	 * @param {object} overrides
+	 * @param {object} incomingOverrides
 	 *
 	 * @returns {BrowserCommandContext}
 	 */
-	createContext(overrides) {
-		return {
-			...overrides,
+	createContext(incomingOverrides) {
+		// If we accidently pass in a rendered tab, make sure we get the internal tab
+		if (
+			incomingOverrides.tab &&
+			incomingOverrides.tab instanceof BrowserRenderedTab
+		) {
+			incomingOverrides.tab = /** @type {BrowserRenderedTab} */ (
+				incomingOverrides.tab
+			).linkedTab;
+		}
 
-			win: overrides.win,
+		const ctx = {
+			_overrides: { ...incomingOverrides },
+
+			/** @type {Window} */
+			win: incomingOverrides.win,
 
 			/**
 			 * @returns {BrowserTab}
 			 */
 			get tab() {
 				if (
-					overrides.tab &&
-					overrides.tab.constructor.name == "BrowserTab"
+					this._overrides.tab &&
+					this._overrides.tab instanceof BrowserTab
 				) {
-					return overrides.tab;
+					return this._overrides.tab;
 				}
 
-				if (
-					overrides.browser &&
-					overrides.browser.constructor.name == "MozBrowser"
-				) {
-					return this.win.gDot.tabs.getTabForWebContents(
-						overrides.browser
-					);
-				}
+				if (this)
+					if (
+						this._overrides.browser &&
+						this._overrides.browser.constructor.name == "MozBrowser"
+					) {
+						return this.win.gDot.tabs.getTabForWebContents(
+							this._overrides.browser
+						);
+					}
 
 				return this.selectedTab;
 			},
@@ -274,10 +303,10 @@ var gDotCommands = {
 			 */
 			get browser() {
 				if (
-					overrides.browser &&
-					overrides.browser.constructor.name == "MozBrowser"
+					this._overrides.browser &&
+					this._overrides.browser.constructor.name == "MozBrowser"
 				) {
-					return overrides.browser;
+					return this._overrides.browser;
 				}
 
 				if (!this.win.gDot?.tabs) return null;
@@ -309,9 +338,17 @@ var gDotCommands = {
 			 * @type {typeof gDotCommands.execCommand}
 			 */
 			execCommand(...args) {
-				window.gDotCommands.execCommand.bind(gDotCommands, ...args)();
+				this.win.gDotCommands.execCommand.bind(gDotCommands, ...args)();
 			}
 		};
+
+		for (const [key, value] of Object.entries(incomingOverrides || {})) {
+			if (!ctx[key]) {
+				ctx[key] = value;
+			}
+		}
+
+		return ctx;
 	},
 
 	/**
@@ -334,7 +371,7 @@ var gDotCommands = {
 
 		if (!cmd.enabled(context)) return;
 
-		console.debug("Command:", name);
+		console.log("Command", name);
 		return cmd.action.bind(gDotCommands, context)();
 	}
 };
