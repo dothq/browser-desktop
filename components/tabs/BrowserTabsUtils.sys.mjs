@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { StartPage } = ChromeUtils.importESModule(
+	"resource:///modules/StartPage.sys.mjs"
+);
+
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIChannel} nsIChannel
  */
@@ -10,6 +14,7 @@ export const BrowserTabsUtils = {
 	// Ensure that these icons match up with the actual page favicon
 	// Reflect any changes here with base/content/browser-init.ts
 	INTERNAL_PAGES: {
+		"about:blank": { title: "New Tab", icon: "" },
 		"about:home": { title: "New Tab", icon: "chrome://dot/skin/home.svg" },
 		"about:newtab": {
 			title: "New Tab",
@@ -22,6 +27,10 @@ export const BrowserTabsUtils = {
 		"about:privatebrowsing": {
 			title: "Private Browsing",
 			icon: "chrome://browser/skin/privatebrowsing/favicon.svg"
+		},
+		"chrome://dot/content/startpage/blank.html": {
+			title: "New Tab",
+			icon: ""
 		}
 	},
 
@@ -37,7 +46,24 @@ export const BrowserTabsUtils = {
 			// @ts-ignore
 			// prettier-ignore
 			(request instanceof Ci.nsIChannel &&
-				request.originalURI.schemeIs("about"))
+				request.originalURI.schemeIs("about") ||
+                !!this.INTERNAL_PAGES[request.originalURI.spec])
+		);
+	},
+
+	/**
+	 * Determines whether the URL is considered to
+	 * be a blank page.
+	 *
+	 * @param {string} url
+	 * @returns {boolean}
+	 */
+	isBlankPageURL(url) {
+		return (
+			url == "about:blank" ||
+			url == "about:home" ||
+			StartPage.getHomePage().includes(url) ||
+			url == "chrome://dot/content/startpage/blank.html"
 		);
 	}
 };
