@@ -107,14 +107,6 @@ html|button:focus-visible:active {
     transition: outline-offset 100ms var(--button-ease-out-quad);
 }
 
-button:disabled *,
-select:disabled *,
-xul|button:disabled *,
-html|button:disabled *,
-html|select:disabled * {
-    filter: none;
-}
-
 @media (prefers-contrast) {
 
     button:not(:disabled),
