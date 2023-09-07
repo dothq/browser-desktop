@@ -9,10 +9,6 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		this.routineId = "toggle-identity-popout";
 	}
 
-	get tab() {
-		return gDot.tabs.selectedTab;
-	}
-
 	/**
 	 * Handles incoming tab identity changes
 	 *
@@ -29,12 +25,7 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		this.icon = icon;
 		this.label = label;
 		this.title = tooltip;
-
-		// We only want to apply a mode if we're in the addressbar's identity box
-		// If we aren't, it'll just inherit the mode from the toolbar it's in
-		if (this.closest(".addressbar-identity-box")) {
-			this.mode = mode;
-		}
+		this.mode = mode;
 
 		console.log(
 			"_onTabIdentityChanged",
@@ -53,7 +44,10 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		switch (event.type) {
 			case "BrowserTabs::TabIdentityChanged":
 				{
-					if (event.detail.tab === this.tab) {
+					if (
+						this.associatedArea == "addressbar" &&
+						event.detail.tab === this.context.tab
+					) {
 						this._onTabIdentityChanged(event.detail);
 					}
 				}
