@@ -5,7 +5,7 @@
 const lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
-	PrivateBrowsingUtils: "resource://gre/modules/PrivateBrowsingUtils.sys.mjs",
+	PrivateBrowsingUtils: "resource://gre/modules/PrivateBrowsingUtils.sys.mjs"
 });
 
 function getHomePagePref() {
@@ -39,10 +39,10 @@ export const StartPage = {
 			homePages = homePages.map((page) =>
 				page.startsWith("about:blank")
 					? "chrome://dot/content/startpage/blank.html"
-					: page,
+					: page
 			);
 		}
 
 		return homePages;
-	},
+	}
 };
