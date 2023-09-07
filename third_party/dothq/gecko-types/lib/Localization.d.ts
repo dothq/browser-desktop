@@ -112,5 +112,7 @@ interface LocalizationInstance {
 
 	formatValuesSync(keys: L10nKey[]): (string | null)[];
 
-	formatMessagesSync(keys: L10nKey[]): (string | null)[];
+	formatMessagesSync(keys: L10nKey[]): (L10nMessage | null)[];
+
+    setAttributes(element: Element, id: string, args?: L10nArgs): void;
 }
