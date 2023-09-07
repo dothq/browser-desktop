@@ -14,7 +14,9 @@ class BrowserStatus extends MozHTMLElement {
 	get webContents() {
 		// Get the closest browser webContents
 		// We only want browser elements as other webContents won't be firing status changes
-		return this.closest("browser-panel").querySelector("browser.browser-web-contents");
+		return this.closest("browser-panel").querySelector(
+			"browser.browser-web-contents"
+		);
 	}
 
 	get label() {
@@ -30,15 +32,21 @@ class BrowserStatus extends MozHTMLElement {
 
 		this.appendChild(html("span", { class: "browser-status-label" }));
 
-		this.webContents.addEventListener("BrowserTabs::BrowserStatusChange", this);
-		document.addEventListener("BrowserTabs::TabSelect", this);
+		this.webContents.addEventListener(
+			"BrowserTabs::BrowserStatusChange",
+			this
+		);
+		window.addEventListener("BrowserTabs::TabSelect", this);
 	}
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		this.webContents.removeEventListener("BrowserTabs::BrowserStatusChange", this);
-		document.removeEventListener("BrowserTabs::TabSelect", this);
+		this.webContents.removeEventListener(
+			"BrowserTabs::BrowserStatusChange",
+			this
+		);
+		window.removeEventListener("BrowserTabs::TabSelect", this);
 	}
 
 	/**
@@ -59,7 +67,10 @@ class BrowserStatus extends MozHTMLElement {
 		}
 
 		this.setAttribute("statustype", status.type);
-		this.toggleAttribute("inactive", status.message.length ? inactive : true);
+		this.toggleAttribute(
+			"inactive",
+			status.message.length ? inactive : true
+		);
 	}
 
 	/**
