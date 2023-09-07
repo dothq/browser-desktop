@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { DotCustomizableUI } = ChromeUtils.importESModule(
+	"resource://gre/modules/DotCustomizableUI.sys.mjs"
+);
+
 class BrowserAddressBarIdentityBox extends MozHTMLElement {
 	constructor() {
 		super();
@@ -242,7 +246,7 @@ class BrowserAddressBar extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		this.classList.add("customizable-target");
+		DotCustomizableUI.initCustomizableArea(this, "addressbar");
 
 		this.appendChild(document.createXULElement("abpopup"));
 

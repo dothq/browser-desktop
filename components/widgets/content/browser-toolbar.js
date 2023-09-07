@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { DotCustomizableUI } = ChromeUtils.importESModule(
+	"resource://gre/modules/DotCustomizableUI.sys.mjs"
+);
+
 class BrowserToolbar extends MozHTMLElement {
 	constructor() {
 		super();
@@ -139,7 +143,7 @@ class BrowserToolbar extends MozHTMLElement {
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		this.classList.add("customizable-target");
+		DotCustomizableUI.initCustomizableArea(this, "toolbar");
 
 		this.attachShadow({ mode: "open" });
 
