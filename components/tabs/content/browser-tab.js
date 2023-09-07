@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { DotCustomizableUI } = ChromeUtils.importESModule(
+	"resource://gre/modules/DotCustomizableUI.sys.mjs"
+);
+
 class BrowserRenderedTab extends MozHTMLElement {
 	constructor() {
 		super();
@@ -145,7 +149,13 @@ class BrowserRenderedTab extends MozHTMLElement {
 	/**
 	 * Fired whenever the user clicks down onto the tab
 	 */
-	_onTabMouseDown() {
+	_onTabMouseDown(event) {
+		// Ensure we eat up any mouse down events if we're
+		// clicking on a toolbar-button inside the tab
+		if (event.target.closest(".toolbar-button")) {
+			return;
+		}
+
 		this.linkedTab.select();
 		this.canDrag = true;
 
@@ -231,6 +241,11 @@ class BrowserRenderedTab extends MozHTMLElement {
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
+		DotCustomizableUI.initCustomizableArea(this, "tab", {
+			many: true,
+			showKeybindings: false
+		});
+
 		this.appendChild(html("div", { class: "browser-tab-background" }));
 
 		this.appendChild(
@@ -245,8 +260,20 @@ class BrowserRenderedTab extends MozHTMLElement {
 		this.appendChild(
 			html(
 				"div",
-				{ class: "browser-tab-label-container" },
-				html("span", { class: "browser-tab-label" })
+				{ class: "browser-tab-contents" },
+				html(
+					"div",
+					{ class: "browser-tab-label-container" },
+					html("span", { class: "browser-tab-label" })
+				),
+				html(
+					"div",
+					{ class: "browser-tab-icons" },
+					document.createElement("button", { is: "back-button" }),
+					document.createElement("button", { is: "forward-button" }),
+					document.createElement("button", { is: "reload-button" }),
+					document.createElement("button", { is: "close-tab-button" })
+				)
 			)
 		);
 
@@ -276,7 +303,7 @@ class BrowserRenderedTab extends MozHTMLElement {
 	handleEvent(event) {
 		switch (event.type) {
 			case "mousedown":
-				this._onTabMouseDown();
+				this._onTabMouseDown(event);
 				break;
 			case "mouseover":
 				this._onTabMouseOver();

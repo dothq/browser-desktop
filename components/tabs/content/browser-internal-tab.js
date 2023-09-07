@@ -377,11 +377,15 @@ class BrowserTab extends MozElements.MozTab {
 	updateIcon(newIconURI, initial = false) {
 		let iconURI = newIconURI;
 
-		if (!newIconURI)
-			iconURI =
-				BrowserTabsUtils.INTERNAL_PAGES[
-					this._initialURI?.spec || this.currentURI.spec
-				]?.icon || kDefaultTabIcon;
+		if (!newIconURI) {
+			try {
+				const uri = this._initialURI?.spec || this.currentURI.spec;
+
+				iconURI = BrowserTabsUtils.INTERNAL_PAGES[uri].icon;
+			} catch (e) {
+				iconURI = kDefaultTabIcon;
+			}
+		}
 
 		this.setAttribute("icon", iconURI);
 		this.toggleAttribute(
@@ -402,6 +406,15 @@ class BrowserTab extends MozElements.MozTab {
 	 */
 	clearIcon() {
 		this.updateIcon(null);
+	}
+
+	/**
+	 * Closes the tab if safe
+	 */
+	maybeClose() {
+		if (window.closed) return;
+
+		console.log("Closing tab", this.id);
 	}
 
 	_onTabSelected(event) {

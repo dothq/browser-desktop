@@ -29,6 +29,7 @@ let elements = {
 
 	"add-tab-button": "chrome://dot/content/widgets/browser-add-tab-button.js",
 	"back-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
+    "close-tab-button": "chrome://dot/content/widgets/browser-close-tab-button.js",
 	"forward-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
 	"reload-button": "chrome://dot/content/widgets/browser-reload-button.js",
     "identity-button": "chrome://dot/content/widgets/browser-identity-button.js",
