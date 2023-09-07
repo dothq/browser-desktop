@@ -10,7 +10,6 @@
 
     background-color: transparent;
 
-    margin-block: 4px;
     --padding-y: calc(var(--browser-ui-density) - 2px);
     --padding-x: calc(var(--browser-ui-density) + 2px);
     padding: var(--padding-y) var(--padding-x);
@@ -31,18 +30,18 @@
 
 /* Make sure in icons mode that the toolbar button is exactly a square */
 .toolbar-button[mode=icons],
-.customizable-target[mode=icons] .toolbar-button:not([mode]) {
+.customizable-area[mode=icons] .toolbar-button:not([mode]) {
     aspect-ratio: 1;
     --padding-y: var(--browser-ui-density);
     --padding-x: var(--browser-ui-density);
 }
 
 .toolbar-button[mode=icons]>*:not(.toolbar-button-icon),
-.customizable-target[mode=icons] .toolbar-button:not([mode])>*:not(.toolbar-button-icon) {
+.customizable-area[mode=icons] .toolbar-button:not([mode])>*:not(.toolbar-button-icon) {
     display: none;
 }
 
 .toolbar-button[mode=text]>*:not(.toolbar-button-label),
-.customizable-target[mode=text] .toolbar-button:not([mode])>*:not(.toolbar-button-label) {
+.customizable-area[mode=text] .toolbar-button:not([mode])>*:not(.toolbar-button-label) {
     display: none;
 }

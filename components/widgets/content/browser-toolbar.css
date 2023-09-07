@@ -57,3 +57,7 @@ browser-toolbar[collapse] {
         left: calc(0px - var(--padding-x));
     }
 }
+
+browser-toolbar.customizable-area>.toolbar-button {
+    margin-block: 4px;
+}
