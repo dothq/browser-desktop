@@ -7,8 +7,8 @@ routine-new-window = New window
 routine-new-private-browsing-window = New private window
 routine-close-window = Close
 
-routine-navigate-back = Go Back
-routine-navigate-forward = Go Forward
+routine-navigate-back = Back
+routine-navigate-forward = Forward
 
 routine-reload-page = Reload
     .bypass-cache = Reload (Bypass cache)
