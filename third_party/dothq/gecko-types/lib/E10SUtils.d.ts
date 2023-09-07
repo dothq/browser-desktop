@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { ChromeBrowser } from "./ChromeBrowser";
+import { nsIAboutModule } from "./nsIAboutModule";
 
 export interface E10SUtils {
     NOT_REMOTE: null;
@@ -27,4 +28,6 @@ export interface E10SUtils {
         userContextId: number,
         geckoViewSessionContextId: number 
     };
+
+    getAboutModule(uri: nsIURI): nsIAboutModule | null;
 }
