@@ -20,6 +20,8 @@
 @import url("chrome://dot/content/widgets/browser-spring.css");
 @import url("chrome://dot/content/widgets/browser-toolbar-button.css");
 @import url("chrome://dot/content/widgets/browser-toolbox.css");
+@import url("chrome://dot/content/widgets/browser-addressbar.css");
+@import url("chrome://dot/content/widgets/browser-reload-button.css");
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");
@@ -179,6 +181,13 @@ hr.fdn-separator {
     min-height: 0;
     height: 100%;
     border-top: 1px solid var(--chrome-content-separator-color);
+    position: relative;
+}
+
+@media (prefers-contrast) {
+    #tabspanel {
+        border-color: currentColor;
+    }
 }
 
 :disabled {
@@ -194,4 +203,13 @@ hr.fdn-separator {
 /* Hide the menubar if it has been requested to be hidden */
 :root[chromehidden~="menubar"] browser-toolbar[name=menubar] {
     display: none;
+}
+
+:root[reducedmotion] *,
+:root[reducedmotion] *::before,
+:root[reducedmotion] *::after {
+    transition-duration: 0ms !important;
+    transition-timing-function: linear !important;
+    animation-duration: 0ms !important;
+    animation-timing-function: linear !important;
 }

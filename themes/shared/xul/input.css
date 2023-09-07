@@ -75,10 +75,10 @@ html|select:active:not(:disabled) {
     background-color: var(--button-active-color);
 }
 
-button:disabled,
+button:disabled>*,
 select:disabled,
-xul|button:disabled,
-html|button:disabled,
+xul|button:disabled>*,
+html|button:disabled>*,
 html|select:disabled {
     filter: opacity(var(--button-disabled-opacity));
 }
@@ -113,4 +113,16 @@ xul|button:disabled *,
 html|button:disabled *,
 html|select:disabled * {
     filter: none;
+}
+
+@media (prefers-contrast) {
+
+    button:not(:disabled),
+    select:not(:disabled),
+    xul|button:not(:disabled),
+    html|button:not(:disabled),
+    html|select:not(:disabled) {
+        outline: 1px solid currentColor;
+        outline-offset: -1px;
+    }
 }

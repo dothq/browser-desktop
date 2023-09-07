@@ -5,7 +5,6 @@
 browser-tab {
     display: flex;
     justify-content: flex-start;
-    gap: var(--browser-ui-density);
 
     max-width: 220px;
     width: 100%;
@@ -17,6 +16,8 @@ browser-tab {
 
     user-select: none;
     -moz-window-dragging: no-drag;
+
+    will-change: transform;
 }
 
 browser-tab>*:not(.browser-tab-background) {
@@ -37,7 +38,10 @@ browser-tab .browser-tab-background {
 
     border-radius: var(--browser-ui-density) var(--browser-ui-density) 0 0;
 
-    transition: 0.4s background-color cubic-bezier(0.19, 1, 0.22, 1);
+    transition: 0.4s background-color cubic-bezier(0.19, 1, 0.22, 1),
+        0.4s box-shadow cubic-bezier(0.19, 1, 0.22, 1);
+
+    overflow: clip;
 }
 
 browser-tab:hover .browser-tab-background {
@@ -52,6 +56,16 @@ browser-tab .browser-tab-icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: clip;
+    transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+browser-tab[hideicon]:not([progress]) .browser-tab-icon-container {
+    --position-x: calc((16px + var(--browser-ui-density)) / -1);
+}
+
+browser-tab[hideicon] .browser-tab-icon-container .browser-tab-icon {
+    visibility: hidden;
 }
 
 browser-tab .browser-tab-icon,
@@ -65,11 +79,17 @@ browser-tab .browser-tab-spinner {
     max-height: 16px;
     -moz-context-properties: fill;
     fill: currentColor;
+    user-select: none;
+    pointer-events: none;
+    margin-inline-start: var(--position-x, 0px);
+    margin-inline-end: var(--browser-ui-density);
+    transition: 0.3s margin-inline-start cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 browser-tab[progress] .browser-tab-icon,
 browser-tab:not([progress]) .browser-tab-spinner {
-    display: none;
+    visibility: hidden;
+    position: absolute;
 }
 
 browser-tab .browser-tab-spinner {
@@ -104,10 +124,18 @@ browser-tab[progress="2"] .browser-tab-spinner {
     background-color: var(--fdn-colours-blue);
 }
 
-browser-tab::before {
+:root[reducedmotion] browser-tab .browser-tab-spinner {
+    mask-image: url(chrome://dot/skin/hourglass.svg);
+}
+
+:root[reducedmotion] browser-tab[progress="2"] .browser-tab-spinner {
+    mask-image: url(chrome://dot/skin/hourglass-filled.svg);
+}
+
+browser-tab .browser-tab-background::before {
     content: "";
     background-color: color-mix(in srgb, var(--fdn-colours-blue) 20%, transparent 100%);
-    width: var(--tab-load-percent);
+    width: var(--tab-load-percent, 0%);
     height: 100%;
     position: absolute;
     left: 0;
@@ -117,7 +145,11 @@ browser-tab::before {
     z-index: 0;
 }
 
-browser-tab[progress]::before {
+:root[reducedmotion] .browser-tab-background::before {
+    visibility: hidden;
+}
+
+browser-tab[progress] .browser-tab-background::before {
     opacity: 1;
     transition: 0.6s opacity cubic-bezier(0.19, 1, 0.22, 1),
         0.1s width cubic-bezier(0.19, 1, 0.22, 1);
@@ -128,28 +160,84 @@ browser-tab:not([dragging]) {
     will-change: translate;
 }
 
-browser-tab::after {
+browser-tab::after,
+browser-tab::before {
     content: "";
     position: absolute;
     height: 100%;
     width: 1px;
     background-image: linear-gradient(0deg,
             transparent var(--height),
-            rgba(128, 128, 128, 0.25) var(--height),
-            rgba(128, 128, 128, 0.25) calc(100% - var(--height)),
+            var(--color) var(--height),
+            var(--color) calc(100% - var(--height)),
             transparent calc(100% - var(--height)));
     top: 0;
-    right: 0;
-    transform: translateX(1px);
     z-index: 1;
     transition: 0.4s opacity cubic-bezier(0.19, 1, 0.22, 1);
+    --color: rgba(128, 128, 128, 0.25);
     --height: 20%;
+}
+
+browser-tab::before {
+    left: 0;
+}
+
+browser-tab::after {
+    right: 0;
+    transform: translateX(2px);
 }
 
 browser-tab[selected]::after,
 browser-tab[precedes-selected]::after,
 browser-tab:hover::after,
 browser-tab[precedes-hover]::after,
-browser-tab:last-of-type::after {
+browser-tab[selected]::before,
+browser-tab[selected]+browser-tab::before,
+browser-tab:hover::before,
+browser-tab:hover+browser-tab::before {
     opacity: 0;
+}
+
+browser-tab[dragging] {
+    z-index: 100;
+    transform: translate(var(--tab-drag-x, 0px), var(--tab-drag-y, 0px));
+}
+
+browser-tab[dragging][dragging-shadow] .browser-tab-background {
+    box-shadow: 0px 0px 4px 0px rgba(128, 128, 128, 0.75);
+}
+
+browser-tab:not([dragging]) {
+    transition: 0.3s transform cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+browser-tab[dragging][dragging-feedback] {
+    transition: 1s box-shadow cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
+}
+
+browser-tab[dragging][dragging-feedback="left"] {
+    box-shadow: -4px 0px 4px 0px rgba(128, 128, 128, 0.5);
+}
+
+@media (prefers-contrast) {
+
+    browser-tab[selected] .browser-tab-background,
+    browser-tab:not([selected]):hover .browser-tab-background {
+        border: 1px solid currentColor;
+    }
+
+    browser-tab::after,
+    browser-tab::before,
+    browser-tab:last-of-type:not(:hover):not([selected])::after {
+        --height: 0%;
+        --color: currentColor;
+        opacity: 1;
+        transition-duration: 0s;
+    }
+}
+
+@media not (prefers-contrast) {
+    browser-tab::before {
+        display: none;
+    }
 }

@@ -16,13 +16,15 @@ browser-status .browser-status-label {
 
     background-color: var(--toolbar-bgcolor);
 
-    border-top: 1px solid var(--chrome-content-separator-color);
+    border-top: 1px solid var(--border-override, var(--chrome-content-separator-color));
 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 
     pointer-events: none;
+
+    user-select: none;
 }
 
 browser-status[inactive] .browser-status-label {
@@ -58,7 +60,7 @@ browser-status[side="left"] {
 }
 
 browser-status[side="left"] .browser-status-label {
-    border-right: 1px solid var(--chrome-content-separator-color);
+    border-right: 1px solid var(--border-override, var(--chrome-content-separator-color));
     border-top-right-radius: 0.4rem;
 }
 
@@ -69,6 +71,12 @@ browser-status[side="right"] {
 }
 
 browser-status[side="right"] .browser-status-label {
-    border-left: 1px solid var(--chrome-content-separator-color);
+    border-left: 1px solid var(--border-override, var(--chrome-content-separator-color));
     border-top-left-radius: 0.4rem;
+}
+
+@media (prefers-contrast) {
+    browser-status .browser-status-label {
+        --border-override: currentColor;
+    }
 }
