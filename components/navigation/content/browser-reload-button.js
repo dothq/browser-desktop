@@ -79,9 +79,12 @@ class BrowserReloadButton extends BrowserToolbarButton {
 	 */
 	handleEvent(event) {
 		switch (event.type) {
-			case "BrowserTabs::BrowserStateChange":
+			case "BrowserTabs::BrowserStateChange": {
+				if (event.detail.browser !== this.context.browser) return;
+
 				this.onStateChanged(event.detail);
 				break;
+			}
 		}
 	}
 
