@@ -9,6 +9,6 @@ browser-tabs {
     gap: 1px;
 }
 
-browser-toolbar[initial] browser-tabs {
+browser-toolbar[initial]::part(content) {
     padding-block-start: calc(var(--browser-ui-density) / 3);
 }
