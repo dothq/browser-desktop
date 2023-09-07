@@ -13,7 +13,8 @@ class BrowserToolbar extends MozHTMLElement {
 	get shadowElements() {
 		return {
 			slot: /** @type {HTMLSlotElement} */ (
-				this.shadowRoot.querySelector("slot") || html("slot", { part: "content" })
+				this.shadowRoot.querySelector("slot") ||
+					html("slot", { part: "content" })
 			),
 			csd: /** @type {BrowserWindowControls} */ (
 				this.shadowRoot.querySelector("browser-window-controls") ||
@@ -57,6 +58,31 @@ class BrowserToolbar extends MozHTMLElement {
 	}
 
 	/**
+	 * Determines whether this toolbar is horizontal
+	 */
+	get isHorizontal() {
+		return this.orientation == "horizontal";
+	}
+
+	/**
+	 * Determines whether this toolbar is vertical
+	 */
+	get isVertical() {
+		return this.orientation == "vertical";
+	}
+
+	/**
+	 * The orientation of this toolbar
+	 *
+	 * @returns {"horizontal" | "vertical"}
+	 */
+	get orientation() {
+		return this.getAttribute("orientation") == "vertical"
+			? "vertical"
+			: "horizontal";
+	}
+
+	/**
 	 * Determine whether this toolbar is the initial toolbar in the browser
 	 *
 	 * We need a way of working out which toolbar is the first in the DOM
@@ -68,8 +94,8 @@ class BrowserToolbar extends MozHTMLElement {
 		const isInitial =
 			bounds.width > 0 &&
 			bounds.height > 0 &&
-			!Array.from(document.querySelectorAll("browser-toolbar")).find((tb) =>
-				tb.hasAttribute("initial")
+			!Array.from(document.querySelectorAll("browser-toolbar")).find(
+				(tb) => tb.hasAttribute("initial")
 			);
 
 		this.toggleAttribute("initial", isInitial);
@@ -89,7 +115,9 @@ class BrowserToolbar extends MozHTMLElement {
 	handleEvent(event) {
 		switch (event.type) {
 			case "change":
-				this.onCSDPositionChange(/** @type {MediaQueryListEvent} */ (event));
+				this.onCSDPositionChange(
+					/** @type {MediaQueryListEvent} */ (event)
+				);
 				break;
 		}
 	}
@@ -110,6 +138,8 @@ class BrowserToolbar extends MozHTMLElement {
 
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
+
+		this.classList.add("customizable-target");
 
 		this.attachShadow({ mode: "open" });
 
@@ -132,14 +162,23 @@ class BrowserToolbar extends MozHTMLElement {
 
 		this.addEventListener("contextmenu", (e) => {
 			console.log(e);
-			/** @type {any} */ (document.getElementById("browser-toolbar-menu")).openPopupAtScreen(
-				e.screenX,
-				e.screenY
-			);
-			/** @type {any} */ (document.getElementById("browser-toolbar-menu")).target = this;
+			/** @type {any} */ (
+				document.getElementById("browser-toolbar-menu")
+			).openPopupAtScreen(e.screenX, e.screenY);
+			/** @type {any} */ (
+				document.getElementById("browser-toolbar-menu")
+			).target = this;
 		});
 
 		this.maybePromoteToolbar();
+
+		const { width, height } = this.getBoundingClientRect();
+
+		// Sets the initial orientation
+		this.setAttribute(
+			"orientation",
+			width > height ? "horizontal" : "vertical"
+		);
 	}
 
 	disconnectedCallback() {

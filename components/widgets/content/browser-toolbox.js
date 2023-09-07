@@ -6,7 +6,9 @@ class BrowserToolbox extends MozHTMLElement {
 	constructor() {
 		super();
 
-		this.mutationObserver = new MutationObserver(this.observeMutations.bind(this));
+		this.mutationObserver = new MutationObserver(
+			this.observeMutations.bind(this)
+		);
 		this.intersectionObserver = new IntersectionObserver(
 			this.observeToolbarIntersections.bind(this)
 		);
@@ -42,14 +44,20 @@ class BrowserToolbox extends MozHTMLElement {
 	observeMutations(mutations) {
 		for (const mut of mutations) {
 			for (const node of mut.addedNodes) {
-				if (node instanceof BrowserToolbar && !this._toolbars.has(node)) {
+				if (
+					node instanceof BrowserToolbar &&
+					!this._toolbars.has(node)
+				) {
 					this.intersectionObserver.observe(node);
 					this._toolbars.add(node);
 				}
 			}
 
 			for (const node of mut.removedNodes) {
-				if (node instanceof BrowserToolbar && this._toolbars.has(node)) {
+				if (
+					node instanceof BrowserToolbar &&
+					this._toolbars.has(node)
+				) {
 					this.intersectionObserver.unobserve(node);
 					this._toolbars.delete(node);
 				}
@@ -61,7 +69,10 @@ class BrowserToolbox extends MozHTMLElement {
 	observeToolbarIntersections(intersections) {
 		for (const intersection of intersections) {
 			if (intersection.target instanceof BrowserToolbar) {
-				if (intersection.intersectionRatio === 0 || intersection.intersectionRatio === 1) {
+				if (
+					intersection.intersectionRatio === 0 ||
+					intersection.intersectionRatio === 1
+				) {
 					this.computeInitialToolbar();
 				}
 			}
@@ -85,6 +96,11 @@ class BrowserToolbox extends MozHTMLElement {
 
 		for (const toolbar of this.toolbars) {
 			const bounds = toolbar.getBoundingClientRect();
+
+			toolbar.setAttribute(
+				"orientation",
+				bounds.width > bounds.height ? "horizontal" : "vertical"
+			);
 
 			// Skip toolbars that are hidden
 			if (bounds.width === 0 || bounds.height === 0) {
