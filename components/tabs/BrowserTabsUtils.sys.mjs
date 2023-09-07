@@ -46,8 +46,9 @@ export const BrowserTabsUtils = {
 			// @ts-ignore
 			// prettier-ignore
 			(request instanceof Ci.nsIChannel &&
-				request.originalURI.schemeIs("about") ||
-                !!this.INTERNAL_PAGES[request.originalURI.spec])
+				(
+                    request.originalURI.schemeIs("about") ||
+                !!this.INTERNAL_PAGES[request.originalURI.spec]))
 		);
 	},
 
