@@ -14,3 +14,8 @@ routine-reload-page = Reload
     .bypass-cache = Reload (Bypass cache)
 
 routine-stop-page = Stop
+
+routine-close-tab = Close tab
+
+routine-toggle-menubar = Toggle menubar
+routine-toggle-identity-popout = Page info
