@@ -11,6 +11,7 @@
   skin/classic/dot/browser-dialog.css                   (../shared/browser-dialog.css)
   skin/classic/dot/browser-layouts.css                  (../shared/browser-layouts.css)
   skin/classic/dot/browser-shared.css                   (../shared/browser-shared.css)
+  skin/classic/dot/browser-theme.css                    (../shared/browser-theme.css)
 
   skin/classic/dot/global-shared.css                    (../shared/global-shared.css)
 

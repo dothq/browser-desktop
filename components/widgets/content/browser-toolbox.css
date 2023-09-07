@@ -7,7 +7,7 @@ browser-toolbox {
     flex-direction: column;
     color: var(--lwt-text-color);
     background-color: var(--lwt-accent-color);
-    accent-color: var(--fdn-colours-blue);
+    accent-color: var(--browser-accent-color);
 }
 
 :root[chromemargin]:not([chromemargin=""]) browser-toolbox {

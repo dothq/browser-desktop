@@ -130,7 +130,7 @@ browser-tab[progress="1"] .browser-tab-spinner {
 /* In Transit */
 browser-tab[progress="2"] .browser-tab-spinner {
     mask-image: url(chrome://dot/skin/tab-loading-transit.svg);
-    background-color: var(--fdn-colours-blue);
+    background-color: var(--browser-accent-color);
 }
 
 :root[reducedmotion] browser-tab .browser-tab-spinner {
@@ -143,7 +143,7 @@ browser-tab[progress="2"] .browser-tab-spinner {
 
 browser-tab .browser-tab-background::before {
     content: "";
-    background-color: color-mix(in srgb, var(--fdn-colours-blue) 20%, transparent 100%);
+    background-color: color-mix(in srgb, var(--browser-accent-color) 20%, transparent 100%);
     width: var(--tab-load-percent, 0%);
     height: 100%;
     position: absolute;

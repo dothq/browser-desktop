@@ -4,6 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 EXTRA_JS_MODULES += [
+    "AccentColorManager.sys.mjs",
     "BuiltInThemeConfig.sys.mjs",
     "BuiltInThemes.sys.mjs",
     "LightweightThemeConsumer.sys.mjs*", # Using manifests.py entry overwrite

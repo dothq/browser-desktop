@@ -6,6 +6,7 @@
  * Modules registry used to define the origin file for typing modules imported using Cu.
  */
 const registry = {
+	AccentColorManager: "themes/AccentColorManager.sys.mjs",
 	DotCustomizableUI: "components/customizableui/DotCustomizableUI.sys.mjs",
 	DotWindowTracker: "modules/DotWindowTracker.sys.mjs",
 	BrowserCompatibility: "components/compat/BrowserCompatibility.sys.mjs",
