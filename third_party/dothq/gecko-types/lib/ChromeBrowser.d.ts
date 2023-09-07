@@ -58,4 +58,8 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
     stop(flags: number): void;
 
     contentPrincipal: any; // @todo: nsIPrincipal
+
+    securityUI: BrowsingContext["secureBrowserUI"];
+
+    mIconURL: string;
 }
