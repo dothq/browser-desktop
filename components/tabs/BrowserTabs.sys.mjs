@@ -160,7 +160,9 @@ BrowserTabs.prototype = {
 		}
 
 		this._selectedTab = tab;
+
 		tab.webContentsPanel.toggleAttribute("visible", true);
+
 		if (tab.previousElementSibling)
 			tab.previousElementSibling.toggleAttribute(
 				"precedes-selected",
@@ -169,7 +171,7 @@ BrowserTabs.prototype = {
 
 		this.shouldUpdateWindowTitle();
 
-		this._dispatchDocumentEvent("BrowserTabs::TabSelect", { detail: tab });
+		this._dispatchWindowEvent("BrowserTabs::TabSelect", { detail: tab });
 	},
 
 	/**
@@ -213,6 +215,15 @@ BrowserTabs.prototype = {
 	},
 
 	/**
+	 * The current browser that is being hovered over
+	 *
+	 * This value will not change until another browser is hovered on!
+	 * Make sure the browser exists before reading or writing!
+	 * @type {ChromeBrowser | null}
+	 */
+	hoveredBrowser: null,
+
+	/**
 	 * Initialises and creates the <tab> element
 	 * @private
 	 * @returns {BrowserTab}
@@ -230,19 +241,17 @@ BrowserTabs.prototype = {
 	},
 
 	/**
-	 * Dispatches an event to the `document`.
+	 * Dispatches an event to the window.
 	 * @param {string} type
 	 * @param {CustomEventInit} options
 	 */
-	_dispatchDocumentEvent(type, options) {
-		const ev = new CustomEvent(type, options);
-
-		this._win.document.dispatchEvent(ev);
+	_dispatchWindowEvent(type, options) {
+		this._dispatchElementEvent(this._win, type, options);
 	},
 
 	/**
 	 * Dispatches an event to an element.
-	 * @param {Element} element
+	 * @param {EventTarget} element
 	 * @param {string} type
 	 * @param {CustomEventInit} options
 	 */
@@ -449,6 +458,11 @@ BrowserTabs.prototype = {
 			tabEl.pinned = true;
 		}
 
+		if (uri) {
+			console.log("Setting initial URI to", uri);
+			tabEl._initialURI = uri;
+		}
+
 		const uriIsAboutBlank = options.uri == "about:blank";
 
 		// Wrap in a try-catch so we can recover in the event of an error
@@ -495,7 +509,7 @@ BrowserTabs.prototype = {
 			return null;
 		}
 
-		this._dispatchDocumentEvent("BrowserTabs::TabCreate", {
+		this._dispatchWindowEvent("BrowserTabs::TabCreate", {
 			detail: tabEl
 		});
 
@@ -1114,22 +1128,22 @@ BrowserTabs.prototype = {
 	 * Fired when a link is dropped onto the browser contents
 	 *
 	 * This function is overloaded:
-	 * event, uris, name, triggeringPrincipal
-	 * event, uris, triggeringPrincipal
-	 * @param {Event} event
+	 * browser, uris, name, triggeringPrincipal
+	 * browser, uris, triggeringPrincipal
+	 * @param {ChromeBrowser} browser
 	 * @param {string | { url: string, nameOrTriggeringPrincipal: any, type: string }[]} uris
 	 * @param {any} nameOrTriggeringPrincipal
 	 * @param {any} triggeringPrincipal
 	 */
 	onBrowserDroppedLink(
-		event,
+		browser,
 		uris,
 		nameOrTriggeringPrincipal,
 		triggeringPrincipal
 	) {
 		console.log(
 			"onBrowserDroppedLink",
-			event,
+			browser,
 			uris,
 			nameOrTriggeringPrincipal,
 			triggeringPrincipal
@@ -1156,6 +1170,23 @@ BrowserTabs.prototype = {
 					).docShellIsActive = !document.hidden;
 				}
 				break;
+			case "mousemove": {
+				const el = this._win.document.elementFromPoint(
+					/** @type {MouseEvent} */ (event).clientX,
+					/** @type {MouseEvent} */ (event).clientY
+				);
+
+				const hoveredBrowser =
+					el && this._isWebContentsBrowserElement(el)
+						? /** @type {ChromeBrowser} */ (el)
+						: null;
+
+				if (hoveredBrowser && this.hoveredBrowser !== hoveredBrowser) {
+					this.hoveredBrowser = hoveredBrowser;
+				}
+
+				break;
+			}
 		}
 	},
 
@@ -1169,6 +1200,7 @@ BrowserTabs.prototype = {
 		this._win.MozXULElement.insertFTLIfNeeded("dot/tabs.ftl");
 
 		this._win.addEventListener("visabilitychange", this);
+		this._win.addEventListener("mousemove", this);
 
 		this._setupInitialBrowser();
 	},

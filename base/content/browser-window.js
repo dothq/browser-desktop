@@ -89,7 +89,7 @@ class nsIXULBrowserWindow {
 			}
 		});
 
-		gDot.tabs.selectedTab.webContents.dispatchEvent(evt);
+		gDot.tabs.hoveredBrowser?.dispatchEvent(evt);
 	}
 
 	/**
