@@ -74,7 +74,13 @@ export class TabProgressListener {
 	 * @param {string} message
 	 */
 	onStatusChange(webProgress, request, status, message) {
-		console.log("TabProgressListener::onStatusChange", webProgress, request, status, message);
+		console.log(
+			"TabProgressListener::onStatusChange",
+			webProgress,
+			request,
+			status,
+			message
+		);
 
 		if (this.tab.progress == this.tab.TAB_PROGRESS_TRANSIT && message) {
 			incrementProgress(this.tab);
@@ -98,8 +104,11 @@ export class TabProgressListener {
 	 * @param {boolean} isSimulated
 	 */
 	onLocationChange(webProgress, request, locationURI, flags, isSimulated) {
+		const { LOCATION_CHANGE_SAME_DOCUMENT } = Ci.nsIWebProgressListener;
+
 		const evt = new CustomEvent("BrowserTabs::LocationChange", {
 			detail: {
+				browser: this.browser,
 				webProgress,
 				request,
 				locationURI,
@@ -113,6 +122,13 @@ export class TabProgressListener {
 		// Any changes to subframes should be ignored
 		if (!webProgress.isTopLevel) return;
 
+		const isSameDocument = !!(flags & LOCATION_CHANGE_SAME_DOCUMENT);
+
+		if (!isSameDocument && webProgress.isLoadingDocument) {
+			// Clears the cached iconURL
+			this.browser.mIconURL = null;
+		}
+
 		console.log(
 			"TabProgressListener::onLocationChange",
 			webProgress,
@@ -121,6 +137,15 @@ export class TabProgressListener {
 			flags,
 			isSimulated
 		);
+
+		fireBrowserEvent("BrowserLocationChange", this.win, {
+			browser: this.browser,
+			webProgress,
+			request,
+			locationURI,
+			flags,
+			isSimulated
+		});
 	}
 
 	/**
@@ -147,25 +172,40 @@ export class TabProgressListener {
 		const { clearTimeout, setTimeout } = this.win;
 
 		if (stateFlags & STATE_START && stateFlags & STATE_IS_NETWORK) {
-			if (BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */ (request))) {
-				if (webProgress && webProgress.isTopLevel && !(stateFlags & STATE_RESTORING)) {
+			if (
+				BrowserTabsUtils.shouldShowProgress(
+					/** @type {nsIChannel} */ (request)
+				)
+			) {
+				if (
+					webProgress &&
+					webProgress.isTopLevel &&
+					!(stateFlags & STATE_RESTORING)
+				) {
 					clearTimeout(this._burstInt);
 					this.tab.progressPercent = 0;
 					this.tab.progress = TAB_PROGRESS_BUSY;
 					this.tab.progressPercent = 20;
 					incrementProgress(this.tab);
 
-					this.tab.updateLabel("");
+					this.tab.updateLabel(this.tab._initialURI?.spec || "");
 				}
 
 				if (this.tab.selected) {
 					this.win.gDot.tabs.isBusy = true;
 				}
 			}
+
+			if (webProgress && webProgress.isTopLevel) {
+				// Clear the tab icon
+				this.win.gDot.tabs.setIcon(this.tab, "");
+			}
 		} else if (stateFlags & STATE_STOP) {
 			if (
 				this.tab.progress &&
-				BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */ (request))
+				BrowserTabsUtils.shouldShowProgress(
+					/** @type {nsIChannel} */ (request)
+				)
 			) {
 				this.tab.progressPercent = 100;
 
@@ -182,7 +222,9 @@ export class TabProgressListener {
 				}, 300);
 			}
 
+			this.tab._initialURI = null;
 			this.tab.updateLabel("");
+			this.tab.updateIcon(this.browser.mIconURL);
 
 			if (this.tab.selected) {
 				this.win.gDot.tabs.isBusy = false;
@@ -217,9 +259,15 @@ export class TabProgressListener {
 	) {
 		const { TAB_PROGRESS_TRANSIT } = this.tab;
 
-		const totalProgress = maxTotalProgress ? curTotalProgress / maxTotalProgress : 0;
+		const totalProgress = maxTotalProgress
+			? curTotalProgress / maxTotalProgress
+			: 0;
 
-		if (!BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */ (request))) {
+		if (
+			!BrowserTabsUtils.shouldShowProgress(
+				/** @type {nsIChannel} */ (request)
+			)
+		) {
 			return;
 		}
 
@@ -229,10 +277,38 @@ export class TabProgressListener {
 			incrementProgress(this.tab);
 		}
 
-		console.log(curSelfProgress, maxSelfProgress, curTotalProgress, maxTotalProgress);
+		console.log(
+			curSelfProgress,
+			maxSelfProgress,
+			curTotalProgress,
+			maxTotalProgress
+		);
 
 		if (curTotalProgress && maxTotalProgress) {
-			this.tab.progressPercent = (curTotalProgress / maxTotalProgress) * 100;
+			this.tab.progressPercent =
+				(curTotalProgress / maxTotalProgress) * 100;
 		}
+	}
+
+	/**
+	 * Fired when the security of a browser changes
+	 * @param {nsIWebProgress} webProgress
+	 * @param {nsIRequest} request
+	 * @param {number} state
+	 */
+	onSecurityChange(webProgress, request, state) {
+		console.log(
+			"TabProgressListener::onSecurityChange",
+			webProgress,
+			request,
+			state
+		);
+
+		fireBrowserEvent("BrowserSecurityChange", this.win, {
+			browser: this.browser,
+			webProgress,
+			request,
+			state
+		});
 	}
 }

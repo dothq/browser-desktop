@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { TabIdentityHandler } = ChromeUtils.importESModule(
+	"resource://gre/modules/TabIdentityHandler.sys.mjs"
+);
+
 /**
  * Compatibility layer over Dot tabs for Mozilla APIs
  *
@@ -172,6 +176,16 @@ class BrowserTab extends MozElements.MozTab {
 	 */
 	userContextId = null;
 
+	/**
+	 * The initial URI used to load this tab
+	 *
+	 * This is typically used once when we are creating the
+	 * tab so we can supply a useful title to the tab on creation.
+	 *
+	 * @type {nsIURI}
+	 */
+	_initialURI = null;
+
 	get permanentKey() {
 		// @ts-ignore
 		return this.webContents.permanentKey;
@@ -211,6 +225,29 @@ class BrowserTab extends MozElements.MozTab {
 		return this.webContents.parentElement.querySelector("browser-modals");
 	}
 
+	_siteIdentity = null;
+
+	/**
+	 * The tab's identity and security manager
+	 *
+	 * @type {typeof TabIdentityHandler.prototype}
+	 */
+	get siteIdentity() {
+		return this._siteIdentity;
+	}
+
+	/**
+	 * The current URI of the tab
+	 * @returns {nsIURI}
+	 */
+	get currentURI() {
+		if (!gDot.tabs._isWebContentsBrowserElement(this.webContents)) {
+			return Services.io.newURI("about:blank");
+		}
+
+		return /** @type {ChromeBrowser} */ (this.webContents).currentURI;
+	}
+
 	/**
 	 * Register any event listeners that require webContents to be setup and ready
 	 *
@@ -218,27 +255,38 @@ class BrowserTab extends MozElements.MozTab {
 	 * webContents could get added to the tab too late.
 	 */
 	registerEventListeners() {
+		console.log("initted event listeners for", this.id);
+
 		this.webContents.addEventListener("pagetitlechanged", this);
+
+		// Ensure site identity is initialised
+		this._siteIdentity = new TabIdentityHandler(this);
 	}
 
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
 		if (!this.getAttribute("label")) {
-			this.updateLabel("Untitled");
+			console.log("No label yet!", this._initialURI?.spec);
+			this.updateLabel(this._initialURI?.spec || "");
 		}
 
 		if (!this.getAttribute("icon")) {
-			this.updateIcon(kDefaultTabIcon);
+			console.log("NO ICON YET");
+			this.updateIcon(kDefaultTabIcon, true);
 		}
 
-		document.addEventListener("BrowserTabs::TabSelect", this);
+		window.addEventListener("BrowserTabs::TabSelect", this);
+		window.addEventListener("BrowserTabs::BrowserStateChange", this);
+		window.addEventListener("BrowserTabs::BrowserLocationChange", this);
 	}
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		document.removeEventListener("BrowserTabs::TabSelect", this);
+		window.removeEventListener("BrowserTabs::TabSelect", this);
+		window.removeEventListener("BrowserTabs::BrowserStateChange", this);
+		window.removeEventListener("BrowserTabs::BrowserLocationChange", this);
 
 		this.webContents.removeEventListener("pagetitlechanged", this);
 	}
@@ -270,26 +318,50 @@ class BrowserTab extends MozElements.MozTab {
 	updateLabel(newLabel) {
 		let label = newLabel;
 
-		if (label.trim().length <= 0) {
-			label = /** @type {ChromeBrowser} */ (this.webContents)
-				.contentTitle;
+		// If this tab is just initialising, we will want to use a neutral title
+		if (!this.webContents && !newLabel) {
+			label = "Untitled";
 		}
 
-		if (label.trim().length <= 0) {
-			try {
+		if (kDefaultTabTitles[label]) {
+			label = kDefaultTabTitles[label];
+		}
+
+		try {
+			if (label.trim().length <= 0) {
+				label = /** @type {ChromeBrowser} */ (this.webContents)
+					.contentTitle;
+			}
+
+			if (label.trim().length <= 0) {
 				label = /** @type {ChromeBrowser} */ (this.webContents)
 					.currentURI.spec;
 
 				if (kDefaultTabTitles[label]) {
 					label = kDefaultTabTitles[label];
 				}
-			} catch (e) {
-				console.error("Unable to use currentURI for tab title:", e);
-				label = "Untitled";
 			}
+		} catch (e) {
+			console.error("Unable to use currentURI for tab title:", e);
+			label = "Untitled";
+		}
+
+		try {
+			const uri = Services.io.newURI(label);
+
+			if (uri && uri.spec) {
+				// trims protocols and www. from label
+				label = uri.spec.replace(/^[^:]+:\/\/(?:www\.)?/, "");
+			}
+		} catch (e) {}
+
+		if (label.length > 500) {
+			label = `${label.substring(0, 500)}\u2026`;
 		}
 
 		this.setAttribute("label", label);
+		this.setAttribute("title", label);
+		console.log("Updated title to", label);
 
 		// We need to make sure gDot.tabs is initialised
 		// before we start updating the window title
@@ -302,11 +374,27 @@ class BrowserTab extends MozElements.MozTab {
 	 * Updates the tab's icon
 	 * @param {string} newIconURI
 	 */
-	updateIcon(newIconURI) {
+	updateIcon(newIconURI, initial = false) {
 		let iconURI = newIconURI;
 
-		if (!newIconURI) iconURI = kDefaultTabIcon;
+		if (!newIconURI)
+			iconURI =
+				BrowserTabsUtils.INTERNAL_PAGES[
+					this._initialURI?.spec || this.currentURI.spec
+				]?.icon || kDefaultTabIcon;
+
 		this.setAttribute("icon", iconURI);
+		this.toggleAttribute(
+			"hideicon",
+			iconURI == kDefaultTabIcon && !initial
+		);
+
+		if (
+			this.webContents &&
+			gDot.tabs._isWebContentsBrowserElement(this.webContents)
+		) {
+			/** @type {ChromeBrowser} */ (this.webContents).mIconURL = iconURI;
+		}
 	}
 
 	/**
