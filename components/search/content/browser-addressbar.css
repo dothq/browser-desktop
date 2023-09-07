@@ -1,0 +1,105 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-addressbar {
+    display: flex;
+
+    background-color: var(--toolbar-field-background-color);
+    color: var(--toolbar-field-color);
+
+    border-radius: 8px;
+
+    margin-block: 3px;
+
+    flex: 1;
+
+    outline: 0px solid var(--toolbar-field-focus-background-color);
+
+    transition: 0.3s outline cubic-bezier(0.19, 1, 0.22, 1), 0.3s background-color cubic-bezier(0.19, 1, 0.22, 1);
+
+    z-index: 2147483647;
+}
+
+browser-addressbar .addressbar-input {
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: 6px;
+}
+
+browser-addressbar[focuswithin] {
+    background-color: var(--toolbar-field-focus-background-color);
+    outline: 6px solid var(--toolbar-field-focus-background-color);
+    box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, .132), 0 1.2px 3.6px 0 rgba(0, 0, 0, .108), 0px 0px 0px 7px var(--outline-color, rgba(0, 0, 0, .05));
+    transition-duration: 0.1s;
+}
+
+browser-addressbar .addressbar-identity-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    gap: 2px;
+    background-color: var(--toolbar-bgcolor);
+    border-radius: 6px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+browser-addressbar .addressbar-identity-box .toolbar-button {
+    margin-block: 0;
+    padding: var(--padding-y) var(--padding-x);
+    position: relative;
+    box-shadow: inset 0px 0px 0px 1px var(--toolbar-bgcolor);
+}
+
+browser-addressbar .addressbar-identity-box .toolbar-button::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-image: linear-gradient(0deg,
+            transparent var(--height),
+            rgba(128, 128, 128, 0.25) var(--height),
+            rgba(128, 128, 128, 0.25) calc(100% - var(--height)),
+            transparent calc(100% - var(--height)));
+    top: 0;
+    right: 0;
+    transform: translateX(2px);
+    z-index: 1;
+    transition: 0.4s opacity cubic-bezier(0.19, 1, 0.22, 1);
+    --height: 25%;
+}
+
+
+browser-addressbar .addressbar-identity-box .toolbar-button:not(:disabled):hover::before,
+browser-addressbar .addressbar-identity-box .toolbar-button:not(:disabled):active::before,
+browser-addressbar .addressbar-identity-box .toolbar-button:last-of-type::before,
+browser-addressbar .addressbar-identity-box .toolbar-button[precedes-hover]::before {
+    opacity: 0;
+}
+
+browser-addressbar .addressbar-identity-box[onlychild] {
+    box-shadow: none;
+    margin-inline-end: 0px;
+    background-color: transparent;
+}
+
+browser-addressbar .addressbar-identity-box[onlychild] .addressbar-identity-button {
+    box-shadow: none;
+}
+
+browser-addressbar .addressbar-identity-box .addressbar-identity-button[identitytype=search] {
+    pointer-events: none;
+}
+
+@media (prefers-contrast) {
+    browser-addressbar {
+        box-shadow: 0px 0px 0px 1px currentColor;
+        --outline-color: currentColor;
+    }
+}
