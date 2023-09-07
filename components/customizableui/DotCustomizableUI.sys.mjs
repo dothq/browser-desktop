@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class _CustomizableAreaElement extends Element {
-	/** @type {} */
+	/** @type {CustomizableController} */
 	customizable = null;
 }
 
