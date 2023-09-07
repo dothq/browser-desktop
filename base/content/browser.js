@@ -3,9 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 ChromeUtils.defineESModuleGetters(globalThis, {
-	DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs",
-	DotCustomizableUI: "resource:///modules/DotCustomizableUI.sys.mjs"
+	DotAppConstants: "resource://gre/modules/DotAppConstants.sys.mjs"
 });
+
+var { DotCustomizableUI } = ChromeUtils.importESModule(
+	"resource:///modules/DotCustomizableUI.sys.mjs"
+);
 
 var { NavigationHelper } = ChromeUtils.importESModule(
 	"resource:///modules/NavigationHelper.sys.mjs"
@@ -87,8 +90,7 @@ const _gDot = {
 		gDot.tabs = new BrowserTabs(window);
 		gDot.search = new BrowserSearch(window);
 
-		// @todo(EnderDev) add types for DotCustomizableUI
-		globalThis.DotCustomizableUI.initialize();
+		DotCustomizableUI.init(window);
 
 		gDotRoutines.init();
 
