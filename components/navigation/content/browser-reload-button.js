@@ -17,12 +17,30 @@ class BrowserReloadButton extends BrowserToolbarButton {
 		super();
 
 		this.routineId = "reload-page";
+		this.buttonId = "reload-button";
 	}
+
+	/**
+	 * Determines if we are in a loading state
+	 */
+	isLoading = false;
 
 	connectedCallback() {
 		super.connectedCallback();
 
-		window.addEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
+		window.addEventListener(
+			"BrowserTabs::BrowserStateChange",
+			this.handleEvent.bind(this)
+		);
+	}
+
+	getRoutineId() {
+		if (this.isLoading) {
+			return "stop-page";
+		}
+
+		const id = this.shiftKey ? "reload-page.bypass-cache" : "reload-page";
+		return id;
 	}
 
 	/**
@@ -37,13 +55,22 @@ class BrowserReloadButton extends BrowserToolbarButton {
 	onStateChanged({ browser, webProgress, request, stateFlags, status }) {
 		const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
 
-		const isLoading =
+		this.isLoading =
 			webProgress.isTopLevel &&
 			stateFlags & STATE_START &&
 			stateFlags & STATE_IS_NETWORK &&
-			BrowserTabsUtils.shouldShowProgress(/** @type {nsIChannel} */ (request));
+			BrowserTabsUtils.shouldShowProgress(
+				/** @type {nsIChannel} */ (request)
+			);
 
-		this.routineId = isLoading ? "stop-page" : "reload-page";
+		this.routineId = this.getRoutineId();
+	}
+
+	/**
+	 * Handles changes to the modifier keys
+	 */
+	handleModifierChangeEvent() {
+		this.routineId = this.getRoutineId();
 	}
 
 	/**
@@ -61,7 +88,10 @@ class BrowserReloadButton extends BrowserToolbarButton {
 	disconnectedCallback() {
 		super.disconnectedCallback();
 
-		window.removeEventListener("BrowserTabs::BrowserStateChange", this.handleEvent.bind(this));
+		window.removeEventListener(
+			"BrowserTabs::BrowserStateChange",
+			this.handleEvent.bind(this)
+		);
 	}
 }
 

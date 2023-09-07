@@ -10,15 +10,16 @@ browser-toolbar {
     background-color: transparent;
     color: var(--lwt-text-color);
 
-    padding-inline: 4px;
+    --padding-x: 4px;
+
+    padding-inline: var(--padding-x);
 
     -moz-window-dragging: drag;
-
-    overflow: clip;
 }
 
 browser-toolbar.accent {
     background-color: var(--toolbar-bgcolor);
+    z-index: 200;
 }
 
 browser-toolbar:not([initial])::part(csd) {
@@ -44,4 +45,15 @@ browser-toolbar::part(content) {
 
 browser-toolbar[collapse] {
     display: none;
+}
+
+@media (prefers-contrast) {
+    browser-toolbar:not([initial])::before {
+        content: "";
+        position: absolute;
+        width: calc(100% + var(--padding-x));
+        height: 1px;
+        background-color: currentColor;
+        left: calc(0px - var(--padding-x));
+    }
 }

@@ -2,10 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+var { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
+// prettier-ignore
 let elements = {
-	"address-bar": "chrome://dot/content/widgets/browser-address-bar.js",
+	"browser-addressbar": "chrome://dot/content/widgets/browser-addressbar.js",
+    "browser-addressbar-identity-box": "chrome://dot/content/widgets/browser-addressbar.js",
+    "browser-addressbar-input": "chrome://dot/content/widgets/browser-addressbar.js",
 
 	"browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
 	"browser-frame": "chrome://dot/content/widgets/browser-frame.js",
@@ -25,8 +30,13 @@ let elements = {
 	"add-tab-button": "chrome://dot/content/widgets/browser-add-tab-button.js",
 	"back-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
 	"forward-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
-	"reload-button": "chrome://dot/content/widgets/browser-reload-button.js"
+	"reload-button": "chrome://dot/content/widgets/browser-reload-button.js",
+    "identity-button": "chrome://dot/content/widgets/browser-identity-button.js",
 };
+
+let noCallbackElements = [
+	"chrome://dot/content/widgets/browser-addressbar-panel.js"
+];
 
 // Define developer-only elements
 // Locked behind MOZILLA_OFICIAL so they don't end up in release builds
@@ -42,4 +52,8 @@ for (const [element, chromeURI] of Object.entries(elements)) {
 	customElements.setElementCreationCallback(element, () => {
 		Services.scriptloader.loadSubScript(chromeURI, window);
 	});
+}
+
+for (const chromeURI of noCallbackElements) {
+	Services.scriptloader.loadSubScript(chromeURI, window);
 }

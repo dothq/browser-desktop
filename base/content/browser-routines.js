@@ -2,7 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-let gRoutinesLocalization = new Localization(["dot/browser.ftl", "dot/routines.ftl"], true);
+let gRoutinesLocalization = new Localization(
+	["dot/browser.ftl", "dot/routines.ftl"],
+	true
+);
 
 class BrowserRoutine {
 	/**
@@ -23,7 +26,25 @@ class BrowserRoutine {
 	 * The localized label for this routine
 	 */
 	get localizedLabel() {
-		return gRoutinesLocalization.formatValueSync(`routine-${this.id}`);
+		const [id, variant] = this.id.split(".");
+
+		const [msg] = gRoutinesLocalization.formatMessagesSync([
+			{ id: `routine-${id}` }
+		]);
+
+		if (msg) {
+			if (variant) {
+				const { value: variantValue } = msg.attributes.find(
+					(a) => a.name == variant
+				);
+
+				return variantValue;
+			} else {
+				return msg.value;
+			}
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -62,7 +83,9 @@ class BrowserRoutine {
 
 			if (command) {
 				try {
-					await Promise.resolve(gDotCommands.execCommand(command.name, blockArgs));
+					await Promise.resolve(
+						gDotCommands.execCommand(command.name, blockArgs)
+					);
 				} catch (e) {
 					console.error(
 						`Error running command '${command.name}' in routine '${this.id}'!`,
@@ -71,7 +94,9 @@ class BrowserRoutine {
 					return;
 				}
 			} else {
-				console.warn(`Unknown block type with ID '${blockId}' in routine '${this.id}'!`);
+				console.warn(
+					`Unknown block type with ID '${blockId}' in routine '${this.id}'!`
+				);
 			}
 		}
 	}
@@ -156,7 +181,7 @@ var gDotRoutines = {
 			},
 			{
 				id: "reload-page.bypass-cache",
-				icon: "reload",
+				icon: "sync",
 
 				routine: [["browsing.reload_page", { bypassCache: true }]],
 				keybindings: ["Ctrl+Shift+R"]
@@ -174,6 +199,15 @@ var gDotRoutines = {
 
 				routine: [["browser.toolbar.toggle", { name: "menubar" }]],
 				keybindings: ["Alt"]
+			},
+			{
+				id: "toggle-identity-popout",
+				icon: "toggle",
+
+				routine: [
+					["browser.popouts.toggle", { name: "page-identity" }]
+				],
+				keybindings: ["Ctrl+I"]
 			}
 		];
 	},

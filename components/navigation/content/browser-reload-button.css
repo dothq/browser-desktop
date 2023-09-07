@@ -1,0 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.toolbar-button.reload-button[routine^="reload-page"]:not([previousroutine="stop-page"]) .toolbar-button-icon {
+    transition: 0.3s transform cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.toolbar-button.reload-button[routine="reload-page.bypass-cache"]:hover .toolbar-button-icon {
+    transform: rotate(45deg);
+}
