@@ -198,7 +198,18 @@ export class TabProgressListener {
 
 			if (webProgress && webProgress.isTopLevel) {
 				// Clear the tab icon
+				if (
+					this.win.gDot.tabs._isWebContentsBrowserElement(
+						this.tab.webContents
+					)
+				) {
+					/** @type {ChromeBrowser} */ (
+						this.tab.webContents
+					).mIconURL = null;
+				}
+
 				this.win.gDot.tabs.setIcon(this.tab, "");
+				this.tab._initialURI = null;
 			}
 		} else if (stateFlags & STATE_STOP) {
 			if (
@@ -222,7 +233,6 @@ export class TabProgressListener {
 				}, 300);
 			}
 
-			this.tab._initialURI = null;
 			this.tab.updateLabel("");
 			this.tab.updateIcon(this.browser.mIconURL);
 
