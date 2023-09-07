@@ -15,8 +15,11 @@ browser-icon {
 
     width: var(--size, 16px);
     height: var(--size, 16px);
+
+    transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/* Icons */
 browser-icon[name="add"] {
     --src: url(chrome://dot/skin/add.svg);
 }
@@ -141,6 +144,14 @@ browser-icon[name="home"] {
     --src: url(chrome://dot/skin/home.svg);
 }
 
+browser-icon[name="hourglass-filled"] {
+    --src: url(chrome://dot/skin/hourglass-filled.svg);
+}
+
+browser-icon[name="hourglass"] {
+    --src: url(chrome://dot/skin/hourglass.svg);
+}
+
 browser-icon[name="info"] {
     --src: url(chrome://dot/skin/info.svg);
 }
@@ -175,6 +186,10 @@ browser-icon[name="more-vertical"] {
 
 browser-icon[name="musical-note"] {
     --src: url(chrome://dot/skin/musical-note.svg);
+}
+
+browser-icon[name="padlock-unsecure"] {
+    --src: url(chrome://dot/skin/padlock-unsecure.svg);
 }
 
 browser-icon[name="padlock"] {
@@ -245,6 +260,10 @@ browser-icon[name="star"] {
     --src: url(chrome://dot/skin/star.svg);
 }
 
+browser-icon[name="sync"] {
+    --src: url(chrome://dot/skin/sync.svg);
+}
+
 browser-icon[name="toggle"] {
     --src: url(chrome://dot/skin/toggle.svg);
 }
@@ -267,4 +286,13 @@ browser-icon[name="zoom-in"] {
 
 browser-icon[name="zoom-out"] {
     --src: url(chrome://dot/skin/zoom-out.svg);
+}
+
+/* Special icons */
+browser-icon[name="brand16"] {
+    --src: url(chrome://branding/content/icon16.png);
+}
+
+browser-icon[name="brand32"] {
+    --src: url(chrome://branding/content/icon32.png);
 }

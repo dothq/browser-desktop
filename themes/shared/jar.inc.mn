@@ -45,6 +45,8 @@
   skin/classic/dot/globe.svg                            (../shared/icons/globe.svg)
   skin/classic/dot/heart.svg                            (../shared/icons/heart.svg)
   skin/classic/dot/home.svg                             (../shared/icons/home.svg)
+  skin/classic/dot/hourglass-filled.svg                 (../shared/icons/hourglass-filled.svg)
+  skin/classic/dot/hourglass.svg                        (../shared/icons/hourglass.svg)
   skin/classic/dot/info.svg                             (../shared/icons/info.svg)
   skin/classic/dot/jigsaw.svg                           (../shared/icons/jigsaw.svg)
   skin/classic/dot/key.svg                              (../shared/icons/key.svg)
@@ -54,6 +56,7 @@
   skin/classic/dot/more-horizontal.svg                  (../shared/icons/more-horizontal.svg)
   skin/classic/dot/more-vertical.svg                    (../shared/icons/more-vertical.svg)
   skin/classic/dot/musical-note.svg                     (../shared/icons/musical-note.svg)
+  skin/classic/dot/padlock-unsecure.svg                 (../shared/icons/padlock-unsecure.svg)
   skin/classic/dot/padlock.svg                          (../shared/icons/padlock.svg)
   skin/classic/dot/page.svg                             (../shared/icons/page.svg)
   skin/classic/dot/pages.svg                            (../shared/icons/pages.svg)
@@ -71,6 +74,7 @@
   skin/classic/dot/shield.svg                           (../shared/icons/shield.svg)
   skin/classic/dot/shopping-bag.svg                     (../shared/icons/shopping-bag.svg)
   skin/classic/dot/star.svg                             (../shared/icons/star.svg)
+  skin/classic/dot/sync.svg                             (../shared/icons/sync.svg)
   skin/classic/dot/tab-loading-busy.svg                 (../shared/icons/tab-loading-busy.svg)
   skin/classic/dot/tab-loading-transit.svg              (../shared/icons/tab-loading-transit.svg)
   skin/classic/dot/tab-loading.svg                      (../shared/icons/tab-loading.svg)
@@ -106,6 +110,8 @@
 % override chrome://mozapps/skin/extensions/category-extensions.svg chrome://dot/skin/jigsaw.svg
 % override chrome://mozapps/skin/extensions/themeGeneric.svg chrome://dot/skin/brush.svg
 % override chrome://global/skin/icons/settings.svg chrome://dot/skin/settings.svg
+% override chrome://global/skin/icons/warning.svg chrome://dot/skin/warning.svg
+
 % override chrome://global/skin/dialog.css chrome://dot/skin/dialog.css
 % override chrome://global/content/commonDialog.css chrome://dot/skin/dialog.css
 
