@@ -10,14 +10,6 @@ class BrowserCloseTabButton extends BrowserToolbarButton {
 		this.buttonId = "close-tab-button";
 	}
 
-	/**
-	 * Only show keybindings if the close
-	 * tab button isn't apart of a tab
-	 */
-	get showKeybindings() {
-		return this.associatedArea !== "tab";
-	}
-
 	connectedCallback() {
 		super.connectedCallback();
 	}
