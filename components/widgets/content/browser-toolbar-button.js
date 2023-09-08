@@ -75,10 +75,8 @@ class BrowserToolbarButton extends HTMLButtonElement {
 	 * @type {boolean}
 	 */
 	get showKeybindings() {
-		return (
-			!!this.associatedAreaElement?.getAttribute(
-				"customizableshowkeybindings"
-			) ?? true
+		return !this.associatedAreaElement?.hasAttribute(
+			"customizablenokeybindings"
 		);
 	}
 
