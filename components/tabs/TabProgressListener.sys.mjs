@@ -161,7 +161,7 @@ export class TabProgressListener {
 		const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY } = this.tab;
 
 		console.log(
-			"TabProgressListener::onStatusChange",
+			"TabProgressListener::onStateChange",
 			webProgress,
 			request,
 			stateFlags,
@@ -235,6 +235,12 @@ export class TabProgressListener {
 
 			this.tab.updateLabel("");
 			this.tab.updateIcon(this.browser.mIconURL);
+
+			// Clear the status as we're done loading
+			fireBrowserEvent("BrowserStatusChange", this.browser, {
+				message: "",
+				type: "busy"
+			});
 
 			if (this.tab.selected) {
 				this.win.gDot.tabs.isBusy = false;
