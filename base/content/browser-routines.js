@@ -31,44 +31,73 @@ class BrowserRoutine {
 		return {
 			label: this.localizedLabel,
 			tooltip: keybindings
-				? this.localizedLabelAndKeybind
-				: this.localizedLabel,
+				? this.getLabelAndKeybinds(this.localizedTooltip)
+				: this.localizedTooltip,
 			icon: this.icon,
 			keybindings: this.keybindings
 		};
 	}
 
 	/**
-	 * The localized label for this routine
+	 * Fetches localized data for this routine
+	 * @returns {Record<string, string>}
 	 */
-	get localizedLabel() {
-		const [id, variant] = this.id.split(".");
-
+	getLocalized() {
 		const [msg] = gRoutinesLocalization.formatMessagesSync([
-			{ id: `routine-${id}` }
+			{ id: `routine-${this.id}` }
 		]);
 
 		if (msg) {
-			if (variant) {
-				const { value: variantValue } = msg.attributes.find(
-					(a) => a.name == variant
-				);
+			let data = {
+				label: msg.value,
+				tooltip: msg.value
+			};
 
-				return variantValue;
-			} else {
-				return msg.value;
+			if (msg.attributes) {
+				for (const attr of msg.attributes) {
+					data[attr.name] = attr.value;
+				}
 			}
+
+			return data;
 		} else {
 			return null;
 		}
 	}
 
 	/**
-	 * A localized label and keybind combination
+	 * The localized label for this routine
 	 */
-	get localizedLabelAndKeybind() {
+	get localizedLabel() {
+		const data = this.getLocalized();
+
+		return data?.label;
+	}
+
+	/**
+	 * The localized tooltip for this routine
+	 *
+	 * If not specified, it will be the same value as localizedLabel
+	 */
+	get localizedTooltip() {
+		const data = this.getLocalized();
+
+		if (data?.tooltip) {
+			return data.tooltip;
+		}
+
+		return data?.label;
+	}
+
+	/**
+	 * A localized label and keybind combination
+	 * @param {string} [label]
+	 */
+	getLabelAndKeybinds(label) {
+		if (!label) label = this.localizedLabel;
+
 		return gRoutinesLocalization.formatValueSync("browser-keybind-label", {
-			label: this.localizedLabel,
+			label,
 			keybind: this.listedKeybindings
 		});
 	}
@@ -206,7 +235,7 @@ var gDotRoutines = {
 				keybindings: ["Ctrl+R"]
 			},
 			{
-				id: "reload-page.bypass-cache",
+				id: "reload-page-bypass-cache",
 				icon: "sync",
 
 				routine: [["browsing.reload_page", { bypassCache: true }]],

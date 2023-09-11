@@ -6,6 +6,6 @@
     transition: 0.3s transform cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.toolbar-button.reload-button[routine="reload-page.bypass-cache"]:hover .toolbar-button-icon {
+.toolbar-button.reload-button[routine="reload-page-bypass-cache"]:hover .toolbar-button-icon {
     transform: rotate(45deg);
 }

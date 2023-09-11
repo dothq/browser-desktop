@@ -11,7 +11,9 @@ routine-navigate-back = Back
 routine-navigate-forward = Forward
 
 routine-reload-page = Reload
-    .bypass-cache = Reload (Bypass cache)
+routine-reload-page-bypass-cache =
+    .label = Reload
+    .tooltip = Reload (Bypass cache)
 
 routine-stop-page = Stop
 

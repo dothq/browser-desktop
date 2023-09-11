@@ -39,7 +39,7 @@ class BrowserReloadButton extends BrowserToolbarButton {
 			return "stop-page";
 		}
 
-		const id = this.shiftKey ? "reload-page.bypass-cache" : "reload-page";
+		const id = this.shiftKey ? "reload-page-bypass-cache" : "reload-page";
 		return id;
 	}
 
