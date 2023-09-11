@@ -32,7 +32,7 @@ html|select {
     border-radius: 6px;
 
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
 
     color: unset;
     background-color: var(--button-color);
