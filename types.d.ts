@@ -25,7 +25,7 @@ declare global {
 	}
 
 	var BrowserUIUtils: Gecko.BrowserUIUtils;
-	var gDot: typeof _gDot;
+	var gDot: BrowserApplication;
 	var gDotInit: typeof gDotInit;
 	var XULBrowserWindow: nsIXULBrowserWindow;
 	var browserDOMWindow: nsBrowserAccess;
@@ -78,7 +78,7 @@ declare global {
 		) => Window;
 		MozXULElement: MozXULElement;
 		MozHTMLElement: MozHTMLElement;
-		gDot: typeof _gDot;
+		gDot: BrowserApplication;
 		minimize(): void;
 		maximize(): void;
 		restore(): void;

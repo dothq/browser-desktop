@@ -199,7 +199,7 @@ var gDotCommands = {
 				name: "browser.toolbar.toggle",
 
 				action: ({ gDot, name }) => {
-					const toolbar = gDot.toolbox.getToolbarByName(name);
+					const toolbar = gDot.getToolbarByName(name);
 					if (!toolbar) {
 						throw new Error(
 							`Toolbar with name '${name}' could not be found!`

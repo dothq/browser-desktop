@@ -215,8 +215,17 @@ var gDotInit = {
 		globalThis.XULBrowserWindow = XULBrowserWindow;
 		window.browserDOMWindow = new nsBrowserAccess(window);
 
-		// Exposes gDot to global for debugging
-		globalThis.gDot = _gDot;
+		Object.defineProperty(globalThis, "gDot", {
+			get: () => {
+				if (document.querySelector("browser-application")) {
+					return document.querySelector("browser-application");
+				}
+
+				const app = document.createElement("browser-application");
+				document.body.appendChild(app);
+				return app;
+			}
+		});
 
 		// @ts-ignore
 		delete globalThis._gDot;
