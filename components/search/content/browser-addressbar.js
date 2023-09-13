@@ -2,11 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { DotCustomizableUI } = ChromeUtils.importESModule(
-	"resource://gre/modules/DotCustomizableUI.sys.mjs"
-);
-
-class BrowserAddressBarIdentityBox extends MozHTMLElement {
+class BrowserAddressBarIdentityBox extends BrowserContextualMixin(
+	MozHTMLElement
+) {
 	constructor() {
 		super();
 	}
@@ -73,8 +71,6 @@ class BrowserAddressBarIdentityBox extends MozHTMLElement {
 		this.addEventListener("mouseover", this);
 		this.addEventListener("mouseout", this);
 
-		window.addEventListener("BrowserTabs::TabIdentityChanged", this);
-
 		this._mutationObserver = new MutationObserver(
 			this._observeMutations.bind(this)
 		);
@@ -87,8 +83,6 @@ class BrowserAddressBarIdentityBox extends MozHTMLElement {
 	disconnectedCallback() {
 		this.removeEventListener("mouseover", this);
 		this.removeEventListener("mouseout", this);
-
-		window.removeEventListener("BrowserTabs::TabIdentityChanged", this);
 	}
 }
 
@@ -150,7 +144,7 @@ customElements.define("browser-addressbar-input", BrowserAddressBarInput, {
 	extends: "input"
 });
 
-class BrowserAddressBar extends MozHTMLElement {
+class BrowserAddressBar extends BrowserCustomizableArea {
 	constructor() {
 		super();
 	}
@@ -246,12 +240,11 @@ class BrowserAddressBar extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		DotCustomizableUI.initCustomizableArea(this, "addressbar");
+		super.connect({
+			name: "addressbar",
 
-		this.appendChild(document.createXULElement("abpopup"));
-
-		this.appendChild(this.elements.identityBox);
-		this.appendChild(this.elements.input);
+			layout: "addressbar"
+		});
 
 		window.addEventListener("BrowserTabs::BrowserLocationChange", this);
 		window.addEventListener("BrowserTabs::TabSelect", this);

@@ -2,11 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { DotCustomizableUI } = ChromeUtils.importESModule(
-	"resource://gre/modules/DotCustomizableUI.sys.mjs"
-);
-
-class BrowserToolbar extends MozHTMLElement {
+class BrowserToolbar extends BrowserCustomizableArea {
 	constructor() {
 		super();
 	}
@@ -25,65 +21,6 @@ class BrowserToolbar extends MozHTMLElement {
 					html("browser-window-controls", { part: "csd" })
 			)
 		};
-	}
-
-	/**
-	 * Determines the toolbar's display mode
-	 *
-	 * `icons` - Only show icons in toolbar buttons
-	 *
-	 * `text` - Only show text in toolbar buttons
-	 *
-	 * `icons_text` - Show icons beside text in toolbar buttons
-	 */
-	get mode() {
-		return this.getAttribute("mode");
-	}
-
-	/**
-	 * Update the toolbar's display mode
-	 */
-	set mode(newMode) {
-		this.setAttribute("mode", newMode);
-	}
-
-	/**
-	 * The name of this toolbar
-	 */
-	get name() {
-		return this.getAttribute("name");
-	}
-
-	/**
-	 * Update the toolbar's name
-	 */
-	set name(newName) {
-		this.setAttribute("name", newName);
-	}
-
-	/**
-	 * Determines whether this toolbar is horizontal
-	 */
-	get isHorizontal() {
-		return this.orientation == "horizontal";
-	}
-
-	/**
-	 * Determines whether this toolbar is vertical
-	 */
-	get isVertical() {
-		return this.orientation == "vertical";
-	}
-
-	/**
-	 * The orientation of this toolbar
-	 *
-	 * @returns {"horizontal" | "vertical"}
-	 */
-	get orientation() {
-		return this.getAttribute("orientation") == "vertical"
-			? "vertical"
-			: "horizontal";
 	}
 
 	/**
@@ -141,48 +78,15 @@ class BrowserToolbar extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
+		super.connect({
+			name: this.getAttribute("slot") || this.getAttribute("name"),
 
-		DotCustomizableUI.initCustomizableArea(this, "toolbar");
-
-		this.attachShadow({ mode: "open" });
-
-		this.shadowRoot.appendChild(
-			html("link", {
-				rel: "stylesheet",
-				href: "chrome://dot/content/widgets/browser-window-controls.css"
-			})
-		);
-
-		this.shadowRoot.appendChild(this.shadowElements.slot);
-		this.shadowRoot.appendChild(this.shadowElements.csd);
-
-		const { csdReversedMediaQuery } = this.shadowElements.csd;
-
-		csdReversedMediaQuery.addEventListener("change", this);
-		this.onCSDPositionChange(csdReversedMediaQuery);
-
-		this.mode = "icons";
-
-		this.addEventListener("contextmenu", (e) => {
-			console.log(e);
-			/** @type {any} */ (
-				document.getElementById("browser-toolbar-menu")
-			).openPopupAtScreen(e.screenX, e.screenY);
-			/** @type {any} */ (
-				document.getElementById("browser-toolbar-menu")
-			).target = this;
+			layout: "toolbar"
 		});
 
+		this.shadowRoot.appendChild(this.shadowElements.csd);
+
 		this.maybePromoteToolbar();
-
-		const { width, height } = this.getBoundingClientRect();
-
-		// Sets the initial orientation
-		this.setAttribute(
-			"orientation",
-			width > height ? "horizontal" : "vertical"
-		);
 	}
 
 	disconnectedCallback() {

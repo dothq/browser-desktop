@@ -2,13 +2,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { DotCustomizableUI } = ChromeUtils.importESModule(
-	"resource://gre/modules/DotCustomizableUI.sys.mjs"
-);
-
-class BrowserRenderedTab extends MozHTMLElement {
+class BrowserRenderedTab extends BrowserCustomizableArea {
 	constructor() {
 		super();
+	}
+
+	get interactiveTags() {
+		return ["button", "select", "input", "a"];
+	}
+
+	/**
+	 * Checks whether an element is interactive/clickable
+	 * @param {Element} el
+	 */
+	isInteractive(el) {
+		return el.closest(this.interactiveTags.join(", "));
 	}
 
 	_linkedTab = null;
@@ -121,24 +129,6 @@ class BrowserRenderedTab extends MozHTMLElement {
 	}
 
 	/**
-	 * The anatomy of the Tab
-	 *
-	 * @typedef {Object} TabElements
-	 * @property {HTMLSpanElement} label - The tab's label/title
-	 * @property {HTMLImageElement} icon - The tab's favicon
-	 * @property {HTMLDivElement} spinner - The tab's loading spinner
-	 *
-	 * @returns {TabElements}
-	 */
-	get elements() {
-		return {
-			label: this.querySelector(".browser-tab-label"),
-			icon: this.querySelector(".browser-tab-icon"),
-			spinner: this.querySelector(".browser-tab-spinner")
-		};
-	}
-
-	/**
 	 * The closest toolbar for this tab
 	 * @returns {BrowserToolbar}
 	 */
@@ -150,9 +140,9 @@ class BrowserRenderedTab extends MozHTMLElement {
 	 * Fired whenever the user clicks down onto the tab
 	 */
 	_onTabMouseDown(event) {
-		// Ensure we eat up any mouse down events if we're
-		// clicking on a toolbar-button inside the tab
-		if (event.target.closest(".toolbar-button")) {
+		// Ensure we eat up any mouse down events to interactive elements
+		// We don't want the tab to be selected if clicking down on a button for example
+		if (this.isInteractive(event.target)) {
 			return;
 		}
 
@@ -239,47 +229,19 @@ class BrowserRenderedTab extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
+		super.connect({
+			name: "tab",
 
-		DotCustomizableUI.initCustomizableArea(this, "tab", {
-			many: true,
+			layout: "tab",
+
 			showKeybindings: false
 		});
 
 		this.appendChild(html("div", { class: "browser-tab-background" }));
 
-		this.appendChild(
-			html(
-				"div",
-				{ class: "browser-tab-icon-container" },
-				html("img", { class: "browser-tab-icon" }),
-				html("div", { class: "browser-tab-spinner" })
-			)
-		);
+		this.style.width = "var(--tab-max-width)";
 
-		this.appendChild(
-			html(
-				"div",
-				{ class: "browser-tab-contents" },
-				html(
-					"div",
-					{ class: "browser-tab-label-container" },
-					html("span", { class: "browser-tab-label" })
-				),
-				html(
-					"div",
-					{ class: "browser-tab-icons" },
-					document.createElement("button", { is: "back-button" }),
-					document.createElement("button", { is: "forward-button" }),
-					document.createElement("button", { is: "reload-button" }),
-					document.createElement("button", { is: "close-tab-button" })
-				)
-			)
-		);
-
-		this.style.width = "220px";
-
-		this.addEventListener("mousedown", this);
+		this.shadowRoot.addEventListener("mousedown", this);
 		this.addEventListener("mouseover", this);
 		this.addEventListener("mouseout", this);
 
@@ -289,7 +251,7 @@ class BrowserRenderedTab extends MozHTMLElement {
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		this.removeEventListener("mousedown", this);
+		this.shadowRoot.removeEventListener("mousedown", this);
 		this.removeEventListener("mouseover", this);
 		this.removeEventListener("mouseout", this);
 
@@ -330,23 +292,18 @@ class BrowserRenderedTab extends MozHTMLElement {
 	 * @param {string} oldValue
 	 * @param {string} newValue
 	 */
-	attributeChangedCallback(name, oldValue, newValue) {
+	internalTabAttributeChangedCallback(name, oldValue, newValue) {
 		if (!this.isConnectedAndReady) return;
 
-		this.setAttribute(name, newValue);
-		this.toggleAttribute(name, this.linkedTab.hasAttribute(name));
+		const showAttribute = newValue !== null;
+
+		if (showAttribute) {
+			this.setAttribute(name, newValue);
+		} else {
+			this.removeAttribute(name);
+		}
 
 		switch (name) {
-			case "label":
-				if (newValue !== oldValue) {
-					this.elements.label.textContent = newValue;
-				}
-				break;
-			case "icon":
-				if (newValue !== oldValue) {
-					this.elements.icon.src = newValue;
-				}
-				break;
 			case "progresspercent":
 				this.style.setProperty("--tab-load-percent", newValue);
 				break;

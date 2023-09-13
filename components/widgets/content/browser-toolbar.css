@@ -5,7 +5,6 @@
 browser-toolbar {
     display: flex;
     align-items: stretch;
-    flex: 1;
 
     background-color: transparent;
     color: var(--lwt-text-color);
@@ -15,9 +14,11 @@ browser-toolbar {
     padding-inline: var(--padding-x);
 
     -moz-window-dragging: drag;
+
+    min-height: 40px;
 }
 
-browser-toolbar.accent {
+browser-toolbar[accent] {
     background-color: var(--toolbar-bgcolor);
     z-index: 200;
 }
@@ -26,14 +27,14 @@ browser-toolbar:not([initial])::part(csd) {
     display: none !important;
 }
 
-browser-toolbar::part(content) {
-    display: flex;
-    gap: 4px;
-    flex: 1;
+browser-toolbar::part(csd) {
+    align-self: flex-start;
+    height: 100%;
+    max-height: 48px;
 }
 
-:root[chromemargin=""] browser-window-controls,
-:root:not([chromemargin]) browser-window-controls {
+:root[chromemargin=""] browser-toolbar::part(csd),
+:root:not([chromemargin]) browser-toolbar::part(csd) {
     display: none;
 }
 
@@ -59,5 +60,5 @@ browser-toolbar[collapse] {
 }
 
 browser-toolbar.customizable-area>.toolbar-button {
-    margin-block: 4px;
+    align-self: center;
 }

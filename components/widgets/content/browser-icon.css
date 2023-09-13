@@ -15,6 +15,10 @@ browser-icon {
 
     width: var(--size, 16px);
     height: var(--size, 16px);
+    min-width: var(--size, 16px);
+    min-height: var(--size, 16px);
+    max-width: var(--size, 16px);
+    max-height: var(--size, 16px);
 
     transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
 }

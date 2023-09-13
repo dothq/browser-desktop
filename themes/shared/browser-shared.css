@@ -20,9 +20,11 @@
 @import url("chrome://dot/content/widgets/browser-tabs.css");
 @import url("chrome://dot/content/widgets/browser-spring.css");
 @import url("chrome://dot/content/widgets/browser-toolbar-button.css");
-@import url("chrome://dot/content/widgets/browser-toolbox.css");
 @import url("chrome://dot/content/widgets/browser-addressbar.css");
 @import url("chrome://dot/content/widgets/browser-reload-button.css");
+@import url("chrome://dot/content/widgets/browser-customizable-area.css");
+@import url("chrome://dot/content/widgets/browser-tab-label.css");
+@import url("chrome://dot/content/widgets/browser-tab-icon.css");
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");
@@ -54,13 +56,21 @@ body {
     min-width: 400px;
     min-height: 250px;
     overflow: clip;
+    user-select: none;
 }
 
-#mount {
+browser-application {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
+    color: var(--lwt-text-color);
+    background-color: var(--lwt-accent-color);
+    accent-color: var(--browser-accent-color);
+}
+
+:root[chromemargin]:not([chromemargin=""]) browser-application {
+    -moz-window-dragging: drag;
 }
 
 a {
@@ -135,10 +145,12 @@ hr.fdn-separator {
 }
 
 #tabspanel {
+    display: flex;
     min-height: 0;
     height: 100%;
-    border-top: 1px solid var(--chrome-content-separator-color);
     position: relative;
+    box-shadow: 0px 0px 0px 1px var(--chrome-content-separator-color);
+    z-index: 300;
 }
 
 @media (prefers-contrast) {
@@ -162,11 +174,14 @@ hr.fdn-separator {
     display: none;
 }
 
-:root[reducedmotion] *,
-:root[reducedmotion] *::before,
-:root[reducedmotion] *::after {
-    transition-duration: 0ms !important;
-    transition-timing-function: linear !important;
-    animation-duration: 0ms !important;
-    animation-timing-function: linear !important;
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0ms !important;
+        transition-timing-function: linear !important;
+        animation-duration: 0ms !important;
+        animation-timing-function: linear !important;
+    }
 }

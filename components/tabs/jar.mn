@@ -27,3 +27,9 @@ dot.jar:
     content/widgets/browser-add-tab-button.js           (content/browser-add-tab-button.js)
 
     content/widgets/browser-close-tab-button.js         (content/browser-close-tab-button.js)
+
+    content/widgets/browser-tab-label.js                (content/browser-tab-label.js)
+    content/widgets/browser-tab-label.css               (content/browser-tab-label.css)
+
+    content/widgets/browser-tab-icon.js                 (content/browser-tab-icon.js)
+    content/widgets/browser-tab-icon.css                (content/browser-tab-icon.css)

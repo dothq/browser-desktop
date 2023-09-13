@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const kTabMaxWidthPref = "dot.tabs.max-width";
+
 class BrowserTabsElement extends MozHTMLElement {
 	constructor() {
 		super();
@@ -92,11 +94,32 @@ class BrowserTabsElement extends MozHTMLElement {
 		const renderedTab = this.getRenderedTabByInternalId(tab.id);
 
 		if (renderedTab) {
-			renderedTab.attributeChangedCallback(
+			renderedTab.internalTabAttributeChangedCallback(
 				attributeName,
 				oldValue,
 				newValue
 			);
+		}
+	}
+
+	/**
+	 * Updates the tab max width property
+	 */
+	_updateTabMaxWidth() {
+		this.style.setProperty("--tab-max-width", `${gDot.tabs.tabMaxWidth}px`);
+	}
+
+	/**
+	 * Handles incoming preference updates
+	 * @param {nsIPrefBranch} subject
+	 * @param {string} topic
+	 * @param {string} data
+	 */
+	_observePrefs(subject, topic, data) {
+		switch (data) {
+			case kTabMaxWidthPref:
+				this._updateTabMaxWidth();
+				break;
 		}
 	}
 
@@ -107,6 +130,13 @@ class BrowserTabsElement extends MozHTMLElement {
 
 		window.addEventListener("BrowserTabsCollator::TabAdded", this);
 		window.addEventListener("BrowserTabsCollator::TabRemoved", this);
+
+		Services.prefs.addObserver(
+			kTabMaxWidthPref,
+			this._observePrefs.bind(this)
+		);
+
+		this._updateTabMaxWidth();
 	}
 
 	connectedCallback() {
@@ -117,7 +147,11 @@ class BrowserTabsElement extends MozHTMLElement {
 			this
 		);
 
-		window.addEventListener("load", this);
+		try {
+			this._init();
+		} catch (e) {
+			window.addEventListener("load", this, { once: true });
+		}
 	}
 
 	disconnectedCallback() {
@@ -129,8 +163,6 @@ class BrowserTabsElement extends MozHTMLElement {
 			"BrowserTabsCollator::TabAttributeUpdate",
 			this
 		);
-
-		window.removeEventListener("load", this);
 	}
 }
 

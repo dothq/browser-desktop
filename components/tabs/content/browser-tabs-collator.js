@@ -12,7 +12,9 @@ class BrowserTabsCollator extends MozHTMLElement {
 
 		// We only want a single tabs collator in the DOM
 		if (document.querySelector("browser-tabs-collator")) {
-			throw new Error("Only a single browser-tabs-collator element can be instantiated!");
+			throw new Error(
+				"Only a single browser-tabs-collator element can be instantiated!"
+			);
 		}
 	}
 
@@ -39,7 +41,9 @@ class BrowserTabsCollator extends MozHTMLElement {
 					for (const removedNode of mutation.removedNodes) {
 						if (!isNodeTab(removedNode)) continue;
 
-						this._onTabRemoved(/** @type {BrowserTab} */ (removedNode));
+						this._onTabRemoved(
+							/** @type {BrowserTab} */ (removedNode)
+						);
 					}
 
 					for (const addedNode of mutation.addedNodes) {
@@ -101,7 +105,9 @@ class BrowserTabsCollator extends MozHTMLElement {
 			tab,
 			attributeName,
 			oldValue,
-			newValue: tab.getAttribute(attributeName)
+			newValue: tab.hasAttribute(attributeName)
+				? tab.getAttribute(attributeName)
+				: null
 		});
 	}
 

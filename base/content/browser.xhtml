@@ -59,7 +59,6 @@
                 document.documentElement.removeAttribute("remotecontrol");
             }
 
-            Services.scriptloader.loadSubScript("chrome://dot/content/widgets/browser-toolbar-button.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-elements.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-window.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser.js", this);
@@ -91,47 +90,11 @@
 
         <html:browser-tabs-collator></html:browser-tabs-collator>
 
-        <html:div id="mount">
-            <html:browser-toolbox>
-                <html:browser-toolbar name="menubar" mode="text">
-                    <html:span>File</html:span>
-                    <html:span>Edit</html:span>
-                    <html:span>View</html:span>
-                    <html:span>History</html:span>
-                    <html:span>Bookmarks</html:span>
-                    <html:span>Tools</html:span>
-                    <html:span>Help</html:span>
-
-                    <html:browser-spring></html:browser-spring>
-                </html:browser-toolbar>
-
-                <html:browser-toolbar name="toolbar">
-                    <html:browser-spring style="--spring-grip: 40px;"></html:browser-spring>
-
-                    <html:browser-tabs></html:browser-tabs>
-
-                    <html:button is="add-tab-button"></html:button>
-
-                    <html:browser-spring></html:browser-spring>
-                </html:browser-toolbar>
-
-                <html:browser-toolbar name="navbar" class="accent">
-                    <html:button is="back-button"></html:button>
-                    <html:button is="forward-button"></html:button>
-                    <html:button is="reload-button"></html:button>
-
-                    <html:browser-spring style="--spring-grip: 80px;"></html:browser-spring>
-
-                    <html:browser-addressbar></html:browser-addressbar>
-
-                    <html:browser-spring style="--spring-grip: 80px;"></html:browser-spring>
-                </html:browser-toolbar>
-            </html:browser-toolbox>
-
-            <div id="tabspanel">
+        <html:browser-application>
+            <div id="tabspanel" slot="web-contents" hidden="">
                 
             </div>
-        </html:div>
+        </html:browser-application>
 
         <html:div id="a11y-announcement" role="alert"/>
     </html:body>

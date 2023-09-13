@@ -10,8 +10,6 @@ browser-addressbar {
 
     border-radius: 8px;
 
-    margin-block: 3px;
-
     flex: 1;
 
     outline: 0px solid var(--toolbar-field-focus-background-color);
@@ -21,7 +19,7 @@ browser-addressbar {
     z-index: 2147483647;
 }
 
-browser-addressbar .addressbar-input {
+:host(browser-addressbar) .addressbar-input {
     appearance: none;
     border: none;
     background-color: transparent;
@@ -46,7 +44,7 @@ browser-addressbar[focuswithin] {
         0.2s box-shadow cubic-bezier(0.19, 1, 0.22, 1) 0s;
 }
 
-browser-addressbar .addressbar-identity-box {
+:host(browser-addressbar) .addressbar-identity-box {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,14 +55,13 @@ browser-addressbar .addressbar-identity-box {
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
-browser-addressbar .addressbar-identity-box .toolbar-button {
+:host(browser-addressbar) .addressbar-identity-box .toolbar-button {
     margin-block: 0;
-    padding: var(--padding-y) var(--padding-x);
     position: relative;
     box-shadow: inset 0px 0px 0px 1px var(--toolbar-bgcolor);
 }
 
-browser-addressbar .addressbar-identity-box .toolbar-button::before {
+:host(browser-addressbar) .addressbar-identity-box .toolbar-button::before {
     content: "";
     position: absolute;
     height: 100%;
@@ -82,24 +79,24 @@ browser-addressbar .addressbar-identity-box .toolbar-button::before {
     --height: 25%;
 }
 
-browser-addressbar .addressbar-identity-box .toolbar-button:not(:disabled):hover::before,
-browser-addressbar .addressbar-identity-box .toolbar-button:not(:disabled):active::before,
-browser-addressbar .addressbar-identity-box .toolbar-button:last-of-type::before,
-browser-addressbar .addressbar-identity-box .toolbar-button[precedes-hover]::before {
+:host(browser-addressbar) .addressbar-identity-box .toolbar-button:not(:disabled):hover::before,
+:host(browser-addressbar) .addressbar-identity-box .toolbar-button:not(:disabled):active::before,
+:host(browser-addressbar) .addressbar-identity-box .toolbar-button:last-of-type::before,
+:host(browser-addressbar) .addressbar-identity-box .toolbar-button[precedes-hover]::before {
     opacity: 0;
 }
 
-browser-addressbar .addressbar-identity-box[onlychild] {
+:host(browser-addressbar) .addressbar-identity-box[onlychild] {
     box-shadow: none;
     margin-inline-end: 0px;
     background-color: transparent;
 }
 
-browser-addressbar .addressbar-identity-box[onlychild] .addressbar-identity-button {
+:host(browser-addressbar) .addressbar-identity-box[onlychild] .addressbar-identity-button {
     box-shadow: none;
 }
 
-browser-addressbar .addressbar-identity-box .addressbar-identity-button[identitytype="search"] {
+:host(browser-addressbar) .identity-button[identitytype="search"] {
     pointer-events: none;
 }
 

@@ -6,10 +6,6 @@ var { ModifierKeyManager } = ChromeUtils.importESModule(
 	"resource://gre/modules/ModifierKeyManager.sys.mjs"
 );
 
-var { DotCustomizableUI } = ChromeUtils.importESModule(
-	"resource:///modules/DotCustomizableUI.sys.mjs"
-);
-
 /**
  * @callback Resolvable
  * @param {ReturnType<typeof gDotCommands.createContext>} [data]
@@ -20,7 +16,7 @@ var { DotCustomizableUI } = ChromeUtils.importESModule(
  *
  */
 
-class BrowserToolbarButton extends HTMLButtonElement {
+class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	TB_MODIFIER_CHANGE_EVENT = "ToolbarButton::ModifierChange";
 
 	constructor() {
@@ -32,52 +28,11 @@ class BrowserToolbarButton extends HTMLButtonElement {
 	}
 
 	/**
-	 * Button handler context
-	 */
-	get context() {
-		const area = this.associatedArea
-			? { [this.associatedArea]: this.associatedAreaElement }
-			: {};
-
-		return gDotCommands.createContext({
-			...area,
-			...(this.contextOverrides || {}),
-			win: window
-		});
-	}
-
-	/**
-	 * The associated area ID for this toolbar button
-	 */
-	get associatedArea() {
-		return this.associatedAreaElement?.getAttribute("customizablename");
-	}
-
-	/**
-	 * The associated area element for this toolbar button
-	 *
-	 * @returns {typeof DotCustomizableUI.CustomizableAreaElement.prototype}
-	 */
-	get associatedAreaElement() {
-		return this.closest(".customizable-area");
-	}
-
-	/**
-	 * Overrides to be passed to the routine on command
-	 * @type {Partial<ReturnType<typeof gDotCommands.createContext>>}
-	 */
-	get contextOverrides() {
-		return null;
-	}
-
-	/**
 	 * Determines whether keybindings should be show in tooltips
 	 * @type {boolean}
 	 */
 	get showKeybindings() {
-		return !this.associatedAreaElement?.hasAttribute(
-			"customizablenokeybindings"
-		);
+		return this.associatedAreaElement?.showKeybindings;
 	}
 
 	/**

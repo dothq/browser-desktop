@@ -14,7 +14,10 @@ export const BrowserTabsUtils = {
 	// Ensure that these icons match up with the actual page favicon
 	// Reflect any changes here with base/content/browser-init.ts
 	INTERNAL_PAGES: {
-		"about:blank": { title: "New Tab", icon: "" },
+		"about:blank": {
+			title: "New Tab",
+			icon: "chrome://dot/skin/globe.svg"
+		},
 		"about:home": { title: "New Tab", icon: "chrome://dot/skin/home.svg" },
 		"about:newtab": {
 			title: "New Tab",

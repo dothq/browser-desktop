@@ -7,6 +7,7 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		super();
 
 		this.routineId = "toggle-identity-popout";
+		this.buttonId = "identity-button";
 	}
 
 	/**
@@ -59,6 +60,10 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		super.connectedCallback();
 
 		window.addEventListener("BrowserTabs::TabIdentityChanged", this);
+
+		if (this.context.tab) {
+			this.context.tab.siteIdentity.update(true);
+		}
 	}
 
 	disconnectedCallback() {

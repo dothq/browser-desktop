@@ -6,9 +6,10 @@ browser-tabs {
     display: flex;
     background-color: var(--lwt-accent-color);
     width: max-content;
+    height: 100%;
     gap: 1px;
 }
 
-browser-toolbar[initial]::part(content) {
+:host(browser-toolbar[initial]) .customizable-container {
     padding-block-start: calc(var(--browser-ui-density) / 3);
 }

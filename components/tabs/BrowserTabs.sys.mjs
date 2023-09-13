@@ -40,6 +40,8 @@ const {
 	LOAD_FLAGS_DISABLE_TRR
 } = Ci.nsIWebNavigation;
 
+const kTabMaxWidthPref = "dot.tabs.max-width";
+
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").ChromeBrowser} ChromeBrowser
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
@@ -222,6 +224,13 @@ BrowserTabs.prototype = {
 	 * @type {ChromeBrowser | null}
 	 */
 	hoveredBrowser: null,
+
+	/**
+	 * The maximum allowed width for a tab
+	 */
+	get tabMaxWidth() {
+		return Services.prefs.getIntPref(kTabMaxWidthPref, 240);
+	},
 
 	/**
 	 * Initialises and creates the <tab> element
