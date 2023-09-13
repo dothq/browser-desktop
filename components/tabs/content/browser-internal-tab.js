@@ -301,12 +301,13 @@ class BrowserTab extends MozElements.MozTab {
 				this._onTabSelected(event);
 				break;
 			case "pagetitlechanged":
-				if (this.webContents.tagName === "browser") {
+				if (gDot.tabs._isWebContentsBrowserElement(this.webContents)) {
 					this.updateLabel(
 						/** @type {ChromeBrowser} */ (this.webContents)
 							.contentTitle
 					);
 				}
+
 				break;
 		}
 	}
@@ -368,6 +369,12 @@ class BrowserTab extends MozElements.MozTab {
 		if (gDot.tabs && this.selected) {
 			gDot.tabs.shouldUpdateWindowTitle();
 		}
+
+		const evt = new CustomEvent("BrowserTabs::BrowserTitleChanged", {
+			detail: { tab: this, title: label }
+		});
+
+		window.dispatchEvent(evt);
 	}
 
 	/**
@@ -388,10 +395,15 @@ class BrowserTab extends MozElements.MozTab {
 		}
 
 		this.setAttribute("icon", iconURI);
-		this.toggleAttribute(
-			"hideicon",
-			iconURI == kDefaultTabIcon && !initial
-		);
+
+		const shouldHideIcon =
+			(!iconURI.length || iconURI == kDefaultTabIcon) && !initial;
+
+		if (shouldHideIcon) {
+			this.setAttribute("hideicon", "true");
+		} else {
+			this.removeAttribute("hideicon");
+		}
 
 		if (
 			this.webContents &&
@@ -417,6 +429,10 @@ class BrowserTab extends MozElements.MozTab {
 		console.log("Closing tab", this.id);
 	}
 
+	/**
+	 * Fired when a tab is selected
+	 * @param {CustomEvent} event
+	 */
 	_onTabSelected(event) {
 		/** @type {BrowserTab} */
 		const tab = event.detail;
