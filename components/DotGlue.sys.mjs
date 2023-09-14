@@ -10,7 +10,8 @@ var lazy = {};
 ChromeUtils.defineESModuleGetters(lazy, {
 	ActorManagerParent: "resource://gre/modules/ActorManagerParent.sys.mjs",
 	BuiltInThemes: "resource:///modules/BuiltInThemes.sys.mjs",
-	ContextualIdentityService: "resource://gre/modules/ContextualIdentityService.sys.mjs",
+	ContextualIdentityService:
+		"resource://gre/modules/ContextualIdentityService.sys.mjs",
 	SessionStartup: "resource:///modules/sessionstore/SessionStartup.sys.mjs", // @todo: shim this
 	SessionStore: "resource:///modules/sessionstore/SessionStore.sys.mjs" // @todo: shim this
 });
@@ -186,7 +187,9 @@ export class DotGlue {
 		lazy.ActorManagerParent.addJSProcessActors(JSPROCESSACTORS);
 		lazy.ActorManagerParent.addJSWindowActors(JSWINDOWACTORS);
 
-		this.firstWindowReadyPromise = new Promise((resolve) => (this.firstWindowLoaded = resolve));
+		this.firstWindowReadyPromise = new Promise(
+			(resolve) => (this.firstWindowLoaded = resolve)
+		);
 	}
 
 	maybeRemoveFFActors() {
@@ -232,7 +235,9 @@ export class DotGlue {
 		if (AppConstants.MOZ_REQUIRE_SIGNING) {
 			signingRequired = true;
 		} else {
-			signingRequired = Services.prefs.getBoolPref("xpinstall.signatures.required");
+			signingRequired = Services.prefs.getBoolPref(
+				"xpinstall.signatures.required"
+			);
 		}
 
 		if (signingRequired) {
@@ -241,7 +246,10 @@ export class DotGlue {
 			);
 			lazy.AddonManager.getAddonsByIDs(disabledAddons).then((addons) => {
 				for (let addon of addons) {
-					if (addon.signedState <= lazy.AddonManager.SIGNEDSTATE_MISSING) {
+					if (
+						addon.signedState <=
+						lazy.AddonManager.SIGNEDSTATE_MISSING
+					) {
 						// @todo: we could probably notify the user that the addons have been disabled
 						addon.disable();
 
@@ -323,16 +331,18 @@ export class DotGlue {
 				task: () => {
 					let win = lazy.BrowserWindowTracker.getTopWindow();
 
-					console.log("Dot Browser is not your default web browser. todo: implement");
+					console.log(
+						"Dot Browser is not your default web browser. todo: implement"
+					);
 				}
 			},
 
 			{
 				name: "handlerService.asyncInit",
 				task: () => {
-					let handlerService = Cc["@mozilla.org/uriloader/handler-service;1"].getService(
-						Ci.nsIHandlerService
-					);
+					let handlerService = Cc[
+						"@mozilla.org/uriloader/handler-service;1"
+					].getService(Ci.nsIHandlerService);
 					handlerService.asyncInit();
 				}
 			},
@@ -363,7 +373,10 @@ export class DotGlue {
 				name: "unblock-untrusted-modules-thread",
 				condition: AppConstants.platform == "win",
 				task: () => {
-					Services.obs.notifyObservers(null, "unblock-untrusted-modules-thread");
+					Services.obs.notifyObservers(
+						null,
+						"unblock-untrusted-modules-thread"
+					);
 				}
 			},
 
@@ -393,9 +406,16 @@ export class DotGlue {
 							console.log(`${task.name} -- RUNNING`);
 							task.task();
 						} catch (ex) {
-							console.error("Scheduled startup idle task failure: ", ex);
+							console.error(
+								"Scheduled startup idle task failure: ",
+								ex
+							);
 						} finally {
-							ChromeUtils.addProfilerMarker("startupIdleTask", startTime, task.name);
+							ChromeUtils.addProfilerMarker(
+								"startupIdleTask",
+								startTime,
+								task.name
+							);
 						}
 					}
 				},
@@ -432,7 +452,10 @@ export class DotGlue {
 				break;
 			case "browser-delayed-startup-finished":
 				this.firstWindowLoaded();
-				Services.obs.removeObserver(this, "browser-delayed-startup-finished");
+				Services.obs.removeObserver(
+					this,
+					"browser-delayed-startup-finished"
+				);
 				break;
 			case "browser-window-ready":
 				this.onWindowReady();
@@ -448,12 +471,16 @@ export class DotGlue {
 			"nsIUserIdleService"
 		);
 
-		XPCOMUtils.defineLazyGetter(this, "distributionCustomizer", function () {
-			const { DistributionCustomizer } = ChromeUtils.import(
-				"resource:///modules/distribution.js"
-			);
-			return new DistributionCustomizer();
-		});
+		XPCOMUtils.defineLazyGetter(
+			this,
+			"distributionCustomizer",
+			function () {
+				const { DistributionCustomizer } = ChromeUtils.import(
+					"resource:///modules/distribution.js"
+				);
+				return new DistributionCustomizer();
+			}
+		);
 
 		this._init();
 	}
