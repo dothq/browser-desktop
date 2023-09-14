@@ -77,6 +77,6 @@ browser-status[side="right"] .browser-status-label {
 
 @media (prefers-contrast) {
     browser-status .browser-status-label {
-        --border-override: currentColor;
+        --border-override: color-mix(in srgb, currentColor 75%, transparent 100%);
     }
 }

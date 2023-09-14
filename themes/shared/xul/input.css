@@ -114,7 +114,6 @@ html|button:focus-visible:active {
     xul|button:not(:disabled),
     html|button:not(:disabled),
     html|select:not(:disabled) {
-        outline: 1px solid currentColor;
-        outline-offset: -1px;
+        outline: 1px solid color-mix(in srgb, currentColor 75%, transparent 100%);
     }
 }

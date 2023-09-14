@@ -54,7 +54,7 @@ browser-toolbar[collapse] {
         position: absolute;
         width: calc(100% + var(--padding-x));
         height: 1px;
-        background-color: currentColor;
+        background-color: color-mix(in srgb, currentColor 75%, transparent 100%);
         left: calc(0px - var(--padding-x));
     }
 }

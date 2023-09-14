@@ -156,14 +156,15 @@ browser-tab[dragging][dragging-feedback="left"] {
 
     browser-tab[selected] .browser-tab-background,
     browser-tab:not([selected]):hover .browser-tab-background {
-        border: 1px solid currentColor;
+        border: 1px solid color-mix(in srgb, currentColor 75%, transparent 100%);
+        width: calc(100% - 1px * 2);
     }
 
     browser-tab::after,
     browser-tab::before,
     browser-tab:last-of-type:not(:hover):not([selected])::after {
         --height: 0%;
-        --color: currentColor;
+        --color: color-mix(in srgb, currentColor 75%, transparent 100%);
         opacity: 1;
         transition-duration: 0s;
     }

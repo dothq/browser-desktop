@@ -155,7 +155,7 @@ hr.fdn-separator {
 
 @media (prefers-contrast) {
     #tabspanel {
-        border-color: currentColor;
+        border-color: color-mix(in srgb, currentColor 75%, transparent 100%);
     }
 }
 
@@ -174,14 +174,16 @@ hr.fdn-separator {
     display: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion) {
 
     *,
     *::before,
     *::after {
         transition-duration: 0ms !important;
         transition-timing-function: linear !important;
+        transition-delay: 0ms !important;
         animation-duration: 0ms !important;
         animation-timing-function: linear !important;
+        animation-delay: 0ms !important;
     }
 }
