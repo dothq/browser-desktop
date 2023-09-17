@@ -53,10 +53,14 @@ function html(tagName, attributes, ...children) {
 
 	if (tagName !== "fragment") {
 		for (const [key, value] of Object.entries(attributes)) {
-			/** @type {HTMLElement} */ (element).setAttribute(
-				convertToKebabCase(key),
-				value
-			);
+			if (key in element && typeof value == "object") {
+				Object.assign(element[key], value);
+			} else {
+				/** @type {HTMLElement} */ (element).setAttribute(
+					convertToKebabCase(key),
+					value
+				);
+			}
 		}
 	}
 
@@ -266,4 +270,22 @@ function openHelpLink(helpTopic, calledFromModal, where) {
 	}
 
 	openTrustedLinkIn(url, where);
+}
+
+/**
+ * Executes a Gecko command
+ * @param {string} command
+ * @global
+ */
+function goDoCommand(command) {
+	try {
+		const controller =
+			top.document.commandDispatcher.getControllerForCommand(command);
+
+		if (controller && controller.isCommandEnabled(command)) {
+			controller.doCommand(command);
+		}
+	} catch (e) {
+		console.error(`An error occurred executing the ${command} command`, e);
+	}
 }

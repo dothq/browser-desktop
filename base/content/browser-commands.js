@@ -44,6 +44,7 @@ var gDotCommands = {
 	COMMAND_CATEGORY_APPLICATION: "application",
 	COMMAND_CATEGORY_BROWSING: "browsing",
 	COMMAND_CATEGORY_BROWSER: "browser",
+	COMMAND_CATEGORY_UTILS: "utils",
 
 	/**
 	 * Locates a command by its ID
@@ -238,6 +239,30 @@ var gDotCommands = {
 				enabled: () => true,
 
 				category: this.COMMAND_CATEGORY_BROWSER
+			},
+			{
+				name: "browser.select_all",
+
+				action: ({ goDoCommand }) => {
+					goDoCommand("cmd_selectAll");
+				},
+
+				enabled: () => true,
+
+				category: this.COMMAND_CATEGORY_BROWSER
+			},
+
+			/** Utilities */
+			{
+				name: "utils.print",
+
+				action: ({ msg }) => {
+					Services.console.logStringMessage(msg);
+				},
+
+				enabled: () => true,
+
+				category: this.COMMAND_CATEGORY_UTILS
 			}
 		];
 	},
@@ -339,6 +364,16 @@ var gDotCommands = {
 			 */
 			execCommand(...args) {
 				this.win.gDotCommands.execCommand.bind(gDotCommands, ...args)();
+			},
+
+			/**
+			 * @type {typeof goDoCommand}
+			 */
+			goDoCommand(...args) {
+				/** @type {any} */ (this.win).goDoCommand.bind(
+					this.win,
+					...args
+				)();
 			}
 		};
 
@@ -371,7 +406,6 @@ var gDotCommands = {
 
 		if (!cmd.enabled(context)) return;
 
-		console.log("Command", name);
 		return cmd.action.bind(gDotCommands, context)();
 	}
 };

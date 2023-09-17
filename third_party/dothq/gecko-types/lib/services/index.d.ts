@@ -5,6 +5,7 @@
 import { nsIPrefBranch } from "../nsIPrefBranch";
 import { ServicesAppInfo } from "./appinfo";
 import { ServicesAppShell } from "./appshell";
+import { ServicesConsole } from "./console";
 import { ServicesEls } from "./els";
 import { ServicesFocus } from "./focus";
 import { ServicesIo } from "./io";
@@ -26,6 +27,7 @@ import { ServicesWw } from "./ww";
 export type Services = {
 	appinfo: ServicesAppInfo;
 	appShell: ServicesAppShell;
+    console: ServicesConsole;
 	els: ServicesEls;
 	focus: ServicesFocus;
 	io: ServicesIo;
