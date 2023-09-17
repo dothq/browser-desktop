@@ -137,6 +137,34 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The closest tabbox for this tab
+	 * @returns {BrowserTabsElement}
+	 */
+	get tabbox() {
+		return this.closest("browser-tabs");
+	}
+
+	/**
+	 * The tab's specified width
+	 */
+	get width() {
+		return parseInt(this.style.getPropertyValue("--tab-width"));
+	}
+
+	/**
+	 * Updates the tab's width
+	 * @param {any} newWidth
+	 */
+	set width(newWidth) {
+		this.style.setProperty(
+			"width",
+			typeof newWidth == "number" ? newWidth + "px" : newWidth,
+			"important"
+		);
+		console.log("setting tab", this.id, "width to", newWidth + "px");
+	}
+
+	/**
 	 * Fired whenever the user clicks down onto the tab
 	 */
 	_onTabMouseDown(event) {
@@ -228,6 +256,104 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		this.lastMouseY = event.screenY;
 	}
 
+	/**
+	 * Handles the tab's transition events
+	 * @param {TransitionEvent} event
+	 */
+	_onTabTransition(event) {
+		const started = event.type == "transitionstart";
+
+		this.toggleAttribute("animating", started);
+
+		const evt = new CustomEvent(
+			`BrowserTabs::${
+				started ? "TabAnimationStarted" : "TabAnimationEnded"
+			}`,
+			{
+				detail: { tab: this }
+			}
+		);
+
+		window.dispatchEvent(evt);
+	}
+
+	/**
+	 * Updates the tab's width for a certain state
+	 * @param {string} state
+	 */
+	_setTabWidth(state) {
+		if (state == "open") {
+			this.width = 240;
+		} else {
+			this.width = 0;
+		}
+	}
+
+	get animationProps() {
+		return {
+			easing: "cubicBezier(0.2, 1.0, 0.2, 1.0)"
+		};
+	}
+
+	/**
+	 * Starts the in animation for the tab
+	 */
+	animateIn(duration = 50) {
+		this.toggleAttribute("anime-animating", true);
+
+		this.width = 0;
+
+		const newWidth = [
+			0,
+			Math.max(this.tabbox.tabMinWidth, this.tabbox.tabMaxWidth)
+		];
+
+		const animation = window
+			.timeline({
+				...this.animationProps,
+				duration,
+				endDelay: duration
+			})
+			.add({
+				targets: this,
+				width: newWidth
+			});
+
+		return new Promise((r) => {
+			animation.finished.then(() => {
+				this.removeAttribute("anime-animating");
+
+				r();
+			});
+		});
+	}
+
+	/**
+	 * Starts the out animation for the tab
+	 */
+	animateOut(duration = 30) {
+		this.toggleAttribute("anime-animating", true);
+
+		const animation = window
+			.timeline({
+				...this.animationProps,
+				duration,
+				endDelay: 300
+			})
+			.add({
+				targets: this,
+				width: 0
+			});
+
+		return new Promise((r) => {
+			animation.finished.then(() => {
+				this.removeAttribute("anime-animating");
+
+				r();
+			});
+		});
+	}
+
 	connectedCallback() {
 		super.connect({
 			name: "tab",
@@ -237,13 +363,44 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			showKeybindings: false
 		});
 
+		this.hidden = true;
+
 		this.appendChild(html("div", { class: "browser-tab-background" }));
 
-		this.style.width = "var(--tab-max-width)";
+		this.appendChild(
+			html(
+				"div",
+				{
+					id: "tab-debug",
+					style: {
+						position: "fixed",
+						backgroundColor: "black",
+						color: "white",
+						fontWeight: 600,
+						fontSize: "12px",
+						whiteSpace: "nowrap"
+					}
+				},
+				""
+			)
+		);
+
+		setInterval(() => {
+			this.querySelector("#tab-debug").hidden = true;
+			this.querySelector("#tab-debug").innerHTML =
+				"<span>" +
+				[
+					`W: ${this.getBoundingClientRect().width.toFixed(0)}`,
+					`MW: ${parseInt(getComputedStyle(this).maxWidth)}`
+				].join("</span><br /><span>") +
+				"</span>";
+		}, 1);
 
 		this.shadowRoot.addEventListener("mousedown", this);
 		this.addEventListener("mouseover", this);
 		this.addEventListener("mouseout", this);
+		this.addEventListener("transitionstart", this);
+		this.addEventListener("transitionend", this);
 
 		window.addEventListener("mouseup", this);
 	}
@@ -254,6 +411,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		this.shadowRoot.removeEventListener("mousedown", this);
 		this.removeEventListener("mouseover", this);
 		this.removeEventListener("mouseout", this);
+		this.removeEventListener("transitionstart", this);
+		this.removeEventListener("transitionend", this);
 
 		window.removeEventListener("mouseup", this);
 	}
@@ -281,6 +440,11 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 				if (this.canDrag) {
 					this._onMouseMove(/** @type {MouseEvent} */ (event));
 				}
+				break;
+			}
+			case "transitionstart":
+			case "transitionend": {
+				this._onTabTransition(/** @type {TransitionEvent} */ (event));
 				break;
 			}
 		}

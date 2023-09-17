@@ -83,7 +83,7 @@ class BrowserTabsCollator extends MozHTMLElement {
 	 * @param {BrowserTab} tab
 	 */
 	_onTabAdded(tab) {
-		this._dispatchToTabsLists(this.EVENT_TAB_ADDED, { tab });
+		this._dispatchToTabsLists(this.EVENT_TAB_ADDED, { tab, animate: true });
 	}
 
 	/**
@@ -91,7 +91,12 @@ class BrowserTabsCollator extends MozHTMLElement {
 	 * @param {BrowserTab} tab
 	 */
 	_onTabRemoved(tab) {
-		this._dispatchToTabsLists(this.EVENT_TAB_REMOVED, { tab });
+		this._dispatchToTabsLists(this.EVENT_TAB_REMOVED, {
+			tab,
+			animate: true
+		});
+
+		this._maybeShouldClose();
 	}
 
 	/**
@@ -111,6 +116,27 @@ class BrowserTabsCollator extends MozHTMLElement {
 		});
 	}
 
+	/**
+	 * Decides whether we should close the window or not
+	 */
+	_maybeShouldClose() {
+		if (this.children.length <= 0) {
+			window.close();
+		}
+	}
+
+	/**
+	 * Handles incoming events
+	 * @param {CustomEvent} event
+	 */
+	handleEvent(event) {
+		switch (event.type) {
+			case "BrowserTabs::TabAnimationEnded":
+				this._maybeShouldClose();
+				break;
+		}
+	}
+
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
@@ -122,6 +148,8 @@ class BrowserTabsCollator extends MozHTMLElement {
 		});
 
 		this._insertStylesheet();
+
+		window.addEventListener("BrowserTabs::TabAnimationEnded", this);
 	}
 
 	_insertStylesheet() {
@@ -134,6 +162,8 @@ class BrowserTabsCollator extends MozHTMLElement {
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
+
+		window.removeEventListener("BrowserTabs::TabAnimationEnded", this);
 	}
 }
 

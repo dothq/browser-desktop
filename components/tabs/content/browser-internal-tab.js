@@ -102,10 +102,16 @@ class BrowserTab extends MozElements.MozTab {
 		this.toggleAttribute("pinned", val);
 	}
 
+	/**
+	 * Determines whether the tab is considered visible or not
+	 */
 	get visible() {
-		return !this.hidden;
+		return !this.hidden || this.hasAttribute("closing");
 	}
 
+	/**
+	 * Updates the visibility state of the tab
+	 */
 	set visible(val) {
 		this.hidden = !val;
 	}
@@ -166,8 +172,6 @@ class BrowserTab extends MozElements.MozTab {
 	 * Makes this tab the selectedTab
 	 */
 	select() {
-		if (this.selected) return;
-
 		gDot.tabs.selectedTab = this;
 	}
 
@@ -207,10 +211,7 @@ class BrowserTab extends MozElements.MozTab {
 	 * The index of the tab in relation to the tabs list
 	 */
 	get index() {
-		return Array.from(gDot.tabs.list).indexOf(
-			// @ts-ignore
-			document.getElementById(this.id)
-		);
+		return gDot.tabs.list.findIndex((t) => t === this);
 	}
 
 	/**
@@ -426,7 +427,48 @@ class BrowserTab extends MozElements.MozTab {
 	maybeClose() {
 		if (window.closed) return;
 
-		console.log("Closing tab", this.id);
+		this.toggleAttribute("closing", true);
+
+		let adoptingTab = gDot.tabs.selectedTab;
+
+		// If the tab that's closing is the selected tab, find a replacement
+		if (this.selected) {
+			console.log("selected");
+
+			if (this.openerTab && this.openerTab.visible) {
+				console.log("has opener tab");
+				adoptingTab = this.openerTab;
+			}
+
+			console.log(this.index, gDot.tabs.visibleTabs.length);
+
+			const nextTab = gDot.tabs.visibleTabs[this.index + 1];
+			const prevTab = gDot.tabs.visibleTabs[this.index - 1];
+
+			let newAdoptingTab = nextTab;
+
+			// If we're the last tab, find one before it
+			if (this.index >= gDot.tabs.visibleTabs.length - 1) {
+				newAdoptingTab = prevTab;
+			} else if (this.index == 0) {
+				// If we're the first tab, find one after it
+				newAdoptingTab = nextTab;
+			}
+
+			// Check if the new tab is actually visible before confirming the adopting tab
+			if (newAdoptingTab && newAdoptingTab.visible) {
+				adoptingTab = newAdoptingTab;
+			}
+		}
+
+		if (adoptingTab && adoptingTab.visible) {
+			adoptingTab.select();
+		}
+
+		gDot.tabs._discardTab(this);
+
+		// This is needed to recompute any attributes on the tabs, post-tab-closure
+		gDot.tabs.selectedTab = gDot.tabs.selectedTab;
 	}
 
 	/**

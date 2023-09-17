@@ -22,6 +22,7 @@
 		"**/build/**/*",
 		"**/branding/**/*",
 		"**/dist/**/*",
+		"**/node_modules/**/*",
 		/* Individual files */
 		"**/modules/DotAppConstants.sys.mjs" /* Excluded for use of macros */
 	]

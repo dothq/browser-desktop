@@ -13,6 +13,7 @@
     flex: 1;
     gap: 4px;
     max-width: 100%;
+    overflow: hidden;
 }
 
 :host(.customizable-area[orientation=vertical]) .customizable-container {

@@ -22,6 +22,10 @@ var { BrowserSearch } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserSearch.sys.mjs"
 );
 
+var { BrowserShortcuts } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserShortcuts.sys.mjs"
+);
+
 var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
@@ -45,6 +49,9 @@ class BrowserApplication extends MozHTMLElement {
 
 	/** @type {typeof BrowserSearch.prototype} */
 	search = null;
+
+	/** @type {typeof BrowserShortcuts.prototype} */
+	shortcuts = null;
 
 	/**
 	 * Determines whether the browser session supports multiple processes
@@ -170,8 +177,12 @@ class BrowserApplication extends MozHTMLElement {
 			NativeTitlebar.set(false, false);
 		}
 
+		let oldToolbars = [];
+
 		for (const toolbar of this.toolbars) {
-			toolbar.removeAttribute("initial");
+			if (toolbar.hasAttribute("initial")) {
+				oldToolbars.push(toolbar);
+			}
 		}
 
 		let foundNewInitial = false;
@@ -192,6 +203,18 @@ class BrowserApplication extends MozHTMLElement {
 			// Once we have found a suitable toolbar to
 			// make initial, return early, we're done here
 			toolbar.toggleAttribute("initial", true);
+			oldToolbars.forEach((t) => t.removeAttribute("initial"));
+			gDot.style.setProperty(
+				"--browser-csd-height",
+				toolbar.getBoundingClientRect().height + "px"
+			);
+			gDot.style.setProperty(
+				"--browser-csd-width",
+				gDot.shadowRoot
+					.querySelector("browser-window-controls")
+					.getBoundingClientRect().width + "px"
+			);
+
 			foundNewInitial = true;
 			return;
 		}
@@ -281,6 +304,13 @@ class BrowserApplication extends MozHTMLElement {
 			}
 		}
 
+		this.shadowRoot.appendChild(
+			html("link", {
+				rel: "stylesheet",
+				href: "chrome://dot/skin/browser.css"
+			})
+		);
+
 		this.mutationObserver.observe(this, {
 			childList: true,
 			subtree: true
@@ -297,6 +327,7 @@ class BrowserApplication extends MozHTMLElement {
 
 		gDot.tabs = new BrowserTabs(window);
 		gDot.search = new BrowserSearch(window);
+		gDot.shortcuts = new BrowserShortcuts(window);
 
 		DotCustomizableUI.init(window);
 

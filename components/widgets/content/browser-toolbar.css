@@ -62,3 +62,7 @@ browser-toolbar[collapse] {
 browser-toolbar.customizable-area>.toolbar-button {
     align-self: center;
 }
+
+:host(browser-toolbar[initial]) .customizable-container {
+    padding-block-start: calc(var(--browser-ui-density) / 3);
+}

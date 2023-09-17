@@ -24,7 +24,7 @@ export interface nsIWebProgress {
 		listener: nsIWebProgressListener,
 		notifyMask: number
 	): void;
-	removeProgressListener(listener: nsIWebProgressListener): void;
+	removeProgressListener(listener: Partial<nsIWebProgressListener>): void;
 
 	browsingContext: BrowsingContext;
 

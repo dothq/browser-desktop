@@ -62,4 +62,6 @@ export interface ChromeBrowser extends XULElement, MozXULElement {
     securityUI: BrowsingContext["secureBrowserUI"];
 
     mIconURL: string;
+
+    destroy(): void;
 }

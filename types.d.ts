@@ -97,5 +97,11 @@ declare global {
 
 	interface Document {
 		l10n: Gecko.LocalizationInstance;
+        commandDispatcher: Gecko.nsIDOMXULCommandDispatcher;
 	}
+
+    interface Event {
+        defaultCancelled: boolean;
+        defaultPreventedByChrome: boolean;
+    }
 }

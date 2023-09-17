@@ -364,10 +364,7 @@ export class nsDotContentHandler {
 
 		if (
 			Services.prefs.getBoolPref("browser.aboutwelcome.enabled", true) &&
-			!Services.prefs.getBoolPref(
-				"browser.aboutwelcome.didFirstRun",
-				false
-			)
+			!Services.prefs.getBoolPref("dot.startup.did-first-run", false)
 		) {
 			pages.push("about:welcome");
 		}

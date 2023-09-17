@@ -150,6 +150,11 @@ var gDotInit = {
 		// Add an observer to watch all pref changes.
 		Services.prefs.addObserver("", (...args) => console.log(...args));
 
+		Services.obs.addObserver(
+			(...args) => console.log(...args),
+			"look-and-feel-changed"
+		);
+
 		// Set a sane starting width/height for all resolutions on new profiles.
 		if (Services.prefs.getBoolPref("privacy.resistFingerprinting")) {
 			// When the fingerprinting resistance is enabled, making sure that we don't
@@ -556,6 +561,11 @@ var gDotInit = {
 		window.addEventListener("MozAfterPaint", this._boundDelayedStartup);
 
 		console.timeEnd("onLoad");
+
+		if (!Services.prefs.getBoolPref("dot.startup.did-first-run", false)) {
+			Services.prefs.setBoolPref("dot.startup.did-first-run", true);
+			Services.prefs.lockPref("dot.startup.did-first-run");
+		}
 
 		console.debug(`gDotInit: ready in ${Date.now() - this._startTime}ms`);
 	},

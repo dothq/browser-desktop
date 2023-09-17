@@ -12,7 +12,8 @@ DIRS += [
     "components",
     "locales",
     "modules",
-    "themes"
+    "themes",
+    "third_party",
 ]
 
 if CONFIG["MAKENSISU"]:

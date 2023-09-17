@@ -604,7 +604,6 @@ export class TabIdentityHandler {
 				this.onSecurityChange(event.detail);
 				break;
 			case "BrowserTabs::TabSelect": {
-				console.log("tab select", event.detail, this.tab);
 				if (event.detail !== this.tab) return;
 
 				this.update(true);

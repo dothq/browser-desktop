@@ -41,6 +41,7 @@ const {
 } = Ci.nsIWebNavigation;
 
 const kTabMaxWidthPref = "dot.tabs.max-width";
+const kTabMinWidthPref = "dot.tabs.min-width";
 
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").ChromeBrowser} ChromeBrowser
@@ -97,7 +98,7 @@ BrowserTabs.prototype = {
 	isBusy: false,
 
 	/**
-	 * All currently open tabs in the browser
+	 * All currently visible open tabs in the browser
 	 * @returns {BrowserTab[]}
 	 */
 	get list() {
@@ -106,7 +107,7 @@ BrowserTabs.prototype = {
 	},
 
 	/**
-	 * The number of open tabs in the browser
+	 * The number of visible open tabs in the browser
 	 */
 	get length() {
 		return this.list.length;
@@ -137,7 +138,8 @@ BrowserTabs.prototype = {
 	set selectedTab(tab) {
 		/** @type {BrowserTab} */
 		const oldTab = this._selectedTab;
-		if (oldTab) oldTab.webContentsPanel.removeAttribute("visible");
+		if (oldTab && oldTab.webContentsPanel)
+			oldTab.webContentsPanel.removeAttribute("visible");
 
 		if (oldTab) {
 			if (this._isWebContentsBrowserElement(oldTab.webContents)) {
@@ -230,6 +232,13 @@ BrowserTabs.prototype = {
 	 */
 	get tabMaxWidth() {
 		return Services.prefs.getIntPref(kTabMaxWidthPref, 240);
+	},
+
+	/**
+	 * The minimum allowed width for a tab
+	 */
+	get tabMinWidth() {
+		return Services.prefs.getIntPref(kTabMinWidthPref, 70);
 	},
 
 	/**
@@ -1061,6 +1070,31 @@ BrowserTabs.prototype = {
 		);
 
 		this._tabDragListenersInit = true;
+	},
+
+	/**
+	 * Discards a tab and its contents
+	 * @param {BrowserTab} tab
+	 */
+	_discardTab(tab) {
+		if (this._isWebContentsBrowserElement(tab.webContents)) {
+			const filter = this._tabFilters.get(tab);
+			const listener = this._tabListeners.get(tab);
+
+			/** @type {ChromeBrowser} */ (
+				tab.webContents
+			).webProgress.removeProgressListener(/** @type {any} */ (filter));
+			filter.removeProgressListener(listener);
+
+			this._tabListeners.delete(tab);
+			this._tabFilters.delete(tab);
+
+			/** @type {ChromeBrowser} */ (tab.webContents).destroy();
+		}
+
+		tab.webContentsPanel.remove();
+
+		tab.remove();
 	},
 
 	/**

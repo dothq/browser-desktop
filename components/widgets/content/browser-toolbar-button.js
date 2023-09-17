@@ -270,12 +270,11 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.label = data.label;
 		this.title = data.tooltip;
 		this.icon = data.icon;
+		this.disabled = data.disabled;
 	}
 
 	/** @type {IntersectionObserverCallback} */
-	_observeIntersections(intersections) {
-		intersections.map(console.log);
-	}
+	_observeIntersections(intersections) {}
 
 	_handleTBModifierChangeEvent(event) {
 		if ("handleModifierChangeEvent" in this) {

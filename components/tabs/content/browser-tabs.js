@@ -2,9 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const kTabMaxWidthPref = "dot.tabs.max-width";
-
 class BrowserTabsElement extends MozHTMLElement {
+	kTabMaxWidthPref = "dot.tabs.max-width";
+	kTabMinWidthPref = "dot.tabs.min-width";
+
 	constructor() {
 		super();
 	}
@@ -17,6 +18,16 @@ class BrowserTabsElement extends MozHTMLElement {
 	}
 
 	/**
+	 * All tabs in this tabs element
+	 * @returns {BrowserRenderedTab[]}
+	 */
+	get tabs() {
+		return Array.from(
+			this.querySelectorAll("browser-tab:not([closing]):not([opening])")
+		);
+	}
+
+	/**
 	 * Fired when we have incoming events
 	 * @param {CustomEvent} event
 	 */
@@ -25,10 +36,10 @@ class BrowserTabsElement extends MozHTMLElement {
 
 		switch (event.type) {
 			case "BrowserTabsCollator::TabAdded":
-				this._onTabAdded(tab);
+				this._onTabAdded(tab, event.detail);
 				break;
 			case "BrowserTabsCollator::TabRemoved":
-				this._onTabRemoved(tab);
+				this._onTabRemoved(tab, event.detail);
 				break;
 			case "BrowserTabsCollator::TabAttributeUpdate":
 				const { attributeName, oldValue, newValue } = event.detail;
@@ -42,6 +53,10 @@ class BrowserTabsElement extends MozHTMLElement {
 				break;
 			case "load":
 				this._init();
+				break;
+			case "resize":
+			case "sizemodechange":
+				this._computeTabSizes();
 				break;
 		}
 	}
@@ -58,28 +73,55 @@ class BrowserTabsElement extends MozHTMLElement {
 	/**
 	 * Fired when a new tab is added to the tabs collator
 	 * @param {BrowserTab} tab
+	 * @param {object} [options]
+	 * @param {boolean} [options.animate] - Whether we should start animate in for this tab
 	 */
-	_onTabAdded(tab) {
+	_onTabAdded(tab, options) {
 		const renderedTab = /** @type {BrowserRenderedTab} */ (
 			document.createElement("browser-tab")
 		);
 		renderedTab.linkedTab = tab;
 		this.appendChild(renderedTab);
 
+		if (options && options.animate) {
+			renderedTab.animateIn().then(() => {
+				if (
+					this.scrollWidth > this.clientWidth ||
+					this.scrollHeight > this.clientHeight
+				) {
+					console.log("scrolling");
+					renderedTab.scrollIntoView({
+						behavior: "smooth",
+						block: "end",
+						inline: "nearest"
+					});
+				}
+			});
+		} else {
+			renderedTab.width = gDot.tabs.tabMaxWidth;
+			renderedTab.hidden = false;
+		}
+
 		for (const attr of Array.from(tab.attributes)) {
 			this._onTabAttributeUpdated(tab, attr.name, null, attr.value);
 		}
+
+		this._computeTabSizes();
 	}
 
 	/**
 	 * Fired when an existing tab is removed from the tabs collator
 	 * @param {BrowserTab} tab
+	 * @param {object} [options]
+	 * @param {boolean} [options.animate] - Whether we should start animate in for this tab
 	 */
-	_onTabRemoved(tab) {
+	_onTabRemoved(tab, options) {
 		const renderedTab = this.getRenderedTabByInternalId(tab.id);
 
 		if (renderedTab) {
-			renderedTab.remove();
+			renderedTab.animateOut().then(() => {
+				renderedTab.remove();
+			});
 		}
 	}
 
@@ -99,15 +141,62 @@ class BrowserTabsElement extends MozHTMLElement {
 				oldValue,
 				newValue
 			);
+
+			this._computeTabSizes();
 		}
 	}
 
 	/**
-	 * Updates the tab max width property
+	 * The current tab max width value
 	 */
-	_updateTabMaxWidth() {
-		this.style.setProperty("--tab-max-width", `${gDot.tabs.tabMaxWidth}px`);
+	get tabMaxWidth() {
+		const val = parseInt(this.style.getPropertyValue("--tab-max-width"));
+
+		return isNaN(val) ? gDot.tabs.tabMaxWidth : val;
 	}
+
+	/**
+	 * The current tab min width value
+	 */
+	get tabMinWidth() {
+		const val = parseInt(this.style.getPropertyValue("--tab-min-width"));
+
+		return isNaN(val) ? gDot.tabs.tabMinWidth : val;
+	}
+
+	/**
+	 * The actual maximum width of a tab
+	 */
+	get actualTabMaxWidth() {
+		const tabsToCheck = this.tabs.map(
+			(t) => t.getBoundingClientRect().width
+		);
+
+		const maxWidth = Math.max(...tabsToCheck);
+
+		console.log("actualTabMaxWidth", maxWidth);
+
+		return tabsToCheck && tabsToCheck.length && maxWidth
+			? maxWidth
+			: gDot.tabs.tabMaxWidth;
+	}
+
+	/**
+	 * Recomputes the tab sizes
+	 */
+	_computeTabSizes() {
+		// Tab widths
+
+		const { tabMaxWidth, tabMinWidth } = gDot.tabs;
+
+		this.style.setProperty("--tab-max-width", this.tabMaxWidth + "px");
+		this.style.setProperty("--tab-min-width", this.tabMinWidth + "px");
+	}
+
+	/**
+	 * The amount that should be subtracted from each tab's max width
+	 */
+	_tabMaxWidthSubtrahend = 0;
 
 	/**
 	 * Handles incoming preference updates
@@ -117,26 +206,34 @@ class BrowserTabsElement extends MozHTMLElement {
 	 */
 	_observePrefs(subject, topic, data) {
 		switch (data) {
-			case kTabMaxWidthPref:
-				this._updateTabMaxWidth();
+			case this.kTabMaxWidthPref:
+			case this.kTabMinWidthPref:
+				this._computeTabSizes();
 				break;
 		}
 	}
 
 	_init() {
+		this._computeTabSizes();
+
 		for (const tab of gDot.tabs.list) {
-			this._onTabAdded(tab);
+			this._onTabAdded(tab, { animate: false });
 		}
 
 		window.addEventListener("BrowserTabsCollator::TabAdded", this);
 		window.addEventListener("BrowserTabsCollator::TabRemoved", this);
+		window.addEventListener("resize", this);
+		window.addEventListener("sizemodechange", this);
 
 		Services.prefs.addObserver(
-			kTabMaxWidthPref,
+			this.kTabMaxWidthPref,
 			this._observePrefs.bind(this)
 		);
 
-		this._updateTabMaxWidth();
+		Services.prefs.addObserver(
+			this.kTabMinWidthPref,
+			this._observePrefs.bind(this)
+		);
 	}
 
 	connectedCallback() {
@@ -163,6 +260,9 @@ class BrowserTabsElement extends MozHTMLElement {
 			"BrowserTabsCollator::TabAttributeUpdate",
 			this
 		);
+
+		window.removeEventListener("resize", this);
+		window.removeEventListener("sizemodechange", this);
 	}
 }
 

@@ -6,11 +6,9 @@ browser-tab {
     display: flex;
     justify-content: flex-start;
 
-    width: 100%;
     height: 40px;
 
-    max-width: var(--tab-max-width);
-    min-width: 40px;
+    min-width: 0px;
     max-height: 40px;
 
     margin: 0;
@@ -24,6 +22,10 @@ browser-tab {
 
     --base-transition: 0.3s max-width cubic-bezier(0.19, 1, 0.22, 1), 0.3s width cubic-bezier(0.19, 1, 0.22, 1);
     transition: var(--base-transition);
+}
+
+browser-tab:not([anime-animating]) {
+    min-width: var(--tab-min-width);
 }
 
 browser-tab>*:not(.browser-tab-background) {
@@ -131,7 +133,9 @@ browser-tab[precedes-hover]::after,
 browser-tab[selected]::before,
 browser-tab[selected]+browser-tab::before,
 browser-tab:hover::before,
-browser-tab:hover+browser-tab::before {
+browser-tab:hover+browser-tab::before,
+browser-tab[closing]::before,
+browser-tab[closing]::after {
     opacity: 0;
 }
 
@@ -150,6 +154,13 @@ browser-tab[dragging][dragging-feedback] {
 
 browser-tab[dragging][dragging-feedback="left"] {
     box-shadow: -4px 0px 4px 0px rgba(128, 128, 128, 0.5);
+}
+
+browser-tab[pinned] {
+    --tab-max-width: 36px !important;
+    --tab-min-width: 36px !important;
+    max-width: 36px;
+    min-width: 36px;
 }
 
 @media (prefers-contrast) {
@@ -183,13 +194,19 @@ browser-tab .browser-tab-icons {
 :host(browser-tab[layout="tab"]) .toolbar-button {
     --button-size: 26px;
     --size: 12px;
+    display: var(--tab-action-visibility);
 }
 
 browser-tab::part(customizable) {
     gap: 0px;
     overflow: clip;
     padding: 0;
-    padding-inline-start: calc(var(--browser-ui-density) * 1.25);
-    padding-inline-end: var(--browser-ui-density);
+    margin-inline-start: calc(var(--browser-ui-density) * 1.25);
+    margin-inline-end: var(--browser-ui-density);
     width: calc(100% - calc(var(--browser-ui-density) * 1.25) * 2);
+    min-width: 0px;
+}
+
+browser-tabs[hidetabactions] browser-tab:not([selected]) {
+    --tab-action-visibility: none;
 }
