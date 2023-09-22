@@ -11,8 +11,6 @@ browser-toolbar {
 
     --padding-x: 4px;
 
-    padding-inline: var(--padding-x);
-
     -moz-window-dragging: drag;
 
     min-height: 40px;
@@ -59,10 +57,16 @@ browser-toolbar[collapse] {
     }
 }
 
-browser-toolbar.customizable-area>.toolbar-button {
-    align-self: center;
+:host(browser-toolbar) .toolbar-container {
+    display: flex;
+    flex: 1;
+    padding-inline: var(--padding-x);
 }
 
-:host(browser-toolbar[initial]) .customizable-container {
-    padding-block-start: calc(var(--browser-ui-density) / 3);
+:host(browser-toolbar) .toolbar-container {
+    align-items: center;
 }
+
+/* :host(browser-toolbar[initial]) .toolbar-container {
+    padding-block-start: calc(var(--browser-ui-density) / 3);
+} */

@@ -386,7 +386,6 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		);
 
 		setInterval(() => {
-			this.querySelector("#tab-debug").hidden = true;
 			this.querySelector("#tab-debug").innerHTML =
 				"<span>" +
 				[

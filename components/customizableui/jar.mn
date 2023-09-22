@@ -6,7 +6,11 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-    content/widgets/browser-customizable-area.js             (content/browser-customizable-area.js)
-    content/widgets/browser-customizable-area.css            (content/browser-customizable-area.css)
+    content/widgets/browser-customizable-area.js                             (content/browser-customizable-area.js)
+    content/widgets/browser-customizable-area.css                            (content/browser-customizable-area.css)
 
-    content/widgets/browser-customizable-area-error.css      (content/browser-customizable-area-error.css)
+    content/widgets/browser-customizable-area-error.css                      (content/browser-customizable-area-error.css)
+
+    content/customizableui/components/                                       (components/*.*)
+
+    content/customizableui/schemas/customizable_state.schema.json            (schemas/customizable_state.schema.json)

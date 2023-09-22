@@ -2,10 +2,27 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserToolbar extends BrowserCustomizableArea {
+class BrowserToolbar extends BrowserCustomizableElement {
 	constructor() {
 		super();
+
+		this.attachShadow({ mode: "open" });
 	}
+
+	attributesSchema = {
+		properties: {
+			width: {
+				$ref: "#/$defs/length"
+			},
+			height: {
+				$ref: "#/$defs/length"
+			},
+			mode: {
+				$ref: "#/$defs/mode"
+			}
+		},
+		required: ["mode", "width", "height"]
+	};
 
 	/**
 	 * The anatomy of the toolbar's shadow DOM
@@ -13,8 +30,13 @@ class BrowserToolbar extends BrowserCustomizableArea {
 	get shadowElements() {
 		return {
 			slot: /** @type {HTMLSlotElement} */ (
-				this.shadowRoot.querySelector("slot") ||
-					html("slot", { part: "content" })
+				this.shadowRoot.querySelector("slot") || html("slot")
+			),
+			container: /** @type {HTMLDivElement} */ (
+				this.shadowRoot.querySelector(".toolbar-container") ||
+					html("div", {
+						class: "toolbar-container customizable-shelf"
+					})
 			),
 			csd: /** @type {BrowserWindowControls} */ (
 				this.shadowRoot.querySelector("browser-window-controls") ||
@@ -77,12 +99,19 @@ class BrowserToolbar extends BrowserCustomizableArea {
 		}
 	}
 
-	connectedCallback() {
-		super.connect({
-			name: this.getAttribute("slot") || this.getAttribute("name"),
+	/**
+	 * Appends a component to the shadow root of the toolbar
+	 * @param {Node} node
+	 */
+	appendComponent(node) {
+		this.shadowRoot.appendChild(this.shadowElements.container);
+		this.shadowElements.container.appendChild(node);
+	}
 
-			layout: "toolbar"
-		});
+	connectedCallback() {
+		super.connectedCallback();
+
+		if (this.delayConnectedCallback()) return;
 
 		this.shadowRoot.appendChild(this.shadowElements.csd);
 

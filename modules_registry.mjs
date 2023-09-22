@@ -8,11 +8,16 @@
 const registry = {
 	AccentColorManager: "themes/AccentColorManager.sys.mjs",
 
-	DotCustomizableUI: "components/customizableui/DotCustomizableUI.sys.mjs",
-
 	DotWindowTracker: "modules/DotWindowTracker.sys.mjs",
 
 	BrowserCompatibility: "components/compat/BrowserCompatibility.sys.mjs",
+
+	BrowserCustomizable:
+		"components/customizableui/BrowserCustomizable.sys.mjs",
+	BrowserCustomizableInternal:
+		"components/customizableui/BrowserCustomizableInternal.sys.mjs",
+	BrowserCustomizableShared:
+		"components/customizableui/BrowserCustomizableShared.sys.mjs",
 
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",

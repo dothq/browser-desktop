@@ -34,6 +34,7 @@ let elements = {
 };
 
 let noCallbackElements = [
+	"chrome://dot/content/customizableui/components/customizable-element.js",
 	"chrome://dot/content/widgets/browser-addressbar-panel.js",
 	"chrome://dot/content/widgets/browser-customizable-area.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",

@@ -68,7 +68,8 @@ dev-debug-panel .dev-branding-lockup {
     gap: 0.75rem;
 }
 
-dev-debug-panel .dev-active-theme-container {
+dev-debug-panel .dev-active-theme-container,
+dev-debug-panel .dev-customizable-ui-container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

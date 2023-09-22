@@ -85,19 +85,21 @@ async function generateMozModules() {
 	function declareModule(moduleURI, originURI, exportName) {
 		const moduleType = toPascalCase(exportName);
 
+		const match = dotModules[moduleType];
+
 		// Check if we have a dot module type for this module
-		if (dotModules[moduleType]) {
+		if (match) {
 			customImports.add(moduleType);
 		} else {
 			imports.add(toPascalCase(exportName));
 		}
 
 		return `declare module ${JSON.stringify(moduleURI)} {${
-			dotModules[moduleType] ? `\n    import * as M from "./${dotModules[moduleType]}";` : ``
+			match ? `\n    import * as M from "./${match}";` : ``
 		}
     export const ${toPascalCase(exportName)}: ${
-			dotModules[moduleType] ? `typeof M.` : ``
-		}${toPascalCase(exportName)};
+		match ? `typeof M.` : ``
+	}${toPascalCase(exportName)};
 }\n\n`;
 	}
 
@@ -115,12 +117,17 @@ async function generateMozModules() {
 		if (isSymlink) {
 			origin = readlinkSync(module);
 		} else {
-			const match = findOriginByName(module, [parse(module).ext.substring(1)]);
+			const match = findOriginByName(module, [
+				parse(module).ext.substring(1)
+			]);
 
 			if (match) {
 				origin = match;
 			} else {
-				console.warn("WARN: Could not find origin for", basename(module));
+				console.warn(
+					"WARN: Could not find origin for",
+					basename(module)
+				);
 			}
 		}
 
@@ -134,7 +141,9 @@ async function generateMozModules() {
 			relativeURI = ".." + relativeURI.split(rootDir)[1];
 		}
 
-		const strippedModuleURI = module.split(resolve(binDir, "modules"))[1].substring(1);
+		const strippedModuleURI = module
+			.split(resolve(binDir, "modules"))[1]
+			.substring(1);
 
 		[
 			`resource:///modules/${strippedModuleURI}`,
@@ -195,7 +204,10 @@ export interface AllMozResourceBindings {
     ${Array.from(resourceBindings.keys())
 		.sort(alphabeticalSort)
 		.map(
-			(i) => `${JSON.stringify(i)}: ${JSON.stringify(toPascalCase(resourceBindings.get(i)))}`
+			(i) =>
+				`${JSON.stringify(i)}: ${JSON.stringify(
+					toPascalCase(resourceBindings.get(i))
+				)}`
 		)
 		.join(";\n    ")}
 

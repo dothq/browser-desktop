@@ -1,0 +1,66 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "chrome://dot/content/customizableui/schemas/customizable_state.schema.json",
+    "title": "Customizable UI State",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer"
+        },
+        "templates": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "$ref": "#/$defs/component"
+                }
+            }
+        },
+        "root": {
+            "$ref": "#/$defs/component"
+        }
+    },
+    "required": [
+        "version",
+        "root"
+    ],
+    "$defs": {
+        "component": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/components-object"
+                        },
+                        {
+                            "$ref": "#/$defs/components-array"
+                        }
+                    ]
+                }
+            ],
+            "additionalItems": false
+        },
+        "components-array": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/component"
+            }
+        },
+        "components-object": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "$ref": "#/$defs/components-array"
+                }
+            }
+        }
+    }
+}

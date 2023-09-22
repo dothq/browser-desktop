@@ -2,16 +2,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { AddonManager } = ChromeUtils.importESModule("resource://gre/modules/AddonManager.sys.mjs");
+var { AddonManager } = ChromeUtils.importESModule(
+	"resource://gre/modules/AddonManager.sys.mjs"
+);
 
-var { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+var { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
 var { DotAppConstants } = ChromeUtils.importESModule(
-    "resource://gre/modules/DotAppConstants.sys.mjs"
+	"resource://gre/modules/DotAppConstants.sys.mjs"
 );
 
 var { NativeTitlebar } = ChromeUtils.importESModule(
-    "resource:///modules/NativeTitlebar.sys.mjs"
+	"resource:///modules/NativeTitlebar.sys.mjs"
 );
 
 /**
@@ -21,14 +25,14 @@ var { NativeTitlebar } = ChromeUtils.importESModule(
  * @returns {string}
  */
 function formatBytes(bytes, decimals = 2, k = 1024) {
-    if (!+bytes) return "0 Bytes";
+	if (!+bytes) return "0 Bytes";
 
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "kB", "MB", "GB", "TB"];
+	const dm = decimals < 0 ? 0 : decimals;
+	const sizes = ["Bytes", "kB", "MB", "GB", "TB"];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
 /**
@@ -38,225 +42,297 @@ function formatBytes(bytes, decimals = 2, k = 1024) {
  * @returns
  */
 function perDiff(val, max) {
-    return ((1.0 - (max - val) / max) * 100).toFixed(2);
+	return ((1.0 - (max - val) / max) * 100).toFixed(2);
 }
 
 class DeveloperDebugPanel extends MozHTMLElement {
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    elements = {
-        app_info: html("span"),
-        proc_info: html("div"),
-        user_agent: html("span"),
+	elements = {
+		app_info: html("span"),
+		proc_info: html("div"),
+		user_agent: html("span"),
 
-        graph: /** @type {DeveloperDebugGraph} */ (html("dev-debug-graph")),
+		graph: /** @type {DeveloperDebugGraph} */ (html("dev-debug-graph")),
 
-        active_theme: /** @type {HTMLSelectElement} */ (
-            html("select", { class: "dev-active-theme" })
-        ),
+		active_theme: /** @type {HTMLSelectElement} */ (
+			html("select", { class: "dev-active-theme" })
+		),
 
-        native_titlebar: /** @type {HTMLInputElement} */ (
-            html("input", { type: "checkbox", id: "dev-native-theme-enabled" })
-        )
-    };
+		native_titlebar: /** @type {HTMLInputElement} */ (
+			html("input", { type: "checkbox", id: "dev-native-theme-enabled" })
+		),
 
-    resourceUsageInt = null;
+		customizableui_data: /** @type {HTMLTextAreaElement} */ (
+			html("textarea", { readonly: "", rows: 5 })
+		)
+	};
 
-    onAddonEnabled(addon) {
-        if (!addon || addon.type != "theme") return;
+	resourceUsageInt = null;
 
-        this.renderThemes().then((_) => {
-            this.elements.active_theme.value = addon.id;
-        });
-    }
+	onAddonEnabled(addon) {
+		if (!addon || addon.type != "theme") return;
 
-    async calculateResourceUsage() {
-        const procInfo = await ChromeUtils.requestProcInfo();
+		this.renderThemes().then((_) => {
+			this.elements.active_theme.value = addon.id;
+		});
+	}
 
-        /** @type {any[]} */
-        let data = [
-            html("span", {}, `PID: ${procInfo.pid}`),
-            html("span", {}, `Memory: ${formatBytes(procInfo.memory)}`),
-            html("span", {}, `Processes: ${procInfo.children.length}`),
-            html("span", {}, `Threads: ${procInfo.threads.length}`)
-        ];
+	async calculateResourceUsage() {
+		const procInfo = await ChromeUtils.requestProcInfo();
 
-        if (procInfo.memory >= Math.max(...(this.elements.graph.points.default || []))) {
-            this.elements.graph.max =
-                Math.ceil((procInfo.memory + 50000000) /* 50mb */ / 50000000) * 50000000;
-        }
-        this.elements.graph.addPoint(procInfo.memory);
+		/** @type {any[]} */
+		let data = [
+			html("span", {}, `PID: ${procInfo.pid}`),
+			html("span", {}, `Memory: ${formatBytes(procInfo.memory)}`),
+			html("span", {}, `Processes: ${procInfo.children.length}`),
+			html("span", {}, `Threads: ${procInfo.threads.length}`)
+		];
 
-        if (procInfo.children.length) {
-            data.push(html("br"));
+		if (
+			procInfo.memory >=
+			Math.max(...(this.elements.graph.points.default || []))
+		) {
+			this.elements.graph.max =
+				Math.ceil((procInfo.memory + 50000000) /* 50mb */ / 50000000) *
+				50000000;
+		}
+		this.elements.graph.addPoint(procInfo.memory);
 
-            for (const child of procInfo.children.sort((a, b) => b.memory - a.memory)) {
-                this.elements.graph.addPoint(child.memory, child.pid.toString());
+		if (procInfo.children.length) {
+			data.push(html("br"));
 
-                const groupColour = this.elements.graph.pointGroupColours[child.pid.toString()];
+			for (const child of procInfo.children.sort(
+				(a, b) => b.memory - a.memory
+			)) {
+				this.elements.graph.addPoint(
+					child.memory,
+					child.pid.toString()
+				);
 
-                const groupDot = /** @type {HTMLSpanElement} */ (
-                    html("div", { class: "dev-graph-group-dot" })
-                );
-                groupDot.style.setProperty("--color", groupColour);
+				const groupColour =
+					this.elements.graph.pointGroupColours[child.pid.toString()];
 
-                data.push(
-                    html(
-                        "div",
-                        { class: "dev-graph-group" },
-                        groupDot,
-                        html(
-                            "span",
-                            {},
-                            `${child.type} (id=${child.childID} pid=${child.pid}, mem=${formatBytes(
-                                child.memory
-                            )}, thds=${child.threads.length}, wins=${child.windows.length})`
-                        )
-                    )
-                );
-            }
-        }
+				const groupDot = /** @type {HTMLSpanElement} */ (
+					html("div", { class: "dev-graph-group-dot" })
+				);
+				groupDot.style.setProperty("--color", groupColour);
 
-        this.elements.proc_info.textContent = "";
-        this.elements.proc_info.append(...data);
+				data.push(
+					html(
+						"div",
+						{ class: "dev-graph-group" },
+						groupDot,
+						html(
+							"span",
+							{},
+							`${child.type} (id=${child.childID} pid=${
+								child.pid
+							}, mem=${formatBytes(child.memory)}, thds=${
+								child.threads.length
+							}, wins=${child.windows.length})`
+						)
+					)
+				);
+			}
+		}
 
-        // Lazy way of updating this value
-        this.elements.native_titlebar.checked = NativeTitlebar.enabled;
-    }
+		this.elements.proc_info.textContent = "";
+		this.elements.proc_info.append(...data);
 
-    async renderThemes() {
-        const allThemes = await AddonManager.getAddonsByTypes(["theme"]);
+		// Lazy way of updating this value
+		this.elements.native_titlebar.checked = NativeTitlebar.enabled;
+	}
 
-        // Clear children
-        this.elements.active_theme.replaceChildren();
+	async renderThemes() {
+		const allThemes = await AddonManager.getAddonsByTypes(["theme"]);
 
-        for (const theme of allThemes.sort((a, b) => a.id.localeCompare(b.id))) {
-            const option = html("option", { value: theme.id }, `${theme.name} (${theme.id})`);
+		// Clear children
+		this.elements.active_theme.replaceChildren();
 
-            this.elements.active_theme.appendChild(option);
-        }
-    }
+		for (const theme of allThemes.sort((a, b) =>
+			a.id.localeCompare(b.id)
+		)) {
+			const option = html(
+				"option",
+				{ value: theme.id },
+				`${theme.name} (${theme.id})`
+			);
 
-    async init() {
-        const activeTheme = (await AddonManager.getAddonsByTypes(["theme"])).find(
-            (ext) => ext.isActive
-        );
+			this.elements.active_theme.appendChild(option);
+		}
+	}
 
-        AddonManager.addAddonListener({
-            onEnabled: this.onAddonEnabled.bind(this)
-        });
+	// https://stackoverflow.com/a/54931396
+	prettyStringify(obj) {
+		return JSON.stringify(
+			obj,
+			function (k, v) {
+				if (v instanceof Array) return JSON.stringify(v);
+				return v;
+			},
+			2
+		);
+	}
 
-        this.resourceUsageInt = setInterval(() => {
-            this.calculateResourceUsage();
-        }, 1000);
+	getCustomizableUIData() {
+		this.elements.customizableui_data.value = JSON.stringify(
+			JSON.parse(
+				Services.prefs.getStringPref("dot.customizable.state", "{}")
+			)
+		);
+	}
 
-        this.onAddonEnabled(activeTheme);
-        this.calculateResourceUsage();
+	async init() {
+		const activeTheme = (
+			await AddonManager.getAddonsByTypes(["theme"])
+		).find((ext) => ext.isActive);
 
-        const dotVersion = document.createElement("strong");
-        dotVersion.textContent = `Dot Browser v${DotAppConstants.DOT_APP_VERSION} (${AppConstants.MOZ_BUILDID})`;
+		AddonManager.addAddonListener({
+			onEnabled: this.onAddonEnabled.bind(this)
+		});
 
-        this.elements.app_info.append(
-            html(
-                "div",
-                { class: "dev-branding-lockup" },
-                html("img", { src: "chrome://branding/content/icon32.png" }),
-                html("img", { src: "chrome://branding/content/about-wordmark.svg", height: "48" })
-            ),
-            html("br"),
-            dotVersion,
-            html("br"),
-            `Firefox v${AppConstants.MOZ_APP_VERSION}`
-        );
+		this.resourceUsageInt = setInterval(() => {
+			this.calculateResourceUsage();
+		}, 1000);
 
-        this.elements.user_agent.textContent = `user_agent = ${Cc["@mozilla.org/network/protocol;1?name=http"].getService(Ci.nsIHttpProtocolHandler)
-            .userAgent
-            }`;
+		this.onAddonEnabled(activeTheme);
+		this.calculateResourceUsage();
 
-        this.elements.active_theme.addEventListener("change", async (event) => {
-            const { value } = /** @type {HTMLSelectElement} */ (event.target);
+		setInterval(() => {
+			this.getCustomizableUIData();
+		}, 500);
 
-            const addon = await AddonManager.getAddonByID(value);
+		const dotVersion = document.createElement("strong");
+		dotVersion.textContent = `Dot Browser v${DotAppConstants.DOT_APP_VERSION} (${AppConstants.MOZ_BUILDID})`;
 
-            if (addon) {
-                addon.enable();
-            }
-        });
+		this.elements.app_info.append(
+			html(
+				"div",
+				{ class: "dev-branding-lockup" },
+				html("img", { src: "chrome://branding/content/icon32.png" }),
+				html("img", {
+					src: "chrome://branding/content/about-wordmark.svg",
+					height: "48"
+				})
+			),
+			html("br"),
+			dotVersion,
+			html("br"),
+			`Firefox v${AppConstants.MOZ_APP_VERSION}`
+		);
 
-        this.elements.native_titlebar.addEventListener("change", async (event) => {
-            const { checked } = /** @type {HTMLInputElement} */ (event.target);
+		this.elements.user_agent.textContent = `user_agent = ${
+			Cc["@mozilla.org/network/protocol;1?name=http"].getService(
+				Ci.nsIHttpProtocolHandler
+			).userAgent
+		}`;
 
-            NativeTitlebar.set(checked, true);
-        })
-    }
+		this.elements.active_theme.addEventListener("change", async (event) => {
+			const { value } = /** @type {HTMLSelectElement} */ (event.target);
 
-    insertStylesheet() {
-        const sheet = document.createProcessingInstruction(
-            "xml-stylesheet",
-            `href="chrome://dot/content/widgets/dev-debug-panel.css" type="text/css"`
-        );
+			const addon = await AddonManager.getAddonByID(value);
 
-        document.insertBefore(sheet, document.documentElement);
-    }
+			if (addon) {
+				addon.enable();
+			}
+		});
 
-    connectedCallback() {
-        if (this.delayConnectedCallback()) return;
-        this.classList.add("dev-panel");
+		this.elements.native_titlebar.addEventListener(
+			"change",
+			async (event) => {
+				const { checked } = /** @type {HTMLInputElement} */ (
+					event.target
+				);
 
-        this.appendChild(this.elements.app_info);
-        this.appendChild(this.elements.proc_info);
-        this.appendChild(this.elements.user_agent);
-        this.appendChild(
-            html(
-                "div",
-                { class: "dev-active-theme-container" },
-                html("label", {}, "Active Theme:"),
-                this.elements.active_theme
-            )
-        );
+				NativeTitlebar.set(checked, true);
+			}
+		);
+	}
 
-        this.appendChild(
-            html(
-                "div",
-                { class: "dev-native-titlebar-container" },
-                html("label", { for: "dev-native-theme-enabled" }, "Native Titlebar:"),
-                this.elements.native_titlebar
-            )
-        );
-        this.elements.native_titlebar.checked = NativeTitlebar.enabled;
+	insertStylesheet() {
+		const sheet = document.createProcessingInstruction(
+			"xml-stylesheet",
+			`href="chrome://dot/content/widgets/dev-debug-panel.css" type="text/css"`
+		);
 
-        this.appendChild(this.elements.graph);
+		document.insertBefore(sheet, document.documentElement);
+	}
 
-        this.insertStylesheet();
+	connectedCallback() {
+		if (this.delayConnectedCallback()) return;
+		this.classList.add("dev-panel");
 
-        if (window.location.href == "chrome://dot/content/dev-debug-popout.xhtml") {
-            new ResizeObserver(() => {
-                window.document.documentElement.style.setProperty(
-                    "--height",
-                    this.getBoundingClientRect().height + "px"
-                );
-            }).observe(this);
+		this.appendChild(this.elements.app_info);
+		this.appendChild(this.elements.proc_info);
+		this.appendChild(this.elements.user_agent);
+		this.appendChild(
+			html(
+				"div",
+				{ class: "dev-active-theme-container" },
+				html("label", {}, "Active Theme:"),
+				this.elements.active_theme
+			)
+		);
 
-            const devtoolsButton = html("button", {}, "Open Browser Toolbox");
-            devtoolsButton.addEventListener("click", () => {
-                var { BrowserToolboxLauncher } = ChromeUtils.importESModule(
-                    "resource://devtools/client/framework/browser-toolbox/Launcher.sys.mjs"
-                );
+		this.appendChild(
+			html(
+				"div",
+				{ class: "dev-native-titlebar-container" },
+				html(
+					"label",
+					{ for: "dev-native-theme-enabled" },
+					"Native Titlebar:"
+				),
+				this.elements.native_titlebar
+			)
+		);
+		this.elements.native_titlebar.checked = NativeTitlebar.enabled;
 
-                BrowserToolboxLauncher.init();
-            });
+		this.appendChild(
+			html(
+				"div",
+				{ class: "dev-customizable-ui-container" },
+				html("label", {}, "Customizable UI State:"),
+				this.elements.customizableui_data
+			)
+		);
 
-            this.appendChild(devtoolsButton);
-        }
-    }
+		this.appendChild(this.elements.graph);
 
-    disconnectedCallback() {
-        if (this.delayConnectedCallback()) return;
+		this.insertStylesheet();
 
-        clearInterval(this.resourceUsageInt);
-    }
+		if (
+			window.location.href ==
+			"chrome://dot/content/dev-debug-popout.xhtml"
+		) {
+			new ResizeObserver(() => {
+				window.document.documentElement.style.setProperty(
+					"--height",
+					this.getBoundingClientRect().height + "px"
+				);
+			}).observe(this);
+
+			const devtoolsButton = html("button", {}, "Open Browser Toolbox");
+			devtoolsButton.addEventListener("click", () => {
+				var { BrowserToolboxLauncher } = ChromeUtils.importESModule(
+					"resource://devtools/client/framework/browser-toolbox/Launcher.sys.mjs"
+				);
+
+				BrowserToolboxLauncher.init();
+			});
+
+			this.appendChild(devtoolsButton);
+		}
+	}
+
+	disconnectedCallback() {
+		if (this.delayConnectedCallback()) return;
+
+		clearInterval(this.resourceUsageInt);
+	}
 }
 
 customElements.define("dev-debug-panel", DeveloperDebugPanel);

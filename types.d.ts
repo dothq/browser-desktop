@@ -97,11 +97,57 @@ declare global {
 
 	interface Document {
 		l10n: Gecko.LocalizationInstance;
-        commandDispatcher: Gecko.nsIDOMXULCommandDispatcher;
+		commandDispatcher: Gecko.nsIDOMXULCommandDispatcher;
 	}
 
-    interface Event {
-        defaultCancelled: boolean;
-        defaultPreventedByChrome: boolean;
-    }
+	interface Event {
+		defaultCancelled: boolean;
+		defaultPreventedByChrome: boolean;
+	}
+
+	interface Console {
+		createInstance: (options: {
+			// An optional function to intercept all strings written to stdout.
+			dump?: (message: string) => void;
+
+			// An optional prefix string to be printed before the actual logged message.
+			prefix?: string;
+
+			// An ID representing the source of the message. Normally the inner ID of a
+			// DOM window.
+			innerID?: string;
+
+			// String identified for the console, this will be passed through the console
+			// notifications.
+			consoleID?: string;
+
+			// Identifier that allows to filter which messages are logged based on their
+			// log level.
+			maxLogLevel?:
+				| "All"
+				| "Debug"
+				| "Log"
+				| "Info"
+				| "Clear"
+				| "Trace"
+				| "TimeLog"
+				| "TimeEnd"
+				| "Time"
+				| "Group"
+				| "GroupEnd"
+				| "Profile"
+				| "ProfileEnd"
+				| "Dir"
+				| "Dirxml"
+				| "Warn"
+				| "Error"
+				| "Off";
+
+			// String pref name which contains the level to use for maxLogLevel. If the
+			// pref doesn't exist, gets removed or it is used in workers, the maxLogLevel
+			// will default to the value passed to this constructor (or "all" if it wasn't
+			// specified).
+			maxLogLevelPref?: string;
+		}) => Console;
+	}
 }

@@ -155,7 +155,7 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * The mode of the toolbar button
 	 */
 	get mode() {
-		return this.getAttribute("mode") || this.toolbar.mode;
+		return this.getAttribute("mode");
 	}
 
 	/**

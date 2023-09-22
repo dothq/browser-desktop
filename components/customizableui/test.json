@@ -1,0 +1,56 @@
+
+
+{
+    "version": 1,
+    "templates": {
+        "tabs-list": ["shelf", {}, [
+            ["tab-strip", { "width": "fill", "height": "fill" }, {
+                "tab": [["@tab"]]
+            }],
+            ["toolbar-button", { "is": "add-tab-button" }]
+        ]],
+        "addressbar": ["addressbar", { "background": "accent" }, {
+            "before": [
+                ["toolbar-button", { "is": "shield-button" }],
+                ["toolbar-button", { "is": "identity-button" }]
+            ],
+            "content": [
+                ["addressbar-input"]
+            ],
+            "after": [
+                ["toolbar-button", { "is": "identity-button" }]
+            ]
+        }]
+    },
+    "root": ["stack", { "width": "fill", "height": "fit" }, [
+        ["stack", { "width": "fill", "height": "hug" }, [
+            ["toolbar", { "name": "menubar", "mode": "text", "background": "accent" }, [
+                ["toolbar-button", { "is": "file-menu-button" }],
+                ["toolbar-button", { "is": "edit-menu-button" }],
+                ["toolbar-button", { "is": "view-menu-button" }],
+                ["toolbar-button", { "is": "history-menu-button" }],
+                ["toolbar-button", { "is": "bookmarks-menu-button" }],
+                ["toolbar-button", { "is": "tools-menu-button" }],
+                ["toolbar-button", { "is": "help-menu-button" }]
+            ]],
+            ["toolbar", { "name": "toolbar", "mode": "icons", "background": "accent" }, [
+                ["spring", { "width": 48 }],
+                ["@tabs-list"],
+                ["spring"],
+                ["toolbar-button", { "is": "list-tabs-button" }]
+            ]],
+            ["toolbar", { "name": "navbar", "mode": "icons" }, [
+                ["toolbar-button", { "is": "back-button" }],
+                ["toolbar-button", { "is": "forward-button" }],
+                ["toolbar-button", { "is": "reload-button" }],
+                ["spring"],
+                ["@addressbar"],
+                ["spring"]
+            ]]
+        ]],
+        ["stack", { "width": "fill", "height": "fill" }, [
+            ["sidebar", { "mode": "icons" }, []],
+            ["web-contents"]
+        ]]
+    ]]
+}
