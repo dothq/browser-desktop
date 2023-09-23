@@ -101,14 +101,14 @@ class BrowserApplication extends MozHTMLElement {
 	 * Initialises the browser and its components
 	 */
 	init() {
-		if (gDot._done) {
+		if (this._done) {
 			throw new Error("Browser cannot be initialized twice!");
 		}
 
-		gDot.customizable = new BrowserCustomizable(this);
-		gDot.tabs = new BrowserTabs(window);
-		gDot.search = new BrowserSearch(window);
-		gDot.shortcuts = new BrowserShortcuts(window);
+		this.customizable = new BrowserCustomizable(this);
+		this.tabs = new BrowserTabs(window);
+		this.search = new BrowserSearch(window);
+		this.shortcuts = new BrowserShortcuts(window);
 
 		gDotRoutines.init();
 
@@ -122,7 +122,7 @@ class BrowserApplication extends MozHTMLElement {
 				);
 			});
 
-		gDot._done = true;
+		this._done = true;
 	}
 }
 
