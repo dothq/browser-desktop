@@ -58,6 +58,8 @@ declare global {
 		hasValidTransientUserGestureActivation: boolean;
 
 		nodePrincipal: any;
+
+        ownerGlobal: Window;
 	}
 
 	/**
