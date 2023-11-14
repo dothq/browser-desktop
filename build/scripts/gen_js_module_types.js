@@ -220,4 +220,5 @@ ${declaration}`
 	console.log(`Generated declarations for ${imports.size} modules.`);
 }
 
+console.log(`Generating module type declarations...`);
 generateMozModules();
