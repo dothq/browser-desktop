@@ -23,18 +23,9 @@ let elements = {
 	"browser-tabs": "chrome://dot/content/widgets/browser-tabs.js",
 	"browser-tabs-collator": "chrome://dot/content/widgets/browser-tabs-collator.js",
 	"browser-window-controls": "chrome://dot/content/widgets/browser-window-controls.js",
-
-	"add-tab-button": "chrome://dot/content/widgets/browser-add-tab-button.js",
-	"back-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
-    "close-tab-button": "chrome://dot/content/widgets/browser-close-tab-button.js",
-    "custom-button": "chrome://dot/content/widgets/browser-custom-toolbar-button.js",
-	"forward-button": "chrome://dot/content/widgets/browser-history-navigation-button.js",
-	"reload-button": "chrome://dot/content/widgets/browser-reload-button.js",
-    "identity-button": "chrome://dot/content/widgets/browser-identity-button.js",
 };
 
 let noCallbackElements = [
-	"chrome://dot/content/customizableui/components/customizable-element.js",
 	"chrome://dot/content/widgets/browser-addressbar-panel.js",
 	"chrome://dot/content/widgets/browser-customizable-area.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",
@@ -42,7 +33,14 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-tab-icon.js",
 	"chrome://dot/content/widgets/browser-tab-label.js",
 	"chrome://dot/content/widgets/browser-toolbar.js",
-	"chrome://dot/content/widgets/browser-toolbar-button.js"
+	"chrome://dot/content/widgets/browser-toolbar-button.js",
+
+	"chrome://dot/content/widgets/browser-add-tab-button.js",
+	"chrome://dot/content/widgets/browser-history-navigation-button.js",
+	"chrome://dot/content/widgets/browser-close-tab-button.js",
+	"chrome://dot/content/widgets/browser-custom-toolbar-button.js",
+	"chrome://dot/content/widgets/browser-reload-button.js",
+	"chrome://dot/content/widgets/browser-identity-button.js"
 ];
 
 // Define developer-only elements
