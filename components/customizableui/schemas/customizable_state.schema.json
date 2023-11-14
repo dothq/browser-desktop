@@ -15,13 +15,13 @@
                 }
             }
         },
-        "root": {
-            "$ref": "#/$defs/component"
+        "state": {
+            "$ref": "#/$defs/components-array"
         }
     },
     "required": [
         "version",
-        "root"
+        "state"
     ],
     "$defs": {
         "component": {
