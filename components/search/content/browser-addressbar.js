@@ -8,11 +8,7 @@ class BrowserAddressBar extends BrowserCustomizableArea {
 	}
 
 	connectedCallback() {
-		super.connect({
-			name: "addressbar",
-
-			layout: "addressbar"
-		});
+		super.connect("addressbar");
 
 		window.addEventListener("BrowserTabs::BrowserLocationChange", this);
 		window.addEventListener("BrowserTabs::TabSelect", this);

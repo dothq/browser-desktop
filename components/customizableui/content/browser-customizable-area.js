@@ -10,7 +10,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 
 		this.shadowRoot.appendChild(this.customizableContainer);
 
-		this.shadowRoot.append(
+		this.shadowRoot.prepend(
 			html("link", {
 				rel: "stylesheet",
 				href: "chrome://dot/skin/browser.css"
@@ -40,31 +40,17 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
-	 * The area's layout type
-	 */
-	get layout() {
-		return this.getAttribute("layout");
-	}
-
-	/**
-	 * Update the area's layout type
-	 */
-	set layout(newLayout) {
-		this.setAttribute("layout", newLayout);
-	}
-
-	/**
 	 * Determines whether keybindings should be shown
 	 */
 	get showKeybindings() {
-		return this.hasAttribute("keybindings");
+		return this.hasAttribute("showkeybindings");
 	}
 
 	/**
 	 * Update the area's keybindings visibility
 	 */
 	set showKeybindings(newValue) {
-		this.toggleAttribute("keybindings", newValue);
+		this.toggleAttribute("showkeybindings", newValue);
 	}
 
 	/**
@@ -151,16 +137,22 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
+	 * Determines whether a child can be appended to this customizable area
+	 * @param {Element} node
+	 */
+	canAppendChild(node) {
+		return true;
+	}
+
+	/**
 	 * Connect this customizable area to a configuration
-	 * @param {object} options
-	 * @param {string} options.name - The name of this area - used to identify this area so it must be unique
-	 * @param {string} options.layout - The type of layout that this area is
+	 * @param {string} name - The name of this area - used to identify this area so it must be unique
+	 * @param {object} [options]
 	 * @param {boolean} [options.showKeybindings] - Determines whether keybindings should be shown in widgets
 	 */
-	connect(options) {
-		this.name = options.name;
-		this.layout = options.layout;
-		this.showKeybindings = options.showKeybindings;
+	connect(name, options) {
+		this.name = name;
+		this.showKeybindings = options?.showKeybindings;
 
 		this.classList.add("customizable-area");
 	}

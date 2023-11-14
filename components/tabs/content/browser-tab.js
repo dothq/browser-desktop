@@ -221,36 +221,36 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			this.shiftX = event.screenX - this.getBoundingClientRect().x;
 		}
 
-		if (this.toolbar.isHorizontal) {
-			let x =
-				event.screenX -
-				this.shiftX -
-				this.parentElement.getBoundingClientRect().x;
+		// if (this.toolbar.isHorizontal) {
+		// 	let x =
+		// 		event.screenX -
+		// 		this.shiftX -
+		// 		this.parentElement.getBoundingClientRect().x;
 
-			console.log(x);
+		// 	console.log(x);
 
-			if (x < 0) {
-				x = 0;
-				return;
-			}
-			let rightEdge = this.parentElement.offsetWidth - this.offsetWidth;
-			console.log(
-				"rightEdge",
-				rightEdge,
-				this.parentElement.offsetWidth,
-				this.offsetWidth
-			);
-			if (x > rightEdge) {
-				x = rightEdge;
-			}
+		// 	if (x < 0) {
+		// 		x = 0;
+		// 		return;
+		// 	}
+		// 	let rightEdge = this.parentElement.offsetWidth - this.offsetWidth;
+		// 	console.log(
+		// 		"rightEdge",
+		// 		rightEdge,
+		// 		this.parentElement.offsetWidth,
+		// 		this.offsetWidth
+		// 	);
+		// 	if (x > rightEdge) {
+		// 		x = rightEdge;
+		// 	}
 
-			console.log(x);
+		// 	console.log(x);
 
-			this.toggleAttribute("dragging-shadow", x > 0);
-			this.dragX = x;
-		} else {
-			this.dragY += event.screenY - this.lastMouseY;
-		}
+		// 	this.toggleAttribute("dragging-shadow", x > 0);
+		// 	this.dragX = x;
+		// } else {
+		// 	this.dragY += event.screenY - this.lastMouseY;
+		// }
 
 		this.lastMouseX = event.screenX;
 		this.lastMouseY = event.screenY;
@@ -355,11 +355,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	}
 
 	connectedCallback() {
-		super.connect({
-			name: "tab",
-
-			layout: "tab",
-
+		super.connect("tab", {
 			showKeybindings: false
 		});
 
