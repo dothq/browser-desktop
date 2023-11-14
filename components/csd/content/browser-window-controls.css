@@ -20,12 +20,6 @@ browser-window-controls[hidden] {
     display: none;
 }
 
-:host(browser-application)::part(csd) {
-    height: var(--browser-csd-height);
-    max-height: var(--browser-csd-height);
-    transition: 0.3s height cubic-bezier(0.19, 1, 0.22, 1), 0.3s max-height cubic-bezier(0.19, 1, 0.22, 1);
-}
-
 :root[chromemargin=""] :host(browser-application)::part(csd),
 :root:not([chromemargin]) :host(browser-application)::part(csd) {
     display: none;
