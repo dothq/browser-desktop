@@ -49,7 +49,7 @@ function html(tagName, attributes, ...children) {
 	const element =
 		tagName == "fragment"
 			? document.createDocumentFragment()
-			: document.createElement(tagName);
+			: document.createElement(tagName, { is: attributes.is });
 
 	if (tagName !== "fragment") {
 		for (const [key, value] of Object.entries(attributes)) {
