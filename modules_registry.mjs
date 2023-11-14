@@ -14,12 +14,12 @@ const registry = {
 
 	BrowserCustomizable:
 		"components/customizableui/BrowserCustomizable.sys.mjs",
+	BrowserCustomizableComponents:
+		"components/customizableui/BrowserCustomizableComponents.sys.mjs",
 	BrowserCustomizableInternal:
 		"components/customizableui/BrowserCustomizableInternal.sys.mjs",
 	BrowserCustomizableShared:
 		"components/customizableui/BrowserCustomizableShared.sys.mjs",
-	BrowserCustomizableWidgets:
-		"components/customizableui/BrowserCustomizableWidgets.sys.mjs",
 
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",

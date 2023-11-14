@@ -6,9 +6,10 @@ const { BrowserCustomizableShared: Shared } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserCustomizableShared.sys.mjs"
 );
 
-const { BrowserCustomizableWidgets: Widgets } = ChromeUtils.importESModule(
-	"resource://gre/modules/BrowserCustomizableWidgets.sys.mjs"
-);
+const { BrowserCustomizableComponents: Components } =
+	ChromeUtils.importESModule(
+		"resource://gre/modules/BrowserCustomizableComponents.sys.mjs"
+	);
 
 const { JsonSchema } = ChromeUtils.importESModule(
 	"resource://gre/modules/JsonSchema.sys.mjs"
@@ -38,7 +39,7 @@ BrowserCustomizableInternal.prototype = {
 
 	/**
 	 * A map of reusable templates
-	 * @type {Map<string, BrowserCustomizableElement>}
+	 * @type {Map<string, Element>}
 	 */
 	templates: new Map(),
 
@@ -153,15 +154,16 @@ BrowserCustomizableInternal.prototype = {
 
 	/**
 	 * Connects attributes up to a customizable component
-	 * @param {BrowserCustomizableElement} element
+	 * @param {Element} element
 	 * @param {CustomizableComponentDefinition[1]} attributes
 	 */
 	connectComponentWith(element, attributes) {
 		const validated = this._validate(
+			// prettier-ignore
 			{
 				...this.attributesSchema,
-				...(element.attributesSchema || {}),
-				additionalProperties: !element.attributesSchema
+				...(/** @type {any} */ (element).attributesSchema || {}),
+				additionalProperties: !/** @type {any} */ (element).attributesSchema
 			},
 			attributes
 		);
@@ -179,7 +181,7 @@ BrowserCustomizableInternal.prototype = {
 	 * @param {object} [attributes]
 	 * @param {object} [options]
 	 * @param {boolean} [options.allowInternal]
-	 * @returns {BrowserCustomizableElement}
+	 * @returns {Element}
 	 */
 	getComponentByType(type, attributes, options) {
 		const doc = this.win.document;
@@ -187,35 +189,33 @@ BrowserCustomizableInternal.prototype = {
 		let element;
 
 		if (type.charAt(0) == "@") {
-			element = this.templates.get(type.substring(1)).cloneNode(true);
+			const templatedComponent = this.templates
+				.get(type.substring(1))
+				.cloneNode(true);
+
+			return /** @type {Element} */ (templatedComponent);
 		}
 
-		switch (type) {
-			case "toolbar":
-				element = doc.createElement("browser-toolbar");
+		element = Components.createWidget(doc, type, attributes);
 
-				break;
-			default:
-				const createdWidget = Widgets.createWidget(
-					doc,
-					type,
-					attributes
-				);
-
-				if (!createdWidget) {
-					throw new Error(`Unknown component type '${type}'.`);
-				}
-
-				element = createdWidget;
-				break;
+		// If we couldn't make a widget, try making this as an area instead
+		if (!element) {
+			element = Components.createArea(doc, type, attributes);
 		}
 
-		return /** @type {BrowserCustomizableElement} */ (element);
+		Shared.logger.debug(`Created new component '${type}'.`, element);
+
+		// Otherwise, this is an unknown type, we can stop here
+		if (!element) {
+			throw new Error(`Unknown component type '${type}'.`);
+		}
+
+		return /** @type {Element} */ (element);
 	},
 
 	/**
 	 * Appends children to a component
-	 * @param {BrowserCustomizableArea} parentElement
+	 * @param {Element} parentElement
 	 * @param {string} slot
 	 * @param {CustomizableComponentDefinition[2]} children
 	 */
@@ -250,7 +250,9 @@ BrowserCustomizableInternal.prototype = {
 				if (
 					"canAppendChild" &&
 					parentElement &&
-					parentElement.canAppendChild(childComponent)
+					/** @type {any} */ (parentElement).canAppendChild(
+						childComponent
+					)
 				) {
 					const { shadowRoot } = parentElement;
 
@@ -280,26 +282,26 @@ BrowserCustomizableInternal.prototype = {
 		if (!attributes) attributes = {};
 		if (!children) children = [];
 
-		try {
-			const baseElement = this.getComponentByType(
-				type,
-				attributes,
-				creationOptions
+		const baseElement = this.getComponentByType(
+			type,
+			attributes,
+			creationOptions
+		);
+
+		if (baseElement) {
+			const component = this.connectComponentWith(
+				baseElement,
+				attributes
 			);
 
-			if (baseElement) {
-				const component = this.connectComponentWith(
-					baseElement,
-					attributes
-				);
-				this.appendChildrenTo(component, children);
+			this.appendChildrenTo(
+				/** @type {BrowserCustomizableArea} */ (component),
+				children
+			);
 
-				return component;
-			} else {
-				return null;
-			}
-		} catch (e) {
-			throw new Error(`Failed to create component '${type}':\n` + e);
+			return component;
+		} else {
+			return null;
 		}
 	},
 
@@ -324,10 +326,18 @@ BrowserCustomizableInternal.prototype = {
 	createComponentFragment(children) {
 		const root = this.win.document.createDocumentFragment();
 
-		for (const child of children) {
-			const component = this.createComponentFromDefinition(child);
+		for (let i = 0; i < children.length; i++) {
+			const child = children[i];
 
-			root.appendChild(component);
+			try {
+				const component = this.createComponentFromDefinition(child);
+
+				root.appendChild(component);
+			} catch (e) {
+				throw new Error(
+					`Failed to create component '${child[0]}[${i}]':\n` + e
+				);
+			}
 		}
 
 		return root;
