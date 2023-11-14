@@ -35,7 +35,7 @@ BrowserCustomizable.prototype = {
 	 */
 	renderRoot: null,
 
-	/** @type {Element} */
+	/** @type {DocumentFragment} */
 	_root: null,
 
 	/**
@@ -75,15 +75,8 @@ BrowserCustomizable.prototype = {
 
 		Shared.logger.log("Registering root component...");
 		try {
-			if (this.state.root[0] !== "root") {
-				throw new Error(
-					`Property 'root' must be a 'root' type component.`
-				);
-			}
-
-			const rootElement = this.internal.createComponentFromDefinition(
-				this.state.root,
-				{ allowInternal: true }
+			const rootElement = this.internal.createComponentFragment(
+				this.state.state
 			);
 
 			this.renderRoot.shadowRoot.replaceChildren();

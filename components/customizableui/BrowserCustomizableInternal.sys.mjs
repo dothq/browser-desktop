@@ -6,6 +6,10 @@ const { BrowserCustomizableShared: Shared } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserCustomizableShared.sys.mjs"
 );
 
+const { BrowserCustomizableWidgets: Widgets } = ChromeUtils.importESModule(
+	"resource://gre/modules/BrowserCustomizableWidgets.sys.mjs"
+);
+
 const { JsonSchema } = ChromeUtils.importESModule(
 	"resource://gre/modules/JsonSchema.sys.mjs"
 );
@@ -170,23 +174,6 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
-	 * Gets the toolbar button for a type
-	 * @param {string} type
-	 */
-	getToolbarButtonByType(type) {
-		const doc = this.win.document;
-
-		switch (type) {
-			case "back-button":
-			case "forward-button":
-			case "reload-button":
-				return doc.createElement("button", { is: type });
-			default:
-				return doc.createElement("button", { is: "custom-button" });
-		}
-	},
-
-	/**
 	 * Obtains a component using its type
 	 * @param {string} type
 	 * @param {object} [attributes]
@@ -204,39 +191,23 @@ BrowserCustomizableInternal.prototype = {
 		}
 
 		switch (type) {
-			case "root":
-				if (options.allowInternal) {
-					element = doc.createElement("customizable-root");
-
-					break;
-				}
 			case "toolbar":
 				element = doc.createElement("browser-toolbar");
-				break;
-			case "toolbar-button":
-				element = this.getToolbarButtonByType(attributes.is);
-				break;
-			case "spring":
-				element = doc.createElement("browser-spring");
-				break;
-			case "tab-strip":
-				element = doc.createElement("browser-tabs");
-				break;
-			case "web-contents":
-				element = doc.createElement("customizable-web-contents");
-				break;
-			case "stack":
-			case "shelf":
-				element = doc.createElement("div");
-				element.classList.add(`customizable-${type}`);
-				break;
-			case "":
-				element = doc.createDocumentFragment();
+
 				break;
 			default:
-				if (!element) {
-					throw new Error(`No component with type '${type}'.`);
+				const createdWidget = Widgets.createWidget(
+					doc,
+					type,
+					attributes
+				);
+
+				if (!createdWidget) {
+					throw new Error(`Unknown component type '${type}'.`);
 				}
+
+				element = createdWidget;
+				break;
 		}
 
 		return /** @type {BrowserCustomizableElement} */ (element);
@@ -244,7 +215,7 @@ BrowserCustomizableInternal.prototype = {
 
 	/**
 	 * Appends children to a component
-	 * @param {BrowserCustomizableElement} parentElement
+	 * @param {BrowserCustomizableArea} parentElement
 	 * @param {string} slot
 	 * @param {CustomizableComponentDefinition[2]} children
 	 */
@@ -253,14 +224,42 @@ BrowserCustomizableInternal.prototype = {
 
 		if (Array.isArray(children)) {
 			for (let i = 0; i < children.length; i++) {
+				if (
+					!parentElement.shadowRoot ||
+					!(
+						parentElement instanceof
+						this.win.customElements.get("browser-customizable-area")
+					)
+				) {
+					throw new Error(
+						`Children are not allowed on this component.`
+					);
+				}
+
 				const child = children[i];
 
 				const childComponent =
 					this.createComponentFromDefinition(child);
 
-				(
-					parentElement.appendComponent || parentElement.appendChild
-				).bind(parentElement)(childComponent);
+				if (childComponent.tagName === parentElement.tagName) {
+					throw new Error(
+						`Cannot have a '${child[0]}' inside another '${child[0]}'.`
+					);
+				}
+
+				if (
+					"canAppendChild" &&
+					parentElement &&
+					parentElement.canAppendChild(childComponent)
+				) {
+					const { shadowRoot } = parentElement;
+
+					const whereToAppend =
+						shadowRoot.querySelector(`[part="customizable"]`) ||
+						shadowRoot;
+
+					whereToAppend.appendChild(childComponent);
+				}
 			}
 		} else {
 			for (const [slot, slottedChildren] of Object.entries(children)) {
@@ -316,6 +315,22 @@ BrowserCustomizableInternal.prototype = {
 			definition[2] || [],
 			options
 		);
+	},
+
+	/**
+	 * Creates a new fragment element with the supplied children
+	 * @param {CustomizableComponentDefinition[]} children
+	 */
+	createComponentFragment(children) {
+		const root = this.win.document.createDocumentFragment();
+
+		for (const child of children) {
+			const component = this.createComponentFromDefinition(child);
+
+			root.appendChild(component);
+		}
+
+		return root;
 	},
 
 	/**

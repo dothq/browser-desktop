@@ -10,4 +10,5 @@ EXTRA_JS_MODULES += [
     "BrowserCustomizable.sys.mjs",
     "BrowserCustomizableInternal.sys.mjs",
     "BrowserCustomizableShared.sys.mjs",
+    "BrowserCustomizableWidgets.sys.mjs",
 ]
