@@ -27,8 +27,10 @@ def initialize(topsrcdir, args=()):
         os.path.join(topsrcdir, module)
         for module in (
             os.path.join("python", "mach"),
+            os.path.join("testing", "mozbase", "mozfile"),
             os.path.join("third_party", "python", "packaging"),
             os.path.join("third_party", "python", "pyparsing"),
+            os.path.join("third_party", "python", "six"),
         )
     ]
 
