@@ -50,6 +50,7 @@ declare global {
 		 */
 		createXULElement: ((type: "iframe", options?: ElementCreationOptions) => XULIframeElement) &
 			((type: "browser", options?: ElementCreationOptions) => Gecko.ChromeBrowser) &
+            ((type: "menupopup", options?: ElementCreationOptions) => Gecko.XULPopupElement) &
 			((type: string, options?: ElementCreationOptions) => XULElement);
 
 		/**

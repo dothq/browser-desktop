@@ -72,3 +72,4 @@ export * from "./WindowRoot";
 export * from "./WindowUtils";
 export * from "./XPCOMUtils";
 export * from "./XULElement";
+export * from "./XULPopupElement";
