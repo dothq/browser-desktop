@@ -33,15 +33,15 @@
 					case "load":
 					case "BrowserTabs::LocationChange":
 					case "BrowserTabs::TabSelect":
-						if (!this.context.browser) return;
+					// if (!this.context.browser) return;
 
-						if (direction === "back") {
-							this.disabled = !this.context.browser.canGoBack;
-						} else if (direction === "forward") {
-							this.disabled = !this.context.browser.canGoForward;
-						}
+					// if (direction === "back") {
+					// 	this.disabled = !this.context.browser.canGoBack;
+					// } else if (direction === "forward") {
+					// 	this.disabled = !this.context.browser.canGoForward;
+					// }
 
-						break;
+					// break;
 				}
 			}
 
