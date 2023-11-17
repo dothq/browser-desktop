@@ -75,6 +75,14 @@ html|select:active:not(:disabled) {
     background-color: var(--button-active-color);
 }
 
+button[active]:not(:disabled),
+select[active]:not(:disabled),
+xul|button[active]:not(:disabled),
+html|button[active]:not(:disabled),
+html|select[active]:not(:disabled) {
+    background-color: var(--button-active-color);
+}
+
 button:disabled>*,
 select:disabled,
 xul|button:disabled>*,
