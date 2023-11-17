@@ -664,6 +664,28 @@ BrowserTabs.prototype = {
 	},
 
 	/**
+	 * Reloads a tab
+	 * @param {BrowserTab} tab
+	 * @param {boolean} [bypassCache]
+	 */
+	reloadTab(tab, bypassCache = false) {
+		if (this._isWebContentsBrowserElement(tab.webContents)) {
+			const { LOAD_FLAGS_NONE, LOAD_FLAGS_BYPASS_CACHE } =
+				Ci.nsIWebNavigation;
+
+			let flags = LOAD_FLAGS_NONE;
+
+			if (bypassCache == true) {
+				flags |= LOAD_FLAGS_BYPASS_CACHE;
+			}
+
+			/** @type {ChromeBrowser} */ (tab.webContents).reloadWithFlags(
+				flags
+			);
+		}
+	},
+
+	/**
 	 * Sets the initial metadata of a tab to avoid preloading
 	 * @param {BrowserTab} tab
 	 * @param {string} uri
