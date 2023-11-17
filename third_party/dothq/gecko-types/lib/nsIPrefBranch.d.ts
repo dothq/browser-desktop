@@ -20,6 +20,11 @@ export type PrefObserver =
 export type GetPref<T> = (prefName: string, defaultValue?: T) => T;
 export type SetPref<T> = (prefName: string, value?: T) => T;
 export type nsIPrefBranch = {
+    PREF_INVALID: 0;
+    PREF_STRING: 32;
+    PREF_INT: 64;
+    PREF_BOOL: 128;
+
 	clearUserPref: (prefName: string) => void;
 	getStringPref: GetPref<string>;
 	setStringPref: SetPref<string>;
@@ -30,6 +35,7 @@ export type nsIPrefBranch = {
 	getBoolPref: GetPref<boolean>;
 	setBoolPref: SetPref<boolean>;
 	lockPref: (prefName: string) => void;
+    getChildList: (startingAt: string) => string[];
 	addObserver: (
 		aDomain: string,
 		aObserver: PrefObserver,
@@ -41,4 +47,7 @@ export type nsIPrefBranch = {
 	) => void;
 	getDefaultBranch: (prefRoot: string) => nsIPrefBranch;
     prefHasUserValue: (prefName: string) => boolean;
+    getBranch: (prefRoot: string) => nsIPrefBranch;
+    getPrefType: (prefName: string) => number;
+    prefIsLocked: (prefName: string) => boolean;
 };
