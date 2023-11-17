@@ -23,18 +23,6 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 		super();
 	}
 
-	static get observedAttributes() {
-		return ["routine"];
-	}
-
-	/**
-	 * Determines whether keybindings should be show in tooltips
-	 * @type {boolean}
-	 */
-	get showKeybindings() {
-		return this.associatedAreaElement?.showKeybindings;
-	}
-
 	/**
 	 * The anatomy of the toolbar button
 	 *
@@ -111,44 +99,6 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	set label(newLabel) {
 		this.elements.label.textContent = newLabel;
 		this.title = newLabel;
-	}
-
-	/**
-	 * The browser-toolbar element for this toolbar button
-	 * @type {BrowserToolbar | null}
-	 */
-	get toolbar() {
-		return this.closest("browser-toolbar");
-	}
-
-	/**
-	 * The routine ID for this toolbar button
-	 * Used to determine what icon, label and action to use
-	 */
-	get routineId() {
-		return this.getAttribute("routine");
-	}
-
-	/**
-	 * Updates the routine ID of the toolbar button
-	 */
-	set routineId(newRoutine) {
-		if (newRoutine !== this.routineId) {
-			if (this.routineId) {
-				this.setAttribute("previousroutine", this.routineId);
-			}
-
-			this.setAttribute("routine", newRoutine);
-
-			this.handleRoutineUpdate();
-		}
-	}
-
-	/**
-	 * Gets the routine data using the routine ID attribute
-	 */
-	get routine() {
-		return gDotRoutines.getRoutineById(this.routineId);
 	}
 
 	/**
@@ -231,8 +181,10 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			return;
 		}
 
-		if (this.routine) {
-			this.routine.performRoutine(this.context);
+		if ("onClick" in this) {
+			/** @type {any} */ (this).onClick(event);
+		} else if ("handleEvent" in this) {
+			/** @type {any} */ (this).handleEvent(event);
 		}
 	}
 
@@ -262,17 +214,6 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.dispatchEvent(new CustomEvent(this.TB_MODIFIER_CHANGE_EVENT));
 	}
 
-	handleRoutineUpdate() {
-		const data = this.routine.getActionData({
-			keybindings: this.showKeybindings
-		});
-
-		this.label = data.label;
-		this.title = data.tooltip;
-		this.icon = data.icon;
-		this.disabled = data.disabled;
-	}
-
 	/** @type {IntersectionObserverCallback} */
 	_observeIntersections(intersections) {}
 
@@ -297,21 +238,6 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 
 		this.appendChild(this.elements.icon);
 		this.appendChild(this.elements.label);
-
-		if (this.routine) {
-			this.handleRoutineUpdate();
-		} else {
-			if (this.getAttribute("label")) {
-				this.label = this.getAttribute("label");
-				this.title = this.label;
-				this.removeAttribute("label");
-			}
-
-			if (this.getAttribute("icon")) {
-				this.icon = this.getAttribute("icon");
-				this.removeAttribute("icon");
-			}
-		}
 
 		this.addEventListener("click", this._handleTBClick.bind(this));
 		this.addEventListener("mouseover", this._handleTBMouse.bind(this));
