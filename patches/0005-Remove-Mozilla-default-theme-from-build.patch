@@ -1,0 +1,27 @@
+From 20b24f9639d06fa04daa31008420549f21dd9c65 Mon Sep 17 00:00:00 2001
+From: EnderDev <kieran@dothq.org>
+Date: Fri, 17 Nov 2023 19:35:54 +0000
+Subject: [PATCH] Remove Mozilla default theme from build
+
+---
+ toolkit/mozapps/extensions/jar.mn | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/toolkit/mozapps/extensions/jar.mn b/toolkit/mozapps/extensions/jar.mn
+index a881ed38437..7b30f085bec 100644
+--- a/toolkit/mozapps/extensions/jar.mn
++++ b/toolkit/mozapps/extensions/jar.mn
+@@ -19,7 +19,7 @@ toolkit.jar:
+   content/mozapps/extensions/shortcuts.js                       (content/shortcuts.js)
+   content/mozapps/extensions/view-controller.js                 (content/view-controller.js)
+ 
+-% resource default-theme %content/mozapps/extensions/default-theme/
+-  content/mozapps/extensions/default-theme                      (default-theme/*.svg)
+-  content/mozapps/extensions/default-theme/manifest.json        (default-theme/manifest.json)
++# % resource default-theme %content/mozapps/extensions/default-theme/
++#   content/mozapps/extensions/default-theme                      (default-theme/*.svg)
++#   content/mozapps/extensions/default-theme/manifest.json        (default-theme/manifest.json)
+ #endif
+-- 
+2.40.1
+

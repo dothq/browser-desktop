@@ -13,6 +13,7 @@ dot.jar:
   content/builtin-themes/light                     (light/*.css)
   content/builtin-themes/light/manifest.json       (light/manifest.json)
 
+toolkit.jar:
 % resource default-theme %content/mozapps/extensions/default-theme/
   content/mozapps/extensions/default-theme                      (system/*.svg)
   content/mozapps/extensions/default-theme/manifest.json        (system/manifest.json)
