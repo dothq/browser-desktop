@@ -30,7 +30,7 @@ var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
 
-class BrowserApplication extends MozHTMLElement {
+class BrowserApplication extends BrowserCustomizableArea {
 	constructor() {
 		super();
 	}
@@ -85,16 +85,7 @@ class BrowserApplication extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
-
-		this.attachShadow({ mode: "open" });
-
-		this.shadowRoot.appendChild(
-			html("link", {
-				rel: "stylesheet",
-				href: "chrome://dot/skin/browser.css"
-			})
-		);
+		super.connect("root");
 	}
 
 	/**
@@ -109,8 +100,6 @@ class BrowserApplication extends MozHTMLElement {
 		this.tabs = new BrowserTabs(window);
 		this.search = new BrowserSearch(window);
 		this.shortcuts = new BrowserShortcuts(window);
-
-		gDotRoutines.init();
 
 		// Listens for changes to the reduced motion preference
 		window
