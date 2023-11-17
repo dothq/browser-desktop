@@ -85,7 +85,9 @@ class BrowserApplication extends BrowserCustomizableArea {
 	}
 
 	connectedCallback() {
-		super.connect("root");
+		super.connect("root", {
+			orientation: "vertical"
+		});
 	}
 
 	/**
