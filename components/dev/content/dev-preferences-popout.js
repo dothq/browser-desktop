@@ -44,7 +44,18 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		}
 	}
 
-	getPrefAttributes(prefId) {
+	getInputTypeForType(type) {
+		switch (type) {
+			case "string":
+				return "text";
+			case "boolean":
+				return "checkbox";
+			default:
+				return type;
+		}
+	}
+
+	getPrefAttributes(prefId, defaultValue = null) {
 		let attributes = {
 			value: null,
 			type: null,
@@ -59,23 +70,27 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		switch (prefTypeInt) {
 			case PREF_BOOL:
 				attributes.type = "boolean";
-				attributes.inputType = "checkbox";
 				attributes.value = Services.prefs.getBoolPref(prefId);
 				break;
 			case PREF_INT:
 				attributes.type = "number";
-				attributes.inputType = "number";
 				attributes.value = Services.prefs.getIntPref(prefId);
 				break;
 		}
 
 		if (!attributes.type) {
-			try {
-				attributes.type = "string";
-				attributes.inputType = "text";
-				attributes.value = Services.prefs.getStringPref(prefId);
-			} catch (e) {}
+			if (typeof defaultValue !== "undefined") {
+				attributes.type = typeof defaultValue;
+				attributes.value = defaultValue;
+			} else {
+				try {
+					attributes.type = "string";
+					attributes.value = Services.prefs.getStringPref(prefId);
+				} catch (e) {}
+			}
 		}
+
+		attributes.inputType = this.getInputTypeForType(attributes.type);
 
 		return attributes;
 	}
@@ -92,7 +107,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 			return;
 		}
 
-		const prefAttributes = this.getPrefAttributes(prefId);
+		const prefAttributes = this.getPrefAttributes(prefId, defaultValue);
 
 		const handleEl = html("div", { class: "dev-preference-handle" });
 
@@ -218,6 +233,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		// Preference handles:
 		this.registerHandle("dot.window.use-native-titlebar", false);
 		this.registerHandle("dot.tabs.debug_information.visible", false);
+		this.registerHandle("dot.customizable.debug_context.enabled", false);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}
