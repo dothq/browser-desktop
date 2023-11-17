@@ -16,76 +16,11 @@
 function BrowserContextualMixin(BaseClass) {
 	const BrowserContextualElement = class extends BaseClass {
 		/**
-		 * Button handler context
+		 * The host element for this element
+		 * @type {Element}
 		 */
-		get context() {
-			const area = this.associatedArea
-				? { [this.associatedArea]: this.associatedAreaElement }
-				: {};
-
-			return gDotCommands.createContext({
-				...area,
-				...(this.contextOverrides || {}),
-				win: window
-			});
-		}
-
-		/**
-		 * The associated area ID for this toolbar button
-		 */
-		get associatedArea() {
-			return this.associatedAreaElement?.getAttribute("name");
-		}
-
-		/**
-		 * The associated area element for this toolbar button
-		 * @returns {BrowserCustomizableArea}
-		 */
-		get associatedAreaElement() {
-			return /** @type {ShadowRoot} */ (this.getRootNode()).host?.closest(
-				".customizable-area"
-			);
-		}
-
-		/**
-		 * Overrides to be passed to the routine on command
-		 * @type {Partial<ReturnType<typeof gDotCommands.createContext>>}
-		 */
-		get contextOverrides() {
-			return null;
-		}
-
-		/**
-		 * Returns an object of all set arguments
-		 * @returns {Record<string, any>}
-		 */
-		getArguments() {
-			const args = {};
-
-			for (const attr of this.attributes) {
-				if (attr.name.startsWith("customizablearg")) {
-					args[attr.name] = attr.value;
-				}
-			}
-
-			return args;
-		}
-
-		/**
-		 * Gets a single argument from the widget's element
-		 * @param {string} name
-		 */
-		getArgument(name) {
-			return this.getAttribute(`customizablearg-${name}`);
-		}
-
-		/**
-		 * Sets an argument to the widget's element
-		 * @param {string} name
-		 * @param {any} value
-		 */
-		setArgument(name, value) {
-			this.setAttribute(`customizablearg-${name}`, value);
+		get host() {
+			return /** @type {ShadowRoot} */ (this.getRootNode()).host;
 		}
 	};
 
