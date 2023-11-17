@@ -25,9 +25,9 @@ class BrowserTabLabel extends BrowserContextualMixin(HTMLElement) {
 				this.updateLabel();
 				break;
 			case "BrowserTabs::BrowserTitleChanged":
-				if (event.detail.tab === this.context.tab) {
-					this.updateLabel();
-				}
+			// if (event.detail.tab === this.context.tab) {
+			// 	this.updateLabel();
+			// }
 		}
 	}
 
@@ -35,11 +35,10 @@ class BrowserTabLabel extends BrowserContextualMixin(HTMLElement) {
 	 * Updates the tab's label
 	 */
 	updateLabel() {
-		const newLabel = this.context.tab?.getAttribute("label");
-
-		if (this.textEl.textContent !== newLabel) {
-			this.textEl.textContent = newLabel;
-		}
+		// const newLabel = this.context.tab?.getAttribute("label");
+		// if (this.textEl.textContent !== newLabel) {
+		// 	this.textEl.textContent = newLabel;
+		// }
 	}
 
 	connectedCallback() {
@@ -49,9 +48,9 @@ class BrowserTabLabel extends BrowserContextualMixin(HTMLElement) {
 		window.addEventListener("BrowserTabs::LocationChange", this);
 		window.addEventListener("BrowserTabs::BrowserTitleChanged", this);
 
-		if (this.context.tab) {
-			this.updateLabel();
-		}
+		// if (this.context.tab) {
+		// 	this.updateLabel();
+		// }
 	}
 
 	disconnectedCallback() {

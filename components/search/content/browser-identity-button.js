@@ -45,12 +45,12 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		switch (event.type) {
 			case "BrowserTabs::TabIdentityChanged":
 				{
-					if (
-						this.associatedArea == "addressbar" &&
-						event.detail.tab === this.context.tab
-					) {
-						this._onTabIdentityChanged(event.detail);
-					}
+					// if (
+					// 	this.associatedArea == "addressbar" &&
+					// 	event.detail.tab === this.context.tab
+					// ) {
+					// 	this._onTabIdentityChanged(event.detail);
+					// }
 				}
 				break;
 		}
@@ -61,9 +61,9 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 
 		window.addEventListener("BrowserTabs::TabIdentityChanged", this);
 
-		if (this.context.tab) {
-			this.context.tab.siteIdentity.update(true);
-		}
+		// if (this.context.tab) {
+		// 	this.context.tab.siteIdentity.update(true);
+		// }
 	}
 
 	disconnectedCallback() {

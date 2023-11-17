@@ -10,9 +10,9 @@ class BrowserCustomToolbarButton extends BrowserToolbarButton {
 	}
 
 	update() {
-		this.label = this.getArgument("label") || "Button";
-		this.icon = this.getArgument("icon") || "info";
-		this.mode = this.getArgument("mode") || "";
+		// this.label = this.getArgument("label") || "Button";
+		// this.icon = this.getArgument("icon") || "info";
+		// this.mode = this.getArgument("mode") || "";
 	}
 
 	connectedCallback() {
