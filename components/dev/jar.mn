@@ -15,4 +15,7 @@ dot.jar:
     content/widgets/dev-preferences-popout.js        (content/dev-preferences-popout.js)
     content/widgets/dev-preferences-popout.css       (content/dev-preferences-popout.css)
 
+    content/widgets/dev-customizable-area-context.js (content/dev-customizable-area-context.js)
+    content/widgets/dev-customizable-area-context.css (content/dev-customizable-area-context.css)
+
     content/dev-debug-popout.xhtml                   (content/dev-debug-popout.xhtml)

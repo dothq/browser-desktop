@@ -16,6 +16,12 @@ class BrowserCustomizableArea extends MozHTMLElement {
 				href: "chrome://dot/skin/browser.css"
 			})
 		);
+
+		window.addEventListener(
+			"DOMContentLoaded",
+			this.maybeShowDebug.bind(this),
+			{ once: true }
+		);
 	}
 
 	/**
@@ -126,13 +132,16 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		this.toggleAttribute("accent", toggled);
 	}
 
+	/**
+	 * The container where customizable elements will be rendered to
+	 */
 	get customizableContainer() {
-		return (
-			this.shadowRoot.querySelector(".customizable-container") ||
-			html("div", {
-				class: "customizable-container",
-				part: "customizable"
-			})
+		return /** @type {HTMLDivElement} */ (
+			this.shadowRoot.querySelector(`[part="customizable"]`) ||
+				html("div", {
+					class: "customizable-container",
+					part: "customizable"
+				})
 		);
 	}
 
@@ -144,17 +153,50 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		return true;
 	}
 
+	maybeShowDebug() {
+		console.log(
+			"rechecking for",
+			this,
+			Services.prefs.getBoolPref(
+				"dot.customizable.debug_context.enabled",
+				false
+			)
+		);
+
+		this.shadowRoot
+			.querySelector("dev-customizable-area-context")
+			?.remove();
+
+		if (
+			Services.prefs.getBoolPref(
+				"dot.customizable.debug_context.enabled",
+				false
+			)
+		) {
+			this.shadowRoot.appendChild(html("dev-customizable-area-context"));
+		}
+	}
+
 	/**
 	 * Connect this customizable area to a configuration
 	 * @param {string} name - The name of this area - used to identify this area so it must be unique
 	 * @param {object} [options]
 	 * @param {boolean} [options.showKeybindings] - Determines whether keybindings should be shown in widgets
+	 * @param {"horizontal" | "vertical"} [options.orientation] - The default orientation of this area
 	 */
 	connect(name, options) {
 		this.name = name;
 		this.showKeybindings = options?.showKeybindings;
+		this.orientation = options?.orientation || "horizontal";
 
 		this.classList.add("customizable-area");
+
+		Services.prefs.addObserver(
+			"dot.customizable.debug_context.enabled",
+			this.maybeShowDebug.bind(this)
+		);
+
+		this.maybeShowDebug();
 	}
 }
 

@@ -51,7 +51,9 @@ if (!AppConstants.MOZILLA_OFFICIAL) {
 		"dev-debug-panel": "chrome://dot/content/widgets/dev-debug-panel.js",
 		"dev-debug-graph": "chrome://dot/content/widgets/dev-debug-graph.js",
 		"dev-preferences-popout":
-			"chrome://dot/content/widgets/dev-preferences-popout.js"
+			"chrome://dot/content/widgets/dev-preferences-popout.js",
+		"dev-customizable-area-context":
+			"chrome://dot/content/widgets/dev-customizable-area-context.js"
 	};
 }
 
