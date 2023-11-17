@@ -89,7 +89,6 @@ declare global {
 		STATE_FULLSCREEN: 4;
 		windowState: number;
 		gDotInit: typeof gDotInit;
-		gDotCommands: typeof gDotCommands;
 		mozInnerScreenX: number;
 		mozInnerScreenY: number;
 		windowRoot: Gecko.WindowRoot;
