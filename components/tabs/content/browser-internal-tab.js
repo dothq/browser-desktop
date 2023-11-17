@@ -92,6 +92,19 @@ class BrowserTab extends MozElements.MozTab {
 		return parseInt(this.webContents.id);
 	}
 
+	/**
+	 * The linked browser of this tab
+	 *
+	 * @returns {ChromeBrowser}
+	 */
+	get linkedBrowser() {
+		if (!gDot.tabs._isWebContentsBrowserElement(this.webContents)) {
+			return document.createXULElement("browser");
+		}
+
+		return /** @type {ChromeBrowser} */ (this.webContents);
+	}
+
 	_pinned = false;
 	get pinned() {
 		return this._pinned;
