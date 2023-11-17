@@ -20,6 +20,25 @@ const DevelopmentHelpers = {
 				null
 			);
 		}
+
+		window.addEventListener("keydown", (e) => {
+			if (e.ctrlKey && e.altKey && e.shiftKey && e.code == "KeyD") {
+				if (
+					document.documentElement.querySelector(
+						"dev-preferences-popout"
+					)
+				) {
+					document.documentElement
+						.querySelector("dev-preferences-popout")
+						.remove();
+					return;
+				}
+
+				document.documentElement.appendChild(
+					document.createElement("dev-preferences-popout")
+				);
+			}
+		});
 	}
 };
 

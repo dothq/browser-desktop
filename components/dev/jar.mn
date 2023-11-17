@@ -12,4 +12,7 @@ dot.jar:
     content/widgets/dev-debug-graph.js               (content/dev-debug-graph.js)
     content/widgets/dev-debug-graph.css              (content/dev-debug-graph.css)
 
+    content/widgets/dev-preferences-popout.js        (content/dev-preferences-popout.js)
+    content/widgets/dev-preferences-popout.css       (content/dev-preferences-popout.css)
+
     content/dev-debug-popout.xhtml                   (content/dev-debug-popout.xhtml)

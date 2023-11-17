@@ -1,0 +1,48 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+dev-preferences-popout {
+    border-top: 2px solid black;
+    color: black;
+    background-color: #d5d5d5;
+
+    font-size: 14px;
+
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+
+    color-scheme: light;
+}
+
+dev-preferences-popout strong {
+    font-size: 16px;
+}
+
+dev-preferences-popout .dev-preference-handles {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 16px;
+}
+
+dev-preferences-popout .dev-preference-handle {
+    display: flex;
+    gap: 4px;
+}
+
+dev-preferences-popout .dev-preference-handle label {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+dev-preferences-popout .dev-preference-handle label:hover {
+    color: black;
+}
+
+dev-preferences-popout::part(end) {
+    display: flex;
+    gap: 4px;
+}

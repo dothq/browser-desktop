@@ -49,7 +49,9 @@ if (!AppConstants.MOZILLA_OFFICIAL) {
 	elements = {
 		...elements,
 		"dev-debug-panel": "chrome://dot/content/widgets/dev-debug-panel.js",
-		"dev-debug-graph": "chrome://dot/content/widgets/dev-debug-graph.js"
+		"dev-debug-graph": "chrome://dot/content/widgets/dev-debug-graph.js",
+		"dev-preferences-popout":
+			"chrome://dot/content/widgets/dev-preferences-popout.js"
 	};
 }
 
