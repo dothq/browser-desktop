@@ -156,10 +156,6 @@ class BrowserCustomizableArea extends MozHTMLElement {
 
 		this.classList.add("customizable-area");
 	}
-
-	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
-	}
 }
 
 customElements.define("browser-customizable-area", BrowserCustomizableArea);
