@@ -16,7 +16,6 @@ class BrowserReloadButton extends BrowserToolbarButton {
 	constructor() {
 		super();
 
-		this.routineId = "reload-page";
 		this.buttonId = "reload-button";
 	}
 
@@ -28,20 +27,16 @@ class BrowserReloadButton extends BrowserToolbarButton {
 	connectedCallback() {
 		super.connectedCallback();
 
+		this.icon = "reload";
+		this.label = "Reload";
+
 		window.addEventListener(
 			"BrowserTabs::BrowserStateChange",
 			this.handleEvent.bind(this)
 		);
 	}
 
-	getRoutineId() {
-		if (this.isLoading) {
-			return "stop-page";
-		}
-
-		const id = this.shiftKey ? "reload-page-bypass-cache" : "reload-page";
-		return id;
-	}
+	onClick() {}
 
 	/**
 	 * Fired when the state changes a browser
@@ -62,15 +57,6 @@ class BrowserReloadButton extends BrowserToolbarButton {
 			BrowserTabsUtils.shouldShowProgress(
 				/** @type {nsIChannel} */ (request)
 			);
-
-		this.routineId = this.getRoutineId();
-	}
-
-	/**
-	 * Handles changes to the modifier keys
-	 */
-	handleModifierChangeEvent() {
-		this.routineId = this.getRoutineId();
 	}
 
 	/**
@@ -80,9 +66,10 @@ class BrowserReloadButton extends BrowserToolbarButton {
 	handleEvent(event) {
 		switch (event.type) {
 			case "BrowserTabs::BrowserStateChange": {
-				if (event.detail.browser !== this.context.browser) return;
+				// if (event.detail.browser !== this.invokeContext().browser)
+				// 	return;
 
-				this.onStateChanged(event.detail);
+				// this.onStateChanged(event.detail);
 				break;
 			}
 		}
