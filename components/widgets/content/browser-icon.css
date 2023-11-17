@@ -160,6 +160,10 @@ browser-icon[name="info"] {
     --src: url(chrome://dot/skin/info.svg);
 }
 
+browser-icon[name="inspect"] {
+    --src: url(chrome://dot/skin/inspect.svg);
+}
+
 browser-icon[name="jigsaw"] {
     --src: url(chrome://dot/skin/jigsaw.svg);
 }
