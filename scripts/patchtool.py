@@ -224,7 +224,7 @@ def export_patch():
 
     if code == 0:
         try:
-            next_patch_num = len([x for x in os.listdir(patches_dir) if x.endswith(".patch")][-1].split("-")[0]) + 1
+            next_patch_num = len([x for x in os.listdir("./patches/") if x.endswith(".patch")]) + 1
 
             patch_code = subprocess.run([
                 "git", 
