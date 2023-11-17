@@ -9,7 +9,7 @@ browser-toolbar {
     background-color: transparent;
     color: var(--lwt-text-color);
 
-    --padding-x: 4px;
+    --padding: 4px;
 
     -moz-window-dragging: drag;
 
@@ -50,21 +50,26 @@ browser-toolbar[collapse] {
     browser-toolbar:not([initial])::before {
         content: "";
         position: absolute;
-        width: calc(100% + var(--padding-x));
+        width: calc(100% + var(--padding));
         height: 1px;
         background-color: color-mix(in srgb, currentColor 75%, transparent 100%);
-        left: calc(0px - var(--padding-x));
+        left: calc(0px - var(--padding));
     }
 }
 
 :host(browser-toolbar) .customizable-container {
     display: flex;
+    align-items: center;
     flex: 1;
-    padding-inline: var(--padding-x);
 }
 
-:host(browser-toolbar) .customizable-container {
-    align-items: center;
+:host(browser-toolbar[orientation=horizontal]) .customizable-container {
+    padding-inline: var(--padding);
+}
+
+
+:host(browser-toolbar[orientation=vertical]) .customizable-container {
+    padding-block: var(--padding);
 }
 
 /* :host(browser-toolbar[initial]) .customizable-container {

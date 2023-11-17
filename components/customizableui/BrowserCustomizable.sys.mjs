@@ -79,14 +79,15 @@ BrowserCustomizable.prototype = {
 				this.state.state
 			);
 
-			this.renderRoot.shadowRoot.replaceChildren();
+			this.renderRoot.shadowRoot
+				.querySelector(`[part="customizable"]`)
+				.replaceChildren();
 
 			this._root = rootElement;
 
-			this.renderRoot.shadowRoot.append(
-				...this.internal.customizableStylesheets,
-				this._root
-			);
+			this.renderRoot.shadowRoot
+				.querySelector(`[part="customizable"]`)
+				.append(this._root);
 		} catch (e) {
 			throw new Error("Failure registering root component:\n" + e);
 		}

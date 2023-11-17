@@ -140,19 +140,6 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
-	 * Stylesheets for the customizable root
-	 */
-	get customizableStylesheets() {
-		return ["chrome://dot/skin/browser.css"].map((sheet) => {
-			const stylesheet = this.win.document.createElement("link");
-			stylesheet.setAttribute("rel", "stylesheet");
-			stylesheet.setAttribute("href", sheet);
-
-			return stylesheet;
-		});
-	},
-
-	/**
 	 * Connects attributes up to a customizable component
 	 * @param {Element} element
 	 * @param {CustomizableComponentDefinition[1]} attributes
@@ -254,13 +241,21 @@ BrowserCustomizableInternal.prototype = {
 						childComponent
 					)
 				) {
-					const { shadowRoot } = parentElement;
+					const customizableContainer =
+						/** @type {BrowserCustomizableArea} */ (parentElement)
+							.customizableContainer;
 
-					const whereToAppend =
-						shadowRoot.querySelector(`[part="customizable"]`) ||
-						shadowRoot;
+					if (
+						!parentElement.shadowRoot.contains(
+							customizableContainer
+						)
+					) {
+						throw new Error(
+							`No 'customizable' part available to render children to.`
+						);
+					}
 
-					whereToAppend.appendChild(childComponent);
+					customizableContainer.appendChild(childComponent);
 				}
 			}
 		} else {

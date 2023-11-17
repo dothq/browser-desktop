@@ -6,16 +6,15 @@
     position: relative;
 }
 
-:host(.customizable-area) .customizable-container {
+.customizable-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     flex: 1;
-    gap: 4px;
     max-width: 100%;
     overflow: hidden;
 }
 
 :host(.customizable-area[orientation=vertical]) .customizable-container {
-    flex-direction: column;
+    flex-direction: column !important;
 }
