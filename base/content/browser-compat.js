@@ -24,6 +24,10 @@ var gBrowser = {
 		return gDot.tabs.visibleTabs;
 	},
 
+	get browsers() {
+		return gDot.tabs.list.map((t) => t.linkedBrowser);
+	},
+
 	get currentURI() {
 		if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
 			return Services.io.newURI("about:blank");
@@ -37,7 +41,8 @@ var gBrowser = {
 			return null;
 		}
 
-		return /** @type {ChromeBrowser} */ (this.selectedBrowser).contentPrincipal;
+		return /** @type {ChromeBrowser} */ (this.selectedBrowser)
+			.contentPrincipal;
 	},
 
 	get selectedTab() {
@@ -58,6 +63,12 @@ var gBrowser = {
 
 	get ownerDocument() {
 		return document;
+	},
+
+	_tabContainerEl: document.createElement("div"),
+
+	get tabContainer() {
+		return this._tabContainerEl;
 	},
 
 	/**
@@ -85,7 +96,23 @@ var gBrowser = {
 	addTab(uri, options) {
 		return gDot.tabs.createTab({
 			...options,
-			uri,
+			uri
 		});
 	},
+
+	_initCompat() {
+		window.addEventListener("BrowserTabs::TabSelect", () => {
+			const event = new CustomEvent("TabSelect", {
+				bubbles: true,
+				cancelable: false,
+				detail: {}
+			});
+
+			this._tabContainerEl.dispatchEvent(event);
+		});
+	}
 };
+
+window.addEventListener("load", gBrowser._initCompat.bind(this), {
+	once: true
+});
