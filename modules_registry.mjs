@@ -10,6 +10,17 @@ const registry = {
 
 	DotWindowTracker: "modules/DotWindowTracker.sys.mjs",
 
+	Action: "components/actions/Action.sys.mjs",
+	ActionRegistry: "components/actions/ActionRegistry.sys.mjs",
+	ActionsDispatcher: "components/actions/ActionsDispatcher.sys.mjs",
+	ActionsIPC: "components/actions/ActionsIPC.sys.mjs",
+	ActionsReceiver: "components/actions/ActionsReceiver.sys.mjs",
+	BrowserActions: "components/actions/BrowserActions.sys.mjs",
+
+	BrowserCommands: "components/commands/BrowserCommands.sys.mjs",
+	Command: "components/commands/Command.sys.mjs",
+	CommandSubscription: "components/commands/CommandSubscription.sys.mjs",
+
 	BrowserCompatibility: "components/compat/BrowserCompatibility.sys.mjs",
 
 	BrowserCustomizable:
