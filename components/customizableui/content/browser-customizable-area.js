@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { ActionsReceiver } = ChromeUtils.importESModule(
+	"resource://gre/modules/ActionsReceiver.sys.mjs"
+);
+
 class BrowserCustomizableArea extends MozHTMLElement {
 	constructor() {
 		super();
@@ -23,6 +27,12 @@ class BrowserCustomizableArea extends MozHTMLElement {
 			{ once: true }
 		);
 	}
+
+	/**
+	 * The actions receiver instance
+	 * @type {typeof ActionsReceiver.prototype}
+	 */
+	actionsReceiver = null;
 
 	/**
 	 * Determines which attributes should be persisted and stored to preferences
@@ -146,6 +156,40 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
+	 * The associated context for this area
+	 *
+	 * @typedef {object} CustomizableAreaContext
+	 * @property {string} audience - The audience of this area's context
+	 * @property {BrowserTab} tab - The tab associated with this area
+	 * @property {ChromeBrowser} browser - The browser associated with this area
+	 * @property {Window} window - The window associated with this area
+	 * @returns {CustomizableAreaContext}
+	 */
+	get context() {
+		const areaHost = /** @type {BrowserCustomizableArea} */ (
+			/** @type {ShadowRoot} */ (this.getRootNode()).host
+		);
+
+		if (!(areaHost instanceof BrowserCustomizableArea)) {
+			throw new Error(
+				`BrowserCustomizableArea (${
+					this.tagName
+				}): Area host is not a customizable area instance, got '${
+					/** @type {any} */ (areaHost).constructor.name
+				}' instead!`
+			);
+		}
+
+		if (!areaHost.context) {
+			throw new Error(
+				`${this.constructor.name} (${this.tagName}): No context available for this area!`
+			);
+		}
+
+		return areaHost.context;
+	}
+
+	/**
 	 * Determines whether a child can be appended to this customizable area
 	 * @param {Element} node
 	 */
@@ -197,6 +241,8 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		);
 
 		this.maybeShowDebug();
+
+		this.actionsReceiver = new ActionsReceiver(this);
 	}
 }
 

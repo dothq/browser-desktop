@@ -354,6 +354,29 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		});
 	}
 
+	/**
+	 * The context for this tab
+	 */
+	get context() {
+		const self = this;
+
+		return {
+			audience: "tab",
+
+			get window() {
+				return self.ownerGlobal;
+			},
+
+			get tab() {
+				return self.linkedTab;
+			},
+
+			get browser() {
+				return this.tab.linkedBrowser;
+			}
+		};
+	}
+
 	connectedCallback() {
 		super.connect("tab", {
 			showKeybindings: false

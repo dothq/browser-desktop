@@ -26,6 +26,14 @@ var { BrowserShortcuts } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserShortcuts.sys.mjs"
 );
 
+var { BrowserCommands } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserCommands.sys.mjs"
+);
+
+var { BrowserActions } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserActions.sys.mjs"
+);
+
 var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
@@ -48,6 +56,12 @@ class BrowserApplication extends BrowserCustomizableArea {
 
 	/** @type {typeof BrowserShortcuts.prototype} */
 	shortcuts = null;
+
+	/** @type {typeof BrowserCommands.prototype} */
+	commands = null;
+
+	/** @type {typeof BrowserActions.prototype} */
+	actions = null;
 
 	/**
 	 * Determines whether the browser session supports multiple processes
@@ -91,6 +105,29 @@ class BrowserApplication extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The context for the entire browser application
+	 */
+	get context() {
+		const self = this;
+
+		return {
+			audience: "root",
+
+			get window() {
+				return self.ownerGlobal;
+			},
+
+			get tab() {
+				return self.tabs.selectedTab;
+			},
+
+			get browser() {
+				return this.tab.linkedBrowser;
+			}
+		};
+	}
+
+	/**
 	 * Initialises the browser and its components
 	 */
 	init() {
@@ -102,6 +139,8 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.tabs = new BrowserTabs(window);
 		this.search = new BrowserSearch(window);
 		this.shortcuts = new BrowserShortcuts(window);
+		this.commands = new BrowserCommands(window);
+		this.actions = new BrowserActions(this);
 
 		// Listens for changes to the reduced motion preference
 		window

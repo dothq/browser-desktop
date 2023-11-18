@@ -17,10 +17,19 @@ function BrowserContextualMixin(BaseClass) {
 	const BrowserContextualElement = class extends BaseClass {
 		/**
 		 * The host element for this element
-		 * @type {Element}
+		 * @type {BrowserCustomizableArea}
 		 */
 		get host() {
-			return /** @type {ShadowRoot} */ (this.getRootNode()).host;
+			return /** @type {BrowserCustomizableArea} */ (
+				/** @type {ShadowRoot} */ (this.getRootNode()).host
+			);
+		}
+
+		/**
+		 * The context object from the host element
+		 */
+		get hostContext() {
+			return this.host.context;
 		}
 	};
 
