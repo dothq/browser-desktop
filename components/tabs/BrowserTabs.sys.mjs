@@ -698,6 +698,26 @@ BrowserTabs.prototype = {
 	},
 
 	/**
+	 * Goes back for a tab
+	 * @param {BrowserTab} tab
+	 */
+	goBack(tab) {
+		if (this._isWebContentsBrowserElement(tab.webContents)) {
+			/** @type {ChromeBrowser} */ (tab.webContents).goBack();
+		}
+	},
+
+	/**
+	 * Goes forward for a tab
+	 * @param {BrowserTab} tab
+	 */
+	goForward(tab) {
+		if (this._isWebContentsBrowserElement(tab.webContents)) {
+			/** @type {ChromeBrowser} */ (tab.webContents).goForward();
+		}
+	},
+
+	/**
 	 * Sets the initial metadata of a tab to avoid preloading
 	 * @param {BrowserTab} tab
 	 * @param {string} uri

@@ -9,5 +9,6 @@ JAR_MANIFESTS += ["jar.mn"]
 EXTRA_JS_MODULES += [
     "BrowserCommands.sys.mjs",
     "Command.sys.mjs",
-    "CommandSubscription.sys.mjs"
+    "CommandSubscription.sys.mjs",
+    "TabCommand.sys.mjs"
 ]
