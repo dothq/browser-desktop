@@ -27,7 +27,7 @@ export class BrowserTabsStopPageAction extends Action {
 
 	/**
 	 * Performs this action
-	 * @param {ActionDispatchEvent<{ tab: BrowserTab; bypassCache?: boolean; }>} event
+	 * @param {ActionDispatchEvent<{ tab: BrowserTab }>} event
 	 */
 	run(event) {
 		const { args } = event.detail;
