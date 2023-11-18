@@ -13,6 +13,7 @@ export class GoBackCommand extends TabCommand {
 		this.label = "Back";
 		this.label_auxiliary = "Go backwards one page";
 		this.icon = "arrow-left";
+		this.disabled = !this.context.browser.canGoBack;
 	}
 
 	/**

@@ -13,6 +13,7 @@ export class GoForwardCommand extends TabCommand {
 		this.label = "Forward";
 		this.label_auxiliary = "Go forwards one page";
 		this.icon = "arrow-right";
+		this.disabled = !this.context.browser.canGoForward;
 	}
 
 	/**
