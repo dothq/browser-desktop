@@ -61,6 +61,7 @@ browser-toolbar[collapse] {
     display: flex;
     align-items: center;
     flex: 1;
+    gap: 4px;
 }
 
 :host(browser-toolbar[orientation=horizontal]) .customizable-container {
