@@ -34,6 +34,8 @@ class nsIXULBrowserWindow {
 	// with the the HTTPS-Only Mode error page (more details in bug 1656027)
 	_isSecureContext = null;
 
+	_overlinkInt;
+
 	QueryInterface = ChromeUtils.generateQI([
 		"nsIWebProgressListener",
 		"nsIWebProgressListener2",
@@ -63,6 +65,8 @@ class nsIXULBrowserWindow {
 	 * @param {string} url
 	 */
 	setOverLink(url) {
+		clearTimeout(this._overlinkInt);
+
 		let overURL = url;
 
 		if (url) {
@@ -80,16 +84,18 @@ class nsIXULBrowserWindow {
 			}
 		}
 
-		this.overLink = overURL;
+		this._overlinkInt = setTimeout(() => {
+			this.overLink = overURL;
 
-		const evt = new CustomEvent("BrowserTabs::BrowserStatusChange", {
-			detail: {
-				message: overURL,
-				type: "overLink"
-			}
-		});
+			const evt = new CustomEvent("BrowserTabs::BrowserStatusChange", {
+				detail: {
+					message: overURL,
+					type: "overLink"
+				}
+			});
 
-		gDot.tabs.hoveredBrowser?.dispatchEvent(evt);
+			gDot.tabs.hoveredBrowser?.dispatchEvent(evt);
+		}, 100);
 	}
 
 	/**
