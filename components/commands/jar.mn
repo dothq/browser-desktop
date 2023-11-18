@@ -6,4 +6,4 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-    content/commands/reload-tab.js                  (content/reload-tab.js)
+    content/commands/                  (content/*)
