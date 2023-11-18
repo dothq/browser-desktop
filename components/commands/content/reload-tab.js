@@ -2,29 +2,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { Command } = ChromeUtils.importESModule(
-	"resource://gre/modules/Command.sys.mjs"
+const { TabCommand } = ChromeUtils.importESModule(
+	"resource://gre/modules/TabCommand.sys.mjs"
 );
 
 var { BrowserTabsUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
 );
 
-export class ReloadTabCommand extends Command {
+export class ReloadTabCommand extends TabCommand {
 	constructor(subscription, area) {
 		super(subscription, area);
 
 		this.label = "Reload";
 		this.icon = "reload";
-
-		this.context.window.addEventListener(
-			"BrowserTabs::BrowserStateChange",
-			this,
-			{ signal: this.abortController.signal }
-		);
-		this.context.window.addEventListener("BrowserTabs::TabSelect", this, {
-			signal: this.abortController.signal
-		});
 	}
 
 	_reloadTimer = null;
@@ -35,12 +26,16 @@ export class ReloadTabCommand extends Command {
 	 * @param {{ bypassCache?: boolean }} args
 	 */
 	run(args) {
-		this.actions.run(
-			this.isLoading
-				? "browser.tabs.stop_page"
-				: "browser.tabs.reload_page",
-			{ tab: this.context.tab, bypassCache: args?.bypassCache }
-		);
+		const actionId = this.isLoading
+			? "browser.tabs.stop_page"
+			: "browser.tabs.reload_page";
+
+		this.reloadClicked = actionId == "browser.tabs.reload_page";
+
+		this.actions.run(actionId, {
+			tab: this.context.tab,
+			bypassCache: args?.bypassCache
+		});
 	}
 
 	/**
@@ -52,7 +47,13 @@ export class ReloadTabCommand extends Command {
 	 * @param {number} data.stateFlags
 	 * @param {string} data.status
 	 */
-	onStateChanged({ browser, webProgress, request, stateFlags, status }) {
+	onContextualBrowserStateChanged({
+		browser,
+		webProgress,
+		request,
+		stateFlags,
+		status
+	}) {
 		if (browser != this.context.browser) return;
 
 		const { STATE_START, STATE_IS_NETWORK, STATE_STOP } =
@@ -84,6 +85,7 @@ export class ReloadTabCommand extends Command {
 
 		// Only runs when the browser has successfully finished loaded the document
 		if (
+			this.reloadClicked &&
 			isTopLevel &&
 			stateFlags & STATE_STOP &&
 			stateFlags & STATE_IS_NETWORK &&
@@ -93,25 +95,12 @@ export class ReloadTabCommand extends Command {
 		) {
 			// Prevent accidental clicks to reload the page
 			// after we have swapped from the stop state
-
+			this.reloadClicked = false;
 			this.disabled = true;
 
 			this._reloadTimer = this.window.setTimeout(() => {
 				this.disabled = false;
 			}, 650);
-		}
-	}
-
-	/**
-	 * Handles incoming events to the command
-	 * @param {Event} event
-	 */
-	handleEvent(event) {
-		switch (event.type) {
-			case "BrowserTabs::BrowserStateChange":
-			case "BrowserTabs::TabSelect":
-				this.onStateChanged(/** @type {CustomEvent} */ (event).detail);
-				break;
 		}
 	}
 }
