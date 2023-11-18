@@ -9,48 +9,18 @@
 			constructor() {
 				super();
 
-				this.routineId =
+				this.buttonId =
 					direction === "back" ? "navigate-back" : "navigate-forward";
+				this.commandId =
+					direction === "back" ? "go-back" : "go-forward";
 			}
 
 			connectedCallback() {
 				super.connectedCallback();
-
-				window.addEventListener("BrowserTabs::TabSelect", this);
-				window.addEventListener("BrowserTabs::LocationChange", this);
-				window.addEventListener("load", this);
-
-				this.disabled = true;
-			}
-
-			/**
-			 * Handles incoming events
-			 * @param {Event & CustomEvent} event
-			 * @returns
-			 */
-			handleEvent(event) {
-				switch (event.type) {
-					case "load":
-					case "BrowserTabs::LocationChange":
-					case "BrowserTabs::TabSelect":
-					// if (!this.context.browser) return;
-
-					// if (direction === "back") {
-					// 	this.disabled = !this.context.browser.canGoBack;
-					// } else if (direction === "forward") {
-					// 	this.disabled = !this.context.browser.canGoForward;
-					// }
-
-					// break;
-				}
 			}
 
 			disconnectedCallback() {
 				super.disconnectedCallback();
-
-				window.removeEventListener("BrowserTabs::TabSelect", this);
-				window.removeEventListener("BrowserTabs::LocationChange", this);
-				window.removeEventListener("load", this);
 			}
 		};
 
