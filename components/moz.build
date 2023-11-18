@@ -5,6 +5,8 @@
 
 DIRS += [
     "about",
+    "actions",
+    "commands",
     "compat",
     "csd",
     "customizableui",
