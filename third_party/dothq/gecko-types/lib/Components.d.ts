@@ -163,4 +163,5 @@ export interface Components {
 	stack: nsIException;
 	manager: nsIComponentManager;
 	utils: nsIXPCComponents_Utils;
+    isSuccessCode(code: any): boolean;
 }
