@@ -17,71 +17,15 @@ class BrowserReloadButton extends BrowserToolbarButton {
 		super();
 
 		this.buttonId = "reload-button";
+		this.commandId = "reload-tab";
 	}
-
-	/**
-	 * Determines if we are in a loading state
-	 */
-	isLoading = false;
 
 	connectedCallback() {
 		super.connectedCallback();
-
-		this.icon = "reload";
-		this.label = "Reload";
-
-		window.addEventListener(
-			"BrowserTabs::BrowserStateChange",
-			this.handleEvent.bind(this)
-		);
-	}
-
-	onClick() {}
-
-	/**
-	 * Fired when the state changes a browser
-	 * @param {object} data
-	 * @param {ChromeBrowser} data.browser
-	 * @param {nsIWebProgress} data.webProgress
-	 * @param {nsIRequest} data.request
-	 * @param {number} data.stateFlags
-	 * @param {string} data.status
-	 */
-	onStateChanged({ browser, webProgress, request, stateFlags, status }) {
-		const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
-
-		this.isLoading =
-			webProgress.isTopLevel &&
-			stateFlags & STATE_START &&
-			stateFlags & STATE_IS_NETWORK &&
-			BrowserTabsUtils.shouldShowProgress(
-				/** @type {nsIChannel} */ (request)
-			);
-	}
-
-	/**
-	 * Handle incoming events
-	 * @param {MouseEvent | CustomEvent} event
-	 */
-	handleEvent(event) {
-		switch (event.type) {
-			case "BrowserTabs::BrowserStateChange": {
-				// if (event.detail.browser !== this.invokeContext().browser)
-				// 	return;
-
-				// this.onStateChanged(event.detail);
-				break;
-			}
-		}
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-
-		window.removeEventListener(
-			"BrowserTabs::BrowserStateChange",
-			this.handleEvent.bind(this)
-		);
 	}
 }
 

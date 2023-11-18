@@ -6,6 +6,10 @@ var { ModifierKeyManager } = ChromeUtils.importESModule(
 	"resource://gre/modules/ModifierKeyManager.sys.mjs"
 );
 
+const { CommandSubscription } = ChromeUtils.importESModule(
+	"resource://gre/modules/CommandSubscription.sys.mjs"
+);
+
 /**
  * @callback Resolvable
  * @param {ReturnType<typeof gDotCommands.createContext>} [data]
@@ -17,11 +21,14 @@ var { ModifierKeyManager } = ChromeUtils.importESModule(
  */
 
 class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
-	TB_MODIFIER_CHANGE_EVENT = "ToolbarButton::ModifierChange";
-
 	constructor() {
 		super();
 	}
+
+	/**
+	 * The command ID to use for this toolbar button
+	 */
+	commandId = null;
 
 	/**
 	 * The anatomy of the toolbar button
@@ -102,6 +109,20 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	}
 
 	/**
+	 * The tooltip of the toolbar button
+	 */
+	get tooltip() {
+		return this.title;
+	}
+
+	/**
+	 * Updates the tooltip of the toolbar button
+	 */
+	set tooltip(newTooltip) {
+		this.title = newTooltip;
+	}
+
+	/**
 	 * The mode of the toolbar button
 	 */
 	get mode() {
@@ -120,112 +141,22 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.setAttribute("mode", newMode);
 	}
 
-	_shiftKey = false;
-	_ctrlKey = false;
-	_altKey = false;
-
 	/**
-	 * Determines whether the ctrl key is being held
+	 * Handles incoming mutations to the attached command
+	 *
+	 * @param {any} attributeName
+	 * @param {any} value
 	 */
-	get ctrlKey() {
-		return this._ctrlKey;
-	}
-
-	set ctrlKey(val) {
-		if (val !== this._ctrlKey) {
-			this._ctrlKey = val;
-
-			this.dispatchEvent(new CustomEvent(this.TB_MODIFIER_CHANGE_EVENT));
-		}
-	}
-
-	/**
-	 * Determines whether the shift key is being held
-	 */
-	get shiftKey() {
-		return this._shiftKey;
-	}
-
-	set shiftKey(val) {
-		if (val !== this._shiftKey) {
-			this._shiftKey = val;
-
-			this.dispatchEvent(new CustomEvent(this.TB_MODIFIER_CHANGE_EVENT));
-		}
-	}
-
-	/**
-	 * Determines whether the alt key is being held
-	 */
-	get altKey() {
-		return this._altKey;
-	}
-
-	set altKey(val) {
-		if (val !== this._altKey) {
-			this._altKey = val;
-
-			this.dispatchEvent(new CustomEvent(this.TB_MODIFIER_CHANGE_EVENT));
-		}
-	}
-
-	/**
-	 * Handles clicks to the toolbar button
-	 * @param {MouseEvent} event
-	 */
-	_handleTBClick(event) {
-		event.stopPropagation();
-
-		if (this.disabled) {
-			event.preventDefault();
-			return;
-		}
-
-		if ("onClick" in this) {
-			/** @type {any} */ (this).onClick(event);
-		} else if ("handleEvent" in this) {
-			/** @type {any} */ (this).handleEvent(event);
-		}
-	}
-
-	_isHovering = false;
-
-	/**
-	 * Handles mouse events for the toolbar button
-	 * @param {MouseEvent} event
-	 */
-	_handleTBMouse(event) {
-		this._isHovering = event.type == "mouseover";
-
-		this.shiftKey = event.type == "mouseover" && event.shiftKey;
-		this.ctrlKey = event.type == "mouseover" && event.ctrlKey;
-		this.altKey = event.type == "mouseover" && event.altKey;
-
-		this.dispatchEvent(new CustomEvent(this.TB_MODIFIER_CHANGE_EVENT));
-	}
-
-	_handleTBKeyPress(event) {
-		if (!this._isHovering) return;
-
-		this.shiftKey = event.type == "keydown" && event.shiftKey;
-		this.ctrlKey = event.type == "keydown" && event.crtlKey;
-		this.altKey = event.type == "keydown" && event.altKey;
-
-		this.dispatchEvent(new CustomEvent(this.TB_MODIFIER_CHANGE_EVENT));
-	}
-
-	/** @type {IntersectionObserverCallback} */
-	_observeIntersections(intersections) {}
-
-	_handleTBModifierChangeEvent(event) {
-		if ("handleModifierChangeEvent" in this) {
-			/** @type {any} */ (this).handleModifierChangeEvent();
-			return;
-		}
-
-		if ("handleEvent" in this) {
-			/** @type {any} */ (this).handleEvent(event);
-			return;
+	observeCommandMutation(attributeName, value) {
+		switch (attributeName) {
+			case "label_auxiliary":
+				this.tooltip = value;
+				break;
+			case "label":
+			case "icon":
+			case "disabled":
+				this[attributeName] = value;
+				break;
 		}
 	}
 
@@ -239,58 +170,25 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.appendChild(this.elements.icon);
 		this.appendChild(this.elements.label);
 
-		this.addEventListener("click", this._handleTBClick.bind(this));
-		this.addEventListener("mouseover", this._handleTBMouse.bind(this));
-		this.addEventListener("mouseout", this._handleTBMouse.bind(this));
+		if (this.commandId) {
+			this.commandSubscription = new CommandSubscription(
+				this,
+				this.commandId,
+				this.observeCommandMutation.bind(this)
+			);
 
-		window.addEventListener("keydown", this._handleTBKeyPress.bind(this));
-		window.addEventListener("keyup", this._handleTBKeyPress.bind(this));
-
-		this.addEventListener(
-			this.TB_MODIFIER_CHANGE_EVENT,
-			this._handleTBModifierChangeEvent.bind(this)
-		);
-
-		this._intersectionObserver = new IntersectionObserver(
-			this._observeIntersections.bind(this),
-			{ threshold: 0 }
-		);
-		this._intersectionObserver.observe(this);
-	}
-
-	/**
-	 * Handles attribute changes to the component
-	 * @param {string} attribute
-	 * @param {any} oldValue
-	 * @param {any} newValue
-	 */
-	attributeChangedCallback(attribute, oldValue, newValue) {
-		if (oldValue === newValue || !newValue) return;
-
-		switch (attribute) {
-			case "routine":
-				this.routineId = newValue;
-
-				break;
+			this.addEventListener(
+				"click",
+				this.commandSubscription.invoke.bind(this.commandSubscription)
+			);
 		}
 	}
 
 	disconnectedCallback() {
-		this.removeEventListener("click", this._handleTBClick.bind(this));
-		this.removeEventListener("mouseover", this._handleTBMouse.bind(this));
-		this.removeEventListener("mouseout", this._handleTBMouse.bind(this));
-		this.removeEventListener("mousemove", this._handleTBMouse.bind(this));
-
-		window.removeEventListener(
-			"keydown",
-			this._handleTBKeyPress.bind(this)
-		);
-		window.removeEventListener("keyup", this._handleTBKeyPress.bind(this));
-
-		this.removeEventListener(
-			this.TB_MODIFIER_CHANGE_EVENT,
-			this._handleTBModifierChangeEvent.bind(this)
-		);
+		if (this.commandSubscription) {
+			this.commandSubscription.destroy();
+			this.commandSubscription = null;
+		}
 	}
 }
 

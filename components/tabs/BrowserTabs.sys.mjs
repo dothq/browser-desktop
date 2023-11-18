@@ -686,6 +686,18 @@ BrowserTabs.prototype = {
 	},
 
 	/**
+	 * Stops a tab from loading
+	 * @param {BrowserTab} tab
+	 */
+	stopTab(tab) {
+		if (this._isWebContentsBrowserElement(tab.webContents)) {
+			const { STOP_ALL } = Ci.nsIWebNavigation;
+
+			/** @type {ChromeBrowser} */ (tab.webContents).stop(STOP_ALL);
+		}
+	},
+
+	/**
 	 * Sets the initial metadata of a tab to avoid preloading
 	 * @param {BrowserTab} tab
 	 * @param {string} uri
