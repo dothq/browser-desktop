@@ -24,7 +24,8 @@
     gap: 8px;
 
     transition: background 200ms var(--button-ease-out-quad),
-        outline 25ms var(--button-ease-out-quad);
+        outline 25ms var(--button-ease-out-quad),
+        opacity 25ms var(--button-ease-out-quad);
 
     -moz-window-dragging: no-drag;
 }
