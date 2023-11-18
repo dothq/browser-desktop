@@ -8,6 +8,8 @@ const { Action } = ChromeUtils.importESModule(
 
 const ALL_ACTIONS = [
 	// browser.tabs
+	"browser.tabs.go_back",
+	"browser.tabs.go_forward",
 	"browser.tabs.reload_page",
 	"browser.tabs.stop_page"
 ];
