@@ -34,6 +34,7 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-tab-label.js",
 	"chrome://dot/content/widgets/browser-toolbar.js",
 	"chrome://dot/content/widgets/browser-toolbar-button.js",
+	"chrome://dot/content/widgets/browser-web-contents.js",
 
 	"chrome://dot/content/widgets/browser-add-tab-button.js",
 	"chrome://dot/content/widgets/browser-history-navigation-button.js",

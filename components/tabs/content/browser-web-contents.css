@@ -1,0 +1,102 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-web-contents {
+    display: flex;
+    flex: 1;
+    position: relative;
+    background-color: var(--toolbar-bgcolor);
+
+    --radii: 10px;
+}
+
+browser-web-contents .wc-container {
+    display: flex;
+    flex: 1;
+    overflow: clip;
+    background-color: var(--chrome-content-separator-color);
+    border-radius: max(calc(var(--radii-top-left, 0px) - 2px), 0px) max(calc(var(--radii-top-right, 0px) - 2px), 0px) max(calc(var(--radii-bottom-right, 0px) - 2px), 0px) max(calc(var(--radii-bottom-left, 0px) - 2px), 0px);
+}
+
+browser-web-contents[borders~="top"] .wc-border-line.top {
+    visibility: visible;
+}
+
+browser-web-contents[borders~="left"] .wc-border-line.left {
+    visibility: visible;
+}
+
+browser-web-contents[borders~="right"] .wc-border-line.right {
+    visibility: visible;
+}
+
+browser-web-contents[borders~="bottom"] .wc-border-line.bottom {
+    visibility: visible;
+}
+
+browser-web-contents[borders~="top"][borders~="left"] .wc-container {
+    --radii-top-left: var(--radii);
+}
+
+browser-web-contents[borders~="top"][borders~="right"] .wc-container {
+    --radii-top-right: var(--radii);
+}
+
+browser-web-contents[borders~="bottom"][borders~="left"] .wc-container {
+    --radii-bottom-left: var(--radii);
+}
+
+browser-web-contents[borders~="bottom"][borders~="right"] .wc-container {
+    --radii-bottom-right: var(--radii);
+}
+
+browser-web-contents .wc-slot {
+    flex: 1;
+    clip-path: inset(0 0 0 0 round var(--radii-top-left, 0px) var(--radii-top-right, 0px) var(--radii-bottom-right, 0px) var(--radii-bottom-left, 0px));
+}
+
+browser-web-contents .wc-borders {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: clip;
+    border-radius: var(--radii-top-left, 0px) var(--radii-top-right, 0px) var(--radii-bottom-right, 0px) var(--radii-bottom-left, 0px);
+}
+
+browser-web-contents .wc-border-line {
+    position: absolute;
+    background-color: var(--chrome-content-separator-color);
+    z-index: 1001;
+    visibility: hidden;
+}
+
+browser-web-contents .wc-border-line.top {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+
+browser-web-contents .wc-border-line.left {
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+}
+
+browser-web-contents .wc-border-line.right {
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+}
+
+browser-web-contents .wc-border-line.bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}

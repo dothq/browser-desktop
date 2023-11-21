@@ -33,3 +33,6 @@ dot.jar:
 
     content/widgets/browser-tab-icon.js                 (content/browser-tab-icon.js)
     content/widgets/browser-tab-icon.css                (content/browser-tab-icon.css)
+
+    content/widgets/browser-web-contents.js             (content/browser-web-contents.js)
+    content/widgets/browser-web-contents.css            (content/browser-web-contents.css)
