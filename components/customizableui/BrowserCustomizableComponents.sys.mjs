@@ -10,14 +10,16 @@ export const BrowserCustomizableComponents = {
 	 * @param {Record<string, any>} [args]
 	 */
 	createArea(doc, areaId, args) {
+		const win = doc.ownerGlobal;
+		const { html } = win;
+
 		const elementMapping = {
 			toolbar: "browser-toolbar",
-			addressbar: "browser-addressbar"
+			addressbar: "browser-addressbar",
+			tabs: "browser-tabs"
 		};
 
-		return areaId in elementMapping
-			? doc.createElement(elementMapping[areaId])
-			: null;
+		return areaId in elementMapping ? html(elementMapping[areaId]) : null;
 	},
 
 	/**
@@ -40,7 +42,7 @@ export const BrowserCustomizableComponents = {
 
 				return html("button", { is: args.is });
 			case "web-contents":
-				return html("slot", { name: "web-contents" });
+				return html("browser-web-contents");
 			case "":
 				return doc.createDocumentFragment();
 			default:
