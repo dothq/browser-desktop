@@ -100,17 +100,7 @@ var gBrowser = {
 		});
 	},
 
-	_initCompat() {
-		window.addEventListener("BrowserTabs::TabSelect", () => {
-			const event = new CustomEvent("TabSelect", {
-				bubbles: true,
-				cancelable: false,
-				detail: {}
-			});
-
-			this._tabContainerEl.dispatchEvent(event);
-		});
-	}
+	_initCompat() {}
 };
 
 window.addEventListener("load", gBrowser._initCompat.bind(this), {
