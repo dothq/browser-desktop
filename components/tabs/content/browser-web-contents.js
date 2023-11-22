@@ -20,6 +20,40 @@ class BrowserWebContents extends MozHTMLElement {
 		};
 	}
 
+	get bordersElement() {
+		return /** @type {HTMLDivElement} */ (
+			this.querySelector(".wc-borders") ||
+				html(
+					"div",
+					{ class: "wc-borders" },
+					this.elements.topLine,
+					this.elements.leftLine,
+					this.elements.rightLine,
+					this.elements.bottomLine
+				)
+		);
+	}
+
+	get slotContainerElement() {
+		return /** @type {HTMLDivElement} */ (
+			this.querySelector(".wc-slot") ||
+				html(
+					"div",
+					{ class: "wc-slot" },
+					html("slot", { name: "web-contents" })
+				)
+		);
+	}
+
+	/**
+	 * The tabpanel connected to this web contents element
+	 */
+	get tabpanel() {
+		return this.slotContainerElement
+			.querySelector("slot")
+			.assignedElements()[0];
+	}
+
 	getComputedAABBCollisions() {}
 
 	connectedCallback() {
@@ -31,20 +65,14 @@ class BrowserWebContents extends MozHTMLElement {
 			html(
 				"div",
 				{ class: "wc-container" },
-				html(
-					"div",
-					{ class: "wc-borders" },
-					this.elements.topLine,
-					this.elements.leftLine,
-					this.elements.rightLine,
-					this.elements.bottomLine
-				),
-				html(
-					"div",
-					{ class: "wc-slot" },
-					html("slot", { name: "web-contents" })
-				)
+				this.bordersElement,
+				this.slotContainerElement
 			)
+		);
+
+		this.tabpanel.toggleAttribute(
+			"showstatuspanel",
+			this.hasAttribute("statuspanel")
 		);
 	}
 }

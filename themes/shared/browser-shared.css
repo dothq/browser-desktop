@@ -154,6 +154,10 @@ hr.fdn-separator {
     -moz-window-dragging: no-drag;
 }
 
+#tabspanel:not([showstatuspanel]) browser-status {
+    display: none;
+}
+
 :disabled {
     opacity: 0.5;
     pointer-events: none;
