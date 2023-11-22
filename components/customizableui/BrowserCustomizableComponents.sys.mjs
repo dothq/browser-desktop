@@ -43,6 +43,8 @@ export const BrowserCustomizableComponents = {
 				return html("button", { is: args.is });
 			case "web-contents":
 				return html("browser-web-contents");
+			case "tab-status":
+				return html("browser-status");
 			case "":
 				return doc.createDocumentFragment();
 			default:

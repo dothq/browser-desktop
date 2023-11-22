@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserStatus extends MozHTMLElement {
+class BrowserStatus extends BrowserContextualMixin(MozHTMLElement) {
 	constructor() {
 		super();
 	}
@@ -11,14 +11,32 @@ class BrowserStatus extends MozHTMLElement {
 		return ["side"];
 	}
 
+	/**
+	 * Get the closest browser webContents
+	 * We only want browser elements as other webContents won't be firing status changes
+	 *
+	 * @returns {ChromeBrowser}
+	 */
 	get webContents() {
-		// Get the closest browser webContents
-		// We only want browser elements as other webContents won't be firing status changes
-		return this.closest("browser-panel").querySelector(
-			"browser.browser-web-contents"
-		);
+		const nearestPanel = this.closest("browser-panel");
+
+		if (!nearestPanel) {
+			// If we don't have a host, and we're just apart of <browser-application>,
+			// we can safely return the browser from the host's context.
+			if (this.host instanceof BrowserApplication) {
+				return this.hostContext.browser;
+			}
+
+			// Otherwise, we may be inside a toolbar, where we can use hoveredBrowser instead.
+			return gDot.tabs.hoveredBrowser;
+		}
+
+		return nearestPanel.querySelector("browser.browser-web-contents");
 	}
 
+	/**
+	 * The label element for the browser status
+	 */
 	get label() {
 		return this.querySelector(".browser-status-label");
 	}
@@ -32,30 +50,27 @@ class BrowserStatus extends MozHTMLElement {
 
 		this.appendChild(html("span", { class: "browser-status-label" }));
 
-		this.webContents.addEventListener(
-			"BrowserTabs::BrowserStatusChange",
-			this
-		);
+		window.addEventListener("BrowserTabs::BrowserStatusChange", this);
 		window.addEventListener("BrowserTabs::TabSelect", this);
 	}
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		this.webContents.removeEventListener(
-			"BrowserTabs::BrowserStatusChange",
-			this
-		);
+		window.removeEventListener("BrowserTabs::BrowserStatusChange", this);
 		window.removeEventListener("BrowserTabs::TabSelect", this);
 	}
 
 	/**
 	 * Fired when the status changes for this browser
 	 * @param {object} status
+	 * @param {ChromeBrowser} status.browser
 	 * @param {string} status.message
 	 * @param {"busy" | "overLink"} status.type
 	 */
 	onStatusChanged(status) {
+		if (status.browser != this.webContents) return;
+
 		if (status.message.length) this.label.textContent = status.message;
 
 		let inactive = true;
@@ -79,7 +94,7 @@ class BrowserStatus extends MozHTMLElement {
 	 */
 	onActiveTabChanged(tab) {
 		// The tab change wasn't for our linked browser, so we can safely ignore this
-		if (tab.webContents !== this.webContents) return;
+		if (tab.linkedBrowser !== this.webContents) return;
 
 		this.toggleAttribute("inactive", true);
 	}

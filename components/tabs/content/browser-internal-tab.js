@@ -272,6 +272,10 @@ class BrowserTab extends MozElements.MozTab {
 		console.log("initted event listeners for", this.id);
 
 		this.webContents.addEventListener("pagetitlechanged", this);
+		this.webContents.addEventListener(
+			"BrowserTabs::BrowserStatusChange",
+			this
+		);
 
 		// Ensure site identity is initialised
 		this._siteIdentity = new TabIdentityHandler(this);
@@ -303,6 +307,10 @@ class BrowserTab extends MozElements.MozTab {
 		window.removeEventListener("BrowserTabs::BrowserLocationChange", this);
 
 		this.webContents.removeEventListener("pagetitlechanged", this);
+		this.webContents.removeEventListener(
+			"BrowserTabs::BrowserStatusChange",
+			this
+		);
 	}
 
 	/**
@@ -313,6 +321,9 @@ class BrowserTab extends MozElements.MozTab {
 		switch (event.type) {
 			case "BrowserTabs::TabSelect":
 				this._onTabSelected(event);
+				break;
+			case "BrowserTabs::BrowserStatusChange":
+				this._onBrowserStatusChange(event);
 				break;
 			case "pagetitlechanged":
 				if (gDot.tabs._isWebContentsBrowserElement(this.webContents)) {
@@ -493,6 +504,24 @@ class BrowserTab extends MozElements.MozTab {
 		const tab = event.detail;
 
 		this.toggleAttribute("selected", tab.id === this.id);
+	}
+
+	/**
+	 * Fired when the status for the linkedBrowser changes
+	 * @param {CustomEvent} event
+	 */
+	_onBrowserStatusChange(event) {
+		// Clone the event and replay it back to the
+		// window with the linked browser attached
+		const evt = new CustomEvent(event.type, {
+			...event,
+			detail: {
+				...event.detail,
+				browser: this.linkedBrowser
+			}
+		});
+
+		window.dispatchEvent(evt);
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {

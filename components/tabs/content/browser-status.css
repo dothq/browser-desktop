@@ -3,76 +3,104 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 browser-status {
-    position: absolute;
-    bottom: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
     pointer-events: none;
     min-height: 0;
     max-width: calc(100% - 4rem);
+    overflow: hidden;
+    flex: 1;
+    padding: 0px 4px;
+
+    &:-moz-locale-dir(ltr) {
+        mask-image: linear-gradient(to right, black 90%, #fff0);
+    }
+
+    &:-moz-locale-dir(rtl) {
+        mask-image: linear-gradient(to left, black 90%, #fff0);
+    }
 }
 
 browser-status .browser-status-label {
-    display: block;
-    padding: 0.3rem 0.4rem;
-
-    background-color: var(--toolbar-bgcolor);
-
-    border-top: 1px solid var(--border-override, var(--chrome-content-separator-color));
-
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
-
-    pointer-events: none;
-
-    user-select: none;
+    overflow: hidden;
 }
 
-browser-status[inactive] .browser-status-label {
-    visibility: hidden;
-    opacity: 0;
+browser-status[inactive] {
+    & .browser-status-label {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    &[statustype="overLink"] .browser-status-label {
+        transition: 0.1s opacity ease-out 0.4s, 0.1s visibility 0.4s;
+    }
+
+    &[statustype="busy"] .browser-status-label {
+        transition: 0.25s opacity ease-out 0.5s, 0.25s visibility 0.5s;
+    }
 }
 
-browser-status:not([inactive]) .browser-status-label {
-    opacity: 1;
-    visibility: visible;
+browser-status:not([inactive]) {
+    & .browser-status-label {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &[statustype="overLink"] .browser-status-label {
+        transition: 0.2s opacity ease-out, 0.2s visibility;
+    }
 }
 
-browser-status[statustype="busy"] .browser-status-label {
-    min-width: 400px;
-}
+browser-frame browser-status {
+    position: absolute;
+    bottom: 0;
+    height: max-content;
+    flex: auto;
+    padding: 0;
+    mask-image: none !important;
+    /* todo: find a better way of doing this, without needing important flags */
 
-browser-status[statustype="overLink"] .browser-status-label {
-    transition: 0.2s opacity ease-out, 0.2s visibility;
-}
+    & .browser-status-label {
+        display: block;
+        padding: 0.3rem 0.4rem;
 
+        background-color: var(--toolbar-bgcolor);
 
-browser-status[inactive][statustype="overLink"] .browser-status-label {
-    transition: 0.1s opacity ease-out 0.4s, 0.1s visibility 0.4s;
-}
+        border-top: 1px solid var(--border-override, var(--chrome-content-separator-color));
 
-browser-status[inactive][statustype="busy"] .browser-status-label {
-    transition: 0.25s opacity ease-out 0.5s, 0.25s visibility 0.5s;
-}
+        text-overflow: ellipsis;
 
-browser-status[side="left"] {
-    left: 0;
-    padding-right: 4rem;
-}
+        pointer-events: none;
 
-browser-status[side="left"] .browser-status-label {
-    border-right: 1px solid var(--border-override, var(--chrome-content-separator-color));
-    border-top-right-radius: 0.4rem;
-}
+        user-select: none;
+    }
 
-browser-status[side="right"] {
-    right: 0;
-    padding-left: 4rem;
-    max-width: 50%;
-}
+    &[statustype="busy"] .browser-status-label {
+        min-width: 400px;
+    }
 
-browser-status[side="right"] .browser-status-label {
-    border-left: 1px solid var(--border-override, var(--chrome-content-separator-color));
-    border-top-left-radius: 0.4rem;
+    &[side="left"] {
+        left: 0;
+        padding-right: 4rem;
+    }
+
+    &[side="left"] .browser-status-label {
+        border-right: 1px solid var(--border-override, var(--chrome-content-separator-color));
+        border-top-right-radius: 0.4rem;
+    }
+
+    &[side="right"] {
+        right: 0;
+        padding-left: 4rem;
+        max-width: 50%;
+    }
+
+    &[side="right"] .browser-status-label {
+        border-left: 1px solid var(--border-override, var(--chrome-content-separator-color));
+        border-top-left-radius: 0.4rem;
+    }
 }
 
 @media (prefers-contrast) {
