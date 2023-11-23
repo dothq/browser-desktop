@@ -26,6 +26,7 @@
 @import url("chrome://dot/content/widgets/browser-tab-label.css");
 @import url("chrome://dot/content/widgets/browser-tab-icon.css");
 @import url("chrome://dot/content/widgets/browser-web-contents.css");
+@import url("chrome://dot/content/widgets/browser-customizable-template.css");
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");

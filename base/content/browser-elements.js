@@ -28,6 +28,7 @@ let elements = {
 let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-addressbar-panel.js",
 	"chrome://dot/content/widgets/browser-customizable-area.js",
+	"chrome://dot/content/widgets/browser-customizable-template.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",
 	"chrome://dot/content/widgets/browser-tab.js",
 	"chrome://dot/content/widgets/browser-tab-icon.js",

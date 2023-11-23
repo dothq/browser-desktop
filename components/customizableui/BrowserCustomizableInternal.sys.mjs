@@ -203,13 +203,20 @@ BrowserCustomizableInternal.prototype = {
 	/**
 	 * Appends children to a component
 	 * @param {Element} parentElement
-	 * @param {string} slot
+	 * @param {string} part
 	 * @param {CustomizableComponentDefinition[2]} children
 	 */
-	appendChildrenTo(parentElement, children, slot = "content") {
-		if (!parentElement) return;
+	appendChildrenTo(parentElement, children, part = "content") {
+		if (!parentElement) {
+			throw new Error(`No parent element to append children to.`);
+		}
+
+		// We use content as the user-facing part name, but customizable is the internal part name
+		const internalPart = part == "content" ? "customizable" : part;
 
 		if (Array.isArray(children)) {
+			console.log(children, children.length);
+
 			for (let i = 0; i < children.length; i++) {
 				if (
 					!parentElement.shadowRoot ||
@@ -223,10 +230,20 @@ BrowserCustomizableInternal.prototype = {
 					);
 				}
 
-				const child = children[i];
+				console.log(children, i);
 
-				const childComponent =
-					this.createComponentFromDefinition(child);
+				const child = children[i];
+				let childComponent = null;
+
+				try {
+					childComponent = this.createComponentFromDefinition(child);
+				} catch (e) {
+					throw new Error(
+						`Failed to create component '${child[0]}${
+							part === "content" ? "" : `[${part}]`
+						}[${i}]':\n` + e
+					);
+				}
 
 				if (childComponent.tagName === parentElement.tagName) {
 					throw new Error(
@@ -238,29 +255,50 @@ BrowserCustomizableInternal.prototype = {
 					"canAppendChild" &&
 					parentElement &&
 					/** @type {any} */ (parentElement).canAppendChild(
-						childComponent
+						childComponent,
+						internalPart
 					)
 				) {
-					const customizableContainer =
-						/** @type {BrowserCustomizableArea} */ (parentElement)
-							.customizableContainer;
+					let renderContainer =
+						/** @type {BrowserCustomizableArea} */ (
+							parentElement
+						).getPartByName(internalPart);
 
 					if (
-						!parentElement.shadowRoot.contains(
-							customizableContainer
-						)
+						!renderContainer ||
+						!parentElement.shadowRoot.contains(renderContainer)
 					) {
 						throw new Error(
-							`No 'customizable' part available to render children to.`
+							`No '${part}' part available to render children to.`
 						);
 					}
 
-					customizableContainer.appendChild(childComponent);
+					// Handle customizable template based render containers
+					// differently, as we append children to a "fake DOM".
+					if (
+						renderContainer instanceof
+						this.win.customElements.get(
+							"browser-customizable-template"
+						)
+					) {
+						renderContainer =
+							/** @type {BrowserCustomizableTemplate} */ (
+								renderContainer
+							).content;
+					}
+
+					renderContainer.appendChild(childComponent);
+				} else {
+					throw new Error(
+						`Rendering of children to '${part}' was disallowed.`
+					);
 				}
 			}
 		} else {
-			for (const [slot, slottedChildren] of Object.entries(children)) {
-				this.appendChildrenTo(parentElement, slottedChildren, slot);
+			for (const [part, slottedChildren] of Object.entries(children)) {
+				console.log(part, slottedChildren);
+
+				this.appendChildrenTo(parentElement, slottedChildren, part);
 			}
 		}
 	},
@@ -296,7 +334,7 @@ BrowserCustomizableInternal.prototype = {
 
 			return component;
 		} else {
-			return null;
+			throw new Error(`Failed to create element with type '${type}'.`);
 		}
 	},
 
