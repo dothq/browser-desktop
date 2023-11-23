@@ -190,10 +190,20 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
+	 * Gets a part by its defined name
+	 * @param {string} partName
+	 * @returns {Element | DocumentFragment}
+	 */
+	getPartByName(partName) {
+		return this.shadowRoot?.querySelector(`[part="${partName}"]`);
+	}
+
+	/**
 	 * Determines whether a child can be appended to this customizable area
 	 * @param {Element} node
+	 * @param {string} part
 	 */
-	canAppendChild(node) {
+	canAppendChild(node, part) {
 		return true;
 	}
 
