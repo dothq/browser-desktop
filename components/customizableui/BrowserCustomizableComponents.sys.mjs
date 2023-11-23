@@ -45,6 +45,11 @@ export const BrowserCustomizableComponents = {
 				return html("browser-web-contents");
 			case "tab-status":
 				return html("browser-status");
+			case "tab-icon":
+				return html("browser-tab-icon");
+			case "tab-label":
+			case "tab-title":
+				return html("browser-tab-label");
 			case "":
 				return doc.createDocumentFragment();
 			default:

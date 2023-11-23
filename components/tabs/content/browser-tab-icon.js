@@ -27,9 +27,10 @@ class BrowserTabIcon extends BrowserContextualMixin(HTMLElement) {
 	handleEvent(event) {
 		switch (event.type) {
 			case "BrowserTabsCollator::TabAttributeUpdate":
-			// if (event.detail.tab === this.context.tab) {
-			// 	this.updateAttributes();
-			// }
+				if (event.detail.tab !== this.hostContext.tab) return;
+
+				this.updateAttributes();
+				break;
 		}
 	}
 
@@ -37,16 +38,19 @@ class BrowserTabIcon extends BrowserContextualMixin(HTMLElement) {
 	 * Updates the attributes with the current context tab's
 	 */
 	updateAttributes() {
-		// const tab = this.context.tab;
-		// this.setAttribute("progress", tab.getAttribute("progress"));
-		// this.toggleAttribute("progress", tab.hasAttribute("progress"));
-		// if (this.associatedAreaElement instanceof BrowserRenderedTab) {
-		// 	this.setAttribute("hideicon", tab.getAttribute("hideicon"));
-		// 	this.toggleAttribute("hideicon", tab.hasAttribute("hideicon"));
-		// }
-		// if (this.elements.image.src !== tab.getAttribute("icon")) {
-		// 	this.elements.image.src = tab.getAttribute("icon");
-		// }
+		const { tab } = this.hostContext;
+
+		this.setAttribute("progress", tab.getAttribute("progress"));
+		this.toggleAttribute("progress", tab.hasAttribute("progress"));
+
+		if (this.host instanceof BrowserRenderedTab) {
+			this.setAttribute("hideicon", tab.getAttribute("hideicon"));
+			this.toggleAttribute("hideicon", tab.hasAttribute("hideicon"));
+		}
+
+		if (this.elements.image.src !== tab.getAttribute("icon")) {
+			this.elements.image.src = tab.getAttribute("icon");
+		}
 	}
 
 	connectedCallback() {
@@ -57,9 +61,9 @@ class BrowserTabIcon extends BrowserContextualMixin(HTMLElement) {
 			this
 		);
 
-		// if (this.context.tab) {
-		// 	this.updateAttributes();
-		// }
+		if (this.hostContext.tab) {
+			this.updateAttributes();
+		}
 	}
 
 	disconnectedCallback() {
