@@ -2,12 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserTabsElement extends MozHTMLElement {
+class BrowserTabsElement extends BrowserCustomizableArea {
 	kTabMaxWidthPref = "dot.tabs.max-width";
 	kTabMinWidthPref = "dot.tabs.min-width";
 
 	constructor() {
 		super();
+
+		// The tab template part to use for all tab elements within the tabs strip
+		this.shadowRoot.appendChild(this.tabTemplate);
 	}
 
 	/**
@@ -23,7 +26,20 @@ class BrowserTabsElement extends MozHTMLElement {
 	 */
 	get tabs() {
 		return Array.from(
-			this.querySelectorAll("browser-tab:not([closing]):not([opening])")
+			this.customizableContainer.querySelectorAll(
+				"browser-tab:not([closing]):not([opening])"
+			)
+		);
+	}
+
+	/**
+	 * The tab template element to use for all tabs
+	 */
+	get tabTemplate() {
+		return /** @type {BrowserCustomizableTemplate} */ (
+			this.shadowRoot.querySelector(
+				"browser-customizable-template[part=tab]"
+			) || html("browser-customizable-template", { part: "tab" })
 		);
 	}
 
@@ -67,7 +83,7 @@ class BrowserTabsElement extends MozHTMLElement {
 	 * @returns {BrowserRenderedTab | null}
 	 */
 	getRenderedTabByInternalId(id) {
-		return this.querySelector(`[tab=${id}]`);
+		return this.customizableContainer.querySelector(`[tab=${id}]`);
 	}
 
 	/**
@@ -80,8 +96,11 @@ class BrowserTabsElement extends MozHTMLElement {
 		const renderedTab = /** @type {BrowserRenderedTab} */ (
 			document.createElement("browser-tab")
 		);
+		renderedTab.customizableContainer.appendChild(
+			this.tabTemplate.content.cloneNode(true)
+		);
 		renderedTab.linkedTab = tab;
-		this.appendChild(renderedTab);
+		this.customizableContainer.appendChild(renderedTab);
 
 		if (options && options.animate) {
 			renderedTab.animateIn().then(() => {
@@ -213,6 +232,11 @@ class BrowserTabsElement extends MozHTMLElement {
 		}
 	}
 
+	canAppendChild(node, part) {
+		// We want to prevent nodes being appended to anything but the tab part
+		return part === "tab";
+	}
+
 	_init() {
 		this._computeTabSizes();
 
@@ -237,7 +261,7 @@ class BrowserTabsElement extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
+		super.connect("tabs");
 
 		window.addEventListener(
 			"BrowserTabsCollator::TabAttributeUpdate",
@@ -252,8 +276,6 @@ class BrowserTabsElement extends MozHTMLElement {
 	}
 
 	disconnectedCallback() {
-		if (this.delayConnectedCallback()) return;
-
 		window.removeEventListener("BrowserTabsCollator::TabAdded", this);
 		window.removeEventListener("BrowserTabsCollator::TabRemoved", this);
 		window.removeEventListener(
