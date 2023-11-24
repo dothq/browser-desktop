@@ -87,7 +87,7 @@ browser-window-controls[hidden] {
     @media not (-moz-gtk-csd-reversed-placement) {
         browser-window-controls {
             margin-left: auto;
-            margin-inline-start: 4px;
+            margin-inline: 4px;
         }
     }
 }
