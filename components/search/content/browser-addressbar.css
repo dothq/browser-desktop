@@ -102,7 +102,7 @@ browser-addressbar[focuswithin] {
 
 @media (prefers-contrast) {
     browser-addressbar {
-        box-shadow: 0px 0px 0px 1px color-mix(in srgb, currentColor 75%, transparent 100%);
-        --outline-color: color-mix(in srgb, currentColor 75%, transparent 100%);
+        box-shadow: 0px 0px 0px 1px var(--browser-high-contrast-color);
+        --outline-color: var(--browser-high-contrast-color);
     }
 }

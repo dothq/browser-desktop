@@ -16,6 +16,8 @@
     --button-checked-active-color: color-mix(in srgb, currentColor 40%, transparent);
 
     --button-ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    --browser-high-contrast-color: color-mix(in srgb, currentColor 100%, transparent 50%);
 }
 
 button,
@@ -122,6 +124,6 @@ html|button:focus-visible:active {
     xul|button:not(:disabled),
     html|button:not(:disabled),
     html|select:not(:disabled) {
-        outline: 1px solid color-mix(in srgb, currentColor 75%, transparent 100%);
+        outline: 1px solid var(--browser-high-contrast-color);
     }
 }

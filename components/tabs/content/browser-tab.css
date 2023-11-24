@@ -167,7 +167,7 @@ browser-tab[pinned] {
 
     browser-tab[selected] .browser-tab-background,
     browser-tab:not([selected]):hover .browser-tab-background {
-        border: 1px solid color-mix(in srgb, currentColor 75%, transparent 100%);
+        border: 1px solid var(--browser-high-contrast-color);
         width: calc(100% - 1px * 2);
     }
 
@@ -175,7 +175,7 @@ browser-tab[pinned] {
     browser-tab::before,
     browser-tab:last-of-type:not(:hover):not([selected])::after {
         --height: 0%;
-        --color: color-mix(in srgb, currentColor 75%, transparent 100%);
+        --color: var(--browser-high-contrast-color);
         opacity: 1;
         transition-duration: 0s;
     }
@@ -198,13 +198,14 @@ browser-tab .browser-tab-icons {
 }
 
 browser-tab::part(customizable) {
-    gap: 0px;
-    overflow: clip;
+    gap: 6px;
+    overflow: initial;
     padding: 0;
     margin-inline-start: calc(var(--browser-ui-density) * 1.25);
     margin-inline-end: var(--browser-ui-density);
     width: calc(100% - calc(var(--browser-ui-density) * 1.25) * 2);
     min-width: 0px;
+    align-items: center;
 }
 
 browser-tabs[hidetabactions] browser-tab:not([selected]) {

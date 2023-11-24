@@ -43,6 +43,8 @@
      * Touch = 16px
      */
     --browser-ui-density: 8px;
+
+    --browser-high-contrast-color: color-mix(in srgb, currentColor 100%, transparent 50%);
 }
 
 html,

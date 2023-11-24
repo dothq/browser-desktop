@@ -100,3 +100,9 @@ browser-web-contents .wc-border-line.bottom {
     width: 100%;
     height: 1px;
 }
+
+@media (prefers-contrast) {
+    browser-web-contents .wc-border-line {
+        background-color: var(--browser-high-contrast-color);
+    }
+}

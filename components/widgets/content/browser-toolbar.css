@@ -52,7 +52,7 @@ browser-toolbar[collapse] {
         position: absolute;
         width: calc(100% + var(--padding));
         height: 1px;
-        background-color: color-mix(in srgb, currentColor 75%, transparent 100%);
+        background-color: var(--browser-high-contrast-color);
         left: calc(0px - var(--padding));
     }
 }
@@ -76,3 +76,9 @@ browser-toolbar[collapse] {
 /* :host(browser-toolbar[initial]) .customizable-container {
     padding-block-start: calc(var(--browser-ui-density) / 3);
 } */
+
+@media (prefers-contrast) {
+    browser-toolbar {
+        outline: 1px solid var(--browser-high-contrast-color);
+    }
+}
