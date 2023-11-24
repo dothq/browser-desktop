@@ -25,6 +25,8 @@ browser-status {
 browser-status .browser-status-label {
     white-space: nowrap;
     overflow: hidden;
+    /* We make the font size of the status slightly smaller than baseline, to accomodate longer URIs */
+    font-size: 0.95rem;
 }
 
 browser-status[inactive] {
@@ -38,7 +40,7 @@ browser-status[inactive] {
     }
 
     &[statustype="busy"] .browser-status-label {
-        transition: 0.25s opacity ease-out 0.5s, 0.25s visibility 0.5s;
+        transition: 0.25s opacity ease-out 0.4s, 0.25s visibility 0.4s;
     }
 }
 
