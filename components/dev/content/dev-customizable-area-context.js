@@ -40,7 +40,7 @@ class DeveloperCustomizableAreaContext extends MozHTMLElement {
 		const root = html("div", { class: "area-context-menu-content" });
 
 		const tagName = html("strong", {}, this.area.tagName);
-		const detail = html("span", {}, "n/a");
+		const detail = html("span", { class: "detail" }, "n/a");
 
 		root.append(tagName, detail);
 
@@ -69,12 +69,82 @@ class DeveloperCustomizableAreaContext extends MozHTMLElement {
 	}
 
 	/**
+	 * Casts an element to a string type
+	 * @param {Element} element
+	 */
+	elementAsString(element) {
+		let str = ``;
+
+		if (element.tagName) {
+			let tagName = element.tagName;
+
+			if (tagName.includes(":")) {
+				tagName = tagName.split(":")[1];
+			}
+
+			str += tagName;
+		}
+
+		if (element.id) {
+			str += `#${element.id}`;
+		}
+
+		if (element instanceof BrowserRenderedTab) {
+			element = element.linkedTab;
+		}
+
+		if (element instanceof BrowserTab) {
+			str += ` (${element.linkedBrowser.contentTitle.substring(0, 20)})`;
+		}
+
+		if (element instanceof customElements.get("browser")) {
+			str += ` (${this.elementAsString(
+				element.closest("browser-panel")
+			)})`;
+		}
+
+		if (
+			element.tagName === "html" &&
+			element.ownerGlobal === this.ownerGlobal
+		) {
+			str += " (this window)";
+		} else if (!element || !element.parentElement) {
+			str += `(unknown/detached element)`;
+			return str;
+		}
+
+		return str;
+	}
+
+	/**
 	 * Triggered when the inspect button is clicked
 	 * @param {MouseEvent} event
 	 */
 	onInspectClick(event) {
 		this.menu.replaceChildren(this.menuContents);
 		this.menu.openPopup(this, "bottomleft topleft", 0, 0);
+
+		const render = () => {
+			const area = /** @type {BrowserCustomizableArea} */ (
+				/** @type {ShadowRoot} */ (this.getRootNode()).host
+			);
+
+			const lines = [
+				`Audience: ${area.context.audience} (${this.elementAsString(
+					area.context.self
+				)})`,
+				`Window: ${this.elementAsString(
+					area.context.window.document.documentElement
+				)}`,
+				`Tab: ${this.elementAsString(area.context.tab)}`,
+				`Browser: ${this.elementAsString(area.context.browser)}`
+			].map((ln) => html("span", {}, ln));
+
+			this.menu.querySelector(".detail").replaceChildren(...lines);
+		};
+
+		this._intervals.push(setInterval(render, 1000));
+		render();
 	}
 
 	/**

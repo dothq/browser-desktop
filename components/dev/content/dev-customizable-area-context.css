@@ -15,3 +15,9 @@ dev-customizable-area-context menupopup .area-context-menu-content {
     flex-direction: column;
     gap: 4px;
 }
+
+dev-customizable-area-context menupopup .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
