@@ -159,6 +159,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 * The associated context for this area
 	 *
 	 * @typedef {object} CustomizableAreaContext
+	 * @property {BrowserCustomizableArea} self - The area associated with this context
 	 * @property {string} audience - The audience of this area's context
 	 * @property {BrowserTab} tab - The tab associated with this area
 	 * @property {ChromeBrowser} browser - The browser associated with this area
@@ -237,11 +238,15 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 * @param {object} [options]
 	 * @param {boolean} [options.showKeybindings] - Determines whether keybindings should be shown in widgets
 	 * @param {"horizontal" | "vertical"} [options.orientation] - The default orientation of this area
+	 * @param {string} [options.mode] - The default mode to use for this area
 	 */
 	connect(name, options) {
 		this.name = name;
 		this.showKeybindings = options?.showKeybindings;
 		this.orientation = options?.orientation || "horizontal";
+		if (options?.mode) {
+			this.mode = options?.mode;
+		}
 
 		this.classList.add("customizable-area");
 

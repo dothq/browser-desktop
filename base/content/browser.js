@@ -111,6 +111,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 		const self = this;
 
 		return {
+			self,
 			audience: "root",
 
 			get window() {
