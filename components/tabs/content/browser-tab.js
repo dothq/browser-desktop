@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const kDebugVisiblePref = "dot.tabs.debug_information.visible";
+
 class BrowserRenderedTab extends BrowserCustomizableArea {
 	constructor() {
 		super();
@@ -129,19 +131,13 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	}
 
 	/**
-	 * The closest toolbar for this tab
-	 * @returns {BrowserToolbar}
-	 */
-	get toolbar() {
-		return this.closest("browser-toolbar");
-	}
-
-	/**
 	 * The closest tabbox for this tab
 	 * @returns {BrowserTabsElement}
 	 */
 	get tabbox() {
-		return this.closest("browser-tabs");
+		return /** @type {BrowserTabsElement} */ (
+			/** @type {ShadowRoot} */ (this.getRootNode()).host
+		);
 	}
 
 	/**
@@ -361,6 +357,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		const self = this;
 
 		return {
+			self,
 			audience: "tab",
 
 			get window() {
@@ -377,42 +374,82 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		};
 	}
 
+	maybeRenderDebug() {
+		const isVisible = Services.prefs.getBoolPref(kDebugVisiblePref, false);
+
+		clearInterval(this.debugUpdateInt);
+		this.debugUpdateInt = null;
+
+		if (isVisible) {
+			if (!this.querySelector("#tab-debug")) {
+				this.appendChild(
+					html(
+						"div",
+						{
+							id: "tab-debug",
+							slot: "tab-internal",
+							style: {
+								display: "flex",
+								gap: "4px",
+								position: "fixed",
+								backgroundColor: "black",
+								color: "white",
+								fontWeight: 600,
+								fontSize: "10px",
+								fontFamily: "monospace",
+								whiteSpace: "nowrap"
+							}
+						},
+						""
+					)
+				);
+			}
+
+			this.debugUpdateInt = setInterval(() => {
+				const width = this.getBoundingClientRect().width;
+
+				this.querySelector("#tab-debug").innerHTML =
+					"<span>" +
+					[
+						`ID: ${this.id.split("tab-")[1]}`,
+						`W: ${width.toFixed(0)}`,
+						`MaxW: ${(
+							parseInt(getComputedStyle(this).maxWidth) || width
+						).toFixed(0)}`,
+						`MinW: ${(
+							parseInt(getComputedStyle(this).minWidth) || width
+						).toFixed(0)}`
+					].join("</span><span>") +
+					"</span>";
+			}, 1);
+		} else {
+			if (this.querySelector("#tab-debug")) {
+				this.querySelector("#tab-debug").remove();
+			}
+		}
+	}
+
 	connectedCallback() {
 		super.connect("tab", {
+			mode: "icons",
 			showKeybindings: false
 		});
 
 		this.hidden = true;
 
-		this.appendChild(html("div", { class: "browser-tab-background" }));
-
+		this.shadowRoot.appendChild(html("slot", { name: "tab-internal" }));
 		this.appendChild(
-			html(
-				"div",
-				{
-					id: "tab-debug",
-					style: {
-						position: "fixed",
-						backgroundColor: "black",
-						color: "white",
-						fontWeight: 600,
-						fontSize: "12px",
-						whiteSpace: "nowrap"
-					}
-				},
-				""
-			)
+			html("div", {
+				class: "browser-tab-background",
+				slot: "tab-internal"
+			})
 		);
 
-		setInterval(() => {
-			this.querySelector("#tab-debug").innerHTML =
-				"<span>" +
-				[
-					`W: ${this.getBoundingClientRect().width.toFixed(0)}`,
-					`MW: ${parseInt(getComputedStyle(this).maxWidth)}`
-				].join("</span><br /><span>") +
-				"</span>";
-		}, 1);
+		Services.prefs.addObserver(
+			kDebugVisiblePref,
+			this.maybeRenderDebug.bind(this)
+		);
+		this.maybeRenderDebug();
 
 		this.shadowRoot.addEventListener("mousedown", this);
 		this.addEventListener("mouseover", this);
