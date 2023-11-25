@@ -6,7 +6,8 @@ class BrowserAddTabButton extends BrowserToolbarButton {
 	constructor() {
 		super();
 
-		this.routineId = "new-tab";
+		this.buttonId = "add-tab-button";
+		this.commandId = "add-tab";
 	}
 
 	connectedCallback() {
