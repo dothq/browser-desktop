@@ -11,6 +11,11 @@ const { BrowserCustomizableComponents: Components } =
 		"resource://gre/modules/BrowserCustomizableComponents.sys.mjs"
 	);
 
+const { BrowserCustomizableAttributes: Attributes } =
+	ChromeUtils.importESModule(
+		"resource://gre/modules/BrowserCustomizableAttributes.sys.mjs"
+	);
+
 const { JsonSchema } = ChromeUtils.importESModule(
 	"resource://gre/modules/JsonSchema.sys.mjs"
 );
@@ -155,8 +160,14 @@ BrowserCustomizableInternal.prototype = {
 			attributes
 		);
 
-		for (const [key, value] of Object.entries(validated)) {
-			element.setAttribute(key, (value ?? "").toString());
+		const processedAttributes = Attributes.processAttributes(
+			Object.entries(validated).map((a) => ({ name: a[0], value: a[1] }))
+		);
+
+		for (const [key, value] of Object.entries(processedAttributes)) {
+			const attributeValue = (value ?? "").toString();
+
+			element.setAttribute(key, attributeValue);
 		}
 
 		return element;

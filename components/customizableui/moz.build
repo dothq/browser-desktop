@@ -8,6 +8,7 @@ JAR_MANIFESTS += ["jar.mn"]
 
 EXTRA_JS_MODULES += [
     "BrowserCustomizable.sys.mjs",
+    "BrowserCustomizableAttributes.sys.mjs",
     "BrowserCustomizableComponents.sys.mjs",
     "BrowserCustomizableInternal.sys.mjs",
     "BrowserCustomizableShared.sys.mjs",

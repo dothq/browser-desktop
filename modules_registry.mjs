@@ -26,6 +26,8 @@ const registry = {
 
 	BrowserCustomizable:
 		"components/customizableui/BrowserCustomizable.sys.mjs",
+	BrowserCustomizableAttributes:
+		"components/customizableui/BrowserCustomizableAttributes.sys.mjs",
 	BrowserCustomizableComponents:
 		"components/customizableui/BrowserCustomizableComponents.sys.mjs",
 	BrowserCustomizableInternal:
