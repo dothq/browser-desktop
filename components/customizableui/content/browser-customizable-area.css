@@ -2,6 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+.customizable-area {
+    width: var(--area-width, inherit);
+    height: var(--area-height, inherit);
+}
+
 :host(.customizable-area) {
     position: relative;
 }

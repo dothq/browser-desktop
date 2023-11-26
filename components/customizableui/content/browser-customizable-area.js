@@ -38,7 +38,15 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 * Determines which attributes should be persisted and stored to preferences
 	 */
 	static get observedAttributes() {
-		return ["mode", "orientation", "accent"];
+		return [
+			"mode",
+			"orientation",
+			"accent",
+			"width",
+			"height",
+			"background",
+			"text"
+		];
 	}
 
 	/**
@@ -258,6 +266,31 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		this.maybeShowDebug();
 
 		this.actionsReceiver = new ActionsReceiver(this);
+	}
+
+	/**
+	 * Fired when an attribute on the area changes
+	 * @param {string} attributeName
+	 * @param {any} oldValue
+	 * @param {any} newValue
+	 */
+	attributeChangedCallback(attributeName, oldValue, newValue) {
+		super.attributeChangedCallback(attributeName, oldValue, newValue);
+
+		switch (attributeName) {
+			case "width":
+				this.style.setProperty("--area-width", newValue);
+				break;
+			case "height":
+				this.style.setProperty("--area-height", newValue);
+				break;
+			case "background":
+				this.style.setProperty("background-color", newValue);
+				break;
+			case "text":
+				this.style.setProperty("color", newValue);
+				break;
+		}
 	}
 }
 
