@@ -6,10 +6,7 @@ browser-tab {
     display: flex;
     justify-content: flex-start;
 
-    height: 40px;
-
     min-width: 0px;
-    max-height: 40px;
 
     margin: 0;
 
