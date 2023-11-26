@@ -4,7 +4,6 @@
 
 browser-tabs {
     display: flex;
-    background-color: var(--lwt-accent-color);
 
     overflow: hidden;
 
