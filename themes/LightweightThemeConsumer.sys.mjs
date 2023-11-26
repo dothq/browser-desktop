@@ -2,11 +2,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+var { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
 // Get the app theme variables from the app resource directory.
 var { ThemeVariableMap, ThemeContentPropertyList } = ChromeUtils.importESModule(
 	"resource:///modules/ThemeVariableMap.sys.mjs"
+);
+
+var { ToolkitVariableMap } = ChromeUtils.importESModule(
+	"resource:///modules/ToolkitVariableMap.sys.mjs"
 );
 
 // Declare the default theme ID (this should never change)
@@ -20,147 +26,10 @@ const BROWSER_THEME_DARK = 0;
 const BROWSER_THEME_LIGHT = 1;
 const BROWSER_THEME_SYSTEM = 2;
 
-const DEFAULT_THEME_RESPECTS_SYSTEM_COLOR_SCHEME = AppConstants.platform == "linux";
+const DEFAULT_THEME_RESPECTS_SYSTEM_COLOR_SCHEME =
+	AppConstants.platform == "linux";
 
 const kInvalidColor = { r: 0, g: 0, b: 0, a: 1 };
-
-const ToolkitVariableMap = [
-	[
-		"--lwt-accent-color",
-		{
-			lwtProperty: "accentcolor",
-			processColor(rgbaChannels, element) {
-				if (!rgbaChannels || rgbaChannels.a == 0) {
-					return "white";
-				}
-				// Remove the alpha channel
-				const { r, g, b } = rgbaChannels;
-				return `rgb(${r}, ${g}, ${b})`;
-			}
-		}
-	],
-	[
-		"--lwt-text-color",
-		{
-			lwtProperty: "textcolor",
-			processColor(rgbaChannels, element) {
-				if (!rgbaChannels) {
-					rgbaChannels = { r: 0, g: 0, b: 0 };
-				}
-				// Remove the alpha channel
-				const { r, g, b } = rgbaChannels;
-				return `rgba(${r}, ${g}, ${b})`;
-			}
-		}
-	],
-	[
-		"--arrowpanel-background",
-		{
-			lwtProperty: "popup"
-		}
-	],
-	[
-		"--arrowpanel-color",
-		{
-			lwtProperty: "popup_text",
-			processColor(rgbaChannels, element) {
-				const disabledColorVariable = "--panel-disabled-color";
-				const descriptionColorVariable = "--panel-description-color";
-
-				if (!rgbaChannels) {
-					element.style.removeProperty(disabledColorVariable);
-					element.style.removeProperty(descriptionColorVariable);
-					return null;
-				}
-
-				let { r, g, b, a } = rgbaChannels;
-
-				element.style.setProperty(disabledColorVariable, `rgba(${r}, ${g}, ${b}, 0.5)`);
-				element.style.setProperty(descriptionColorVariable, `rgba(${r}, ${g}, ${b}, 0.7)`);
-				return `rgba(${r}, ${g}, ${b}, ${a})`;
-			}
-		}
-	],
-	[
-		"--arrowpanel-border-color",
-		{
-			lwtProperty: "popup_border"
-		}
-	],
-	[
-		"--toolbar-field-background-color",
-		{
-			lwtProperty: "toolbar_field"
-		}
-	],
-	[
-		"--toolbar-field-color",
-		{
-			lwtProperty: "toolbar_field_text"
-		}
-	],
-	[
-		"--toolbar-field-border-color",
-		{
-			lwtProperty: "toolbar_field_border"
-		}
-	],
-	[
-		"--toolbar-field-focus-background-color",
-		{
-			lwtProperty: "toolbar_field_focus",
-			fallbackProperty: "toolbar_field",
-			processColor(rgbaChannels, element, propertyOverrides) {
-				if (!rgbaChannels) {
-					return null;
-				}
-				// Ensure minimum opacity as this is used behind address bar results.
-				const min_opacity = 0.9;
-				let { r, g, b, a } = rgbaChannels;
-				if (a < min_opacity) {
-					propertyOverrides.set(
-						"toolbar_field_text_focus",
-						isColorDark(r, g, b) ? "white" : "black"
-					);
-					return `rgba(${r}, ${g}, ${b}, ${min_opacity})`;
-				}
-				return `rgba(${r}, ${g}, ${b}, ${a})`;
-			}
-		}
-	],
-	[
-		"--toolbar-field-focus-color",
-		{
-			lwtProperty: "toolbar_field_text_focus",
-			fallbackProperty: "toolbar_field_text"
-		}
-	],
-	[
-		"--toolbar-field-focus-border-color",
-		{
-			lwtProperty: "toolbar_field_border_focus"
-		}
-	],
-	[
-		"--lwt-toolbar-field-highlight",
-		{
-			lwtProperty: "toolbar_field_highlight",
-			processColor(rgbaChannels, element) {
-				if (!rgbaChannels) {
-					return null;
-				}
-				const { r, g, b, a } = rgbaChannels;
-				return `rgba(${r}, ${g}, ${b}, ${a})`;
-			}
-		}
-	],
-	[
-		"--lwt-toolbar-field-highlight-text",
-		{
-			lwtProperty: "toolbar_field_highlight_text"
-		}
-	]
-];
 
 /**
  * Converts a CSS color to RGBA format
@@ -172,7 +41,10 @@ function cssColorToRGBA(doc, cssColor) {
 	if (!cssColor) {
 		return null;
 	}
-	return doc.defaultView.InspectorUtils.colorToRGBA(cssColor, doc) || kInvalidColor;
+	return (
+		doc.defaultView.InspectorUtils.colorToRGBA(cssColor, doc) ||
+		kInvalidColor
+	);
 }
 
 /**
@@ -208,7 +80,12 @@ function rgbaToString(parsedColor) {
  * @returns {boolean} True if the element should be considered dark, false
  *   otherwise.
  */
-function determineIfColorPairIsDark(doc, colors, textPropertyName, backgroundPropertyName) {
+function determineIfColorPairIsDark(
+	doc,
+	colors,
+	textPropertyName,
+	backgroundPropertyName
+) {
 	if (!colors[backgroundPropertyName] && !colors[textPropertyName]) {
 		// Handles the system theme.
 		return false;
@@ -248,14 +125,26 @@ function setDarkModeAttributes(doc, root, colors) {
 		}
 	}
 
-	if (determineIfColorPairIsDark(doc, colors, "toolbar_field_text", "toolbar_field")) {
+	if (
+		determineIfColorPairIsDark(
+			doc,
+			colors,
+			"toolbar_field_text",
+			"toolbar_field"
+		)
+	) {
 		root.setAttribute("lwt-toolbar-field-brighttext", "true");
 	} else {
 		root.removeAttribute("lwt-toolbar-field-brighttext");
 	}
 
 	if (
-		determineIfColorPairIsDark(doc, colors, "toolbar_field_text_focus", "toolbar_field_focus")
+		determineIfColorPairIsDark(
+			doc,
+			colors,
+			"toolbar_field_text_focus",
+			"toolbar_field_focus"
+		)
 	) {
 		root.setAttribute("lwt-toolbar-field-focus-brighttext", "true");
 	} else {
@@ -316,8 +205,11 @@ function setProperties(root, active, themeData) {
 				isColor = true
 			} = definition;
 
-			const elem = optionalElementID ? doc.getElementById(optionalElementID) : root;
-			let val = propertyOverrides.get(lwtProperty) || themeData[lwtProperty];
+			const elem = optionalElementID
+				? doc.getElementById(optionalElementID)
+				: root;
+			let val =
+				propertyOverrides.get(lwtProperty) || themeData[lwtProperty];
 
 			if (isColor) {
 				val = cssColorToRGBA(doc, val);
@@ -361,12 +253,17 @@ function getContentProperties(doc, active, data) {
 	if (data.experimental) {
 		for (const property in data.experimental.colors) {
 			if (ThemeContentPropertyList.includes(property)) {
-				properties[property] = cssColorToRGBA(doc, data.experimental.colors[property]);
+				properties[property] = cssColorToRGBA(
+					doc,
+					data.experimental.colors[property]
+				);
 			}
 		}
 		for (const property in data.experimental.images) {
 			if (ThemeContentPropertyList.includes(property)) {
-				properties[property] = `url(${data.experimental.images[property]})`;
+				properties[
+					property
+				] = `url(${data.experimental.images[property]})`;
 			}
 		}
 		for (const property in data.experimental.properties) {
@@ -415,7 +312,9 @@ export class LightweightThemeConsumer {
 
 		Services.obs.addObserver(this, "lightweight-theme-styling-update");
 
-		this.darkThemeMediaQuery = this._win.matchMedia("(-moz-system-dark-theme)");
+		this.darkThemeMediaQuery = this._win.matchMedia(
+			"(-moz-system-dark-theme)"
+		);
 		this.darkThemeMediaQuery.addListener(this);
 
 		const { LightweightThemeManager } = ChromeUtils.importESModule(
@@ -447,7 +346,10 @@ export class LightweightThemeConsumer {
 
 		switch (event.type) {
 			case "unload":
-				Services.obs.removeObserver(this, "lightweight-theme-styling-update");
+				Services.obs.removeObserver(
+					this,
+					"lightweight-theme-styling-update"
+				);
 				Services.ppmm.sharedData.delete(`theme/${this._winId}`);
 				this._win = this._doc = null;
 
@@ -460,7 +362,12 @@ export class LightweightThemeConsumer {
 		}
 	}
 
-	determineInterfaceTheme(doc, theme, hasDarkTheme = false, isDarkTheme = false) {
+	determineInterfaceTheme(
+		doc,
+		theme,
+		hasDarkTheme = false,
+		isDarkTheme = false
+	) {
 		const colors = theme?._processedColors;
 
 		// This function is needed to check whether the color is too dark for the foreground
@@ -504,7 +411,9 @@ export class LightweightThemeConsumer {
 				return BROWSER_THEME_SYSTEM;
 			}
 
-			const colorScheme = getColorSchemeFromThemedValue(theme.color_scheme);
+			const colorScheme = getColorSchemeFromThemedValue(
+				theme.color_scheme
+			);
 
 			// If we have a valid color scheme, return it
 			if (colorScheme !== null) return colorScheme;
@@ -525,12 +434,18 @@ export class LightweightThemeConsumer {
 
 			// Check the toolbar text color to see if it is dark enough for a light color scheme.
 			if (colors.toolbar_text) {
-				return prefValue(colors.toolbar_text, /* aIsForeground = */ true);
+				return prefValue(
+					colors.toolbar_text,
+					/* aIsForeground = */ true
+				);
 			}
 
 			// Check the text color of the theme, if it isn't set use black and check if it is
 			// dark enough for a light color scheme.
-			return prefValue(colors.textcolor || "black", /* aIsForeground = */ true);
+			return prefValue(
+				colors.textcolor || "black",
+				/* aIsForeground = */ true
+			);
 		};
 
 		const getContentTheme = () => {
@@ -568,8 +483,14 @@ export class LightweightThemeConsumer {
 		};
 
 		// Set the prefs
-		Services.prefs.setIntPref(BROWSER_CONTENT_THEME_PREF_ID, getToolbarTheme());
-		Services.prefs.setIntPref(BROWSER_TOOLBAR_THEME_PREF_ID, getContentTheme());
+		Services.prefs.setIntPref(
+			BROWSER_CONTENT_THEME_PREF_ID,
+			getToolbarTheme()
+		);
+		Services.prefs.setIntPref(
+			BROWSER_TOOLBAR_THEME_PREF_ID,
+			getContentTheme()
+		);
 	}
 
 	/**
@@ -629,13 +550,30 @@ export class LightweightThemeConsumer {
 		}
 
 		this._setExperiment(active, themeData.experiment, theme.experimental);
-		setImage(this._win, root, !!active, "--lwt-header-image", theme.headerURL);
-		setImage(this._win, root, !!active, "--lwt-additional-images", theme.additionalBackgrounds);
+		setImage(
+			this._win,
+			root,
+			!!active,
+			"--lwt-header-image",
+			theme.headerURL
+		);
+		setImage(
+			this._win,
+			root,
+			!!active,
+			"--lwt-additional-images",
+			theme.additionalBackgrounds
+		);
 		setProperties(root, active, theme);
 
 		if (theme.id != DEFAULT_THEME_ID || useDarkTheme) {
 			if (updateGlobalThemeData) {
-				this.determineInterfaceTheme(this._doc, theme, hasDarkTheme, useDarkTheme);
+				this.determineInterfaceTheme(
+					this._doc,
+					theme,
+					hasDarkTheme,
+					useDarkTheme
+				);
 			}
 			root.setAttribute("lwtheme", "true");
 		} else {
@@ -651,7 +589,11 @@ export class LightweightThemeConsumer {
 
 		setDarkModeAttributes(this._doc, root, theme._processedColors);
 
-		const contentThemeData = getContentProperties(this._doc, !!active, theme);
+		const contentThemeData = getContentProperties(
+			this._doc,
+			!!active,
+			theme
+		);
 
 		Services.ppmm.sharedData.set(`theme/${this._winId}`, contentThemeData);
 		// We flush sharedData because contentThemeData can be responsible for
@@ -690,7 +632,10 @@ export class LightweightThemeConsumer {
 			for (const property in properties.colors) {
 				const cssVariable = experiment.colors[property];
 				const value = rgbaToString(
-					cssColorToRGBA(root.ownerDocument, properties.colors[property])
+					cssColorToRGBA(
+						root.ownerDocument,
+						properties.colors[property]
+					)
 				);
 				usedVariables.push([cssVariable, value]);
 			}
@@ -699,14 +644,20 @@ export class LightweightThemeConsumer {
 		if (properties.images) {
 			for (const property in properties.images) {
 				const cssVariable = experiment.images[property];
-				usedVariables.push([cssVariable, `url(${properties.images[property]})`]);
+				usedVariables.push([
+					cssVariable,
+					`url(${properties.images[property]})`
+				]);
 			}
 		}
 
 		if (properties.properties) {
 			for (const property in properties.properties) {
 				const cssVariable = experiment.properties[property];
-				usedVariables.push([cssVariable, properties.properties[property]]);
+				usedVariables.push([
+					cssVariable,
+					properties.properties[property]
+				]);
 			}
 		}
 
