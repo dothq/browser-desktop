@@ -60,7 +60,7 @@ const PrimitiveTypes = {
 
 		let type = null;
 
-		const isValidHex = /^(#?)[0-9A-F]{6}$/.test(value);
+		const isValidHex = /^(#?)[0-9a-fA-F]{6}$/.test(value);
 		if (isValidHex) {
 			// If we don't have the hash yet, prepend it to the hex code
 			if (value.charAt(0) != "#") {
