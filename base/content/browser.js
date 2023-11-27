@@ -38,9 +38,17 @@ var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
 
+var { DOMUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/DOMUtils.sys.mjs"
+);
+
 class BrowserApplication extends BrowserCustomizableArea {
 	constructor() {
 		super();
+
+		this.toolbarMutationObserver = new MutationObserver(
+			this.maybePromoteToolbars.bind(this)
+		);
 	}
 
 	_done = false;
@@ -102,6 +110,17 @@ class BrowserApplication extends BrowserCustomizableArea {
 		super.connect("root", {
 			orientation: "vertical"
 		});
+
+		this.toolbarMutationObserver.observe(this, {
+			childList: true,
+			attributes: true,
+			attributeFilter: ["initial"]
+		});
+
+		this.addEventListener(
+			"CustomizableUI::DidMount",
+			this.maybePromoteToolbars.bind(this)
+		);
 	}
 
 	/**
@@ -126,6 +145,38 @@ class BrowserApplication extends BrowserCustomizableArea {
 				return this.tab.linkedBrowser;
 			}
 		};
+	}
+
+	/**
+	 * Determines which toolbar can be considered "initial"
+	 *
+	 * Initial is an attribute we can add onto a browser-toolbar,
+	 * giving it control of the window CSD.
+	 *
+	 * Typically, the initial toolbar will be the one closest to
+	 * the top of the window, to keep the CSD position consistent
+	 */
+	maybePromoteToolbars() {
+		console.log("maybepromotetoolbars");
+
+		const toolbars = DOMUtils.shadowedQuerySelectorAll(
+			this,
+			"browser-toolbar"
+		);
+
+		if (toolbars.length) {
+			/** @type {[number, Element][]} */
+			const boundings = toolbars.map((tb) => [
+				tb.getBoundingClientRect().y,
+				tb
+			]);
+
+			const initialToolbar = boundings.sort((a, b) => a[0] - b[0])[0][1];
+
+			for (const toolbar of toolbars) {
+				toolbar.toggleAttribute("initial", toolbar === initialToolbar);
+			}
+		}
 	}
 
 	/**

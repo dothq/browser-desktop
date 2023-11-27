@@ -4,6 +4,7 @@
 
 EXTRA_JS_MODULES += [
     "DevToolsServer.sys.mjs",
+    "DOMUtils.sys.mjs",
     "DotWindowTracker.sys.mjs",
 ]
 

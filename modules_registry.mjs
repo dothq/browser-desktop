@@ -10,6 +10,8 @@ const registry = {
 
 	DotWindowTracker: "modules/DotWindowTracker.sys.mjs",
 
+	DOMUtils: "modules/DOMUtils.sys.mjs",
+
 	Action: "components/actions/Action.sys.mjs",
 	ActionRegistry: "components/actions/ActionRegistry.sys.mjs",
 	ActionsDispatcher: "components/actions/ActionsDispatcher.sys.mjs",
