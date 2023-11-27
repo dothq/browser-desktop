@@ -20,13 +20,12 @@ export class CommandSubscription {
 
 	/**
 	 * Dispatches a mutation event to the observer
+	 * @param {string} audience
 	 * @param {string} attributeName
 	 * @param {any} oldValue
 	 * @param {any} newValue
 	 */
-	dispatchMutation(attributeName, oldValue, newValue) {
-		if (newValue === oldValue) return;
-
+	dispatchMutation(audience, attributeName, oldValue, newValue) {
 		console.log(
 			`${this.constructor.name} (${
 				this.#commandId
@@ -35,7 +34,7 @@ export class CommandSubscription {
 			)}'`
 		);
 
-		this.#callback.call(null, attributeName, newValue);
+		this.#callback.call(null, audience, attributeName, newValue);
 	}
 
 	/**

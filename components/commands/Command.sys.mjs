@@ -27,6 +27,16 @@ export class Command {
 	}
 
 	/**
+	 * Creates an empty map for command attributes
+	 * @returns {Map<string, any>}
+	 */
+	createEmptyMap() {
+		return new Map(
+			Object.entries({ root: null, [this.#area.context.audience]: null })
+		);
+	}
+
+	/**
 	 * @param {typeof CommandSubscription.prototype} subscription
 	 * @param {BrowserCustomizableArea} area
 	 */
@@ -35,6 +45,11 @@ export class Command {
 		this.#area = area;
 
 		this.abortController = new AbortController();
+
+		this._label = this.createEmptyMap();
+		this._labelAuxiliary = this.createEmptyMap();
+		this._icon = this.createEmptyMap();
+		this._disabled = this.createEmptyMap();
 	}
 
 	/**
@@ -55,84 +70,122 @@ export class Command {
 	 */
 	run(args = {}) {}
 
-	/** @type {string} */
-	#label = null;
+	/** @type {Map<string, string>} */
+	_label = null;
 
-	/** @type {string} */
-	#label_auxiliary = null;
+	/** @type {Map<string, string>} */
+	_labelAuxiliary = null;
 
-	/** @type {string} */
-	#icon = null;
+	/** @type {Map<string, string>} */
+	_icon = null;
 
-	/** @type {boolean} */
-	#disabled = null;
+	/** @type {Map<string, boolean>} */
+	_disabled = null;
+
+	/**
+	 * Updates an attribute on the command
+	 *
+	 * @param {string} attribute - The attribute to change
+	 * @param {any | Record<string, any>} value - The data to set the attribute to
+	 */
+	setAttribute(attribute, value) {
+		if (!(`_${attribute}` in this)) {
+			throw new Error(`Unknown attribute with name '${attribute}'!`);
+		}
+
+		/** @type {Map<string, string>} */
+		const attributeMap = this[`_${attribute}`];
+
+		if (
+			!(
+				typeof value == "object" &&
+				!Array.isArray(value) &&
+				value !== null
+			)
+		) {
+			const allValue = value;
+			value = {};
+
+			for (const audience of attributeMap.keys()) {
+				value[audience] = allValue;
+			}
+		}
+
+		for (const [audience, audienceValue] of Object.entries(value)) {
+			const oldValue = attributeMap.get(audience);
+			attributeMap.set(audience, audienceValue);
+
+			console.log(
+				`Command: Dispatching mutation of '${attribute}' to '${audienceValue}' on audience '${audience}'.`
+			);
+
+			this.#subscription.dispatchMutation(
+				audience,
+				attribute,
+				oldValue,
+				audienceValue
+			);
+		}
+	}
 
 	/**
 	 * The label for this command
+	 * @returns {any}
 	 */
 	get label() {
-		return this.#label;
+		return this._label.get("root");
 	}
 
 	/**
 	 * Updates the label for this command
 	 */
 	set label(newValue) {
-		this.#subscription.dispatchMutation("label", this.#label, newValue);
-		this.#label = newValue;
+		this.setAttribute("label", newValue);
 	}
 
 	/**
 	 * The auxiliary label for this command
+	 * @returns {any}
 	 */
-	get label_auxiliary() {
-		return this.#label_auxiliary;
+	get labelAuxiliary() {
+		return this._labelAuxiliary.get("root");
 	}
 
 	/**
 	 * Updates the auxiliary label for this command
 	 */
-	set label_auxiliary(newValue) {
-		this.#subscription.dispatchMutation(
-			"label_auxiliary",
-			this.#label_auxiliary,
-			newValue
-		);
-		this.#label_auxiliary = newValue;
+	set labelAuxiliary(newValue) {
+		this.setAttribute("labelAuxiliary", newValue);
 	}
 
 	/**
 	 * The icon for this command
+	 * @returns {any}
 	 */
 	get icon() {
-		return this.#icon;
+		return this._icon.get("root");
 	}
 
 	/**
 	 * Updates the icon for this command
 	 */
 	set icon(newValue) {
-		this.#subscription.dispatchMutation("icon", this.#icon, newValue);
-		this.#icon = newValue;
+		this.setAttribute("icon", newValue);
 	}
 
 	/**
 	 * Determines the disabled state of this command
+	 * @returns {any}
 	 */
 	get disabled() {
-		return !!this.#disabled;
+		return !!this._disabled.get("root");
 	}
 
 	/**
 	 * Updates the disabled state of this command
 	 */
 	set disabled(newValue) {
-		this.#subscription.dispatchMutation(
-			"disabled",
-			this.#disabled,
-			newValue
-		);
-		this.#disabled = newValue;
+		this.setAttribute("disabled", newValue);
 	}
 
 	/**

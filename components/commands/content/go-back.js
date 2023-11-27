@@ -11,7 +11,7 @@ export class GoBackCommand extends TabCommand {
 		super(subscription, area);
 
 		this.label = "Back";
-		this.label_auxiliary = "Go backwards one page";
+		this.labelAuxiliary = "Go backwards one page";
 		this.icon = "arrow-left";
 		this.disabled = !this.context.browser.canGoBack;
 	}

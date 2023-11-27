@@ -15,7 +15,7 @@ export class AddTabCommand extends Command {
 		super(subscription, area);
 
 		this.label = "New Tab";
-		this.label_auxiliary = "Open a new tab";
+		this.labelAuxiliary = "Open a new tab";
 		this.icon = "add";
 	}
 

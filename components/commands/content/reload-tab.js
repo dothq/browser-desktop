@@ -70,17 +70,13 @@ export class ReloadTabCommand extends TabCommand {
 			stateFlags & STATE_IS_NETWORK &&
 			shouldShowProgress;
 
-		// Clear the reload timer and make sure we aren't disabled
-		if (this.isLoading) {
-			this.window.clearTimeout(this._reloadTimer);
-		}
-
 		this.disabled = false;
 
 		this.label = this.isLoading ? "Stop" : "Reload";
-		this.label_auxiliary = this.isLoading
-			? "Stop loading page"
-			: "Reload current page";
+		this.labelAuxiliary = {
+			root: this.isLoading ? "Stop loading page" : "Reload current page",
+			tab: this.isLoading ? "Stop loading this page" : "Reload this page"
+		};
 		this.icon = this.isLoading ? "close" : "reload";
 
 		// Only runs when the browser has successfully finished loaded the document
