@@ -254,6 +254,9 @@ export class TabProgressListener {
 			stateFlags,
 			status
 		});
+
+		this.stateFlags = stateFlags;
+		this.status = status;
 	}
 
 	/**
