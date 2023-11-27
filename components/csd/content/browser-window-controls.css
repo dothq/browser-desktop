@@ -6,6 +6,9 @@ browser-window-controls {
     display: flex;
     align-items: center;
     -moz-window-dragging: no-drag;
+    --csd-margin-start: 4px;
+    --csd-margin-end: 4px;
+    margin-inline: var(--csd-margin-start) var(--csd-margin-end);
 }
 
 browser-window-controls button:focus-visible {
@@ -80,14 +83,13 @@ browser-window-controls[hidden] {
 
     @media (-moz-gtk-csd-reversed-placement) {
         browser-window-controls {
-            margin-inline-end: 8px;
+            --csd-margin-end: calc(var(--csd-margin-start) * 4);
         }
     }
 
     @media not (-moz-gtk-csd-reversed-placement) {
         browser-window-controls {
             margin-left: auto;
-            margin-inline: 4px;
         }
     }
 }

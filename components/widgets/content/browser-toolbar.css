@@ -14,32 +14,17 @@ browser-toolbar {
     -moz-window-dragging: drag;
 
     --area-min-height: 28px;
+
+    --csd-visibility: none;
+}
+
+browser-toolbar[initial] {
+    --csd-visibility: flex;
 }
 
 browser-toolbar[accent] {
     background-color: var(--lwt-accent-color);
     z-index: 200;
-}
-
-browser-toolbar:not([initial])::part(csd) {
-    display: none !important;
-}
-
-browser-toolbar::part(csd) {
-    align-self: flex-start;
-    height: 100%;
-    max-height: 48px;
-}
-
-:root[chromemargin=""] browser-toolbar::part(csd),
-:root:not([chromemargin]) browser-toolbar::part(csd) {
-    display: none;
-}
-
-:root[chromemargin=""] browser-toolbar::part(csd),
-:root:not([chromemargin]) browser-toolbar::part(csd) {
-    visibility: hidden;
-    max-width: 0;
 }
 
 browser-toolbar[collapse] {
@@ -71,6 +56,10 @@ browser-toolbar[collapse] {
 
 :host(browser-toolbar[orientation=vertical]) .customizable-container {
     padding-block: var(--padding);
+}
+
+:host(browser-toolbar) browser-window-controls {
+    display: var(--csd-visibility);
 }
 
 /* :host(browser-toolbar[initial]) .customizable-container {
