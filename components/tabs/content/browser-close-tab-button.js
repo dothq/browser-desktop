@@ -6,8 +6,8 @@ class BrowserCloseTabButton extends BrowserToolbarButton {
 	constructor() {
 		super();
 
-		this.routineId = "close-tab";
 		this.buttonId = "close-tab-button";
+		this.commandId = "close-tab";
 	}
 
 	connectedCallback() {

@@ -10,7 +10,13 @@ const { CommandSubscription } = ChromeUtils.importESModule(
 	"resource://gre/modules/CommandSubscription.sys.mjs"
 );
 
-const ALL_COMMANDS = ["add-tab", "go-back", "go-forward", "reload-tab"];
+const ALL_COMMANDS = [
+	"add-tab",
+	"close-tab",
+	"go-back",
+	"go-forward",
+	"reload-tab"
+];
 
 export class BrowserCommands {
 	/** @type {Window} */

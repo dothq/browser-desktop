@@ -9,6 +9,7 @@ const { Action } = ChromeUtils.importESModule(
 const ALL_ACTIONS = [
 	// browser.tabs
 	"browser.tabs.add_tab",
+	"browser.tabs.close_tab",
 	"browser.tabs.go_back",
 	"browser.tabs.go_forward",
 	"browser.tabs.reload_page",
