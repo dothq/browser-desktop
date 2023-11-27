@@ -144,12 +144,15 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	/**
 	 * Handles incoming mutations to the attached command
 	 *
+	 * @param {string} audience
 	 * @param {any} attributeName
 	 * @param {any} value
 	 */
-	observeCommandMutation(attributeName, value) {
+	observeCommandMutation(audience, attributeName, value) {
+		if (this.hostContext.audience != audience) return;
+
 		switch (attributeName) {
-			case "label_auxiliary":
+			case "labelAuxiliary":
 				this.tooltip = value;
 				break;
 			case "label":
@@ -160,6 +163,32 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 		}
 	}
 
+	/**
+	 * Triggered when the click event for the toolbar button is fired
+	 * @param {KeyboardEvent} event
+	 */
+	_onTBKey(event) {
+		const handler = () => {
+			clear();
+			this.toggleAttribute("active", true);
+		};
+
+		const clear = () => {
+			this.removeEventListener("click", handler);
+			this.removeAttribute("active");
+		};
+
+		if (event.code == "Enter") {
+			clear();
+
+			if (event.type == "keydown") {
+				this.addEventListener("click", handler, { once: true });
+			}
+		} else {
+			clear();
+		}
+	}
+
 	connectedCallback() {
 		this.classList.add("toolbar-button");
 		this.classList.toggle(
@@ -167,8 +196,14 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			"buttonId" in this
 		);
 
-		this.appendChild(this.elements.icon);
-		this.appendChild(this.elements.label);
+		this.appendChild(
+			html(
+				"div",
+				{ class: "toolbar-button-container" },
+				this.elements.icon,
+				this.elements.label
+			)
+		);
 
 		if (this.commandId) {
 			this.commandSubscription = new CommandSubscription(
@@ -182,6 +217,10 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 				this.commandSubscription.invoke.bind(this.commandSubscription)
 			);
 		}
+
+		this.addEventListener("keydown", this._onTBKey.bind(this));
+		this.addEventListener("keyup", this._onTBKey.bind(this));
+		this.addEventListener("blur", this._onTBKey.bind(this));
 	}
 
 	disconnectedCallback() {
@@ -189,6 +228,10 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			this.commandSubscription.destroy();
 			this.commandSubscription = null;
 		}
+
+		this.removeEventListener("keydown", this._onTBKey.bind(this));
+		this.removeEventListener("keyup", this._onTBKey.bind(this));
+		this.removeEventListener("blur", this._onTBKey.bind(this));
 	}
 }
 

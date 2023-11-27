@@ -5,61 +5,76 @@
 .toolbar-button {
     display: flex;
 
-    align-items: center;
-    justify-content: center;
+    align-self: stretch;
 
-    background-color: transparent;
+    background-color: transparent !important;
 
-    --button-size: 32px;
-    width: calc(var(--button-size) + 6px);
-    height: var(--button-size);
+    /* We set this to 0 as it is a leftover from input.css */
+    min-height: 0px;
+    min-width: 0px;
 
-    min-width: fit-content;
-    max-height: fit-content;
+    --button-area-height: max(var(--area-min-height), var(--area-height));
 
-    padding: 0 calc(var(--button-size) * 0.25);
+    --x-padding: var(--area-x-padding, calc((var(--button-area-height) - var(--y-padding) - 16px) / 2));
+    --y-padding: var(--area-y-padding, calc(var(--button-area-height) * 0.1 * 2 * calc(2 - var(--button-scale-factor, 1))));
+    --content-size: min(var(--button-area-height) / 1.5, 1rem);
 
-    border-radius: 6px;
-
-    gap: 8px;
-
-    transition: background 200ms var(--button-ease-out-quad),
-        outline 25ms var(--button-ease-out-quad),
-        opacity 25ms var(--button-ease-out-quad);
+    padding: calc(var(--y-padding) / 2) 0;
 
     -moz-window-dragging: no-drag;
+
+    outline: none !important;
+    transition: none !important;
+    z-index: initial !important;
+}
+
+.toolbar-button .toolbar-button-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+
+    background-color: var(--button-background);
+    outline: var(--button-outline);
+    outline-offset: var(--button-outline-offset);
+
+    gap: max(var(--x-padding), 4px);
+
+    max-width: max-content;
+    max-height: max-content;
+
+    border-radius: calc(var(--content-size) / 2);
+
+    padding: 0 var(--x-padding);
+
+    transition: var(--button-transition);
+
+    z-index: var(--button-z-index);
 }
 
 .toolbar-button:disabled {
     pointer-events: auto;
 }
 
-/* Make sure in icons mode that the toolbar button is exactly a square */
-.toolbar-button[mode=icons],
-:host([mode=icons]) .toolbar-button {
-    min-width: var(--button-size);
-    min-height: var(--button-size);
-    max-width: var(--button-size);
-    max-height: var(--button-size);
-}
-
-.toolbar-button[mode=icons]>*:not(.toolbar-button-icon),
-:host([mode=icons]) .toolbar-button:not([mode])>*:not(.toolbar-button-icon) {
+.toolbar-button[mode=icons] .toolbar-button-container>*:not(.toolbar-button-icon),
+browser-toolbar[mode=icons] .toolbar-button:not([mode]) .toolbar-button-container>*:not(.toolbar-button-icon),
+:host([mode=icons]) .toolbar-button:not([mode]) .toolbar-button-container>*:not(.toolbar-button-icon),
+[mode=icons]>.toolbar-button:not([mode]) .toolbar-button-container>*:not(.toolbar-button-icon) {
     display: none;
 }
 
-.toolbar-button[mode=text]>*:not(.toolbar-button-label),
-:host([mode=text]) .toolbar-button:not([mode])>*:not(.toolbar-button-label) {
+.toolbar-button[mode=text].toolbar-button-container>*:not(.toolbar-button-label),
+browser-toolbar[mode=text] .toolbar-button:not([mode]).toolbar-button-container>*:not(.toolbar-button-label),
+:host([mode=text]) .toolbar-button:not([mode]).toolbar-button-container>*:not(.toolbar-button-label),
+[mode=text]>.toolbar-button:not([mode]).toolbar-button-container>*:not(.toolbar-button-label) {
     display: none;
 }
 
 .toolbar-button .toolbar-button-label {
+    font-size: var(--content-size);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     max-width: 100px;
-}
-
-:host(.customizable-area[orientation=vertical]) .toolbar-button {
-    width: 100%;
 }

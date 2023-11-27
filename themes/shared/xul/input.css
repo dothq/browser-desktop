@@ -8,7 +8,7 @@
 :root {
     --button-disabled-opacity: 0.5;
 
-    --button-color: color-mix(in srgb, currentColor 10%, transparent);
+    --button-default-color: color-mix(in srgb, currentColor 10%, transparent);
     --button-hover-color: color-mix(in srgb, currentColor 15%, transparent);
     --button-active-color: color-mix(in srgb, currentColor 30%, transparent);
     --button-checked-color: color-mix(in srgb, currentColor 30%, transparent);
@@ -37,10 +37,18 @@ html|select {
     font-weight: 500;
 
     color: unset;
-    background-color: var(--button-color);
+    background-color: var(--button-background, var(--button-default-color));
 
-    transition: background 200ms var(--button-ease-out-quad),
-        outline 25ms var(--button-ease-out-quad);
+    outline: var(--button-outline);
+    outline-offset: var(--button-outline-offset);
+
+    transition: var(--button-transition);
+
+    z-index: var(--button-z-index);
+
+    --button-transition: background 200ms var(--button-ease-out-quad),
+        outline 25ms var(--button-ease-out-quad),
+        outline-offset var(--button-outline-offset-transition-duration, 50ms) var(--button-ease-out-quad);
 }
 
 button,
@@ -66,7 +74,7 @@ xul|button:hover:not(:disabled),
 html|button:hover:not(:disabled),
 html|select:hover:not(:disabled),
 html|select:focus:not(:disabled) {
-    background-color: var(--button-hover-color);
+    --button-background: var(--button-hover-color);
 }
 
 button:active:not(:disabled),
@@ -74,7 +82,7 @@ select:active:not(:disabled),
 xul|button:active:not(:disabled),
 html|button:active:not(:disabled),
 html|select:active:not(:disabled) {
-    background-color: var(--button-active-color);
+    --button-background: var(--button-active-color);
 }
 
 button[active]:not(:disabled),
@@ -82,7 +90,7 @@ select[active]:not(:disabled),
 xul|button[active]:not(:disabled),
 html|button[active]:not(:disabled),
 html|select[active]:not(:disabled) {
-    background-color: var(--button-active-color);
+    --button-background: var(--button-active-color);
 }
 
 button:disabled>*,
@@ -98,23 +106,24 @@ select:focus-visible,
 xul|button:focus-visible:not(:active),
 html|button:focus-visible:not(:active),
 html|select:focus-visible {
-    background-color: var(--button-color);
+    --button-background: var(--button-default-color);
 
-    outline: 2px solid AccentColor;
-    outline-offset: 2px;
+    --button-outline: 2px solid AccentColor;
+    --button-outline-offset: 2px;
 
-    z-index: 1;
-
-    transition: outline-offset 50ms var(--button-ease-out-quad);
+    --button-z-index: 2147483647;
 }
 
 button:focus-visible:active,
 xul|button:focus-visible:active,
-html|button:focus-visible:active {
-    outline: 2px solid AccentColor;
-    outline-offset: 0px;
+html|button:focus-visible:active,
+button:focus-visible[active],
+xul|button:focus-visible[active],
+html|button:focus-visible[active] {
+    --button-outline: 2px solid AccentColor;
+    --button-outline-offset: 0px;
 
-    transition: outline-offset 100ms var(--button-ease-out-quad);
+    --button-outline-offset-transition-duration: 100ms;
 }
 
 @media (prefers-contrast) {
