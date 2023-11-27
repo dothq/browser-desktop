@@ -7,8 +7,8 @@ browser-tab-icon {
     align-items: center;
     justify-content: center;
     overflow: clip;
-    transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
-    transition-delay: 0s;
+    transition: 0.2s opacity cubic-bezier(0.19, 1, 0.22, 1), 0.3s width cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: width, opacity;
 }
 
 browser-tab-icon[hideicon] .browser-tab-image {
@@ -49,23 +49,6 @@ browser-tab-icon .browser-tab-spinner {
     background-color: currentColor;
 }
 
-:host(browser-tab[layout="tab"]) browser-tab-icon[hideicon]:not([progress]) {
-    --position-x: calc((16px + var(--browser-ui-density)) / -1);
-    transition-delay: 0.3s;
-}
-
-:host(browser-tab[layout="tab"]) browser-tab-icon .browser-tab-image,
-:host(browser-tab[layout="tab"]) browser-tab-icon .browser-tab-spinner {
-    transition: 0.3s margin-inline-start cubic-bezier(0.19, 1, 0.22, 1);
-
-    margin-inline-start: var(--position-x, 0px);
-    margin-inline-end: var(--browser-ui-density);
-}
-
-:host(browser-tab[layout="tab"]) browser-tab-icon[hideicon]:not([progress]) .browser-tab-spinner {
-    transition-delay: 0.3s;
-}
-
 /* Busy */
 browser-tab-icon[progress="1"] .browser-tab-spinner {
     mask-image: url(chrome://dot/skin/tab-loading-busy.svg);
@@ -85,4 +68,22 @@ browser-tab-icon[progress="2"] .browser-tab-spinner {
     browser-tab-icon[progress="2"] .browser-tab-spinner {
         mask-image: url(chrome://dot/skin/hourglass-filled.svg);
     }
+}
+
+:host(browser-tab) browser-tab-icon {
+    --tab-icon-padding: 4px;
+    --width: calc(16px + var(--tab-icon-padding));
+
+    width: var(--width);
+    opacity: 1;
+
+    justify-content: flex-start;
+
+    margin-inline-start: calc(var(--tab-padding-start) - var(--tab-icon-padding)) !important;
+    padding-inline-start: var(--tab-icon-padding);
+}
+
+:host(browser-tab[hideicon]) browser-tab-icon {
+    width: 0px;
+    opacity: 0;
 }

@@ -188,21 +188,36 @@ browser-tab .browser-tab-icons {
     display: flex;
 }
 
-:host(browser-tab[layout="tab"]) .toolbar-button {
-    --button-size: 26px;
-    --size: 12px;
-    display: var(--tab-action-visibility);
-}
-
 browser-tab::part(customizable) {
-    gap: 6px;
+    width: calc(100% - var(--tab-padding-start) - var(--tab-padding-end));
+    min-width: 0px;
+
+    gap: 2px;
+    align-items: center;
+
     overflow: initial;
     padding: 0;
-    margin-inline-start: calc(var(--browser-ui-density) * 1.25);
-    margin-inline-end: var(--browser-ui-density);
-    width: calc(100% - calc(var(--browser-ui-density) * 1.25) * 2);
-    min-width: 0px;
-    align-items: center;
+
+    --tab-padding-start: calc(var(--browser-ui-density) * 1.25);
+    --tab-padding-end: var(--browser-ui-density);
+
+    --button-scale-factor: 0.5;
+}
+
+:host(browser-tab) .customizable-container> :first-child {
+    margin-inline-start: var(--tab-padding-start);
+}
+
+:host(browser-tab) .customizable-container> :last-child {
+
+    /* If the last child of the tab's contents is a toolbar-button, use the Y padding for tab end padding instead */
+    &.toolbar-button {
+        margin-inline-end: calc(var(--y-padding) / 2);
+    }
+
+    & {
+        margin-inline-end: var(--tab-padding-end);
+    }
 }
 
 browser-tabs[hidetabactions] browser-tab:not([selected]) {
