@@ -158,14 +158,15 @@ BrowserTabs.prototype = {
 		if (this._isWebContentsBrowserElement(tab.webContents)) {
 			const browser = /** @type {ChromeBrowser} */ (tab.webContents);
 
-			console.log("tab.docShellIsActive", true);
 			browser.docShellIsActive = true;
 			browser.setAttribute("primary", "true");
 		}
 
 		this._selectedTab = tab;
 
-		tab.webContentsPanel.toggleAttribute("visible", true);
+		if (tab.webContentsPanel) {
+			tab.webContentsPanel.toggleAttribute("visible", true);
+		}
 
 		if (tab.previousElementSibling)
 			tab.previousElementSibling.toggleAttribute(
@@ -500,7 +501,6 @@ BrowserTabs.prototype = {
 		}
 
 		if (uri) {
-			console.log("Setting initial URI to", uri);
 			tabEl._initialURI = uri;
 		}
 
@@ -542,11 +542,13 @@ BrowserTabs.prototype = {
 		} catch (e) {
 			console.error("Error while creating tab!");
 			console.error(e);
-			if (tabEl.webContentsPanel) {
-				tabEl.webContentsPanel.remove();
+			tabEl?.remove();
+
+			if (tabEl?.linkedBrowser) {
+				this._tabFilters.delete(tabEl);
+				this._tabListeners.delete(tabEl);
+				tabEl?.webContentsPanel?.remove();
 			}
-			tabEl.remove();
-			// @todo: unload browser and listeners
 			return null;
 		}
 
@@ -991,14 +993,10 @@ BrowserTabs.prototype = {
 
 			// Check if our URI is a string
 			if (uriToLoad && typeof uriToLoad == "string") {
-				console.log("URI to load is a string", uriToLoad);
-
 				const oa = E10SUtils.predictOriginAttributes({
 					window: this._win,
 					userContextId
 				});
-
-				console.log("origin attributes", oa);
 
 				remoteType = E10SUtils.getRemoteTypeForURI(
 					uriToLoad,
@@ -1008,8 +1006,6 @@ BrowserTabs.prototype = {
 					null,
 					oa
 				);
-
-				console.log("Using", remoteType, "as URI to load remote type");
 			} else {
 				// If the URI doesn't exist or isn't a string, we can assume
 				// it's probably still a promise, since uriToLoadPromise returns
@@ -1057,8 +1053,6 @@ BrowserTabs.prototype = {
 		if (!listener) {
 			throw new Error(`No listener for tab with ID '${tab.id}'.`);
 		}
-
-		console.log("Dispatched", name, args);
 
 		switch (name) {
 			case "onLocationChange":
@@ -1215,9 +1209,11 @@ BrowserTabs.prototype = {
 			/** @type {ChromeBrowser} */ (tab.webContents).destroy();
 		}
 
-		tab.webContentsPanel.remove();
+		if (tab.webContentsPanel) {
+			tab.webContentsPanel.remove();
+		}
 
-		tab.remove();
+		tab?.remove();
 	},
 
 	/**

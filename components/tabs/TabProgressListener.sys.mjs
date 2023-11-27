@@ -167,7 +167,6 @@ export class TabProgressListener {
 			stateFlags,
 			status
 		);
-		console.log("REMOTE_TYPE", this.browser.remoteType);
 
 		const { clearTimeout, setTimeout } = this.win;
 
@@ -295,13 +294,6 @@ export class TabProgressListener {
 
 			incrementProgress(this.tab);
 		}
-
-		console.log(
-			curSelfProgress,
-			maxSelfProgress,
-			curTotalProgress,
-			maxTotalProgress
-		);
 
 		if (curTotalProgress && maxTotalProgress) {
 			this.tab.progressPercent =

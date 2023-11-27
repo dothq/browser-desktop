@@ -99,7 +99,6 @@ export class TabIdentityHandler {
 		// Make sure we're handling our own browser's events only
 		if (this.browser !== browser) return;
 
-		console.log("updating site state", state);
 		this._state = state;
 
 		this.update();
@@ -140,8 +139,6 @@ export class TabIdentityHandler {
 		let mode = this._cached?.mode || "";
 
 		if (!cache || !this._cached || !type.length || !icon.length) {
-			console.debug("Recomputing tab identity for", this.tab.id);
-
 			type = "unknown";
 			icon = "info";
 			label = "Page";

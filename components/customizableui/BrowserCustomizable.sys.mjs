@@ -70,7 +70,12 @@ BrowserCustomizable.prototype = {
 		try {
 			this.internal.registerNamedTemplates(templates);
 		} catch (e) {
-			throw new Error("Failure registering template components:\n" + e);
+			throw new Error(
+				"Failure registering template components:\n" +
+					e +
+					"\n" +
+					e.stack || ""
+			);
 		}
 
 		Shared.logger.log("Registering root component...");
@@ -89,7 +94,10 @@ BrowserCustomizable.prototype = {
 				.querySelector(`[part="customizable"]`)
 				.append(this._root);
 		} catch (e) {
-			throw new Error("Failure registering root component:\n" + e);
+			throw new Error(
+				"Failure registering root component:\n" + e + "\n" + e.stack ||
+					""
+			);
 		}
 	},
 

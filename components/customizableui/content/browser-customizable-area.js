@@ -217,15 +217,6 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	maybeShowDebug() {
-		console.log(
-			"rechecking for",
-			this,
-			Services.prefs.getBoolPref(
-				"dot.customizable.debug_context.enabled",
-				false
-			)
-		);
-
 		this.shadowRoot
 			.querySelector("dev-customizable-area-context")
 			?.remove();

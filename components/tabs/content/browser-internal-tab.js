@@ -269,8 +269,6 @@ class BrowserTab extends MozElements.MozTab {
 	 * webContents could get added to the tab too late.
 	 */
 	registerEventListeners() {
-		console.log("initted event listeners for", this.id);
-
 		this.webContents.addEventListener("pagetitlechanged", this);
 		this.webContents.addEventListener(
 			"BrowserTabs::BrowserStatusChange",
@@ -285,12 +283,10 @@ class BrowserTab extends MozElements.MozTab {
 		if (this.delayConnectedCallback()) return;
 
 		if (!this.getAttribute("label")) {
-			console.log("No label yet!", this._initialURI?.spec);
 			this.updateLabel(this._initialURI?.spec || "");
 		}
 
 		if (!this.getAttribute("icon")) {
-			console.log("NO ICON YET");
 			this.updateIcon(kDefaultTabIcon, true);
 		}
 
@@ -387,7 +383,6 @@ class BrowserTab extends MozElements.MozTab {
 
 		this.setAttribute("label", label);
 		this.setAttribute("title", label);
-		console.log("Updated title to", label);
 
 		// We need to make sure gDot.tabs is initialised
 		// before we start updating the window title
@@ -457,14 +452,9 @@ class BrowserTab extends MozElements.MozTab {
 
 		// If the tab that's closing is the selected tab, find a replacement
 		if (this.selected) {
-			console.log("selected");
-
 			if (this.openerTab && this.openerTab.visible) {
-				console.log("has opener tab");
 				adoptingTab = this.openerTab;
 			}
-
-			console.log(this.index, gDot.tabs.visibleTabs.length);
 
 			const nextTab = gDot.tabs.visibleTabs[this.index + 1];
 			const prevTab = gDot.tabs.visibleTabs[this.index - 1];

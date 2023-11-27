@@ -37,6 +37,14 @@ export class Command {
 	}
 
 	/**
+	 * Determines whether we can show logs for command dispatches
+	 * @returns {boolean}
+	 */
+	canLog() {
+		return Services.prefs.getBoolPref("dot.commands.log.enabled", false);
+	}
+
+	/**
 	 * @param {typeof CommandSubscription.prototype} subscription
 	 * @param {BrowserCustomizableArea} area
 	 */
@@ -115,9 +123,11 @@ export class Command {
 			const oldValue = attributeMap.get(audience);
 			attributeMap.set(audience, audienceValue);
 
-			console.log(
-				`Command: Dispatching mutation of '${attribute}' to '${audienceValue}' on audience '${audience}'.`
-			);
+			if (this.canLog()) {
+				console.log(
+					`Command: Dispatching mutation of '${attribute}' to '${audienceValue}' on audience '${audience}'.`
+				);
+			}
 
 			this.#subscription.dispatchMutation(
 				audience,

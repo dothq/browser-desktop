@@ -12,13 +12,13 @@ ChromeUtils.defineESModuleGetters(lazy, {
 	BuiltInThemes: "resource:///modules/BuiltInThemes.sys.mjs",
 	ContextualIdentityService:
 		"resource://gre/modules/ContextualIdentityService.sys.mjs",
+	DotWindowTracker: "resource:///modules/DotWindowTracker.sys.mjs",
 	SessionStartup: "resource:///modules/sessionstore/SessionStartup.sys.mjs", // @todo: shim this
 	SessionStore: "resource:///modules/sessionstore/SessionStore.sys.mjs" // @todo: shim this
 });
 
 XPCOMUtils.defineLazyModuleGetters(lazy, {
 	AddonManager: "resource://gre/modules/AddonManager.jsm",
-	BrowserWindowTracker: "resource:///modules/BrowserWindowTracker.jsm", // @todo: shim this
 	Blocklist: "resource://gre/modules/Blocklist.jsm",
 	ExtensionsUI: "resource:///modules/ExtensionsUI.jsm",
 	FeatureGate: "resource://featuregates/FeatureGate.jsm",
@@ -290,8 +290,6 @@ export class DotGlue {
 	}
 
 	scheduleStartupIdleTasks() {
-		console.log("scheduleStartupIdleTasks");
-
 		const idleTasks = [
 			{
 				name: "ContextualIdentityService.load",
@@ -321,7 +319,6 @@ export class DotGlue {
 			{
 				name: "BuiltInThemes.ensureBuiltInThemes",
 				task: async () => {
-					console.log("ensuring built in themes");
 					await lazy.BuiltInThemes.ensureBuiltInThemes();
 				}
 			},
@@ -329,10 +326,10 @@ export class DotGlue {
 			{
 				name: "DotGlue.maybeShowDefaultBrowserPrompt",
 				task: () => {
-					let win = lazy.BrowserWindowTracker.getTopWindow();
+					let win = lazy.DotWindowTracker.getTopWindow();
 
-					console.log(
-						"Dot Browser is not your default web browser. todo: implement"
+					win.dump(
+						"!! Dot Browser is not your default web browser.\n"
 					);
 				}
 			},
@@ -378,22 +375,12 @@ export class DotGlue {
 						"unblock-untrusted-modules-thread"
 					);
 				}
-			},
-
-			{
-				name: "scheduled-startup-idle-tasks-finished",
-				task: () => {
-					console.log("scheduled-startup-idle-tasks-finished");
-				}
 			}
 			// Do NOT add anything after idle tasks finished.
 		];
 
 		for (let task of idleTasks) {
-			console.log(`${task.name} -- READY`);
-
 			if ("condition" in task && !task.condition) {
-				console.log(`${task.name} -- SKIPPED`);
 				continue;
 			}
 
@@ -403,11 +390,10 @@ export class DotGlue {
 						const startTime = Cu.now();
 
 						try {
-							console.log(`${task.name} -- RUNNING`);
 							task.task();
 						} catch (ex) {
 							console.error(
-								"Scheduled startup idle task failure: ",
+								`ScheduledStartupIdleTask (${task.name}): Exception raised during execution:`,
 								ex
 							);
 						} finally {

@@ -31,7 +31,9 @@ export class ActionsReceiver extends ActionsIPC {
 		} catch (e) {
 			throw new Error(
 				`${this.constructor.name} (${this.area.tagName}): Error occurred during execution of action '${id}':\n` +
-					e
+					e +
+					"\n" +
+					e.stack || ""
 			);
 		}
 	}

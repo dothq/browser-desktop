@@ -315,7 +315,6 @@ export class nsDotContentHandler {
 	}
 
 	get defaultArgs() {
-		console.log("nsDotContentHandler::defaultArgs");
 		return this.getArgs();
 	}
 
@@ -377,11 +376,6 @@ export class nsDotContentHandler {
 			// Open the homepage(s) defined in browser.startup.homepage
 			pages = pages.concat(lazy.StartPage.getHomePage());
 		}
-
-		console.log(
-			"nsDotContentHandler::getArgs()",
-			pages.length ? pages.join("|") : "about:blank"
-		);
 
 		return pages.length ? pages.join("|") : "about:blank";
 	}

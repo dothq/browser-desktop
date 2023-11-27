@@ -289,8 +289,6 @@ var gDotInit = {
 				// If the argument passed url is not the same as the one
 				// in the default arguments, we want to load it.
 
-				console.log("Not default", uri);
-
 				if (uri instanceof Ci.nsIArray) {
 					// Transform the nsIArray of nsISupportsString's into a JS Array of
 					// JS strings.
@@ -334,8 +332,6 @@ var gDotInit = {
 		this.callWithURIToLoad((uriToLoad) => {
 			// If we don't have a URL to load, we don't need to do anything
 			if (!uriToLoad) return;
-
-			console.log("uriToLoad", uriToLoad);
 
 			// window.arguments[1]: extraOptions (nsIPropertyBag)
 			//                 [2]: referrerInfo (nsIReferrerInfo)
@@ -442,7 +438,6 @@ var gDotInit = {
 				}
 				window.focus();
 			} else {
-				console.log(uriToLoad);
 				// Note: loadOneOrMoreURIs *must not* be called if window.arguments.length >= 3.
 				// Such callers expect that window.arguments[0] is handled as a single URI.
 				loadOneOrMoreURIs(
@@ -473,11 +468,11 @@ var gDotInit = {
 		// Listen for any changes to the permission state
 		// This is typically fired when there is user gesture
 		// to a permission request such as block/allow/ignore.
-		console.log(
-			"gBrowser::addEventListener",
-			"PermissionStateChange",
-			true
-		);
+		// console.log(
+		// 	"gBrowser::addEventListener",
+		// 	"PermissionStateChange",
+		// 	true
+		// );
 
 		this.handleURIToLoad();
 

@@ -115,7 +115,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			);
 		}
 
-		console.log(this.initialMouseX, this.initialMouseY);
+		// console.log(this.initialMouseX, this.initialMouseY);
 
 		Object.assign(pointer.style, {
 			left: `${this.initialMouseX}px`,
@@ -157,7 +157,6 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			typeof newWidth == "number" ? newWidth + "px" : newWidth,
 			"important"
 		);
-		console.log("setting tab", this.id, "width to", newWidth + "px");
 	}
 
 	/**

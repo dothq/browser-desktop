@@ -265,8 +265,6 @@ export const BrowserCustomizableAttributes = {
 			value = value.trim();
 		}
 
-		console.log(attributeName, value, caster);
-
 		return caster.call(null, value);
 	},
 

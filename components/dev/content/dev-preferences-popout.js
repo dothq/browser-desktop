@@ -234,6 +234,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		this.registerHandle("dot.window.use-native-titlebar", false);
 		this.registerHandle("dot.tabs.debug_information.visible", false);
 		this.registerHandle("dot.customizable.debug_context.enabled", false);
+		this.registerHandle("dot.commands.log.enabled", false);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}

@@ -226,8 +226,6 @@ BrowserCustomizableInternal.prototype = {
 		const internalPart = part == "content" ? "customizable" : part;
 
 		if (Array.isArray(children)) {
-			console.log(children, children.length);
-
 			for (let i = 0; i < children.length; i++) {
 				if (
 					!parentElement.shadowRoot ||
@@ -241,8 +239,6 @@ BrowserCustomizableInternal.prototype = {
 					);
 				}
 
-				console.log(children, i);
-
 				const child = children[i];
 				let childComponent = null;
 
@@ -252,7 +248,10 @@ BrowserCustomizableInternal.prototype = {
 					throw new Error(
 						`Failed to create component '${child[0]}${
 							part === "content" ? "" : `[${part}]`
-						}[${i}]':\n` + e
+						}[${i}]':\n` +
+							e +
+							"\n" +
+							e.stack || ""
 					);
 				}
 
@@ -307,8 +306,6 @@ BrowserCustomizableInternal.prototype = {
 			}
 		} else {
 			for (const [part, slottedChildren] of Object.entries(children)) {
-				console.log(part, slottedChildren);
-
 				this.appendChildrenTo(parentElement, slottedChildren, part);
 			}
 		}
@@ -379,7 +376,10 @@ BrowserCustomizableInternal.prototype = {
 				root.appendChild(component);
 			} catch (e) {
 				throw new Error(
-					`Failed to create component '${child[0]}[${i}]':\n` + e
+					`Failed to create component '${child[0]}[${i}]':\n` +
+						e +
+						"\n" +
+						e.stack || ""
 				);
 			}
 		}

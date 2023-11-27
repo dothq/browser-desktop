@@ -19,6 +19,14 @@ export class CommandSubscription {
 	#callback = null;
 
 	/**
+	 * Determines whether we can show logs for command dispatches
+	 * @returns {boolean}
+	 */
+	canLog() {
+		return Services.prefs.getBoolPref("dot.commands.log.enabled", false);
+	}
+
+	/**
 	 * Dispatches a mutation event to the observer
 	 * @param {string} audience
 	 * @param {string} attributeName
@@ -26,13 +34,15 @@ export class CommandSubscription {
 	 * @param {any} newValue
 	 */
 	dispatchMutation(audience, attributeName, oldValue, newValue) {
-		console.log(
-			`${this.constructor.name} (${
-				this.#commandId
-			}): Dispatching command mutation '${attributeName} = ${JSON.stringify(
-				newValue
-			)}'`
-		);
+		if (this.canLog()) {
+			console.log(
+				`${this.constructor.name} (${
+					this.#commandId
+				}): Dispatching command mutation '${attributeName} = ${JSON.stringify(
+					newValue
+				)}'`
+			);
+		}
 
 		this.#callback.call(null, audience, attributeName, newValue);
 	}
@@ -43,9 +53,13 @@ export class CommandSubscription {
 	 * @param {Record<string, any>} [args]
 	 */
 	invoke(args = {}) {
-		console.log(
-			`${this.constructor.name} (${this.#commandId}): Invoking command`
-		);
+		if (this.canLog()) {
+			console.log(
+				`${this.constructor.name} (${
+					this.#commandId
+				}): Invoking command`
+			);
+		}
 
 		this.#command.run(args);
 	}
