@@ -20,29 +20,30 @@ class BrowserToolbar extends BrowserCustomizableArea {
 	}
 
 	/**
-	 * Determine whether this toolbar is the initial toolbar in the browser
-	 *
-	 * We need a way of working out which toolbar is the first in the DOM
-	 * so we can display the CSD in the correct location.
-	 */
-	maybePromoteToolbar() {
-		const bounds = this.getBoundingClientRect();
-
-		const isInitial =
-			bounds.width > 0 &&
-			bounds.height > 0 &&
-			!Array.from(document.querySelectorAll("browser-toolbar")).find(
-				(tb) => tb.hasAttribute("initial")
-			);
-
-		this.toggleAttribute("initial", isInitial);
-	}
-
-	/**
 	 * Toggles the collapsed state of this toolbar
 	 */
 	toggleCollapsed() {
 		this.toggleAttribute("collapse");
+	}
+
+	/**
+	 * Updates the CSD's position within the toolbar
+	 */
+	updateCSDPosition() {
+		if (this.isCSDReversed) {
+			this.shadowRoot.prepend(this.shadowElements.csd);
+		} else {
+			this.shadowRoot.append(this.shadowElements.csd);
+		}
+	}
+
+	/**
+	 * Determines whether the CSD should be reversed
+	 */
+	get isCSDReversed() {
+		return window.matchMedia(
+			"(-moz-gtk-csd-available) and (-moz-gtk-csd-reversed-placement)"
+		).matches;
 	}
 
 	/**
@@ -51,38 +52,24 @@ class BrowserToolbar extends BrowserCustomizableArea {
 	 */
 	handleEvent(event) {
 		switch (event.type) {
-			case "change":
-				this.onCSDPositionChange(
-					/** @type {MediaQueryListEvent} */ (event)
-				);
+			case "BrowserWindowControls::UpdatePosition":
+				this.updateCSDPosition();
 				break;
-		}
-	}
-
-	/**
-	 * Handles changes to the CSD's position
-	 * @param {MediaQueryListEvent | MediaQueryList} event
-	 */
-	onCSDPositionChange(event) {
-		const reversed = event.matches;
-
-		if (reversed) {
-			this.shadowRoot.prepend(this.shadowElements.csd);
-		} else {
-			this.shadowRoot.append(this.shadowElements.csd);
 		}
 	}
 
 	connectedCallback() {
 		super.connect("toolbar");
 
-		this.shadowRoot.appendChild(this.shadowElements.csd);
+		this.addEventListener("BrowserWindowControls::UpdatePosition", this);
 
-		this.maybePromoteToolbar();
+		this.updateCSDPosition();
 	}
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
+
+		this.removeEventListener("BrowserWindowControls::UpdatePosition", this);
 	}
 }
 
