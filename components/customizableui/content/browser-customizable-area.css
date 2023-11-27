@@ -5,6 +5,8 @@
 .customizable-area {
     width: var(--area-width, inherit);
     height: var(--area-height, inherit);
+
+    min-height: var(--area-min-height);
 }
 
 :host(.customizable-area) {
@@ -17,7 +19,7 @@
     align-items: stretch;
     flex: 1;
     max-width: 100%;
-    overflow: hidden;
+    overflow: visible;
 }
 
 :host(.customizable-area[orientation=vertical]) .customizable-container {

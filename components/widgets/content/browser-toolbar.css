@@ -13,7 +13,7 @@ browser-toolbar {
 
     -moz-window-dragging: drag;
 
-    min-height: 40px;
+    --area-min-height: 28px;
 }
 
 browser-toolbar[accent] {
