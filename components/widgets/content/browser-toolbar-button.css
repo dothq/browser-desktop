@@ -78,3 +78,7 @@ browser-toolbar[mode=text] .toolbar-button:not([mode]).toolbar-button-container>
     overflow: hidden;
     max-width: 100px;
 }
+
+.toolbar-button .toolbar-button-icon {
+    background-size: var(--button-icon-size);
+}

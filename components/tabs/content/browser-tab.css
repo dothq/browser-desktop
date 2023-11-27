@@ -202,6 +202,7 @@ browser-tab::part(customizable) {
     --tab-padding-end: var(--browser-ui-density);
 
     --button-scale-factor: 0.5;
+    --button-icon-size: 14px;
 }
 
 :host(browser-tab) .customizable-container> :first-child {
@@ -219,6 +220,8 @@ browser-tab::part(customizable) {
         margin-inline-end: var(--tab-padding-end);
     }
 }
+
+:host(browser-tab) .customizable-container .toolbar-button {}
 
 browser-tabs[hidetabactions] browser-tab:not([selected]) {
     --tab-action-visibility: none;
