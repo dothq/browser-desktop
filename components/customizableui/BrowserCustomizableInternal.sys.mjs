@@ -298,6 +298,8 @@ BrowserCustomizableInternal.prototype = {
 					}
 
 					renderContainer.appendChild(childComponent);
+
+					this.dispatchMountEvent(childComponent);
 				} else {
 					throw new Error(
 						`Rendering of children to '${part}' was disallowed.`
@@ -385,6 +387,16 @@ BrowserCustomizableInternal.prototype = {
 		}
 
 		return root;
+	},
+
+	/**
+	 * Dispatches the customizable UI mount event to the element
+	 * @param {Element} component
+	 */
+	dispatchMountEvent(component) {
+		const evt = new CustomEvent("CustomizableUI::DidMount");
+
+		component.dispatchEvent(evt);
 	},
 
 	/**

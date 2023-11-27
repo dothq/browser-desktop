@@ -93,6 +93,8 @@ BrowserCustomizable.prototype = {
 			this.renderRoot.shadowRoot
 				.querySelector(`[part="customizable"]`)
 				.append(this._root);
+
+			this.internal.dispatchMountEvent(this.renderRoot);
 		} catch (e) {
 			throw new Error(
 				"Failure registering root component:\n" + e + "\n" + e.stack ||
