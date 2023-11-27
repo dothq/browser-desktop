@@ -417,7 +417,9 @@ class BrowserTab extends MozElements.MozTab {
 		this.setAttribute("icon", iconURI);
 
 		const shouldHideIcon =
-			(!iconURI.length || iconURI == kDefaultTabIcon) && !initial;
+			(!iconURI.length || iconURI == kDefaultTabIcon) &&
+			!initial &&
+			!this.progress;
 
 		if (shouldHideIcon) {
 			this.setAttribute("hideicon", "true");
