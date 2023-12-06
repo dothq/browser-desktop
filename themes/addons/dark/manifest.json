@@ -40,7 +40,8 @@
             "error_text_color": "rgb(255, 154, 162)",
             "input_background": "#42414d",
             "input_color": "#bfbfc9",
-            "input_border": "#8f8f9d"
+            "input_border": "#8f8f9d",
+            "ntp_background": "#1c1b22"
         },
         "properties": {
             "color_scheme": "dark",

@@ -39,7 +39,8 @@
             "sidebar_highlight_text": "#fff",
             "button": "rgba(207, 207, 216, 0.33)",
             "button_hover": "rgba(207, 207, 216, 0.66)",
-            "button_active": "rgb(207, 207, 216)"
+            "button_active": "rgb(207, 207, 216)",
+            "ntp_background": "#fff"
         },
         "properties": {
             "color_scheme": "light",

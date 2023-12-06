@@ -175,6 +175,19 @@ export const ThemeVariableMap = [
 		{
 			lwtProperty: "sidebar_border"
 		}
+	],
+	[
+		"--browser-frame-background-color",
+		{
+			lwtProperty: "ntp_background",
+			processColor(rgbaChannels) {
+				if (!rgbaChannels) return null;
+
+				// Drop alpha channel
+				let { r, g, b } = rgbaChannels;
+				return `rgb(${r}, ${g}, ${b})`;
+			}
+		}
 	]
 ];
 
