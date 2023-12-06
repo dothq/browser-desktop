@@ -158,7 +158,8 @@ export class TabProgressListener {
 	onStateChange(webProgress, request, stateFlags, status) {
 		const { STATE_START, STATE_STOP, STATE_IS_NETWORK, STATE_RESTORING } =
 			Ci.nsIWebProgressListener;
-		const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY } = this.tab;
+		const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY, TAB_PROGRESS_TRANSIT } =
+			this.tab;
 
 		console.log(
 			"TabProgressListener::onStateChange",
@@ -210,7 +211,7 @@ export class TabProgressListener {
 				this.win.gDot.tabs.setIcon(this.tab, "");
 				this.tab._initialURI = null;
 			}
-		} else if (stateFlags & STATE_STOP) {
+		} else if (stateFlags & STATE_STOP && stateFlags & STATE_IS_NETWORK) {
 			if (
 				this.tab.progress &&
 				BrowserTabsUtils.shouldShowProgress(
@@ -218,6 +219,7 @@ export class TabProgressListener {
 				)
 			) {
 				this.tab.progressPercent = 100;
+				this.tab.progress = TAB_PROGRESS_TRANSIT;
 
 				clearTimeout(this._burstInt);
 				this._burstInt = setTimeout(() => {
@@ -299,6 +301,36 @@ export class TabProgressListener {
 			this.tab.progressPercent =
 				(curTotalProgress / maxTotalProgress) * 100;
 		}
+	}
+
+	/**
+	 * Fired when the progress of the browser changes
+	 *
+	 * Identical to TabProgressListener.onProgressChange,
+	 * however, this uses 64-bit values
+	 * @param {nsIWebProgress} webProgress
+	 * @param {nsIRequest} request
+	 * @param {number} curSelfProgress
+	 * @param {number} maxSelfProgress
+	 * @param {number} curTotalProgress
+	 * @param {number} maxTotalProgress
+	 */
+	onProgressChange64(
+		webProgress,
+		request,
+		curSelfProgress,
+		maxSelfProgress,
+		curTotalProgress,
+		maxTotalProgress
+	) {
+		return this.onProgressChange(
+			webProgress,
+			request,
+			curSelfProgress,
+			maxSelfProgress,
+			curTotalProgress,
+			maxTotalProgress
+		);
 	}
 
 	/**
