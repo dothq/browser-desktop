@@ -50,6 +50,9 @@ export const BrowserCustomizableComponents = {
 			case "tab-label":
 			case "tab-title":
 				return html("browser-tab-label");
+			case "spacer":
+			case "spring":
+				return html("browser-spring");
 			case "":
 				return doc.createDocumentFragment();
 			default:
