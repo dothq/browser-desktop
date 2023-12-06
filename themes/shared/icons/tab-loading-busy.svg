@@ -2,33 +2,143 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-    <defs>
-        <style>
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(1turn);
-                }
-            }
-
-            image {
-                animation: 1.5s spin infinite linear;
-                transform-origin: center;
-            }
-        </style>
-
-        <clipPath id="spinner_busy">
-            <path xmlns="http://www.w3.org/2000/svg"
-                d="M10.747 2.66578C9.83709 2.19719 8.82243 1.96915 7.7995 2.00335C6.77658 2.03755 5.77941 2.33286 4.90282 2.86118C4.02622 3.38951 3.29935 4.13329 2.79132 5.0218C2.28329 5.91031 2.011 6.914 2.00033 7.93744C1.98965 8.96088 2.24096 9.97004 2.73036 10.8689C3.21975 11.7679 3.93095 12.5266 4.79634 13.0731C5.02982 13.2206 5.09957 13.5294 4.95213 13.7629C4.80468 13.9963 4.49588 14.0661 4.26239 13.9186C3.25278 13.2811 2.42304 12.3958 1.85208 11.3471C1.28113 10.2984 0.987931 9.12103 1.00038 7.92702C1.01283 6.733 1.33051 5.56202 1.92321 4.52543C2.51591 3.48884 3.36393 2.62109 4.38662 2.00471C5.40931 1.38833 6.57268 1.04381 7.76609 1.00391C8.9595 0.964009 10.1433 1.23005 11.2049 1.77675C12.2664 2.32344 13.1705 3.1326 13.8311 4.12729C14.4917 5.12198 14.8869 6.26913 14.9791 7.45964C15.0004 7.73496 14.7945 7.97543 14.5192 7.99674C14.2439 8.01806 14.0034 7.81215 13.9821 7.53683C13.9031 6.51639 13.5644 5.53313 12.9981 4.68054C12.4319 3.82794 11.6569 3.13438 10.747 2.66578Z" />
-        </clipPath>
-    </defs>
-
-    <image xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="busy"
-        clip-path="url(#spinner_busy)" width="16" height="16"
-        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfSURBVHgBLY+5DcJAEEX3wB7ACSE90AOV0Qw5/UAFZCARYGy8h9+3vNLT/Dl3xjvnbtDCDjrvfVdr7dBbtAXeH0dMBArJgG3wDW0bxA8SOAKa0mL3WNGooAevQjpVdEIfICoeCZ4JDjgfuMcYr/gP9BeO6rzof00i+abhmVJ6rZMnfTGw6FhK6XPOKtSCusKZ2Rh0AcnlCiZkbFiLlitmTbhF71JsqtQAAAAASUVORK5CYII=">
-    </image>
+<svg
+	width="16"
+	height="16"
+	viewBox="0 0 16 16"
+	fill="context-fill"
+	fill-opacity="context-fill-opacity"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path
+		d="M13.8311 4.12732C14.4917 5.12201 14.8869 6.26915 14.9791 7.45967C15.0004 7.73499 14.7945 7.97546 14.5192 7.99677C14.2439 8.01809 14.0034 7.81218 13.9821 7.53686C13.9031 6.51642 13.5644 5.53315 12.9981 4.68056L13.8311 4.12732Z"
+	/>
+	<path
+		d="M11.2048 1.77673C12.2664 2.32343 13.1705 3.13259 13.8311 4.12728L12.9981 4.68052C12.4319 3.82793 11.6569 3.13436 10.747 2.66577L11.2048 1.77673Z"
+		mask="url(#mask-7)"
+	/>
+	<path
+		d="M10.747 2.66578C9.83712 2.19719 8.82245 1.96915 7.79953 2.00335L7.76611 1.00391C8.95952 0.964009 10.1433 1.23005 11.2049 1.77675L10.747 2.66578Z"
+		mask="url(#mask-6)"
+	/>
+	<path
+		d="M7.79948 2.00335C6.77656 2.03755 5.77939 2.33285 4.90279 2.86118L4.3866 2.00471C5.40929 1.38833 6.57265 1.04381 7.76606 1.00391L7.79948 2.00335Z"
+		mask="url(#mask-5)"
+	/>
+	<path
+		d="M4.90282 2.86117C4.02623 3.38949 3.29936 4.13328 2.79133 5.02179L1.92322 4.52542C2.51592 3.48882 3.36394 2.62108 4.38663 2.0047L4.90282 2.86117Z"
+		mask="url(#mask-4)"
+	/>
+	<path
+		d="M2.79131 5.02182C2.28328 5.91033 2.01098 6.91402 2.00031 7.93746L1.00037 7.92704C1.01282 6.73303 1.3305 5.56205 1.9232 4.52545L2.79131 5.02182Z"
+		mask="url(#mask-3)"
+	/>
+	<path
+		d="M2.00033 7.93743C1.98965 8.96087 2.24096 9.97002 2.73036 10.8689L1.85208 11.3471C1.28113 10.2984 0.987931 9.12101 1.00038 7.927L2.00033 7.93743Z"
+		mask="url(#mask-2)"
+	/>
+	<path
+		d="M2.73039 10.869C3.21978 11.7679 3.93098 12.5266 4.79637 13.0731C5.02985 13.2206 5.0996 13.5294 4.95216 13.7629C4.80471 13.9963 4.49591 14.0661 4.26242 13.9187C3.25281 13.2811 2.42307 12.3958 1.85211 11.3471L2.73039 10.869Z"
+		mask="url(#mask-1)"
+	/>
+	<mask id="mask-7">
+		<rect width="16" height="16" fill="url(#grad-7)" />
+	</mask>
+	<mask id="mask-6">
+		<rect width="16" height="16" fill="url(#grad-6)" />
+	</mask>
+	<mask id="mask-5">
+		<rect width="16" height="16" fill="url(#grad-5)" />
+	</mask>
+	<mask id="mask-4">
+		<rect width="16" height="16" fill="url(#grad-4)" />
+	</mask>
+	<mask id="mask-3">
+		<rect width="16" height="16" fill="url(#grad-3)" />
+	</mask>
+	<mask id="mask-2">
+		<rect width="16" height="16" fill="url(#grad-2)" />
+	</mask>
+	<mask id="mask-1">
+		<rect width="16" height="16" fill="url(#grad-1)" />
+	</mask>
+	<defs>
+		<linearGradient
+			id="grad-7"
+			x1="14"
+			y1="5"
+			x2="12"
+			y2="3"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.92" />
+		</linearGradient>
+		<linearGradient
+			id="grad-6"
+			x1="11"
+			y1="2"
+			x2="8"
+			y2="1.5"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" stop-opacity="0.92" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.8" />
+		</linearGradient>
+		<linearGradient
+			id="grad-5"
+			x1="8"
+			y1="1.5"
+			x2="4.5"
+			y2="2.5"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" stop-opacity="0.8" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.7" />
+		</linearGradient>
+		<linearGradient
+			id="grad-4"
+			x1="4.5"
+			y1="2.5"
+			x2="2.5"
+			y2="5"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" stop-opacity="0.7" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.6" />
+		</linearGradient>
+		<linearGradient
+			id="grad-3"
+			x1="2"
+			y1="5"
+			x2="1.5"
+			y2="8"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" stop-opacity="0.6" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.5" />
+		</linearGradient>
+		<linearGradient
+			id="grad-2"
+			x1="1.5"
+			y1="8"
+			x2="2.5"
+			y2="11"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" stop-opacity="0.5" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.25" />
+		</linearGradient>
+		<linearGradient
+			id="grad-1"
+			x1="2"
+			y1="11"
+			x2="5"
+			y2="14"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color="#fff" stop-opacity="0.25" />
+			<stop stop-color="#fff" offset="1" stop-opacity="0.2" />
+		</linearGradient>
+	</defs>
 </svg>
