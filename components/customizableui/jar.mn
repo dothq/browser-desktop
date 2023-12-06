@@ -12,7 +12,8 @@ dot.jar:
     content/widgets/browser-customizable-template.js                         (content/browser-customizable-template.js)
     content/widgets/browser-customizable-template.css                        (content/browser-customizable-template.css)
 
-    content/widgets/browser-customizable-area-error.css                      (content/browser-customizable-area-error.css)
+    content/widgets/browser-customizable-area-empty.js                       (content/browser-customizable-area-empty.js)
+    content/widgets/browser-customizable-area-empty.css                      (content/browser-customizable-area-empty.css)
 
     content/customizableui/components/                                       (components/*.*)
 

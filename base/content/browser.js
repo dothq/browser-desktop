@@ -49,6 +49,10 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.toolbarMutationObserver = new MutationObserver(
 			this.maybePromoteToolbars.bind(this)
 		);
+
+		this.customizableContainer.appendChild(
+			html("browser-customizable-area-empty")
+		);
 	}
 
 	_done = false;
@@ -119,7 +123,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 
 		this.addEventListener(
 			"CustomizableUI::DidMount",
-			this.maybePromoteToolbars.bind(this)
+			this.didMount.bind(this)
 		);
 	}
 
@@ -145,6 +149,13 @@ class BrowserApplication extends BrowserCustomizableArea {
 				return this.tab.linkedBrowser;
 			}
 		};
+	}
+
+	/**
+	 * Fired when the browser mounts its customizable UI
+	 */
+	didMount() {
+		this.maybePromoteToolbars();
 	}
 
 	/**
