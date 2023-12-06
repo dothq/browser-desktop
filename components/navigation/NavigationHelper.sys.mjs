@@ -27,7 +27,11 @@ const { DotWindowTracker } = ChromeUtils.importESModule(
 );
 
 XPCOMUtils.defineLazyGetter(lazy, "ReferrerInfo", () =>
-	Components.Constructor("@mozilla.org/referrer-info;1", "nsIReferrerInfo", "init")
+	Components.Constructor(
+		"@mozilla.org/referrer-info;1",
+		"nsIReferrerInfo",
+		"init"
+	)
 );
 
 /**
@@ -65,7 +69,8 @@ function handleFileURI(browser, uri) {
 					"resource://gre/modules/AddonManager.sys.mjs"
 				);
 
-				const systemPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
+				const systemPrincipal =
+					Services.scriptSecurityManager.getSystemPrincipal();
 
 				AddonManager.getInstallForURL(uri.spec, {}).then((install) => {
 					AddonManager.installAddonFromWebpage(
@@ -98,7 +103,9 @@ function useOAForPrincipal(win, principal, params) {
 	if (principal?.isContentPrincipal) {
 		return Services.scriptSecurityManager.principalWithOA(principal, {
 			userContextId: params.userContextId,
-			privateBrowsingId: params.private || (win && PrivateBrowsingUtils.isWindowPrivate(win)),
+			privateBrowsingId:
+				params.private ||
+				(win && PrivateBrowsingUtils.isWindowPrivate(win)),
 			firstPartyDomain: principal.originAttributes.firstPartyDomain
 		});
 	}
@@ -135,7 +142,9 @@ function openInWindow(url, params, opener) {
 
 	const args = Cc["@mozilla.org/array;1"].createInstance(Ci.nsIMutableArray);
 
-	const uriArg = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+	const uriArg = Cc["@mozilla.org/supports-string;1"].createInstance(
+		Ci.nsISupportsString
+	);
 	uriArg.data = url;
 
 	const extraOptions = Cc["@mozilla.org/hash-property-bag;1"].createInstance(
@@ -143,7 +152,10 @@ function openInWindow(url, params, opener) {
 	);
 
 	if (params.triggeringRemoteType) {
-		extraOptions.setPropertyAsACString("triggeringRemoteType", params.triggeringRemoteType);
+		extraOptions.setPropertyAsACString(
+			"triggeringRemoteType",
+			params.triggeringRemoteType
+		);
 	}
 
 	if (params.hasValidUserGestureActivation !== undefined) {
@@ -161,15 +173,15 @@ function openInWindow(url, params, opener) {
 		extraOptions.setPropertyAsBool("fromExternal", params.fromExternal);
 	}
 
-	const allowThirdPartyFixupSupports = Cc["@mozilla.org/supports-PRBool;1"].createInstance(
-		Ci.nsISupportsPRBool
-	);
+	const allowThirdPartyFixupSupports = Cc[
+		"@mozilla.org/supports-PRBool;1"
+	].createInstance(Ci.nsISupportsPRBool);
 
 	allowThirdPartyFixupSupports.data = params.allowThirdPartyFixup;
 
-	const userContextIdSupports = Cc["@mozilla.org/supports-PRUint32;1"].createInstance(
-		Ci.nsISupportsPRUint32
-	);
+	const userContextIdSupports = Cc[
+		"@mozilla.org/supports-PRUint32;1"
+	].createInstance(Ci.nsISupportsPRUint32);
 
 	userContextIdSupports.data = params.userContextId;
 
@@ -186,7 +198,13 @@ function openInWindow(url, params, opener) {
 	args.appendElement(null); // allowInheritPrincipal
 	args.appendElement(params.csp);
 
-	Services.ww.openWindow(opener, AppConstants.BROWSER_CHROME_URL, null, features.join(","), args);
+	Services.ww.openWindow(
+		opener,
+		AppConstants.BROWSER_CHROME_URL,
+		null,
+		features.join(","),
+		args
+	);
 }
 
 /**
@@ -212,8 +230,10 @@ export const NavigationHelper = {
 
 		// Check if the top window meets our requirements and return early
 		if (
-			topDoc.documentElement.getAttribute("windowtype") === "navigator:browser" && // Check if it is a navigator:browser window
-			(!forceNonPopups || !topDoc.documentElement.hasAttribute("chromepopup")) && // Check if it's a non-popup window
+			topDoc.documentElement.getAttribute("windowtype") ===
+				"navigator:browser" && // Check if it is a navigator:browser window
+			(!forceNonPopups ||
+				!topDoc.documentElement.hasAttribute("chromepopup")) && // Check if it's a non-popup window
 			(!forceNonPrivate || !PrivateBrowsingUtils.isWindowPrivate(top)) // Check if it's a non-private window
 		) {
 			return top;
@@ -221,7 +241,8 @@ export const NavigationHelper = {
 
 		return DotWindowTracker.getTopWindow({
 			allowPopups: !forceNonPopups,
-			private: !forceNonPrivate && PrivateBrowsingUtils.isWindowPrivate(win)
+			private:
+				!forceNonPrivate && PrivateBrowsingUtils.isWindowPrivate(win)
 		});
 	},
 
@@ -252,11 +273,17 @@ export const NavigationHelper = {
 
 		// Initialise a ReferrerInfo if we haven't passed one
 		if (!params.referrerInfo) {
-			params.referrerInfo = new lazy.ReferrerInfo(Ci.nsIReferrerInfo.EMPTY, true, null);
+			params.referrerInfo = new lazy.ReferrerInfo(
+				Ci.nsIReferrerInfo.EMPTY,
+				true,
+				null
+			);
 		}
 
 		if (!params.triggeringPrincipal) {
-			throw new Error("Required 'triggeringPrincipal' in openLinkIn params.");
+			throw new Error(
+				"Required 'triggeringPrincipal' in openLinkIn params."
+			);
 		}
 
 		// If we're trying to save the link, pass everything over to saveLink
@@ -268,7 +295,8 @@ export const NavigationHelper = {
 		// Determine where we want to load the link
 		let openerWindow;
 		if (where === "current" && params.targetBrowser) {
-			openerWindow = /** @type {ChromeBrowser} */ (params.targetBrowser).ownerGlobal;
+			openerWindow = /** @type {ChromeBrowser} */ (params.targetBrowser)
+				.ownerGlobal;
 		} else {
 			openerWindow = this.getTargetWindow(win, {
 				forceNonPrivate: params.forceNonPrivate
@@ -289,7 +317,11 @@ export const NavigationHelper = {
 		}
 
 		// Ensure that the correct origin attributes are applied to each load principal
-		params.originPrincipal = useOAForPrincipal(openerWindow, params.originPrincipal, params);
+		params.originPrincipal = useOAForPrincipal(
+			openerWindow,
+			params.originPrincipal,
+			params
+		);
 		params.originStoragePrincipal = useOAForPrincipal(
 			openerWindow,
 			params.originStoragePrincipal,
@@ -318,18 +350,25 @@ export const NavigationHelper = {
 
 		// Load the URL into the selected tab
 		if (where === "current") {
-			openerBrowser = params.targetBrowser || openerWindow.gDot.tabs.selectedTab.webContents;
+			openerBrowser =
+				params.targetBrowser ||
+				openerWindow.gDot.tabs.selectedTab.webContents;
 			loadInBackground = false; // Since we're loading into the current tab, it'll be opening in the foreground
 
 			try {
 				uriObj = Services.io.newURI(url);
 			} catch (e) {}
 
-			const tab = openerWindow.gDot.tabs.getTabForWebContents(openerBrowser);
+			const tab =
+				openerWindow.gDot.tabs.getTabForWebContents(openerBrowser);
 
 			// We can't load into a non-browser webContents
 			// Instead we can just load into a new tab
-			if (!openerWindow.gDot.tabs._isWebContentsBrowserElement(openerBrowser)) {
+			if (
+				!openerWindow.gDot.tabs._isWebContentsBrowserElement(
+					openerBrowser
+				)
+			) {
 				where = "tab";
 				openerBrowser = null;
 			} else if (
@@ -363,7 +402,9 @@ export const NavigationHelper = {
 			if (loadInBackground == null) {
 				loadInBackground = params.forceForeground
 					? false
-					: Services.prefs.getBoolPref("browser.tabs.loadInBackground");
+					: Services.prefs.getBoolPref(
+							"browser.tabs.loadInBackground"
+					  );
 			}
 		}
 
@@ -405,7 +446,8 @@ export const NavigationHelper = {
 				if (
 					params.forceAboutBlankViewerInCurrent &&
 					(!uriObj ||
-						Services.io.getDynamicProtocolFlags(uriObj) & URI_INHERITS_SECURITY_CONTEXT)
+						Services.io.getDynamicProtocolFlags(uriObj) &
+							URI_INHERITS_SECURITY_CONTEXT)
 				) {
 					// If we know we won't be inheriting principals,
 					// we can apply the principals to an about:blank viewer
@@ -435,6 +477,10 @@ export const NavigationHelper = {
 				});
 
 				openerBrowser = /** @type {ChromeBrowser} */ (tab.webContents);
+
+				params.resolveOnNewTabCreated?.(openerBrowser);
+				params.resolveOnContentBrowserCreated?.(openerBrowser);
+
 				break;
 			}
 		}
@@ -461,7 +507,8 @@ export const NavigationHelper = {
 	 */
 	openTrustedLinkIn(win, url, where, params = {}) {
 		if (!params.triggeringPrincipal) {
-			params.triggeringPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
+			params.triggeringPrincipal =
+				Services.scriptSecurityManager.getSystemPrincipal();
 		}
 
 		params.forceForeground ??= true;
@@ -480,11 +527,14 @@ export const NavigationHelper = {
 	 */
 	openWebLinkIn(win, url, where, params = {}) {
 		if (!params.triggeringPrincipal) {
-			params.triggeringPrincipal = Services.scriptSecurityManager.createNullPrincipal({});
+			params.triggeringPrincipal =
+				Services.scriptSecurityManager.createNullPrincipal({});
 		}
 
 		if (params.triggeringPrincipal.isSystemPrincipal) {
-			throw new Error("System principal should never be passed to openWebLinkIn()!");
+			throw new Error(
+				"System principal should never be passed to openWebLinkIn()!"
+			);
 		}
 
 		params.forceForeground ??= true;
@@ -503,7 +553,12 @@ export const NavigationHelper = {
 		// Check if the window is the browser window
 		if (win.location.href !== AppConstants.BROWSER_CHROME_URL) {
 			// If not, just open a new browser window with the URIs passed along as arguments.
-			win.openDialog(AppConstants.BROWSER_CHROME_URL, "_blank", "all,dialog=no", uriString);
+			win.openDialog(
+				AppConstants.BROWSER_CHROME_URL,
+				"_blank",
+				"all,dialog=no",
+				uriString
+			);
 			return;
 		}
 
@@ -529,14 +584,19 @@ export const NavigationHelper = {
 	 */
 	loadURI(browser, uri, loadURIOptions = {}) {
 		if (!loadURIOptions.triggeringPrincipal) {
-			throw new Error("Required 'triggeringPrincipal' in loadURI options.");
+			throw new Error(
+				"Required 'triggeringPrincipal' in loadURI options."
+			);
 		}
 
 		if (
 			loadURIOptions.userContextId &&
-			loadURIOptions.userContextId !== browser.getAttribute("usercontextid")
+			loadURIOptions.userContextId !==
+				browser.getAttribute("usercontextid")
 		) {
-			throw new Error("Mismatched 'userContextId' in loadURI from options to browser.");
+			throw new Error(
+				"Mismatched 'userContextId' in loadURI from options to browser."
+			);
 		}
 
 		loadURIOptions.loadFlags |= loadURIOptions.flags | LOAD_FLAGS_NONE;
@@ -593,12 +653,18 @@ export const NavigationHelper = {
 	 * @param {Partial<LoadURIOptions>} loadURIOptions
 	 */
 	fixupAndLoadURIString(browser, uriString, loadURIOptions) {
-		const fixupFlags = this._loadFlagsToFixupFlags(browser, loadURIOptions.loadFlags);
+		const fixupFlags = this._loadFlagsToFixupFlags(
+			browser,
+			loadURIOptions.loadFlags
+		);
 
 		let fixupInfo;
 
 		try {
-			fixupInfo = Services.uriFixup.getFixupURIInfo(uriString, fixupFlags);
+			fixupInfo = Services.uriFixup.getFixupURIInfo(
+				uriString,
+				fixupFlags
+			);
 		} catch (e) {
 			return null;
 		}
