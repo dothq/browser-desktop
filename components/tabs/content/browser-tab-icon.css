@@ -11,7 +11,7 @@ browser-tab-icon {
     will-change: width, opacity;
 }
 
-browser-tab-icon[hideicon] .browser-tab-image {
+browser-tab-icon:not([progress]):not([pendingicon])[hideicon] .browser-tab-image {
     visibility: hidden;
 }
 
@@ -83,7 +83,7 @@ browser-tab-icon[progress="2"] .browser-tab-spinner {
     padding-inline-start: var(--tab-icon-padding);
 }
 
-:host(browser-tab[hideicon]) browser-tab-icon {
-    width: 0px;
-    opacity: 0;
+/* If the tab needs the icon hidden, we can only hide it if the tab isn't doing anything or is loading the favicon */
+:host(browser-tab[hideicon]:not([progress]):not([pendingicon])) browser-tab-icon {
+    --width: 0px;
 }

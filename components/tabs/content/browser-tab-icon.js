@@ -27,30 +27,74 @@ class BrowserTabIcon extends BrowserContextualMixin(HTMLElement) {
 	handleEvent(event) {
 		switch (event.type) {
 			case "BrowserTabsCollator::TabAttributeUpdate":
-				if (event.detail.tab !== this.hostContext.tab) return;
-
-				this.updateAttributes();
-				break;
+				if (event.detail.tab === this.hostContext.tab) {
+					this.updateAttributes(event.detail);
+				}
 		}
 	}
 
 	/**
 	 * Updates the attributes with the current context tab's
 	 */
-	updateAttributes() {
-		const { tab } = this.hostContext;
+	updateAttributes({ tab, attributeName, newValue, oldValue }) {
+		switch (attributeName) {
+			case "progress":
+				this.setAttribute("progress", newValue);
+				this.toggleAttribute("progress", tab.hasAttribute("progress"));
 
-		this.setAttribute("progress", tab.getAttribute("progress"));
-		this.toggleAttribute("progress", tab.hasAttribute("progress"));
+				if (!tab.hasAttribute("progress")) {
+					this.spinnerAnimation?.pause();
+					this.spinnerAnimation = null;
 
-		if (this.host instanceof BrowserRenderedTab) {
-			this.setAttribute("hideicon", tab.getAttribute("hideicon"));
-			this.toggleAttribute("hideicon", tab.hasAttribute("hideicon"));
+					return;
+				}
+
+				if (!oldValue && newValue == "1") {
+					this.elements.spinner.style.transform = "";
+				}
+
+				this.spinnerAnimation?.pause();
+				this.spinnerAnimation = this.createSpinnerAnimation();
+
+				break;
+			case "hideicon":
+				if (this.host instanceof BrowserRenderedTab) {
+					this.setAttribute("hideicon", newValue);
+					this.toggleAttribute(
+						"hideicon",
+						tab.hasAttribute("hideicon")
+					);
+				}
+				break;
+			case "pendingicon":
+				if (this.host instanceof BrowserRenderedTab) {
+					this.setAttribute("pendingicon", newValue);
+					this.toggleAttribute(
+						"pendingicon",
+						tab.hasAttribute("pendingicon")
+					);
+				}
+				break;
+			case "icon":
+				this.elements.image.src = tab.getAttribute("icon");
+				break;
 		}
+	}
 
-		if (this.elements.image.src !== tab.getAttribute("icon")) {
-			this.elements.image.src = tab.getAttribute("icon");
-		}
+	/**
+	 * Creates a new spinner animation
+	 */
+	createSpinnerAnimation() {
+		const progress = parseInt(this.getAttribute("progress"));
+
+		return anime({
+			targets: gDot.prefersReducedMotion ? [] : this.elements.spinner,
+			rotate: "+=1turn",
+			direction: "normal",
+			loop: true,
+			easing: "linear",
+			duration: progress == 2 ? 600 : 1500
+		});
 	}
 
 	connectedCallback() {
@@ -61,8 +105,38 @@ class BrowserTabIcon extends BrowserContextualMixin(HTMLElement) {
 			this
 		);
 
+		this.spinnerAnimation = this.createSpinnerAnimation();
+		this.spinnerAnimation.pause();
+
 		if (this.hostContext.tab) {
-			this.updateAttributes();
+			// @todo: really awful way of doing this
+			this.updateAttributes({
+				tab: this.hostContext.tab,
+				attributeName: "progress",
+				newValue: this.hostContext.tab.getAttribute("progress"),
+				oldValue: null
+			});
+
+			this.updateAttributes({
+				tab: this.hostContext.tab,
+				attributeName: "hideicon",
+				newValue: this.hostContext.tab.getAttribute("hideicon"),
+				oldValue: null
+			});
+
+			this.updateAttributes({
+				tab: this.hostContext.tab,
+				attributeName: "pendingicon",
+				newValue: this.hostContext.tab.getAttribute("pendingicon"),
+				oldValue: null
+			});
+
+			this.updateAttributes({
+				tab: this.hostContext.tab,
+				attributeName: "icon",
+				newValue: this.hostContext.tab.getAttribute("icon"),
+				oldValue: null
+			});
 		}
 	}
 
