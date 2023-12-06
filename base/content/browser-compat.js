@@ -100,6 +100,22 @@ var gBrowser = {
 		});
 	},
 
+	/**
+	 * @param {BrowserTab} tab
+	 * @param {boolean} [forceDiscard]
+	 */
+	discardBrowser(tab, forceDiscard) {
+		tab.maybeClose();
+	},
+
+	/**
+	 * @param {BrowserTab} tab
+	 * @param {Record<string, any>} options
+	 */
+	removeTab(tab, options) {
+		tab.maybeClose();
+	},
+
 	_initCompat() {}
 };
 
