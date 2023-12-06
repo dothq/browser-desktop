@@ -22,14 +22,6 @@ function injectCompat(tab) {
 	compat.defineGetter(tab, "linkedBrowser", () => tab.webContents);
 }
 
-const kDefaultTabIcon = "chrome://dot/skin/globe.svg";
-
-const kDefaultTabTitles = {
-	"about:blank": "New Tab",
-	"about:home": "New Tab",
-	"about:newtab": "New Tab"
-};
-
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").ChromeBrowser} ChromeBrowser
  */
@@ -148,6 +140,8 @@ class BrowserTab extends MozElements.MozTab {
 			return;
 		}
 
+		this.removeAttribute("hideicon");
+
 		this.setAttribute("progress", val.toString());
 	}
 
@@ -255,7 +249,10 @@ class BrowserTab extends MozElements.MozTab {
 	 * @returns {nsIURI}
 	 */
 	get currentURI() {
-		if (!gDot.tabs._isWebContentsBrowserElement(this.webContents)) {
+		if (
+			!gDot?.tabs ||
+			!gDot.tabs._isWebContentsBrowserElement(this.webContents)
+		) {
 			return Services.io.newURI("about:blank");
 		}
 
@@ -287,7 +284,7 @@ class BrowserTab extends MozElements.MozTab {
 		}
 
 		if (!this.getAttribute("icon")) {
-			this.updateIcon(kDefaultTabIcon, true);
+			this.updateIcon(BrowserTabsUtils.DEFAULT_TAB_ICON, true);
 		}
 
 		window.addEventListener("BrowserTabs::TabSelect", this);
@@ -334,6 +331,23 @@ class BrowserTab extends MozElements.MozTab {
 	}
 
 	/**
+	 * Trims protocols and removes www. from str
+	 * @param {string} str
+	 * @returns {string}
+	 */
+	_trimProtocols(str) {
+		try {
+			const uri = Services.io.newURI(str);
+
+			if (uri && uri.spec) {
+				str = uri.spec.replace(/^[^:]+:\/\/(?:www\.)?/, "");
+			}
+		} catch (e) {}
+
+		return str;
+	}
+
+	/**
 	 * Updates the tab's label
 	 * @param {string} newLabel
 	 */
@@ -342,11 +356,14 @@ class BrowserTab extends MozElements.MozTab {
 
 		// If this tab is just initialising, we will want to use a neutral title
 		if (!this.webContents && !newLabel) {
-			label = "Untitled";
+			label =
+				this._trimProtocols(
+					this._initialURI?.spec || this.currentURI.spec
+				) || BrowserTabsUtils.DEFAULT_TAB_LABEL;
 		}
 
-		if (kDefaultTabTitles[label]) {
-			label = kDefaultTabTitles[label];
+		if (BrowserTabsUtils.INTERNAL_PAGES[label]?.title) {
+			label = BrowserTabsUtils.INTERNAL_PAGES[label].title;
 		}
 
 		try {
@@ -356,26 +373,20 @@ class BrowserTab extends MozElements.MozTab {
 			}
 
 			if (label.trim().length <= 0) {
-				label = /** @type {ChromeBrowser} */ (this.webContents)
-					.currentURI.spec;
+				label = this._trimProtocols(
+					this._initialURI?.spec ||
+						/** @type {ChromeBrowser} */ (this.webContents)
+							.currentURI.spec
+				);
 
-				if (kDefaultTabTitles[label]) {
-					label = kDefaultTabTitles[label];
+				if (BrowserTabsUtils.INTERNAL_PAGES[label]?.title) {
+					label = BrowserTabsUtils.INTERNAL_PAGES[label].title;
 				}
 			}
 		} catch (e) {
 			console.error("Unable to use currentURI for tab title:", e);
-			label = "Untitled";
+			label = BrowserTabsUtils.DEFAULT_TAB_LABEL;
 		}
-
-		try {
-			const uri = Services.io.newURI(label);
-
-			if (uri && uri.spec) {
-				// trims protocols and www. from label
-				label = uri.spec.replace(/^[^:]+:\/\/(?:www\.)?/, "");
-			}
-		} catch (e) {}
 
 		if (label.length > 500) {
 			label = `${label.substring(0, 500)}\u2026`;
@@ -410,16 +421,15 @@ class BrowserTab extends MozElements.MozTab {
 
 				iconURI = BrowserTabsUtils.INTERNAL_PAGES[uri].icon;
 			} catch (e) {
-				iconURI = kDefaultTabIcon;
+				iconURI = BrowserTabsUtils.DEFAULT_TAB_ICON;
 			}
 		}
 
 		this.setAttribute("icon", iconURI);
 
 		const shouldHideIcon =
-			(!iconURI.length || iconURI == kDefaultTabIcon) &&
-			!initial &&
-			!this.progress;
+			(!iconURI.length || iconURI == BrowserTabsUtils.DEFAULT_TAB_ICON) &&
+			!initial;
 
 		if (shouldHideIcon) {
 			this.setAttribute("hideicon", "true");

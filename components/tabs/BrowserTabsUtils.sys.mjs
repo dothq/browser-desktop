@@ -10,15 +10,24 @@ const { StartPage } = ChromeUtils.importESModule(
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIChannel} nsIChannel
  */
 
+const DEFAULT_TAB_ICON = "chrome://dot/skin/globe.svg";
+const DEFAULT_TAB_LABEL = "Untitled";
+
 export const BrowserTabsUtils = {
+	DEFAULT_TAB_ICON,
+	DEFAULT_TAB_LABEL,
+
 	// Ensure that these icons match up with the actual page favicon
 	// Reflect any changes here with base/content/browser-init.ts
 	INTERNAL_PAGES: {
 		"about:blank": {
 			title: "New Tab",
-			icon: "chrome://dot/skin/globe.svg"
+			icon: DEFAULT_TAB_ICON
 		},
-		"about:home": { title: "New Tab", icon: "chrome://dot/skin/home.svg" },
+		"about:home": {
+			title: "New Tab",
+			icon: "chrome://dot/skin/home.svg"
+		},
 		"about:newtab": {
 			title: "New Tab",
 			icon: "chrome://dot/skin/home.svg"
