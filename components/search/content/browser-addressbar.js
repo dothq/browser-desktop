@@ -8,7 +8,9 @@ class BrowserAddressBar extends BrowserCustomizableArea {
 	}
 
 	connectedCallback() {
-		super.connect("addressbar");
+		super.connect("addressbar", {
+			orientation: "horizontal"
+		});
 
 		window.addEventListener("BrowserTabs::BrowserLocationChange", this);
 		window.addEventListener("BrowserTabs::TabSelect", this);
