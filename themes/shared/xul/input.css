@@ -5,15 +5,29 @@
 @namespace xul url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
 
-:root {
+button,
+select,
+xul|button,
+html|button,
+html|select {
     --button-disabled-opacity: 0.5;
 
-    --button-default-color: color-mix(in srgb, currentColor 10%, transparent);
-    --button-hover-color: color-mix(in srgb, currentColor 15%, transparent);
-    --button-active-color: color-mix(in srgb, currentColor 30%, transparent);
-    --button-checked-color: color-mix(in srgb, currentColor 30%, transparent);
-    --button-checked-hover-color: color-mix(in srgb, currentColor 35%, transparent);
-    --button-checked-active-color: color-mix(in srgb, currentColor 40%, transparent);
+    --button-base-color: currentColor;
+    --button-mix-color: transparent;
+
+    --button-override-default-color-mix: 10%;
+    --button-override-hover-color-mix: 15%;
+    --button-override-active-color-mix: 30%;
+    --button-override-checked-color-mix: 30%;
+    --button-override-checked-hover-color-mix: 35%;
+    --button-override-checked-active-color-mix: 40%;
+
+    --button-default-color: color-mix(in srgb, var(--button-base-color) var(--button-override-default-color-mix), var(--button-mix-color));
+    --button-hover-color: color-mix(in srgb, var(--button-base-color) var(--button-override-hover-color-mix), var(--button-mix-color));
+    --button-active-color: color-mix(in srgb, var(--button-base-color) var(--button-override-active-color-mix), var(--button-mix-color));
+    --button-checked-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-color-mix), var(--button-mix-color));
+    --button-checked-hover-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-hover-color-mix), var(--button-mix-color));
+    --button-checked-active-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-active-color-mix), var(--button-mix-color));
 
     --button-ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
@@ -36,7 +50,7 @@ html|select {
     font-size: 14px;
     font-weight: 500;
 
-    color: unset;
+    color: var(--button-color, currentColor);
     background-color: var(--button-background, var(--button-default-color));
 
     outline: var(--button-outline);
@@ -97,7 +111,12 @@ button:disabled>*,
 select:disabled,
 xul|button:disabled>*,
 html|button:disabled>*,
-html|select:disabled {
+html|select:disabled,
+button[disabled],
+select[disabled],
+xul|button[disabled],
+html|button[disabled],
+html|select[disabled] {
     filter: opacity(var(--button-disabled-opacity));
 }
 
@@ -124,6 +143,21 @@ html|button:focus-visible[active] {
     --button-outline-offset: 0px;
 
     --button-outline-offset-transition-duration: 100ms;
+}
+
+button[primary],
+xul|button[primary],
+html|button[primary] {
+    --button-base-color: AccentColor;
+    --button-mix-color: currentColor;
+    --button-color: white;
+
+    --button-override-default-color-mix: 100%;
+    --button-override-hover-color-mix: 85%;
+    --button-override-active-color-mix: 70%;
+    --button-override-checked-color-mix: 70%;
+    --button-override-checked-hover-color-mix: 60%;
+    --button-override-checked-active-color-mix: 55%;
 }
 
 @media (prefers-contrast) {
