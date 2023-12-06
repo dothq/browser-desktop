@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserIcon extends MozHTMLElement {
+class BrowserIcon extends HTMLElement {
 	static get observedAttributes() {
 		return ["name", "size"];
 	}
@@ -28,17 +28,7 @@ class BrowserIcon extends MozHTMLElement {
 		this.style.setProperty("--size", newSize);
 	}
 
-	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
-	}
-
-	disconnectedCallback() {
-		if (this.delayConnectedCallback()) return;
-	}
-
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (!this.isConnectedAndReady) return;
-
 		switch (name) {
 			case "src":
 				if (newValue !== oldValue) {
