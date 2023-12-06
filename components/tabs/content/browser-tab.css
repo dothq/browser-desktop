@@ -67,28 +67,37 @@ browser-tab .browser-tab-contents {
     overflow: hidden;
 }
 
-browser-tab .browser-tab-background::before {
-    content: "";
-    background-color: color-mix(in srgb, var(--browser-accent-color) 20%, transparent 100%);
+browser-tab .browser-tab-background .browser-tab-burst {
+    background-color: color-mix(in srgb,
+            var(--burst-color, transparent),
+            transparent 100%);
     width: var(--tab-load-percent, 0%);
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
     opacity: 0;
-    transition: 0.6s opacity cubic-bezier(0.19, 1, 0.22, 1), 0s width;
+    transition:
+        0.6s opacity cubic-bezier(0.19, 1, 0.22, 1),
+        0.3s background-color,
+        0s width;
     z-index: 0;
 }
 
+browser-tab[progress="2"] .browser-tab-background .browser-tab-burst {
+    --burst-color: var(--browser-accent-color) 20%;
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .browser-tab-background::before {
+    .browser-tab-background .browser-tab-burst {
         visibility: hidden;
     }
 }
 
-browser-tab[progress] .browser-tab-background::before {
+browser-tab[progress] .browser-tab-background .browser-tab-burst {
     opacity: 1;
-    transition: 0.6s opacity cubic-bezier(0.19, 1, 0.22, 1),
+    transition:
+        0.6s opacity cubic-bezier(0.19, 1, 0.22, 1),
         0.1s width cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -113,10 +122,6 @@ browser-tab::before {
     transition: 0.4s opacity cubic-bezier(0.19, 1, 0.22, 1);
     --color: rgba(128, 128, 128, 0.25);
     --height: 20%;
-}
-
-browser-tab::before {
-    left: 0;
 }
 
 browser-tab::after {

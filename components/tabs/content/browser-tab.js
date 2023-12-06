@@ -389,7 +389,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 							slot: "tab-internal",
 							style: {
 								display: "flex",
-								gap: "4px",
+								flexDirection: "column",
 								position: "fixed",
 								backgroundColor: "black",
 								color: "white",
@@ -407,19 +407,24 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			this.debugUpdateInt = setInterval(() => {
 				const width = this.getBoundingClientRect().width;
 
-				this.querySelector("#tab-debug").innerHTML =
-					"<span>" +
-					[
-						`ID: ${this.id.split("tab-")[1]}`,
-						`W: ${width.toFixed(0)}`,
-						`MaxW: ${(
-							parseInt(getComputedStyle(this).maxWidth) || width
-						).toFixed(0)}`,
-						`MinW: ${(
-							parseInt(getComputedStyle(this).minWidth) || width
-						).toFixed(0)}`
-					].join("</span><span>") +
-					"</span>";
+				this.querySelector("#tab-debug").replaceChildren(
+					html(
+						"div",
+						{},
+						...[
+							`ID: ${this.id.split("tab-")[1]}`,
+							`W: ${width.toFixed(0)}`,
+							`MaxW: ${(
+								parseInt(getComputedStyle(this).maxWidth) ||
+								width
+							).toFixed(0)}`,
+							`MinW: ${(
+								parseInt(getComputedStyle(this).minWidth) ||
+								width
+							).toFixed(0)}`
+						].map((t) => html("span", {}, t))
+					)
+				);
 			}, 1);
 		} else {
 			if (this.querySelector("#tab-debug")) {
@@ -438,10 +443,14 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 		this.shadowRoot.appendChild(html("slot", { name: "tab-internal" }));
 		this.appendChild(
-			html("div", {
-				class: "browser-tab-background",
-				slot: "tab-internal"
-			})
+			html(
+				"div",
+				{
+					class: "browser-tab-background",
+					slot: "tab-internal"
+				},
+				html("div", { class: "browser-tab-burst" })
+			)
 		);
 
 		Services.prefs.addObserver(
