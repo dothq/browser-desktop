@@ -8,22 +8,48 @@ export class LinkHandlerParent extends JSWindowActorParent {
 		if (!browser) return;
 
 		switch (msg.name) {
-			case "Link:SetIcon":
-				this.setIcon(browser, msg.data.iconURL, msg.data.canUseForTab);
-				break;
-			case "Link:SetFailedIcon": {
+			case "Link:LoadingIcon": {
+				if (!msg.data.canUseForTab) return;
+
 				const { gDot } = browser.ownerGlobal;
 				if (!gDot) return;
 
 				const tab = gDot.tabs.getTabForWebContents(browser);
 				if (!tab) return;
 
-				gDot.tabs.clearIcon(tab);
+				if (tab.progress) {
+					tab.toggleAttribute("pendingicon", true);
+				}
+
+				break;
+			}
+			case "Link:SetIcon": {
+				this.setIcon(browser, msg.data.iconURL, msg.data.canUseForTab);
+				break;
+			}
+			case "Link:SetFailedIcon": {
+				if (!msg.data.canUseForTab) return;
+
+				const { gDot } = browser.ownerGlobal;
+				if (!gDot) return;
+
+				const tab = gDot.tabs.getTabForWebContents(browser);
+				if (!tab) return;
+
+				this.clearPendingIcon(tab);
 				break;
 			}
 			default:
 				console.debug(`LinkHandlerParent: Unhandled event ${msg.name}`);
 		}
+	}
+
+	/**
+	 * Clears the pendingicon attribute from the tab
+	 * @param {BrowserTab} tab
+	 */
+	clearPendingIcon(tab) {
+		tab.removeAttribute("pendingicon");
 	}
 
 	/**
@@ -38,6 +64,10 @@ export class LinkHandlerParent extends JSWindowActorParent {
 
 		const tab = gDot.tabs.getTabForWebContents(browser);
 		if (!tab) return;
+
+		if (canUseForTab) {
+			this.clearPendingIcon(tab);
+		}
 
 		// Make sure a valid URL has been passed
 		let uri;
