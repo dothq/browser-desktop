@@ -3,10 +3,10 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<?xml-stylesheet href="chrome://global/skin/global.css"?>
-<?xml-stylesheet href="chrome://dot/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/global.css"?> <?xml-stylesheet
+href="chrome://dot/skin/global.css" type="text/css"?>
 
-<!DOCTYPE html>
+<!doctype html>
 
 <html
 	xmlns="http://www.w3.org/1999/xhtml"
@@ -23,7 +23,10 @@
 				"chrome://dot/content/browser-utility-overlay.js",
 				this
 			);
-			Services.scriptloader.loadSubScript("chrome://dot/content/browser-elements.js", this);
+			Services.scriptloader.loadSubScript(
+				"chrome://dot/content/browser-elements.js",
+				this
+			);
 
 			window.addEventListener("load", () => {
 				const panel = document.createElement("dev-debug-panel");

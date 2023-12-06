@@ -18,6 +18,14 @@ var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
 
+var { NavigationHelper } = ChromeUtils.importESModule(
+	"resource:///modules/NavigationHelper.sys.mjs"
+);
+
+var { DotWindowTracker } = ChromeUtils.importESModule(
+	"resource:///modules/DotWindowTracker.sys.mjs"
+);
+
 /**
  * Utility function to convert bytes to a human-readable format
  * @param {number} bytes
@@ -54,15 +62,39 @@ class DeveloperDebugPanel extends MozHTMLElement {
 		app_info: html("span"),
 		proc_info: html("div"),
 		user_agent: html("span"),
-
-		graph: /** @type {DeveloperDebugGraph} */ (html("dev-debug-graph")),
-
-		active_theme: /** @type {HTMLSelectElement} */ (
-			html("select", { class: "dev-active-theme" })
-		),
-
-		native_titlebar: /** @type {HTMLInputElement} */ (
-			html("input", { type: "checkbox", id: "dev-native-theme-enabled" })
+		open_link_in: html(
+			"div",
+			{},
+			html(
+				"div",
+				{},
+				html(
+					"label",
+					{ for: "dev-debug-link-to-open" },
+					"URL to open:"
+				),
+				html("input", { type: "text", id: "dev-debug-link-to-open" })
+			),
+			html(
+				"div",
+				{},
+				html("label", {}, "Open where:"),
+				html(
+					"div",
+					{ class: "dev-debug-open-link-btns" },
+					html(
+						"button",
+						{ id: "dev-debug-open-link--current" },
+						"Current"
+					),
+					html("button", { id: "dev-debug-open-link--tab" }, "Tab"),
+					html(
+						"button",
+						{ id: "dev-debug-open-link--window" },
+						"Window"
+					)
+				)
+			)
 		),
 
 		customizableui_data: /** @type {HTMLTextAreaElement} */ (
@@ -72,12 +104,30 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
 	resourceUsageInt = null;
 
-	onAddonEnabled(addon) {
-		if (!addon || addon.type != "theme") return;
+	createAboutProcessesBrowser() {
+		const browser = document.createXULElement("browser");
 
-		this.renderThemes().then((_) => {
-			this.elements.active_theme.value = addon.id;
+		browser.setAttribute("type", "content");
+		browser.setAttribute("disableglobalhistory", "true");
+
+		Object.assign(browser.style, {
+			width: "100%",
+			height: "100%",
+			minHeight: "275px",
+			maxHeight: "275px",
+			borderRadius: "8px",
+			padding: "3px",
+			"-moz-window-dragging": "nodrag"
 		});
+
+		browser.addEventListener("XULFrameLoaderCreated", () => {
+			browser.fixupAndLoadURIString("about:processes", {
+				triggeringPrincipal:
+					Services.scriptSecurityManager.getSystemPrincipal()
+			});
+		});
+
+		return browser;
 	}
 
 	async calculateResourceUsage() {
@@ -91,78 +141,8 @@ class DeveloperDebugPanel extends MozHTMLElement {
 			html("span", {}, `Threads: ${procInfo.threads.length}`)
 		];
 
-		if (
-			procInfo.memory >=
-			Math.max(...(this.elements.graph.points.default || []))
-		) {
-			this.elements.graph.max =
-				Math.ceil((procInfo.memory + 50000000) /* 50mb */ / 50000000) *
-				50000000;
-		}
-		this.elements.graph.addPoint(procInfo.memory);
-
-		if (procInfo.children.length) {
-			data.push(html("br"));
-
-			for (const child of procInfo.children.sort(
-				(a, b) => b.memory - a.memory
-			)) {
-				this.elements.graph.addPoint(
-					child.memory,
-					child.pid.toString()
-				);
-
-				const groupColour =
-					this.elements.graph.pointGroupColours[child.pid.toString()];
-
-				const groupDot = /** @type {HTMLSpanElement} */ (
-					html("div", { class: "dev-graph-group-dot" })
-				);
-				groupDot.style.setProperty("--color", groupColour);
-
-				data.push(
-					html(
-						"div",
-						{ class: "dev-graph-group" },
-						groupDot,
-						html(
-							"span",
-							{},
-							`${child.type} (id=${child.childID} pid=${
-								child.pid
-							}, mem=${formatBytes(child.memory)}, thds=${
-								child.threads.length
-							}, wins=${child.windows.length})`
-						)
-					)
-				);
-			}
-		}
-
 		this.elements.proc_info.textContent = "";
 		this.elements.proc_info.append(...data);
-
-		// Lazy way of updating this value
-		this.elements.native_titlebar.checked = NativeTitlebar.enabled;
-	}
-
-	async renderThemes() {
-		const allThemes = await AddonManager.getAddonsByTypes(["theme"]);
-
-		// Clear children
-		this.elements.active_theme.replaceChildren();
-
-		for (const theme of allThemes.sort((a, b) =>
-			a.id.localeCompare(b.id)
-		)) {
-			const option = html(
-				"option",
-				{ value: theme.id },
-				`${theme.name} (${theme.id})`
-			);
-
-			this.elements.active_theme.appendChild(option);
-		}
 	}
 
 	// https://stackoverflow.com/a/54931396
@@ -186,19 +166,10 @@ class DeveloperDebugPanel extends MozHTMLElement {
 	}
 
 	async init() {
-		const activeTheme = (
-			await AddonManager.getAddonsByTypes(["theme"])
-		).find((ext) => ext.isActive);
-
-		AddonManager.addAddonListener({
-			onEnabled: this.onAddonEnabled.bind(this)
-		});
-
 		this.resourceUsageInt = setInterval(() => {
 			this.calculateResourceUsage();
 		}, 1000);
 
-		this.onAddonEnabled(activeTheme);
 		this.calculateResourceUsage();
 
 		setInterval(() => {
@@ -224,32 +195,37 @@ class DeveloperDebugPanel extends MozHTMLElement {
 			`Firefox v${AppConstants.MOZ_APP_VERSION}`
 		);
 
-		this.elements.user_agent.textContent = `user_agent = ${
+		this.elements.user_agent.textContent = `User Agent: ${
 			Cc["@mozilla.org/network/protocol;1?name=http"].getService(
 				Ci.nsIHttpProtocolHandler
 			).userAgent
 		}`;
 
-		this.elements.active_theme.addEventListener("change", async (event) => {
-			const { value } = /** @type {HTMLSelectElement} */ (event.target);
+		const openSetLinkIn = (where) => {
+			const input = /** @type {HTMLInputElement} */ (
+				this.elements.open_link_in.querySelector(
+					"#dev-debug-link-to-open"
+				)
+			);
 
-			const addon = await AddonManager.getAddonByID(value);
+			const url = input.value;
 
-			if (addon) {
-				addon.enable();
-			}
-		});
+			const win = /** @type {any} */ (
+				DotWindowTracker.getTopWindow({ allowPopups: false })
+			);
 
-		this.elements.native_titlebar.addEventListener(
-			"change",
-			async (event) => {
-				const { checked } = /** @type {HTMLInputElement} */ (
-					event.target
-				);
+			NavigationHelper.openWebLinkIn(win, url, where);
+		};
 
-				NativeTitlebar.set(checked, true);
-			}
-		);
+		this.elements.open_link_in
+			.querySelector("#dev-debug-open-link--current")
+			.addEventListener("click", () => openSetLinkIn("current"));
+		this.elements.open_link_in
+			.querySelector("#dev-debug-open-link--tab")
+			.addEventListener("click", () => openSetLinkIn("tab"));
+		this.elements.open_link_in
+			.querySelector("#dev-debug-open-link--window")
+			.addEventListener("click", () => openSetLinkIn("window"));
 	}
 
 	insertStylesheet() {
@@ -267,29 +243,20 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
 		this.appendChild(this.elements.app_info);
 		this.appendChild(this.elements.proc_info);
-		this.appendChild(this.elements.user_agent);
-		this.appendChild(
-			html(
-				"div",
-				{ class: "dev-active-theme-container" },
-				html("label", {}, "Active Theme:"),
-				this.elements.active_theme
-			)
-		);
+
+		this.aboutProcessesBrowser = this.createAboutProcessesBrowser();
 
 		this.appendChild(
 			html(
 				"div",
-				{ class: "dev-native-titlebar-container" },
-				html(
-					"label",
-					{ for: "dev-native-theme-enabled" },
-					"Native Titlebar:"
-				),
-				this.elements.native_titlebar
+				{ slot: "panel", name: "processes" },
+				this.aboutProcessesBrowser
 			)
 		);
-		this.elements.native_titlebar.checked = NativeTitlebar.enabled;
+
+		this.appendChild(this.elements.user_agent);
+
+		this.appendChild(this.elements.open_link_in);
 
 		this.appendChild(
 			html(
@@ -299,8 +266,6 @@ class DeveloperDebugPanel extends MozHTMLElement {
 				this.elements.customizableui_data
 			)
 		);
-
-		this.appendChild(this.elements.graph);
 
 		this.insertStylesheet();
 
