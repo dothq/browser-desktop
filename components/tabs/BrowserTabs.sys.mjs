@@ -837,6 +837,7 @@ BrowserTabs.prototype = {
 	 */
 	_isWebContentsBrowserElement(webContents) {
 		return (
+			webContents &&
 			webContents.constructor.name == "MozBrowser" &&
 			webContents.browserId
 		);
