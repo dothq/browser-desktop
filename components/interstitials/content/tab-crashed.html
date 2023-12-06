@@ -1,0 +1,53 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src chrome:; object-src 'none';"
+		/>
+		<meta name="color-scheme" content="light dark" />
+		<title data-l10n-id="interstitial-tab-crashed-page-title"></title>
+		<link rel="icon" type="image/png" href="chrome://dot/skin/error.svg" />
+		<link rel="localization" href="branding/brand.ftl" />
+		<link rel="localization" href="dot/interstitials.ftl" />
+		<link
+			rel="stylesheet"
+			href="chrome://dot/content/interstitials/interstitials.css"
+		/>
+	</head>
+	<body>
+		<interstitial-page>
+			<browser-icon slot="icon" name="error"></browser-icon>
+
+			<h1 slot="title" data-l10n-id="interstitial-tab-crashed-title"></h1>
+
+			<p data-l10n-id="interstitial-tab-crashed-paragraph1"></p>
+			<p data-l10n-id="interstitial-tab-crashed-paragraph2"></p>
+
+			<button
+				slot="action_start"
+				data-l10n-id="interstitial-view-details-action"
+			></button>
+
+			<button
+				slot="action_end"
+				data-l10n-id="interstitial-tab-crashed-close-action"
+			></button>
+
+			<button
+				slot="action_end"
+				primary=""
+				data-l10n-id="interstitial-tab-crashed-restore-action"
+			></button>
+		</interstitial-page>
+
+		<script src="chrome://dot/content/browser-utility-overlay.js"></script>
+		<script src="chrome://dot/content/widgets/browser-icon.js"></script>
+		<script src="chrome://dot/content/interstitials/interstitials.js"></script>
+	</body>
+</html>

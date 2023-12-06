@@ -1,0 +1,86 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@import url("chrome://dot/skin/global-shared.css");
+@import url("chrome://dot/content/widgets/browser-icon.css");
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: message-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+p {
+    line-height: 1.5rem;
+}
+
+.interstitial {
+    display: flex;
+}
+
+:host(.interstitial) .interstitial-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.interstitial::part(icon) {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    --size: 100%;
+}
+
+:host(.interstitial) .interstitial-page-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 500px;
+}
+
+.interstitial::part(content) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+:host(.interstitial) .interstitial-page-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.interstitial::part(actions_start),
+.interstitial::part(actions_center),
+.interstitial::part(actions_end) {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.interstitial button {
+    font-weight: 600;
+}

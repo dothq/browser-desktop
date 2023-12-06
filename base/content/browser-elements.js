@@ -26,13 +26,17 @@ let elements = {
 };
 
 let noCallbackElements = [
+	"chrome://dot/content/interstitials/interstitials.js",
+
 	"chrome://dot/content/widgets/browser-addressbar-panel.js",
 	"chrome://dot/content/widgets/browser-customizable-area.js",
+	"chrome://dot/content/widgets/browser-customizable-area-empty.js",
 	"chrome://dot/content/widgets/browser-customizable-template.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",
 	"chrome://dot/content/widgets/browser-tab.js",
 	"chrome://dot/content/widgets/browser-tab-icon.js",
 	"chrome://dot/content/widgets/browser-tab-label.js",
+	"chrome://dot/content/widgets/browser-tab-box.js",
 	"chrome://dot/content/widgets/browser-toolbar.js",
 	"chrome://dot/content/widgets/browser-toolbar-button.js",
 	"chrome://dot/content/widgets/browser-web-contents.js",

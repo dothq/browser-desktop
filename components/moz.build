@@ -11,6 +11,7 @@ DIRS += [
     "csd",
     "customizableui",
     "extensions",
+    "interstitials",
     "keyboard",
     "navigation",
     "onboarding",
