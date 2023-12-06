@@ -26,6 +26,17 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	}
 
 	/**
+	 * The allowed customizable attributes for the toolbar
+	 */
+	static get customizableAttributes() {
+		return {
+			mode: "mode",
+
+			is: "string"
+		};
+	}
+
+	/**
 	 * The command ID to use for this toolbar button
 	 */
 	commandId = null;

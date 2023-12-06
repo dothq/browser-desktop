@@ -8,6 +8,22 @@ class BrowserToolbar extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The allowed customizable attributes for the toolbar
+	 */
+	static get customizableAttributes() {
+		return {
+			width: "flexibleDimension",
+			height: "flexibleDimension",
+
+			background: "namedColor",
+
+			mode: "mode",
+
+			orientation: "orientation"
+		};
+	}
+
+	/**
 	 * The anatomy of the toolbar's shadow DOM
 	 */
 	get shadowElements() {

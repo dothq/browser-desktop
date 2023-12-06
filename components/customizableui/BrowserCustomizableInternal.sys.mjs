@@ -49,37 +49,6 @@ BrowserCustomizableInternal.prototype = {
 	templates: new Map(),
 
 	/**
-	 * The base schema for validating component attributes
-	 */
-	attributesSchema: {
-		$schema: "https://json-schema.org/draft/2020-12/schema",
-		type: "object",
-		properties: {},
-		$defs: {
-			length: {
-				oneOf: [
-					{
-						type: "integer",
-						minimum: 0
-					},
-					{
-						enum: ["fill", "hug"]
-					}
-				]
-			},
-			color: {
-				type: "string"
-			},
-			mode: {
-				enum: ["icons", "text", "icons_text"]
-			},
-			orientation: {
-				enum: ["horizontal", "vertical"]
-			}
-		}
-	},
-
-	/**
 	 * Fetches the customizable state schema
 	 */
 	async ensureStateSchema() {
@@ -150,18 +119,13 @@ BrowserCustomizableInternal.prototype = {
 	 * @param {CustomizableComponentDefinition[1]} attributes
 	 */
 	connectComponentWith(element, attributes) {
-		const validated = this._validate(
-			// prettier-ignore
-			{
-				...this.attributesSchema,
-				...(/** @type {any} */ (element).attributesSchema || {}),
-				additionalProperties: !/** @type {any} */ (element).attributesSchema
-			},
-			attributes
+		const processor = Attributes.createProcessor(
+			/** @type {any} */ (element.constructor).customizableAttributes ||
+				{}
 		);
 
-		const processedAttributes = Attributes.processAttributes(
-			Object.entries(validated).map((a) => ({ name: a[0], value: a[1] }))
+		const processedAttributes = processor.processAttributes(
+			Object.entries(attributes).map((a) => ({ name: a[0], value: a[1] }))
 		);
 
 		for (const [key, value] of Object.entries(processedAttributes)) {

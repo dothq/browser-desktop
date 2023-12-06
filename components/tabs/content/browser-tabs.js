@@ -14,6 +14,20 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The allowed customizable attributes for the toolbar
+	 */
+	static get customizableAttributes() {
+		return {
+			width: "flexibleDimension",
+			height: "flexibleDimension",
+
+			background: "namedColor",
+
+			mode: "mode"
+		};
+	}
+
+	/**
 	 * The currently selected tab
 	 */
 	get selectedTab() {
