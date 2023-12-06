@@ -1,0 +1,41 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-tab-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+:host(browser-tab-box) .tab-box-tabslist {
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+    gap: 2px;
+    background-color: rgba(128, 128, 128, 0.1);
+    border-radius: 9px;
+
+    ::slotted(button) {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        --button-background: transparent;
+    }
+
+    ::slotted(button[selected]) {
+        --button-background: var(--button-hover-color);
+    }
+}
+
+:host(browser-tab-box) .tab-box-tabspanel {
+    ::slotted(:not([selected])) {
+        display: none;
+    }
+
+    ::slotted(*) {
+        display: flex;
+        flex-direction: column;
+    }
+}
