@@ -65,9 +65,3 @@ browser-toolbar[collapse] {
 /* :host(browser-toolbar[initial]) .customizable-container {
     padding-block-start: calc(var(--browser-ui-density) / 3);
 } */
-
-@media (prefers-contrast) {
-    browser-toolbar {
-        outline: 1px solid var(--browser-high-contrast-color);
-    }
-}
