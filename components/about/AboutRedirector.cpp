@@ -33,6 +33,27 @@ namespace dot {
         static const RedirEntry kRedirMap[] = {
             /* id, resourceURI, flags */
             {
+                "blocked", 
+                "chrome://dot/content/interstitials/tab-error.html",
+                nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
+                    nsIAboutModule::HIDE_FROM_ABOUTABOUT
+            },
+            {
+                "certerror", 
+                "chrome://dot/content/interstitials/tab-error.html",
+                nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
+                    nsIAboutModule::HIDE_FROM_ABOUTABOUT
+            },
+            {
+                "framecrashed", 
+                "chrome://dot/content/interstitials/frame-crashed.html",
+                nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::URI_CAN_LOAD_IN_CHILD |
+                    nsIAboutModule::HIDE_FROM_ABOUTABOUT
+            },
+            {
                 "home", 
                 "chrome://dot/content/startpage/home.html", 
                 nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
@@ -63,6 +84,12 @@ namespace dot {
                 nsIAboutModule::HIDE_FROM_ABOUTABOUT |
                     nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
+            },
+            {
+                "tabcrashed", 
+                "chrome://dot/content/interstitials/tab-crashed.html",
+                nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+                    nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::HIDE_FROM_ABOUTABOUT
             },
             {
                 "preferences", 
