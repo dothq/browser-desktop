@@ -7,6 +7,9 @@ const { Action } = ChromeUtils.importESModule(
 );
 
 const ALL_ACTIONS = [
+	// browser.panels
+	"browser.panels.open",
+
 	// browser.tabs
 	"browser.tabs.add_tab",
 	"browser.tabs.close_tab",
