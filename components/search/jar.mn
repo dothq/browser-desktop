@@ -10,6 +10,4 @@ dot.jar:
     content/widgets/browser-addressbar.js                      (content/browser-addressbar.js)
     content/widgets/browser-addressbar.css                     (content/browser-addressbar.css)
 
-    content/widgets/browser-identity-button.js                 (content/browser-identity-button.js)
-
     content/widgets/browser-addressbar-panel.js                (content/browser-addressbar-panel.js)
