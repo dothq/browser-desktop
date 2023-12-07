@@ -42,6 +42,13 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	commandId = null;
 
 	/**
+	 * Optional arguments to pass to the command
+	 */
+	get commandArgs() {
+		return {};
+	}
+
+	/**
 	 * The anatomy of the toolbar button
 	 *
 	 * @typedef {Object} ToolbarButtonElements
@@ -144,7 +151,7 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Updates the mode of the toolbar button
 	 */
 	set mode(newMode) {
-		if (!newMode.length) {
+		if (!newMode || !newMode.length) {
 			this.removeAttribute("mode");
 			return;
 		}
@@ -169,7 +176,12 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			case "label":
 			case "icon":
 			case "disabled":
+			case "inert":
+			case "mode":
 				this[attributeName] = value;
+				break;
+			default:
+				this.setAttribute(attributeName, value);
 				break;
 		}
 	}
@@ -225,7 +237,10 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 
 			this.addEventListener(
 				"click",
-				this.commandSubscription.invoke.bind(this.commandSubscription)
+				this.commandSubscription.invoke.bind(
+					this.commandSubscription,
+					this.commandArgs
+				)
 			);
 		}
 
