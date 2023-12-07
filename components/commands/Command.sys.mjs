@@ -11,7 +11,7 @@ export class Command {
 	#subscription = null;
 
 	/** @type {BrowserCustomizableArea} */
-	#area = null;
+	area = null;
 
 	/** @type {AbortController} */
 	abortController = null;
@@ -32,7 +32,7 @@ export class Command {
 	 */
 	createEmptyMap() {
 		return new Map(
-			Object.entries({ root: null, [this.#area.context.audience]: null })
+			Object.entries({ root: null, [this.area.context.audience]: null })
 		);
 	}
 
@@ -50,7 +50,7 @@ export class Command {
 	 */
 	constructor(subscription, area) {
 		this.#subscription = subscription;
-		this.#area = area;
+		this.area = area;
 
 		this.abortController = new AbortController();
 
@@ -58,6 +58,8 @@ export class Command {
 		this._labelAuxiliary = this.createEmptyMap();
 		this._icon = this.createEmptyMap();
 		this._disabled = this.createEmptyMap();
+		this._inert = this.createEmptyMap();
+		this._mode = this.createEmptyMap();
 	}
 
 	/**
@@ -90,6 +92,12 @@ export class Command {
 	/** @type {Map<string, boolean>} */
 	_disabled = null;
 
+	/** @type {Map<string, boolean>} */
+	_inert = null;
+
+	/** @type {Map<string, boolean>} */
+	_mode = null;
+
 	/**
 	 * Updates an attribute on the command
 	 *
@@ -98,7 +106,7 @@ export class Command {
 	 */
 	setAttribute(attribute, value) {
 		if (!(`_${attribute}` in this)) {
-			throw new Error(`Unknown attribute with name '${attribute}'!`);
+			this[`_${attribute}`] = this.createEmptyMap();
 		}
 
 		/** @type {Map<string, string>} */
@@ -199,10 +207,40 @@ export class Command {
 	}
 
 	/**
+	 * Determines the inert state of this command
+	 * @returns {any}
+	 */
+	get inert() {
+		return !!this._inert.get("root");
+	}
+
+	/**
+	 * Updates the inert state of this command
+	 */
+	set inert(newValue) {
+		this.setAttribute("inert", newValue);
+	}
+
+	/**
+	 * The icon mode for this command
+	 * @returns {any}
+	 */
+	get mode() {
+		return this._mode.get("root");
+	}
+
+	/**
+	 * Updates the icon mode of this command
+	 */
+	set mode(newValue) {
+		this.setAttribute("mode", newValue);
+	}
+
+	/**
 	 * The context for this command
 	 */
 	get context() {
-		return this.#area.context;
+		return this.area.context;
 	}
 
 	/**
@@ -216,6 +254,6 @@ export class Command {
 	 * The actions dispatcher for this command
 	 */
 	get actions() {
-		return new ActionsDispatcher(this.#area);
+		return new ActionsDispatcher(this.area);
 	}
 }
