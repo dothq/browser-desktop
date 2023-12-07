@@ -15,7 +15,8 @@ const ALL_COMMANDS = [
 	"close-tab",
 	"go-back",
 	"go-forward",
-	"reload-tab"
+	"reload-tab",
+	"tab-identity"
 ];
 
 export class BrowserCommands {
