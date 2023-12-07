@@ -851,11 +851,11 @@ BrowserTabs.prototype = {
 	_insertTabWebContents(tab, webContents) {
 		tab.webContents = webContents;
 
-		const panel = this._win.document.createElement("browser-panel");
+		const panel = this._win.document.createElement("browser-web-panel");
 		const panelId = this._generateUniquePanelID();
 		panel.id = panelId;
 
-		const frame = this._win.document.createElement("browser-frame");
+		const frame = this._win.document.createElement("browser-web-frame");
 
 		tab.webContents.classList.add("browser-web-contents");
 		frame.appendChild(tab.webContents);

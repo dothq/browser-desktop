@@ -55,7 +55,7 @@ browser-status:not([inactive]) {
     }
 }
 
-browser-frame browser-status {
+browser-web-frame browser-status {
     position: absolute;
     bottom: 0;
     height: max-content;

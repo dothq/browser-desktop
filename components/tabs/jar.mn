@@ -11,13 +11,13 @@ dot.jar:
     content/widgets/browser-tab.js                      (content/browser-tab.js)
     content/widgets/browser-tab.css                     (content/browser-tab.css)
 
-    content/widgets/browser-panel.js                    (content/browser-panel.js)
-    content/widgets/browser-panel.css                   (content/browser-panel.css)
+    content/widgets/browser-web-panel.js                (content/browser-web-panel.js)
+    content/widgets/browser-web-panel.css               (content/browser-web-panel.css)
 
     content/widgets/browser-status.js                   (content/browser-status.js)
     content/widgets/browser-status.css                  (content/browser-status.css)
 
-    content/widgets/browser-frame.js                    (content/browser-frame.js)
+    content/widgets/browser-web-frame.js                (content/browser-web-frame.js)
 
     content/widgets/browser-tabs.js                     (content/browser-tabs.js)
     content/widgets/browser-tabs.css                    (content/browser-tabs.css)

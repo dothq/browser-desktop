@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserFrame extends MozHTMLElement {
+class BrowserWebFrame extends MozHTMLElement {
 	constructor() {
 		super();
 	}
@@ -23,4 +23,4 @@ class BrowserFrame extends MozHTMLElement {
 	}
 }
 
-customElements.define("browser-frame", BrowserFrame);
+customElements.define("browser-web-frame", BrowserWebFrame);

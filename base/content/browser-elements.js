@@ -13,15 +13,16 @@ let elements = {
     "browser-addressbar-input": "chrome://dot/content/widgets/browser-addressbar.js",
 
 	"browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
-	"browser-frame": "chrome://dot/content/widgets/browser-frame.js",
+
 	"browser-icon": "chrome://dot/content/widgets/browser-icon.js",
 	"browser-internal-tab": "chrome://dot/content/widgets/browser-internal-tab.js",
 	"browser-modals": "chrome://dot/content/widgets/browser-modals.js",
-	"browser-panel": "chrome://dot/content/widgets/browser-panel.js",
 	"browser-spring": "chrome://dot/content/widgets/browser-spring.js",
 	"browser-status": "chrome://dot/content/widgets/browser-status.js",
 	"browser-tabs": "chrome://dot/content/widgets/browser-tabs.js",
 	"browser-tabs-collator": "chrome://dot/content/widgets/browser-tabs-collator.js",
+    "browser-web-frame": "chrome://dot/content/widgets/browser-web-frame.js",
+	"browser-web-panel": "chrome://dot/content/widgets/browser-web-panel.js",
 	"browser-window-controls": "chrome://dot/content/widgets/browser-window-controls.js",
 };
 

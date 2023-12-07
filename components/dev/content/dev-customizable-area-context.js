@@ -99,7 +99,7 @@ class DeveloperCustomizableAreaContext extends MozHTMLElement {
 
 		if (element instanceof customElements.get("browser")) {
 			str += ` (${this.elementAsString(
-				element.closest("browser-panel")
+				element.closest("browser-web-panel")
 			)})`;
 		}
 

@@ -7,7 +7,6 @@
 EXTRA_JS_MODULES += [
     "BrowserTabs.sys.mjs",
     "BrowserTabsUtils.sys.mjs",
-    "TabIdentityHandler.sys.mjs",
     "TabProgressListener.sys.mjs",
 ]
 

@@ -18,7 +18,7 @@ class BrowserStatus extends BrowserContextualMixin(MozHTMLElement) {
 	 * @returns {ChromeBrowser}
 	 */
 	get webContents() {
-		const nearestPanel = this.closest("browser-panel");
+		const nearestPanel = this.closest("browser-web-panel");
 
 		if (!nearestPanel) {
 			// If we don't have a host, and we're just apart of <browser-application>
