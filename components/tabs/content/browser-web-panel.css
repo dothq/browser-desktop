@@ -24,7 +24,7 @@ browser-web-panel browser-web-frame {
     position: relative;
 }
 
-browser-web-panel browser-web-web-frame .browser-web-contents {
+browser-web-panel browser-web-frame .browser-web-contents {
     width: 100%;
     height: 100%;
 }
