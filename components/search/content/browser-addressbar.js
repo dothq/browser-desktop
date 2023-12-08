@@ -8,7 +8,7 @@ class BrowserAddressBar extends BrowserCustomizableArea {
 	}
 
 	/**
-	 * The context for this tab
+	 * The context for this addressbar
 	 */
 	get context() {
 		const self = this;
