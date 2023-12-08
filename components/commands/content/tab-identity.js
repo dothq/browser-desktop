@@ -29,7 +29,9 @@ export class TabIdentityCommand extends TabCommand {
 	run(args) {
 		this.actions.run("browser.panels.open", {
 			id: "identity-panel",
-			opener: args.opener
+
+			opener: args.opener,
+			anchor: "before after"
 		});
 	}
 

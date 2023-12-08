@@ -27,19 +27,22 @@ export class BrowserPanelsOpenAction extends Action {
 
 	/**
 	 * Performs this action
-	 * @param {ActionDispatchEvent<{ id: string; opener?: Element; }>} event
+	 * @param {ActionDispatchEvent<{ id: string; x?: number; y?: number; opener?: Element; anchor?: any; args?: Record<string, any> }>} event
 	 */
 	run(event) {
 		const { args } = event.detail;
 
-		console.log(
-			this.id,
-			"open panel",
-			args.id,
-			"with",
-			event.target.context,
-			"on",
-			args.opener || event.target.context.window
-		);
+		const win = event.target.ownerGlobal;
+		const { gDot } = win;
+
+		gDot.panels.open(args.id, {
+			x: args.x,
+			y: args.y,
+
+			element: args.opener,
+			anchor: args.anchor,
+
+			args: event.target.context
+		});
 	}
 }
