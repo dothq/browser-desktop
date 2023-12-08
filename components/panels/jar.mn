@@ -8,3 +8,6 @@ dot.jar:
 % content dot %content/ contentaccessible=yes
     content/widgets/browser-panel.js                        (content/browser-panel.js)
     content/widgets/browser-panel.css                       (content/browser-panel.css)
+
+    content/widgets/browser-panel-area.js                   (content/browser-panel-area.js)
+    content/widgets/browser-panel-area.css                  (content/browser-panel-area.css)

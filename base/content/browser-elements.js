@@ -32,6 +32,7 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-customizable-area.js",
 
 	"chrome://dot/content/widgets/browser-panel.js",
+	"chrome://dot/content/widgets/browser-panel-area.js",
 
 	"chrome://dot/content/widgets/browser-addressbar-panel.js",
 	"chrome://dot/content/widgets/browser-customizable-area-empty.js",
