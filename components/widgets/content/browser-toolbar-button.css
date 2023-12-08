@@ -13,7 +13,7 @@
     min-height: 0px;
     min-width: 0px;
 
-    --button-area-height: max(var(--area-min-height), var(--area-height));
+    --button-area-height: max(var(--area-min-height, var(--area-height)), var(--area-height));
 
     --x-padding: var(--area-x-padding, calc((var(--button-area-height) - var(--y-padding) - 16px) / 2));
     --y-padding: var(--area-y-padding, calc(var(--button-area-height) * 0.1 * 2 * calc(2 - var(--button-scale-factor, 1))));
