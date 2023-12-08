@@ -33,7 +33,7 @@ declare global {
 	var XULElement: Gecko.XULElement;
 	var XULFrameElement: XULElement;
 	var XULMenuElement: XULElement;
-	var XULPopupElement: XULElement;
+	var XULPopupElement: Gecko.XULPopupElement;
 	var XULResizerElement: XULElement;
 	var XULTextElement: XULElement;
 	var XULTreeElement: XULElement;
@@ -149,4 +149,8 @@ declare global {
 			maxLogLevelPref?: string;
 		}) => Console;
 	}
+
+    interface CustomElementRegistry {
+        getName(constructor: CustomElementConstructor): string | undefined;
+    }
 }
