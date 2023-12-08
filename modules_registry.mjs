@@ -42,6 +42,8 @@ const registry = {
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",
 
+	BrowserPanels: "components/panels/BrowserPanels.sys.mjs",
+
 	BrowserSearch: "components/search/BrowserSearch.sys.mjs",
 
 	NativeTitlebar: "components/csd/NativeTitlebar.sys.mjs",
