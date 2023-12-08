@@ -8,4 +8,17 @@ export interface WindowUtils {
      * been painted to the screen.
      */
     readonly paintCount: number;
+
+    /**
+     * Transform a rectangle given in coordinates relative to this document
+     * to the screen.
+     */
+    toScreenRect(x: number, y: number, width: number, height: number): DOMRect;
+
+    /**
+     * Transform a rectangle given in coordinates relative to the top level
+     * parent process widget to the local widget. This window should be in a
+     * child process.
+     */
+    convertFromParentProcessWidgetToLocal(x: number, y: number, width: number, height: number): DOMRect;
 }
