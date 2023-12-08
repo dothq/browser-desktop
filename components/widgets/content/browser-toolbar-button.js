@@ -187,29 +187,19 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	}
 
 	/**
-	 * Triggered when the click event for the toolbar button is fired
-	 * @param {KeyboardEvent} event
+	 * Triggered when a panel is opened onto the toolbar button
+	 * @param {CustomEvent<{ id: string }>} event
 	 */
-	_onTBKey(event) {
-		const handler = () => {
-			clear();
-			this.toggleAttribute("active", true);
-		};
+	_onTBPanelOpen(event) {
+		this.toggleAttribute("active", true);
+	}
 
-		const clear = () => {
-			this.removeEventListener("click", handler);
-			this.removeAttribute("active");
-		};
-
-		if (event.code == "Enter") {
-			clear();
-
-			if (event.type == "keydown") {
-				this.addEventListener("click", handler, { once: true });
-			}
-		} else {
-			clear();
-		}
+	/**
+	 * Triggered when a panel is opened onto the toolbar button
+	 * @param {CustomEvent<{ id: string }>} event
+	 */
+	_onTBPanelClose(event) {
+		this.removeAttribute("active");
 	}
 
 	connectedCallback() {
@@ -244,9 +234,15 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			);
 		}
 
-		this.addEventListener("keydown", this._onTBKey.bind(this));
-		this.addEventListener("keyup", this._onTBKey.bind(this));
-		this.addEventListener("blur", this._onTBKey.bind(this));
+		this.addEventListener(
+			"BrowserPanels::PanelOpen",
+			this._onTBPanelOpen.bind(this)
+		);
+
+		this.addEventListener(
+			"BrowserPanels::PanelClose",
+			this._onTBPanelClose.bind(this)
+		);
 	}
 
 	disconnectedCallback() {
@@ -255,9 +251,15 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			this.commandSubscription = null;
 		}
 
-		this.removeEventListener("keydown", this._onTBKey.bind(this));
-		this.removeEventListener("keyup", this._onTBKey.bind(this));
-		this.removeEventListener("blur", this._onTBKey.bind(this));
+		this.removeEventListener(
+			"BrowserPanels::PanelOpen",
+			this._onTBPanelOpen.bind(this)
+		);
+
+		this.removeEventListener(
+			"BrowserPanels::PanelClose",
+			this._onTBPanelClose.bind(this)
+		);
 	}
 }
 
