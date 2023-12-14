@@ -10,15 +10,6 @@ class BrowserIdentityButton extends BrowserToolbarButton {
 		this.commandId = "tab-identity";
 	}
 
-	/**
-	 * Arguments to be passed to the tab-identity command
-	 */
-	get commandArgs() {
-		return {
-			opener: this
-		};
-	}
-
 	connectedCallback() {
 		super.connectedCallback();
 	}
