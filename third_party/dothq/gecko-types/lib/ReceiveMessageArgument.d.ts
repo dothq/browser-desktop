@@ -4,7 +4,7 @@
 
 import { FrameLoader } from "./FrameLoader";
 
-export interface ReceiveMessageArgument {
+export interface ReceiveMessageArgument<D = any> {
     /**
      * The target of the message. Either an element owning the message manager, or message
      * manager itself if no element owns it.
@@ -21,13 +21,13 @@ export interface ReceiveMessageArgument {
     /**
      * Structured clone of the sent message data
      */
-    data: any;
+    data: D;
 
     /**
      * Same as .data, deprecated.
      * @deprecated
      */
-    json: any;
+    json: D;
 
     ports: Map<any, any>;
 
