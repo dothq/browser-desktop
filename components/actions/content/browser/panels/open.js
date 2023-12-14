@@ -35,7 +35,8 @@ export class BrowserPanelsOpenAction extends Action {
 		const win = event.target.ownerGlobal;
 		const { gDot } = win;
 
-		gDot.panels.open(args.id, {
+		const panel = gDot.panels.getPanelById(args.id);
+		panel.openPanel({
 			x: args.x,
 			y: args.y,
 
