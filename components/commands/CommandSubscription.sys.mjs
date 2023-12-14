@@ -48,6 +48,22 @@ export class CommandSubscription {
 	}
 
 	/**
+	 * Dispatches a invocation event to the subscription area
+	 *
+	 * @param {Record<string, any>} [args]
+	 */
+	dispatchInvocation(args) {
+		const evt = new CustomEvent("Commands::Invoke", {
+			detail: {
+				id: this.#commandId,
+				args: args || {}
+			}
+		});
+
+		this.#subscriber.host.dispatchEvent(evt);
+	}
+
+	/**
 	 * Invokes the command attached to this subscription
 	 *
 	 * @param {Record<string, any>} [args]
@@ -61,12 +77,14 @@ export class CommandSubscription {
 			);
 		}
 
-		this.#command.run(args);
+		this.#command.run.call(this.#command, args);
+		this.dispatchInvocation(args);
 	}
 
 	/**
 	 * @param {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"]} subscriber
 	 * @param {string} commandId
+	 * @param {Function} observer
 	 */
 	constructor(subscriber, commandId, observer) {
 		this.#callback = observer;
