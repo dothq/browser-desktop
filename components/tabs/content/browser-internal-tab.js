@@ -498,6 +498,18 @@ class BrowserTab extends MozElements.MozTab {
 	}
 
 	/**
+	 * Performs a Gecko command on the tab's linked browser
+	 * @param {string} command
+	 */
+	doCommandInBrowser(command) {
+		this.linkedBrowser?.sendMessageToActor(
+			"GeckoCommands:ExecuteCommand",
+			{ command },
+			"GeckoCommands"
+		);
+	}
+
+	/**
 	 * Fired when a tab is selected
 	 * @param {CustomEvent} event
 	 */
