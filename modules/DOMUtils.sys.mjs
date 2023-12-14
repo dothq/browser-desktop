@@ -45,5 +45,22 @@ export const DOMUtils = {
 		traverseElements(root);
 
 		return Array.from(elements);
+	},
+
+	/**
+	 * Obtains the properties on an object's prototype
+	 * @param {object} obj
+	 * @returns {(string | symbol)[]}
+	 */
+	getPropertiesOnObject(obj) {
+		let props = [];
+		let target = Object.getPrototypeOf(obj);
+
+		while (target) {
+			props.push(...Reflect.ownKeys(target));
+			target = Object.getPrototypeOf(target);
+		}
+
+		return props;
 	}
 };
