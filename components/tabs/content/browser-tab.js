@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { CommandAudiences } = ChromeUtils.importESModule(
+	"resource://gre/modules/CommandAudiences.sys.mjs"
+);
+
 const kDebugVisiblePref = "dot.tabs.debug_information.visible";
 
 class BrowserRenderedTab extends BrowserCustomizableArea {
@@ -357,7 +361,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 		return {
 			self,
-			audience: "tab",
+			audience: CommandAudiences.TAB,
 
 			get window() {
 				return self.ownerGlobal;
@@ -436,7 +440,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	connectedCallback() {
 		super.connect("tab", {
 			mode: "icons",
-			showKeybindings: false
+			showKeybindings: false,
+			styles: ["chrome://dot/content/widgets/browser-toolbar-button.css"]
 		});
 
 		this.hidden = true;

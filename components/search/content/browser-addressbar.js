@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { CommandAudiences } = ChromeUtils.importESModule(
+	"resource://gre/modules/CommandAudiences.sys.mjs"
+);
+
 class BrowserAddressBar extends BrowserCustomizableArea {
 	constructor() {
 		super();
@@ -15,7 +19,7 @@ class BrowserAddressBar extends BrowserCustomizableArea {
 
 		return {
 			self,
-			audience: "addressbar",
+			audience: CommandAudiences.ADDRESSBAR,
 
 			get window() {
 				return self.ownerGlobal;
@@ -35,7 +39,8 @@ class BrowserAddressBar extends BrowserCustomizableArea {
 
 	connectedCallback() {
 		super.connect("addressbar", {
-			orientation: "horizontal"
+			orientation: "horizontal",
+			styles: ["chrome://dot/content/widgets/browser-addressbar.css"]
 		});
 
 		window.addEventListener("BrowserTabs::BrowserLocationChange", this);

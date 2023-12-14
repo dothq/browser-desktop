@@ -46,6 +46,10 @@ var { DOMUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/DOMUtils.sys.mjs"
 );
 
+var { CommandAudiences } = ChromeUtils.importESModule(
+	"resource:///modules/CommandAudiences.sys.mjs"
+);
+
 class BrowserApplication extends BrowserCustomizableArea {
 	constructor() {
 		super();
@@ -142,7 +146,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 
 		return {
 			self,
-			audience: "root",
+			audience: CommandAudiences.DEFAULT,
 
 			get window() {
 				return self.ownerGlobal;
@@ -212,6 +216,8 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.commands = new BrowserCommands(window);
 		this.actions = new BrowserActions(this);
 		this.panels = new BrowserPanels(window);
+
+		document.commandDispatcher.addCommandUpdater(this, "*", "*");
 
 		// Listens for changes to the reduced motion preference
 		window
