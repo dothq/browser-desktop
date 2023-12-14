@@ -73,12 +73,21 @@ const JSWINDOWACTORS = {
 		allFrames: true
 	},
 
-	ContextMenu: {
+	GeckoCommands: {
+		child: {
+			esModuleURI: "resource:///actors/DotGeckoCommandsChild.sys.mjs"
+		},
+
+		allFrames: true,
+		messageManagerGroups: ["browsers"]
+	},
+
+	DotContextMenu: {
 		parent: {
 			esModuleURI: "resource:///actors/DotContextMenuParent.sys.mjs"
 		},
 		child: {
-			esModuleURI: "resource:///actors/ContextMenuChild.sys.mjs",
+			esModuleURI: "resource:///actors/DotContextMenuChild.sys.mjs",
 			events: {
 				contextmenu: { mozSystemGroup: true }
 			}

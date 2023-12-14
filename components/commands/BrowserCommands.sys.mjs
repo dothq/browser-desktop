@@ -11,6 +11,13 @@ const { CommandSubscription } = ChromeUtils.importESModule(
 );
 
 const ALL_COMMANDS = [
+	// Internal
+	"internal/copy",
+	"internal/cut",
+	"internal/paste",
+	"internal/select-all",
+
+	// Common
 	"add-tab",
 	"close-tab",
 	"go-back",
@@ -52,7 +59,7 @@ export class BrowserCommands {
 			);
 		}
 
-		const commandInstance = new cmd(subscription, area);
+		const commandInstance = new cmd(subscription, subscriber, area);
 
 		return commandInstance;
 	}

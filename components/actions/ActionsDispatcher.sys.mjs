@@ -10,13 +10,13 @@ export class ActionsDispatcher extends ActionsIPC {
 	/**
 	 * Performs an action
 	 * @param {string} actionId
-	 * @param {Record<string, any>} actionArgs
+	 * @param {Record<string, any>} [actionArgs]
 	 */
 	run(actionId, actionArgs) {
 		const event = new CustomEvent(this.ACTIONS_DISPATCH_EVENT, {
 			detail: {
 				id: actionId,
-				args: actionArgs
+				args: actionArgs || {}
 			}
 		});
 

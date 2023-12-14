@@ -6,7 +6,9 @@
 FINAL_TARGET_FILES.actors += [
     "DotClickHandlerChild.sys.mjs",
     "DotClickHandlerParent.sys.mjs",
+    "DotContextMenuChild.sys.mjs",
     "DotContextMenuParent.sys.mjs",
+    "DotGeckoCommandsChild.sys.mjs",
     "DotLinkHandlerParent.sys.mjs",
     "DotPopupHandlerParent.sys.mjs",
 ]

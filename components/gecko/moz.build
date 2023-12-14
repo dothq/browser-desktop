@@ -5,12 +5,3 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 JAR_MANIFESTS += ["jar.mn"]
-
-EXTRA_JS_MODULES += [
-    "BrowserCommands.sys.mjs",
-    "Command.sys.mjs",
-    "CommandAudiences.sys.mjs",
-    "CommandSubscription.sys.mjs",
-    "GeckoCommand.sys.mjs",
-    "TabCommand.sys.mjs"
-]
