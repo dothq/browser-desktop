@@ -226,8 +226,6 @@ browser-tab::part(customizable) {
     }
 }
 
-:host(browser-tab) .customizable-container .toolbar-button {}
-
 browser-tabs[hidetabactions] browser-tab:not([selected]) {
     --tab-action-visibility: none;
 }
