@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { CommandAudiences } = ChromeUtils.importESModule(
+	"resource://gre/modules/CommandAudiences.sys.mjs"
+);
+
 class BrowserPanelArea extends BrowserCustomizableArea {
 	constructor() {
 		super();
@@ -23,7 +27,7 @@ class BrowserPanelArea extends BrowserCustomizableArea {
 
 		return {
 			self,
-			audience: "panel",
+			audience: CommandAudiences.PANEL,
 
 			/** @type {Window} */
 			get window() {
@@ -45,15 +49,32 @@ class BrowserPanelArea extends BrowserCustomizableArea {
 		};
 	}
 
-	handleEvent(event) {}
-
-	connectedCallback() {
-		super.connect("panel", { orientation: "vertical" });
-
-		this.classList.add("browser-panel-container");
+	/**
+	 * Handles incoming events to the panel area
+	 * @param {Event} event
+	 */
+	handleEvent(event) {
+		switch (event.type) {
+			case "Commands::Invoke":
+				this.panel.hidePopup();
+				break;
+		}
 	}
 
-	disconnectedCallback() {}
+	connectedCallback() {
+		super.connect("panel", {
+			orientation: "vertical",
+			styles: ["chrome://dot/content/widgets/browser-panel-button.css"]
+		});
+
+		this.classList.add("browser-panel-container");
+
+		this.addEventListener("Commands::Invoke", this);
+	}
+
+	disconnectedCallback() {
+		this.removeEventListener("Commands::Invoke", this);
+	}
 }
 
 customElements.define("browser-panel-area", BrowserPanelArea);

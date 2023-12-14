@@ -4,6 +4,7 @@
 
 /**
  * @typedef {object} PanelOpenOptions
+ * @property {"local" | "screen"} [coordMode]
  * @property {number} [x]
  * @property {number} [y]
  * @property {Element} [element]
@@ -22,19 +23,14 @@ export class BrowserPanels {
 	 * The currently visible panels in the browser window
 	 */
 	get visiblePanels() {
-		const els = [];
+		return Array.from(this.#visiblePanelIds.values());
+	}
 
-		for (const panelId of this.#visiblePanelIds.values()) {
-			const panelEl = this.getPanelElement(panelId);
-
-			if (panelEl) {
-				els.push(panelEl);
-			} else {
-				this.#visiblePanelIds.delete(panelId);
-			}
-		}
-
-		return els;
+	/**
+	 * The root element to render all panels to
+	 */
+	get root() {
+		return this.#win.document.documentElement;
 	}
 
 	/**
@@ -55,59 +51,36 @@ export class BrowserPanels {
 	}
 
 	/**
-	 * Dispatches a panels event to an element
-	 * @param {Element} element
-	 * @param {string} name
-	 * @param {Record<string, any>} data
+	 * Creates a new menu from an array of menu items
+	 * @param {string} id
+	 * @param {any[]} menuitems
+	 * @returns {BrowserPanel}
 	 */
-	_dispatchEvent(element, name, data) {
-		const evt = new CustomEvent(`BrowserPanels::${name}`, {
-			detail: data
-		});
+	createMenu(id, menuitems) {
+		const doc = this.#win.document;
 
-		element.dispatchEvent(evt);
+		const menuArea = /** @type {BrowserPanelMenu} */ (
+			doc.createElement("browser-panel-menu")
+		);
+		menuArea.customizableContainer.appendChild(
+			doc.createTextNode("hello world")
+		);
+
+		console.log("createMenu", menuArea);
+
+		const panelEl = this._setupPanel(id, menuArea);
+
+		return panelEl;
 	}
 
 	/**
-	 * Opens a browser panel
-	 *
-	 * Returns the open panel ID
-	 * @param {string} panel
-	 * @param {PanelOpenOptions} openOptions
+	 * Initialises a panel
+	 * @param {string} panelName
+	 * @param {CustomElementConstructor | Element} panelElement
 	 */
-	open(panel, openOptions = {}) {
-		const panelInstance = this.getPanel(panel);
-
-		if (!panelInstance) {
-			throw new Error(
-				`${this.constructor.name}: No panel found with name '${panel}'.`
-			);
-		}
-
+	_setupPanel(panelName, panelElement) {
 		try {
-			const panelId = `panel-${panel}-${Date.now()}`;
-
-			const noCoords =
-				!("x" in openOptions) ||
-				!("y" in openOptions) ||
-				typeof openOptions.x == "undefined" ||
-				typeof openOptions.y == "undefined";
-
-			if (noCoords && !openOptions.element) {
-				throw new Error(
-					"Properties 'x' and 'y' or 'element' are required."
-				);
-			}
-
-			if (!noCoords && openOptions.element) {
-				throw new Error(
-					"Properties 'x' and 'y' cannot be used with 'element'."
-				);
-			}
-
-			if (openOptions.element && !openOptions.anchor) {
-				openOptions.anchor = "before before";
-			}
+			const panelId = `panel-${panelName}-${Date.now()}`;
 
 			const panelEl = /** @type {BrowserPanel} */ (
 				this.#win.document.createXULElement("panel", {
@@ -115,54 +88,72 @@ export class BrowserPanels {
 				})
 			);
 
-			const panelAreaEl = this.#win.document.createElement(panel);
+			panelEl.id = panelId;
 
-			if (openOptions.element) {
-				const [anchorX, anchorY] = openOptions.anchor.split(" ");
+			if (this.#win.customElements.get(panelName)) {
+				const panelAreaEl = this.#win.document.createElement(panelName);
 
-				const bounds = openOptions.element.getBoundingClientRect();
-
-				const width = anchorX == "before" ? 0 : bounds.width;
-				const height = anchorY == "before" ? 0 : bounds.height;
-
-				openOptions.x = bounds.x + width;
-				openOptions.y = bounds.y + height;
-
-				this._dispatchEvent(openOptions.element, "PanelOpen", {
-					id: panelId
-				});
-
-				panelEl.addEventListener(
-					"popuphidden",
-					() => {
-						this._dispatchEvent(openOptions.element, "PanelClose", {
-							id: panelId
-						});
-					},
-					{ once: true }
-				);
+				panelEl.appendChild(panelAreaEl);
+			} else {
+				panelEl.appendChild(/** @type {Element} */ (panelElement));
 			}
 
-			panelEl.id = panelId;
-			this.#visiblePanelIds.add(panelId);
+			panelEl.addEventListener(
+				"popupshowing",
+				() => {
+					this.#visiblePanelIds.add(panelId);
+				},
+				{ once: true }
+			);
 
-			panelEl.openArgs = openOptions.args || {};
+			panelEl.addEventListener(
+				"popuphiding",
+				() => {
+					this.#visiblePanelIds.delete(panelId);
+				},
+				{ once: true }
+			);
 
-			const root = this.#win.document.documentElement;
-			root.appendChild(panelEl);
-
-			panelEl.appendChild(panelAreaEl);
-			panelEl.openPopup(null, "", openOptions.x, openOptions.y);
-
-			return panelId;
+			return panelEl;
 		} catch (e) {
 			throw new Error(
-				`${this.constructor.name}: Failure opening panel with ID '${panel}'.\n` +
+				`${this.constructor.name}: Failure opening panel with ID '${panelName}'.\n` +
 					e +
 					"\n" +
 					e.stack || ""
 			);
 		}
+	}
+
+	/**
+	 * Obtains a panel using its panel ID
+	 *
+	 * Returns the panel element
+	 * @param {string} panelId
+	 */
+	getPanelById(panelId) {
+		const panelInstance = this.getPanel(panelId);
+
+		if (!panelInstance) {
+			throw new Error(
+				`${this.constructor.name}: No panel found with name '${panelId}'.`
+			);
+		}
+
+		const panelEl = this._setupPanel(panelId, panelInstance);
+
+		return panelEl;
+	}
+
+	/**
+	 * Opens a browser panel
+	 *
+	 * Returns the open panel ID
+	 * @param {BrowserPanel} panelEl
+	 * @param {PanelOpenOptions} openOptions
+	 */
+	open(panelEl, openOptions = {}) {
+		panelEl.openPanel(openOptions);
 	}
 
 	/**
@@ -177,7 +168,23 @@ export class BrowserPanels {
 		}
 	}
 
+	/**
+	 * Fired when a key is pressed on the window
+	 * @param {KeyboardEvent} event
+	 */
+	_onWinKeyPress(event) {
+		if (event.code == "Escape") {
+			for (const panelId of this.visiblePanels) {
+				const panelEl = this.getPanelElement(panelId);
+
+				panelEl.hidePopup(true, true);
+			}
+		}
+	}
+
 	constructor(win) {
 		this.#win = win;
+
+		this.#win.addEventListener("keydown", this._onWinKeyPress.bind(this));
 	}
 }

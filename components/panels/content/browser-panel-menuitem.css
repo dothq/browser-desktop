@@ -1,0 +1,26 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-panel-menuitem {
+    display: flex;
+    flex-direction: column;
+}
+
+browser-panel-menuitem[type=separator] {
+    width: calc(100% - 4px * 2);
+    height: 1px;
+    margin-block: 2px;
+    margin-inline: 4px;
+    background: linear-gradient(to top, var(--arrowpanel-border-color), var(--arrowpanel-border-color)), color-mix(in srgb, currentColor 15%, transparent 100%);
+}
+
+browser-panel-menuitem[type=group] {
+    display: flex;
+    flex-direction: row;
+    gap: var(--menuitem-gap);
+}
+
+browser-panel-menuitem[type=group][orientation=vertical] {
+    flex-direction: column;
+}

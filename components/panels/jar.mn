@@ -11,3 +11,14 @@ dot.jar:
 
     content/widgets/browser-panel-area.js                   (content/browser-panel-area.js)
     content/widgets/browser-panel-area.css                  (content/browser-panel-area.css)
+
+    content/widgets/browser-multipanel-area.js              (content/browser-multipanel-area.js)
+    content/widgets/browser-multipanel-area.css             (content/browser-multipanel-area.css)
+
+    content/widgets/browser-panel-menu.js                   (content/browser-panel-menu.js)
+    content/widgets/browser-panel-menu.css                  (content/browser-panel-menu.css)
+
+    content/widgets/browser-panel-menuitem.js               (content/browser-panel-menuitem.js)
+    content/widgets/browser-panel-menuitem.css              (content/browser-panel-menuitem.css)
+
+    content/widgets/browser-panel-button.css                (content/browser-panel-button.css)
