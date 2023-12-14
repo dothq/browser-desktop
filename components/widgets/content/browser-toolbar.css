@@ -2,7 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-browser-toolbar {
+@import url("chrome://dot/content/widgets/browser-toolbar-button.css");
+
+:host(browser-toolbar) {
     display: flex;
     align-items: stretch;
 
@@ -18,21 +20,21 @@ browser-toolbar {
     --csd-visibility: none;
 }
 
-browser-toolbar[initial] {
+:host(browser-toolbar[initial]) {
     --csd-visibility: flex;
 }
 
-browser-toolbar[accent] {
+:host(browser-toolbar[accent]) {
     background-color: var(--lwt-accent-color);
     z-index: 200;
 }
 
-browser-toolbar[collapse] {
+:host(browser-toolbar[collapse]) {
     display: none;
 }
 
 @media (prefers-contrast) {
-    browser-toolbar:not([initial])::before {
+    :host(browser-toolbar:not([initial]))::before {
         content: "";
         position: absolute;
         width: calc(100% + var(--padding));

@@ -168,7 +168,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 *
 	 * @typedef {object} CustomizableAreaContext
 	 * @property {BrowserCustomizableArea} self - The area associated with this context
-	 * @property {string} audience - The audience of this area's context
+	 * @property {number} audience - The audience of this area's context
 	 * @property {BrowserTab} tab - The tab associated with this area
 	 * @property {ChromeBrowser} browser - The browser associated with this area
 	 * @property {Window} window - The window associated with this area
@@ -238,6 +238,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 * @param {boolean} [options.showKeybindings] - Determines whether keybindings should be shown in widgets
 	 * @param {"horizontal" | "vertical"} [options.orientation] - The default orientation of this area
 	 * @param {string} [options.mode] - The default mode to use for this area
+	 * @param {string[]} [options.styles] - The styles to use within this area
 	 */
 	connect(name, options) {
 		this.name = name;
@@ -248,6 +249,15 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		}
 
 		this.classList.add("customizable-area");
+
+		this.shadowRoot.prepend(
+			...(options?.styles || []).map((s) =>
+				html("link", {
+					rel: "stylesheet",
+					href: s
+				})
+			)
+		);
 
 		Services.prefs.addObserver(
 			"dot.customizable.debug_context.enabled",

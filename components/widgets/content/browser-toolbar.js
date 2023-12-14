@@ -75,7 +75,9 @@ class BrowserToolbar extends BrowserCustomizableArea {
 	}
 
 	connectedCallback() {
-		super.connect("toolbar");
+		super.connect("toolbar", {
+			styles: ["chrome://dot/content/widgets/browser-toolbar.css"]
+		});
 
 		this.addEventListener("BrowserWindowControls::UpdatePosition", this);
 
