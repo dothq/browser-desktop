@@ -11,8 +11,8 @@ const { StartPage } = ChromeUtils.importESModule(
 );
 
 export class AddTabCommand extends Command {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this.label = "New Tab";
 		this.labelAuxiliary = "Open a new tab";
@@ -20,20 +20,12 @@ export class AddTabCommand extends Command {
 	}
 
 	/**
-	 * Performs this command
+	 * Fired when the command is performed
 	 *
-	 * @param {{ urls?: string[], url?: string }} args
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
 	 */
-	run(args) {
-		let urls = [];
-
-		if (args.url || args.urls) {
-			if (args.url) urls.push(args.url);
-
-			urls = urls.concat(args.urls || []);
-		} else {
-			urls = StartPage.getHomePage();
-		}
+	on_command(event) {
+		const urls = StartPage.getHomePage();
 
 		for (const url of urls) {
 			this.actions.run("browser.tabs.add_tab", { url });

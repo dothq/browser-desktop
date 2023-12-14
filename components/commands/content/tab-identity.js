@@ -7,8 +7,8 @@ const { TabCommand } = ChromeUtils.importESModule(
 );
 
 export class TabIdentityCommand extends TabCommand {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this._update(this.context.tab);
 
@@ -22,20 +22,6 @@ export class TabIdentityCommand extends TabCommand {
 	}
 
 	/**
-	 * Performs this command
-	 *
-	 * @param {{ opener: Element }} args
-	 */
-	run(args) {
-		this.actions.run("browser.panels.open", {
-			id: "identity-panel",
-
-			opener: args.opener,
-			anchor: "before after"
-		});
-	}
-
-	/**
 	 * Handle identity updates for a tab
 	 * @param {BrowserTab} tab
 	 */
@@ -43,33 +29,33 @@ export class TabIdentityCommand extends TabCommand {
 		const { type, label, icon, tooltip, mode } = tab.siteIdentity;
 
 		this.label = {
-			root: "Site Info",
-			tab: label,
-			addressbar: label
+			[this.audiences.DEFAULT]: "Site Info",
+			[this.audiences.TAB]: label,
+			[this.audiences.ADDRESSBAR]: label
 		};
 
 		this.labelAuxiliary = {
-			root: "Information about this site",
-			tab: tooltip,
-			addressbar: tooltip
+			[this.audiences.DEFAULT]: "Information about this site",
+			[this.audiences.TAB]: tooltip,
+			[this.audiences.ADDRESSBAR]: tooltip
 		};
 
 		this.icon = {
-			root: "info",
-			tab: icon,
-			addressbar: icon
+			[this.audiences.DEFAULT]: "info",
+			[this.audiences.TAB]: icon,
+			[this.audiences.ADDRESSBAR]: icon
 		};
 
 		this.mode = {
-			root: null,
-			tab: mode,
-			addressbar: mode
+			[this.audiences.DEFAULT]: null,
+			[this.audiences.TAB]: mode,
+			[this.audiences.ADDRESSBAR]: mode
 		};
 
 		this.inert = {
-			root: false,
-			tab: type == "search",
-			addressbar: type == "search"
+			[this.audiences.DEFAULT]: false,
+			[this.audiences.TAB]: type == "search",
+			[this.audiences.ADDRESSBAR]: type == "search"
 		};
 	}
 
@@ -101,5 +87,18 @@ export class TabIdentityCommand extends TabCommand {
 	onContextualBrowserStateChanged({ browser }) {
 		// todo: how we get the tab from the browser could be improved
 		this._update(this.window.gDot.tabs.getTabForWebContents(browser));
+	}
+
+	/**
+	 * Fired when the command is performed
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
+	 */
+	on_command(event) {
+		this.actions.run("browser.panels.open", {
+			id: "identity-panel",
+
+			opener: event.target,
+			anchor: "before after"
+		});
 	}
 }

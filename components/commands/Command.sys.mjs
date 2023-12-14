@@ -6,9 +6,31 @@ const { ActionsDispatcher } = ChromeUtils.importESModule(
 	"resource://gre/modules/ActionsDispatcher.sys.mjs"
 );
 
+const { CommandAudiences } = ChromeUtils.importESModule(
+	"resource://gre/modules/CommandAudiences.sys.mjs"
+);
+
+const { DOMUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/DOMUtils.sys.mjs"
+);
+
+/**
+ * @typedef {CustomEvent<{}> & { detail: { args?: T, originalEvent: E }, target: Element }} CommandEvent
+ * @template {Record<string, any>} T
+ * @template [E=Event]
+ */
+
 export class Command {
 	/** @type {typeof CommandSubscription.prototype} */
 	#subscription = null;
+
+	/**
+	 * The audiences for each context area
+	 */
+	audiences = CommandAudiences;
+
+	/** @type {Element} */
+	subscriber = null;
 
 	/** @type {BrowserCustomizableArea} */
 	area = null;
@@ -32,7 +54,10 @@ export class Command {
 	 */
 	createEmptyMap() {
 		return new Map(
-			Object.entries({ root: null, [this.area.context.audience]: null })
+			Object.entries({
+				[CommandAudiences.DEFAULT]: null,
+				[this.area.context.audience]: null
+			})
 		);
 	}
 
@@ -46,10 +71,12 @@ export class Command {
 
 	/**
 	 * @param {typeof CommandSubscription.prototype} subscription
+	 * @param {Element} subscriber
 	 * @param {BrowserCustomizableArea} area
 	 */
-	constructor(subscription, area) {
+	constructor(subscription, subscriber, area) {
 		this.#subscription = subscription;
+		this.subscriber = subscriber;
 		this.area = area;
 
 		this.abortController = new AbortController();
@@ -60,6 +87,32 @@ export class Command {
 		this._disabled = this.createEmptyMap();
 		this._inert = this.createEmptyMap();
 		this._mode = this.createEmptyMap();
+
+		this._setupEventListeners();
+	}
+
+	/**
+	 * An array of event on_* methods on the Command
+	 */
+	get _onMethods() {
+		const classProps = DOMUtils.getPropertiesOnObject(this);
+
+		return classProps
+			.map((m) => m.toString())
+			.filter((m) => m.startsWith("on_"))
+			.map((m) => m.replace("on_", ""));
+	}
+
+	/**
+	 * Initialises the event listeners on the command subscriber
+	 */
+	_setupEventListeners() {
+		for (const event of this._onMethods) {
+			this.subscriber.addEventListener(
+				event,
+				this._handleSubscriberEvent.bind(this)
+			);
+		}
 	}
 
 	/**
@@ -71,14 +124,43 @@ export class Command {
 		}
 
 		this.abortController.abort();
+
+		for (const event of this._onMethods) {
+			this.subscriber.removeEventListener(
+				event,
+				this._handleSubscriberEvent.bind(this)
+			);
+		}
+	}
+
+	/**
+	 * Handles incoming events to the subscriber
+	 * @param {Event} event
+	 */
+	_handleSubscriberEvent(event) {
+		if (this.canLog()) {
+			console.log(
+				`BrowserCommands: Triggering subscriber event '${event.type}' on ${this.constructor.name}.`
+			);
+		}
+
+		if (`on_${event.type}` in this) {
+			const method = this[`on_${event.type}`];
+
+			method.call(this, event);
+		}
 	}
 
 	/**
 	 * Perform this command
 	 *
-	 * @param {Record<string, any>} [args]
+	 * @param {CommandEvent<{}>} [event]
 	 */
-	run(args = {}) {}
+	run(event) {
+		if ("on_command" in this) {
+			/** @type {any} */ (this).on_command(event);
+		}
+	}
 
 	/** @type {Map<string, string>} */
 	_label = null;
@@ -127,7 +209,10 @@ export class Command {
 			}
 		}
 
-		for (const [audience, audienceValue] of Object.entries(value)) {
+		for (const audience of Object.values(this.audiences)) {
+			const audienceValue =
+				value[audience] || value[CommandAudiences.DEFAULT];
+
 			const oldValue = attributeMap.get(audience);
 			attributeMap.set(audience, audienceValue);
 
@@ -151,7 +236,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get label() {
-		return this._label.get("root");
+		return this._label.get(CommandAudiences.DEFAULT);
 	}
 
 	/**
@@ -166,7 +251,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get labelAuxiliary() {
-		return this._labelAuxiliary.get("root");
+		return this._labelAuxiliary.get(CommandAudiences.DEFAULT);
 	}
 
 	/**
@@ -181,7 +266,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get icon() {
-		return this._icon.get("root");
+		return this._icon.get(CommandAudiences.DEFAULT);
 	}
 
 	/**
@@ -196,7 +281,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get disabled() {
-		return !!this._disabled.get("root");
+		return !!this._disabled.get(CommandAudiences.DEFAULT);
 	}
 
 	/**
@@ -211,7 +296,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get inert() {
-		return !!this._inert.get("root");
+		return !!this._inert.get(CommandAudiences.DEFAULT);
 	}
 
 	/**
@@ -226,7 +311,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get mode() {
-		return this._mode.get("root");
+		return this._mode.get(CommandAudiences.DEFAULT);
 	}
 
 	/**

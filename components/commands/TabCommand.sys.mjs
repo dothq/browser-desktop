@@ -7,8 +7,8 @@ const { Command } = ChromeUtils.importESModule(
 );
 
 export class TabCommand extends Command {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this.context.window.addEventListener(
 			"BrowserTabs::BrowserStateChange",

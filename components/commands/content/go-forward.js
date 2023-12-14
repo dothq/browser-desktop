@@ -7,22 +7,13 @@ const { TabCommand } = ChromeUtils.importESModule(
 );
 
 export class GoForwardCommand extends TabCommand {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this.label = "Forward";
 		this.labelAuxiliary = "Go forwards one page";
 		this.icon = "arrow-right";
 		this.disabled = !this.context.browser.canGoForward;
-	}
-
-	/**
-	 * Performs this command
-	 *
-	 * @param {{}} args
-	 */
-	run(args) {
-		this.actions.run("browser.tabs.go_forward", { tab: this.context.tab });
 	}
 
 	/**
@@ -32,5 +23,13 @@ export class GoForwardCommand extends TabCommand {
 	 */
 	onContextualBrowserStateChanged({ browser }) {
 		this.disabled = !browser.canGoForward;
+	}
+
+	/**
+	 * Fired when the command is performed
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
+	 */
+	on_command(event) {
+		this.actions.run("browser.tabs.go_forward", { tab: this.context.tab });
 	}
 }

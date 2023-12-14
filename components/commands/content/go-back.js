@@ -7,22 +7,13 @@ const { TabCommand } = ChromeUtils.importESModule(
 );
 
 export class GoBackCommand extends TabCommand {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this.label = "Back";
 		this.labelAuxiliary = "Go backwards one page";
 		this.icon = "arrow-left";
 		this.disabled = !this.context.browser.canGoBack;
-	}
-
-	/**
-	 * Performs this command
-	 *
-	 * @param {{}} args
-	 */
-	run(args) {
-		this.actions.run("browser.tabs.go_back", { tab: this.context.tab });
 	}
 
 	/**
@@ -32,5 +23,13 @@ export class GoBackCommand extends TabCommand {
 	 */
 	onContextualBrowserStateChanged({ browser }) {
 		this.disabled = !browser.canGoBack;
+	}
+
+	/**
+	 * Fired when the command is performed
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
+	 */
+	on_command(event) {
+		this.actions.run("browser.tabs.go_back", { tab: this.context.tab });
 	}
 }

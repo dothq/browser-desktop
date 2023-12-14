@@ -7,26 +7,25 @@ const { TabCommand } = ChromeUtils.importESModule(
 );
 
 export class CloseTabCommand extends TabCommand {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this.label = {
-			root: "Close",
-			tab: "Close tab"
+			[this.audiences.DEFAULT]: "Close",
+			[this.audiences.TAB]: "Close tab"
 		};
 		this.labelAuxiliary = {
-			root: "Close current tab",
-			tab: "Close tab"
+			[this.audiences.DEFAULT]: "Close current tab",
+			[this.audiences.TAB]: "Close tab"
 		};
 		this.icon = "close";
 	}
 
 	/**
-	 * Performs this command
-	 *
-	 * @param {{}} args
+	 * Fired when the command is performed
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
 	 */
-	run(args) {
+	on_command(event) {
 		this.actions.run("browser.tabs.close_tab", {
 			tab: this.context.tab
 		});

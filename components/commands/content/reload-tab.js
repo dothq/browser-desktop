@@ -11,8 +11,8 @@ var { BrowserTabsUtils } = ChromeUtils.importESModule(
 );
 
 export class ReloadTabCommand extends TabCommand {
-	constructor(subscription, area) {
-		super(subscription, area);
+	constructor(subscription, subscriber, area) {
+		super(subscription, subscriber, area);
 
 		this.label = "Reload";
 		this.icon = "reload";
@@ -20,22 +20,17 @@ export class ReloadTabCommand extends TabCommand {
 
 	_reloadTimer = null;
 
-	/**
-	 * Performs this command
-	 *
-	 * @param {{ bypassCache?: boolean }} args
-	 */
-	run(args) {
-		const actionId = this.isLoading
-			? "browser.tabs.stop_page"
-			: "browser.tabs.reload_page";
-
-		this.reloadClicked = actionId == "browser.tabs.reload_page";
-
-		this.actions.run(actionId, {
-			tab: this.context.tab,
-			bypassCache: args?.bypassCache
-		});
+	_update() {
+		this.label = this.isLoading ? "Stop" : "Reload";
+		this.labelAuxiliary = {
+			[this.audiences.DEFAULT]: this.isLoading
+				? "Stop loading page"
+				: "Reload current page",
+			[this.audiences.TAB]: this.isLoading
+				? "Stop loading this page"
+				: "Reload this page"
+		};
+		this.icon = this.isLoading ? "close" : "reload";
 	}
 
 	/**
@@ -59,44 +54,51 @@ export class ReloadTabCommand extends TabCommand {
 		const { STATE_START, STATE_IS_NETWORK, STATE_STOP } =
 			Ci.nsIWebProgressListener;
 
-		const { isTopLevel, isLoadingDocument } = webProgress;
 		const shouldShowProgress = BrowserTabsUtils.shouldShowProgress(
 			/** @type {nsIChannel} */ (request)
 		);
 
 		this.isLoading =
-			isTopLevel &&
+			webProgress.isTopLevel &&
 			stateFlags & STATE_START &&
 			stateFlags & STATE_IS_NETWORK &&
 			shouldShowProgress;
 
-		this.disabled = false;
+		this._update();
 
-		this.label = this.isLoading ? "Stop" : "Reload";
-		this.labelAuxiliary = {
-			root: this.isLoading ? "Stop loading page" : "Reload current page",
-			tab: this.isLoading ? "Stop loading this page" : "Reload this page"
-		};
-		this.icon = this.isLoading ? "close" : "reload";
+		if (this.isLoading) {
+			this.window.clearTimeout(this._reloadTimer);
+			this._reloadTimer = null;
 
-		// Only runs when the browser has successfully finished loaded the document
-		if (
-			this.reloadClicked &&
-			isTopLevel &&
-			stateFlags & STATE_STOP &&
-			stateFlags & STATE_IS_NETWORK &&
-			!isLoadingDocument &&
-			Components.isSuccessCode(status) &&
-			shouldShowProgress
-		) {
-			// Prevent accidental clicks to reload the page
-			// after we have swapped from the stop state
-			this.reloadClicked = false;
+			this.disabled = false;
+		} else if (webProgress.isTopLevel && !webProgress.isLoadingDocument) {
+			if (this._reloadTimer) return;
+
 			this.disabled = true;
-
-			this._reloadTimer = this.window.setTimeout(() => {
-				this.disabled = false;
-			}, 650);
+			this._reloadTimer = this.window.setTimeout(
+				() => {
+					this.disabled = false;
+				},
+				650,
+				this
+			);
 		}
+	}
+
+	/**
+	 * Fired when the command is performed
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}, MouseEvent>} event
+	 */
+	on_command(event) {
+		const actionId = this.isLoading
+			? "browser.tabs.stop_page"
+			: "browser.tabs.reload_page";
+
+		this.reloadClicked = actionId == "browser.tabs.reload_page";
+
+		this.actions.run(actionId, {
+			tab: this.context.tab,
+			bypassCache: !!event.detail?.originalEvent?.shiftKey
+		});
 	}
 }

@@ -42,13 +42,6 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	commandId = null;
 
 	/**
-	 * Optional arguments to pass to the command
-	 */
-	get commandArgs() {
-		return {};
-	}
-
-	/**
 	 * The anatomy of the toolbar button
 	 *
 	 * @typedef {Object} ToolbarButtonElements
@@ -94,6 +87,8 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 */
 	set icon(newIcon) {
 		if (newIcon == this.icon) return;
+
+		this.setAttribute("icon", newIcon);
 
 		this.elements.icon.style.removeProperty("--src");
 
@@ -162,7 +157,7 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	/**
 	 * Handles incoming mutations to the attached command
 	 *
-	 * @param {string} audience
+	 * @param {number} audience
 	 * @param {any} attributeName
 	 * @param {any} value
 	 */
@@ -191,7 +186,7 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * @param {CustomEvent<{ id: string }>} event
 	 */
 	_onTBPanelOpen(event) {
-		this.toggleAttribute("active", true);
+		this.toggleAttribute("menuactive", true);
 	}
 
 	/**
@@ -199,7 +194,70 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * @param {CustomEvent<{ id: string }>} event
 	 */
 	_onTBPanelClose(event) {
-		this.removeAttribute("active");
+		this.removeAttribute("menuactive");
+	}
+
+	/**
+	 * Triggered when a mouse event is fired on the toolbar button
+	 * @param {Event} event
+	 */
+	_onTBMouse(event) {
+		const isMousedown = event.type == "mousedown";
+		const isMouseup = event.type == "mouseup";
+
+		if (isMousedown || isMouseup) {
+			// Only allow left click and middle clicks
+			const isAllowedInput =
+				/** @type {MouseEvent} */ (event).button <= 1;
+
+			if (!isAllowedInput) return;
+		}
+
+		if (isMousedown) event.preventDefault();
+
+		if (event.type == "mouseleave") {
+			window.addEventListener(
+				"mouseup",
+				() => this.toggleAttribute("mouseactive", false),
+				{ once: true }
+			);
+		} else {
+			const isKeydown =
+				event.type == "keydown" &&
+				["Enter", "Space"].includes(
+					/** @type {KeyboardEvent} */ (event).code
+				);
+
+			this.toggleAttribute("mouseactive", isMousedown || isKeydown);
+
+			const canCommand = isMouseup || isKeydown;
+
+			if (canCommand) {
+				this._doCommand.call(this, event);
+			}
+		}
+	}
+
+	/**
+	 * Performs the command attached to the toolbar button
+	 * @param {Event} [originalEvent]
+	 */
+	_doCommand(originalEvent) {
+		const evt = new CustomEvent("command", {
+			detail: {
+				originalEvent
+			}
+		});
+
+		this.dispatchEvent(evt);
+	}
+
+	/**
+	 * Triggered when the toolbar button is right clicked to open a context menu
+	 * @param {MouseEvent} event
+	 */
+	_onTBContextMenu(event) {
+		// todo: add context menu for toolbar buttons
 	}
 
 	connectedCallback() {
@@ -224,15 +282,15 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 				this.commandId,
 				this.observeCommandMutation.bind(this)
 			);
-
-			this.addEventListener(
-				"click",
-				this.commandSubscription.invoke.bind(
-					this.commandSubscription,
-					this.commandArgs
-				)
-			);
 		}
+
+		this.addEventListener("mousedown", this._onTBMouse.bind(this));
+		this.addEventListener("mouseup", this._onTBMouse.bind(this));
+		this.addEventListener("mouseleave", this._onTBMouse.bind(this));
+		this.addEventListener("keydown", this._onTBMouse.bind(this));
+		this.addEventListener("keyup", this._onTBMouse.bind(this));
+
+		this.addEventListener("contextmenu", this._onTBContextMenu.bind(this));
 
 		this.addEventListener(
 			"BrowserPanels::PanelOpen",
@@ -250,6 +308,17 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			this.commandSubscription.destroy();
 			this.commandSubscription = null;
 		}
+
+		this.removeEventListener("mousedown", this._onTBMouse.bind(this));
+		this.removeEventListener("mouseenter", this._onTBMouse.bind(this));
+		this.removeEventListener("mouseleave", this._onTBMouse.bind(this));
+		this.removeEventListener("keydown", this._onTBMouse.bind(this));
+		this.removeEventListener("keyup", this._onTBMouse.bind(this));
+
+		this.removeEventListener(
+			"contextmenu",
+			this._onTBContextMenu.bind(this)
+		);
 
 		this.removeEventListener(
 			"BrowserPanels::PanelOpen",
