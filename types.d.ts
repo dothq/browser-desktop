@@ -92,6 +92,7 @@ declare global {
 		mozInnerScreenX: number;
 		mozInnerScreenY: number;
 		windowRoot: Gecko.WindowRoot;
+        browsingContext: Gecko.BrowsingContext;
 	}
 
 	interface Document {
