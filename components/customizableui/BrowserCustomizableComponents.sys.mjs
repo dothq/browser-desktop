@@ -53,6 +53,8 @@ export const BrowserCustomizableComponents = {
 			case "spacer":
 			case "spring":
 				return html("browser-spring");
+			case "menuitem":
+				return html("browser-panel-menuitem");
 			case "":
 				return doc.createDocumentFragment();
 			default:
