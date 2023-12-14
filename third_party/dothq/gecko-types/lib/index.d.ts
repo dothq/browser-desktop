@@ -14,6 +14,7 @@ export * from "./ChromeWindow";
 export * from "./Ci";
 export * from "./Color";
 export * from "./Components";
+export * from "./ContentDOMReference";
 export * from "./Cr";
 export * from "./Cu";
 export * from "./CustomElement";
