@@ -5,7 +5,7 @@
 package:
 	@$(MAKE) -C dot/installer
 
-recurse_pre-export::
+recurse_pre-export:
 	$(topsrcdir)/mach python $(topsrcdir)/dot/scripts/sync_integrity.py
 
 recurse_compile:
