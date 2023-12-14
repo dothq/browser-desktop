@@ -235,6 +235,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		this.registerHandle("dot.tabs.debug_information.visible", false);
 		this.registerHandle("dot.customizable.debug_context.enabled", false);
 		this.registerHandle("dot.commands.log.enabled", false);
+		this.registerHandle("dot.panels.debug_information.visible", false);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}
