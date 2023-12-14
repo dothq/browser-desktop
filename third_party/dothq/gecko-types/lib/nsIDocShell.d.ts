@@ -19,5 +19,16 @@ export interface nsIDocShell {
 
     outerWindowID: number;
 
+    /**
+        * Cherry picked parts of nsIController.
+        * They are here, because we want to call these functions
+        * from JS.
+        */
+    isCommandEnabled(command: string): boolean;
+
+    doCommand(command: string): void;
+
+    doCommandWithParams(command: string, params: /* @todo nsICommandParams */ any): void;
+
     QueryInterface: (obj: any) => any;
 }
