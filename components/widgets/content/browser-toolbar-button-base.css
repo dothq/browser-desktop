@@ -1,0 +1,59 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.toolbar-button {
+    --button-disabled-opacity: 0.65;
+}
+
+.toolbar-button:disabled {
+    pointer-events: auto;
+}
+
+.toolbar-button[mode=icons],
+browser-toolbar[mode=icons] .toolbar-button:not([mode]),
+:host([mode=icons]) .toolbar-button:not([mode]),
+[mode=icons]>.toolbar-button:not([mode]) {
+    & .toolbar-button-container {
+        justify-content: center;
+
+        &>*:not(.toolbar-button-icon) {
+            display: none;
+        }
+    }
+}
+
+.toolbar-button[mode=text],
+browser-toolbar[mode=text] .toolbar-button:not([mode]),
+:host([mode=text]) .toolbar-button:not([mode]),
+[mode=text]>.toolbar-button:not([mode]) {
+    & .toolbar-button-container {
+        justify-content: center;
+
+        &>*:not(.toolbar-button-label) {
+            display: none;
+        }
+    }
+}
+
+/* No icon supplied and we're in either icons or icons_text */
+.toolbar-button:not([icon]):not([mode=text]) .toolbar-button-container>* {
+    &.toolbar-button-label {
+        display: flex !important;
+    }
+
+    &:not(.toolbar-button-label) {
+        display: none !important;
+    }
+}
+
+/* No label supplied and we're in text mode */
+.toolbar-button:not([label])[mode=text] .toolbar-button-container>* {
+    &.toolbar-button-icon {
+        display: flex !important;
+    }
+
+    &:not(.toolbar-button-icon) {
+        display: none !important;
+    }
+}

@@ -21,6 +21,8 @@ dot.jar:
     content/widgets/browser-toolbar-button.js            (content/browser-toolbar-button.js)
     content/widgets/browser-toolbar-button.css           (content/browser-toolbar-button.css)
 
+    content/widgets/browser-toolbar-button-base.css      (content/browser-toolbar-button-base.css)
+
     content/widgets/browser-contextual-element.js        (content/browser-contextual-element.js)
 
     content/widgets/browser-custom-toolbar-button.js     (content/browser-custom-toolbar-button.js)

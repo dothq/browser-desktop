@@ -91,19 +91,11 @@ html|select:focus:not(:disabled) {
     --button-background: var(--button-hover-color);
 }
 
-button:active:not(:disabled),
-select:active:not(:disabled),
-xul|button:active:not(:disabled),
-html|button:active:not(:disabled),
-html|select:active:not(:disabled) {
-    --button-background: var(--button-active-color);
-}
-
-button[active]:not(:disabled),
-select[active]:not(:disabled),
-xul|button[active]:not(:disabled),
-html|button[active]:not(:disabled),
-html|select[active]:not(:disabled) {
+button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
+select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
+xul|button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
+html|button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
+html|select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled) {
     --button-background: var(--button-active-color);
 }
 
@@ -120,10 +112,10 @@ html|select[disabled] {
     filter: opacity(var(--button-disabled-opacity));
 }
 
-button:focus-visible:not(:active),
+button:focus-visible:not(:is(:active, [active], [mouseactive])),
 select:focus-visible,
-xul|button:focus-visible:not(:active),
-html|button:focus-visible:not(:active),
+xul|button:focus-visible:not(:is(:active, [active], [mouseactive])),
+html|button:focus-visible:not(:is(:active, [active], [mouseactive])),
 html|select:focus-visible {
     --button-background: var(--button-default-color);
 
@@ -133,12 +125,9 @@ html|select:focus-visible {
     --button-z-index: 2147483647;
 }
 
-button:focus-visible:active,
-xul|button:focus-visible:active,
-html|button:focus-visible:active,
-button:focus-visible[active],
-xul|button:focus-visible[active],
-html|button:focus-visible[active] {
+button:focus-visible:is(:active, [active], [mouseactive]),
+xul|button:focus-visible:is(:active, [active], [mouseactive]),
+html|button:focus-visible:is(:active, [active], [mouseactive]) {
     --button-outline: 2px solid AccentColor;
     --button-outline-offset: 0px;
 

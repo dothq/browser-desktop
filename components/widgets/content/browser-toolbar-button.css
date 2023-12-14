@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import url("chrome://dot/content/widgets/browser-toolbar-button-base.css");
+
 .toolbar-button {
     display: flex;
 
@@ -53,24 +55,6 @@
     z-index: var(--button-z-index);
 }
 
-.toolbar-button:disabled {
-    pointer-events: auto;
-}
-
-.toolbar-button[mode=icons] .toolbar-button-container>*:not(.toolbar-button-icon),
-browser-toolbar[mode=icons] .toolbar-button:not([mode]) .toolbar-button-container>*:not(.toolbar-button-icon),
-:host([mode=icons]) .toolbar-button:not([mode]) .toolbar-button-container>*:not(.toolbar-button-icon),
-[mode=icons]>.toolbar-button:not([mode]) .toolbar-button-container>*:not(.toolbar-button-icon) {
-    display: none;
-}
-
-.toolbar-button[mode=text].toolbar-button-container>*:not(.toolbar-button-label),
-browser-toolbar[mode=text] .toolbar-button:not([mode]).toolbar-button-container>*:not(.toolbar-button-label),
-:host([mode=text]) .toolbar-button:not([mode]).toolbar-button-container>*:not(.toolbar-button-label),
-[mode=text]>.toolbar-button:not([mode]).toolbar-button-container>*:not(.toolbar-button-label) {
-    display: none;
-}
-
 .toolbar-button .toolbar-button-label {
     font-size: var(--content-size);
     white-space: nowrap;
@@ -81,4 +65,8 @@ browser-toolbar[mode=text] .toolbar-button:not([mode]).toolbar-button-container>
 
 .toolbar-button .toolbar-button-icon {
     background-size: var(--button-icon-size);
+}
+
+.toolbar-button[menuactive] {
+    --button-background: var(--button-active-color) !important;
 }
