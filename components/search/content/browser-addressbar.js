@@ -12,6 +12,15 @@ class BrowserAddressBar extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The customizable components to inherit from when used in this area
+	 */
+	static get customizableComponents() {
+		return {
+			button: html("button", { is: "browser-addressbar-button" })
+		};
+	}
+
+	/**
 	 * The context for this addressbar
 	 */
 	get context() {

@@ -1,0 +1,23 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+button[is=browser-addressbar-button] {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0px 10px;
+
+    --button-default-color: transparent;
+
+    & .browser-button-container {
+        display: flex;
+
+        gap: 10px;
+        align-items: center;
+
+        flex: 1;
+    }
+}

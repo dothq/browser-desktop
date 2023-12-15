@@ -7,6 +7,9 @@ dot.jar:
 
 % resource search-extensions %search-extensions/ contentaccessible=yes
 % content dot %content/ contentaccessible=yes
+    content/widgets/browser-addressbar-button.js               (content/browser-addressbar-button.js)
+    content/widgets/browser-addressbar-button.css              (content/browser-addressbar-button.css)
+
     content/widgets/browser-addressbar.js                      (content/browser-addressbar.js)
     content/widgets/browser-addressbar.css                     (content/browser-addressbar.css)
 
