@@ -20,6 +20,10 @@ function BrowserContextualMixin(BaseClass) {
 		 * @type {BrowserCustomizableArea}
 		 */
 		get host() {
+			if (!(this.getRootNode() instanceof ShadowRoot)) {
+				return null;
+			}
+
 			return /** @type {BrowserCustomizableArea} */ (
 				/** @type {ShadowRoot} */ (this.getRootNode()).host
 			);
