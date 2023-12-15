@@ -16,6 +16,8 @@ export class ReloadTabCommand extends TabCommand {
 
 		this.label = "Reload";
 		this.icon = "reload";
+
+		this.shortcut = this.actions;
 	}
 
 	_reloadTimer = null;
@@ -31,6 +33,16 @@ export class ReloadTabCommand extends TabCommand {
 				: "Reload this page"
 		};
 		this.icon = this.isLoading ? "close" : "reload";
+	}
+
+	/**
+	 * Clears the reload timer if running
+	 */
+	_clearReloadTimer() {
+		this.window.clearTimeout(this._reloadTimer);
+		this._reloadTimer = null;
+
+		this.disabled = false;
 	}
 
 	/**
@@ -67,19 +79,14 @@ export class ReloadTabCommand extends TabCommand {
 		this._update();
 
 		if (this.isLoading) {
-			this.window.clearTimeout(this._reloadTimer);
-			this._reloadTimer = null;
-
-			this.disabled = false;
+			this._clearReloadTimer();
 		} else if (webProgress.isTopLevel && !webProgress.isLoadingDocument) {
 			if (this._reloadTimer) return;
 
 			this.disabled = true;
 			this._reloadTimer = this.window.setTimeout(
-				() => {
-					this.disabled = false;
-				},
-				650,
+				this._clearReloadTimer.bind(this),
+				shouldShowProgress ? 650 : 0,
 				this
 			);
 		}
