@@ -48,7 +48,7 @@ export class TabIdentityCommand extends TabCommand {
 
 		this.mode = {
 			[this.audiences.DEFAULT]: null,
-			[this.audiences.TAB]: mode,
+			[this.audiences.TAB]: null,
 			[this.audiences.ADDRESSBAR]: mode
 		};
 
