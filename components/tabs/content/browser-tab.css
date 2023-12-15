@@ -195,7 +195,7 @@ browser-tab .browser-tab-icons {
 
 browser-tab::part(customizable) {
     width: calc(100% - var(--tab-padding-start) - var(--tab-padding-end));
-    min-width: 0px;
+    min-width: fit-content;
 
     gap: 2px;
     align-items: center;
