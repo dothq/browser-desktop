@@ -9,4 +9,3 @@ dot.jar:
     content/widgets/browser-history-navigation-button.js        (content/browser-history-navigation-button.js)
 
     content/widgets/browser-reload-button.js                    (content/browser-reload-button.js)
-    content/widgets/browser-reload-button.css                   (content/browser-reload-button.css)
