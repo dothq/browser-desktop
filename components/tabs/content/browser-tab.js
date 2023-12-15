@@ -288,6 +288,26 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		}
 	}
 
+	/**
+	 * Determines how long to animate the tab for on open
+	 */
+	get _tabInAnimateDuration() {
+		return Services.prefs.getIntPref(
+			"dot.tabs.in_animation_duration_ms",
+			50
+		);
+	}
+
+	/**
+	 * Determines how long to animate the tab for on close
+	 */
+	get _tabOutAnimateDuration() {
+		return Services.prefs.getIntPref(
+			"dot.tabs.out_animation_duration_ms",
+			30
+		);
+	}
+
 	get animationProps() {
 		return {
 			easing: "cubicBezier(0.2, 1.0, 0.2, 1.0)"
@@ -297,29 +317,36 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	/**
 	 * Starts the in animation for the tab
 	 */
-	animateIn(duration = 50) {
+	animateIn(duration = this._tabInAnimateDuration) {
 		this.toggleAttribute("anime-animating", true);
 
 		this.width = 0;
 
-		const newWidth = [
-			0,
-			Math.max(this.tabbox.tabMinWidth, this.tabbox.tabMaxWidth)
-		];
+		const inAnimation = {
+			...this.animationProps,
+			duration,
+			endDelay: duration
+		};
 
-		const animation = window
-			.timeline({
-				...this.animationProps,
-				duration,
-				endDelay: duration
-			})
-			.add({
-				targets: this,
-				width: newWidth
-			});
+		const widthAnimation = window.timeline(inAnimation).add({
+			targets: this,
+			width: [
+				0,
+				Math.max(this.tabbox.tabMinWidth, this.tabbox.tabMaxWidth)
+			]
+		});
+
+		const opacityAnimation = window.timeline(inAnimation).add({
+			targets: this.customizableContainer,
+			delay: inAnimation.duration * 0.2,
+			opacity: [0, 1]
+		});
 
 		return new Promise((r) => {
-			animation.finished.then(() => {
+			Promise.allSettled([
+				widthAnimation.finished,
+				opacityAnimation.finished
+			]).then(() => {
 				this.removeAttribute("anime-animating");
 
 				r();
@@ -330,22 +357,31 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	/**
 	 * Starts the out animation for the tab
 	 */
-	animateOut(duration = 30) {
+	animateOut(duration = this._tabOutAnimateDuration) {
 		this.toggleAttribute("anime-animating", true);
 
-		const animation = window
-			.timeline({
-				...this.animationProps,
-				duration,
-				endDelay: 300
-			})
-			.add({
-				targets: this,
-				width: 0
-			});
+		const outAnimation = {
+			...this.animationProps,
+			duration,
+			endDelay: 300
+		};
+
+		const widthAnimation = window.timeline(outAnimation).add({
+			targets: this,
+			width: 0
+		});
+
+		const opacityAnimation = window.timeline(outAnimation).add({
+			targets: this.customizableContainer,
+			duration: outAnimation.duration / 2,
+			opacity: 0
+		});
 
 		return new Promise((r) => {
-			animation.finished.then(() => {
+			Promise.allSettled([
+				widthAnimation.finished,
+				opacityAnimation.finished
+			]).then(() => {
 				this.removeAttribute("anime-animating");
 
 				r();

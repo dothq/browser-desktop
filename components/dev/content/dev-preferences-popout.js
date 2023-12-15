@@ -120,11 +120,14 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		const handleInputAttrs = {
 			id: handleInputId,
 			type: prefAttributes.inputType,
-			readonly: prefAttributes.locked,
 			indeterminate:
 				prefAttributes.inputType == "checkbox" &&
 				typeof prefAttributes.value == "undefined"
 		};
+
+		if (prefAttributes.locked) {
+			handleInputAttrs.readonly = "";
+		}
 
 		const handleInputEl = /** @type {HTMLInputElement} */ (
 			html("input", handleInputAttrs)
@@ -236,6 +239,8 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		this.registerHandle("dot.customizable.debug_context.enabled", false);
 		this.registerHandle("dot.commands.log.enabled", false);
 		this.registerHandle("dot.panels.debug_information.visible", false);
+		this.registerHandle("dot.tabs.in_animation_duration_ms", 50);
+		this.registerHandle("dot.tabs.out_animation_duration_ms", 30);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}
