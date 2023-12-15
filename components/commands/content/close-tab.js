@@ -11,12 +11,11 @@ export class CloseTabCommand extends TabCommand {
 		super(subscription, subscriber, area);
 
 		this.label = {
-			[this.audiences.DEFAULT]: "Close",
-			[this.audiences.TAB]: "Close tab"
+			[this.audiences.DEFAULT]: "Close"
 		};
 		this.labelAuxiliary = {
 			[this.audiences.DEFAULT]: "Close current tab",
-			[this.audiences.TAB]: "Close tab"
+			[this.audiences.TAB]: "Close this tab"
 		};
 		this.icon = "close";
 	}
