@@ -8,6 +8,6 @@ dot.jar:
 % content dot %content/ contentaccessible=yes
     content/startpage/blank.html                   (content/blank.html)
 
-    content/startpage/home.html                    (content/home.html)
-    content/startpage/home.css                     (content/home.css)
-    content/startpage/home.js                      (content/home.js)
+    content/startpage/startpage.html               (content/startpage.html)
+    content/startpage/startpage.css                (content/startpage.css)
+    content/startpage/startpage.js                 (content/startpage.js)
