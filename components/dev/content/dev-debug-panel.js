@@ -97,6 +97,12 @@ class DeveloperDebugPanel extends MozHTMLElement {
 			)
 		),
 
+		open_profile_dir: html(
+			"button",
+			{ id: "dev-debug-open-profile-dir-btn" },
+			"Open profile directory"
+		),
+
 		customizableui_data: /** @type {HTMLTextAreaElement} */ (
 			html("textarea", { readonly: "", rows: 5 })
 		)
@@ -226,6 +232,20 @@ class DeveloperDebugPanel extends MozHTMLElement {
 		this.elements.open_link_in
 			.querySelector("#dev-debug-open-link--window")
 			.addEventListener("click", () => openSetLinkIn("window"));
+
+		this.elements.open_profile_dir.addEventListener("click", () => {
+			const currProfD = Services.dirsvc.get("ProfD", Ci.nsIFile);
+			const profileDir = currProfD.path;
+
+			const nsLocalFile = Components.Constructor(
+				"@mozilla.org/file/local;1",
+				"nsIFile",
+				"initWithPath"
+			);
+			/** @type {import("third_party/dothq/gecko-types/lib").nsIFile} */ (
+				new nsLocalFile(profileDir)
+			).reveal();
+		});
 	}
 
 	insertStylesheet() {
@@ -257,6 +277,8 @@ class DeveloperDebugPanel extends MozHTMLElement {
 		this.appendChild(this.elements.user_agent);
 
 		this.appendChild(this.elements.open_link_in);
+
+		this.appendChild(this.elements.open_profile_dir);
 
 		this.appendChild(
 			html(
