@@ -6,6 +6,4 @@
 
 EXTRA_JS_MODULES += [
     "BrowserShortcuts.sys.mjs",
-    "DotShortcutUtils.sys.mjs",
-    "ModifierKeyManager.sys.mjs",
 ]

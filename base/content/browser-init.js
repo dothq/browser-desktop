@@ -67,10 +67,6 @@ var { DevToolsSocketStatus } = ChromeUtils.importESModule(
 	"resource://devtools/shared/security/DevToolsSocketStatus.sys.mjs"
 );
 
-var { ModifierKeyManager } = ChromeUtils.importESModule(
-	"resource://gre/modules/ModifierKeyManager.sys.mjs"
-);
-
 var { AccentColorManager } = ChromeUtils.importESModule(
 	"resource://gre/modules/AccentColorManager.sys.mjs"
 );
@@ -175,7 +171,6 @@ var gDotInit = {
 		}
 
 		NativeTitlebar.init(document);
-		ModifierKeyManager.init(window);
 
 		new LightweightThemeConsumer(document);
 		new AccentColorManager(document);

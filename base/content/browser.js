@@ -212,7 +212,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.customizable = new BrowserCustomizable(this);
 		this.tabs = new BrowserTabs(window);
 		this.search = new BrowserSearch(window);
-		this.shortcuts = new BrowserShortcuts(window);
+		this.shortcuts = new BrowserShortcuts();
 		this.commands = new BrowserCommands(window);
 		this.actions = new BrowserActions(this);
 		this.panels = new BrowserPanels(window);

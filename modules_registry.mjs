@@ -51,9 +51,7 @@ const registry = {
 
 	NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
 
-	BrowserShortcuts: "components/keyboard/BrowserShortcuts.sys.mjs",
-	DotShortcutUtils: "components/keyboard/DotShortcutUtils.sys.mjs",
-	ModifierKeyManager: "components/keyboard/ModifierKeyManager.sys.mjs",
+	BrowserShortcuts: "components/shortcuts/BrowserShortcuts.sys.mjs",
 
 	StartPage: "components/startpage/StartPage.sys.mjs",
 
