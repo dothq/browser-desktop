@@ -9,6 +9,7 @@
 @import url("chrome://dot/skin/browser-theme.css");
 
 /* Components */
+@import url("chrome://dot/content/widgets/browser-button.css");
 @import url("chrome://dot/content/widgets/browser-tab.css");
 @import url("chrome://dot/content/widgets/browser-web-panel.css");
 @import url("chrome://dot/content/widgets/browser-status.css");
@@ -18,13 +19,11 @@
 @import url("chrome://dot/content/widgets/browser-icon.css");
 @import url("chrome://dot/content/widgets/browser-tabs.css");
 @import url("chrome://dot/content/widgets/browser-spring.css");
-@import url("chrome://dot/content/widgets/browser-reload-button.css");
 @import url("chrome://dot/content/widgets/browser-customizable-area.css");
 @import url("chrome://dot/content/widgets/browser-tab-label.css");
 @import url("chrome://dot/content/widgets/browser-tab-icon.css");
 @import url("chrome://dot/content/widgets/browser-web-contents.css");
 @import url("chrome://dot/content/widgets/browser-customizable-template.css");
-@import url("chrome://dot/content/widgets/browser-tab-box.css");
 @import url("chrome://dot/content/widgets/browser-customizable-area-empty.css");
 @import url("chrome://dot/content/widgets/browser-panel.css");
 @import url("chrome://dot/content/widgets/browser-panel-area.css");
