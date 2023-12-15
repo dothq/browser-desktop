@@ -342,7 +342,9 @@ BrowserCustomizableInternal.prototype = {
 				root.appendChild(component);
 			} catch (e) {
 				throw new Error(
-					`Failed to create component '${child[0]}[${i}]':\n` +
+					`Failed to create component '${child[0]}[${children
+						.filter((c) => c[0] == child[0])
+						.findIndex((c) => c === child)}]':\n` +
 						e +
 						"\n" +
 						e.stack || ""
