@@ -239,5 +239,47 @@ export const BrowserCustomizableAttributePrimitives = {
 		}
 
 		return value;
+	},
+
+	/**
+	 * Handles a value that is an object or array.
+	 * @param {string} attribute
+	 * @returns {(value: any) => object}
+	 */
+	object: (attribute) => (value) => {
+		if (typeof value !== "object" || value == null) {
+			throw new Error(
+				`Attribute '${attribute}' must be of type object or array.`
+			);
+		}
+
+		try {
+			JSON.stringify(value);
+		} catch (e) {
+			throw new Error(
+				`Attribute '${attribute}' cannot be serialized to JSON.`
+			);
+		}
+
+		return JSON.stringify(value);
+	},
+
+	/**
+	 * Handles a value that is only an object.
+	 *
+	 * strictObject differs to object in that:
+	 * strictObject only allows pure objects - no arrays allowed.
+	 * @param {string} attribute
+	 * @returns {(value: any) => object}
+	 */
+	strictObject: (attribute) => (value) => {
+		if (
+			!BrowserCustomizableAttributePrimitives.object(attribute)(value) ||
+			Array.isArray(value)
+		) {
+			throw new Error(`Attribute '${attribute}' must be of type object.`);
+		}
+
+		return BrowserCustomizableAttributePrimitives.object(attribute)(value);
 	}
 };
