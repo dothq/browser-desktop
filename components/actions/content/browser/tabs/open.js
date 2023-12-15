@@ -11,8 +11,8 @@ const { Action } = ChromeUtils.importESModule(
 	"resource://gre/modules/Action.sys.mjs"
 );
 
-export class BrowserTabsAddTabAction extends Action {
-	static id = "browser.tabs.add_tab";
+export class BrowserTabsOpenAction extends Action {
+	static id = "browser.tabs.open";
 
 	constructor() {
 		super();
@@ -27,11 +27,12 @@ export class BrowserTabsAddTabAction extends Action {
 
 	/**
 	 * Performs this action
-	 * @param {ActionDispatchEvent<{ url: string | string[] }>} event
+	 * @param {ActionDispatchEvent<{ where: "tab" | "current"; url: string | string[] }>} event
 	 */
 	run(event) {
 		const { args } = event.detail;
 
+		if (!args.where) throw new Error("No 'where' argument supplied!");
 		if (!args.url) throw new Error("No 'url' argument supplied!");
 
 		const win = event.target.ownerGlobal;
@@ -42,9 +43,13 @@ export class BrowserTabsAddTabAction extends Action {
 				Services.scriptSecurityManager.getSystemPrincipal()
 		};
 
-		gDot.tabs.createTabs(
-			Array.isArray(args.url) ? args.url : [args.url],
-			params
-		);
+		if (Array.isArray(args.url) || args.where == "tab") {
+			gDot.tabs.createTabs(
+				Array.isArray(args.url) ? args.url : [args.url],
+				params
+			);
+		} else if (args.where == "current") {
+			win.openWebLinkIn(args.url, "current");
+		}
 	}
 }

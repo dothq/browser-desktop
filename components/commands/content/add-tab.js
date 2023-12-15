@@ -28,7 +28,7 @@ export class AddTabCommand extends Command {
 		const urls = StartPage.getHomePage();
 
 		for (const url of urls) {
-			this.actions.run("browser.tabs.add_tab", { url });
+			this.actions.run("browser.tabs.open", { where: "tab", url });
 		}
 	}
 }

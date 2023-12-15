@@ -14,10 +14,10 @@ const ALL_ACTIONS = [
 	"browser.panels.open",
 
 	// browser.tabs
-	"browser.tabs.add_tab",
 	"browser.tabs.close_tab",
 	"browser.tabs.go_back",
 	"browser.tabs.go_forward",
+	"browser.tabs.open",
 	"browser.tabs.reload_page",
 	"browser.tabs.stop_page"
 ];
