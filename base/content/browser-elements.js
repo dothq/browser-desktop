@@ -61,6 +61,7 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-paste-button.js",
 	"chrome://dot/content/widgets/browser-reload-button.js",
 	"chrome://dot/content/widgets/browser-select-all-button.js",
+	"chrome://dot/content/widgets/browser-settings-button.js",
 	"chrome://dot/content/widgets/browser-identity-button.js"
 ];
 

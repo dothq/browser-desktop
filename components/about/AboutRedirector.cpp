@@ -93,7 +93,7 @@ namespace dot {
             },
             {
                 "preferences", 
-                "chrome://browser/content/preferences/preferences.xhtml", 
+                "chrome://dot/content/settings/settings.html", 
                 nsIAboutModule::HIDE_FROM_ABOUTABOUT |
                     nsIAboutModule::ALLOW_SCRIPT | 
                     nsIAboutModule::IS_SECURE_CHROME_UI
