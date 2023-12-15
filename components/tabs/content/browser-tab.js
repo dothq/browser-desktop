@@ -336,16 +336,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			]
 		});
 
-		const opacityAnimation = window.timeline(inAnimation).add({
-			targets: this.customizableContainer,
-			opacity: [0, 1]
-		});
-
 		return new Promise((r) => {
-			Promise.allSettled([
-				widthAnimation.finished,
-				opacityAnimation.finished
-			]).then(() => {
+			Promise.allSettled([widthAnimation.finished]).then(() => {
 				this.removeAttribute("anime-animating");
 
 				r();
@@ -370,17 +362,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			width: 0
 		});
 
-		const opacityAnimation = window.timeline(outAnimation).add({
-			targets: this.customizableContainer,
-			duration: outAnimation.duration / 2,
-			opacity: 0
-		});
-
 		return new Promise((r) => {
-			Promise.allSettled([
-				widthAnimation.finished,
-				opacityAnimation.finished
-			]).then(() => {
+			Promise.allSettled([widthAnimation.finished]).then(() => {
 				this.removeAttribute("anime-animating");
 
 				r();
