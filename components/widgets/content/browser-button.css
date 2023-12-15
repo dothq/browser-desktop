@@ -1,0 +1,57 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.browser-button {
+    --button-disabled-opacity: 0.65;
+}
+
+.browser-button:disabled {
+    pointer-events: auto;
+}
+
+.browser-button[mode=icons],
+:host([mode=icons]) .browser-button:not([mode]),
+[mode=icons]>.browser-button:not([mode]) {
+    & .browser-button-container {
+        justify-content: center;
+
+        &>*:not(.browser-button-icon) {
+            display: none;
+        }
+    }
+}
+
+.browser-button[mode=text],
+:host([mode=text]) .browser-button:not([mode]),
+[mode=text]>.browser-button:not([mode]) {
+    & .browser-button-container {
+        justify-content: center;
+
+        &>*:not(.browser-button-label) {
+            display: none;
+        }
+    }
+}
+
+/* No icon supplied and we're in either icons or icons_text */
+.browser-button:not([icon]):not([mode=text]) .browser-button-container>* {
+    &.browser-button-label {
+        display: flex !important;
+    }
+
+    &:not(.browser-button-label) {
+        display: none !important;
+    }
+}
+
+/* No label supplied and we're in text mode */
+.browser-button:not([label])[mode=text] .browser-button-container>* {
+    &.browser-button-icon {
+        display: flex !important;
+    }
+
+    &:not(.browser-button-icon) {
+        display: none !important;
+    }
+}

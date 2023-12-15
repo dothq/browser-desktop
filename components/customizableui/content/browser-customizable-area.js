@@ -50,6 +50,18 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
+	 * The customizable components to inherit from when used in this area
+	 *
+	 * @typedef {Record<string, Element | DocumentFragment>} CustomizableAreaComponents
+	 * @returns {CustomizableAreaComponents}
+	 */
+	static get customizableComponents() {
+		return {
+			button: null
+		};
+	}
+
+	/**
 	 * The area's name
 	 */
 	get name() {

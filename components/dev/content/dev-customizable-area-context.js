@@ -52,17 +52,17 @@ class DeveloperCustomizableAreaContext extends MozHTMLElement {
 	 */
 	get inspectButton() {
 		return /** @type {BrowserToolbarButton} */ (
-			this.querySelector("button.toolbar-button") ||
+			this.querySelector("button.browser-button") ||
 				html(
 					"button",
 					{
-						class: "toolbar-button",
+						class: "browser-button",
 						mode: "icons",
 						title: "Inspect area"
 					},
 					html("browser-icon", {
 						name: "inspect",
-						class: "toolbar-button-icon"
+						class: "browser-button-icon"
 					})
 				)
 		);

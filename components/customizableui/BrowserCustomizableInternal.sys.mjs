@@ -143,6 +143,7 @@ BrowserCustomizableInternal.prototype = {
 	 * @param {object} [attributes]
 	 * @param {object} [options]
 	 * @param {boolean} [options.allowInternal]
+	 * @param {BrowserCustomizableArea} [options.area]
 	 * @returns {Element}
 	 */
 	getComponentByType(type, attributes, options) {
@@ -158,7 +159,7 @@ BrowserCustomizableInternal.prototype = {
 			return /** @type {Element} */ (templatedComponent);
 		}
 
-		element = Components.createWidget(doc, type, attributes);
+		element = Components.createWidget(doc, type, attributes, options);
 
 		// If we couldn't make a widget, try making this as an area instead
 		if (!element) {
@@ -207,14 +208,18 @@ BrowserCustomizableInternal.prototype = {
 				let childComponent = null;
 
 				try {
-					childComponent = this.createComponentFromDefinition(child);
+					childComponent = this.createComponentFromDefinition(child, {
+						area: /** @type {BrowserCustomizableArea} */ (
+							parentElement
+						)
+					});
 				} catch (e) {
 					throw new Error(
 						`Failed to create component '${child[0]}${
 							part === "content" ? "" : `[${part}]`
 						}[${i}]':\n` +
-							e +
-							"\n" +
+							e.toString().replace("Error: ", "") +
+							"\n\n" +
 							e.stack || ""
 					);
 				}
@@ -283,6 +288,7 @@ BrowserCustomizableInternal.prototype = {
 	 * @param {CustomizableComponentDefinition[1]} [attributes]
 	 * @param {CustomizableComponentDefinition[2]} [children]
 	 * @param {object} [creationOptions]
+	 * @param {BrowserCustomizableArea} [creationOptions.area]
 	 * @param {boolean} [creationOptions.allowInternal]
 	 */
 	createComponent(type, attributes, children, creationOptions) {
@@ -345,8 +351,8 @@ BrowserCustomizableInternal.prototype = {
 					`Failed to create component '${child[0]}[${children
 						.filter((c) => c[0] == child[0])
 						.findIndex((c) => c === child)}]':\n` +
-						e +
-						"\n" +
+						e.toString().replace("Error: ", "") +
+						"\n\n" +
 						e.stack || ""
 				);
 			}

@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const AreaButton = {
+	create(base) {}
+};
+
 export const BrowserCustomizableComponents = {
 	/**
 	 * Creates a new area using its area ID and optional arguments
@@ -23,24 +27,39 @@ export const BrowserCustomizableComponents = {
 	},
 
 	/**
+	 * Creates a new widget using the area's own component suite
+	 * @param {BrowserCustomizableArea} area
+	 * @param {string} widgetId
+	 * @param {Record<string, any>} [args]
+	 */
+	createWidgetFromAreaComponents(area, widgetId, args) {
+		const areaComponents = /** @type {typeof BrowserCustomizableArea} */ (
+			area.constructor
+		).customizableComponents;
+
+		if (areaComponents[widgetId]) {
+			const component = areaComponents[widgetId];
+
+			return component;
+		} else {
+			return null;
+		}
+	},
+
+	/**
 	 * Creates a new widget using its widget ID and optional arguments
 	 * @param {Document} doc
 	 * @param {string} widgetId
 	 * @param {Record<string, any>} [args]
+	 * @param {object} [options]
+	 * @param {boolean} [options.allowInternal]
+	 * @param {BrowserCustomizableArea} [options.area]
 	 */
-	createWidget(doc, widgetId, args) {
+	createWidget(doc, widgetId, args, options) {
 		const win = doc.ownerGlobal;
 		const { html } = win;
 
 		switch (widgetId) {
-			case "toolbar-button":
-				if (!win.customElements.get(args.is)) {
-					throw new Error(
-						`Unknown toolbar button type '${args.is}'.`
-					);
-				}
-
-				return html("button", { is: args.is });
 			case "web-contents":
 				return html("browser-web-contents");
 			case "tab-status":
@@ -58,6 +77,16 @@ export const BrowserCustomizableComponents = {
 			case "":
 				return doc.createDocumentFragment();
 			default:
+				if (options && options.area) {
+					const areaComponent = this.createWidgetFromAreaComponents(
+						options.area,
+						widgetId,
+						args
+					);
+
+					if (areaComponent) return areaComponent;
+				}
+
 				return null;
 		}
 	}
