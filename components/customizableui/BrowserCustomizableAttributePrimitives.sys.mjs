@@ -224,5 +224,20 @@ export const BrowserCustomizableAttributePrimitives = {
 		}
 
 		return value;
+	},
+
+	/**
+	 * Handles a value that is a boolean.
+	 * @param {string} attribute
+	 * @returns {(value: any) => boolean}
+	 */
+	boolean: (attribute) => (value) => {
+		if (typeof value !== "boolean") {
+			throw new Error(
+				`Attribute '${attribute}' must be of type boolean.`
+			);
+		}
+
+		return value;
 	}
 };
