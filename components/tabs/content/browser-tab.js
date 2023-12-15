@@ -338,7 +338,6 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 		const opacityAnimation = window.timeline(inAnimation).add({
 			targets: this.customizableContainer,
-			delay: inAnimation.duration * 0.2,
 			opacity: [0, 1]
 		});
 
