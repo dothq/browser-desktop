@@ -55,7 +55,7 @@ namespace dot {
             },
             {
                 "home", 
-                "chrome://dot/content/startpage/home.html", 
+                "chrome://dot/content/startpage/startpage.html", 
                 nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
                     nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
                     nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
