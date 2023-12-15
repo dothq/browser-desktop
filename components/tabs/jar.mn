@@ -17,6 +17,8 @@ dot.jar:
     content/widgets/browser-status.js                   (content/browser-status.js)
     content/widgets/browser-status.css                  (content/browser-status.css)
 
+    content/widgets/browser-tab-button.js               (content/browser-tab-button.js)
+
     content/widgets/browser-web-frame.js                (content/browser-web-frame.js)
 
     content/widgets/browser-tabs.js                     (content/browser-tabs.js)

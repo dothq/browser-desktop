@@ -28,6 +28,15 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The customizable components to inherit from when used in this area
+	 */
+	static get customizableComponents() {
+		return {
+			button: html("button", { is: "browser-tab-button" })
+		};
+	}
+
+	/**
 	 * The currently selected tab
 	 */
 	get selectedTab() {

@@ -477,8 +477,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	connectedCallback() {
 		super.connect("tab", {
 			mode: "icons",
-			showKeybindings: false,
-			styles: ["chrome://dot/content/widgets/browser-toolbar-button.css"]
+			showKeybindings: false
 		});
 
 		this.hidden = true;

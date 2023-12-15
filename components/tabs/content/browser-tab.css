@@ -215,15 +215,7 @@ browser-tab::part(customizable) {
 }
 
 :host(browser-tab) .customizable-container> :last-child {
-
-    /* If the last child of the tab's contents is a toolbar-button, use the Y padding for tab end padding instead */
-    &.toolbar-button {
-        margin-inline-end: calc(var(--y-padding) / 2);
-    }
-
-    & {
-        margin-inline-end: var(--tab-padding-end);
-    }
+    margin-inline-end: var(--tab-padding-end);
 }
 
 browser-tabs[hidetabactions] browser-tab:not([selected]) {
