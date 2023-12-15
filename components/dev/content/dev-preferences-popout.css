@@ -32,6 +32,7 @@ dev-preferences-popout .dev-preference-handles {
 dev-preferences-popout .dev-preference-handle {
     display: flex;
     gap: 4px;
+    align-items: center;
 }
 
 dev-preferences-popout .dev-preference-handle label {
