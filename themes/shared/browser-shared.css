@@ -165,7 +165,7 @@ hr.fdn-separator {
     background-color: var(--browser-frame-background-color, var(--lwt-accent-color));
 }
 
-#tabspanel:not([showstatuspanel]) browser-status {
+#tabspanel:not([status]) browser-status {
     display: none;
 }
 

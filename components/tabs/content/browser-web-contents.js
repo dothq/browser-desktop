@@ -20,6 +20,15 @@ class BrowserWebContents extends MozHTMLElement {
 		};
 	}
 
+	/**
+	 * The allowed customizable attributes for web contents
+	 */
+	static get customizableAttributes() {
+		return {
+			status: "boolean"
+		};
+	}
+
 	get bordersElement() {
 		return /** @type {HTMLDivElement} */ (
 			this.querySelector(".wc-borders") ||
@@ -70,10 +79,7 @@ class BrowserWebContents extends MozHTMLElement {
 			)
 		);
 
-		this.tabpanel.toggleAttribute(
-			"showstatuspanel",
-			this.hasAttribute("statuspanel")
-		);
+		this.tabpanel.toggleAttribute("status", this.hasAttribute("status"));
 	}
 }
 
