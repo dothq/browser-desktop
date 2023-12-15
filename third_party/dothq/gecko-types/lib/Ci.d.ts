@@ -11,6 +11,7 @@ export interface Ci {
 	nsIDocShell: Gecko.nsIDocShell;
 	nsIDragService: Gecko.nsIDragService;
 	nsIEnvironment: Gecko.nsIEnvironment;
+    nsIFile: Gecko.nsIFile;
 	nsIFilePicker: Gecko.nsIFilePicker;
 	nsIInterfaceRequestor: Gecko.nsIInterfaceRequestor;
 	nsILoadContext: Gecko.nsILoadContext;

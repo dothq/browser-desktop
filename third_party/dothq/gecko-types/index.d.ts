@@ -24,8 +24,6 @@ interface PathUtilsInterface {
 declare global {
 	var ChromeUtils: Gecko.ChromeUtils;
 
-	var PathUtils: PathUtilsInterface;
-
 	var Marionette: Gecko.Marionette;
 	var RemoteAgent: Gecko.RemoteAgent;
 

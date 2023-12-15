@@ -25,6 +25,9 @@ declare global {
 	}
 
 	var BrowserUIUtils: Gecko.BrowserUIUtils;
+    var PathUtils: Gecko.PathUtils;
+    var IOUtils: Gecko.IOUtils;
+
 	var gDot: BrowserApplication;
 	var gDotInit: typeof gDotInit;
 	var XULBrowserWindow: nsIXULBrowserWindow;
