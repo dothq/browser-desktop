@@ -2,9 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-@import url("chrome://dot/content/widgets/browser-toolbar-button-base.css");
-
-:host(.browser-panel-container) .toolbar-button {
+button[is=browser-panel-button] {
     display: flex;
 
     width: 100%;
@@ -14,7 +12,7 @@
 
     --button-default-color: transparent;
 
-    & .toolbar-button-container {
+    & .browser-button-container {
         display: flex;
 
         gap: 10px;

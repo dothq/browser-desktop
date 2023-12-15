@@ -21,4 +21,5 @@ dot.jar:
     content/widgets/browser-panel-menuitem.js               (content/browser-panel-menuitem.js)
     content/widgets/browser-panel-menuitem.css              (content/browser-panel-menuitem.css)
 
+    content/widgets/browser-panel-button.js                 (content/browser-panel-button.js)
     content/widgets/browser-panel-button.css                (content/browser-panel-button.css)

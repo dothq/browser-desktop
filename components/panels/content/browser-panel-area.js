@@ -12,6 +12,15 @@ class BrowserPanelArea extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The customizable components to inherit from when used in this area
+	 */
+	static get customizableComponents() {
+		return {
+			button: html("button", { is: "browser-panel-button" })
+		};
+	}
+
+	/**
 	 * The closest panel element to this area
 	 * @returns {BrowserPanel}
 	 */
@@ -49,18 +58,6 @@ class BrowserPanelArea extends BrowserCustomizableArea {
 		};
 	}
 
-	/**
-	 * Handles incoming events to the panel area
-	 * @param {Event} event
-	 */
-	handleEvent(event) {
-		switch (event.type) {
-			case "Commands::Invoke":
-				this.panel.hidePopup();
-				break;
-		}
-	}
-
 	connectedCallback() {
 		super.connect("panel", {
 			orientation: "vertical",
@@ -68,13 +65,9 @@ class BrowserPanelArea extends BrowserCustomizableArea {
 		});
 
 		this.classList.add("browser-panel-container");
-
-		this.addEventListener("Commands::Invoke", this);
 	}
 
-	disconnectedCallback() {
-		this.removeEventListener("Commands::Invoke", this);
-	}
+	disconnectedCallback() {}
 }
 
 customElements.define("browser-panel-area", BrowserPanelArea);
