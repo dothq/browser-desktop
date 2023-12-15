@@ -64,7 +64,7 @@
 }
 
 .toolbar-button .toolbar-button-icon {
-    background-size: var(--button-icon-size);
+    background-size: var(--button-icon-size, cover);
 }
 
 .toolbar-button[menuactive] {
