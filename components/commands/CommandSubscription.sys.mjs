@@ -82,7 +82,7 @@ export class CommandSubscription {
 	}
 
 	/**
-	 * @param {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"]} subscriber
+	 * @param {import("./Command.sys.mjs").CommandSubscriber} subscriber
 	 * @param {string} commandId
 	 * @param {Function} observer
 	 */

@@ -53,7 +53,7 @@ class BrowserCustomizableAttributeProcessor {
 		const data = {};
 
 		for (const { name, value } of attributes) {
-			data[name] = this.processAttribute(name, value);
+			data[name.toLowerCase()] = this.processAttribute(name, value);
 		}
 
 		return data;

@@ -7,3 +7,5 @@
 dot.jar:
 % content dot %content/ contentaccessible=yes
     content/commands/                  (content/*)
+
+    content/widgets/browser-command-button.js               (widgets/browser-command-button.js)

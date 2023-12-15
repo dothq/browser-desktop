@@ -15,8 +15,13 @@ const { DOMUtils } = ChromeUtils.importESModule(
 );
 
 /**
- * @typedef {CustomEvent<{}> & { detail: { args?: T, originalEvent: E }, target: Element }} CommandEvent
- * @template {Record<string, any>} T
+ * @typedef {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"] & { commandArgs: T }} CommandSubscriber
+ * @template [T=Record<string, any>]
+ */
+
+/**
+ * @typedef {CustomEvent<{}> & { detail: { originalEvent: E }, target: CommandSubscriber<T> }} CommandEvent
+ * @template [T=Record<string, any>]
  * @template [E=Event]
  */
 
@@ -29,7 +34,7 @@ export class Command {
 	 */
 	audiences = CommandAudiences;
 
-	/** @type {Element} */
+	/** @type {CommandSubscriber} */
 	subscriber = null;
 
 	/** @type {BrowserCustomizableArea} */
@@ -71,7 +76,7 @@ export class Command {
 
 	/**
 	 * @param {typeof CommandSubscription.prototype} subscription
-	 * @param {Element} subscriber
+	 * @param {CommandSubscriber} subscriber
 	 * @param {BrowserCustomizableArea} area
 	 */
 	constructor(subscription, subscriber, area) {
