@@ -13,7 +13,7 @@ export class CommandSubscription {
 	#commandId = "";
 
 	/** @type {typeof Command.prototype} */
-	#command = null;
+	command = null;
 
 	/** @type {Function} */
 	#callback = null;
@@ -77,7 +77,7 @@ export class CommandSubscription {
 			);
 		}
 
-		this.#command.run.call(this.#command, args);
+		this.command.run.call(this.command, args);
 		this.dispatchInvocation(args);
 	}
 
@@ -94,7 +94,7 @@ export class CommandSubscription {
 		const win = this.#subscriber.ownerGlobal;
 		const gDot = win.gDot;
 
-		this.#command = gDot.commands.registerSubscription(
+		this.command = gDot.commands.registerSubscription(
 			this,
 			subscriber,
 			commandId
@@ -105,9 +105,9 @@ export class CommandSubscription {
 	 * Destroys this subscription
 	 */
 	destroy() {
-		this.#command._destroy();
+		this.command._destroy();
 
-		this.#command = null;
+		this.command = null;
 		this.#subscriber = null;
 		this.#callback = null;
 	}
