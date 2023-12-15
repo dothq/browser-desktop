@@ -2,10 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { ModifierKeyManager } = ChromeUtils.importESModule(
-	"resource://gre/modules/ModifierKeyManager.sys.mjs"
-);
-
 const { CommandSubscription } = ChromeUtils.importESModule(
 	"resource://gre/modules/CommandSubscription.sys.mjs"
 );
@@ -55,13 +51,18 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 			label:
 				this.querySelector(".toolbar-button-label") ||
 				/** @type {HTMLSpanElement} */ (
-					html("span", { class: "toolbar-button-label" })
+					html(
+						"span",
+						{ class: "toolbar-button-label" },
+						this.getAttribute("label") || ""
+					)
 				),
 			icon:
 				this.querySelector(".toolbar-button-icon[active]") ||
 				/** @type {BrowserIcon} */ (
 					html("browser-icon", {
 						class: "toolbar-button-icon",
+						name: this.getAttribute("icon") || "",
 						active: ""
 					})
 				)
@@ -117,6 +118,10 @@ class BrowserToolbarButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Updates the label of the toolbar button
 	 */
 	set label(newLabel) {
+		if (!this.elements.label.isConnected) {
+			this.setAttribute("label", newLabel);
+		}
+
 		this.elements.label.textContent = newLabel;
 		this.title = newLabel;
 	}
