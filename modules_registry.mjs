@@ -40,12 +40,17 @@ const registry = {
 	BrowserCustomizableShared:
 		"components/customizableui/BrowserCustomizableShared.sys.mjs",
 
+	FaviconsDatastore: "components/favicons/FaviconsDatastore.sys.mjs",
+
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",
 
 	BrowserPanels: "components/panels/BrowserPanels.sys.mjs",
 
 	BrowserSearch: "components/search/BrowserSearch.sys.mjs",
+
+	BrowserStorage: "components/storage/BrowserStorage.sys.mjs",
+	Datastore: "components/storage/Datastore.sys.mjs",
 
 	NativeTitlebar: "components/csd/NativeTitlebar.sys.mjs",
 

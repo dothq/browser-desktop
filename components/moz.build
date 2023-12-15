@@ -12,6 +12,7 @@ DIRS += [
     "csd",
     "customizableui",
     "extensions",
+    "favicons",
     "gecko",
     "identity",
     "interstitials",
@@ -23,7 +24,9 @@ DIRS += [
     "settings",
     "shortcuts",
     "startpage",
+    "storage",
     "tabs",
+    "toolbar",
     "widgets",
 ]
 

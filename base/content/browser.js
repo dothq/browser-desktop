@@ -38,6 +38,10 @@ var { BrowserPanels } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserPanels.sys.mjs"
 );
 
+var { BrowserStorage } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserStorage.sys.mjs"
+);
+
 var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
@@ -85,6 +89,9 @@ class BrowserApplication extends BrowserCustomizableArea {
 
 	/** @type {typeof BrowserPanels.prototype} */
 	panels = null;
+
+	/** @type {typeof BrowserStorage.prototype} */
+	storage = null;
 
 	/**
 	 * Determines whether the browser session supports multiple processes
@@ -136,6 +143,17 @@ class BrowserApplication extends BrowserCustomizableArea {
 			"CustomizableUI::DidMount",
 			this.didMount.bind(this)
 		);
+	}
+
+	/**
+	 * The customizable components to inherit from when used in this area
+	 */
+	static get customizableComponents() {
+		return {
+			// Using a toolbar button here, as there's no point
+			// creating a button specifically for root use
+			button: html("button", { is: "browser-toolbar-button" })
+		};
 	}
 
 	/**
@@ -209,6 +227,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 			throw new Error("Browser cannot be initialized twice!");
 		}
 
+		this.storage = new BrowserStorage(window);
 		this.customizable = new BrowserCustomizable(this);
 		this.tabs = new BrowserTabs(window);
 		this.search = new BrowserSearch(window);
