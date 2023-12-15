@@ -72,7 +72,7 @@ BrowserCustomizable.prototype = {
 		} catch (e) {
 			throw new Error(
 				"Failure registering template components:\n" +
-					e +
+					e.toString().replace("Error: ", "") +
 					"\n" +
 					e.stack || ""
 			);
@@ -97,8 +97,10 @@ BrowserCustomizable.prototype = {
 			this.internal.dispatchMountEvent(this.renderRoot);
 		} catch (e) {
 			throw new Error(
-				"Failure registering root component:\n" + e + "\n" + e.stack ||
-					""
+				"Failure registering root component:\n" +
+					e.toString().replace("Error: ", "") +
+					"\n" +
+					e.stack || ""
 			);
 		}
 	},
@@ -106,16 +108,25 @@ BrowserCustomizable.prototype = {
 	/**
 	 * Updates the entire customizable interface
 	 */
-	async _update(boot = false) {
+	async _update(boot = false, reset = false) {
 		try {
 			await this._updateState();
 			await this._paint();
 		} catch (e) {
 			Shared.logger.error("Failure reading customizable state:", e);
 
+			if (boot || !reset) {
+				Services.prompt.alert(
+					this.win,
+					"Dot Browser",
+					"Failure reading customizable state:\n\n" +
+						e.toString().replace("Error: ", "")
+				);
+			}
+
 			if (boot) {
 				await this.internal.resetConfig();
-				await this._update();
+				await this._update(false, true);
 			}
 		}
 	},
