@@ -2,9 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-@import url("chrome://dot/content/widgets/browser-toolbar-button-base.css");
-
-.toolbar-button {
+button[is="browser-toolbar-button"] {
     display: flex;
 
     align-self: stretch;
@@ -30,7 +28,7 @@
     z-index: initial !important;
 }
 
-.toolbar-button .toolbar-button-container {
+button[is="browser-toolbar-button"] .browser-button-container {
     display: flex;
 
     align-items: center;
@@ -55,7 +53,7 @@
     z-index: var(--button-z-index);
 }
 
-.toolbar-button .toolbar-button-label {
+button[is="browser-toolbar-button"] .browser-button-label {
     font-size: var(--content-size);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -63,10 +61,10 @@
     max-width: 100px;
 }
 
-.toolbar-button .toolbar-button-icon {
+button[is="browser-toolbar-button"] .browser-button-icon {
     background-size: var(--button-icon-size, cover);
 }
 
-.toolbar-button[menuactive] {
+button[is="browser-toolbar-button"][menuactive] {
     --button-background: var(--button-active-color) !important;
 }

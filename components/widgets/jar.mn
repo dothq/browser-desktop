@@ -9,20 +9,10 @@ dot.jar:
     content/widgets/browser-icon.js                      (content/browser-icon.js)
     content/widgets/browser-icon.css                     (content/browser-icon.css)
 
-    content/widgets/browser-toolbar.js                   (content/browser-toolbar.js)
-    content/widgets/browser-toolbar.css                  (content/browser-toolbar.css)
-
-    content/widgets/browser-tab-box.js                   (content/browser-tab-box.js)
-    content/widgets/browser-tab-box.css                  (content/browser-tab-box.css)
-
     content/widgets/browser-spring.js                    (content/browser-spring.js)
     content/widgets/browser-spring.css                   (content/browser-spring.css)
 
-    content/widgets/browser-toolbar-button.js            (content/browser-toolbar-button.js)
-    content/widgets/browser-toolbar-button.css           (content/browser-toolbar-button.css)
-
-    content/widgets/browser-toolbar-button-base.css      (content/browser-toolbar-button-base.css)
+    content/widgets/browser-button.js                    (content/browser-button.js)
+    content/widgets/browser-button.css                   (content/browser-button.css)
 
     content/widgets/browser-contextual-element.js        (content/browser-contextual-element.js)
-
-    content/widgets/browser-custom-toolbar-button.js     (content/browser-custom-toolbar-button.js)
