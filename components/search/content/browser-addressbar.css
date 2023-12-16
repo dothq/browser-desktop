@@ -19,4 +19,10 @@
     transition: 0s all 0.01s;
 
     z-index: 2147483647;
+
+    height: calc(var(--area-height) - 6px) !important;
+}
+
+:host(browser-addressbar)::part(customizable) {
+    padding: 2px;
 }
