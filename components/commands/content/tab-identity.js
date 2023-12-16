@@ -90,15 +90,45 @@ export class TabIdentityCommand extends TabCommand {
 	}
 
 	/**
-	 * Fired when the command is performed
-	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
+	 * Opens the identity panel popup
+	 * @param {Event} event
 	 */
-	on_command(event) {
+	_openPanel(event) {
 		this.actions.run("browser.panels.open", {
 			id: "identity-panel",
 
 			opener: event.target,
 			anchor: "before after"
 		});
+	}
+
+	/**
+	 * Opens the site info popup
+	 */
+	_openSiteInfoPopup() {
+		this.logger.info("todo: add site info popup");
+	}
+
+	/**
+	 * Fired when the command is performed
+	 * @param {import("../Command.sys.mjs").CommandEvent<{}, MouseEvent>} event
+	 */
+	on_command(event) {
+		// If the user held shift while activating the command
+		// take them straight to the site info popup
+		if (event.detail?.originalEvent?.shiftKey) {
+			this._openSiteInfoPopup();
+
+			return;
+		}
+
+		switch (this.context.audience) {
+			case this.audiences.PANEL:
+				this._openSiteInfoPopup();
+				break;
+			default:
+				this._openPanel(event);
+				break;
+		}
 	}
 }
