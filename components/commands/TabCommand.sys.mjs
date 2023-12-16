@@ -29,8 +29,8 @@ export class TabCommand extends Command {
 	 * Fired when the state changes the browser in context
 	 * @param {object} data
 	 * @param {ChromeBrowser} data.browser
-	 * @param {nsIWebProgress} data.webProgress
-	 * @param {nsIRequest} data.request
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIWebProgress} data.webProgress
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIRequest} data.request
 	 * @param {number} data.stateFlags
 	 * @param {string} data.status
 	 */

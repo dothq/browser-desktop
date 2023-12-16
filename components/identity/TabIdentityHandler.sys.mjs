@@ -116,8 +116,8 @@ export class TabIdentityHandler {
 	 * Handles Gecko security change events from the browser
 	 * @param {object} data
 	 * @param {ChromeBrowser} data.browser
-	 * @param {nsIWebProgress} data.webProgress
-	 * @param {nsIRequest} data.request
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIWebProgress} data.webProgress
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIRequest} data.request
 	 * @param {number} data.state
 	 */
 	onSecurityChange({ browser, webProgress, request, state }) {

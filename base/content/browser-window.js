@@ -137,8 +137,8 @@ class nsIXULBrowserWindow {
 
 	/**
 	 * Fired when the state of the browser changes
-	 * @param {nsIWebProgress} webProgress
-	 * @param {nsIRequest} request
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIWebProgress} webProgress
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIRequest} request
 	 * @param {number} stateFlags
 	 * @param {number} status
 	 */
@@ -178,8 +178,8 @@ class nsIXULBrowserWindow {
 
 	/**
 	 * Fired when the status of the browser changes
-	 * @param {nsIWebProgress} webProgress
-	 * @param {nsIRequest} request
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIWebProgress} webProgress
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIRequest} request
 	 * @param {number} status
 	 * @param {string} message
 	 */

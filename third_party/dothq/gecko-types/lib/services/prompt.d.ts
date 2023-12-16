@@ -4,6 +4,7 @@
 
 import { BrowsingContext } from "../BrowsingContext";
 import { nsIAuthInformation } from "../nsIAuthInformation";
+import { nsIChannel } from "../nsIChannel";
 
 export interface ServicesPrompt {
 	/**
