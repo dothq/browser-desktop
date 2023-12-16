@@ -14,7 +14,7 @@ class BrowserPanelButton extends BrowserCommandButton {
 	_onPanelButtonCommand(event) {
 		const panelArea = /** @type {BrowserPanelArea} */ (this.host);
 
-		panelArea.panel.hidePopup(true);
+		panelArea.panel.hidePopup(true, true);
 	}
 
 	connectedCallback() {
