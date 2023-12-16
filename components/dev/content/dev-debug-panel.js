@@ -96,6 +96,9 @@ class DeveloperDebugPanel extends MozHTMLElement {
 				)
 			)
 		),
+		active_theme: /** @type {HTMLInputElement} */ (
+			html("select", { class: "dev-active-theme" })
+		),
 
 		open_profile_dir: html(
 			"button",
@@ -107,6 +110,33 @@ class DeveloperDebugPanel extends MozHTMLElement {
 			html("textarea", { readonly: "", rows: 5 })
 		)
 	};
+
+	onAddonEnabled(addon) {
+		if (!addon || addon.type != "theme") return;
+
+		this.renderThemes().then((_) => {
+			this.elements.active_theme.value = addon.id;
+		});
+	}
+
+	async renderThemes() {
+		const allThemes = await AddonManager.getAddonsByTypes(["theme"]);
+
+		// Clear children
+		this.elements.active_theme.replaceChildren();
+
+		for (const theme of allThemes.sort((a, b) =>
+			a.id.localeCompare(b.id)
+		)) {
+			const option = html(
+				"option",
+				{ value: theme.id },
+				`${theme.name} (${theme.id})`
+			);
+
+			this.elements.active_theme.appendChild(option);
+		}
+	}
 
 	resourceUsageInt = null;
 
@@ -172,6 +202,16 @@ class DeveloperDebugPanel extends MozHTMLElement {
 	}
 
 	async init() {
+		const activeTheme = (
+			await AddonManager.getAddonsByTypes(["theme"])
+		).find((ext) => ext.isActive);
+
+		AddonManager.addAddonListener({
+			onEnabled: this.onAddonEnabled.bind(this)
+		});
+
+		this.onAddonEnabled(activeTheme);
+
 		this.resourceUsageInt = setInterval(() => {
 			this.calculateResourceUsage();
 		}, 1000);
@@ -181,6 +221,16 @@ class DeveloperDebugPanel extends MozHTMLElement {
 		setInterval(() => {
 			this.getCustomizableUIData();
 		}, 500);
+
+		this.elements.active_theme.addEventListener("change", async (event) => {
+			const { value } = /** @type {HTMLSelectElement} */ (event.target);
+
+			const addon = await AddonManager.getAddonByID(value);
+
+			if (addon) {
+				addon.enable();
+			}
+		});
 
 		const dotVersion = document.createElement("strong");
 		dotVersion.textContent = `Dot Browser v${DotAppConstants.DOT_APP_VERSION} (${AppConstants.MOZ_BUILDID})`;
@@ -275,6 +325,15 @@ class DeveloperDebugPanel extends MozHTMLElement {
 		);
 
 		this.appendChild(this.elements.user_agent);
+
+		this.appendChild(
+			html(
+				"div",
+				{ class: "dev-active-theme-container" },
+				html("label", {}, "Active Theme:"),
+				this.elements.active_theme
+			)
+		);
 
 		this.appendChild(this.elements.open_link_in);
 
