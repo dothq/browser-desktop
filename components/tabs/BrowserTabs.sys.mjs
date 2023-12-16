@@ -75,11 +75,6 @@ BrowserTabs.prototype = {
 	/** @type {number} */
 	_uniquePanelIdCounter: null,
 
-	/** A mapping between webContentsId -> BrowserTab
-	 * @type {Map<number, BrowserTab>}
-	 * */
-	_tabs: new Map(),
-
 	/**
 	 * A mapping between BrowserTab -> TabProgressListener
 	 * @type {Map<BrowserTab, TabProgressListener>}
@@ -138,11 +133,17 @@ BrowserTabs.prototype = {
 	set selectedTab(tab) {
 		/** @type {BrowserTab} */
 		const oldTab = this._selectedTab;
-		if (oldTab && oldTab.webContentsPanel)
+
+		const isSameTab = oldTab === tab;
+
+		if (!isSameTab && oldTab && oldTab.webContentsPanel)
 			oldTab.webContentsPanel.removeAttribute("visible");
 
 		if (oldTab) {
-			if (this._isWebContentsBrowserElement(oldTab.webContents)) {
+			if (
+				!isSameTab &&
+				this._isWebContentsBrowserElement(oldTab.webContents)
+			) {
 				/** @type {ChromeBrowser} */ (
 					oldTab.webContents
 				).docShellIsActive = false;
@@ -155,7 +156,7 @@ BrowserTabs.prototype = {
 				);
 		}
 
-		if (this._isWebContentsBrowserElement(tab.webContents)) {
+		if (!isSameTab && this._isWebContentsBrowserElement(tab.webContents)) {
 			const browser = /** @type {ChromeBrowser} */ (tab.webContents);
 
 			browser.docShellIsActive = true;
@@ -164,7 +165,7 @@ BrowserTabs.prototype = {
 
 		this._selectedTab = tab;
 
-		if (tab.webContentsPanel) {
+		if (!isSameTab && tab.webContentsPanel) {
 			tab.webContentsPanel.toggleAttribute("visible", true);
 		}
 
