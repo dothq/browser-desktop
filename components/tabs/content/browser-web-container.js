@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserWebFrame extends MozHTMLElement {
+class BrowserWebContainer extends MozHTMLElement {
 	constructor() {
 		super();
 	}
@@ -15,10 +15,7 @@ class BrowserWebFrame extends MozHTMLElement {
 		if (this.delayConnectedCallback()) return;
 
 		// Needed for compatibility with external modules like DevTools
-		this.classList.add("browserStack");
-
-		this.appendChild(html("browser-status"));
-		this.appendChild(html("browser-modals"));
+		this.classList.add("browserContainer");
 	}
 
 	disconnectedCallback() {
@@ -26,4 +23,4 @@ class BrowserWebFrame extends MozHTMLElement {
 	}
 }
 
-customElements.define("browser-web-frame", BrowserWebFrame);
+customElements.define("browser-web-container", BrowserWebContainer);

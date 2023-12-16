@@ -80,10 +80,26 @@ var gBrowser = {
 	},
 
 	/**
+	 * @param {BrowserTab} tab
+	 * @returns {ChromeBrowser}
+	 */
+	getBrowserForTab(tab) {
+		return tab.linkedBrowser;
+	},
+
+	/**
 	 * @param {ChromeBrowser} browser
 	 * @returns {HTMLElement}
 	 */
 	getBrowserContainer(browser) {
+		return this.getPanel(browser).querySelector("browser-web-container");
+	},
+
+	/**
+	 * @param {ChromeBrowser} browser
+	 * @returns {HTMLElement}
+	 */
+	getPanel(browser) {
 		const tab = gDot.tabs.getTabForWebContents(browser);
 		return tab.webContentsPanel;
 	},

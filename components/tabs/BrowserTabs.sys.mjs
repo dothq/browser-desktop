@@ -850,13 +850,18 @@ BrowserTabs.prototype = {
 		const panelId = this._generateUniquePanelID();
 		panel.id = panelId;
 
+		const container = this._win.document.createElement(
+			"browser-web-container"
+		);
+
 		const frame = this._win.document.createElement("browser-web-frame");
 
 		tab.webContents.classList.add("browser-web-contents");
 		frame.appendChild(tab.webContents);
 		tab._webContentsPanelId = panelId;
 
-		panel.appendChild(frame);
+		container.appendChild(frame);
+		panel.appendChild(container);
 		this._tabpanelBoxEl.appendChild(panel);
 
 		if (this._isWebContentsBrowserElement(tab.webContents)) {

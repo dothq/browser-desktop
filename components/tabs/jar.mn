@@ -14,6 +14,8 @@ dot.jar:
     content/widgets/browser-web-panel.js                (content/browser-web-panel.js)
     content/widgets/browser-web-panel.css               (content/browser-web-panel.css)
 
+    content/widgets/browser-web-container.js            (content/browser-web-container.js)
+
     content/widgets/browser-status.js                   (content/browser-status.js)
     content/widgets/browser-status.css                  (content/browser-status.css)
 
