@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { nsIJSIID } from "./nsIJSIID";
 import { nsIURI } from "./nsIURI";
 
 export enum TRRMode {
@@ -11,8 +12,7 @@ export enum TRRMode {
 	TRR_ONLY_MODE = 3
 }
 
-export interface nsIRequest {
-	name: string;
+export interface nsIRequest extends nsIJSIID<"nsIRequest">, Omit<Function, "name">  {
 	isPending: boolean;
 	status: number;
 	cancel(status: number): void;
