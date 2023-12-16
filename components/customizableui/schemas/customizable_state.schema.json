@@ -11,7 +11,14 @@
             "type": "object",
             "patternProperties": {
                 "^.*$": {
-                    "$ref": "#/$defs/component"
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/component"
+                        },
+                        {
+                            "$ref": "#/$defs/components-array"
+                        }
+                    ]
                 }
             }
         },

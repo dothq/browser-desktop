@@ -163,6 +163,12 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
+	 * The styles to use inside this area
+	 * @type {string[]}
+	 */
+	styles = [];
+
+	/**
 	 * The container where customizable elements will be rendered to
 	 */
 	get customizableContainer() {
@@ -180,7 +186,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 *
 	 * @typedef {object} CustomizableAreaContext
 	 * @property {BrowserCustomizableArea} self - The area associated with this context
-	 * @property {number} audience - The audience of this area's context
+	 * @property {string} audience - The audience of this area's context
 	 * @property {BrowserTab} tab - The tab associated with this area
 	 * @property {ChromeBrowser} browser - The browser associated with this area
 	 * @property {Window} window - The window associated with this area
@@ -211,21 +217,21 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	}
 
 	/**
-	 * Gets a part by its defined name
-	 * @param {string} partName
-	 * @returns {Element | DocumentFragment}
-	 */
-	getPartByName(partName) {
-		return this.shadowRoot?.querySelector(`[part="${partName}"]`);
-	}
-
-	/**
 	 * Determines whether a child can be appended to this customizable area
 	 * @param {Element} node
 	 * @param {string} part
 	 */
 	canAppendChild(node, part) {
-		return true;
+		return !!this.shadowRoot;
+	}
+
+	/**
+	 * Renders a registered template
+	 * @param {string} templateId
+	 * @returns {Element | DocumentFragment}
+	 */
+	createTemplateFragment(templateId) {
+		return gDot.customizable.createTemplateFragment(this, templateId);
 	}
 
 	maybeShowDebug() {
@@ -251,6 +257,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 * @param {"horizontal" | "vertical"} [options.orientation] - The default orientation of this area
 	 * @param {string} [options.mode] - The default mode to use for this area
 	 * @param {string[]} [options.styles] - The styles to use within this area
+	 * @param {string} [options.templateId] - The template ID to use for this area
 	 */
 	connect(name, options) {
 		this.name = name;
@@ -259,6 +266,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		if (options?.mode) {
 			this.mode = options?.mode;
 		}
+		this.styles = this.styles.concat(options?.styles || []);
 
 		this.classList.add("customizable-area");
 
@@ -270,6 +278,12 @@ class BrowserCustomizableArea extends MozHTMLElement {
 				})
 			)
 		);
+
+		if (options?.templateId) {
+			const fragment = this.createTemplateFragment(options.templateId);
+
+			this.customizableContainer.appendChild(fragment);
+		}
 
 		Services.prefs.addObserver(
 			"dot.customizable.debug_context.enabled",

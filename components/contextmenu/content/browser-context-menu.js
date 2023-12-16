@@ -10,25 +10,11 @@ class BrowserContextMenu extends BrowserPanelMenu {
 	connectedCallback() {
 		super.connectedCallback();
 
-		this.customizableContainer.append(
-			html(
-				"browser-panel-menuitem",
-				{ type: "group" },
-				html("button", { is: "back-button" }),
-				html("button", { is: "forward-button" }),
-				html("button", { is: "reload-button" }),
-				html("button", { is: "identity-button" })
-			),
-			html("browser-panel-menuitem", { type: "separator" }),
-			html(
-				"browser-panel-menuitem",
-				{ type: "normal" },
-				html("button", { is: "select-all-button" }),
-				html("button", { is: "cut-button" }),
-				html("button", { is: "copy-button" }),
-				html("button", { is: "paste-button" })
-			)
-		);
+		super.connect("context-menu-panel", {
+			templateId: "browser-context-menu",
+			orientation: "vertical",
+			styles: ["chrome://dot/content/widgets/browser-panel-button.css"]
+		});
 	}
 
 	disconnectedCallback() {

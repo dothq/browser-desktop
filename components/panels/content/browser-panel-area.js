@@ -59,11 +59,6 @@ class BrowserPanelArea extends BrowserCustomizableArea {
 	}
 
 	connectedCallback() {
-		super.connect("panel", {
-			orientation: "vertical",
-			styles: ["chrome://dot/content/widgets/browser-panel-button.css"]
-		});
-
 		this.classList.add("browser-panel-container");
 	}
 

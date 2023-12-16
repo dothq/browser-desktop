@@ -44,7 +44,7 @@ BrowserCustomizableInternal.prototype = {
 
 	/**
 	 * A map of reusable templates
-	 * @type {Map<string, Element>}
+	 * @type {Map<string, (area: BrowserCustomizableArea) => DocumentFragment>}
 	 */
 	templates: new Map(),
 
@@ -151,12 +151,19 @@ BrowserCustomizableInternal.prototype = {
 
 		let element;
 
-		if (type.charAt(0) == "@") {
-			const templatedComponent = this.templates
-				.get(type.substring(1))
-				.cloneNode(true);
+		if (type.toString().charAt(0) == "@") {
+			if (!options.area) {
+				throw new Error(
+					`Cannot render template '${type}' outside of an area!`
+				);
+			}
 
-			return /** @type {Element} */ (templatedComponent);
+			const templatedComponent = this.createTemplateFragment(
+				options.area,
+				type.substring(1)
+			);
+
+			return /** @type {any} */ (templatedComponent);
 		}
 
 		element = Components.createWidget(doc, type, attributes, options);
@@ -177,30 +184,69 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
+	 * Determines whether a component is allowed children components
+	 * @param {Element} parentElement
+	 */
+	isChildCapable(parentElement) {
+		return !!Components.childCapableElements
+			.map((tag) => parentElement.ownerGlobal.customElements.get(tag))
+			.find((i) => parentElement instanceof i);
+	},
+
+	/**
+	 * Obtains the nearest area from a supplied parent
+	 *
+	 * This is needed when we want to have children in a component,
+	 * but need to retain area context and components.
+	 * @param {Element} parentElement
+	 * @param {BrowserCustomizableArea} areaForParent
+	 * @returns {BrowserCustomizableArea}
+	 */
+	getNearestArea(parentElement, areaForParent) {
+		const CustomizableArea = this.win.customElements.get(
+			"browser-customizable-area"
+		);
+
+		if (parentElement instanceof CustomizableArea) {
+			return /** @type {BrowserCustomizableArea} */ (parentElement);
+		}
+
+		return areaForParent;
+	},
+
+	/**
+	 * Gets a part by its defined name
+	 * @param {Element} element
+	 * @param {string} partName
+	 * @returns {Element | DocumentFragment}
+	 */
+	getPartByName(element, partName) {
+		return element.shadowRoot?.querySelector(`[part="${partName}"]`);
+	},
+
+	/**
 	 * Appends children to a component
 	 * @param {Element} parentElement
-	 * @param {string} part
 	 * @param {CustomizableComponentDefinition[2]} children
+	 * @param {object} [options]
+	 * @param {string} [options.part]
+	 * @param {BrowserCustomizableArea} [options.areaForParent]
 	 */
-	appendChildrenTo(parentElement, children, part = "content") {
+	appendChildrenTo(parentElement, children, options) {
 		if (!parentElement) {
 			throw new Error(`No parent element to append children to.`);
 		}
+
+		const part = options?.part || "content";
 
 		// We use content as the user-facing part name, but customizable is the internal part name
 		const internalPart = part == "content" ? "customizable" : part;
 
 		if (Array.isArray(children)) {
 			for (let i = 0; i < children.length; i++) {
-				if (
-					!parentElement.shadowRoot ||
-					!(
-						parentElement instanceof
-						this.win.customElements.get("browser-customizable-area")
-					)
-				) {
+				if (!this.isChildCapable(parentElement)) {
 					throw new Error(
-						`Children are not allowed on this component.`
+						`Children are not allowed on the '${parentElement.tagName}' component.`
 					);
 				}
 
@@ -208,17 +254,30 @@ BrowserCustomizableInternal.prototype = {
 				let childComponent = null;
 
 				try {
+					const nearestArea = this.getNearestArea(
+						parentElement,
+						options?.areaForParent
+					);
+
+					if (!nearestArea) {
+						throw new Error(
+							`Unable to locate suitable area for '${parentElement.tagName}'.`
+						);
+					}
+
+					Shared.logger.debug(
+						`Creating child '${child[0]}' using '${nearestArea.tagName}' as the area.`
+					);
+
 					childComponent = this.createComponentFromDefinition(child, {
-						area: /** @type {BrowserCustomizableArea} */ (
-							parentElement
-						)
+						area: nearestArea
 					});
 				} catch (e) {
 					throw new Error(
 						`Failed to create component '${child[0]}${
 							part === "content" ? "" : `[${part}]`
 						}[${i}]':\n` +
-							e.toString().replace("Error: ", "") +
+							e.toString().replace(/^Error: /, "") +
 							"\n\n" +
 							e.stack || ""
 					);
@@ -231,24 +290,28 @@ BrowserCustomizableInternal.prototype = {
 				}
 
 				if (
-					"canAppendChild" &&
-					parentElement &&
-					/** @type {any} */ (parentElement).canAppendChild(
-						childComponent,
-						internalPart
-					)
+					"canAppendChild" in parentElement
+						? /** @type {any} */ (parentElement).canAppendChild(
+								childComponent,
+								internalPart
+						  )
+						: true
 				) {
-					let renderContainer =
-						/** @type {BrowserCustomizableArea} */ (
-							parentElement
-						).getPartByName(internalPart);
+					const renderPart = this.getPartByName(
+						parentElement,
+						internalPart
+					);
+
+					let renderContainer = renderPart
+						? renderPart
+						: parentElement;
 
 					if (
-						!renderContainer ||
+						parentElement.shadowRoot &&
 						!parentElement.shadowRoot.contains(renderContainer)
 					) {
 						throw new Error(
-							`No '${part}' part available to render children to.`
+							`No '${part}' part available to render children to in '${parentElement.tagName}'.`
 						);
 					}
 
@@ -271,13 +334,16 @@ BrowserCustomizableInternal.prototype = {
 					this.dispatchMountEvent(childComponent);
 				} else {
 					throw new Error(
-						`Rendering of children to '${part}' was disallowed.`
+						`Rendering of children to '${part}' was disallowed in '${parentElement.tagName}'.`
 					);
 				}
 			}
 		} else {
 			for (const [part, slottedChildren] of Object.entries(children)) {
-				this.appendChildrenTo(parentElement, slottedChildren, part);
+				this.appendChildrenTo(parentElement, slottedChildren, {
+					...(options || {}),
+					part
+				});
 			}
 		}
 	},
@@ -307,10 +373,9 @@ BrowserCustomizableInternal.prototype = {
 				attributes
 			);
 
-			this.appendChildrenTo(
-				/** @type {BrowserCustomizableArea} */ (component),
-				children
-			);
+			this.appendChildrenTo(component, children, {
+				areaForParent: creationOptions?.area
+			});
 
 			return component;
 		} else {
@@ -351,7 +416,7 @@ BrowserCustomizableInternal.prototype = {
 					`Failed to create component '${child[0]}[${children
 						.filter((c) => c[0] == child[0])
 						.findIndex((c) => c === child)}]':\n` +
-						e.toString().replace("Error: ", "") +
+						e.toString().replace(/^Error: /, "") +
 						"\n\n" +
 						e.stack || ""
 				);
@@ -372,29 +437,97 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
-	 * Registers a new reusable template
-	 * @param {string} name
-	 * @param {CustomizableComponentDefinition} template
+	 * Renders a registered template
+	 * @param {BrowserCustomizableArea} area
+	 * @param {string} templateId
+	 * @returns {Element | DocumentFragment}
 	 */
-	registerTemplate(name, template) {
+	createTemplateFragment(area, templateId) {
+		const { html } = this.win;
+
+		if (!this.templates.has(templateId)) {
+			return html("browser-customizable-area-empty");
+		}
+
+		const templateRenderer = this.templates.get(templateId);
+
+		try {
+			const fragment = templateRenderer.call(this, area);
+
+			return fragment;
+		} catch (e) {
+			throw new Error(
+				`Failed to render template with name '${templateId}':\n` +
+					e.toString().replace(/^Error: /, "") +
+					"\n\n" +
+					e.stack || ""
+			);
+		}
+	},
+
+	/**
+	 * Creates a new template renderer from its component definition
+	 * @param {CustomizableComponentDefinition | CustomizableComponentDefinition[]} template
+	 */
+	createTemplateRenderer(template) {
+		/** @param {BrowserCustomizableArea} area */
+		return (area) => {
+			const templateRoot =
+				area.ownerGlobal.document.createDocumentFragment();
+
+			if (Array.isArray(template)) {
+				templateRoot.replaceChildren(
+					...template.map((child) =>
+						this.createComponentFromDefinition(child, { area })
+					)
+				);
+			} else {
+				templateRoot.appendChild(
+					this.createComponentFromDefinition(template, { area })
+				);
+			}
+
+			return templateRoot;
+		};
+	},
+
+	/**
+	 * Registers a new reusable template
+	 * @param {BrowserCustomizableArea} parent
+	 * @param {string} name
+	 * @param {CustomizableComponentDefinition | CustomizableComponentDefinition[]} template
+	 */
+	registerTemplate(parent, name, template) {
 		if (this.templates.has(name)) {
 			throw new Error(`Template with name '${name}' already exists!`);
 		}
 
-		const component = this.createComponentFromDefinition(template);
+		const renderer = this.createTemplateRenderer(template);
 
-		this.templates.set(name, component);
+		try {
+			renderer.call(this, parent);
+		} catch (e) {
+			throw new Error(
+				`Failed to create template with name '${name}':\n` +
+					e.toString().replace(/^Error: /, "") +
+					"\n\n" +
+					e.stack || ""
+			);
+		}
+
+		this.templates.set(name, renderer);
 	},
 
 	/**
 	 * Registers templates using a KV map
+	 * @param {BrowserCustomizableArea} parent
 	 * @param {Record<string, CustomizableComponentDefinition>} templates
 	 */
-	registerNamedTemplates(templates) {
+	registerNamedTemplates(parent, templates) {
 		this.templates.clear();
 
 		for (const [name, template] of Object.entries(templates)) {
-			this.registerTemplate(name, template);
+			this.registerTemplate(parent, name, template);
 		}
 	},
 

@@ -2,11 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const AreaButton = {
-	create(base) {}
-};
+const { BrowserCustomizableShared: Shared } = ChromeUtils.importESModule(
+	"resource://gre/modules/BrowserCustomizableShared.sys.mjs"
+);
 
 export const BrowserCustomizableComponents = {
+	/**
+	 * A list of all elements that can have children
+	 */
+	get childCapableElements() {
+		return ["browser-customizable-area", "browser-panel-menuitem"];
+	},
+
 	/**
 	 * Creates a new area using its area ID and optional arguments
 	 * @param {Document} doc
@@ -30,9 +37,12 @@ export const BrowserCustomizableComponents = {
 	 * Creates a new widget using the area's own component suite
 	 * @param {BrowserCustomizableArea} area
 	 * @param {string} widgetId
-	 * @param {Record<string, any>} [args]
 	 */
-	createWidgetFromAreaComponents(area, widgetId, args) {
+	createWidgetFromAreaComponents(area, widgetId) {
+		Shared.logger.debug(
+			`Creating widget '${widgetId}' from components on '${area.tagName}'.`
+		);
+
 		const areaComponents = /** @type {typeof BrowserCustomizableArea} */ (
 			area.constructor
 		).customizableComponents;
@@ -80,8 +90,7 @@ export const BrowserCustomizableComponents = {
 				if (options && options.area) {
 					const areaComponent = this.createWidgetFromAreaComponents(
 						options.area,
-						widgetId,
-						args
+						widgetId
 					);
 
 					if (areaComponent) return areaComponent;

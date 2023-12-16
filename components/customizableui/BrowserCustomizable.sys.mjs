@@ -11,7 +11,7 @@ const { BrowserCustomizableShared: Shared } = ChromeUtils.importESModule(
 );
 
 /**
- * @param {Element} renderRoot
+ * @param {BrowserCustomizableArea} renderRoot
  */
 export function BrowserCustomizable(renderRoot) {
 	this.init(renderRoot);
@@ -31,7 +31,7 @@ BrowserCustomizable.prototype = {
 
 	/**
 	 * The element to render the customizable interface to
-	 * @type {Element}
+	 * @type {BrowserCustomizableArea}
 	 */
 	renderRoot: null,
 
@@ -68,11 +68,11 @@ BrowserCustomizable.prototype = {
 			`Registering ${Object.keys(templates).length} templates...`
 		);
 		try {
-			this.internal.registerNamedTemplates(templates);
+			this.internal.registerNamedTemplates(this.renderRoot, templates);
 		} catch (e) {
 			throw new Error(
 				"Failure registering template components:\n" +
-					e.toString().replace("Error: ", "") +
+					e.toString().replace(/^Error: /, "") +
 					"\n" +
 					e.stack || ""
 			);
@@ -98,7 +98,7 @@ BrowserCustomizable.prototype = {
 		} catch (e) {
 			throw new Error(
 				"Failure registering root component:\n" +
-					e.toString().replace("Error: ", "") +
+					e.toString().replace(/^Error: /, "") +
 					"\n" +
 					e.stack || ""
 			);
@@ -120,7 +120,7 @@ BrowserCustomizable.prototype = {
 					this.win,
 					"Dot Browser",
 					"Failure reading customizable state:\n\n" +
-						e.toString().replace("Error: ", "")
+						e.toString().replace(/^Error: /, "")
 				);
 			}
 
@@ -142,8 +142,17 @@ BrowserCustomizable.prototype = {
 	},
 
 	/**
+	 * Renders a template with customizable area context
+	 * @param {BrowserCustomizableArea} area
+	 * @param {string} templateId
+	 */
+	createTemplateFragment(area, templateId) {
+		return this.internal.createTemplateFragment(area, templateId);
+	},
+
+	/**
 	 * Initialises the BrowserCustomizable class
-	 * @param {Element} renderRoot
+	 * @param {BrowserCustomizableArea} renderRoot
 	 */
 	async init(renderRoot) {
 		if (this.renderRoot)
