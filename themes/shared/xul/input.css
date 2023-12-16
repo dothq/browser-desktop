@@ -117,7 +117,7 @@ select:focus-visible,
 xul|button:focus-visible:not(:is(:active, [active], [mouseactive])),
 html|button:focus-visible:not(:is(:active, [active], [mouseactive])),
 html|select:focus-visible {
-    --button-background: var(--button-default-color);
+    --button-background: var(--button-hover-color);
 
     --button-outline: 2px solid AccentColor;
     --button-outline-offset: 2px;
