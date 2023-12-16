@@ -15,7 +15,7 @@ const { DOMUtils } = ChromeUtils.importESModule(
 );
 
 /**
- * @typedef {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"] & { commandArgs: T }} CommandSubscriber
+ * @typedef {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"] & { commandArgs?: T }} CommandSubscriber
  * @template [T=Record<string, any>]
  */
 

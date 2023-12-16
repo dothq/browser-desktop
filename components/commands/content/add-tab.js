@@ -75,7 +75,7 @@ export class AddTabCommand extends Command {
 		let urls = [];
 		let where = "tab";
 
-		if (args.url) {
+		if (args && args.url) {
 			if (Array.isArray(args.url)) {
 				urls = args.url;
 				where = "tab";
