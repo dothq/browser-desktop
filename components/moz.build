@@ -13,7 +13,6 @@ DIRS += [
     "customizableui",
     "extensions",
     "favicons",
-    "gecko",
     "identity",
     "interstitials",
     "navigation",

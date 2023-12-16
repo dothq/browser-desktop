@@ -6,8 +6,6 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-    content/widgets/browser-settings-button.js        (content/browser-settings-button.js)
-
     content/settings/settings.html                    (content/settings.html)
     content/settings/settings.css                     (content/settings.css)
     content/settings/settings.js                      (content/settings.js)

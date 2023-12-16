@@ -7,5 +7,3 @@
 EXTRA_JS_MODULES += [
     "NavigationHelper.sys.mjs",
 ]
-
-JAR_MANIFESTS += ["jar.mn"]
