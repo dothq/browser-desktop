@@ -186,18 +186,13 @@ BrowserTabs.prototype = {
 		) {
 			const browser = /** @type {ChromeBrowser} */ (tab.webContents);
 
-			const { STATE_START, STATE_STOP, STATE_IS_NETWORK } =
-				Ci.nsIWebProgressListener;
-
 			this._callProgressListenerEvent(
 				browser,
 				"onStateChange",
 				browser.webProgress,
 				null,
-				tab.progress && !this.isBusy
-					? STATE_START | STATE_IS_NETWORK
-					: STATE_STOP | STATE_IS_NETWORK,
-				""
+				listener.stateFlags,
+				listener.status
 			);
 		}
 	},
