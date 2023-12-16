@@ -8,20 +8,23 @@ export class DotContextMenuParent extends JSWindowActorParent {
 		if (message.name !== "contextmenu") return;
 
 		const browser = this.manager.rootFrameLoader.ownerElement;
-		const win = browser.ownerGlobal.top;
+		const win = browser.ownerGlobal;
 
-		const { x, y, context } = message.data;
+		// Make sure this browser belongs to us before we open the panel
+		if (win.gDot.tabs.getTabForWebContents(browser)) {
+			const { x, y, context } = message.data;
 
-		const panel = win.gDot.panels.getPanelById("browser-context-menu");
+			const panel = win.gDot.panels.getPanelById("browser-context-menu");
 
-		panel.openPanel({
-			coordMode: "screen",
+			panel.openPanel({
+				coordMode: "screen",
 
-			x: x,
-			y: y,
+				x: x,
+				y: y,
 
-			args: context
-		});
+				args: context
+			});
+		}
 	}
 
 	hiding() {
