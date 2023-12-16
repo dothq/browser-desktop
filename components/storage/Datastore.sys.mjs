@@ -125,7 +125,7 @@ export class Datastore {
 		}
 	}
 
-	async #migrateDatabase() {}
+	async #migrateDatabase(localVersion) {}
 
 	async initConnection() {
 		this.#logger.debug(
