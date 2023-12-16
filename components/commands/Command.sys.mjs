@@ -14,6 +14,10 @@ const { DOMUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/DOMUtils.sys.mjs"
 );
 
+const { ConsoleAPI } = ChromeUtils.importESModule(
+	"resource://gre/modules/Console.sys.mjs"
+);
+
 /**
  * @typedef {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"] & { commandArgs?: T }} CommandSubscriber
  * @template [T=Record<string, any>]
@@ -54,6 +58,20 @@ export class Command {
 	}
 
 	/**
+	 * The logger singleton for the command
+	 * @type {Console}
+	 */
+	get logger() {
+		if (this._logger) return this._logger;
+
+		return (this._logger = new ConsoleAPI({
+			maxLogLevel: "warn",
+			maxLogLevelPref: "dot.commands.loglevel",
+			prefix: this.constructor.name
+		}));
+	}
+
+	/**
 	 * Creates an empty map for command attributes
 	 * @returns {Map<string, any>}
 	 */
@@ -64,14 +82,6 @@ export class Command {
 				[this.area.context.audience]: null
 			})
 		);
-	}
-
-	/**
-	 * Determines whether we can show logs for command dispatches
-	 * @returns {boolean}
-	 */
-	canLog() {
-		return Services.prefs.getBoolPref("dot.commands.log.enabled", false);
 	}
 
 	/**
@@ -143,11 +153,9 @@ export class Command {
 	 * @param {Event} event
 	 */
 	_handleSubscriberEvent(event) {
-		if (this.canLog()) {
-			console.log(
-				`BrowserCommands: Triggering subscriber event '${event.type}' on ${this.constructor.name}.`
-			);
-		}
+		this.logger.debug(
+			`Triggering subscriber event '${event.type}' on ${this.constructor.name}.`
+		);
 
 		if (`on_${event.type}` in this) {
 			const method = this[`on_${event.type}`];
@@ -221,11 +229,9 @@ export class Command {
 			const oldValue = attributeMap.get(audience);
 			attributeMap.set(audience, audienceValue);
 
-			if (this.canLog()) {
-				console.log(
-					`Command: Dispatching mutation of '${attribute}' to '${audienceValue}' on audience '${audience}'.`
-				);
-			}
+			this.logger.debug(
+				`Dispatching mutation of '${attribute}' to '${audienceValue}' on audience '${audience}'.`
+			);
 
 			this.#subscription.dispatchMutation(
 				audience,

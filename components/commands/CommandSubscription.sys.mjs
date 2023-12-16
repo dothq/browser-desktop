@@ -6,6 +6,10 @@ const { Command } = ChromeUtils.importESModule(
 	"resource://gre/modules/Command.sys.mjs"
 );
 
+const { ConsoleAPI } = ChromeUtils.importESModule(
+	"resource://gre/modules/Console.sys.mjs"
+);
+
 export class CommandSubscription {
 	/** @type {ReturnType<typeof BrowserContextualMixin<typeof Element>>["prototype"]} */
 	#subscriber = null;
@@ -19,11 +23,17 @@ export class CommandSubscription {
 	#callback = null;
 
 	/**
-	 * Determines whether we can show logs for command dispatches
-	 * @returns {boolean}
+	 * The logger singleton for the command subscription
+	 * @type {Console}
 	 */
-	canLog() {
-		return Services.prefs.getBoolPref("dot.commands.log.enabled", false);
+	get logger() {
+		if (this._logger) return this._logger;
+
+		return (this._logger = new ConsoleAPI({
+			maxLogLevel: "warn",
+			maxLogLevelPref: "dot.commands.loglevel",
+			prefix: `${this.constructor.name} (${this.#commandId})`
+		}));
 	}
 
 	/**
@@ -34,15 +44,11 @@ export class CommandSubscription {
 	 * @param {any} newValue
 	 */
 	dispatchMutation(audience, attributeName, oldValue, newValue) {
-		if (this.canLog()) {
-			console.log(
-				`${this.constructor.name} (${
-					this.#commandId
-				}): Dispatching command mutation '${attributeName} = ${JSON.stringify(
-					newValue
-				)}'`
-			);
-		}
+		this.logger.debug(
+			`Dispatching command mutation '${attributeName} = ${JSON.stringify(
+				newValue
+			)}'`
+		);
 
 		this.#callback.call(null, audience, attributeName, newValue);
 	}
@@ -69,13 +75,7 @@ export class CommandSubscription {
 	 * @param {Record<string, any>} [args]
 	 */
 	invoke(args = {}) {
-		if (this.canLog()) {
-			console.log(
-				`${this.constructor.name} (${
-					this.#commandId
-				}): Invoking command`
-			);
-		}
+		this.logger.debug("Invoking command");
 
 		this.command.run.call(this.command, args);
 		this.dispatchInvocation(args);

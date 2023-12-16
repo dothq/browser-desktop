@@ -274,7 +274,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		this.registerHandle("dot.window.use-native-titlebar", false);
 		this.registerHandle("dot.tabs.debug_information.visible", false);
 		this.registerHandle("dot.customizable.debug_context.enabled", false);
-		this.registerHandle("dot.commands.log.enabled", false);
+		this.registerHandle("dot.commands.loglevel", LOG_LEVELS);
 		this.registerHandle("dot.panels.debug_information.visible", false);
 		this.registerHandle("dot.tabs.in_animation_duration_ms", 50);
 		this.registerHandle("dot.tabs.out_animation_duration_ms", 30);
