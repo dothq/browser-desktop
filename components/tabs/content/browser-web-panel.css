@@ -20,6 +20,7 @@ browser-web-panel browser-web-container {
 
 browser-web-panel:not([visible]) {
     z-index: -2147483647;
+    pointer-events: none;
 }
 
 browser-web-panel browser-web-container {
