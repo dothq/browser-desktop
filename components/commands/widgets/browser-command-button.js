@@ -51,7 +51,7 @@ class BrowserCommandButton extends BrowserButton {
 	/**
 	 * Handles incoming mutations to the attached command
 	 *
-	 * @param {number} audience
+	 * @param {string} audience
 	 * @param {any} attributeName
 	 * @param {any} value
 	 */

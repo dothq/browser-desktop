@@ -21,6 +21,7 @@ const registry = {
 
 	BrowserCommands: "components/commands/BrowserCommands.sys.mjs",
 	Command: "components/commands/Command.sys.mjs",
+	CommandAudiences: "components/commands/CommandAudiences.sys.mjs",
 	CommandSubscription: "components/commands/CommandSubscription.sys.mjs",
 	GeckoCommand: "components/commands/GeckoCommand.sys.mjs",
 	TabCommand: "components/commands/TabCommand.sys.mjs",
