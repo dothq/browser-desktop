@@ -44,9 +44,10 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		}
 	}
 
-	getInputTypeForType(type) {
+	getInputTypeForType(type, value) {
 		switch (type) {
 			case "string":
+				if (Array.isArray(value)) return "select";
 				return "text";
 			case "boolean":
 				return "checkbox";
@@ -59,11 +60,11 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		let attributes = {
 			value: null,
 			type: null,
-			inputType: null,
+			inputType: this.handles.get(prefId)?.inputType,
 			locked: Services.prefs.prefIsLocked(prefId)
 		};
 
-		const { PREF_BOOL, PREF_INT } = Ci.nsIPrefBranch;
+		const { PREF_BOOL, PREF_INT, PREF_STRING } = Ci.nsIPrefBranch;
 
 		const prefTypeInt = Services.prefs.getPrefType(prefId);
 
@@ -79,8 +80,10 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		}
 
 		if (!attributes.type) {
-			if (typeof defaultValue !== "undefined") {
-				attributes.type = typeof defaultValue;
+			if (defaultValue !== null) {
+				attributes.type = Array.isArray(defaultValue)
+					? "string"
+					: typeof defaultValue;
 				attributes.value = defaultValue;
 			} else {
 				try {
@@ -90,13 +93,17 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 			}
 		}
 
-		attributes.inputType = this.getInputTypeForType(attributes.type);
+		attributes.inputType = this.getInputTypeForType(
+			attributes.type,
+			attributes.value
+		);
 
 		return attributes;
 	}
 
 	getPrefValue(prefId) {
-		return this.getPrefAttributes(prefId).value;
+		const value = this.getPrefAttributes(prefId).value;
+		return value;
 	}
 
 	registerHandle(prefId, defaultValue = null) {
@@ -130,8 +137,17 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		}
 
 		const handleInputEl = /** @type {HTMLInputElement} */ (
-			html("input", handleInputAttrs)
+			html(
+				prefAttributes.inputType == "select" ? "select" : "input",
+				handleInputAttrs
+			)
 		);
+
+		if (prefAttributes.inputType == "select") {
+			for (const opt of prefAttributes.value) {
+				handleInputEl.appendChild(html("option", { value: opt }, opt));
+			}
+		}
 
 		handleInputEl.addEventListener("change", (e) => {
 			switch (prefAttributes.type) {
@@ -160,7 +176,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 			defaultValue
 		});
 
-		this.setHandleValue(prefId, prefAttributes.value);
+		this.setHandleValue(prefId, this.getPrefValue(prefId));
 
 		handleEl.appendChild(handleInputEl);
 
@@ -233,6 +249,27 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 			}
 		});
 
+		const LOG_LEVELS = [
+			"all",
+			"debug",
+			"log",
+			"info",
+			"clear",
+			"trace",
+			"timeEnd",
+			"time",
+			"assert",
+			"group",
+			"groupEnd",
+			"profile",
+			"profileEnd",
+			"dir",
+			"dirxml",
+			"warn",
+			"error",
+			"off"
+		];
+
 		// Preference handles:
 		this.registerHandle("dot.window.use-native-titlebar", false);
 		this.registerHandle("dot.tabs.debug_information.visible", false);
@@ -241,6 +278,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		this.registerHandle("dot.panels.debug_information.visible", false);
 		this.registerHandle("dot.tabs.in_animation_duration_ms", 50);
 		this.registerHandle("dot.tabs.out_animation_duration_ms", 30);
+		this.registerHandle("dot.customizable.loglevel", LOG_LEVELS);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}
