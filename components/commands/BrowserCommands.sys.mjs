@@ -22,6 +22,7 @@ const ALL_COMMANDS = [
 	"close-tab",
 	"go-back",
 	"go-forward",
+	"inspect",
 	"reload-tab",
 	"tab-identity"
 ];

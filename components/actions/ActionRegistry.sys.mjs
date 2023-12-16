@@ -10,6 +10,9 @@ const ALL_ACTIONS = [
 	// browser.content
 	"browser.content.command",
 
+	// browser.developer
+	"browser.developer.inspect",
+
 	// browser.panels
 	"browser.panels.open",
 
