@@ -1,0 +1,18 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+button[is=browser-tab-button] {
+    padding: 0px;
+
+    min-height: 0px;
+    min-width: 0px;
+
+    --button-default-color: transparent;
+
+    padding: 2%;
+
+    & .browser-button-icon {
+        --size: 14px;
+    }
+}
