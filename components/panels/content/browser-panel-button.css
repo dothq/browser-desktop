@@ -11,6 +11,7 @@ button[is=browser-panel-button] {
     padding: 0px 10px;
 
     --button-default-color: transparent;
+    --button-outline-offset: -2px !important;
 
     & .browser-button-container {
         display: flex;
