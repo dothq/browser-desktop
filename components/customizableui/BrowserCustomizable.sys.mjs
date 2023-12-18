@@ -26,8 +26,9 @@ BrowserCustomizable.prototype = {
 
 	/**
 	 * The current stored customizable state
+	 * @type {object}
 	 */
-	state: {},
+	state: null,
 
 	/**
 	 * The element to render the customizable interface to
@@ -46,10 +47,45 @@ BrowserCustomizable.prototype = {
 	},
 
 	/**
+	 * Updates the customizable UI state
+	 * @param {object} data
+	 * @param {boolean} [permanent]
+	 */
+	async setState(data, permanent = false) {
+		const newState = await this.internal.parseConfig(data);
+
+		if (!newState) {
+			throw new Error("Failed to parse customizable state.");
+		}
+
+		this.state = data;
+
+		if (permanent) {
+			Services.prefs.setStringPref(
+				Shared.customizableStatePref,
+				JSON.stringify(data)
+			);
+		}
+
+		return this.state;
+	},
+
+	/**
 	 * Refetches and validates the customizable state
 	 */
 	async _updateState() {
-		const newState = await this.internal.parseConfig();
+		const serialized = Services.prefs.getStringPref(
+			Shared.customizableStatePref,
+			"{}"
+		);
+
+		try {
+			this.state = JSON.parse(serialized);
+		} catch (e) {
+			throw new Error("Failed to parse customizable state.");
+		}
+
+		const newState = await this.internal.parseConfig(this.state);
 
 		if (!newState) {
 			throw new Error("Failed to parse customizable state.");
@@ -110,7 +146,8 @@ BrowserCustomizable.prototype = {
 	 */
 	async _update(boot = false, reset = false) {
 		try {
-			await this._updateState();
+			if (!this.state) this._updateState();
+
 			await this._paint();
 		} catch (e) {
 			Shared.logger.error("Failure reading customizable state:", e);
@@ -122,11 +159,6 @@ BrowserCustomizable.prototype = {
 					"Failure reading customizable state:\n\n" +
 						e.toString().replace(/^Error: /, "")
 				);
-			}
-
-			if (boot) {
-				await this.internal.resetConfig();
-				await this._update(false, true);
 			}
 		}
 	},
