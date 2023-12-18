@@ -94,6 +94,6 @@ export class LinkHandlerParent extends JSWindowActorParent {
 
 		if (!canUseForTab) return;
 
-		gDot.tabs.setIcon(tab, iconURL);
+		tab.updateIcon(iconURL);
 	}
 }
