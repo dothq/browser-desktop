@@ -31,4 +31,6 @@ export interface nsIDocShell {
     doCommandWithParams(command: string, params: /* @todo nsICommandParams */ any): void;
 
     QueryInterface: (obj: any) => any;
+
+    isLoadingDocument: boolean;
 }

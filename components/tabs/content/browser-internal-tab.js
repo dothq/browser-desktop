@@ -429,6 +429,7 @@ class BrowserTab extends MozElements.MozTab {
 
 		const shouldHideIcon =
 			(!iconURI.length || iconURI == BrowserTabsUtils.DEFAULT_TAB_ICON) &&
+			!this.linkedBrowser?.docShell?.isLoadingDocument &&
 			!initial;
 
 		if (shouldHideIcon) {
