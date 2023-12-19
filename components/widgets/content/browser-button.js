@@ -78,7 +78,7 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			if (uri.spec) {
 				this.elements.icon.style.setProperty(
 					"--src",
-					`url(${CSS.escape(newIcon)})`
+					`url("${CSS.escape(newIcon)}")`
 				);
 			}
 		} catch (e) {}
