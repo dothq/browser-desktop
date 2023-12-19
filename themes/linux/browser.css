@@ -17,8 +17,19 @@
         background-color: -moz-headerbar;
     }
 
-    :root:not([chromemargin=""])[chromemargin][sizemode="normal"]:not([gtktiledwindow="true"]) body {
-        border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
-        border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
+    :root:not([chromemargin=""])[chromemargin][sizemode="normal"]:not([gtktiledwindow="true"]) {
+        @media (-moz-bool-pref: "widget.gtk.rounded-bottom-corners.enabled") {
+
+            body,
+            dialog::backdrop {
+                border-radius: env(-moz-gtk-csd-titlebar-radius) !important;
+            }
+        }
+
+        body,
+        dialog::backdrop {
+            border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
+            border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
+        }
     }
 }
