@@ -85,22 +85,9 @@ BrowserCustomizableInternal.prototype = {
 	 * Parses the current customizable state preference
 	 * @returns {Promise<object>}
 	 */
-	async parseConfig() {
-		const serialized = Services.prefs.getStringPref(
-			Shared.customizableStatePref,
-			"{}"
-		);
-
-		let data = {};
-
-		try {
-			data = JSON.parse(serialized);
-		} catch (e) {
-			throw e;
-		}
-
+	async parseConfig(config) {
 		return this.ensureStateSchema().then((_) => {
-			return this._validate(this.stateSchema, data);
+			return this._validate(this.stateSchema, config);
 		});
 	},
 
@@ -443,10 +430,8 @@ BrowserCustomizableInternal.prototype = {
 	 * @returns {Element | DocumentFragment}
 	 */
 	createTemplateFragment(area, templateId) {
-		const { html } = this.win;
-
 		if (!this.templates.has(templateId)) {
-			return html("browser-customizable-area-empty");
+			return document.createDocumentFragment();
 		}
 
 		const templateRenderer = this.templates.get(templateId);
