@@ -106,7 +106,12 @@ export class TabIdentityCommand extends TabCommand {
 	 * Opens the site info popup
 	 */
 	_openSiteInfoPopup() {
-		this.logger.info("todo: add site info popup");
+		this.window.openDialog(
+			"chrome://browser/content/pageinfo/pageInfo.xhtml",
+			"",
+			"chrome,toolbar,dialog=no,resizable",
+			{ browser: this.context.browser }
+		);
 	}
 
 	/**
