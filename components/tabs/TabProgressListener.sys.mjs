@@ -208,16 +208,17 @@ export class TabProgressListener {
 					).mIconURL = null;
 				}
 
-				this.win.gDot.tabs.setIcon(this.tab, "");
+				this.tab.updateIcon(null);
 				this.tab._initialURI = null;
 			}
 		} else if (stateFlags & STATE_STOP && stateFlags & STATE_IS_NETWORK) {
-			if (
-				this.tab.progress &&
-				BrowserTabsUtils.shouldShowProgress(
-					/** @type {nsIChannel} */ (request)
-				)
-			) {
+			const burstTimeout = BrowserTabsUtils.shouldShowProgress(
+				/** @type {nsIChannel} */ (request)
+			)
+				? 300
+				: 0;
+
+			if (this.tab.progress) {
 				this.tab.progressPercent = 100;
 				this.tab.progress = TAB_PROGRESS_TRANSIT;
 
@@ -230,8 +231,8 @@ export class TabProgressListener {
 						clearTimeout(this._burstInt);
 
 						this.tab.progressPercent = 0;
-					}, 300);
-				}, 300);
+					}, burstTimeout);
+				}, burstTimeout);
 			}
 
 			this.tab.updateLabel("");
