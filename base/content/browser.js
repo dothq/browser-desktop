@@ -61,10 +61,6 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.toolbarMutationObserver = new MutationObserver(
 			this.maybePromoteToolbars.bind(this)
 		);
-
-		this.customizableContainer.appendChild(
-			html("browser-customizable-area-empty")
-		);
 	}
 
 	_done = false;
