@@ -25,12 +25,12 @@ export const BrowserCustomizableComponents = {
 		const { html } = win;
 
 		const elementMapping = {
-			toolbar: "browser-toolbar",
-			addressbar: "browser-addressbar",
-			tabs: "browser-tabs"
+			toolbar: () => html("browser-toolbar"),
+			addressbar: () => html("browser-addressbar"),
+			tabs: () => html("browser-tabs")
 		};
 
-		return areaId in elementMapping ? html(elementMapping[areaId]) : null;
+		return areaId in elementMapping ? elementMapping[areaId]() : null;
 	},
 
 	/**
