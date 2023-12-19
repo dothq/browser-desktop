@@ -17,19 +17,22 @@
 
 var gBrowser = {
 	get tabs() {
-		return gDot.tabs.list;
+		return gDot?.tabs?.list || [];
 	},
 
 	get visibleTabs() {
-		return gDot.tabs.visibleTabs;
+		return gDot?.tabs?.visibleTabs || [];
 	},
 
 	get browsers() {
-		return gDot.tabs.list.map((t) => t.linkedBrowser);
+		return gDot?.tabs?.list?.map((t) => t.linkedBrowser) || [];
 	},
 
 	get currentURI() {
-		if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
+		if (
+			!gDot?.tabs ||
+			!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)
+		) {
 			return Services.io.newURI("about:blank");
 		}
 
@@ -37,7 +40,10 @@ var gBrowser = {
 	},
 
 	get contentPrincipal() {
-		if (!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)) {
+		if (
+			!gDot?.tabs ||
+			!gDot.tabs._isWebContentsBrowserElement(this.selectedBrowser)
+		) {
 			return null;
 		}
 
@@ -46,7 +52,7 @@ var gBrowser = {
 	},
 
 	get selectedTab() {
-		return gDot.tabs.selectedTab;
+		return gDot?.tabs?.selectedTab || null;
 	},
 
 	set selectedTab(newTab) {
@@ -54,7 +60,7 @@ var gBrowser = {
 	},
 
 	get selectedBrowser() {
-		return gDot.tabs.selectedTab.webContents;
+		return this.selectedTab.webContents;
 	},
 
 	get ownerGlobal() {
