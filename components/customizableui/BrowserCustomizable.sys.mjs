@@ -146,7 +146,7 @@ BrowserCustomizable.prototype = {
 	 */
 	async _update(boot = false, reset = false) {
 		try {
-			if (!this.state) this._updateState();
+			if (!this.state) await this._updateState();
 
 			await this._paint();
 		} catch (e) {
