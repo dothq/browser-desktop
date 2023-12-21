@@ -193,8 +193,6 @@ class BrowserApplication extends BrowserCustomizableArea {
 	 * the top of the window, to keep the CSD position consistent
 	 */
 	maybePromoteToolbars() {
-		console.log("maybepromotetoolbars");
-
 		const toolbars = DOMUtils.shadowedQuerySelectorAll(
 			this,
 			"browser-toolbar"

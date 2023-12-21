@@ -143,14 +143,6 @@ var gDotInit = {
 	_canBlur: true,
 
 	onBeforeInitialXULLayout() {
-		// Add an observer to watch all pref changes.
-		Services.prefs.addObserver("", (...args) => console.log(...args));
-
-		Services.obs.addObserver(
-			(...args) => console.log(...args),
-			"look-and-feel-changed"
-		);
-
 		// Set a sane starting width/height for all resolutions on new profiles.
 		if (Services.prefs.getBoolPref("privacy.resistFingerprinting")) {
 			// When the fingerprinting resistance is enabled, making sure that we don't
@@ -450,8 +442,6 @@ var gDotInit = {
 	},
 
 	doDelayedStartup() {
-		console.log("doDelayedStartup");
-
 		// Cancel delayed startup to avoid duplicate calls to this function
 		this.cancelDelayedStartup();
 
