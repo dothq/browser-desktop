@@ -31,6 +31,14 @@ const {
 	STATE_CERT_USER_OVERRIDDEN
 } = Ci.nsIWebProgressListener;
 
+const DEFAULT_SEARCH_STATE = {
+	type: "search",
+	icon: "search",
+	label: "",
+	tooltip: "",
+	mode: "icons"
+};
+
 export class TabIdentityHandler {
 	/** @type {BrowserTab} */
 	tab = null;
@@ -38,27 +46,27 @@ export class TabIdentityHandler {
 	/**
 	 * The type of identity for the tab
 	 */
-	type = null;
+	type = DEFAULT_SEARCH_STATE.type;
 
 	/**
 	 * The icon to use for this tab identity
 	 */
-	icon = null;
+	icon = DEFAULT_SEARCH_STATE.icon;
 
 	/**
 	 * The label to use for this tab identity
 	 */
-	label = null;
+	label = DEFAULT_SEARCH_STATE.label;
 
 	/**
 	 * The tooltip to use for this tab identity
 	 */
-	tooltip = null;
+	tooltip = DEFAULT_SEARCH_STATE.tooltip;
 
 	/**
 	 * The icon mode to use for this tab identity
 	 */
-	mode = null;
+	mode = DEFAULT_SEARCH_STATE.mode;
 
 	/**
 	 * The browser element for this tab
@@ -86,30 +94,42 @@ export class TabIdentityHandler {
 	 * Determines whether the user wants to show the insecure connection icon
 	 */
 	get insecureConnectionIconEnabled() {
-		return (
-			Services.prefs.getBoolPref(
-				"security.insecure_connection_icon.enabled"
-			) ||
-			(PrivateBrowsingUtils.isWindowPrivate(this.win) &&
+		try {
+			return (
 				Services.prefs.getBoolPref(
-					"security.insecure_connection_icon.pbmode.enabled"
-				))
-		);
+					"security.insecure_connection_icon.enabled"
+				) ||
+				(PrivateBrowsingUtils.isWindowPrivate(this.win) &&
+					Services.prefs.getBoolPref(
+						"security.insecure_connection_icon.pbmode.enabled"
+					))
+			);
+		} catch (e) {
+			console.warn(e);
+
+			return false;
+		}
 	}
 
 	/**
 	 * Determines whether the user wants to show the insecure connection label
 	 */
 	get insecureConnectionTextEnabled() {
-		return (
-			Services.prefs.getBoolPref(
-				"security.insecure_connection_text.enabled"
-			) ||
-			(PrivateBrowsingUtils.isWindowPrivate(this.win) &&
+		try {
+			return (
 				Services.prefs.getBoolPref(
-					"security.insecure_connection_text.pbmode.enabled"
-				))
-		);
+					"security.insecure_connection_text.enabled"
+				) ||
+				(PrivateBrowsingUtils.isWindowPrivate(this.win) &&
+					Services.prefs.getBoolPref(
+						"security.insecure_connection_text.pbmode.enabled"
+					))
+			);
+		} catch (e) {
+			console.warn(e);
+
+			return false;
+		}
 	}
 
 	/**
@@ -155,137 +175,131 @@ export class TabIdentityHandler {
 	 */
 	async update(cache = false) {
 		// We're updating too early, returning early will prevent any issues
-		if (!this.browser) return;
+		if (!this.browser) {
+			return;
+		}
 
-		let type = this.type || "";
-		let icon = this.icon || "";
-		let label = this.label || "";
-		let tooltip = this.tooltip || "";
-		let mode = this.mode || "";
+		let type = this.type;
+		let icon = this.icon;
+		let label = this.label;
+		let tooltip = this.tooltip;
+		let mode = this.mode;
 
-		if (!cache || !type.length || !icon.length) {
-			type = "unknown";
-			icon = "info";
-			label = "Page";
-			tooltip = "Unknown connection";
+		if (this.isInternalContext) {
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-chrome"
+			);
+
+			type = "chrome";
+			icon = "brand32";
+			label = attrs.label;
+			tooltip = attrs.tooltip;
+			mode = "icons_text";
+		} else if (this.isExtensionContext) {
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-extension",
+				{ name: this.webExtensionPolicy.name }
+			);
+
+			const icons = Object.values(
+				this.webExtensionPolicy.extension.manifest.icons
+			);
+
+			type = "extension";
+			icon = icons[0] || "jigsaw";
+			label = attrs.label;
+			tooltip = attrs.tooltip;
+			mode = "icons_text";
+		} else if (this.hasInvalidPageProxyState) {
+			type = DEFAULT_SEARCH_STATE.type;
+			icon = DEFAULT_SEARCH_STATE.icon;
+			label = DEFAULT_SEARCH_STATE.label;
+			tooltip = DEFAULT_SEARCH_STATE.tooltip;
+			mode = DEFAULT_SEARCH_STATE.mode;
+		} else if (this.uriHasHost && this.isSecureConnection) {
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-secure",
+				{ caOrg: this.certificate.caOrg }
+			);
+
+			type = "secure";
+			icon = "padlock";
+			label = attrs.label;
+			tooltip = attrs.label;
 			mode = "icons";
 
-			if (this.isInternalContext) {
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-chrome"
-				);
-
-				type = "chrome";
-				icon = "brand32";
-				label = attrs.label;
-				tooltip = attrs.tooltip;
-				mode = "icons_text";
-			} else if (this.isExtensionContext) {
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-extension",
-					{ name: this.webExtensionPolicy.name }
-				);
-
-				const icons = Object.values(
-					this.webExtensionPolicy.extension.manifest.icons
-				);
-
-				type = "extension";
-				icon = icons[0] || "jigsaw";
-				label = attrs.label;
-				tooltip = attrs.tooltip;
-				mode = "icons_text";
-			} else if (this.hasInvalidPageProxyState || this.isInternalPage) {
-				type = "search";
-				icon = "search";
-				label = "";
-				tooltip = "";
-				mode = "icons";
-			} else if (this.uriHasHost && this.isSecureConnection) {
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-secure",
-					{ caOrg: this.certificate.caOrg }
-				);
-
-				type = "secure";
-				icon = "padlock";
-				label = attrs.label;
-				tooltip = attrs.label;
-				mode = "icons";
-
-				if (this.isMixedActiveContentBlocked) {
-					type = "mixed_content_blocked";
-				}
-
-				if (!this.hasUserSecurityException) {
-					tooltip = attrs.tooltip;
-				}
-			} else if (this.isBrokenConnection) {
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-unsecure"
-				);
-
-				type = "unsecure";
-				icon = "close";
-				label = attrs.label;
-				tooltip = attrs.tooltip;
-				mode = "icons_text";
-
-				if (this.isMixedActiveContentLoaded) {
-					type = "mixed_active_content_loaded";
-				} else if (this.isMixedActiveContentBlocked) {
-					type = "mixed_active_content_blocked";
-				} else if (this.isMixedPassiveContentLoaded) {
-					type = "mixed_passive_content_loaded";
-				} else {
-					type = "weak_ciphers";
-				}
-			} else if (
-				this.hasCertError ||
-				this.hasHTTPSOnlyError ||
-				this.hasNetError ||
-				this.hasBlockedError
-			) {
-				let errorType = "";
-
-				if (this.hasCertError) errorType = "cert";
-				else if (this.hasHTTPSOnlyError) errorType = "https_only";
-				else if (this.hasNetError) errorType = "net";
-				else if (this.hasBlockedError) errorType = "blocked";
-
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-error",
-					{ type: errorType }
-				);
-
-				type = "error";
-				icon = "warning";
-				label = attrs.label;
-				tooltip = attrs.tooltip;
-				mode = "icons_text";
-			} else if (this.isPotentiallyTrustworthy) {
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-local"
-				);
-
-				type = "local_resource";
-				icon = "page";
-				label = attrs.label;
-				tooltip = attrs.tooltip;
-				mode = "icons_text";
-			} else {
-				const attrs = await this._getAttributesForStr(
-					"tab-identity-type-unsecure"
-				);
-
-				type = "unsecure";
-				icon = this.insecureConnectionIconEnabled
-					? "padlock-unsecure"
-					: "info";
-				label = attrs.label;
-				tooltip = attrs.tooltip;
-				mode = "icons_text";
+			if (this.isMixedActiveContentBlocked) {
+				type = "mixed_content_blocked";
 			}
+
+			if (!this.hasUserSecurityException) {
+				tooltip = attrs.tooltip;
+			}
+		} else if (this.isBrokenConnection) {
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-unsecure"
+			);
+
+			type = "unsecure";
+			icon = "close";
+			label = attrs.label;
+			tooltip = attrs.tooltip;
+			mode = "icons_text";
+
+			if (this.isMixedActiveContentLoaded) {
+				type = "mixed_active_content_loaded";
+			} else if (this.isMixedActiveContentBlocked) {
+				type = "mixed_active_content_blocked";
+			} else if (this.isMixedPassiveContentLoaded) {
+				type = "mixed_passive_content_loaded";
+			} else {
+				type = "weak_ciphers";
+			}
+		} else if (
+			this.hasCertError ||
+			this.hasHTTPSOnlyError ||
+			this.hasNetError ||
+			this.hasBlockedError
+		) {
+			let errorType = "";
+
+			if (this.hasCertError) errorType = "cert";
+			else if (this.hasHTTPSOnlyError) errorType = "https_only";
+			else if (this.hasNetError) errorType = "net";
+			else if (this.hasBlockedError) errorType = "blocked";
+
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-error",
+				{ type: errorType }
+			);
+
+			type = "error";
+			icon = "warning";
+			label = attrs.label;
+			tooltip = attrs.tooltip;
+			mode = "icons_text";
+		} else if (this.isPotentiallyTrustworthy) {
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-local"
+			);
+
+			type = "local_resource";
+			icon = "page";
+			label = attrs.label;
+			tooltip = attrs.tooltip;
+			mode = "icons_text";
+		} else {
+			const attrs = await this._getAttributesForStr(
+				"tab-identity-type-unsecure"
+			);
+
+			type = "unsecure";
+			icon = this.insecureConnectionIconEnabled
+				? "padlock-unsecure"
+				: "info";
+			label = attrs.label;
+			tooltip = attrs.tooltip;
+			mode = this.hasInvalidPageProxyState ? "icons" : "icons_text";
 		}
 
 		if (this.hasUserSecurityException) {
@@ -632,7 +646,7 @@ export class TabIdentityHandler {
 			case "BrowserTabs::TabSelect": {
 				if (event.detail !== this.tab) return;
 
-				this.update(true);
+				this.update();
 				break;
 			}
 		}

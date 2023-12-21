@@ -26,7 +26,13 @@ export class TabIdentityCommand extends TabCommand {
 	 * @param {BrowserTab} tab
 	 */
 	_update(tab) {
-		const { type, label, icon, tooltip, mode } = tab.siteIdentity;
+		const { siteIdentity } = tab;
+
+		const type = siteIdentity.type || "";
+		const label = siteIdentity.label || "";
+		const icon = siteIdentity.icon || "";
+		const tooltip = siteIdentity.tooltip || "";
+		const mode = siteIdentity.mode || "";
 
 		this.label = {
 			[this.audiences.DEFAULT]: "Site Info",
