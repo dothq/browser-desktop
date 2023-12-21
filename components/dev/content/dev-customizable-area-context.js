@@ -125,25 +125,28 @@ class DeveloperCustomizableAreaContext extends MozHTMLElement {
 		this.menu.openPopup(this, "bottomleft topleft", 0, 0);
 
 		const render = () => {
-			const area = /** @type {BrowserCustomizableArea} */ (
-				/** @type {ShadowRoot} */ (this.getRootNode()).host
-			);
+			try {
+				const area = /** @type {BrowserCustomizableArea} */ (
+					/** @type {ShadowRoot} */ (this.getRootNode()).host
+				);
 
-			const lines = [
-				`Audience: ${area.context.audience} (${this.elementAsString(
-					area.context.self
-				)})`,
-				`Window: ${this.elementAsString(
-					area.context.window.document.documentElement
-				)}`,
-				`Tab: ${this.elementAsString(area.context.tab)}`,
-				`Browser: ${this.elementAsString(area.context.browser)}`
-			].map((ln) => html("span", {}, ln));
+				const lines = [
+					`Audience: ${area.context.audience} (${this.elementAsString(
+						area.context.self
+					)})`,
+					`Window: ${this.elementAsString(
+						area.context.window.document.documentElement
+					)}`,
+					`Tab: ${this.elementAsString(area.context.tab)}`,
+					`Browser: ${this.elementAsString(area.context.browser)}`
+				].map((ln) => html("span", {}, ln));
 
-			this.menu.querySelector(".detail").replaceChildren(...lines);
+				this.menu.querySelector(".detail").replaceChildren(...lines);
+			} catch (e) {
+				console.warn(e);
+			}
 		};
 
-		this._intervals.push(setInterval(render, 1000));
 		render();
 	}
 
