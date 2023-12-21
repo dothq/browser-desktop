@@ -279,6 +279,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 		this.registerHandle("dot.tabs.in_animation_duration_ms", 50);
 		this.registerHandle("dot.tabs.out_animation_duration_ms", 30);
 		this.registerHandle("dot.customizable.loglevel", LOG_LEVELS);
+		this.registerHandle("dot.tab_progress.loglevel", LOG_LEVELS);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}

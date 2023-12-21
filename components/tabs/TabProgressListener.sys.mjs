@@ -6,6 +6,10 @@ var { BrowserTabsUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
 );
 
+const { ConsoleAPI } = ChromeUtils.importESModule(
+	"resource://gre/modules/Console.sys.mjs"
+);
+
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIWebProgress} nsIWebProgress
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIRequest} nsIRequest
@@ -56,6 +60,20 @@ export class TabProgressListener {
 	}
 
 	/**
+	 * The logger singleton for this progress listener
+	 * @type {Console}
+	 */
+	get logger() {
+		if (this._logger) return this._logger;
+
+		return (this._logger = new ConsoleAPI({
+			maxLogLevel: "warn",
+			maxLogLevelPref: "dot.tab_progress.loglevel",
+			prefix: `${this.constructor.name} (${this.tab.id})`
+		}));
+	}
+
+	/**
 	 * @param {BrowserTab} tab
 	 * @param {ChromeBrowser} browser
 	 */
@@ -74,8 +92,8 @@ export class TabProgressListener {
 	 * @param {string} message
 	 */
 	onStatusChange(webProgress, request, status, message) {
-		console.log(
-			"TabProgressListener::onStatusChange",
+		this.logger.debug(
+			"onStatusChange",
 			webProgress,
 			request,
 			status,
@@ -129,8 +147,8 @@ export class TabProgressListener {
 			this.browser.mIconURL = null;
 		}
 
-		console.log(
-			"TabProgressListener::onLocationChange",
+		this.logger.debug(
+			"onLocationChange",
 			webProgress,
 			request,
 			locationURI,
@@ -161,8 +179,8 @@ export class TabProgressListener {
 		const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY, TAB_PROGRESS_TRANSIT } =
 			this.tab;
 
-		console.log(
-			"TabProgressListener::onStateChange",
+		this.logger.debug(
+			"onStateChange",
 			webProgress,
 			request,
 			stateFlags,
@@ -341,12 +359,7 @@ export class TabProgressListener {
 	 * @param {number} state
 	 */
 	onSecurityChange(webProgress, request, state) {
-		console.log(
-			"TabProgressListener::onSecurityChange",
-			webProgress,
-			request,
-			state
-		);
+		this.logger.debug("onSecurityChange", webProgress, request, state);
 
 		fireBrowserEvent("BrowserSecurityChange", this.win, {
 			browser: this.browser,
