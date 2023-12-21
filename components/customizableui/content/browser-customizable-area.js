@@ -172,7 +172,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 	 * The container where customizable elements will be rendered to
 	 */
 	get customizableContainer() {
-		return /** @type {HTMLDivElement} */ (
+		return /** @type {HTMLElement} */ (
 			this.shadowRoot.querySelector(`[part="customizable"]`) ||
 				html("div", {
 					class: "customizable-container",
