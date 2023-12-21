@@ -107,7 +107,10 @@ class BrowserCommandButton extends BrowserButton {
 			if (!isAllowedInput) return;
 		}
 
-		if (isMousedown) event.preventDefault();
+		if (isMousedown) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 
 		if (event.type == "mouseleave") {
 			window.addEventListener(
@@ -122,9 +125,10 @@ class BrowserCommandButton extends BrowserButton {
 					/** @type {KeyboardEvent} */ (event).code
 				);
 
-			this.toggleAttribute("mouseactive", isMousedown || isKeydown);
+			const canCommand =
+				(this.hasAttribute("mouseactive") && isMouseup) || isKeydown;
 
-			const canCommand = isMouseup || isKeydown;
+			this.toggleAttribute("mouseactive", isMousedown || isKeydown);
 
 			if (canCommand) {
 				this._doCommand.call(this, event);
