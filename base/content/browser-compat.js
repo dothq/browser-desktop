@@ -138,6 +138,8 @@ var gBrowser = {
 		tab.maybeClose();
 	},
 
+	removeTabsProgressListener(listener) {},
+
 	_initCompat() {}
 };
 
