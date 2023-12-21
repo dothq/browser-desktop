@@ -8,6 +8,11 @@
     display: flex;
     align-items: stretch;
 
+    width: var(--area-width, inherit);
+    height: var(--area-height, inherit);
+
+    min-height: var(--area-min-height);
+
     background-color: transparent;
     color: var(--lwt-text-color);
 
