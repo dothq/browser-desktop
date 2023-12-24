@@ -16,3 +16,5 @@ dot.jar:
     content/widgets/browser-button.css                   (content/browser-button.css)
 
     content/widgets/browser-contextual-element.js        (content/browser-contextual-element.js)
+
+    content/widgets/browser-debug-hologram.js            (content/browser-debug-hologram.js)
