@@ -18,10 +18,10 @@ browser-tab-label:not([customizablearg-fit="true"]) {
     flex: 1;
 
     &:-moz-locale-dir(ltr) {
-        mask-image: linear-gradient(to right, black 90%, #fff0);
+        mask-image: linear-gradient(to left, transparent, black var(--tab-label-mask-size, 2em));
     }
 
     &:-moz-locale-dir(rtl) {
-        mask-image: linear-gradient(to left, black 90%, #fff0);
+        mask-image: linear-gradient(to right, transparent, black var(--tab-label-mask-size, 2em));
     }
 }

@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-button[is=browser-tab-button] {
+button.browser-tab-button {
     padding: 0px;
 
     min-height: 0px;
@@ -10,7 +10,8 @@ button[is=browser-tab-button] {
 
     --button-default-color: transparent;
 
-    padding: 2%;
+    --button-padding-percent: 12;
+    padding: calc(var(--tab-true-height) / 100 * var(--button-padding-percent));
 
     & .browser-button-icon {
         --size: 14px;

@@ -6,11 +6,17 @@ var { CommandAudiences } = ChromeUtils.importESModule(
 	"resource://gre/modules/CommandAudiences.sys.mjs"
 );
 
-const kDebugVisiblePref = "dot.tabs.debug_information.visible";
-
 class BrowserRenderedTab extends BrowserCustomizableArea {
+	/**
+	 * The minimum width of a tab allowed
+	 * before we need to hide actions
+	 */
+	TAB_MIN_WIDTH_ACTIONS = 90;
+
 	constructor() {
 		super();
+
+		this.resizeObserver = new ResizeObserver(this._onTabResize.bind(this));
 	}
 
 	get interactiveTags() {
@@ -414,64 +420,40 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		};
 	}
 
-	maybeRenderDebug() {
-		const isVisible = Services.prefs.getBoolPref(kDebugVisiblePref, false);
+	_onTabResize() {
+		const { width, height } = this.getBoundingClientRect();
 
-		clearInterval(this.debugUpdateInt);
-		this.debugUpdateInt = null;
+		this.style.setProperty("--tab-true-width", width + "px");
+		this.style.setProperty("--tab-true-height", height + "px");
 
-		if (isVisible) {
-			if (!this.querySelector("#tab-debug")) {
-				this.appendChild(
-					html(
-						"div",
-						{
-							id: "tab-debug",
-							slot: "tab-internal",
-							style: {
-								display: "flex",
-								flexDirection: "column",
-								position: "fixed",
-								backgroundColor: "black",
-								color: "white",
-								fontWeight: 600,
-								fontSize: "10px",
-								fontFamily: "monospace",
-								whiteSpace: "nowrap"
-							}
-						},
-						""
-					)
-				);
-			}
+		this.toggleAttribute(
+			"hidetabactions",
+			width <= this.TAB_MIN_WIDTH_ACTIONS
+		);
+	}
 
-			this.debugUpdateInt = setInterval(() => {
-				const width = this.getBoundingClientRect().width;
+	/**
+	 * @param {BrowserDebugHologram} hologram
+	 */
+	renderDebugHologram(hologram) {
+		const width = this.getBoundingClientRect().width;
 
-				this.querySelector("#tab-debug").replaceChildren(
-					html(
-						"div",
-						{},
-						...[
-							`ID: ${this.id.split("tab-")[1]}`,
-							`W: ${width.toFixed(0)}`,
-							`MaxW: ${(
-								parseInt(getComputedStyle(this).maxWidth) ||
-								width
-							).toFixed(0)}`,
-							`MinW: ${(
-								parseInt(getComputedStyle(this).minWidth) ||
-								width
-							).toFixed(0)}`
-						].map((t) => html("span", {}, t))
-					)
-				);
-			}, 1);
-		} else {
-			if (this.querySelector("#tab-debug")) {
-				this.querySelector("#tab-debug").remove();
-			}
-		}
+		hologram.replaceChildren(
+			html(
+				"div",
+				{},
+				...[
+					`ID: ${this.id.split("tab-")[1]}`,
+					`W: ${width.toFixed(0)}`,
+					`MaxW: ${(
+						parseInt(getComputedStyle(this).maxWidth) || width
+					).toFixed(0)}`,
+					`MinW: ${(
+						parseInt(getComputedStyle(this).minWidth) || width
+					).toFixed(0)}`
+				].map((t) => html("span", {}, t))
+			)
+		);
 	}
 
 	connectedCallback() {
@@ -494,11 +476,15 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 			)
 		);
 
-		Services.prefs.addObserver(
-			kDebugVisiblePref,
-			this.maybeRenderDebug.bind(this)
+		const debugHologram = BrowserDebugHologram.create(
+			{
+				id: "tab",
+				prefId: "dot.tabs.debug_information.visible"
+			},
+			this.renderDebugHologram.bind(this)
 		);
-		this.maybeRenderDebug();
+
+		this.shadowRoot.appendChild(debugHologram);
 
 		this.shadowRoot.addEventListener("mousedown", this);
 		this.addEventListener("mouseover", this);
@@ -507,6 +493,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		this.addEventListener("transitionend", this);
 
 		window.addEventListener("mouseup", this);
+
+		this.resizeObserver.observe(this);
 	}
 
 	disconnectedCallback() {
@@ -519,6 +507,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		this.removeEventListener("transitionend", this);
 
 		window.removeEventListener("mouseup", this);
+
+		this.resizeObserver.disconnect();
 	}
 
 	/**

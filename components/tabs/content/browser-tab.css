@@ -55,6 +55,7 @@ browser-tab .browser-tab-background {
 
 browser-tab:hover {
     --tab-background: rgba(128, 128, 128, 0.125);
+    --tab-label-mask-size: 1em;
 }
 
 browser-tab[selected] {
@@ -220,6 +221,6 @@ browser-tab::part(customizable) {
     margin-inline-end: var(--tab-padding-end);
 }
 
-browser-tabs[hidetabactions] browser-tab:not([selected]) {
-    --tab-action-visibility: none;
+:host(browser-tab) browser-debug-hologram {
+    position: fixed;
 }

@@ -13,6 +13,8 @@ class BrowserTabButton extends BrowserCommandButton {
 
 	connectedCallback() {
 		super.connectedCallback();
+
+		this.classList.add("browser-tab-button");
 	}
 
 	disconnectedCallback() {
