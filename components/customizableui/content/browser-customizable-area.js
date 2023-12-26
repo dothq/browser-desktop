@@ -234,6 +234,24 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		return gDot.customizable.createTemplateFragment(this, templateId);
 	}
 
+	/**
+	 * Creates a new customizable component
+	 * @param {Parameters<typeof gDot.customizable.internal.createComponent>[0]} type
+	 * @param {Parameters<typeof gDot.customizable.internal.createComponent>[1]} [attributes]
+	 * @param {Parameters<typeof gDot.customizable.internal.createComponent>[2]} [children]
+	 * @returns
+	 */
+	createCustomizableComponent(type, attributes, children) {
+		return gDot.customizable.internal.createComponent(
+			type,
+			attributes,
+			children,
+			{
+				area: this
+			}
+		);
+	}
+
 	maybeShowDebug() {
 		this.shadowRoot
 			.querySelector("dev-customizable-area-context")
@@ -247,6 +265,40 @@ class BrowserCustomizableArea extends MozHTMLElement {
 		) {
 			this.shadowRoot.appendChild(html("dev-customizable-area-context"));
 		}
+	}
+
+	renderDebugHologram(hologram) {
+		const lines = [
+			`Type: ${this.name}`,
+			`Orientation: ${this.orientation}`,
+			`Mode: ${this.mode}`
+		];
+
+		return html("div", {}, ...lines.map((t) => html("span", {}, t)));
+	}
+
+	/**
+	 * Initialises all logic and styling on the customizable area
+	 */
+	#init() {
+		Services.prefs.addObserver(
+			"dot.customizable.debug_context.enabled",
+			this.maybeShowDebug.bind(this)
+		);
+
+		this.maybeShowDebug();
+
+		this.actionsReceiver = new ActionsReceiver(this);
+
+		this.shadowRoot.appendChild(
+			BrowserDebugHologram.create(
+				{
+					id: "area",
+					prefId: "dot.customizable.debug_information.enabled"
+				},
+				/** @type {any} */ (this).renderDebugHologram.bind(this)
+			)
+		);
 	}
 
 	/**
@@ -285,14 +337,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 			this.customizableContainer.appendChild(fragment);
 		}
 
-		Services.prefs.addObserver(
-			"dot.customizable.debug_context.enabled",
-			this.maybeShowDebug.bind(this)
-		);
-
-		this.maybeShowDebug();
-
-		this.actionsReceiver = new ActionsReceiver(this);
+		this.#init();
 	}
 
 	/**
