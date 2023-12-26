@@ -2,16 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-button[is="browser-toolbar-button"] {
+button.browser-toolbar-button {
     display: flex;
 
     align-self: stretch;
 
     background-color: transparent !important;
 
-    /* We set this to 0 as it is a leftover from input.css */
-    min-height: 0px;
-    min-width: 0px;
+    min-height: auto;
+    min-width: auto;
 
     --button-area-height: max(var(--area-min-height, var(--area-height)), var(--area-height));
 
@@ -28,7 +27,7 @@ button[is="browser-toolbar-button"] {
     z-index: initial !important;
 }
 
-button[is="browser-toolbar-button"] .browser-button-container {
+button.browser-toolbar-button .browser-button-container {
     display: flex;
 
     align-items: center;
@@ -53,7 +52,7 @@ button[is="browser-toolbar-button"] .browser-button-container {
     z-index: var(--button-z-index);
 }
 
-button[is="browser-toolbar-button"] .browser-button-label {
+button.browser-toolbar-button .browser-button-label {
     font-size: var(--content-size);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -61,10 +60,10 @@ button[is="browser-toolbar-button"] .browser-button-label {
     max-width: 100px;
 }
 
-button[is="browser-toolbar-button"] .browser-button-icon {
+button.browser-toolbar-button .browser-button-icon {
     background-size: var(--button-icon-size, cover);
 }
 
-button[is="browser-toolbar-button"][menuactive] {
+button.browser-toolbar-button[menuactive] {
     --button-background: var(--button-active-color) !important;
 }

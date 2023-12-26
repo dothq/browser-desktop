@@ -9,6 +9,8 @@ class BrowserToolbarButton extends BrowserCommandButton {
 
 	connectedCallback() {
 		super.connectedCallback();
+
+		this.classList.add("browser-toolbar-button");
 	}
 
 	disconnectedCallback() {
