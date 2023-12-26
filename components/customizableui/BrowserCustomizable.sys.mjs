@@ -117,7 +117,8 @@ BrowserCustomizable.prototype = {
 		Shared.logger.log("Registering root component...");
 		try {
 			const rootElement = this.internal.createComponentFragment(
-				this.state.state
+				this.state.state,
+				{ area: this.renderRoot }
 			);
 
 			this.renderRoot.shadowRoot

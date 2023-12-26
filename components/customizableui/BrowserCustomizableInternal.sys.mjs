@@ -387,15 +387,19 @@ BrowserCustomizableInternal.prototype = {
 	/**
 	 * Creates a new fragment element with the supplied children
 	 * @param {CustomizableComponentDefinition[]} children
+	 * @param {Parameters<typeof this.createComponent>[3]} [options]
 	 */
-	createComponentFragment(children) {
+	createComponentFragment(children, options) {
 		const root = this.win.document.createDocumentFragment();
 
 		for (let i = 0; i < children.length; i++) {
 			const child = children[i];
 
 			try {
-				const component = this.createComponentFromDefinition(child);
+				const component = this.createComponentFromDefinition(
+					child,
+					options
+				);
 
 				root.appendChild(component);
 			} catch (e) {
