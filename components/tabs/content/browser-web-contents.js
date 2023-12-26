@@ -55,6 +55,33 @@ class BrowserWebContents extends MozHTMLElement {
 	}
 
 	/**
+	 * Determines which borders need to be shown on the web contents
+	 */
+	updateBorders() {
+		const borders = [];
+
+		const bounds = this.getBoundingClientRect();
+
+		if (bounds.x > 0) {
+			borders.push("left");
+		}
+
+		if (bounds.x + bounds.width < window.outerWidth) {
+			borders.push("right");
+		}
+
+		if (bounds.y > 0) {
+			borders.push("top");
+		}
+
+		if (bounds.y + bounds.height < window.outerHeight) {
+			borders.push("bottom");
+		}
+
+		this.setAttribute("borders", borders.join(" "));
+	}
+
+	/**
 	 * The tabpanel connected to this web contents element
 	 */
 	get tabpanel() {
@@ -63,12 +90,22 @@ class BrowserWebContents extends MozHTMLElement {
 			.assignedElements()[0];
 	}
 
-	getComputedAABBCollisions() {}
+	/**
+	 * Handles incoming events to the web contents
+	 * @param {Event} event
+	 */
+	handleEvent(event) {
+		switch (event.type) {
+			case "resize":
+				this.updateBorders();
+				break;
+		}
+	}
 
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		this.setAttribute("borders", "top bottom");
+		this.updateBorders();
 
 		this.appendChild(
 			html(
@@ -80,6 +117,12 @@ class BrowserWebContents extends MozHTMLElement {
 		);
 
 		this.tabpanel.toggleAttribute("status", this.hasAttribute("status"));
+
+		window.addEventListener("resize", this);
+	}
+
+	disconnectedCallback() {
+		window.removeEventListener("resize", this);
 	}
 }
 
