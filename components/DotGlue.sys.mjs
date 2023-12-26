@@ -42,23 +42,6 @@ const PREF_PDFJS_ISDEFAULT_CACHE_STATE = "pdfjs.enabledCache.state";
 
 const JSPROCESSACTORS = {};
 const JSWINDOWACTORS = {
-	AboutReader: {
-		parent: {
-			esModuleURI: "resource:///actors/AboutReaderParent.sys.mjs"
-		},
-		child: {
-			esModuleURI: "resource:///actors/AboutReaderChild.sys.mjs",
-			events: {
-				DOMContentLoaded: {},
-				pageshow: { mozSystemGroup: true },
-				// Don't try to create the actor if only the pagehide event fires.
-				// This can happen with the initial about:blank documents.
-				pagehide: { mozSystemGroup: true, createActor: false }
-			}
-		},
-		messageManagerGroups: ["browsers"]
-	},
-
 	ClickHandler: {
 		parent: {
 			esModuleURI: "resource:///actors/ClickHandlerParent.sys.mjs"
