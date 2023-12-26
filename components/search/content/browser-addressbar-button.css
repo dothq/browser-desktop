@@ -9,6 +9,18 @@ button[is=browser-addressbar-button] {
 
     --button-default-color: transparent;
 
+    &[mode=icons_text] {
+        --button-default-color: var(--arrowpanel-background);
+
+        &+[padded] {
+            padding-inline: 6px;
+        }
+    }
+
+    &+[padded] {
+        padding-inline: 4px;
+    }
+
     & .browser-button-container {
         display: flex;
 

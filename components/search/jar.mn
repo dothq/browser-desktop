@@ -14,3 +14,10 @@ dot.jar:
     content/widgets/browser-addressbar.css                     (content/browser-addressbar.css)
 
     content/widgets/browser-addressbar-panel.js                (content/browser-addressbar-panel.js)
+    content/widgets/browser-addressbar-panel.css               (content/browser-addressbar-panel.css)
+
+    content/widgets/browser-addressbar-container.js            (content/browser-addressbar-container.js)
+    content/widgets/browser-addressbar-container.css           (content/browser-addressbar-container.css)
+    
+    content/widgets/browser-addressbar-input.js                (content/browser-addressbar-input.js)
+    content/widgets/browser-addressbar-input.css               (content/browser-addressbar-input.css)
