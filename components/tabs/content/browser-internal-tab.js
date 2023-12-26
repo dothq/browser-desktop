@@ -6,6 +6,10 @@ var { TabIdentityHandler } = ChromeUtils.importESModule(
 	"resource://gre/modules/TabIdentityHandler.sys.mjs"
 );
 
+var { TabLocationHandler } = ChromeUtils.importESModule(
+	"resource://gre/modules/TabLocationHandler.sys.mjs"
+);
+
 /**
  * Compatibility layer over Dot tabs for Mozilla APIs
  *
@@ -244,6 +248,17 @@ class BrowserTab extends MozElements.MozTab {
 		return this._siteIdentity;
 	}
 
+	_location = null;
+
+	/**
+	 * The tab's location and URI manager
+	 *
+	 * @type {typeof TabLocationHandler.prototype}
+	 */
+	get location() {
+		return this._location;
+	}
+
 	/**
 	 * The current URI of the tab
 	 * @returns {nsIURI}
@@ -274,6 +289,9 @@ class BrowserTab extends MozElements.MozTab {
 
 		// Ensure site identity is initialised
 		this._siteIdentity = new TabIdentityHandler(this);
+
+		// Ensure location handler is initialised
+		this._location = new TabLocationHandler(this);
 	}
 
 	connectedCallback() {
@@ -288,16 +306,12 @@ class BrowserTab extends MozElements.MozTab {
 		}
 
 		window.addEventListener("BrowserTabs::TabSelect", this);
-		window.addEventListener("BrowserTabs::BrowserStateChange", this);
-		window.addEventListener("BrowserTabs::BrowserLocationChange", this);
 	}
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
 		window.removeEventListener("BrowserTabs::TabSelect", this);
-		window.removeEventListener("BrowserTabs::BrowserStateChange", this);
-		window.removeEventListener("BrowserTabs::BrowserLocationChange", this);
 
 		this.webContents.removeEventListener("pagetitlechanged", this);
 		this.webContents.removeEventListener(
