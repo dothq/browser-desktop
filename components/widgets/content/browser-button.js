@@ -12,7 +12,10 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 */
 	static get customizableAttributes() {
 		return {
-			mode: "mode"
+			mode: "mode",
+
+			label: "string",
+			icon: "string"
 		};
 	}
 
