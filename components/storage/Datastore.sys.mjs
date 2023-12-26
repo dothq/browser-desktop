@@ -19,14 +19,15 @@ const MAX_ATTEMPTS = 5;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export class Datastore {
+	static VERSION = null;
+
 	/**
 	 * Creates a new datastore
 	 * @param {string} name
-	 * @param {{ version: number; tables: Record<string, Record<string, string>> }} schema
+	 * @param {{ tables: Record<string, Record<string, string>> }} schema
 	 */
 	constructor(name, schema) {
 		this.#name = name;
-		this.#version = schema.version;
 		this.#schema = schema;
 	}
 
@@ -34,11 +35,6 @@ export class Datastore {
 	 * The name of this datastore
 	 */
 	#name = null;
-
-	/**
-	 * The current version of this datastore
-	 */
-	#version = null;
 
 	/**
 	 * The schema of this datastore
@@ -59,6 +55,13 @@ export class Datastore {
 		maxLogLevelPref: "dot.datastore.loglevel",
 		prefix: "Datastore.sys.mjs"
 	});
+
+	/**
+	 * THe version of this datastore
+	 */
+	get version() {
+		return /** @type {typeof Datastore} */ (this.constructor).VERSION;
+	}
 
 	/**
 	 * The path to the browser_storage directory in the profile dir
@@ -114,6 +117,29 @@ export class Datastore {
 		this.#logger.debug(`${this.#name}: Performing SQL:\n` + sql);
 
 		await this._conn.execute(sql);
+	}
+
+	/**
+	 * Executes an SQL statement with optional params
+	 * @param {string} statement
+	 * @param {Record<string, any>} [params]
+	 * @returns
+	 */
+	async sql(statement, params) {
+		const rows = await this._conn.executeCached(statement.trim(), params);
+
+		console.log(rows);
+
+		return rows.map((r) => {
+			let result = {};
+
+			for (const column of Object.keys(this.#schema.tables[this.#name])) {
+				console.log(column);
+				result[column] = r.getResultByName(column);
+			}
+
+			return result;
+		});
 	}
 
 	/**
@@ -191,7 +217,7 @@ export class Datastore {
 				// have any data, so we should init the database
 
 				await this.#initDatabase();
-			} else if (databaseVersion < this.#version) {
+			} else if (databaseVersion < this.version) {
 				// If the version of the database on the user's computer
 				// is less than what the browser is currently on,
 				// begin the migration process for the database.
@@ -199,7 +225,7 @@ export class Datastore {
 				await this.#migrateDatabase(databaseVersion);
 			}
 
-			await this._conn.setSchemaVersion(this.#version);
+			await this._conn.setSchemaVersion(this.version);
 		} catch (e) {
 			await this._conn.close();
 

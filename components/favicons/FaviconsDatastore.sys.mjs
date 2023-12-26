@@ -7,17 +7,52 @@ const { Datastore } = ChromeUtils.importESModule(
 );
 
 export class FaviconsDatastore extends Datastore {
+	/**
+	 * The version of this datastore
+	 */
+	static VERSION = 2;
+
 	constructor() {
 		super("favicons", {
-			version: 1,
 			tables: {
 				favicons: {
 					id: "INTEGER PRIMARY KEY",
-					data: "TEXT NOT NULL",
-					page_url: "TEXT NOT NULL"
+					data: "TEXT",
+					size: "INTEGER",
+					page_url: "TEXT"
 				}
 			}
 		});
+	}
+
+	/**
+	 * Migrates the database
+	 * @param {number} localVersion
+	 */
+	#migrateDatabase(localVersion) {
+		if (localVersion < this.version) {
+			if (localVersion <= 1) {
+				this.sql(`
+                    ALTER TABLE favicons
+                        DROP COLUMN url,
+                        ADD data TEXT,
+                        ADD size INTEGER;`);
+			}
+		}
+	}
+
+	/**
+	 * Get a stored favicon using its ID
+	 * @param {string} id
+	 */
+	getByID(id) {
+		return this.sql(
+			`
+            SELECT * FROM favicons
+            WHERE id = :id
+        `,
+			{ id }
+		);
 	}
 
 	/**
@@ -25,6 +60,12 @@ export class FaviconsDatastore extends Datastore {
 	 * @param {string} url
 	 */
 	getForURL(url) {
-		return this._conn;
+		return this.sql(
+			`
+            SELECT * FROM favicons
+            WHERE page_url = :page_url
+        `,
+			{ page_url: url }
+		);
 	}
 }
