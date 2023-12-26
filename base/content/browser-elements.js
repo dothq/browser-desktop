@@ -9,8 +9,6 @@ var { AppConstants } = ChromeUtils.importESModule(
 // prettier-ignore
 let elements = {
 	"browser-addressbar": "chrome://dot/content/widgets/browser-addressbar.js",
-    "browser-addressbar-identity-box": "chrome://dot/content/widgets/browser-addressbar.js",
-    "browser-addressbar-input": "chrome://dot/content/widgets/browser-addressbar.js",
 
 	"browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
 
@@ -20,6 +18,7 @@ let elements = {
 	"browser-spring": "chrome://dot/content/widgets/browser-spring.js",
 	"browser-status": "chrome://dot/content/widgets/browser-status.js",
 	"browser-tabs": "chrome://dot/content/widgets/browser-tabs.js",
+    "browser-tabs-overflow-button": "chrome://dot/content/widgets/browser-tabs-overflow-button.js",
 	"browser-tabs-collator": "chrome://dot/content/widgets/browser-tabs-collator.js",
     "browser-web-container": "chrome://dot/content/widgets/browser-web-container.js",
     "browser-web-frame": "chrome://dot/content/widgets/browser-web-frame.js",
@@ -30,8 +29,19 @@ let elements = {
 let noCallbackElements = [
 	"chrome://dot/content/interstitials/interstitials.js",
 
+	"chrome://dot/content/widgets/browser-debug-hologram.js",
+
 	"chrome://dot/content/widgets/browser-customizable-area.js",
+	"chrome://dot/content/widgets/browser-customizable-overflowable-area.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",
+
+	"chrome://dot/content/widgets/browser-panel.js",
+	"chrome://dot/content/widgets/browser-panel-area.js",
+	"chrome://dot/content/widgets/browser-multipanel-area.js",
+	"chrome://dot/content/widgets/browser-panel-menu.js",
+	"chrome://dot/content/widgets/browser-panel-menuitem.js",
+
+	"chrome://dot/content/widgets/browser-customizable-area-overflow-menu.js",
 
 	"chrome://dot/content/widgets/browser-button.js",
 	"chrome://dot/content/widgets/browser-command-button.js",
@@ -40,22 +50,24 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-addressbar-button.js",
 	"chrome://dot/content/widgets/browser-panel-button.js",
 
-	"chrome://dot/content/widgets/browser-panel.js",
-	"chrome://dot/content/widgets/browser-panel-area.js",
-	"chrome://dot/content/widgets/browser-multipanel-area.js",
-	"chrome://dot/content/widgets/browser-panel-menu.js",
-	"chrome://dot/content/widgets/browser-panel-menuitem.js",
-
 	"chrome://dot/content/widgets/browser-context-menu.js",
 
+	"chrome://dot/content/widgets/browser-addressbar-container.js",
 	"chrome://dot/content/widgets/browser-addressbar-panel.js",
+	"chrome://dot/content/widgets/browser-addressbar-input.js",
+
 	"chrome://dot/content/widgets/browser-customizable-area-empty.js",
 	"chrome://dot/content/widgets/browser-customizable-template.js",
+
 	"chrome://dot/content/widgets/browser-identity-panel.js",
+
 	"chrome://dot/content/widgets/browser-tab.js",
 	"chrome://dot/content/widgets/browser-tab-icon.js",
 	"chrome://dot/content/widgets/browser-tab-label.js",
+
 	"chrome://dot/content/widgets/browser-toolbar.js",
+	"chrome://dot/content/widgets/browser-toolbar-overflow.js",
+
 	"chrome://dot/content/widgets/browser-web-contents.js"
 ];
 

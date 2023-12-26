@@ -17,6 +17,9 @@ const ALL_COMMANDS = [
 	"internal/paste",
 	"internal/select-all",
 
+	// Internal / Customizable UI
+	"internal/customizableui/area-show-overflowing",
+
 	// Common
 	"add-tab",
 	"close-tab",

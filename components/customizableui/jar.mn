@@ -9,6 +9,11 @@ dot.jar:
     content/widgets/browser-customizable-area.js                             (content/browser-customizable-area.js)
     content/widgets/browser-customizable-area.css                            (content/browser-customizable-area.css)
 
+    content/widgets/browser-customizable-overflowable-area.js                (content/browser-customizable-overflowable-area.js)
+    content/widgets/browser-customizable-overflowable-area.css               (content/browser-customizable-overflowable-area.css)
+
+    content/widgets/browser-customizable-area-overflow-menu.js               (content/browser-customizable-area-overflow-menu.js)
+
     content/widgets/browser-customizable-template.js                         (content/browser-customizable-template.js)
     content/widgets/browser-customizable-template.css                        (content/browser-customizable-template.css)
 

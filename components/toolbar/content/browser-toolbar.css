@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 @import url("chrome://dot/content/widgets/browser-toolbar-button.css");
+@import url("chrome://dot/content/widgets/browser-toolbar-overflow.css");
 
 :host(browser-toolbar) {
     display: flex;
@@ -53,22 +54,36 @@
     display: flex;
     align-items: center;
     flex: 1;
+    width: 0px;
     gap: 4px;
+    overflow: hidden;
+    min-width: fit-content;
 }
 
-:host(browser-toolbar[orientation=horizontal]) .customizable-container {
-    padding-inline: var(--padding);
+:host(browser-toolbar[orientation=horizontal]) {
+    >*:not(.customizable-container) {
+        margin-inline: var(--padding);
+    }
+
+    .customizable-container {
+        padding-inline: var(--padding);
+    }
 }
 
+:host(browser-toolbar[orientation=vertical]) {
+    >*:not(.customizable-container) {
+        margin-block: var(--padding);
+    }
 
-:host(browser-toolbar[orientation=vertical]) .customizable-container {
-    padding-block: var(--padding);
+    .customizable-container {
+        padding-block: var(--padding);
+    }
+}
+
+:host(browser-toolbar) .customizable-container [hidden] {
+    visibility: collapse;
 }
 
 :host(browser-toolbar) browser-window-controls {
     display: var(--csd-visibility);
 }
-
-/* :host(browser-toolbar[initial]) .customizable-container {
-    padding-block-start: calc(var(--browser-ui-density) / 3);
-} */
