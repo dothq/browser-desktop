@@ -34,12 +34,12 @@ declare global {
 	var browserDOMWindow: nsBrowserAccess;
 
 	var XULElement: Gecko.XULElement;
-	var XULFrameElement: XULElement;
-	var XULMenuElement: XULElement;
+	var XULFrameElement: Gecko.XULElement;
+	var XULMenuElement: Gecko.XULElement;
 	var XULPopupElement: Gecko.XULPopupElement;
-	var XULResizerElement: XULElement;
-	var XULTextElement: XULElement;
-	var XULTreeElement: XULElement;
+	var XULResizerElement: Gecko.XULElement;
+	var XULTextElement: Gecko.XULElement;
+	var XULTreeElement: Gecko.XULElement;
 
 	var MozXULElement: MozXULElement;
 	var MozHTMLElement: MozHTMLElement;
@@ -96,6 +96,8 @@ declare global {
 		mozInnerScreenY: number;
 		windowRoot: Gecko.WindowRoot;
         browsingContext: Gecko.BrowsingContext;
+        promiseDocumentFlushed: (callback: Function) => Promise<any>
+        XULBrowserWindow: nsIXULBrowserWindow;
 	}
 
 	interface Document {
@@ -156,5 +158,13 @@ declare global {
 
     interface CustomElementRegistry {
         getName(constructor: CustomElementConstructor): string | undefined;
+    }
+
+    interface Element {
+        scrollTopMin: number;
+        scrollTopMax: number;
+
+        scrollLeftMin: number;
+        scrollLeftMax: number;
     }
 }
