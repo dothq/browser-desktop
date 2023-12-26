@@ -53,6 +53,24 @@ export class AddTabCommand extends Command {
 	}
 
 	/**
+	 * Formats the URIs into a pretty string
+	 * @param {string | string[]} url
+	 */
+	_formatURIs(url) {
+		const formatter = new Intl.ListFormat(undefined, {
+			style: "short",
+			type: "unit"
+		});
+
+		const uris = (Array.isArray(url) ? url : [url]).map(
+			(uri) =>
+				Services.io.createExposableURI(Services.io.newURI(uri)).spec
+		);
+
+		return formatter.format(uris);
+	}
+
+	/**
 	 * Fired when an attribute on the subscriber is updated
 	 * @param {CustomEvent} event
 	 */
@@ -62,6 +80,28 @@ export class AddTabCommand extends Command {
 				this._update();
 				break;
 		}
+	}
+
+	/**
+	 * Fired when the mouse is over the command subscriber
+	 * @param {MouseEvent} event
+	 */
+	on_mouseover(event) {
+		const { commandArgs: args } = this.subscriber;
+
+		if (args && args.url) {
+			this.window.XULBrowserWindow.setOverLink(
+				this._formatURIs(args.url)
+			);
+		}
+	}
+
+	/**
+	 * Fired when the mouse leaves the command subscriber
+	 * @param {MouseEvent} event
+	 */
+	on_mouseleave(event) {
+		this.window.XULBrowserWindow.setOverLink("");
 	}
 
 	/**
