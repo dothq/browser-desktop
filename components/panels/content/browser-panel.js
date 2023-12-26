@@ -34,7 +34,7 @@ class BrowserPanel extends MozPopupElement {
 	 * The container element that holds the panel's contents
 	 */
 	get container() {
-		return /** @type {BrowserPanelArea} */ (
+		return /** @type {HTMLElement} */ (
 			this.querySelector(".browser-panel-container")
 		);
 	}
@@ -43,11 +43,10 @@ class BrowserPanel extends MozPopupElement {
 	 * Fires when the popup starts showing on-screen
 	 */
 	onPopupShowing() {
-		Services.els.addSystemEventListener(window, "mousemove", this, true);
+		window.addEventListener("mousemove", this._handlePanelEvent.bind(this));
+		window.addEventListener("mousedown", this._handlePanelEvent.bind(this));
 
-		if (this.getAttribute("animate") == "true") {
-			this.toggleAttribute("open", true);
-		}
+		this.toggleAttribute("open", true);
 	}
 
 	/**
@@ -64,24 +63,31 @@ class BrowserPanel extends MozPopupElement {
 	 * Fires when the popup starts being hidden
 	 */
 	onPopupHiding() {
-		Services.els.removeSystemEventListener(window, "mousemove", this, true);
-		Services.els.removeSystemEventListener(window, "click", this, true);
+		window.removeEventListener(
+			"mousemove",
+			this._handlePanelEvent.bind(this)
+		);
+		window.removeEventListener(
+			"mousedown",
+			this._handlePanelEvent.bind(this)
+		);
 
 		// Remove the panel once all transitions have completed
 		if (this.getAttribute("animate") == "true") {
-			window.addEventListener(
+			this.addEventListener(
 				"transitionend",
 				() => {
-					this.remove();
+					console.log("transitionend");
+
+					this.removeAttribute("open");
+					this.hidePopup();
 				},
 				{
 					once: true
 				}
 			);
-
-			this.removeAttribute("open");
 		} else {
-			this.remove();
+			this.hidePopup();
 		}
 	}
 
@@ -90,6 +96,10 @@ class BrowserPanel extends MozPopupElement {
 	 * @param {MouseEvent} event
 	 */
 	onSystemMouseMove(event) {
+		if (this.state !== "open" || !this.container) {
+			return;
+		}
+
 		const panelBounds = this.getOuterScreenRect();
 
 		const containerBounds = this.container.getBoundingClientRect();
@@ -155,7 +165,6 @@ class BrowserPanel extends MozPopupElement {
 	 * @deprecated
 	 */
 	openPopup(...args) {
-		console.log("open pop");
 		super.openPopup(...args);
 	}
 
@@ -214,37 +223,30 @@ class BrowserPanel extends MozPopupElement {
 
 		this.openArgs = openOptions?.args || {};
 
-		this.addEventListener(
-			"popupshowing",
-			() => {
-				this._dispatchEvent(
-					openOptions.element || this.ownerDocument.documentElement,
-					"PanelOpen",
-					{
-						id: this.id
-					}
-				);
-			},
-			{ once: true }
+		this.toggleAttribute(
+			"autopurge",
+			openOptions && "autopurge" in openOptions
+				? openOptions.autopurge
+				: true
 		);
 
-		this.addEventListener(
-			"popuphiding",
-			() => {
-				this._dispatchEvent(
-					openOptions.element || this.ownerDocument.documentElement,
-					"PanelClose",
-					{
-						id: this.id
-					}
-				);
-			},
-			{ once: true }
-		);
+		const root = openOptions?.root || this.ownerDocument.documentElement;
 
-		console.log("Opening", this, "at", openOptions);
+		this.addEventListener("popupshowing", () => {
+			this._dispatchEvent(openOptions.element || root, "PanelOpen", {
+				id: this.id
+			});
+		});
 
-		this.ownerDocument.documentElement.appendChild(this);
+		this.addEventListener("popuphidden", () => {
+			this._dispatchEvent(openOptions.element || root, "PanelClose", {
+				id: this.id
+			});
+
+			if (this.hasAttribute("autopurge")) {
+				this.remove();
+			}
+		});
 
 		switch (openOptions.coordMode) {
 			case "screen":
@@ -280,70 +282,11 @@ class BrowserPanel extends MozPopupElement {
 		super.hidePopup(cancel);
 	}
 
-	_maybeRenderDebug() {
-		const isVisible = Services.prefs.getBoolPref(
-			this.#debugVisiblePref,
-			false
-		);
-
-		clearInterval(this.debugUpdateInt);
-		this.debugUpdateInt = null;
-
-		if (isVisible) {
-			if (!this.querySelector("#panel-debug")) {
-				this.prepend(
-					html(
-						"div",
-						{
-							id: "panel-debug",
-							style: {
-								display: "flex",
-								flexDirection: "row",
-								backgroundColor: "black",
-								color: "white",
-								fontWeight: 600,
-								fontSize: "10px",
-								fontFamily: "monospace",
-								whiteSpace: "nowrap",
-								gap: "4px"
-							}
-						},
-						""
-					)
-				);
-			}
-
-			this.debugUpdateInt = setInterval(() => {
-				const bounds = this.getBoundingClientRect();
-
-				this.querySelector("#panel-debug").replaceChildren(
-					...[
-						`W: ${Math.round(bounds.width)}`,
-						`H: ${Math.round(bounds.height)}`,
-						`O: ${
-							parseFloat(getComputedStyle(this).opacity).toFixed(
-								2
-							) || 0
-						}`,
-						`Sl: ${Math.round(this.scrollLeft)}px`,
-						`SlMax: ${Math.round(
-							/** @type {any} */ (this).scrollLeftMax
-						)}px`
-					].map((c) => html("span", {}, c))
-				);
-			}, 1);
-		} else {
-			if (this.querySelector("#panel-debug")) {
-				this.querySelector("#panel-debug").remove();
-			}
-		}
-	}
-
 	/**
 	 * Handles incoming events to the popup
 	 * @param {Event} event
 	 */
-	handleEvent(event) {
+	_handlePanelEvent(event) {
 		switch (event.type) {
 			case "popupshowing":
 				this.onPopupShowing();
@@ -354,12 +297,9 @@ class BrowserPanel extends MozPopupElement {
 			case "popuphiding":
 				this.onPopupHiding();
 				break;
-			case "click":
-				event.preventDefault();
-				event.stopPropagation();
-
+			case "mousedown":
 				if (this.insideMargins) {
-					this.hidePopup(true);
+					this.hidePopup();
 				}
 
 				break;
@@ -369,26 +309,63 @@ class BrowserPanel extends MozPopupElement {
 		}
 	}
 
+	/**
+	 * @param {BrowserDebugHologram} hologram
+	 */
+	renderDebugHologram(hologram) {
+		const bounds = this.getBoundingClientRect();
+
+		hologram.replaceChildren(
+			...[
+				`W: ${Math.round(bounds.width)}`,
+				`H: ${Math.round(bounds.height)}`,
+				`O: ${
+					parseFloat(getComputedStyle(this).opacity).toFixed(2) || 0
+				}`,
+				`Sl: ${Math.round(this.scrollLeft)}px`,
+				`SlMax: ${Math.round(
+					/** @type {any} */ (this).scrollLeftMax
+				)}px`
+			].map((c) => html("span", {}, c))
+		);
+	}
+
 	connectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		Services.prefs.addObserver(
-			this.#debugVisiblePref,
-			this._maybeRenderDebug.bind(this)
+		this.appendChild(
+			BrowserDebugHologram.create(
+				{
+					id: "panel",
+					prefId: this.#debugVisiblePref
+				},
+				this.renderDebugHologram.bind(this)
+			)
 		);
-		this._maybeRenderDebug();
 
-		this.addEventListener("popupshowing", this);
-		this.addEventListener("popupshown", this);
-		this.addEventListener("popuphiding", this);
+		this.addEventListener(
+			"popupshowing",
+			this._handlePanelEvent.bind(this)
+		);
+		this.addEventListener("popupshown", this._handlePanelEvent.bind(this));
+		this.addEventListener("popuphiding", this._handlePanelEvent.bind(this));
 	}
 
 	disconnectedCallback() {
 		if (this.delayConnectedCallback()) return;
 
-		this.removeEventListener("popupshowing", this);
-		this.removeEventListener("popupshown", this);
-		this.removeEventListener("popuphiding", this);
+		this.removeEventListener(
+			"popupshowing",
+			this._handlePanelEvent.bind(this)
+		);
+		this.removeEventListener(
+			"popupshown",
+			this._handlePanelEvent.bind(this)
+		);
+		this.removeEventListener(
+			"popuphiding",
+			this._handlePanelEvent.bind(this)
+		);
 	}
 }
 

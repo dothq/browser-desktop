@@ -9,6 +9,8 @@
  * @property {number} [y]
  * @property {Element} [element]
  * @property {`${"before" | "after"} ${"before" | "after"}`} [anchor]
+ * @property {Element} [root]
+ * @property {boolean} [autopurge]
  * @property {Record<string, any>} [args]
  */
 
@@ -66,8 +68,6 @@ export class BrowserPanels {
 			doc.createTextNode("hello world")
 		);
 
-		console.log("createMenu", menuArea);
-
 		const panelEl = this._setupPanel(id, menuArea);
 
 		return panelEl;
@@ -98,21 +98,13 @@ export class BrowserPanels {
 				panelEl.appendChild(/** @type {Element} */ (panelElement));
 			}
 
-			panelEl.addEventListener(
-				"popupshowing",
-				() => {
-					this.#visiblePanelIds.add(panelId);
-				},
-				{ once: true }
-			);
+			panelEl.addEventListener("popupshowing", () => {
+				this.#visiblePanelIds.add(panelId);
+			});
 
-			panelEl.addEventListener(
-				"popuphiding",
-				() => {
-					this.#visiblePanelIds.delete(panelId);
-				},
-				{ once: true }
-			);
+			panelEl.addEventListener("popuphiding", () => {
+				this.#visiblePanelIds.delete(panelId);
+			});
 
 			return panelEl;
 		} catch (e) {

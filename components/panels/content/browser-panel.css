@@ -5,18 +5,18 @@
 panel.browser-panel {
     --panel-shadow-margin: 14px;
 
-    margin: calc(-1 * var(--panel-shadow-margin) + 1px);
+    margin: calc(-1 * (var(--panel-shadow-margin) + var(--panel-inner-padding, 0px)));
 
     -moz-window-dragging: no-drag;
 
-    opacity: 1;
-}
+    &[animate="true"] {
+        opacity: 1;
 
-panel.browser-panel[animate="true"] {
-    transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
+        transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
 
-    &:not([open]) {
-        transition-duration: 0.1s;
-        opacity: 0;
+        &:not([open]) {
+            transition-duration: 0.1s;
+            opacity: 0;
+        }
     }
 }

@@ -127,8 +127,6 @@ class BrowserMultipanelArea extends BrowserPanelArea {
 			easing: "easeInOutQuad",
 			endDelay: 50,
 			update: () => {
-				console.log(cssVariables);
-
 				this.customizableContainer.style.setProperty(
 					"--scroll-x",
 					cssVariables.scrollX + "px"
