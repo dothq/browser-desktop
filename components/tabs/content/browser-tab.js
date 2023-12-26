@@ -435,24 +435,22 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	/**
 	 * @param {BrowserDebugHologram} hologram
 	 */
-	renderDebugHologram(hologram) {
+	renderTabDebugHologram(hologram) {
 		const width = this.getBoundingClientRect().width;
 
-		hologram.replaceChildren(
-			html(
-				"div",
-				{},
-				...[
-					`ID: ${this.id.split("tab-")[1]}`,
-					`W: ${width.toFixed(0)}`,
-					`MaxW: ${(
-						parseInt(getComputedStyle(this).maxWidth) || width
-					).toFixed(0)}`,
-					`MinW: ${(
-						parseInt(getComputedStyle(this).minWidth) || width
-					).toFixed(0)}`
-				].map((t) => html("span", {}, t))
-			)
+		return html(
+			"div",
+			{},
+			...[
+				`ID: ${this.id.split("tab-")[1]}`,
+				`W: ${width.toFixed(0)}`,
+				`MaxW: ${(
+					parseInt(getComputedStyle(this).maxWidth) || width
+				).toFixed(0)}`,
+				`MinW: ${(
+					parseInt(getComputedStyle(this).minWidth) || width
+				).toFixed(0)}`
+			].map((t) => html("span", {}, t))
 		);
 	}
 
@@ -481,7 +479,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 				id: "tab",
 				prefId: "dot.tabs.debug_information.visible"
 			},
-			this.renderDebugHologram.bind(this)
+			this.renderTabDebugHologram.bind(this)
 		);
 
 		this.shadowRoot.appendChild(debugHologram);

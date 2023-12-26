@@ -315,7 +315,9 @@ class BrowserPanel extends MozPopupElement {
 	renderDebugHologram(hologram) {
 		const bounds = this.getBoundingClientRect();
 
-		hologram.replaceChildren(
+		return html(
+			"div",
+			{},
 			...[
 				`W: ${Math.round(bounds.width)}`,
 				`H: ${Math.round(bounds.height)}`,
