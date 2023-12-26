@@ -58,6 +58,8 @@ class BrowserCommandButton extends BrowserButton {
 	_observeCommandMutation(audience, attributeName, value) {
 		if (this.hostContext.audience != audience) return;
 
+		if (this.getAttribute(attributeName)) return;
+
 		switch (attributeName) {
 			case "labelAuxiliary":
 				this.tooltip = value;
