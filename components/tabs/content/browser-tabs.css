@@ -2,17 +2,31 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import url("chrome://dot/content/widgets/browser-tabs-overflow-button.css");
+
 browser-tabs {
     display: flex;
 
     overflow: hidden;
 
-    flex: 1;
-    gap: 1px;
+    flex: 100 100;
+    gap: 4px;
 
+    width: 0;
     max-width: fit-content;
     height: 100%;
+}
 
+:host(browser-tabs)>.customizable-container {
+    min-width: 0;
     overflow: scroll;
     scrollbar-width: none;
+}
+
+:host(browser-tabs[overflowing]:not([scrolledtostart]))>.customizable-container {
+    border-left: 1px solid color-mix(in srgb, transparent 100%, currentColor 20%);
+}
+
+:host(browser-tabs[overflowing]:not([scrolledtoend]))>.customizable-container {
+    border-right: 1px solid color-mix(in srgb, transparent 100%, currentColor 20%);
 }

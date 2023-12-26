@@ -67,6 +67,36 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The scroll back button for the overflowed tab list
+	 */
+	get scrollBackButton() {
+		return (
+			this.shadowRoot.querySelector(
+				"button[is=browser-tabs-overflow-button][direction=backward]"
+			) ||
+			html("button", {
+				is: "browser-tabs-overflow-button",
+				direction: "backward"
+			})
+		);
+	}
+
+	/**
+	 * The scroll forward button for the overflowed tab list
+	 */
+	get scrollForwardButton() {
+		return (
+			this.shadowRoot.querySelector(
+				"button[is=browser-tabs-overflow-button][direction=forward]"
+			) ||
+			html("button", {
+				is: "browser-tabs-overflow-button",
+				direction: "forward"
+			})
+		);
+	}
+
+	/**
 	 * Fired when we have incoming events
 	 * @param {CustomEvent} event
 	 */
@@ -97,6 +127,9 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 			case "sizemodechange":
 				this._computeTabSizes();
 				break;
+			case "scroll":
+				this._computeScrollAttributes();
+				break;
 		}
 	}
 
@@ -107,6 +140,15 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	 */
 	getRenderedTabByInternalId(id) {
 		return this.customizableContainer.querySelector(`[tab=${id}]`);
+	}
+
+	/**
+	 * Determines whether we should enable overflow on the tab box
+	 */
+	_maybeOverflow() {
+		const { scrollWidth, clientWidth } = this.customizableContainer;
+
+		this.toggleAttribute("overflowing", scrollWidth >= clientWidth);
 	}
 
 	/**
@@ -125,24 +167,26 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 		renderedTab.linkedTab = tab;
 		this.customizableContainer.appendChild(renderedTab);
 
-		if (options && options.animate) {
-			renderedTab.animateIn().then(() => {
-				if (
-					this.scrollWidth > this.clientWidth ||
-					this.scrollHeight > this.clientHeight
-				) {
-					console.log("scrolling");
-					renderedTab.scrollIntoView({
-						behavior: "smooth",
-						block: "end",
-						inline: "nearest"
-					});
-				}
+		const shouldAnimate = options && options.animate;
+
+		const tabInPromise = shouldAnimate
+			? renderedTab.animateIn()
+			: new Promise((resolve) => {
+					renderedTab.width = gDot.tabs.tabMaxWidth;
+					renderedTab.hidden = false;
+
+					resolve();
+			  });
+
+		tabInPromise.then(() => {
+			renderedTab.scrollIntoView({
+				behavior: /** @type {ScrollBehavior} */ (
+					shouldAnimate ? "smooth" : "instant"
+				),
+				block: "end",
+				inline: "nearest"
 			});
-		} else {
-			renderedTab.width = gDot.tabs.tabMaxWidth;
-			renderedTab.hidden = false;
-		}
+		});
 
 		for (const attr of Array.from(tab.attributes)) {
 			this._onTabAttributeUpdated(tab, attr.name, null, attr.value);
@@ -236,6 +280,17 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * Recomputes the scroll attributes on the tab box
+	 */
+	_computeScrollAttributes() {
+		const { scrollLeft, scrollLeftMin, scrollLeftMax } =
+			this.customizableContainer;
+
+		this.toggleAttribute("scrolledtostart", scrollLeft <= scrollLeftMin);
+		this.toggleAttribute("scrolledtoend", scrollLeft >= scrollLeftMax);
+	}
+
+	/**
 	 * The amount that should be subtracted from each tab's max width
 	 */
 	_tabMaxWidthSubtrahend = 0;
@@ -286,6 +341,11 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	connectedCallback() {
 		super.connect("tabs");
 
+		this.shadowRoot.prepend(this.scrollBackButton);
+		this.shadowRoot.append(this.scrollForwardButton);
+
+		this.customizableContainer.addEventListener("scroll", this);
+
 		window.addEventListener(
 			"BrowserTabsCollator::TabAttributeUpdate",
 			this
@@ -299,6 +359,8 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 	}
 
 	disconnectedCallback() {
+		this.customizableContainer.removeEventListener("scroll", this);
+
 		window.removeEventListener("BrowserTabsCollator::TabAdded", this);
 		window.removeEventListener("BrowserTabsCollator::TabRemoved", this);
 		window.removeEventListener(

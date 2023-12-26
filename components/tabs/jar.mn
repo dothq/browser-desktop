@@ -37,3 +37,6 @@ dot.jar:
 
     content/widgets/browser-web-contents.js             (content/browser-web-contents.js)
     content/widgets/browser-web-contents.css            (content/browser-web-contents.css)
+
+    content/widgets/browser-tabs-overflow-button.js     (content/browser-tabs-overflow-button.js)
+    content/widgets/browser-tabs-overflow-button.css    (content/browser-tabs-overflow-button.css)
