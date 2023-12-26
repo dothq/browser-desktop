@@ -21,17 +21,7 @@ class BrowserStatus extends BrowserContextualMixin(MozHTMLElement) {
 		const nearestPanel = this.closest("browser-web-panel");
 
 		if (!nearestPanel) {
-			// If we don't have a host, and we're just apart of <browser-application>
-			// or <browser-tab> we can safely return the browser from the host's context.
-			if (
-				this.host instanceof BrowserApplication ||
-				this.host instanceof BrowserRenderedTab
-			) {
-				return this.hostContext.browser;
-			}
-
-			// Otherwise, we may be inside a toolbar, where we can use hoveredBrowser instead.
-			return gDot.tabs.hoveredBrowser;
+			return this.hostContext.browser;
 		}
 
 		return nearestPanel.querySelector("browser.browser-web-contents");
