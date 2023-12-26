@@ -15,6 +15,7 @@ export class DotContextMenuParent extends JSWindowActorParent {
 			const { x, y, context } = message.data;
 
 			const panel = win.gDot.panels.getPanelById("browser-context-menu");
+			win.document.documentElement.appendChild(panel);
 
 			panel.openPanel({
 				coordMode: "screen",

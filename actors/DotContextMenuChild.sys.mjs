@@ -40,8 +40,6 @@ export class DotContextMenuChild extends JSWindowActorChild {
 	 * @param {MouseEvent} event
 	 */
 	async handleEvent(event) {
-		console.log("handleEvent", event);
-
 		const context = this._createContext(event);
 
 		this.sendAsyncMessage("contextmenu", {
