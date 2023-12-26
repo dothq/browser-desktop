@@ -1,0 +1,35 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:host(panel) browser-debug-hologram {
+    position: unset !important;
+}
+
+browser-debug-hologram {
+    &:hover {
+        z-index: 2147483647;
+    }
+}
+
+:host(browser-debug-hologram) {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    font-weight: 600;
+    font-size: 10px;
+    font-family: monospace;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+:host(browser-debug-hologram[hidden]) {
+    display: none !important;
+}
+
+:host(browser-debug-hologram) ::slotted(*) {
+    display: flex;
+    gap: 4px;
+}

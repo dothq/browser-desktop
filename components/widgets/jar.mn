@@ -18,3 +18,4 @@ dot.jar:
     content/widgets/browser-contextual-element.js        (content/browser-contextual-element.js)
 
     content/widgets/browser-debug-hologram.js            (content/browser-debug-hologram.js)
+    content/widgets/browser-debug-hologram.css           (content/browser-debug-hologram.css)

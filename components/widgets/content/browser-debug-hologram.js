@@ -8,7 +8,7 @@ class BrowserDebugHologram extends HTMLElement {
 	 * @param {object} options
 	 * @param {string} options.id
 	 * @param {string} [options.prefId]
-	 * @param {Function} render
+	 * @param {(hologram: BrowserDebugHologram) => Element | Promise<Element>} render
 	 */
 	static create(options, render) {
 		const el = /** @type {BrowserDebugHologram} */ (
@@ -42,43 +42,21 @@ class BrowserDebugHologram extends HTMLElement {
 		return this.getAttribute("prefid");
 	}
 
-	_createStyle() {
-		const style = html("style");
-		style.textContent = `:host {
-            display: flex;
-            flex-direction: column;
-            background-color: black;
-            color: white;
-            font-weight: 600;
-            font-size: 10px;
-            font-family: monospace;
-            white-space: nowrap;
-        }
-
-        :host([hidden]) {
-            display: none !important;
-        }
-
-        ::slotted(*) {
-            display: flex;
-            gap: 4px;
-        }
-        `;
-
-		return style;
-	}
-
 	_render() {
 		const isVisible = this.prefId
 			? Services.prefs.getBoolPref(this.prefId, false)
 			: false;
 
-		console.log(isVisible, this.debugUpdateInt);
-
 		if (isVisible && this.debugUpdateInt == null) {
 			this.hidden = false;
 
-			this.debugUpdateInt = setInterval(() => this.doRender(this), 1);
+			this.debugUpdateInt = setInterval(async () => {
+				const promisedElement = await Promise.resolve(
+					this.doRender(this)
+				);
+
+				this.replaceChildren(promisedElement);
+			}, 1);
 		} else {
 			clearInterval(this.debugUpdateInt);
 			this.debugUpdateInt = null;
@@ -89,7 +67,12 @@ class BrowserDebugHologram extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.shadowRoot.appendChild(this._createStyle());
+		this.shadowRoot.appendChild(
+			html("link", {
+				rel: "stylesheet",
+				href: "chrome://dot/content/widgets/browser-debug-hologram.css"
+			})
+		);
 		this.shadowRoot.appendChild(html("slot"));
 
 		this._render();

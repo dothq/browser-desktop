@@ -220,7 +220,3 @@ browser-tab::part(customizable) {
 :host(browser-tab) .customizable-container> :last-child {
     margin-inline-end: var(--tab-padding-end);
 }
-
-:host(browser-tab) browser-debug-hologram {
-    position: fixed;
-}
