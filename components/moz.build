@@ -11,6 +11,7 @@ DIRS += [
     "contextmenu",
     "csd",
     "customizableui",
+    "devtools",
     "extensions",
     "favicons",
     "identity",

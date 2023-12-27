@@ -1,0 +1,18 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<svg
+	width="16"
+	height="16"
+	viewBox="0 0 16 16"
+	fill="context-fill"
+	fill-opacity="context-fill-opacity"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path
+		fill-rule="evenodd"
+		clip-rule="evenodd"
+		d="M1.37386 3.1393C0.578942 2.35409 1.13496 1 2.2523 1H13.7465C14.8638 1 15.4198 2.35394 14.6251 3.13919L10 7.70887V14C10 14.961 8.7766 15.3688 8.2 14.6L6.2 11.9333C6.07017 11.7602 6 11.5497 6 11.3333L6 7.70891L1.37386 3.1393ZM2.2523 2C2.02883 2 1.91762 2.27082 2.07661 2.42786L6.70274 6.99747C6.89295 7.18535 7 7.44156 7 7.70891V11.3333L9 14V7.70887C9 7.44157 9.10701 7.18539 9.29716 6.99752L13.9222 2.42784C14.0812 2.27079 13.97 2 13.7465 2H2.2523Z"
+	/>
+</svg>
