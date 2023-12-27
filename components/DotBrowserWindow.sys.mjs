@@ -2,9 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { XPCOMUtils } = ChromeUtils.importESModule("resource://gre/modules/XPCOMUtils.sys.mjs");
+var { XPCOMUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/XPCOMUtils.sys.mjs"
+);
 
-var { AppConstants } = ChromeUtils.importESModule("resource://gre/modules/AppConstants.sys.mjs");
+var { AppConstants } = ChromeUtils.importESModule(
+	"resource://gre/modules/AppConstants.sys.mjs"
+);
 
 /**
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIURI} nsIURI
@@ -24,7 +28,11 @@ const lazy = {
 };
 
 XPCOMUtils.defineLazyGetter(lazy, "ReferrerInfo", () =>
-	Components.Constructor("@mozilla.org/referrer-info;1", "nsIReferrerInfo", "init")
+	Components.Constructor(
+		"@mozilla.org/referrer-info;1",
+		"nsIReferrerInfo",
+		"init"
+	)
 );
 
 const { PrivateBrowsingUtils } = ChromeUtils.importESModule(
@@ -44,7 +52,8 @@ const {
 	OPEN_PRINT_BROWSER
 } = Ci.nsIBrowserDOMWindow;
 
-const { LOAD_FLAGS_NONE, LOAD_FLAGS_FROM_EXTERNAL, LOAD_FLAGS_FIRST_LOAD } = Ci.nsIWebNavigation;
+const { LOAD_FLAGS_NONE, LOAD_FLAGS_FROM_EXTERNAL, LOAD_FLAGS_FIRST_LOAD } =
+	Ci.nsIWebNavigation;
 
 export class nsBrowserAccess {
 	QueryInterface = ChromeUtils.generateQI(["nsIBrowserDOMWindow"]);
@@ -110,8 +119,14 @@ export class nsBrowserAccess {
 		if (isExternal && (!uri || uri.spec == "about:blank")) {
 			win.focus();
 
-			if (win.gDot.tabs._isWebContentsBrowserElement(win.gDot.tabs.selectedTab.webContents)) {
-				return /** @type {ChromeBrowser} */ (win.gDot.tabs.selectedTab.webContents);
+			if (
+				win.gDot.tabs._isWebContentsBrowserElement(
+					win.gDot.tabs.selectedTab.webContents
+				)
+			) {
+				return /** @type {ChromeBrowser} */ (
+					win.gDot.tabs.selectedTab.webContents
+				);
 			} else {
 				return null;
 			}
@@ -150,7 +165,14 @@ export class nsBrowserAccess {
 	 * @param {any} triggeringPrincipal
 	 * @param {any} csp
 	 */
-	createContentWindow(uri, openWindowInfo, where, flags, triggeringPrincipal, csp) {
+	createContentWindow(
+		uri,
+		openWindowInfo,
+		where,
+		flags,
+		triggeringPrincipal,
+		csp
+	) {
 		console.log(
 			"createContentWindow",
 			uri,
@@ -182,7 +204,9 @@ export class nsBrowserAccess {
 	 */
 	openURI(uri, openWindowInfo, where, flags, triggeringPrincipal, csp) {
 		if (!uri) {
-			console.error("Cannot pass invalid URI to nsBrowserAccess::openURI.");
+			console.error(
+				"Cannot pass invalid URI to nsBrowserAccess::openURI."
+			);
 
 			throw Components.Exception("", Cr.NS_ERROR_FAILURE);
 		}
@@ -231,7 +255,9 @@ export class nsBrowserAccess {
 		}
 
 		if (isExternal && uri && uri.schemeIs("chrome")) {
-			dump("*** Preventing external load of chrome: URI into browser window\n");
+			dump(
+				"*** Preventing external load of chrome: URI into browser window\n"
+			);
 			dump("    Use --chrome <uri> instead\n");
 
 			return null;
@@ -242,11 +268,17 @@ export class nsBrowserAccess {
 			// to override the behaviour of where to open external URIs
 			if (
 				isExternal &&
-				Services.prefs.prefHasUserValue("browser.link.open_newwindow.override.external")
+				Services.prefs.prefHasUserValue(
+					"browser.link.open_newwindow.override.external"
+				)
 			) {
-				where = Services.prefs.getIntPref("browser.link.open_newwindow.override.external");
+				where = Services.prefs.getIntPref(
+					"browser.link.open_newwindow.override.external"
+				);
 			} else {
-				where = Services.prefs.getIntPref("browser.link.open_newwindow");
+				where = Services.prefs.getIntPref(
+					"browser.link.open_newwindow"
+				);
 			}
 		}
 
@@ -259,7 +291,11 @@ export class nsBrowserAccess {
 				false /* sendReferrer */,
 				null /* originalReferrer */
 			);
-		} else if (openWindowInfo && openWindowInfo.parent && openWindowInfo.parent.window) {
+		} else if (
+			openWindowInfo &&
+			openWindowInfo.parent &&
+			openWindowInfo.parent.window
+		) {
 			// Otherwise, inherit the referrer policy from the openWindow
 			referrerInfo = new lazy.ReferrerInfo(
 				openWindowInfo.parent.window.document.referrerInfo.referrerPolicy,
@@ -280,7 +316,11 @@ export class nsBrowserAccess {
 			? openWindowInfo.originAttributes.privateBrowsingId != 0
 			: PrivateBrowsingUtils.isWindowPrivate(window);
 
-		if (where != OPEN_NEWWINDOW || where != OPEN_NEWTAB || where != OPEN_PRINT_BROWSER) {
+		if (
+			where != OPEN_NEWWINDOW ||
+			where != OPEN_NEWTAB ||
+			where != OPEN_PRINT_BROWSER
+		) {
 			// If the selectedTab's webContents isn't a browser element,
 			// fallback to opening the URL in a new tab rather than the
 			// current one.
@@ -303,9 +343,9 @@ export class nsBrowserAccess {
 				}
 
 				try {
-					const extraOptions = Cc["@mozilla.org/hash-property-bag;1"].createInstance(
-						Ci.nsIWritablePropertyBag2
-					);
+					const extraOptions = Cc[
+						"@mozilla.org/hash-property-bag;1"
+					].createInstance(Ci.nsIWritablePropertyBag2);
 
 					extraOptions.setPropertyAsBool("fromExternal", isExternal);
 
@@ -336,12 +376,28 @@ export class nsBrowserAccess {
 				break;
 			case OPEN_NEWTAB:
 				// If the openWindow isn't remote, we shouldn't open this tab as remote.
-				const forceNotRemote = openWindowInfo && !openWindowInfo.isRemote;
+				const forceNotRemote =
+					openWindowInfo && !openWindowInfo.isRemote;
 
 				// If possible, inherit the userContextId from the openWindow.
 				const userContextId = openWindowInfo
 					? openWindowInfo.originAttributes.userContextId
 					: Ci.nsIScriptSecurityManager.DEFAULT_USER_CONTEXT_ID;
+
+				console.log(
+					uri,
+					referrerInfo,
+					isPrivate,
+					isExternal,
+					forceNotRemote,
+					userContextId,
+					openWindowInfo,
+					openWindowInfo?.parent?.top.embedderElement,
+					triggeringPrincipal,
+					"",
+					csp,
+					skipLoad
+				);
 
 				const browser = this._openURIInNewTab(
 					uri,
@@ -361,6 +417,8 @@ export class nsBrowserAccess {
 				if (browser) {
 					browsingContext = browser.browsingContext;
 				}
+
+				break;
 			case OPEN_PRINT_BROWSER:
 				console.log("todo: handle OPEN_PRINT_BROWSER openURI requests");
 				break;
@@ -393,10 +451,16 @@ export class nsBrowserAccess {
 					});
 				}
 
-				if (!Services.prefs.getBoolPref("browser.tabs.loadDivertedInBackground")) {
+				if (
+					!Services.prefs.getBoolPref(
+						"browser.tabs.loadDivertedInBackground"
+					)
+				) {
 					this._win.focus();
 				}
 		}
+
+		return browsingContext;
 	}
 
 	/**
@@ -407,9 +471,23 @@ export class nsBrowserAccess {
 	 * @param {string} name
 	 */
 	createContentWindowInFrame(uri, params, where, flags, name) {
-		console.log("createContentWindowInFrame", uri, params, where, flags, name);
+		console.log(
+			"createContentWindowInFrame",
+			uri,
+			params,
+			where,
+			flags,
+			name
+		);
 
-		return this.getContentWindowOrOpenURIInFrame(null, params, where, flags, name, true);
+		return this.getContentWindowOrOpenURIInFrame(
+			null,
+			params,
+			where,
+			flags,
+			name,
+			true
+		);
 	}
 
 	/**
@@ -422,7 +500,14 @@ export class nsBrowserAccess {
 	openURIInFrame(uri, params, where, flags, name) {
 		console.log("OpenURIInFrame", uri, params, where, flags, name);
 
-		return this.getContentWindowOrOpenURIInFrame(uri, params, where, flags, name, false);
+		return this.getContentWindowOrOpenURIInFrame(
+			uri,
+			params,
+			where,
+			flags,
+			name,
+			false
+		);
 	}
 
 	/**
@@ -434,9 +519,24 @@ export class nsBrowserAccess {
 	 * @param {string} name
 	 * @param {boolean} skipLoad
 	 */
-	getContentWindowOrOpenURIInFrame(uri, params, where, flags, name, skipLoad) {
+	getContentWindowOrOpenURIInFrame(
+		uri,
+		params,
+		where,
+		flags,
+		name,
+		skipLoad
+	) {
 		if (where == OPEN_PRINT_BROWSER) {
-			console.log("todo: handle OPEN_PRINT_BROWSER openURI requests");
+			console.log(
+				"todo: handle OPEN_PRINT_BROWSER openURI requests",
+				uri,
+				params,
+				where,
+				flags,
+				name,
+				skipLoad
+			);
 			return null;
 		}
 
@@ -448,7 +548,8 @@ export class nsBrowserAccess {
 		const isExternal = !!(flags & OPEN_EXTERNAL);
 
 		const userContextId =
-			params.openerOriginAttributes && "userContextId" in params.openerOriginAttributes
+			params.openerOriginAttributes &&
+			"userContextId" in params.openerOriginAttributes
 				? params.openerOriginAttributes.userContextId
 				: Ci.nsIScriptSecurityManager.DEFAULT_USER_CONTEXT_ID;
 
