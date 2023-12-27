@@ -6,6 +6,10 @@ var { CommandAudiences } = ChromeUtils.importESModule(
 	"resource://gre/modules/CommandAudiences.sys.mjs"
 );
 
+var { ConsoleAPI } = ChromeUtils.importESModule(
+	"resource://gre/modules/Console.sys.mjs"
+);
+
 class BrowserRenderedTab extends BrowserCustomizableArea {
 	/**
 	 * The minimum width of a tab allowed
@@ -170,6 +174,20 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	}
 
 	/**
+	 * The logger singleton for the tab
+	 * @type {Console & { maxLogLevel: string, shouldLog: ((logLevel) => boolean); }}
+	 */
+	get logger() {
+		if (this._logger) return this._logger;
+
+		return (this._logger = new ConsoleAPI({
+			maxLogLevel: "warn",
+			maxLogLevelPref: "dot.tabs.loglevel",
+			prefix: `BrowserTab (${this.linkedTab?.id || this.id})`
+		}));
+	}
+
+	/**
 	 * Fired whenever the user clicks down onto the tab
 	 */
 	_onTabMouseDown(event) {
@@ -315,8 +333,35 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	}
 
 	get animationProps() {
+		const updateCallback = () => {
+			if (this.logger.shouldLog("debug")) {
+				const style = getComputedStyle(this);
+				const containerStyle = getComputedStyle(
+					this.customizableContainer
+				);
+
+				const width = this.getBoundingClientRect().width;
+				const maxWidth = parseInt(style.maxWidth) || width;
+				const minWidth = parseInt(style.minWidth) || width;
+				const opacity = parseFloat(containerStyle.opacity);
+
+				this.logger.debug(
+					`    W = ${width
+						.toFixed(0)
+						.padStart(3, "0")}, MaxW = ${maxWidth
+						.toFixed(0)
+						.padStart(3, "0")}, MinW = ${minWidth
+						.toFixed(0)
+						.padStart(3, "0")}, O = ${opacity.toFixed(1)}`
+				);
+			}
+		};
+
 		return {
-			easing: "cubicBezier(0.2, 1.0, 0.2, 1.0)"
+			easing: "cubicBezier(0.2, 1.0, 0.2, 1.0)",
+			start: updateCallback,
+			update: updateCallback,
+			complete: updateCallback
 		};
 	}
 
@@ -324,9 +369,11 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	 * Starts the in animation for the tab
 	 */
 	animateIn(duration = this._tabInAnimateDuration) {
-		this.toggleAttribute("anime-animating", true);
+		this.setAttribute("anime-animating", "opening");
 
 		this.width = 0;
+
+		this.logger.debug(`Animating in for ${duration}ms`);
 
 		const inAnimation = {
 			...this.animationProps,
@@ -365,7 +412,22 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	 * Starts the out animation for the tab
 	 */
 	animateOut(duration = this._tabOutAnimateDuration) {
-		this.toggleAttribute("anime-animating", true);
+		const tabWidth = this.getBoundingClientRect().width;
+
+		this.setAttribute("anime-animating", "closing");
+
+		// Freeze the last tab width as the max width
+		// to avoid flickering when the tab collapses
+		this.style.setProperty("max-width", `${tabWidth}px`, "important");
+
+		// This formula exponentially increases the time to close a tab
+		// For instance:
+		//     If tabWidth is 240 (or whatever tabMaxWidth is), the multiplier is 1
+		//     If tabWidth is 120, the multiplier is 1.5
+		//     If tabWidth is 60, the multiplier is 1.75
+		duration *= 1 + (1 - (1 * tabWidth) / this.tabbox.tabMaxWidth);
+
+		this.logger.debug(`Animating out for ${duration}ms`);
 
 		const outAnimation = {
 			...this.animationProps,
@@ -375,7 +437,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 		const widthAnimation = window.timeline(outAnimation).add({
 			targets: this,
-			width: 0
+			width: [tabWidth, 0]
 		});
 
 		const opacityAnimation = window.timeline(outAnimation).add({
@@ -389,8 +451,6 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 				widthAnimation.finished,
 				opacityAnimation.finished
 			]).then(() => {
-				this.removeAttribute("anime-animating");
-
 				r();
 			});
 		});

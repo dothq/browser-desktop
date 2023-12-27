@@ -8,7 +8,7 @@ browser-tab {
     display: flex;
     justify-content: flex-start;
 
-    min-width: 0px;
+    min-width: auto;
 
     margin: 0;
 
@@ -19,8 +19,14 @@ browser-tab {
 
     will-change: transform;
 
+    overflow: clip;
+
     --base-transition: 0.3s max-width cubic-bezier(0.19, 1, 0.22, 1), 0.3s width cubic-bezier(0.19, 1, 0.22, 1);
     transition: var(--base-transition);
+}
+
+browser-tab[anime-animating="closing"] {
+    pointer-events: none;
 }
 
 browser-tab:not([anime-animating]) {
@@ -203,7 +209,7 @@ browser-tab::part(customizable) {
     gap: 2px;
     align-items: center;
 
-    overflow: initial;
+    overflow: inherit;
     padding: 0;
 
     --tab-padding-start: calc(var(--browser-ui-density) * 1.25);
