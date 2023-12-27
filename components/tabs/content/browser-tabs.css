@@ -9,7 +9,7 @@ browser-tabs {
 
     overflow: hidden;
 
-    flex: 100 100;
+    flex: 100 fit-content;
     gap: 4px;
 
     width: 0;
