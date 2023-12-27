@@ -35,6 +35,14 @@ function BrowserContextualMixin(BaseClass) {
 		get hostContext() {
 			return this.host.context;
 		}
+
+		/**
+		 * List of all supplied customizable attributes
+		 * @returns {string[]}
+		 */
+		get customizableAttributes() {
+			return (this.getAttribute("customizable-attrs") || "").split(" ");
+		}
 	};
 
 	return BrowserContextualElement;

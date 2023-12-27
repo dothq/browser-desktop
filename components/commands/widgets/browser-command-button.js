@@ -58,7 +58,7 @@ class BrowserCommandButton extends BrowserButton {
 	_observeCommandMutation(audience, attributeName, value) {
 		if (this.hostContext.audience != audience) return;
 
-		if (this.getAttribute(attributeName)) return;
+		if (this.customizableAttributes.includes(attributeName)) return;
 
 		switch (attributeName) {
 			case "labelAuxiliary":
