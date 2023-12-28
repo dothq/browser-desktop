@@ -152,7 +152,9 @@ export const BrowserCustomizableAttributePrimitives = {
 			return `var(--${value})`;
 		}
 
-		return BrowserCustomizableAttributePrimitives.color(attribute)(value);
+		throw new Error(
+			`Attribute '${attribute}' does not use a valid or supported named color, got '${value}'.`
+		);
 	},
 
 	/**
