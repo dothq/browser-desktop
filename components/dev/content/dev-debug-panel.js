@@ -136,6 +136,10 @@ class DeveloperDebugPanel extends MozHTMLElement {
 
 			this.elements.active_theme.appendChild(option);
 		}
+
+		this.elements.active_theme.value = allThemes.find(
+			(a) => a.isActive
+		)?.id;
 	}
 
 	resourceUsageInt = null;
@@ -221,6 +225,10 @@ class DeveloperDebugPanel extends MozHTMLElement {
 		setInterval(() => {
 			this.getCustomizableUIData();
 		}, 500);
+
+		this.elements.active_theme.addEventListener("mouseover", async () => {
+			await this.renderThemes();
+		});
 
 		this.elements.active_theme.addEventListener("change", async (event) => {
 			const { value } = /** @type {HTMLSelectElement} */ (event.target);
