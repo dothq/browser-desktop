@@ -207,7 +207,7 @@ BrowserTabs.prototype = {
 	},
 
 	get _tabpanelBoxEl() {
-		return this._win.document.getElementById("tabspanel");
+		return this._win.document.getElementById("appcontent");
 	},
 
 	_draggingTab: null,
