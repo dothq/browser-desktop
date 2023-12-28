@@ -51,7 +51,7 @@ browser-tab .browser-tab-background {
 
     border-radius: var(--browser-ui-density) var(--browser-ui-density) 0 0;
 
-    transition: 0.4s background-color cubic-bezier(0.19, 1, 0.22, 1),
+    transition: 0.3s background-color cubic-bezier(0.19, 1, 0.22, 1),
         0.4s box-shadow cubic-bezier(0.19, 1, 0.22, 1);
 
     overflow: clip;
