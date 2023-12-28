@@ -6,7 +6,6 @@
 
 dot.jar:
 % override chrome://devtools/skin/images/add.svg chrome://dot/skin/add.svg
-% override chrome://devtools/skin/images/alert-small.svg chrome://dot/skin/warning.svg
 % override chrome://devtools/skin/images/alert-tiny.svg chrome://dot/skin/warning.svg
 % override chrome://devtools/skin/images/alert.svg chrome://dot/skin/warning.svg
 % override chrome://devtools/skin/images/application-manifest.svg chrome://dot/skin/page.svg
@@ -19,12 +18,18 @@ dot.jar:
 % override chrome://devtools/skin/images/clear.svg chrome://dot/skin/rubbish-bin.svg
 % override chrome://devtools/skin/images/close.svg chrome://dot/skin/close.svg
 % override chrome://devtools/skin/images/close-3-pane.svg chrome://dot/skin/collapse-right.svg
+% override chrome://devtools/skin/images/command-always-on-top-window.svg chrome://dot/skin/copy.svg
+% override chrome://devtools/skin/images/command-chevron.svg chrome://dot/skin/double-chevron-right.svg
 % override chrome://devtools/skin/images/command-console.svg chrome://dot/skin/window.svg
+% override chrome://devtools/skin/images/command-eyedropper.svg chrome://dot/skin/eyedropper.svg
 % override chrome://devtools/skin/images/command-frames.svg chrome://dot/skin/layout.svg
 % override chrome://devtools/skin/images/command-measure.svg chrome://dot/skin/ruler.svg
+% override chrome://devtools/skin/images/command-pick-accessibility.svg chrome://dot/skin/inspect-accessibility.svg
+% override chrome://devtools/skin/images/command-responsivemode.svg chrome://dot/skin/devices.svg
 % override chrome://devtools/skin/images/command-rulers.svg chrome://dot/skin/rulers.svg
 % override chrome://devtools/skin/images/command-screenshot.svg chrome://dot/skin/camera.svg
 % override chrome://devtools/skin/images/copy.svg chrome://dot/skin/copy.svg
+% override chrome://devtools/skin/images/datastore.svg chrome://dot/skin/disks.svg
 % override chrome://devtools/skin/images/dock-bottom.svg chrome://dot/skin/dock-bottom.svg
 % override chrome://devtools/skin/images/dock-side-left.svg chrome://dot/skin/dock-left.svg
 % override chrome://devtools/skin/images/dock-side-right.svg chrome://dot/skin/dock-right.svg
@@ -35,7 +40,6 @@ dot.jar:
 % override chrome://devtools/skin/images/globe.svg chrome://dot/skin/globe.svg
 % override chrome://devtools/skin/images/help.svg chrome://dot/skin/question.svg
 % override chrome://devtools/skin/images/info.svg chrome://dot/skin/info.svg
-% override chrome://devtools/skin/images/info-small.svg chrome://dot/skin/info.svg
 % override chrome://devtools/skin/images/lock.svg chrome://dot/skin/padlock.svg
 % override chrome://devtools/skin/images/more.svg chrome://dot/skin/more-horizontal.svg
 % override chrome://devtools/skin/images/open-3-pane.svg chrome://dot/skin/collapse-left.svg
@@ -44,6 +48,7 @@ dot.jar:
 % override chrome://devtools/skin/images/pencil-icon.svg chrome://dot/skin/edit.svg
 % override chrome://devtools/skin/images/pause.svg chrome://dot/skin/media-pause.svg
 % override chrome://devtools/skin/images/play.svg chrome://dot/skin/media-play.svg
+% override chrome://devtools/skin/images/profiler-stopwatch.svg chrome://dot/skin/stopwatch.svg
 % override chrome://devtools/skin/images/reload.svg chrome://dot/skin/reload.svg
 % override chrome://devtools/skin/images/rules-view-print-simulation.svg chrome://dot/skin/print.svg
 % override chrome://devtools/skin/images/search.svg chrome://dot/skin/search.svg
@@ -52,6 +57,17 @@ dot.jar:
 % override chrome://devtools/skin/images/security-state-secure.svg chrome://dot/skin/padlock.svg
 % override chrome://devtools/skin/images/security-state-weak.svg chrome://dot/skin/padlock-unsecure.svg
 % override chrome://devtools/skin/images/settings.svg chrome://dot/skin/settings.svg
+% override chrome://devtools/skin/images/tool-accessibility.svg chrome://dot/skin/accessibility.svg
+% override chrome://devtools/skin/images/tool-application.svg chrome://dot/skin/grid.svg
+% override chrome://devtools/skin/images/tool-debugger.svg chrome://dot/skin/label.svg
+% override chrome://devtools/skin/images/tool-dom.svg chrome://dot/skin/dom.svg
+% override chrome://devtools/skin/images/tool-inspector.svg chrome://dot/skin/inspector.svg
+% override chrome://devtools/skin/images/tool-memory.svg chrome://dot/skin/memory.svg
+% override chrome://devtools/skin/images/tool-network.svg chrome://dot/skin/network.svg
+% override chrome://devtools/skin/images/tool-profiler.svg chrome://dot/skin/speedometer.svg
+% override chrome://devtools/skin/images/tool-storage.svg chrome://dot/skin/disks.svg
+% override chrome://devtools/skin/images/tool-styleeditor.svg chrome://dot/skin/brackets.svg
+% override chrome://devtools/skin/images/tool-webconsole.svg chrome://dot/skin/terminal.svg
 
 % override chrome://devtools/skin/images/webconsole/editor.svg chrome://dot/skin/dock-left.svg
 % override chrome://devtools/skin/images/webconsole/input.svg chrome://dot/skin/double-chevron-right.svg
