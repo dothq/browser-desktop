@@ -7,3 +7,4 @@ dot.jar:
 #include ../shared/jar.inc.mn
   skin/classic/dot/browser.css
   skin/classic/dot/global.css
+  skin/classic/dot/gtk.css

@@ -1,0 +1,21 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root:not(:-moz-lwtheme) {
+    color-scheme: light dark;
+
+    /* https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1.4/named-colors.html */
+
+    --lwt-accent-color: light-dark(rgb(245, 245, 245), rgb(36, 36, 36)) !important;
+    --lwt-accent-color-inactive: light-dark(rgb(230, 230, 230), rgb(36, 36, 36)) !important;
+
+    --lwt-text-color: light-dark(rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 1)) !important;
+
+    --toolbar-bgcolor: light-dark(rgb(255, 255, 255), rgb(48, 48, 48)) !important;
+    --toolbar-color: light-dark(rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 1)) !important;
+
+    --chrome-content-separator-color: light-dark(rgb(220, 220, 220), rgb(4, 4, 4)) !important;
+
+    --toolbar-field-background-color: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.1)) !important;
+}
