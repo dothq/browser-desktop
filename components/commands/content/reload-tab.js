@@ -46,6 +46,43 @@ export class ReloadTabCommand extends TabCommand {
 	}
 
 	/**
+	 * Determines whether we should show progress
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIRequest} request
+	 */
+	_shouldShowProgress(request) {
+		return BrowserTabsUtils.shouldShowProgress(
+			/** @type {import("third_party/dothq/gecko-types/lib").nsIChannel} */ (
+				request
+			)
+		);
+	}
+
+	/**
+	 * Determines whether the time to load the page took long enough
+	 * that we can warrant making the reload button disabled after
+	 * loading.
+	 */
+	get isLoadTimeLongEnoughToDisable() {
+		return (
+			this.timeWhenSwitchedToStop &&
+			this.window.performance.now() - this.timeWhenSwitchedToStop > 150
+		);
+	}
+
+	/**
+	 * Fired when any tab is selected
+	 * @param {BrowserTab} tab
+	 */
+	onTabSelected(tab) {
+		if (tab == this.context.tab) return;
+
+		// We want to stop the timer and enable the reload
+		// button the second we switch tabs, so we aren't
+		// waiting for the button to become enabled.
+		this._clearReloadTimer();
+	}
+
+	/**
 	 * Fired when the state changes a browser
 	 * @param {object} data
 	 * @param {ChromeBrowser} data.browser
@@ -66,17 +103,20 @@ export class ReloadTabCommand extends TabCommand {
 		const { STATE_START, STATE_IS_NETWORK, STATE_STOP } =
 			Ci.nsIWebProgressListener;
 
-		const shouldShowProgress = BrowserTabsUtils.shouldShowProgress(
-			/** @type {import("third_party/dothq/gecko-types/lib").nsIChannel} */ (
-				request
-			)
-		);
+		const shouldShowProgress = this._shouldShowProgress(request);
+
+		const wasLoading = this.isLoading;
 
 		this.isLoading =
 			webProgress.isTopLevel &&
 			stateFlags & STATE_START &&
 			stateFlags & STATE_IS_NETWORK &&
 			shouldShowProgress;
+
+		// Switched from reload -> stop
+		if (!wasLoading && this.isLoading) {
+			this.timeWhenSwitchedToStop = this.window.performance.now();
+		}
 
 		this._update();
 
@@ -85,7 +125,8 @@ export class ReloadTabCommand extends TabCommand {
 		} else if (
 			request instanceof Ci.nsIRequest &&
 			webProgress.isTopLevel &&
-			!webProgress.isLoadingDocument
+			!webProgress.isLoadingDocument &&
+			this.isLoadTimeLongEnoughToDisable
 		) {
 			if (this._reloadTimer) return;
 
