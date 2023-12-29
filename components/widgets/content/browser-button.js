@@ -141,6 +141,37 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.setAttribute("mode", newMode);
 	}
 
+	/**
+	 * Toggles a transitioning psuedo class on the button
+	 * @param {string} name
+	 */
+	_toggleTransitionPsuedoClass(name) {
+		this.toggleAttribute(`was-${name}`, true);
+
+		this.addEventListener(
+			"transitionend",
+			() => {
+				this.removeAttribute(`was-${name}`);
+			},
+			{ once: true }
+		);
+	}
+
+	/**
+	 * Handles internal browser button events
+	 * @param {Event} event
+	 */
+	_handleBrowserButtonEvent(event) {
+		switch (event.type) {
+			case "mouseleave":
+				this._toggleTransitionPsuedoClass("hover");
+				break;
+			case "focusout":
+				this._toggleTransitionPsuedoClass("focus");
+				break;
+		}
+	}
+
 	connectedCallback() {
 		this.classList.add("browser-button");
 		this.classList.toggle(
@@ -156,9 +187,27 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 				this.elements.label
 			)
 		);
+
+		this.addEventListener(
+			"mouseleave",
+			this._handleBrowserButtonEvent.bind(this)
+		);
+		this.addEventListener(
+			"focusout",
+			this._handleBrowserButtonEvent.bind(this)
+		);
 	}
 
-	disconnectedCallback() {}
+	disconnectedCallback() {
+		this.removeEventListener(
+			"mouseleave",
+			this._handleBrowserButtonEvent.bind(this)
+		);
+		this.removeEventListener(
+			"focusout",
+			this._handleBrowserButtonEvent.bind(this)
+		);
+	}
 }
 
 customElements.define("browser-button", BrowserButton);

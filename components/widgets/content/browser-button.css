@@ -4,6 +4,12 @@
 
 .browser-button {
     --button-disabled-opacity: 0.65;
+
+    transition: none;
+}
+
+.browser-button:is(:hover, :active, :focus, :focus-visible, [was-hover], [was-focus]) {
+    transition: var(--button-transition);
 }
 
 .browser-button:disabled {
