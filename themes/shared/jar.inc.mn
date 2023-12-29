@@ -25,6 +25,7 @@
   skin/classic/dot/brackets.svg                         (../shared/icons/brackets.svg)
   skin/classic/dot/briefcase.svg                        (../shared/icons/briefcase.svg)
   skin/classic/dot/brush.svg                            (../shared/icons/brush.svg)
+  skin/classic/dot/cabinet.svg                          (../shared/icons/cabinet.svg)
   skin/classic/dot/calculator.svg                       (../shared/icons/calculator.svg)
   skin/classic/dot/camera.svg                           (../shared/icons/camera.svg)
   skin/classic/dot/captions.svg                         (../shared/icons/captions.svg)
@@ -49,6 +50,7 @@
   skin/classic/dot/dom.svg                              (../shared/icons/dom.svg)
   skin/classic/dot/double-chevron-right.svg             (../shared/icons/double-chevron-right.svg)
   skin/classic/dot/download.svg                         (../shared/icons/download.svg)
+  skin/classic/dot/drm.svg                              (../shared/icons/drm.svg)
   skin/classic/dot/edit.svg                             (../shared/icons/edit.svg)
   skin/classic/dot/error.svg                            (../shared/icons/error.svg)
   skin/classic/dot/exit-fullscreen.svg                  (../shared/icons/exit-fullscreen.svg)
@@ -70,10 +72,12 @@
   skin/classic/dot/key.svg                              (../shared/icons/key.svg)
   skin/classic/dot/label.svg                            (../shared/icons/label.svg)
   skin/classic/dot/layout.svg                           (../shared/icons/layout.svg)
+  skin/classic/dot/lightbulb.svg                        (../shared/icons/lightbulb.svg)
   skin/classic/dot/media-pause.svg                      (../shared/icons/media-pause.svg)
   skin/classic/dot/media-play.svg                       (../shared/icons/media-play.svg)
   skin/classic/dot/media-stop.svg                       (../shared/icons/media-stop.svg)
   skin/classic/dot/memory.svg                           (../shared/icons/memory.svg)
+  skin/classic/dot/moon.svg                             (../shared/icons/moon.svg)
   skin/classic/dot/more-horizontal.svg                  (../shared/icons/more-horizontal.svg)
   skin/classic/dot/more-vertical.svg                    (../shared/icons/more-vertical.svg)
   skin/classic/dot/musical-note.svg                     (../shared/icons/musical-note.svg)
@@ -83,9 +87,11 @@
   skin/classic/dot/padlock.svg                          (../shared/icons/padlock.svg)
   skin/classic/dot/page.svg                             (../shared/icons/page.svg)
   skin/classic/dot/pages.svg                            (../shared/icons/pages.svg)
+  skin/classic/dot/paperclip.svg                        (../shared/icons/paperclip.svg)
   skin/classic/dot/paste.svg                            (../shared/icons/paste.svg)
   skin/classic/dot/picture.svg                          (../shared/icons/picture.svg)
   skin/classic/dot/pinpoint.svg                         (../shared/icons/pinpoint.svg)
+  skin/classic/dot/plugin.svg                           (../shared/icons/plugin.svg)
   skin/classic/dot/print.svg                            (../shared/icons/print.svg)
   skin/classic/dot/question.svg                         (../shared/icons/question.svg)
   skin/classic/dot/redo.svg                             (../shared/icons/redo.svg)
@@ -101,10 +107,12 @@
   skin/classic/dot/speedometer.svg                      (../shared/icons/speedometer.svg)
   skin/classic/dot/star.svg                             (../shared/icons/star.svg)
   skin/classic/dot/stopwatch.svg                        (../shared/icons/stopwatch.svg)
+  skin/classic/dot/sun.svg                              (../shared/icons/sun.svg)
   skin/classic/dot/sync.svg                             (../shared/icons/sync.svg)
   skin/classic/dot/tab-loading-busy.svg                 (../shared/icons/tab-loading-busy.svg)
   skin/classic/dot/tab-loading-transit.svg              (../shared/icons/tab-loading-transit.svg)
   skin/classic/dot/tab-loading.svg                      (../shared/icons/tab-loading.svg)
+  skin/classic/dot/tab.svg                              (../shared/icons/tab.svg)
   skin/classic/dot/terminal.svg                         (../shared/icons/terminal.svg)
   skin/classic/dot/toggle.svg                           (../shared/icons/toggle.svg)
   skin/classic/dot/undo.svg                             (../shared/icons/undo.svg)
@@ -118,26 +126,40 @@
 % override chrome://browser/skin/back.svg chrome://dot/skin/arrow-left.svg
 % override chrome://browser/skin/forward.svg chrome://dot/skin/arrow-right.svg
 % override chrome://global/skin/icons/reload.svg chrome://dot/skin/reload.svg
+% override chrome://browser/skin/drm-icon.svg chrome://dot/skin/drm.svg
 % override chrome://browser/skin/home.svg chrome://dot/skin/home.svg
+% override chrome://browser/skin/login.svg chrome://dot/skin/key.svg
+% override chrome://global/skin/icons/chevron.svg chrome://dot/skin/double-chevron-right.svg
 % override chrome://global/skin/icons/close.svg chrome://dot/skin/close.svg
 % override chrome://global/skin/icons/arrow-left.svg chrome://dot/skin/chevron-left.svg
 % override chrome://global/skin/icons/arrow-right.svg chrome://dot/skin/chevron-right.svg
 % override chrome://global/skin/icons/arrow-up.svg chrome://dot/skin/chevron-up.svg
 % override chrome://global/skin/icons/arrow-down.svg chrome://dot/skin/chevron-down.svg
+% override chrome://global/skin/icons/blocked.svg chrome://dot/skin/block.svg
 % override chrome://global/skin/icons/defaultFavicon.svg chrome://dot/skin/globe.svg
 % override chrome://global/skin/icons/delete.svg chrome://dot/skin/rubbish-bin.svg
-% override chrome://global/skin/icons/defaultFavicon.svg chrome://dot/skin/globe.svg
+% override chrome://global/skin/icons/edit-copy.svg chrome://dot/skin/copy.svg
 % override chrome://global/skin/icons/experiments.svg chrome://dot/skin/beaker.svg
 % override chrome://global/skin/icons/folder.svg chrome://dot/skin/folder.svg
+% override chrome://global/skin/icons/help.svg chrome://dot/skin/question.svg
+% override chrome://global/skin/icons/lightbulb.svg chrome://dot/skin/lightbulb.svg
+% override chrome://global/skin/icons/link.svg chrome://dot/skin/paperclip.svg
 % override chrome://global/skin/icons/more.svg chrome://dot/skin/more-horizontal.svg
+% override chrome://global/skin/icons/open-in-new.svg chrome://dot/skin/open-external.svg
+% override chrome://global/skin/icons/page-portrait.svg chrome://dot/skin/page.svg
+% override chrome://global/skin/icons/plugin.svg chrome://dot/skin/plugin.svg
 % override chrome://global/skin/icons/print.svg chrome://dot/skin/print.svg
 % override chrome://global/skin/icons/undo.svg chrome://dot/skin/undo.svg
 % override chrome://global/skin/icons/redo.svg chrome://dot/skin/redo.svg
 % override chrome://global/skin/icons/search-glass.svg chrome://dot/skin/search.svg
+% override chrome://global/skin/icons/security.svg chrome://dot/skin/padlock.svg
+% override chrome://global/skin/icons/security-broken.svg chrome://dot/skin/padlock-unsecure.svg
+% override chrome://global/skin/icons/security-warning.svg chrome://dot/skin/padlock-unsecure.svg
 % override chrome://global/skin/icons/edit.svg chrome://dot/skin/edit.svg
 % override chrome://global/skin/icons/check.svg chrome://dot/skin/check.svg
 % override chrome://global/content/aboutconfig/toggle.svg chrome://dot/skin/toggle.svg
 % override chrome://mozapps/skin/extensions/category-extensions.svg chrome://dot/skin/jigsaw.svg
+% override chrome://mozapps/skin/extensions/category-plugins.svg chrome://dot/skin/plugin.svg
 % override chrome://mozapps/skin/extensions/themeGeneric.svg chrome://dot/skin/brush.svg
 % override chrome://global/skin/icons/settings.svg chrome://dot/skin/settings.svg
 % override chrome://global/skin/icons/warning.svg chrome://dot/skin/warning.svg
