@@ -12,17 +12,6 @@ ChromeUtils.defineESModuleGetters(globalThis, {
 	SessionStore: "resource:///modules/sessionstore/SessionStore.sys.mjs"
 });
 
-XPCOMUtils.defineLazyScriptGetter(
-	globalThis,
-	[
-		"BrowserAddonUI",
-		"gExtensionsNotifications",
-		"gUnifiedExtensions",
-		"gXPInstallObserver"
-	],
-	"chrome://browser/content/browser-addons.js"
-);
-
 XPCOMUtils.defineLazyModuleGetters(globalThis, {
 	AddonManager: "resource://gre/modules/AddonManager.jsm"
 });
@@ -464,43 +453,6 @@ var gDotInit = {
 		Services.obs.addObserver(gRemoteControl, "devtools-socket");
 		Services.obs.addObserver(gRemoteControl, "marionette-listening");
 		Services.obs.addObserver(gRemoteControl, "remote-listening");
-
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-disabled"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-started"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-blocked"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-fullscreen-blocked"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-origin-blocked"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-policy-blocked"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-webapi-blocked"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-failed"
-		);
-		Services.obs.addObserver(
-			globalThis.gXPInstallObserver,
-			"addon-install-confirmation"
-		);
 
 		this.delayedStartupFinished = true;
 		globalThis._resolveDelayedStartup();

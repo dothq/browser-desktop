@@ -20,7 +20,6 @@ ChromeUtils.defineESModuleGetters(lazy, {
 XPCOMUtils.defineLazyModuleGetters(lazy, {
 	AddonManager: "resource://gre/modules/AddonManager.jsm",
 	Blocklist: "resource://gre/modules/Blocklist.jsm",
-	ExtensionsUI: "resource:///modules/ExtensionsUI.jsm",
 	FeatureGate: "resource://featuregates/FeatureGate.jsm",
 	PdfJs: "resource://pdf.js/PdfJs.jsm",
 	RFPHelper: "resource://gre/modules/RFPHelper.jsm",
@@ -269,11 +268,6 @@ export class DotGlue {
 	onWindowReady() {
 		if (this._windowIsReady) return;
 		this._windowIsReady = true;
-
-		// @todo: see if this is needed/what this does in ff
-		// lazy.Interactions.init();
-		// lazy.PageDataService.init();
-		lazy.ExtensionsUI.init();
 
 		// Disable any unsigned addons if MOZ_REQUIRE_SIGNING is set
 		this.maybeDisableUnsignedAddons();
