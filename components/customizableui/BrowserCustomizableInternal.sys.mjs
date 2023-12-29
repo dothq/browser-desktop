@@ -115,10 +115,14 @@ BrowserCustomizableInternal.prototype = {
 			Object.entries(attributes).map((a) => ({ name: a[0], value: a[1] }))
 		);
 
-		element.setAttribute(
-			"customizable-attrs",
-			Object.keys(processedAttributes).join(" ")
-		);
+		const processedAttributesKeys = Object.keys(processedAttributes);
+
+		if (processedAttributesKeys.length) {
+			element.setAttribute(
+				"customizable-attrs",
+				processedAttributesKeys.join(" ")
+			);
+		}
 
 		for (const [key, value] of Object.entries(processedAttributes)) {
 			const attributeValue = (value ?? "").toString();
