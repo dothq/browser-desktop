@@ -78,6 +78,20 @@ const JSWINDOWACTORS = {
 		allFrames: true
 	},
 
+	DotDevTools: {
+		child: {
+			esModuleURI: "resource:///actors/DotDevToolsChild.sys.mjs",
+
+			events: {
+				DOMDocElementInserted: { capture: true },
+				DOMContentLoaded: { capture: true }
+			}
+		},
+
+		matches: ["about:devtools-toolbox", "chrome://devtools/content/*"],
+		allFrames: true
+	},
+
 	DotPopupHandler: {
 		parent: {
 			esModuleURI: "resource:///actors/DotPopupHandlerParent.sys.mjs"

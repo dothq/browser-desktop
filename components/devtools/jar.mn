@@ -5,6 +5,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 dot.jar:
+% content dot %content/ contentaccessible=yes
+    content/devtools/devtools.css            (content/devtools.css)
+
+% override chrome://devtools/skin/images/aboutdebugging-globe-icon.svg chrome://dot/skin/globe.svg
 % override chrome://devtools/skin/images/add.svg chrome://dot/skin/add.svg
 % override chrome://devtools/skin/images/alert-tiny.svg chrome://dot/skin/warning.svg
 % override chrome://devtools/skin/images/alert.svg chrome://dot/skin/warning.svg
@@ -30,6 +34,8 @@ dot.jar:
 % override chrome://devtools/skin/images/command-screenshot.svg chrome://dot/skin/camera.svg
 % override chrome://devtools/skin/images/copy.svg chrome://dot/skin/copy.svg
 % override chrome://devtools/skin/images/datastore.svg chrome://dot/skin/disks.svg
+% override chrome://devtools/skin/images/debugging-addons.svg chrome://dot/skin/jigsaw.svg
+% override chrome://devtools/skin/images/debugging-tabs.svg chrome://dot/skin/tab.svg
 % override chrome://devtools/skin/images/dock-bottom.svg chrome://dot/skin/dock-bottom.svg
 % override chrome://devtools/skin/images/dock-side-left.svg chrome://dot/skin/dock-left.svg
 % override chrome://devtools/skin/images/dock-side-right.svg chrome://dot/skin/dock-right.svg
@@ -50,6 +56,9 @@ dot.jar:
 % override chrome://devtools/skin/images/play.svg chrome://dot/skin/media-play.svg
 % override chrome://devtools/skin/images/profiler-stopwatch.svg chrome://dot/skin/stopwatch.svg
 % override chrome://devtools/skin/images/reload.svg chrome://dot/skin/reload.svg
+% override chrome://devtools/skin/images/report.svg chrome://dot/skin/lightbulb.svg
+% override chrome://devtools/skin/images/rules-view-dark-mode-simulation.svg chrome://dot/skin/moon.svg
+% override chrome://devtools/skin/images/rules-view-light-mode-simulation.svg chrome://dot/skin/sun.svg
 % override chrome://devtools/skin/images/rules-view-print-simulation.svg chrome://dot/skin/print.svg
 % override chrome://devtools/skin/images/search.svg chrome://dot/skin/search.svg
 % override chrome://devtools/skin/images/search-clear.svg chrome://dot/skin/close.svg
@@ -76,5 +85,6 @@ dot.jar:
 % override chrome://devtools/content/debugger/images/globe-small.svg chrome://devtools/skin/images/globe.svg
 % override chrome://devtools/content/debugger/images/pane-collapse.svg chrome://devtools/skin/images/pane-expand.svg
 % override chrome://devtools/content/debugger/images/pane-expand.svg chrome://devtools/skin/images/pane-collapse.svg
+% override chrome://devtools/content/debugger/images/prettyPrint.svg chrome://dot/skin/brackets.svg
 % override chrome://devtools/content/debugger/images/search.svg chrome://devtools/skin/images/search.svg
 % override chrome://devtools/content/debugger/images/window.svg chrome://dot/skin/window.svg

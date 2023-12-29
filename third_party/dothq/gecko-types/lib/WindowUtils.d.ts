@@ -36,4 +36,25 @@ export interface WindowUtils {
 	 * Returns the given element's bounds without flushing pending layout changes.
 	 */
 	getBoundsWithoutFlushing(element: Element): DOMRect;
+
+
+    AGENT_SHEET: 0;
+    USER_SHEET: 1;
+    AUTHOR_SHEET: 2;
+    /**
+     * Synchronously loads a style sheet from |sheetURI| and adds it to the list
+     * of additional style sheets of the document.
+     *
+     * These additional style sheets are very much like user/agent sheets loaded
+     * with loadAndRegisterSheet. The only difference is that they are applied only
+     * on the document owned by this window.
+     *
+     * Sheets added via this API take effect immediately on the document.
+     */
+    loadSheet(sheetURI: nsIURI, type: number): void;
+  
+    /**
+     * Same as the above method but allows passing the URI as a string.
+     */
+    loadSheetUsingURIString(sheetURI: string, type: number): void;
 }

@@ -1,0 +1,31 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+    --theme-arrowpanel-border-radius: 8px;
+}
+
+#command-button-pick:not(.accessibility)::before {
+    background-image: url(chrome://dot/skin/inspect.svg) !important;
+}
+
+/* Network tab */
+
+@-moz-document url("chrome://devtools/content/netmonitor/index.html") {
+    .status-code-blocked-icon {
+        background-size: cover;
+    }
+}
+
+/* Storage tab */
+
+@-moz-document url("chrome://devtools/content/storage/index.xhtml") {
+    #storage-tree li:not([data-id='["cookies"]'], [data-id='["indexedDB"]']) .tree-widget-item[type="store"]::after {
+        background-image: url(chrome://dot/skin/cabinet.svg);
+    }
+
+    #storage-tree li[data-id='["cookies"]'] .tree-widget-item[type="store"]::after {
+        background-image: url(chrome://dot/skin/cookie.svg);
+    }
+}
