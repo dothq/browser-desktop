@@ -49,6 +49,12 @@ export class TabCommand extends Command {
 	onContextualTabSelected(tab) {}
 
 	/**
+	 * Fired when any tab becomes selected
+	 * @param {BrowserTab} tab
+	 */
+	onTabSelected(tab) {}
+
+	/**
 	 * Handles incoming tab events to the command
 	 * @param {CustomEvent} event
 	 */
@@ -60,6 +66,7 @@ export class TabCommand extends Command {
 				this.onContextualBrowserStateChanged(event.detail);
 				break;
 			case "BrowserTabs::TabSelect":
+				this.onTabSelected(event.detail);
 				if (event.detail != this.context.tab) return;
 
 				this.onContextualTabSelected(event.detail);
