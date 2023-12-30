@@ -9,7 +9,9 @@ button,
 select,
 xul|button,
 html|button,
-html|select {
+html|select,
+::slotted(menuitem),
+::slotted(menu) {
     --button-disabled-opacity: 0.5;
 
     --button-base-color: currentColor;
@@ -38,7 +40,9 @@ button,
 select,
 xul|button,
 html|button,
-html|select {
+html|select,
+::slotted(menuitem),
+::slotted(menu) {
     appearance: none;
 
     min-height: 24px;
@@ -67,7 +71,9 @@ html|select {
 
 button,
 xul|button,
-html|button {
+html|button,
+::slotted(menuitem),
+::slotted(menu) {
     padding: 6px 24px;
 }
 
@@ -87,16 +93,31 @@ select:focus:not(:disabled),
 xul|button:hover:not(:disabled),
 html|button:hover:not(:disabled),
 html|select:hover:not(:disabled),
-html|select:focus:not(:disabled) {
+html|select:focus:not(:disabled),
+::slotted(menuitem[_moz-menuactive]:not([disabled])) {
     --button-background: var(--button-hover-color);
+}
+
+/* 
+ * Since we are applying the background using CSS variables, 
+ * it would change the background of children in menu elements,
+ * which is why we are simply applying the hover bg straight up. 
+ */
+::slotted(menu[_moz-menuactive]:not([disabled])) {
+    background-color: var(--button-hover-color) !important;
 }
 
 button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
 select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
 xul|button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
 html|button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
-html|select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled) {
+html|select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
+::slotted(menuitem:is([_moz-menuactive], :focus-visible):is(:active, [active], [mouseactive]):not([disabled])) {
     --button-background: var(--button-active-color);
+}
+
+::slotted(menu:is([_moz-menuactive], :focus-visible):is(:active, [active], [mouseactive]):not([disabled])) {
+    background-color: var(--button-active-color) !important;
 }
 
 button:disabled>*,
@@ -108,15 +129,19 @@ button[disabled],
 select[disabled],
 xul|button[disabled],
 html|button[disabled],
-html|select[disabled] {
+html|select[disabled],
+::slotted(menuitem[disabled]),
+::slotted(menu[disabled]) {
     filter: opacity(var(--button-disabled-opacity));
+    pointer-events: none;
 }
 
 button:focus-visible:not(:is(:active, [active], [mouseactive])),
 select:focus-visible,
 xul|button:focus-visible:not(:is(:active, [active], [mouseactive])),
 html|button:focus-visible:not(:is(:active, [active], [mouseactive])),
-html|select:focus-visible {
+html|select:focus-visible,
+::slotted(menuitem:focus-visible:not(:is(:active, [active], [mouseactive]))) {
     --button-background: var(--button-hover-color);
 
     --button-outline: 2px solid AccentColor;
@@ -127,7 +152,8 @@ html|select:focus-visible {
 
 button:focus-visible:is(:active, [active], [mouseactive]),
 xul|button:focus-visible:is(:active, [active], [mouseactive]),
-html|button:focus-visible:is(:active, [active], [mouseactive]) {
+html|button:focus-visible:is(:active, [active], [mouseactive]),
+::slotted(menuitem:focus-visible:is(:active, [active], [mouseactive])) {
     --button-outline: 2px solid AccentColor;
     --button-outline-offset: 0px;
 
@@ -136,7 +162,8 @@ html|button:focus-visible:is(:active, [active], [mouseactive]) {
 
 button[primary],
 xul|button[primary],
-html|button[primary] {
+html|button[primary],
+::slotted(menuitem[primary]) {
     --button-base-color: AccentColor;
     --button-mix-color: currentColor;
     --button-color: white;
@@ -155,7 +182,9 @@ html|button[primary] {
     select:not(:disabled),
     xul|button:not(:disabled),
     html|button:not(:disabled),
-    html|select:not(:disabled) {
+    html|select:not(:disabled),
+    ::slotted(menuitem:not([disabled])),
+    ::slotted(menu:not([disabled])) {
         outline: 1px solid var(--browser-high-contrast-color);
     }
 }
