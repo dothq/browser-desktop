@@ -40,29 +40,18 @@
 		 * @param {Event} event
 		 */
 		onPopupShown(event) {
+			if (event.target != this) return;
+
 			this.setAttribute("open", "");
 		}
 
 		/**
 		 * Fires when the popup starts being hidden
 		 */
-		onPopupHiding() {
-			this.removeAttribute("open");
+		onPopupHiding(event) {
+			if (event.target !== this) return;
 
-			// Remove the panel once all transitions have completed
-			if (this.getAttribute("animate") == "true") {
-				this.addEventListener(
-					"transitionend",
-					() => {
-						this.hidePopup();
-					},
-					{
-						once: true
-					}
-				);
-			} else {
-				this.hidePopup();
-			}
+			this.removeAttribute("open");
 		}
 
 		connectedCallback() {
