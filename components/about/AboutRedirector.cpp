@@ -79,13 +79,6 @@ namespace dot {
                     nsIAboutModule::IS_SECURE_CHROME_UI
             },
             {
-                "settings", 
-                "about:preferences", 
-                nsIAboutModule::HIDE_FROM_ABOUTABOUT |
-                    nsIAboutModule::ALLOW_SCRIPT | 
-                    nsIAboutModule::IS_SECURE_CHROME_UI
-            },
-            {
                 "tabcrashed", 
                 "chrome://dot/content/interstitials/tab-crashed.html",
                 nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
