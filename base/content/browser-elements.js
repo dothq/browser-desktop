@@ -8,8 +8,6 @@ var { AppConstants } = ChromeUtils.importESModule(
 
 // prettier-ignore
 let elements = {
-	"browser-addressbar": "chrome://dot/content/widgets/browser-addressbar.js",
-
 	"browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
 
 	"browser-icon": "chrome://dot/content/widgets/browser-icon.js",
@@ -47,14 +45,14 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-command-button.js",
 	"chrome://dot/content/widgets/browser-toolbar-button.js",
 	"chrome://dot/content/widgets/browser-tab-button.js",
-	"chrome://dot/content/widgets/browser-addressbar-button.js",
+	"chrome://dot/content/widgets/browser-urlbar-button.js",
 	"chrome://dot/content/widgets/browser-panel-button.js",
+
+	"chrome://dot/content/widgets/browser-urlbar-input.js",
 
 	"chrome://dot/content/widgets/browser-context-menu.js",
 
-	"chrome://dot/content/widgets/browser-addressbar-container.js",
-	"chrome://dot/content/widgets/browser-addressbar-panel.js",
-	"chrome://dot/content/widgets/browser-addressbar-input.js",
+	"chrome://dot/content/widgets/browser-urlbar.js",
 
 	"chrome://dot/content/widgets/browser-customizable-area-empty.js",
 	"chrome://dot/content/widgets/browser-customizable-template.js",

@@ -1,0 +1,37 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@import url("chrome://dot/content/widgets/browser-urlbar-button.css");
+@import url("chrome://dot/content/widgets/browser-urlbar-input.css");
+
+:host(browser-urlbar) {
+    --urlbar-height: calc(var(--toolbar-height) - var(--urlbar-outer-padding) * 2);
+
+    --urlbar-background-color: var(--toolbar-field-background-color);
+
+    --urlbar-container-padding: 2px;
+    --urlbar-outer-padding: 4px;
+}
+
+:host(browser-urlbar) {
+    display: flex;
+    flex: 500 500;
+
+    border-radius: 8px;
+
+    width: auto;
+    height: var(--urlbar-height);
+
+    background-color: var(--urlbar-background-color);
+
+    margin-block: var(--urlbar-outer-padding);
+}
+
+:host(browser-urlbar)>.customizable-container {
+    gap: 0px;
+}
+
+:host(browser-urlbar) browser-debug-hologram[debugid="urlbar"] {
+    margin-top: -18px;
+}

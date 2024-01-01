@@ -37,31 +37,31 @@ export class TabIdentityCommand extends TabCommand {
 		this.label = {
 			[this.audiences.DEFAULT]: "Site Info",
 			[this.audiences.TAB]: label,
-			[this.audiences.ADDRESSBAR]: label
+			[this.audiences.URLBAR]: label
 		};
 
 		this.labelAuxiliary = {
 			[this.audiences.DEFAULT]: "Information about this site",
 			[this.audiences.TAB]: tooltip,
-			[this.audiences.ADDRESSBAR]: tooltip
+			[this.audiences.URLBAR]: tooltip
 		};
 
 		this.icon = {
 			[this.audiences.DEFAULT]: "info",
 			[this.audiences.TAB]: icon,
-			[this.audiences.ADDRESSBAR]: icon
+			[this.audiences.URLBAR]: icon
 		};
 
 		this.mode = {
 			[this.audiences.DEFAULT]: null,
 			[this.audiences.TAB]: null,
-			[this.audiences.ADDRESSBAR]: mode
+			[this.audiences.URLBAR]: mode
 		};
 
 		this.inert = {
 			[this.audiences.DEFAULT]: false,
 			[this.audiences.TAB]: type == "search",
-			[this.audiences.ADDRESSBAR]: type == "search"
+			[this.audiences.URLBAR]: type == "search"
 		};
 	}
 

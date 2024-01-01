@@ -62,7 +62,6 @@ const registry = {
 	StartPage: "components/startpage/StartPage.sys.mjs",
 
 	TabIdentityHandler: "components/identity/TabIdentityHandler.sys.mjs",
-	TabLocationHandler: "components/search/TabLocationHandler.sys.mjs",
 	TabProgressListener: "components/tabs/TabProgressListener.sys.mjs"
 };
 

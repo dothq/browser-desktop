@@ -2,22 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-input[is=browser-addressbar-input] {
-    display: flex;
+input[is=browser-urlbar-input] {
+    appearance: none;
 
-    flex: 1;
+    background-color: transparent;
+
+    border: none;
+    outline: none;
 
     padding: 0;
     margin: 0;
 
-    min-width: 0;
-
-    background-color: transparent;
-    border: none;
-
-    font: inherit;
-
-    &:focus-visible {
-        outline: none;
-    }
+    flex: 500 500;
 }

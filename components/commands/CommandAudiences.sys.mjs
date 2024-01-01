@@ -14,9 +14,9 @@ export const CommandAudiences = {
 	TAB: "tab",
 
 	/**
-	 * The audience used for context in an addressbar
+	 * The audience used for context in an urlbar
 	 */
-	ADDRESSBAR: "addressbar",
+	URLBAR: "urlbar",
 
 	/**
 	 * The audience used for context in a panel/popup

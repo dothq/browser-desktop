@@ -26,7 +26,7 @@ export const BrowserCustomizableComponents = {
 
 		const elementMapping = {
 			toolbar: () => html("browser-toolbar"),
-			addressbar: () => html("browser-addressbar"),
+			urlbar: () => html("browser-urlbar"),
 			tabs: () => html("browser-tabs")
 		};
 

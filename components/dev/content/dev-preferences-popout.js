@@ -285,6 +285,7 @@ class DevelopmentPreferencesPopout extends MozHTMLElement {
 			false
 		);
 		this.registerHandle("dot.tabs.loglevel", LOG_LEVELS);
+		this.registerHandle("dot.urlbar.debug_information.visible", false);
 
 		Services.prefs.addObserver("", this.observePreferences.bind(this));
 	}

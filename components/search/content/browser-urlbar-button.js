@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserAddressbarButton extends BrowserCommandButton {
+class BrowserUrlbarButton extends BrowserCommandButton {
 	constructor() {
 		super();
 	}
@@ -16,6 +16,6 @@ class BrowserAddressbarButton extends BrowserCommandButton {
 	}
 }
 
-customElements.define("browser-addressbar-button", BrowserAddressbarButton, {
+customElements.define("browser-urlbar-button", BrowserUrlbarButton, {
 	extends: "button"
 });

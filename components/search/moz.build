@@ -6,7 +6,6 @@
 
 EXTRA_JS_MODULES += [
     "BrowserSearch.sys.mjs",
-    "TabLocationHandler.sys.mjs",
 ]
 
 JAR_MANIFESTS += ["jar.mn"]

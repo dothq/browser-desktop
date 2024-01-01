@@ -7,17 +7,11 @@ dot.jar:
 
 % resource search-extensions %search-extensions/ contentaccessible=yes
 % content dot %content/ contentaccessible=yes
-    content/widgets/browser-addressbar-button.js               (content/browser-addressbar-button.js)
-    content/widgets/browser-addressbar-button.css              (content/browser-addressbar-button.css)
+    content/widgets/browser-urlbar-button.js               (content/browser-urlbar-button.js)
+    content/widgets/browser-urlbar-button.css              (content/browser-urlbar-button.css)
 
-    content/widgets/browser-addressbar.js                      (content/browser-addressbar.js)
-    content/widgets/browser-addressbar.css                     (content/browser-addressbar.css)
+    content/widgets/browser-urlbar.js                      (content/browser-urlbar.js)
+    content/widgets/browser-urlbar.css                     (content/browser-urlbar.css)
 
-    content/widgets/browser-addressbar-panel.js                (content/browser-addressbar-panel.js)
-    content/widgets/browser-addressbar-panel.css               (content/browser-addressbar-panel.css)
-
-    content/widgets/browser-addressbar-container.js            (content/browser-addressbar-container.js)
-    content/widgets/browser-addressbar-container.css           (content/browser-addressbar-container.css)
-    
-    content/widgets/browser-addressbar-input.js                (content/browser-addressbar-input.js)
-    content/widgets/browser-addressbar-input.css               (content/browser-addressbar-input.css)
+    content/widgets/browser-urlbar-input.js                (content/browser-urlbar-input.js)
+    content/widgets/browser-urlbar-input.css               (content/browser-urlbar-input.css)
