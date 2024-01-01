@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { PlacesUIUtils } = ChromeUtils.importESModule(
+	"resource:///modules/PlacesUIUtils.sys.mjs"
+);
+
 export class LinkHandlerParent extends JSWindowActorParent {
 	receiveMessage(msg) {
 		const browser = this.browsingContext.top.embedderElement;
@@ -24,7 +28,7 @@ export class LinkHandlerParent extends JSWindowActorParent {
 				break;
 			}
 			case "Link:SetIcon": {
-				this.setIcon(browser, msg.data.iconURL, msg.data.canUseForTab);
+				this.setIcon(browser, msg.data);
 				break;
 			}
 			case "Link:SetFailedIcon": {
@@ -55,10 +59,25 @@ export class LinkHandlerParent extends JSWindowActorParent {
 	/**
 	 * Updates the icon of a browser
 	 * @param {ChromeBrowser} browser
-	 * @param {string} iconURL
-	 * @param {boolean} canUseForTab
+	 * @param {object} data
+	 * @param {boolean} data.canUseForTab
+	 * @param {boolean} data.canStoreIcon
+	 * @param {string} data.iconURL
+	 * @param {string} data.pageURL
+	 * @param {string} data.originalURL
+	 * @param {number} data.expiration
 	 */
-	setIcon(browser, iconURL, canUseForTab) {
+	setIcon(
+		browser,
+		{
+			canUseForTab,
+			canStoreIcon,
+			iconURL,
+			pageURL,
+			originalURL,
+			expiration
+		}
+	) {
 		const { gDot } = browser.ownerGlobal;
 		if (!gDot) return;
 
@@ -92,8 +111,42 @@ export class LinkHandlerParent extends JSWindowActorParent {
 			}
 		}
 
+		if (canStoreIcon) {
+			try {
+				this.storeIcon({
+					browser,
+					iconURI: uri,
+					pageURI: Services.io.newURI(pageURL),
+					originalURI: Services.io.newURI(originalURL),
+					expiration
+				});
+			} catch (e) {
+				console.error("Failed to store favicon to disk:", e);
+			}
+		}
+
 		if (!canUseForTab) return;
 
 		tab.updateIcon(iconURL);
+	}
+
+	/**
+	 * Stores the loaded favicon into the favicons DB
+	 * @param {object} data
+	 * @param {ChromeBrowser} data.browser
+	 * @param {nsIURI} data.pageURI
+	 * @param {nsIURI} data.originalURI
+	 * @param {number} data.expiration
+	 * @param {nsIURI} data.iconURI
+	 */
+	storeIcon({ browser, pageURI, originalURI, expiration, iconURI }) {
+		PlacesUIUtils.loadFavicon(
+			browser,
+			Services.scriptSecurityManager.getSystemPrincipal(),
+			pageURI,
+			originalURI,
+			expiration,
+			iconURI
+		);
 	}
 }
