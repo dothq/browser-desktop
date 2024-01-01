@@ -51,8 +51,7 @@ html|select,
     border: none;
     border-radius: 6px;
 
-    font-size: 14px;
-    font-weight: 500;
+    font: message-box;
 
     color: var(--button-color, currentColor);
     background-color: var(--button-background, var(--button-default-color));

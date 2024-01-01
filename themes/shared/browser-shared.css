@@ -52,6 +52,10 @@
     --browser-high-contrast-color: color-mix(in srgb, currentColor 100%, transparent 50%);
 }
 
+:root {
+    font: message-box;
+}
+
 html,
 body {
     display: flex;
