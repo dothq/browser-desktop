@@ -11,7 +11,7 @@
     --urlbar-background-color: var(--toolbar-field-background-color);
 
     --urlbar-container-padding: 2px;
-    --urlbar-outer-padding: 4px;
+    --urlbar-outer-padding: 3px;
 }
 
 :host(browser-urlbar) {

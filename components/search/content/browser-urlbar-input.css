@@ -10,8 +10,10 @@ input[is=browser-urlbar-input] {
     border: none;
     outline: none;
 
-    padding: 0;
+    padding: 0 calc(var(--urlbar-container-padding) * 3);
     margin: 0;
 
     flex: 500 500;
+
+    font: inherit;
 }

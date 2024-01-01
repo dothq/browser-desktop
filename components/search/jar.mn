@@ -10,8 +10,13 @@ dot.jar:
     content/widgets/browser-urlbar-button.js               (content/browser-urlbar-button.js)
     content/widgets/browser-urlbar-button.css              (content/browser-urlbar-button.css)
 
+    content/widgets/browser-urlbar-root.js                 (content/browser-urlbar-root.js)
+
     content/widgets/browser-urlbar.js                      (content/browser-urlbar.js)
     content/widgets/browser-urlbar.css                     (content/browser-urlbar.css)
 
     content/widgets/browser-urlbar-input.js                (content/browser-urlbar-input.js)
     content/widgets/browser-urlbar-input.css               (content/browser-urlbar-input.css)
+
+    content/widgets/browser-urlbar-container.js            (content/browser-urlbar-container.js)
+    content/widgets/browser-urlbar-container.css           (content/browser-urlbar-container.css)

@@ -2,53 +2,40 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserUrlbar extends BrowserCustomizableArea {
+class BrowserUrlbar extends BrowserUrlbarRoot {
 	/**
-	 * The allowed customizable attributes for the urlbar
+	 * Determines whether the customizable contents are initted
 	 */
-	static get customizableAttributes() {
-		return {
-			width: "flexibleDimension",
-			height: "flexibleDimension",
+	_customizableReady = false;
 
-			background: "namedColor",
-
-			mode: "mode"
-		};
+	/**
+	 * The template that houses the urlbar's contents
+	 */
+	get _urlbarTemplate() {
+		return /** @type {BrowserCustomizableTemplate} */ (
+			this.shadowRoot.querySelector(
+				"browser-customizable-template[part=customizable]"
+			) || html("browser-customizable-template", { part: "customizable" })
+		);
 	}
 
 	/**
-	 * The customizable components to inherit from when used in this area
+	 * The container that will house the urlbar's contents from the template
 	 */
-	static get customizableComponents() {
-		return {
-			button: html("button", { is: "browser-urlbar-button" }),
-			input: html("input", { is: "browser-urlbar-input" })
-		};
+	get _urlbarContainer() {
+		return /** @type {BrowserUrlbarContainer} */ (
+			this.querySelector("browser-urlbar-container") ||
+				html("browser-urlbar-container", { slot: "urlbar-container" })
+		);
 	}
 
 	/**
-	 * The context for this urlbar
+	 * The customizable container associated with the urlbar
 	 */
-	get context() {
-		const self = this;
-
-		return {
-			self,
-			audience: CommandAudiences.URLBAR,
-
-			get window() {
-				return self.ownerGlobal;
-			},
-
-			get tab() {
-				return this.window.gDot.tabs.selectedTab;
-			},
-
-			get browser() {
-				return this.tab.linkedBrowser;
-			}
-		};
+	get customizableContainer() {
+		return this._customizableReady
+			? this._urlbarContainer.customizableContainer
+			: this._urlbarTemplate;
 	}
 
 	/**
@@ -64,12 +51,26 @@ class BrowserUrlbar extends BrowserCustomizableArea {
 		);
 	}
 
-	connectedCallback() {
-		super.connect("urlbar", {
-			orientation: "horizontal",
-			styles: ["chrome://dot/content/widgets/browser-urlbar.css"]
-		});
+	/**
+	 * Initialises the customizable container from the template
+	 */
+	#initCustomizable() {
+		if (this._customizableReady) return;
 
+		const clonedContents = this._urlbarTemplate.content.cloneNode(true);
+
+		this.appendChild(this._urlbarContainer);
+		this._urlbarContainer.customizableContainer.appendChild(clonedContents);
+
+		this._urlbarTemplate.remove();
+
+		this._customizableReady = true;
+	}
+
+	/**
+	 * Initialises the debug hologram
+	 */
+	#initDebugHologram() {
 		this.shadowRoot.appendChild(
 			BrowserDebugHologram.create(
 				{
@@ -79,6 +80,25 @@ class BrowserUrlbar extends BrowserCustomizableArea {
 				this.renderDebugHologram.bind(this)
 			)
 		);
+	}
+
+	/**
+	 * Initialises the urlbar component
+	 */
+	#init() {
+		this.#initCustomizable();
+		this.#initDebugHologram();
+	}
+
+	connectedCallback() {
+		super.connect("urlbar", {
+			orientation: "horizontal",
+			styles: ["chrome://dot/content/widgets/browser-urlbar.css"]
+		});
+
+		this.#init();
+
+		this.shadowRoot.appendChild(html("slot", { name: "urlbar-container" }));
 	}
 }
 
