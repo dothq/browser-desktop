@@ -316,20 +316,24 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	 * Determines how long to animate the tab for on open
 	 */
 	get _tabInAnimateDuration() {
-		return Services.prefs.getIntPref(
-			"dot.tabs.in_animation_duration_ms",
-			50
-		);
+		return gDot.prefersReducedMotion
+			? 0
+			: Services.prefs.getIntPref(
+					"dot.tabs.in_animation_duration_ms",
+					50
+			  );
 	}
 
 	/**
 	 * Determines how long to animate the tab for on close
 	 */
 	get _tabOutAnimateDuration() {
-		return Services.prefs.getIntPref(
-			"dot.tabs.out_animation_duration_ms",
-			30
-		);
+		return gDot.prefersReducedMotion
+			? 0
+			: Services.prefs.getIntPref(
+					"dot.tabs.out_animation_duration_ms",
+					30
+			  );
 	}
 
 	get animationProps() {
