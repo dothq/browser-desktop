@@ -58,6 +58,11 @@ class BrowserToolbar extends BrowserCustomizableOverflowableArea {
 		} else {
 			this.shadowRoot.append(this.shadowElements.csd);
 		}
+
+		this.shadowElements.csd.setAttribute(
+			"position",
+			this.isCSDReversed ? "start" : "end"
+		);
 	}
 
 	/**

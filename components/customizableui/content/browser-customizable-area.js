@@ -357,7 +357,7 @@ class BrowserCustomizableArea extends MozHTMLElement {
 				this.style.setProperty("--area-height", newValue);
 				break;
 			case "background":
-				this.style.setProperty("background-color", newValue);
+				this.style.setProperty("--area-background", newValue);
 				break;
 			case "text":
 				this.style.setProperty("color", newValue);

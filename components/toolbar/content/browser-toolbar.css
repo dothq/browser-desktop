@@ -8,6 +8,7 @@
 :host(browser-toolbar) {
     --toolbar-width: var(--area-width, inherit);
     --toolbar-height: var(--area-height, inherit);
+    --toolbar-background: var(--area-background);
 }
 
 :host(browser-toolbar) {
@@ -19,7 +20,7 @@
 
     min-height: var(--toolbar-min-height);
 
-    background-color: transparent;
+    background-color: var(--toolbar-background, transparent);
     color: var(--lwt-text-color);
 
     --padding: 4px;
@@ -91,4 +92,18 @@
 
 :host(browser-toolbar) browser-window-controls {
     display: var(--csd-visibility);
+}
+
+:host(browser-toolbar) browser-window-controls[position="end"] {
+    position: absolute;
+
+    right: 0;
+    top: 0;
+
+    background-color: var(--toolbar-background);
+    height: var(--toolbar-height);
+
+    & button {
+        z-index: 2147483647;
+    }
 }
