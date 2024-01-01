@@ -27,6 +27,22 @@
     pointer-events: none;
 }
 
+arrowscrollbox::part(scrollbutton-up),
+arrowscrollbox::part(scrollbutton-down),
+arrowscrollbox::part(overflow-start-indicator),
+arrowscrollbox::part(overflow-end-indicator) {
+    display: none;
+}
+
+arrowscrollbox::part(scrollbox) {
+    overflow: auto;
+    margin: 0;
+}
+
+arrowscrollbox::part(scrollbox-clip) {
+    overflow: visible;
+}
+
 .browser-panel-container {
     display: flex;
     flex-direction: column;
