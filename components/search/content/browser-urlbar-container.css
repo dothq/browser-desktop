@@ -5,5 +5,6 @@
 @import url("chrome://dot/content/widgets/browser-urlbar.css");
 
 :host(browser-urlbar-container) {
+    display: flex;
     flex: 1;
 }
