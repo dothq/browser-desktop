@@ -10,8 +10,7 @@ button.browser-tab-button {
 
     --button-default-color: transparent;
 
-    --button-padding-percent: 12;
-    padding: calc(var(--tab-true-height) / 100 * var(--button-padding-percent));
+    --button-inner-padding-scale: 0.5;
 
     & .browser-button-icon {
         --size: 14px;

@@ -5,6 +5,10 @@
 class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	constructor() {
 		super();
+
+		this.resizeObserver = new ResizeObserver(
+			this._onBrowserButtonResize.bind(this)
+		);
 	}
 
 	/**
@@ -49,6 +53,14 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 					})
 				)
 		};
+	}
+
+	/**
+	 * The button container element
+	 * @type {HTMLDivElement}
+	 */
+	get container() {
+		return this.querySelector(".browser-button-container");
 	}
 
 	/**
@@ -172,6 +184,22 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		}
 	}
 
+	/**
+	 * Fired when the button's physical size is changed
+	 */
+	_onBrowserButtonResize() {
+		const { width, height } = this.container.getBoundingClientRect();
+
+		this.container.style.setProperty(
+			"--button-physical-width",
+			+width.toFixed(2) + "px"
+		);
+		this.container.style.setProperty(
+			"--button-physical-height",
+			+height.toFixed(2) + "px"
+		);
+	}
+
 	connectedCallback() {
 		this.classList.add("browser-button");
 		this.classList.toggle(
@@ -196,6 +224,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			"focusout",
 			this._handleBrowserButtonEvent.bind(this)
 		);
+
+		this.resizeObserver.observe(this);
 	}
 
 	disconnectedCallback() {
@@ -207,6 +237,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			"focusout",
 			this._handleBrowserButtonEvent.bind(this)
 		);
+
+		this.resizeObserver.disconnect();
 	}
 }
 

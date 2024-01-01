@@ -178,10 +178,10 @@ html|button[primary],
 
 @media (prefers-contrast) {
 
-    button:not(:disabled),
+    button:not(:disabled, [inert]),
     select:not(:disabled),
-    xul|button:not(:disabled),
-    html|button:not(:disabled),
+    xul|button:not(:disabled, [inert]),
+    html|button:not(:disabled, [inert]),
     html|select:not(:disabled),
     ::slotted(menuitem:not([disabled])),
     ::slotted(menu:not([disabled])) {

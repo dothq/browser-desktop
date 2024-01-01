@@ -16,9 +16,16 @@
     pointer-events: auto;
 }
 
+.browser-button .browser-button-container {
+    padding: 0 calc(var(--button-physical-height) * var(--button-inner-padding-scale, 0.25));
+    gap: calc(var(--button-physical-height) * var(--button-inner-gap-scale, 0.2));
+}
+
 .browser-button[mode=icons],
 :host([mode=icons]) .browser-button:not([mode]),
 [mode=icons]>.browser-button:not([mode]) {
+    aspect-ratio: 1;
+
     & .browser-button-container {
         justify-content: center;
 

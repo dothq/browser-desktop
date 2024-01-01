@@ -6,13 +6,18 @@
 @import url("chrome://dot/content/widgets/browser-toolbar-overflow.css");
 
 :host(browser-toolbar) {
+    --toolbar-width: var(--area-width, inherit);
+    --toolbar-height: var(--area-height, inherit);
+}
+
+:host(browser-toolbar) {
     display: flex;
     align-items: stretch;
 
-    width: var(--area-width, inherit);
-    height: var(--area-height, inherit);
+    width: var(--toolbar-width);
+    height: var(--toolbar-height);
 
-    min-height: var(--area-min-height);
+    min-height: var(--toolbar-min-height);
 
     background-color: transparent;
     color: var(--lwt-text-color);
@@ -21,7 +26,7 @@
 
     -moz-window-dragging: drag;
 
-    --area-min-height: 28px;
+    --toolbar-min-height: 28px;
 
     --csd-visibility: none;
 }
