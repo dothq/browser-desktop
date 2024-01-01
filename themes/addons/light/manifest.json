@@ -26,7 +26,7 @@
             "toolbar": "#f5f6f7",
             "toolbar_top_separator": "#ccc",
             "toolbar_bottom_separator": "#ccc",
-            "toolbar_field": "#f0f0f4",
+            "toolbar_field": "rgb(227, 227, 232)",
             "toolbar_field_text": "rgb(21, 20, 26)",
             "toolbar_field_border": "#aaa",
             "toolbar_field_border_focus": "#0061e0",
