@@ -60,6 +60,10 @@ var { AccentColorManager } = ChromeUtils.importESModule(
 	"resource://gre/modules/AccentColorManager.sys.mjs"
 );
 
+var { AccessibilityFocus } = ChromeUtils.importESModule(
+	"resource://gre/modules/AccessibilityFocus.sys.mjs"
+);
+
 /**
  * This is used to delay the startup of the browser
  * until we have completed the delayed startup.
@@ -155,6 +159,8 @@ var gDotInit = {
 
 		new LightweightThemeConsumer(document);
 		new AccentColorManager(document);
+
+		new AccessibilityFocus(window);
 
 		// Check whether we are on Windows 8, if so apply a dark window frame if it is dark enough
 		if (AppConstants.platform == "win") {

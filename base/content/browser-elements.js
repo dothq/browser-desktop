@@ -29,6 +29,8 @@ let noCallbackElements = [
 
 	"chrome://dot/content/widgets/browser-debug-hologram.js",
 
+	"chrome://dot/content/widgets/browser-a11y-ring.js",
+
 	"chrome://dot/content/widgets/browser-customizable-area.js",
 	"chrome://dot/content/widgets/browser-customizable-overflowable-area.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",

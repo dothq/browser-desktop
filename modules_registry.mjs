@@ -7,6 +7,7 @@
  */
 const registry = {
 	AccentColorManager: "themes/AccentColorManager.sys.mjs",
+	AccessibilityFocus: "modules/AccessibilityFocus.sys.mjs",
 
 	DotWindowTracker: "modules/DotWindowTracker.sys.mjs",
 
@@ -18,6 +19,9 @@ const registry = {
 	ActionsIPC: "components/actions/ActionsIPC.sys.mjs",
 	ActionsReceiver: "components/actions/ActionsReceiver.sys.mjs",
 	BrowserActions: "components/actions/BrowserActions.sys.mjs",
+
+	BrowserAccessibility:
+		"components/accessibility/BrowserAccessibility.sys.mjs",
 
 	BrowserCommands: "components/commands/BrowserCommands.sys.mjs",
 	Command: "components/commands/Command.sys.mjs",
