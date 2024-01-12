@@ -33,13 +33,15 @@ export class BrowserAccessibility {
 			this.focusRingElement.dispatchEvent(
 				new CustomEvent(event.type, { detail: event.detail })
 			);
+		} else if (!this.shouldTrackFocusRing && this.focusRingElement) {
+			this.focusRingElement.remove();
 		}
 	}
 
 	/**
 	 * Determines whether the track focus ring feature is enabled
 	 */
-	shouldTrackFocusRing() {
+	get shouldTrackFocusRing() {
 		return Services.prefs.getBoolPref(this.#a11yRingTrackerPref, false);
 	}
 
