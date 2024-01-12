@@ -10,11 +10,3 @@ browser-spring {
     align-items: center;
     user-select: none;
 }
-
-browser-spring[customising] {
-    display: flex;
-    -moz-window-dragging: no-drag;
-    outline: 2px dashed;
-    outline-offset: -6px;
-    border-radius: 8px;
-}
