@@ -6,7 +6,7 @@ browser-window-controls {
     display: flex;
     align-items: center;
     -moz-window-dragging: no-drag;
-    margin-inline: var(--csd-margin-start, 4px) var(--csd-margin-end, 4px);
+    padding-inline: var(--csd-margin-start, 4px) var(--csd-margin-end, 4px);
 }
 
 browser-window-controls button:focus-visible {

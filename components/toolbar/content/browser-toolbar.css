@@ -30,6 +30,8 @@
     --toolbar-min-height: 28px;
 
     --csd-visibility: none;
+
+    overflow: hidden;
 }
 
 :host(browser-toolbar[initial]) {
@@ -66,24 +68,12 @@
     min-width: fit-content;
 }
 
-:host(browser-toolbar[orientation=horizontal]) {
-    >*:not(.customizable-container) {
-        margin-inline: var(--padding);
-    }
-
-    .customizable-container {
-        padding-inline: var(--padding);
-    }
+:host(browser-toolbar[orientation=horizontal])>* {
+    padding-inline: var(--padding);
 }
 
-:host(browser-toolbar[orientation=vertical]) {
-    >*:not(.customizable-container) {
-        margin-block: var(--padding);
-    }
-
-    .customizable-container {
-        padding-block: var(--padding);
-    }
+:host(browser-toolbar[orientation=vertical])>* {
+    padding-block: var(--padding);
 }
 
 :host(browser-toolbar) .customizable-container [hidden] {
@@ -95,7 +85,7 @@
 }
 
 :host(browser-toolbar) browser-window-controls[position="end"] {
-    position: absolute;
+    position: sticky;
 
     right: 0;
     top: 0;
