@@ -10,7 +10,7 @@ browser-status {
     min-height: 0;
     max-width: calc(100% - 4rem);
     overflow: hidden;
-    flex: 1;
+    flex: 250 250;
     padding: 0px 4px;
 
     &:-moz-locale-dir(ltr) {
