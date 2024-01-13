@@ -20,3 +20,9 @@ dot.jar:
 
     content/widgets/browser-urlbar-container.js            (content/browser-urlbar-container.js)
     content/widgets/browser-urlbar-container.css           (content/browser-urlbar-container.css)
+
+    content/widgets/browser-urlbar-panel.js                (content/browser-urlbar-panel.js)
+    content/widgets/browser-urlbar-panel.css               (content/browser-urlbar-panel.css)
+
+    content/widgets/browser-urlbar-results.js              (content/browser-urlbar-results.js)
+    content/widgets/browser-urlbar-results.css             (content/browser-urlbar-results.css)

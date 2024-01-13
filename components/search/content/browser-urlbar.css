@@ -5,13 +5,18 @@
 @import url("chrome://dot/content/widgets/browser-urlbar-button.css");
 @import url("chrome://dot/content/widgets/browser-urlbar-input.css");
 
+@import url("chrome://dot/content/widgets/browser-urlbar-panel.css");
+
 :host(browser-urlbar) {
     --urlbar-height: calc(var(--toolbar-height) - var(--urlbar-outer-padding) * 2);
 
     --urlbar-background-color: var(--toolbar-field-background-color);
+    --urlbar-color: var(--toolbar-field-color);
 
     --urlbar-container-padding: 2px;
     --urlbar-outer-padding: 3px;
+
+    --urlbar-expanded-padding: calc(var(--urlbar-container-padding) * 2);
 }
 
 :host(browser-urlbar) {
@@ -23,9 +28,26 @@
     width: auto;
     height: var(--urlbar-height);
 
+    color: var(--urlbar-color);
     background-color: var(--urlbar-background-color);
 
     margin-block: var(--urlbar-outer-padding);
+
+    outline: 0px solid transparent;
+    outline-offset: -1px;
+
+    -moz-window-dragging: no-drag;
+
+    transition:
+        0.3s background-color cubic-bezier(0.19, 1, 0.22, 1),
+        0.3s color cubic-bezier(0.19, 1, 0.22, 1),
+        0.06s outline cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+:host(browser-urlbar[focused]) {
+    outline: 2px solid var(--toolbar-field-focus-border-color);
+    --urlbar-background-color: var(--toolbar-field-focus-background-color);
+    --urlbar-color: var(--toolbar-field-focus-color);
 }
 
 :host(browser-urlbar)>.customizable-container {

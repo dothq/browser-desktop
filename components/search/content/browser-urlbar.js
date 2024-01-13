@@ -3,6 +3,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class BrowserUrlbar extends BrowserUrlbarRoot {
+	URLBAR_RENDERABLE_SLOT = "urlbar-renderable";
+
+	/** @type {MutationObserver} */
+	#slotMutationObserver = null;
+
+	constructor() {
+		super();
+
+		this.#slotMutationObserver = new MutationObserver(
+			this.#onUrlbarSlotMutated.bind(this)
+		);
+	}
+
+	static get observedAttributes() {
+		return ["focused", "expanded"];
+	}
+
 	/**
 	 * Determines whether the customizable contents are initted
 	 */
@@ -25,7 +42,32 @@ class BrowserUrlbar extends BrowserUrlbarRoot {
 	get _urlbarContainer() {
 		return /** @type {BrowserUrlbarContainer} */ (
 			this.querySelector("browser-urlbar-container") ||
-				html("browser-urlbar-container", { slot: "urlbar-container" })
+				html("browser-urlbar-container", {
+					slot: this.URLBAR_RENDERABLE_SLOT
+				})
+		);
+	}
+
+	/**
+	 * The urlbar's panel element that is displayed in the "expanded" state
+	 */
+	get urlbarShadowPanel() {
+		return /** @type {BrowserUrlbarPanel} */ (
+			this.shadowRoot.querySelector("panel[is=browser-urlbar-panel]") ||
+				document.createXULElement("panel", {
+					is: "browser-urlbar-panel"
+				})
+		);
+	}
+
+	/**
+	 * The slot that stores the urlbar's contents
+	 */
+	get urlbarShadowSlot() {
+		return /** @type {HTMLSlotElement} */ (
+			this.shadowRoot.querySelector(
+				`slot[name=${this.URLBAR_RENDERABLE_SLOT}]`
+			) || html("slot", { name: this.URLBAR_RENDERABLE_SLOT })
 		);
 	}
 
@@ -39,6 +81,42 @@ class BrowserUrlbar extends BrowserUrlbarRoot {
 	}
 
 	/**
+	 * Determines whether the urlbar is expanded
+	 */
+	get expanded() {
+		return this.hasAttribute("expanded");
+	}
+
+	/**
+	 * Updates the urlbar expanded state
+	 * @param {boolean} newValue
+	 * @param {boolean} [force]
+	 */
+	setExpanded(newValue, force = false) {
+		// Prevent us from toggling off expanded mode if we don't want to autohide popups
+		if (
+			!force &&
+			!newValue &&
+			Services.prefs.getBoolPref("ui.popup.disable_autohide", false)
+		) {
+			return;
+		}
+
+		this.toggleAttribute("expanded", newValue);
+	}
+
+	/**
+	 * Determines whether the urlbar is focused
+	 */
+	get focused() {
+		return this.hasAttribute("focused");
+	}
+
+	set focused(newValue) {
+		this.toggleAttribute("focused", newValue);
+	}
+
+	/**
 	 * @param {BrowserDebugHologram} hologram
 	 */
 	renderDebugHologram(hologram) {
@@ -48,6 +126,50 @@ class BrowserUrlbar extends BrowserUrlbarRoot {
 			...[`URL: about:blank`, `Typed: null`].map((c) =>
 				html("span", {}, c)
 			)
+		);
+	}
+
+	/**
+	 * Changes the slots parent element
+	 * @param {Element | DocumentFragment} parent
+	 */
+	#setSlotParent(parent) {
+		parent.prepend(this.urlbarShadowSlot);
+
+		this.#slotMutationObserver.observe(parent, {
+			childList: true,
+			subtree: true
+		});
+	}
+
+	/**
+	 * Fired when the urlbar's slot is mutated
+	 * @type {MutationCallback}
+	 */
+	#onUrlbarSlotMutated(mutations) {
+		if (!this.shadowRoot.contains(this.urlbarShadowSlot)) {
+			this.setExpanded(false, true);
+
+			this.#setSlotParent(this.shadowRoot);
+		}
+	}
+
+	/**
+	 * Fired when the urlbar's "expanded" state is changed
+	 * @param {boolean} expanded
+	 */
+	#onUrlbarExpandChanged(expanded) {
+		console.log("Urlbar expand", expanded);
+
+		if (expanded) {
+			this.shadowRoot.appendChild(this.urlbarShadowPanel);
+			this.urlbarShadowPanel.show();
+		} else {
+			this.urlbarShadowPanel.remove();
+		}
+
+		this.#setSlotParent(
+			expanded ? this.urlbarShadowPanel.container : this.shadowRoot
 		);
 	}
 
@@ -98,7 +220,15 @@ class BrowserUrlbar extends BrowserUrlbarRoot {
 
 		this.#init();
 
-		this.shadowRoot.appendChild(html("slot", { name: "urlbar-container" }));
+		this.#setSlotParent(this.shadowRoot);
+	}
+
+	attributeChangedCallback(attribute, oldValue, newValue) {
+		switch (attribute) {
+			case "expanded":
+				this.#onUrlbarExpandChanged(this.hasAttribute("expanded"));
+				break;
+		}
 	}
 }
 

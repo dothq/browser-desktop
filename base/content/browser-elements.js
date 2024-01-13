@@ -57,6 +57,8 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-urlbar-root.js",
 	"chrome://dot/content/widgets/browser-urlbar.js",
 	"chrome://dot/content/widgets/browser-urlbar-container.js",
+	"chrome://dot/content/widgets/browser-urlbar-panel.js",
+	"chrome://dot/content/widgets/browser-urlbar-results.js",
 
 	"chrome://dot/content/widgets/browser-customizable-area-empty.js",
 	"chrome://dot/content/widgets/browser-customizable-template.js",

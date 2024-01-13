@@ -1,0 +1,68 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+panel[is="browser-urlbar-panel"] {
+    --urlbar-panel-shadow-margin: 10px;
+    --urlbar-panel-margin: calc(var(--urlbar-expanded-padding) + var(--urlbar-panel-shadow-margin));
+
+    margin: calc(var(--urlbar-panel-margin) * -1);
+    width: calc(var(--urlbar-panel-width) + var(--urlbar-panel-margin) * 2);
+
+    opacity: 0;
+
+    transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
+
+    -moz-window-input-region-margin: var(--urlbar-panel-shadow-margin);
+}
+
+/* Turn off the background intrusion when showing */
+panel[is="browser-urlbar-panel"][showing] {
+    --urlbar-background-intrude: 0px;
+    opacity: 1;
+}
+
+panel[is="browser-urlbar-panel"] .urlbar-panel-view {
+    display: flex;
+    position: relative;
+
+    margin: var(--urlbar-panel-shadow-margin);
+}
+
+panel[is="browser-urlbar-panel"] .urlbar-panel-container {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: var(--urlbar-expanded-padding);
+}
+
+panel[is="browser-urlbar-panel"] .urlbar-panel-background {
+    --urlbar-background-intrude-computed: var(--urlbar-background-intrude,
+            var(--urlbar-expanded-padding));
+
+    display: flex;
+    position: absolute;
+
+    width: calc(100% - var(--urlbar-background-intrude-computed) * 2);
+    height: calc(100% - var(--urlbar-background-intrude-computed) * 2);
+
+    background-color: var(--arrowpanel-background);
+
+    outline: 1px solid var(--arrowpanel-border-color);
+    outline-offset: -1px;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132),
+        0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
+
+    margin: var(--urlbar-background-intrude-computed);
+
+    transition:
+        0.3s margin cubic-bezier(0.19, 1, 0.22, 1),
+        0.3s width cubic-bezier(0.19, 1, 0.22, 1),
+        0.3s height cubic-bezier(0.19, 1, 0.22, 1);
+}
