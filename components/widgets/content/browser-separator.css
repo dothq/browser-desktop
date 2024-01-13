@@ -1,0 +1,28 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-separator {
+    display: flex;
+    background-color: var(--chrome-content-separator-color, color-mix(in srgb, currentColor 5%, transparent 100%));
+
+    --size: 100%;
+}
+
+:host([orientation=vertical]) browser-separator,
+browser-separator[orientation=vertical] {
+    width: var(--size);
+    height: 1px;
+}
+
+:host([orientation=horizontal]) browser-separator,
+browser-separator[orientation=horizontal] {
+    width: 1px;
+    height: var(--size);
+}
+
+:host(.browser-panel-container) browser-separator {
+    --size: calc(100% - 4px * 2);
+    margin: 0 4px;
+    background: linear-gradient(to top, var(--arrowpanel-border-color), var(--arrowpanel-border-color)), color-mix(in srgb, currentColor 15%, transparent 100%);
+}

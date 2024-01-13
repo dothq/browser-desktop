@@ -19,3 +19,9 @@ dot.jar:
 
     content/widgets/browser-debug-hologram.js            (content/browser-debug-hologram.js)
     content/widgets/browser-debug-hologram.css           (content/browser-debug-hologram.css)
+
+    content/widgets/browser-group.js                     (content/browser-group.js)
+    content/widgets/browser-group.css                    (content/browser-group.css)
+
+    content/widgets/browser-separator.js                 (content/browser-separator.js)
+    content/widgets/browser-separator.css                (content/browser-separator.css)

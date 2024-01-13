@@ -1,0 +1,18 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+browser-group {
+    display: flex;
+    gap: inherit;
+}
+
+browser-group[orientation=vertical],
+:host([orientation=vertical]) browser-group:not([orientation]) {
+    flex-direction: column;
+}
+
+browser-group[orientation=horizontal],
+:host([orientation=horizontal]) browser-group:not([orientation]) {
+    flex-direction: row;
+}

@@ -32,6 +32,8 @@
 @import url("chrome://dot/content/widgets/browser-identity-panel.css");
 @import url("chrome://dot/content/widgets/browser-context-menu.css");
 @import url("chrome://dot/content/widgets/browser-debug-hologram.css");
+@import url("chrome://dot/content/widgets/browser-group.css");
+@import url("chrome://dot/content/widgets/browser-separator.css");
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");
