@@ -47,7 +47,7 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-separator.js",
 
 	"chrome://dot/content/widgets/browser-button.js",
-	"chrome://dot/content/widgets/browser-command-mixin.js",
+	"chrome://dot/content/widgets/browser-command-button.js",
 	"chrome://dot/content/widgets/browser-toolbar-button.js",
 	"chrome://dot/content/widgets/browser-tab-button.js",
 	"chrome://dot/content/widgets/browser-urlbar-button.js",
