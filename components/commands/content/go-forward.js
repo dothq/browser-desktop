@@ -13,6 +13,14 @@ export class GoForwardCommand extends TabCommand {
 		this.label = "Forward";
 		this.labelAuxiliary = "Go forwards one page";
 		this.icon = "arrow-right";
+
+		this.update();
+	}
+
+	/**
+	 * Update the disabled state of the go forward command
+	 */
+	update() {
 		this.disabled = !this.context.browser.canGoForward;
 	}
 
@@ -22,7 +30,16 @@ export class GoForwardCommand extends TabCommand {
 	 * @param {ChromeBrowser} data.browser
 	 */
 	onContextualBrowserStateChanged({ browser }) {
-		this.disabled = !browser.canGoForward;
+		this.update();
+	}
+
+	/**
+	 * Fired when the location changes the browser in context
+	 * @param {object} data
+	 * @param {ChromeBrowser} data.browser
+	 */
+	onContextualBrowserLocationChanged({ browser }) {
+		this.update();
 	}
 
 	/**

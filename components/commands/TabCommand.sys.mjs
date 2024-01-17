@@ -17,6 +17,12 @@ export class TabCommand extends Command {
 		);
 
 		this.context.window.addEventListener(
+			"BrowserTabs::LocationChange",
+			this._handleTabEvent.bind(this),
+			{ signal: this.abortController.signal }
+		);
+
+		this.context.window.addEventListener(
 			"BrowserTabs::TabSelect",
 			this._handleTabEvent.bind(this),
 			{
@@ -40,6 +46,25 @@ export class TabCommand extends Command {
 		request,
 		stateFlags,
 		status
+	}) {}
+
+	/**
+	 * Fired when the location changes the browser in context
+	 * @param {object} data
+	 * @param {ChromeBrowser} data.browser
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIWebProgress} data.webProgress
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIRequest} data.request
+	 * @param {nsIURI} data.locationURI
+	 * @param {number} data.flags
+	 * @param {boolean} data.isSimulated
+	 */
+	onContextualBrowserLocationChanged({
+		browser,
+		webProgress,
+		request,
+		locationURI,
+		flags,
+		isSimulated
 	}) {}
 
 	/**
@@ -70,6 +95,11 @@ export class TabCommand extends Command {
 				if (event.detail != this.context.tab) return;
 
 				this.onContextualTabSelected(event.detail);
+				break;
+			case "BrowserTabs::LocationChange":
+				if (event.detail.browser != this.context.browser) return;
+
+				this.onContextualBrowserLocationChanged(event.detail);
 				break;
 		}
 	}

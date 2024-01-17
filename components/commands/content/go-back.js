@@ -13,6 +13,14 @@ export class GoBackCommand extends TabCommand {
 		this.label = "Back";
 		this.labelAuxiliary = "Go backwards one page";
 		this.icon = "arrow-left";
+
+		this.update();
+	}
+
+	/**
+	 * Update the disabled state of the go back command
+	 */
+	update() {
 		this.disabled = !this.context.browser.canGoBack;
 	}
 
@@ -22,7 +30,16 @@ export class GoBackCommand extends TabCommand {
 	 * @param {ChromeBrowser} data.browser
 	 */
 	onContextualBrowserStateChanged({ browser }) {
-		this.disabled = !browser.canGoBack;
+		this.update();
+	}
+
+	/**
+	 * Fired when the location changes the browser in context
+	 * @param {object} data
+	 * @param {ChromeBrowser} data.browser
+	 */
+	onContextualBrowserLocationChanged({ browser }) {
+		this.update();
 	}
 
 	/**
