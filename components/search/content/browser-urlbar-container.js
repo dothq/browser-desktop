@@ -19,7 +19,7 @@ class BrowserUrlbarContainer extends BrowserUrlbarRoot {
 		for (const attribute of customizableAttributes.split(" ")) {
 			const attributeValue = parent.getAttribute(attribute);
 
-			this.setAttribute(attribute, attributeValue);
+			if (attributeValue) this.setAttribute(attribute, attributeValue);
 		}
 	}
 
