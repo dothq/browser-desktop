@@ -179,13 +179,15 @@ export class TabProgressListener {
 		const { TAB_PROGRESS_NONE, TAB_PROGRESS_BUSY, TAB_PROGRESS_TRANSIT } =
 			this.tab;
 
-		this.logger.debug(
-			"onStateChange",
-			webProgress,
-			request,
-			stateFlags,
-			status
-		);
+		try {
+			this.logger.debug(
+				"onStateChange",
+				webProgress,
+				request,
+				stateFlags,
+				status
+			);
+		} catch (e) {}
 
 		const { clearTimeout, setTimeout } = this.win;
 
