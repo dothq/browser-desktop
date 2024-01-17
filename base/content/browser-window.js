@@ -54,6 +54,20 @@ class nsIXULBrowserWindow {
 	}
 
 	/**
+	 * The remote browser tooltip element
+	 */
+	get tooltipElement() {
+		return /** @type {import("third_party/dothq/gecko-types/lib").XULPopupElement} */ (
+			document.documentElement.querySelector("#remoteBrowserTooltip") ||
+				(() => {
+					const tooltip = document.createXULElement("tooltip");
+					tooltip.id = "remoteBrowserTooltip";
+					return tooltip;
+				})()
+		);
+	}
+
+	/**
 	 * @param {string} status
 	 */
 	setDefaultStatus(status) {
@@ -102,12 +116,12 @@ class nsIXULBrowserWindow {
 	 * Opens a tooltip at a location for a browser
 	 * @param {number} x
 	 * @param {number} y
-	 * @param {HTMLElement} tooltip
+	 * @param {string} label
 	 * @param {CSSStyleDeclaration["direction"]} direction
 	 * @param {ChromeBrowser} browser
 	 * @returns
 	 */
-	showTooltip(x, y, tooltip, direction, browser) {
+	showTooltip(x, y, label, direction, browser) {
 		if (
 			Cc["@mozilla.org/widget/dragservice;1"]
 				.getService(Ci.nsIDragService)
@@ -116,11 +130,22 @@ class nsIXULBrowserWindow {
 			return;
 		}
 
-		console.log(x, y, tooltip, direction, browser);
+		if (!document.hasFocus()) return;
+
+		document.documentElement.appendChild(this.tooltipElement);
+
+		this.tooltipElement.label = label;
+		this.tooltipElement.style.direction = direction;
+		this.tooltipElement.openPopupAtScreen(
+			x / window.devicePixelRatio,
+			y / window.devicePixelRatio,
+			false,
+			null
+		);
 	}
 
 	hideTooltip() {
-		console.log("XULBrowserWindow.hideTooltip: stub");
+		this.tooltipElement.hidePopup();
 	}
 
 	getTabCount() {
