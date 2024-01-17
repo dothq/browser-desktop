@@ -57,3 +57,9 @@
 :host(browser-urlbar) browser-debug-hologram[debugid="urlbar"] {
     margin-top: -18px;
 }
+
+@media (prefers-contrast) {
+    :host(browser-urlbar) {
+        outline: 1px solid var(--browser-high-contrast-color);
+    }
+}
