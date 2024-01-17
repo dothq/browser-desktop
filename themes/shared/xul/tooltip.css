@@ -1,0 +1,19 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+tooltip,
+html|tooltip {
+    appearance: none;
+
+    padding: 8px 10px;
+
+    background-color: InfoBackground;
+    color: InfoText;
+
+    border-radius: 10px;
+    border: 1px solid color-mix(in srgb, currentColor 20%, transparent 100%);
+}

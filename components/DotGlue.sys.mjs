@@ -99,6 +99,19 @@ const JSWINDOWACTORS = {
 		allFrames: true
 	},
 
+	DotUAStyles: {
+		child: {
+			esModuleURI: "resource:///actors/DotUAStylesChild.sys.mjs",
+
+			events: {
+				DOMDocElementInserted: { capture: true },
+				DOMContentLoaded: { capture: true }
+			}
+		},
+
+		includeChrome: true
+	},
+
 	LightweightTheme: {
 		child: {
 			esModuleURI: "resource:///actors/LightweightThemeChild.sys.mjs",

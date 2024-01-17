@@ -37,6 +37,7 @@
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");
+@import url("chrome://dot/skin/tooltip.css");
 
 /* Define LWT variables */
 :root {

@@ -169,3 +169,4 @@
 
   skin/classic/dot/dialog.css                                  (../shared/xul/dialog.css)
   skin/classic/dot/input.css                                   (../shared/xul/input.css)
+  skin/classic/dot/tooltip.css                                 (../shared/xul/tooltip.css)
