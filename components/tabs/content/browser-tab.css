@@ -215,7 +215,7 @@ browser-tab::part(customizable) {
     padding: 0;
 
     --tab-padding-start: calc(var(--browser-ui-density) * 1.25);
-    --tab-padding-end: var(--browser-ui-density);
+    --tab-padding-end: calc(var(--browser-ui-density) * 0.75);
 
     --button-scale-factor: 0.5;
     --button-icon-size: 14px;
