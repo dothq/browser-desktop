@@ -26,6 +26,10 @@ const { DotWindowTracker } = ChromeUtils.importESModule(
 	"resource:///modules/DotWindowTracker.sys.mjs"
 );
 
+const { ConsoleAPI } = ChromeUtils.importESModule(
+	"resource://gre/modules/Console.sys.mjs"
+);
+
 XPCOMUtils.defineLazyGetter(lazy, "ReferrerInfo", () =>
 	Components.Constructor(
 		"@mozilla.org/referrer-info;1",
@@ -212,6 +216,20 @@ function openInWindow(url, params, opener) {
  * @property {function} openLinkIn
  */
 export const NavigationHelper = {
+	/**
+	 * The logger singleton for the NavigationHelper
+	 * @type {Console}
+	 */
+	get logger() {
+		if (this._logger) return this._logger;
+
+		return (this._logger = new ConsoleAPI({
+			maxLogLevel: "warn",
+			maxLogLevelPref: "dot.navigation.loglevel",
+			prefix: `${this.constructor.name}`
+		}));
+	},
+
 	/**
 	 * Find a browser window that meets the filter
 	 *
@@ -492,8 +510,6 @@ export const NavigationHelper = {
 		) {
 			openerBrowser.focus();
 		}
-
-		console.log("openLinkIn", url, where, params, loadInBackground);
 	},
 
 	/**
@@ -514,6 +530,8 @@ export const NavigationHelper = {
 		params.forceForeground ??= true;
 
 		this.openLinkIn(win, url, where, params);
+
+		this.logger.debug("openTrustedLinkIn", url, where, params);
 	},
 
 	/**
@@ -540,6 +558,8 @@ export const NavigationHelper = {
 		params.forceForeground ??= true;
 
 		this.openLinkIn(win, url, where, params);
+
+		this.logger.debug("openWebLinkIn", url, where, params);
 	},
 
 	/**
@@ -572,7 +592,7 @@ export const NavigationHelper = {
 				csp
 			});
 		} catch (e) {
-			console.error("Failed to create multiple tabs", e);
+			this.logger.error("Failed to create multiple tabs", e);
 		}
 	},
 
