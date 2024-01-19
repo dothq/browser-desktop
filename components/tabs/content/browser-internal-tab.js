@@ -410,6 +410,8 @@ class BrowserTab extends MozElements.MozTab {
 		}
 
 		this.setAttribute("icon", iconURI);
+		// The image attribute is needed for compatibility:
+		this.setAttribute("image", iconURI);
 
 		const shouldHideIcon =
 			(!iconURI.length || iconURI == BrowserTabsUtils.DEFAULT_TAB_ICON) &&
