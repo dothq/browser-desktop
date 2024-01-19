@@ -8,11 +8,8 @@ var { AppConstants } = ChromeUtils.importESModule(
 
 // prettier-ignore
 let elements = {
-	"browser-content-popup": "chrome://dot/content/widgets/browser-content-popup.js",
-
 	"browser-icon": "chrome://dot/content/widgets/browser-icon.js",
 	"browser-internal-tab": "chrome://dot/content/widgets/browser-internal-tab.js",
-	"browser-modals": "chrome://dot/content/widgets/browser-modals.js",
 	"browser-spring": "chrome://dot/content/widgets/browser-spring.js",
 	"browser-status": "chrome://dot/content/widgets/browser-status.js",
 

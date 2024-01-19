@@ -18,7 +18,6 @@ class BrowserWebFrame extends MozHTMLElement {
 		this.classList.add("browserStack");
 
 		this.appendChild(html("browser-status"));
-		this.appendChild(html("browser-modals"));
 	}
 
 	disconnectedCallback() {

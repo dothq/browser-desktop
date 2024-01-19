@@ -4,18 +4,5 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-XPIDL_SOURCES += [
-    "nsIDBPopupService.idl"
-]
-
-XPIDL_MODULE = "dbpopups"
-
-EXTRA_JS_MODULES += [
-    "Popups.sys.mjs",
-]
-
-XPCOM_MANIFESTS += [
-    "components.conf",
-]
-
-JAR_MANIFESTS += ["jar.mn"]
+dot.jar:
+% content dot %content/ contentaccessible=yes

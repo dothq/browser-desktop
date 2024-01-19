@@ -221,18 +221,6 @@ class BrowserTab extends MozElements.MozTab {
 		return gDot.tabs.list.findIndex((t) => t === this);
 	}
 
-	/**
-	 * The tab's modal box
-	 *
-	 * The modal box is responsible for housing any
-	 * tab modals or popups in the browser frame.
-	 *
-	 * @type {BrowserModals}
-	 */
-	get modalBox() {
-		return this.webContents.parentElement.querySelector("browser-modals");
-	}
-
 	_siteIdentity = null;
 
 	/**

@@ -52,6 +52,8 @@ const registry = {
 
 	BrowserPanels: "components/panels/BrowserPanels.sys.mjs",
 
+	BrowserPrompts: "components/prompts/BrowserPrompts.sys.mjs",
+
 	BrowserSearch: "components/search/BrowserSearch.sys.mjs",
 
 	BrowserStorage: "components/storage/BrowserStorage.sys.mjs",

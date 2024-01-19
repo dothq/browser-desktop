@@ -20,7 +20,7 @@ DIRS += [
     "navigation",
     "onboarding",
     "panels",
-    "popups",
+    "prompts",
     "search",
     "settings",
     "shortcuts",

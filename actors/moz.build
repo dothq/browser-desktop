@@ -11,6 +11,6 @@ FINAL_TARGET_FILES.actors += [
     "DotDevToolsChild.sys.mjs",
     "DotGeckoCommandsChild.sys.mjs",
     "DotLinkHandlerParent.sys.mjs",
-    "DotPopupHandlerParent.sys.mjs",
+    "DotPromptParent.sys.mjs",
     "DotUAStylesChild.sys.mjs",
 ]

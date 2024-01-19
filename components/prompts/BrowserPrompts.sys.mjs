@@ -2,13 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-browser-modals {
-    position: absolute;
-    top: 0;
-    left: 0;
+export class BrowserPrompts {
+	/** @type {Window} */
+	#win = null;
 
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.25);
+	/**
+	 * @param {Window} win
+	 */
+	constructor(win) {
+		this.#win = win;
+	}
 }

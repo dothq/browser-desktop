@@ -46,6 +46,10 @@ var { BrowserAccessibility } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserAccessibility.sys.mjs"
 );
 
+var { BrowserPrompts } = ChromeUtils.importESModule(
+	"resource:///modules/BrowserPrompts.sys.mjs"
+);
+
 var { NativeTitlebar } = ChromeUtils.importESModule(
 	"resource:///modules/NativeTitlebar.sys.mjs"
 );
@@ -95,6 +99,9 @@ class BrowserApplication extends BrowserCustomizableArea {
 
 	/** @type {typeof BrowserAccessibility.prototype} */
 	accessibility = null;
+
+	/** @type {typeof BrowserPrompts.prototype} */
+	prompts = null;
 
 	/**
 	 * Determines whether the browser session supports multiple processes
@@ -237,6 +244,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.actions = new BrowserActions(this);
 		this.panels = new BrowserPanels(window);
 		this.accessibility = new BrowserAccessibility(window);
+		this.prompts = new BrowserPrompts(window);
 
 		document.commandDispatcher.addCommandUpdater(this, "*", "*");
 

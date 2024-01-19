@@ -91,14 +91,6 @@ const JSWINDOWACTORS = {
 		allFrames: true
 	},
 
-	DotPopupHandler: {
-		parent: {
-			esModuleURI: "resource:///actors/DotPopupHandlerParent.sys.mjs"
-		},
-		includeChrome: true,
-		allFrames: true
-	},
-
 	DotUAStyles: {
 		child: {
 			esModuleURI: "resource:///actors/DotUAStylesChild.sys.mjs",
@@ -173,7 +165,7 @@ const JSWINDOWACTORS = {
 
 	Prompt: {
 		parent: {
-			esModuleURI: "resource:///actors/PromptParent.sys.mjs"
+			esModuleURI: "resource:///actors/DotPromptParent.sys.mjs"
 		},
 		includeChrome: true,
 		allFrames: true

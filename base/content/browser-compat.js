@@ -140,6 +140,11 @@ var gBrowser = {
 
 	removeTabsProgressListener(listener) {},
 
+	/**
+	 * @param {ChromeBrowser} browser
+	 */
+	getTabDialogBox(browser) {},
+
 	_initCompat() {}
 };
 
