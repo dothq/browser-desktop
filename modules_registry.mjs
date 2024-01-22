@@ -17,6 +17,7 @@ const registry = {
 	ActionRegistry: "components/actions/ActionRegistry.sys.mjs",
 	ActionsDispatcher: "components/actions/ActionsDispatcher.sys.mjs",
 	ActionsIPC: "components/actions/ActionsIPC.sys.mjs",
+	ActionsMessenger: "components/actions/ActionsMessenger.sys.mjs",
 	ActionsReceiver: "components/actions/ActionsReceiver.sys.mjs",
 	BrowserActions: "components/actions/BrowserActions.sys.mjs",
 
@@ -45,10 +46,16 @@ const registry = {
 	BrowserCustomizableShared:
 		"components/customizableui/BrowserCustomizableShared.sys.mjs",
 
+	TabDevTools: "components/devtools/TabDevTools.sys.mjs",
+
 	FaviconsDatastore: "components/favicons/FaviconsDatastore.sys.mjs",
 
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",
+
+	BrowserMenu: "components/menus/BrowserMenu.sys.mjs",
+	BrowserMenuItem: "components/menus/BrowserMenuItem.sys.mjs",
+	BrowserMenuItemGroup: "components/menus/BrowserMenuItemGroup.sys.mjs",
 
 	BrowserPanels: "components/panels/BrowserPanels.sys.mjs",
 
@@ -68,7 +75,9 @@ const registry = {
 	StartPage: "components/startpage/StartPage.sys.mjs",
 
 	TabIdentityHandler: "components/identity/TabIdentityHandler.sys.mjs",
-	TabProgressListener: "components/tabs/TabProgressListener.sys.mjs"
+	TabProgressListener: "components/tabs/TabProgressListener.sys.mjs",
+
+	ThemeIcons: "themes/ThemeIcons.sys.mjs"
 };
 
 export default registry;
