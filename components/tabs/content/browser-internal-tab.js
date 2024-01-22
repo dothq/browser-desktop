@@ -6,6 +6,10 @@ var { TabIdentityHandler } = ChromeUtils.importESModule(
 	"resource://gre/modules/TabIdentityHandler.sys.mjs"
 );
 
+var { TabDevTools } = ChromeUtils.importESModule(
+	"resource://gre/modules/TabDevTools.sys.mjs"
+);
+
 /**
  * Compatibility layer over Dot tabs for Mozilla APIs
  *
@@ -232,6 +236,17 @@ class BrowserTab extends MozElements.MozTab {
 		return this._siteIdentity;
 	}
 
+	_devTools = null;
+
+	/**
+	 * The tab's devtools manager
+	 *
+	 * @type {typeof TabDevTools.prototype}
+	 */
+	get devTools() {
+		return this._devTools;
+	}
+
 	/**
 	 * The current URI of the tab
 	 * @returns {nsIURI}
@@ -262,6 +277,9 @@ class BrowserTab extends MozElements.MozTab {
 
 		// Ensure site identity is initialised
 		this._siteIdentity = new TabIdentityHandler(this);
+
+		// Ensure tab devtools is initialised
+		this._devTools = new TabDevTools(this);
 	}
 
 	connectedCallback() {
