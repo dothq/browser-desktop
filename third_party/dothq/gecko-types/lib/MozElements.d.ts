@@ -11,10 +11,11 @@ interface MozElement<T> {
 }
 
 interface MozElementsInterface {
-    [key: string]: MozElement<{}> & MozElementMixinStatic;
+    [key: string]: MozElement<Element> & MozElementMixinStatic;
     
 }
 
 export type MozElements = {
     MozElementMixin: <T extends Element>(el: T) => MozElement<T> & MozElementMixinStatic;
+    BaseTextMixin: <T extends Element>(el: Constructor<T>) => MozElement<T> & MozElementMixinStatic;
 } & MozElementsInterface;
