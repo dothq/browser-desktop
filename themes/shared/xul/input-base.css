@@ -1,0 +1,32 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+    --button-disabled-opacity: 0.5;
+
+    --button-base-color: currentColor;
+    --button-mix-color: transparent;
+
+    --button-override-default-color-mix: 10%;
+    --button-override-hover-color-mix: 15%;
+    --button-override-active-color-mix: 30%;
+    --button-override-checked-color-mix: 30%;
+    --button-override-checked-hover-color-mix: 35%;
+    --button-override-checked-active-color-mix: 40%;
+
+    --button-default-color: color-mix(in srgb, var(--button-base-color) var(--button-override-default-color-mix), var(--button-mix-color));
+    --button-hover-color: color-mix(in srgb, var(--button-base-color) var(--button-override-hover-color-mix), var(--button-mix-color));
+    --button-active-color: color-mix(in srgb, var(--button-base-color) var(--button-override-active-color-mix), var(--button-mix-color));
+    --button-checked-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-color-mix), var(--button-mix-color));
+    --button-checked-hover-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-hover-color-mix), var(--button-mix-color));
+    --button-checked-active-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-active-color-mix), var(--button-mix-color));
+
+    --button-ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    --browser-high-contrast-color: color-mix(in srgb, currentColor 100%, transparent 50%);
+
+    --button-transition: background 200ms var(--button-ease-out-quad),
+        outline 25ms var(--button-ease-out-quad),
+        outline-offset var(--button-outline-offset-transition-duration, 50ms) var(--button-ease-out-quad);
+}

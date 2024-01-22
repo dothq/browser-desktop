@@ -5,44 +5,13 @@
 @namespace xul url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
 
-button,
-select,
-xul|button,
-html|button,
-html|select,
-::slotted(menuitem),
-::slotted(menu) {
-    --button-disabled-opacity: 0.5;
-
-    --button-base-color: currentColor;
-    --button-mix-color: transparent;
-
-    --button-override-default-color-mix: 10%;
-    --button-override-hover-color-mix: 15%;
-    --button-override-active-color-mix: 30%;
-    --button-override-checked-color-mix: 30%;
-    --button-override-checked-hover-color-mix: 35%;
-    --button-override-checked-active-color-mix: 40%;
-
-    --button-default-color: color-mix(in srgb, var(--button-base-color) var(--button-override-default-color-mix), var(--button-mix-color));
-    --button-hover-color: color-mix(in srgb, var(--button-base-color) var(--button-override-hover-color-mix), var(--button-mix-color));
-    --button-active-color: color-mix(in srgb, var(--button-base-color) var(--button-override-active-color-mix), var(--button-mix-color));
-    --button-checked-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-color-mix), var(--button-mix-color));
-    --button-checked-hover-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-hover-color-mix), var(--button-mix-color));
-    --button-checked-active-color: color-mix(in srgb, var(--button-base-color) var(--button-override-checked-active-color-mix), var(--button-mix-color));
-
-    --button-ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-    --browser-high-contrast-color: color-mix(in srgb, currentColor 100%, transparent 50%);
-}
+@import url("chrome://dot/skin/input-base.css");
 
 button,
 select,
 xul|button,
 html|button,
-html|select,
-::slotted(menuitem),
-::slotted(menu) {
+html|select {
     appearance: none;
 
     min-height: 24px;
@@ -62,17 +31,11 @@ html|select,
     transition: var(--button-transition);
 
     z-index: var(--button-z-index);
-
-    --button-transition: background 200ms var(--button-ease-out-quad),
-        outline 25ms var(--button-ease-out-quad),
-        outline-offset var(--button-outline-offset-transition-duration, 50ms) var(--button-ease-out-quad);
 }
 
 button,
 xul|button,
-html|button,
-::slotted(menuitem),
-::slotted(menu) {
+html|button {
     padding: 6px 24px;
 }
 
@@ -93,7 +56,9 @@ xul|button:hover:not(:disabled),
 html|button:hover:not(:disabled),
 html|select:hover:not(:disabled),
 html|select:focus:not(:disabled),
-::slotted(menuitem[_moz-menuactive]:not([disabled])) {
+button[checked]:not(:disabled),
+xul|button[checked]:not(:disabled),
+html|button[checked]:not(:disabled) {
     --button-background: var(--button-hover-color);
 }
 
@@ -111,12 +76,8 @@ select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
 xul|button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
 html|button:is(:hover, :focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
 html|select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disabled),
-::slotted(menuitem:is([_moz-menuactive], :focus-visible):is(:active, [active], [mouseactive]):not([disabled])) {
+:host(dialog) xul|button:is(:hover, :focus):is(:active, [active], [mouseactive]):not(:disabled) {
     --button-background: var(--button-active-color);
-}
-
-::slotted(menu:is([_moz-menuactive], :focus-visible):is(:active, [active], [mouseactive]):not([disabled])) {
-    background-color: var(--button-active-color) !important;
 }
 
 button:disabled>*,
@@ -128,9 +89,7 @@ button[disabled],
 select[disabled],
 xul|button[disabled],
 html|button[disabled],
-html|select[disabled],
-::slotted(menuitem[disabled]),
-::slotted(menu[disabled]) {
+html|select[disabled] {
     filter: opacity(var(--button-disabled-opacity));
     pointer-events: none;
 }
@@ -140,7 +99,7 @@ select:focus-visible,
 xul|button:focus-visible:not(:is(:active, [active], [mouseactive])),
 html|button:focus-visible:not(:is(:active, [active], [mouseactive])),
 html|select:focus-visible,
-::slotted(menuitem:focus-visible:not(:is(:active, [active], [mouseactive]))) {
+:host(dialog) xul|button:focus:not(:is(:active, [active], [mouseactive])) {
     --button-background: var(--button-hover-color);
 
     --button-outline: 2px solid AccentColor;
@@ -152,7 +111,7 @@ html|select:focus-visible,
 button:focus-visible:is(:active, [active], [mouseactive]),
 xul|button:focus-visible:is(:active, [active], [mouseactive]),
 html|button:focus-visible:is(:active, [active], [mouseactive]),
-::slotted(menuitem:focus-visible:is(:active, [active], [mouseactive])) {
+:host(dialog) xul|button:focus:is(:active, [active], [mouseactive]) {
     --button-outline: 2px solid AccentColor;
     --button-outline-offset: 0px;
 
@@ -161,8 +120,7 @@ html|button:focus-visible:is(:active, [active], [mouseactive]),
 
 button[primary],
 xul|button[primary],
-html|button[primary],
-::slotted(menuitem[primary]) {
+html|button[primary] {
     --button-base-color: AccentColor;
     --button-mix-color: currentColor;
     --button-color: white;
@@ -181,9 +139,7 @@ html|button[primary],
     select:not(:disabled),
     xul|button:not(:disabled, [inert]),
     html|button:not(:disabled, [inert]),
-    html|select:not(:disabled),
-    ::slotted(menuitem:not([disabled])),
-    ::slotted(menu:not([disabled])) {
+    html|select:not(:disabled) {
         outline: 1px solid var(--browser-high-contrast-color);
     }
 }
