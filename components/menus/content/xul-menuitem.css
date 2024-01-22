@@ -1,0 +1,116 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@import url("chrome://dot/skin/input-base.css");
+
+menuitem,
+menu {
+    --menuitem-default-padding-x: 12px;
+    --menuitem-default-padding-y: 8px;
+
+
+    padding: var(--menuitem-padding-y, var(--menuitem-default-padding-y)) var(--menuitem-padding-x, var(--menuitem-default-padding-x));
+    border-radius: 6px;
+    transition: var(--button-transition);
+}
+
+:is(menuitem, menu)[_moz-menuactive="true"]:not([disabled]) {
+    background-color: var(--button-hover-color);
+}
+
+menupopup>menuitem:not(:first-of-type),
+menupopup>menu:not(:first-of-type) {
+    margin-block-start: 1px;
+}
+
+menupopup>menuitem:not(:last-of-type),
+menupopup>menu:not(:last-of-type) {
+    margin-block-end: 1px;
+}
+
+:host(menuitem) .browser-menuitem-container,
+:host(menu) .browser-menuitem-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+    flex: 1;
+}
+
+:host(menuitem) .browser-menuitem-labels,
+:host(menu) .browser-menuitem-labels {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    flex: 1;
+}
+
+::slotted(.browser-menuitem-image) {
+    display: flex;
+
+    width: 16px;
+    height: 16px;
+
+    -moz-context-properties: fill, fill-opacity;
+    fill: currentColor;
+
+    transition: 0.05s fill-opacity ease-in;
+}
+
+::slotted(.browser-menuitem-label),
+::slotted(.browser-menuitem-accelerator) {
+    font: message-box;
+}
+
+::slotted(.browser-menuitem-accelerator) {
+    opacity: 0.5;
+}
+
+/* Auxilliary icons */
+
+:host(menu) ::slotted(.browser-menuitem-image[slot=image-right]) {
+    background-image: url(chrome://dot/skin/icons/chevron-right.svg);
+    background-position-x: 4px;
+}
+
+:host(menuitem:is([type=checkbox], [type=radio]):not([checked])) ::slotted(.browser-menuitem-image[slot=image-right]) {
+    fill-opacity: 0;
+}
+
+:host(menuitem[_moz-menuactive="true"]:active) ::slotted([slot=image-right]) {
+    fill-opacity: 0.3;
+}
+
+:host(menuitem[type=checkbox]) ::slotted([slot=image-right]) {
+    background-image: url(chrome://dot/skin/icons/check.svg);
+}
+
+:host(menuitem[type=radio]) ::slotted([slot=image-right]) {
+    background-image: url(chrome://dot/skin/icons/radio-check.svg);
+}
+
+/* Grouped menu items */
+
+:host(menuitem[grouped]) {
+    --menuitem-padding-x: calc(var(--menuitem-default-padding-x) * 2);
+    --menuitem-padding-y: calc(var(--menuitem-default-padding-y) * 1.25);
+}
+
+:host(menuitem[grouped]) .browser-menuitem-labels {
+    display: none;
+}
+
+/* Collapse icons in menus without iconic menu items */
+
+menupopup[hideicons] .browser-menuitem-image[slot=image-left] {
+    display: none;
+}
+
+/* Disabled state */
+
+:host(menuitem[disabled]) {
+    opacity: 0.25;
+}

@@ -23,18 +23,3 @@ dot.jar:
 
     content/widgets/browser-panel-button.js                 (content/browser-panel-button.js)
     content/widgets/browser-panel-button.css                (content/browser-panel-button.css)
-
-    content/widgets/xul-menu.js                             (content/xul-menu.js)
-
-    content/widgets/xul-menuitem.js                         (content/xul-menuitem.js)
-    content/widgets/xul-menuitem.css                        (content/xul-menuitem.css)
-
-    content/widgets/xul-menupopup.js                        (content/xul-menupopup.js)
-    content/widgets/xul-menupopup.css                       (content/xul-menupopup.css)
-
-% override chrome://global/content/menu.js chrome://dot/content/widgets/xul-menu.js
-% override chrome://global/content/elements/menupopup.js chrome://dot/content/widgets/xul-menupopup.js
-
-% override chrome://global/skin/popup.css chrome://dot/content/compat/blank.css
-% override chrome://global/skin/menu.css chrome://dot/content/compat/blank.css
-% override chrome://global/skin/menu-shared.css chrome://dot/content/compat/blank.css

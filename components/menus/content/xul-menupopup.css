@@ -1,0 +1,70 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+menupopup {
+    --panel-shadow-margin: 10px;
+
+    -moz-window-input-region-margin: var(--panel-shadow-margin);
+    margin: calc(-1 * (var(--panel-shadow-margin) + var(--panel-inner-padding, 0px)));
+
+    -moz-window-dragging: no-drag;
+}
+
+menupopup[animate][animate="open"] {
+    opacity: 1;
+    transition: 0.2s opacity cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+menupopup:not([animate="open"]):not([animate="false"]) {
+    opacity: 0;
+    transition: 0.1s opacity cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+menupopup[animating] {
+    pointer-events: none;
+}
+
+:host(menupopup) arrowscrollbox::part(scrollbutton-up),
+:host(menupopup) arrowscrollbox::part(scrollbutton-down),
+:host(menupopup) arrowscrollbox::part(overflow-start-indicator),
+:host(menupopup) arrowscrollbox::part(overflow-end-indicator) {
+    display: none;
+}
+
+:host(menupopup) arrowscrollbox::part(scrollbox) {
+    overflow: auto;
+    margin: 0;
+}
+
+:host(menupopup) arrowscrollbox::part(scrollbox-clip) {
+    overflow: visible;
+}
+
+:host(menupopup) .browser-panel-container {
+    display: flex;
+    flex-direction: column;
+
+    width: auto;
+    height: auto;
+
+    min-width: 16px;
+    min-height: 16px;
+
+    padding: calc(2px + 1px);
+    margin: var(--panel-shadow-margin);
+
+    background-color: var(--arrowpanel-background);
+    color: var(--arrowpanel-color);
+
+    outline: 1px solid var(--arrowpanel-border-color);
+    outline-offset: -1px;
+
+    border-radius: 8px;
+
+    box-shadow: 0 3.2px 7.2px 0 rgba(0, 0, 0, .132), 0 .6px 1.8px 0 rgba(0, 0, 0, .108);
+
+    overflow: clip;
+
+    gap: 2px;
+}
