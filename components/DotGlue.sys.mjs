@@ -330,11 +330,37 @@ export class DotGlue {
 
 			{
 				name: "DotGlue.maybeShowDefaultBrowserPrompt",
-				task: () => {
+				task: async () => {
 					let win = lazy.DotWindowTracker.getTopWindow();
 
 					win.dump(
 						"!! Dot Browser is not your default web browser.\n"
+					);
+
+					const {
+						BUTTON_TITLE_IS_STRING,
+						BUTTON_POS_0,
+						BUTTON_POS_1,
+						BUTTON_POS_0_DEFAULT
+					} = Services.prompt;
+
+					let rv = await Services.prompt.asyncConfirmEx(
+						win.browsingContext,
+						Services.prompt.MODAL_TYPE_INTERNAL_WINDOW,
+						"Make Dot Browser your default browser?",
+						"Get speed, safety, and privacy every time you browse.",
+						BUTTON_TITLE_IS_STRING * BUTTON_POS_0 +
+							BUTTON_TITLE_IS_STRING * BUTTON_POS_1 +
+							BUTTON_POS_0_DEFAULT,
+						"Make default browser",
+						"Not now",
+						null,
+						"Don't ask me about this again",
+						false,
+						{
+							headerIconURL:
+								"chrome://branding/content/icon32.png"
+						}
 					);
 				}
 			},

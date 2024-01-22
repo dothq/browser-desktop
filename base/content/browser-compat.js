@@ -148,6 +148,21 @@ var gBrowser = {
 	_initCompat() {}
 };
 
+var gDialogBox = {
+	async open(uri, propBag) {
+		var { PromptUtils } = ChromeUtils.importESModule(
+			"resource://gre/modules/PromptUtils.sys.mjs"
+		);
+
+		const actor = window.windowGlobalChild.getActor("Prompt");
+
+		let args = {};
+		PromptUtils.propBagToObject(propBag, args);
+
+		await actor.sendQuery("Prompt:Open", args);
+	}
+};
+
 window.addEventListener("load", gBrowser._initCompat.bind(this), {
 	once: true
 });
