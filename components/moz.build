@@ -17,6 +17,7 @@ DIRS += [
     "favicons",
     "identity",
     "interstitials",
+    "menus",
     "navigation",
     "onboarding",
     "panels",
