@@ -15,5 +15,5 @@ html|tooltip {
     color: InfoText;
 
     border-radius: 10px;
-    border: 1px solid color-mix(in srgb, currentColor 20%, transparent 100%);
+    border: 1px solid color-mix(in srgb, currentColor 30%, transparent 100%);
 }
