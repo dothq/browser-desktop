@@ -23,6 +23,7 @@ import { ServicesTextToSubURI } from "./textToSubURI";
 import { ServicesTm } from "./tm";
 import { ServicesUriFixup } from "./uriFixup";
 import { ServicesURLFormatter } from "./urlFormatter";
+import { ServicesUUID } from "./uuid";
 import { ServicesWm } from "./wm";
 import { ServicesWw } from "./ww";
 
@@ -49,6 +50,7 @@ export type Services = {
     tm: ServicesTm;
 	uriFixup: ServicesUriFixup;
     urlFormatter: ServicesURLFormatter;
+    uuid: ServicesUUID;
 	wm: ServicesWm;
 	ww: ServicesWw;
 };
