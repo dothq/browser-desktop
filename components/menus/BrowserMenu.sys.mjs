@@ -215,9 +215,6 @@ export class BrowserMenu {
 	 * @param {number} screenY
 	 */
 	open(screenX, screenY) {
-		screenX *= this.#win.devicePixelRatio;
-		screenY *= this.#win.devicePixelRatio;
-
 		let popupset = this.#doc.querySelector("popupset");
 		if (!popupset) {
 			popupset = this.#doc.createXULElement("popupset");
