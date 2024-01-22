@@ -11,6 +11,7 @@ EXTRA_JS_MODULES += [
     "ActionRegistry.sys.mjs",
     "ActionsDispatcher.sys.mjs",
     "ActionsIPC.sys.mjs",
+    "ActionsMessenger.sys.mjs",
     "ActionsReceiver.sys.mjs",
     "BrowserActions.sys.mjs",
 ]

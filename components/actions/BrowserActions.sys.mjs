@@ -10,11 +10,15 @@ const { ActionsDispatcher } = ChromeUtils.importESModule(
 	"resource://gre/modules/ActionsDispatcher.sys.mjs"
 );
 
+const { ActionsMessenger } = ChromeUtils.importESModule(
+	"resource://gre/modules/ActionsMessenger.sys.mjs"
+);
+
 const { Action } = ChromeUtils.importESModule(
 	"resource://gre/modules/Action.sys.mjs"
 );
 
-export class BrowserActions {
+export class BrowserActions extends ActionsMessenger {
 	/** @type {Window} */
 	#win = null;
 
@@ -60,8 +64,10 @@ export class BrowserActions {
 	 * @param {BrowserApplication} root
 	 */
 	constructor(root) {
+		super();
+
 		this.#win = root.ownerGlobal;
 		this.#registry = new ActionRegistry(this.#win);
-		this.#dispatcher = new ActionsDispatcher(root);
+		this.#dispatcher = new ActionsDispatcher(this, root);
 	}
 }

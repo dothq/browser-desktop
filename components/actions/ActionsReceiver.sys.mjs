@@ -7,7 +7,7 @@ const { ActionsIPC } = ChromeUtils.importESModule(
 );
 
 /**
- * @typedef {import("components/actions/Action.sys.mjs").ActionDispatchEvent<T>} ActionDispatchEvent
+ * @typedef {import("components/actions/ActionsIPC.sys.mjs").ActionDispatchEvent<T>} ActionDispatchEvent
  * @template T
  */
 
@@ -16,8 +16,8 @@ export class ActionsReceiver extends ActionsIPC {
 	 * Handles incoming action dispatch events
 	 * @param {ActionDispatchEvent<{}>} event
 	 */
-	handleActionDispatch(event) {
-		const { id, args } = event.detail;
+	async handleActionDispatch(event) {
+		const { id, args, messageId, messenger } = event.detail;
 
 		const win = event.target.ownerGlobal;
 		const gDot = win.gDot;
@@ -27,7 +27,13 @@ export class ActionsReceiver extends ActionsIPC {
 		try {
 			const actionInstance = new action();
 
-			actionInstance.run.call(actionInstance, event);
+			const returnValuePromisified = Promise.resolve(
+				actionInstance.run.call(actionInstance, event)
+			);
+
+			const returnValue = await returnValuePromisified;
+
+			messenger.resolveMessage(messageId, returnValue);
 		} catch (e) {
 			throw new Error(
 				`${this.constructor.name} (${this.area.tagName}): Error occurred during execution of action '${id}':\n` +

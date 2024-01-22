@@ -2,11 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-/**
- * @typedef {CustomEvent<{}> & { detail: { id: string; args?: T }, target: ReturnType<typeof BrowserCustomizableContextMixin<typeof Element>>["prototype"] }} ActionDispatchEvent
- * @template T
- */
-
 export class Action {
 	static id = "";
 
@@ -26,7 +21,7 @@ export class Action {
 
 	/**
 	 * Performs this action
-	 * @param {ActionDispatchEvent<{}>} event
+	 * @param {import("./ActionsIPC.sys.mjs").ActionDispatchEvent<{}>} event
 	 */
 	run(event) {}
 

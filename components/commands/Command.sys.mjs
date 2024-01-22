@@ -6,6 +6,10 @@ const { ActionsDispatcher } = ChromeUtils.importESModule(
 	"resource://gre/modules/ActionsDispatcher.sys.mjs"
 );
 
+const { ActionsMessenger } = ChromeUtils.importESModule(
+	"resource://gre/modules/ActionsMessenger.sys.mjs"
+);
+
 const { CommandAudiences } = ChromeUtils.importESModule(
 	"resource://gre/modules/CommandAudiences.sys.mjs"
 );
@@ -27,7 +31,7 @@ const { ConsoleAPI } = ChromeUtils.importESModule(
  * @typedef {XULCommandEvent & { target: CommandSubscriber }} CommandEvent
  */
 
-export class Command {
+export class Command extends ActionsMessenger {
 	/** @type {typeof CommandSubscription.prototype} */
 	#subscription = null;
 
@@ -88,6 +92,8 @@ export class Command {
 	 * @param {BrowserCustomizableArea} area
 	 */
 	constructor(subscription, subscriber, area) {
+		super();
+
 		this.#subscription = subscription;
 		this.subscriber = subscriber;
 		this.area = area;
@@ -343,7 +349,7 @@ export class Command {
 	 * @returns {any}
 	 */
 	get checked() {
-		return !!this.checked.get(CommandAudiences.DEFAULT);
+		return !!this._checked.get(CommandAudiences.DEFAULT);
 	}
 
 	/**
@@ -371,6 +377,6 @@ export class Command {
 	 * The actions dispatcher for this command
 	 */
 	get actions() {
-		return new ActionsDispatcher(this.area);
+		return new ActionsDispatcher(this, this.area);
 	}
 }
