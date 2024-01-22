@@ -27,7 +27,11 @@ const ALL_COMMANDS = [
 	"go-forward",
 	"inspect",
 	"reload-tab",
-	"tab-identity"
+	"save-page-as",
+	"tab-identity",
+
+	// Utilities
+	"toggle-colorpicker"
 ];
 
 export class BrowserCommands {

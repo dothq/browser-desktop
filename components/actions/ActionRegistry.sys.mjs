@@ -9,6 +9,7 @@ const { Action } = ChromeUtils.importESModule(
 const ALL_ACTIONS = [
 	// browser.content
 	"browser.content.command",
+	"browser.content.pick_color",
 
 	// browser.developer
 	"browser.developer.inspect",
@@ -22,6 +23,7 @@ const ALL_ACTIONS = [
 	"browser.tabs.go_forward",
 	"browser.tabs.open",
 	"browser.tabs.reload_page",
+	"browser.tabs.save_page",
 	"browser.tabs.stop_page"
 ];
 
