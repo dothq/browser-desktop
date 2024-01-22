@@ -31,9 +31,12 @@ let noCallbackElements = [
 
 	"chrome://dot/content/widgets/browser-a11y-ring.js",
 
+	"chrome://dot/content/widgets/browser-customizable-context.js",
 	"chrome://dot/content/widgets/browser-customizable-area.js",
 	"chrome://dot/content/widgets/browser-customizable-overflowable-area.js",
 	"chrome://dot/content/widgets/browser-contextual-element.js",
+
+	"chrome://dot/content/widgets/browser-command-element.js",
 
 	"chrome://dot/content/widgets/browser-panel.js",
 	"chrome://dot/content/widgets/browser-panel-area.js",

@@ -9,3 +9,4 @@ dot.jar:
     content/commands/                  (content/*)
 
     content/widgets/browser-command-button.js               (widgets/browser-command-button.js)
+    content/widgets/browser-command-element.js              (widgets/browser-command-element.js)
