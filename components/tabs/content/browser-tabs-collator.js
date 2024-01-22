@@ -138,6 +138,8 @@ class BrowserTabsCollator extends MozHTMLElement {
 	}
 
 	connectedCallback() {
+		this.hidden = true;
+
 		if (this.delayConnectedCallback()) return;
 
 		this.mutationObserver = new MutationObserver(this._onMutate.bind(this));
@@ -147,17 +149,7 @@ class BrowserTabsCollator extends MozHTMLElement {
 			subtree: true
 		});
 
-		this._insertStylesheet();
-
 		window.addEventListener("BrowserTabs::TabAnimationEnded", this);
-	}
-
-	_insertStylesheet() {
-		const sheet = document.createElement("style");
-
-		sheet.textContent = `browser-tabs-collator { display: none; }`;
-
-		document.body.appendChild(sheet);
 	}
 
 	disconnectedCallback() {
