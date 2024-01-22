@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserToolbar extends BrowserCustomizableOverflowableArea {
+class BrowserToolbar extends BrowserCustomizableArea {
 	constructor() {
 		super();
 	}
@@ -87,8 +87,6 @@ class BrowserToolbar extends BrowserCustomizableOverflowableArea {
 	}
 
 	connectedCallback() {
-		super.connectedCallback();
-
 		super.connect("toolbar", {
 			styles: ["chrome://dot/content/widgets/browser-toolbar.css"]
 		});
@@ -99,8 +97,6 @@ class BrowserToolbar extends BrowserCustomizableOverflowableArea {
 	}
 
 	disconnectedCallback() {
-		super.disconnectedCallback();
-
 		this.removeEventListener("BrowserWindowControls::UpdatePosition", this);
 	}
 }
