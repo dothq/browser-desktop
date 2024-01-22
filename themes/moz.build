@@ -8,6 +8,7 @@ EXTRA_JS_MODULES += [
     "BuiltInThemeConfig.sys.mjs",
     "BuiltInThemes.sys.mjs",
     "LightweightThemeConsumer.sys.mjs*", # Using manifests.py entry overwrite
+    "ThemeIcons.sys.mjs",
     "ThemeVariableMap.sys.mjs",
     "ToolkitVariableMap.sys.mjs",
 ]

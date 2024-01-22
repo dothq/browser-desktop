@@ -51,22 +51,22 @@ browser-tab-icon .browser-tab-spinner {
 
 /* Busy */
 browser-tab-icon[progress="1"] .browser-tab-spinner {
-    mask-image: url(chrome://dot/skin/tab-loading-busy.svg);
+    mask-image: url(chrome://dot/skin/icons/tab-loading-busy.svg);
 }
 
 /* In Transit */
 browser-tab-icon[progress="2"] .browser-tab-spinner {
-    mask-image: url(chrome://dot/skin/tab-loading-transit.svg);
+    mask-image: url(chrome://dot/skin/icons/tab-loading-transit.svg);
     background-color: var(--browser-accent-color);
 }
 
 @media (prefers-reduced-motion: reduce) {
     browser-tab-icon[progress="1"] .browser-tab-spinner {
-        mask-image: url(chrome://dot/skin/hourglass.svg);
+        mask-image: url(chrome://dot/skin/icons/hourglass.svg);
     }
 
     browser-tab-icon[progress="2"] .browser-tab-spinner {
-        mask-image: url(chrome://dot/skin/hourglass-filled.svg);
+        mask-image: url(chrome://dot/skin/icons/hourglass-filled.svg);
     }
 }
 

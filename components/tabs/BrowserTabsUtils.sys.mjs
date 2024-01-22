@@ -10,7 +10,7 @@ const { StartPage } = ChromeUtils.importESModule(
  * @typedef {import("third_party/dothq/gecko-types/lib").nsIChannel} nsIChannel
  */
 
-const DEFAULT_TAB_ICON = "chrome://dot/skin/globe.svg";
+const DEFAULT_TAB_ICON = "chrome://dot/skin/icons/globe.svg";
 const DEFAULT_TAB_LABEL = "Untitled";
 
 export const BrowserTabsUtils = {
@@ -26,11 +26,11 @@ export const BrowserTabsUtils = {
 		},
 		"about:home": {
 			title: "New Tab",
-			icon: "chrome://dot/skin/home.svg"
+			icon: "chrome://dot/skin/icons/home.svg"
 		},
 		"about:newtab": {
 			title: "New Tab",
-			icon: "chrome://dot/skin/home.svg"
+			icon: "chrome://dot/skin/icons/home.svg"
 		},
 		"about:welcome": {
 			title: "Welcome to Dot Browser",

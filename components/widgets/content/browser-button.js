@@ -85,19 +85,6 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 
 		this.setAttribute("icon", newIcon);
 
-		this.elements.icon.style.removeProperty("--src");
-
-		try {
-			let uri = Services.io.newURI(newIcon);
-
-			if (uri.spec) {
-				this.elements.icon.style.setProperty(
-					"--src",
-					`url("${CSS.escape(newIcon)}")`
-				);
-			}
-		} catch (e) {}
-
 		this.elements.icon.name = newIcon;
 	}
 
@@ -112,6 +99,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Updates the label of the browser button
 	 */
 	set label(newLabel) {
+		if (newLabel == this.label) return;
+
 		if (!this.elements.label.isConnected) {
 			this.setAttribute("label", newLabel);
 		}
@@ -151,6 +140,20 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		}
 
 		this.setAttribute("mode", newMode);
+	}
+
+	/**
+	 * The checked/toggled state of the browser button
+	 */
+	get checked() {
+		return this.hasAttribute("checked");
+	}
+
+	/**
+	 * Updates the checked/toggled state of the browser button
+	 */
+	set checked(newChecked) {
+		this.toggleAttribute("checked", newChecked);
 	}
 
 	/**

@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { ThemeIcons } = ChromeUtils.importESModule(
+	"resource://gre/modules/ThemeIcons.sys.mjs"
+);
+
 class BrowserIcon extends HTMLElement {
 	static get observedAttributes() {
 		return ["name", "size"];
@@ -17,6 +21,18 @@ class BrowserIcon extends HTMLElement {
 
 	set name(newName) {
 		this.setAttribute("name", newName);
+
+		let src = ThemeIcons.getURI(newName);
+
+		try {
+			let uri = new URL(newName);
+
+			if (uri.href) {
+				src = newName;
+			}
+		} catch (e) {}
+
+		this.style.setProperty("--src", `url(${CSS.escape(src)})`);
 	}
 
 	get size() {
@@ -30,15 +46,16 @@ class BrowserIcon extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		switch (name) {
-			case "src":
+			case "name":
 				if (newValue !== oldValue) {
-					this.src = newValue;
+					this.name = newValue;
 				}
 				break;
 			case "size":
 				if (newValue !== oldValue) {
 					this.size = newValue;
 				}
+				break;
 		}
 	}
 }

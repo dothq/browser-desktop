@@ -7,7 +7,7 @@
 }
 
 #command-button-pick:not(.accessibility)::before {
-    background-image: url(chrome://dot/skin/inspect.svg) !important;
+    background-image: url(chrome://dot/skin/icons/inspect.svg) !important;
 }
 
 /* Network tab */
@@ -22,10 +22,10 @@
 
 @-moz-document url("chrome://devtools/content/storage/index.xhtml") {
     #storage-tree li:not([data-id='["cookies"]'], [data-id='["indexedDB"]']) .tree-widget-item[type="store"]::after {
-        background-image: url(chrome://dot/skin/cabinet.svg);
+        background-image: url(chrome://dot/skin/icons/cabinet.svg);
     }
 
     #storage-tree li[data-id='["cookies"]'] .tree-widget-item[type="store"]::after {
-        background-image: url(chrome://dot/skin/cookie.svg);
+        background-image: url(chrome://dot/skin/icons/cookie.svg);
     }
 }
