@@ -19,7 +19,7 @@
             "frame": "#1c1b22",
             "popup": "rgb(40, 40, 41)",
             "popup_text": "rgb(251, 251, 254)",
-            "popup_border": "rgb(82, 82, 94)",
+            "popup_border": "rgba(82, 82, 94, 0.2)",
             "popup_highlight": "#0060df",
             "tab_line": "#0a84ff",
             "toolbar": "hsl(240, 1%, 20%)",
