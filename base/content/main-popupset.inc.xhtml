@@ -3,12 +3,5 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <html:div id="popupSets">
-    #include ../../../browser/base/content/main-popupset.inc.xhtml
-
-    <menupopup id="browser-toolbar-menu">
-        <menuitem oncommand="gDot.toolbox.getToolbarByName(this.parentElement.target.name).toggleCollapsed()"
-              contexttype="toolbaritem"
-              label="Toggle visibility"
-              ></menuitem>
-    </menupopup>
+    <popupset id="mainPopupSet"></popupset>
 </html:div>
