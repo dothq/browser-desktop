@@ -11,7 +11,7 @@ panel[is="browser-urlbar-panel"] {
 
     opacity: 0;
 
-    transition: 0.3s opacity cubic-bezier(0.19, 1, 0.22, 1);
+    transition: 0.1s opacity cubic-bezier(0.19, 1, 0.22, 1);
 
     -moz-window-input-region-margin: var(--urlbar-panel-shadow-margin);
 }
