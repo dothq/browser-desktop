@@ -17,7 +17,7 @@ export class CustomizableUIAreaShowOverflowingCommand extends Command {
 	/**
 	 * Fired when the command is performed
 	 *
-	 * @param {import("../../../Command.sys.mjs").CommandEvent<{}>} event
+	 * @param {import("../../../Command.sys.mjs").CommandEvent} event
 	 */
 	on_command(event) {
 		// By default, the type of host is going to be a generic customizable area,

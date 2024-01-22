@@ -71,18 +71,6 @@ export class AddTabCommand extends Command {
 	}
 
 	/**
-	 * Fired when an attribute on the subscriber is updated
-	 * @param {CustomEvent} event
-	 */
-	on_attributeupdate(event) {
-		switch (event.detail.name) {
-			case "commandargs":
-				this._update();
-				break;
-		}
-	}
-
-	/**
 	 * Fired when the mouse is over the command subscriber
 	 * @param {MouseEvent} event
 	 */
@@ -107,7 +95,7 @@ export class AddTabCommand extends Command {
 	/**
 	 * Fired when the command is performed
 	 *
-	 * @param {import("../Command.sys.mjs").CommandEvent<{ where?: string; url?: string | string[] }>} event
+	 * @param {import("../Command.sys.mjs").CommandEvent} event
 	 */
 	on_command(event) {
 		const { commandArgs: args } = event.target;

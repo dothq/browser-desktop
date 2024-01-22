@@ -9,7 +9,7 @@ class BrowserPanelButton extends BrowserCommandButton {
 
 	/**
 	 * Triggered when a command event is fired on the panel button
-	 * @param {import("components/commands/Command.sys.mjs").CommandEvent<{}>} event
+	 * @param {import("components/commands/Command.sys.mjs").CommandEvent} event
 	 */
 	_onPanelButtonCommand(event) {
 		const panelArea = /** @type {BrowserPanelArea} */ (this.host);

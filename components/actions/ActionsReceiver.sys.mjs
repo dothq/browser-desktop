@@ -53,12 +53,11 @@ export class ActionsReceiver extends ActionsIPC {
 	}
 
 	/**
-	 *
-	 * @param {BrowserCustomizableArea} area
+	 * @param {ReturnType<typeof BrowserCustomizableContextMixin<typeof Element>>["prototype"]} area
 	 */
 	constructor(area) {
 		super(area);
 
-		area.addEventListener(this.ACTIONS_DISPATCH_EVENT, this);
+		this.area.addEventListener(this.ACTIONS_DISPATCH_EVENT, this);
 	}
 }

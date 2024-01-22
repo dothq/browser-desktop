@@ -13,6 +13,12 @@ export class ActionsDispatcher extends ActionsIPC {
 	 * @param {Record<string, any>} [actionArgs]
 	 */
 	run(actionId, actionArgs) {
+		if (!this.area.actionsReceiver) {
+			throw new Error(
+				`Aborting action '${actionId}' dispatch as receiver not registered on ${this.area.constructor.name} (${this.area.tagName}).`
+			);
+		}
+
 		const event = new CustomEvent(this.ACTIONS_DISPATCH_EVENT, {
 			detail: {
 				id: actionId,
@@ -24,7 +30,7 @@ export class ActionsDispatcher extends ActionsIPC {
 	}
 
 	/**
-	 * @param {BrowserCustomizableArea} area
+	 * @param {ReturnType<typeof BrowserCustomizableContextMixin<typeof Element>>["prototype"]} area
 	 */
 	constructor(area) {
 		super(area);

@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * @typedef {CustomEvent<{}> & { detail: { id: string; args?: T }, target: BrowserCustomizableArea }} ActionDispatchEvent
+ * @typedef {CustomEvent<{}> & { detail: { id: string; args?: T }, target: ReturnType<typeof BrowserCustomizableContextMixin<typeof Element>>["prototype"] }} ActionDispatchEvent
  * @template T
  */
 

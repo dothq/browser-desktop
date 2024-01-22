@@ -5,10 +5,10 @@
 export class ActionsIPC {
 	ACTIONS_DISPATCH_EVENT = "Actions::Dispatch";
 
-	/** @type {BrowserCustomizableArea} */
+	/** @type {ReturnType<typeof BrowserCustomizableContextMixin<typeof Element>>["prototype"]} */
 	area = null;
 
-	/** @param {BrowserCustomizableArea} area */
+	/** @param {ReturnType<typeof BrowserCustomizableContextMixin<typeof Element>>["prototype"]} area */
 	constructor(area) {
 		this.area = area;
 	}

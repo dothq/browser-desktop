@@ -24,9 +24,7 @@ const { ConsoleAPI } = ChromeUtils.importESModule(
  */
 
 /**
- * @typedef {CustomEvent<{}> & { detail: { originalEvent: E }, target: CommandSubscriber<T> }} CommandEvent
- * @template [T=Record<string, any>]
- * @template [E=Event]
+ * @typedef {XULCommandEvent & { target: CommandSubscriber }} CommandEvent
  */
 
 export class Command {
@@ -102,6 +100,7 @@ export class Command {
 		this._disabled = this.createEmptyMap();
 		this._inert = this.createEmptyMap();
 		this._mode = this.createEmptyMap();
+		this._checked = this.createEmptyMap();
 
 		this._setupEventListeners();
 	}
@@ -167,7 +166,7 @@ export class Command {
 	/**
 	 * Perform this command
 	 *
-	 * @param {CommandEvent<{}>} [event]
+	 * @param {CommandEvent} [event]
 	 */
 	run(event) {
 		if ("on_command" in this) {
@@ -193,6 +192,9 @@ export class Command {
 	/** @type {Map<string, boolean>} */
 	_mode = null;
 
+	/** @type {Map<string, boolean>} */
+	_checked = null;
+
 	/**
 	 * Updates an attribute on the command
 	 *
@@ -206,6 +208,10 @@ export class Command {
 
 		/** @type {Map<string, string>} */
 		const attributeMap = this[`_${attribute}`];
+
+		if (!attributeMap) {
+			throw new Error(`No attribute map for '${attribute}'!`);
+		}
 
 		if (
 			!(
@@ -330,6 +336,21 @@ export class Command {
 	 */
 	set mode(newValue) {
 		this.setAttribute("mode", newValue);
+	}
+
+	/**
+	 * Determines the checked state of this command
+	 * @returns {any}
+	 */
+	get checked() {
+		return !!this.checked.get(CommandAudiences.DEFAULT);
+	}
+
+	/**
+	 * Updates the checked state of this command
+	 */
+	set checked(newValue) {
+		this.setAttribute("checked", newValue);
 	}
 
 	/**

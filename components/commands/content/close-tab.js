@@ -22,7 +22,7 @@ export class CloseTabCommand extends TabCommand {
 
 	/**
 	 * Fired when the command is performed
-	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
+	 * @param {import("../Command.sys.mjs").CommandEvent} event
 	 */
 	on_command(event) {
 		this.actions.run("browser.tabs.close_tab", {

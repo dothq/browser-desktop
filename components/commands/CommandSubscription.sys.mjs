@@ -50,7 +50,9 @@ export class CommandSubscription {
 			)}'`
 		);
 
-		this.#callback.call(null, audience, attributeName, newValue);
+		if (this.#callback && this.#subscriber.isConnected) {
+			this.#callback.call(null, audience, attributeName, newValue);
+		}
 	}
 
 	/**

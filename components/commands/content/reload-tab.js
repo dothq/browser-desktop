@@ -141,7 +141,7 @@ export class ReloadTabCommand extends TabCommand {
 
 	/**
 	 * Fired when the command is performed
-	 * @param {import("../Command.sys.mjs").CommandEvent<{}, MouseEvent>} event
+	 * @param {import("../Command.sys.mjs").CommandEvent} event
 	 */
 	on_command(event) {
 		const actionId = this.isLoading
@@ -152,7 +152,7 @@ export class ReloadTabCommand extends TabCommand {
 
 		this.actions.run(actionId, {
 			tab: this.context.tab,
-			bypassCache: !!event.detail?.originalEvent?.shiftKey
+			bypassCache: !!event.shiftKey
 		});
 	}
 }

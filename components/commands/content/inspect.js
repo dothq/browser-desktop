@@ -20,7 +20,7 @@ export class InspectCommand extends TabCommand {
 
 	/**
 	 * Fired when the command is performed
-	 * @param {import("../Command.sys.mjs").CommandEvent<{}>} event
+	 * @param {import("../Command.sys.mjs").CommandEvent} event
 	 */
 	on_command(event) {
 		this.actions.run("browser.developer.inspect", {

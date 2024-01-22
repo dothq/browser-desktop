@@ -122,12 +122,12 @@ export class TabIdentityCommand extends TabCommand {
 
 	/**
 	 * Fired when the command is performed
-	 * @param {import("../Command.sys.mjs").CommandEvent<{}, MouseEvent>} event
+	 * @param {import("../Command.sys.mjs").CommandEvent} event
 	 */
 	on_command(event) {
 		// If the user held shift while activating the command
 		// take them straight to the site info popup
-		if (event.detail?.originalEvent?.shiftKey) {
+		if (event.shiftKey) {
 			this._openSiteInfoPopup();
 
 			return;
