@@ -59,6 +59,8 @@ declare global {
 		nodePrincipal: any;
 
         ownerGlobal: Window;
+
+        createEvent(eventInterface: "xulcommandevent"): XULCommandEvent;
 	}
 
 	/**
@@ -100,8 +102,23 @@ declare global {
 		disabled: boolean;
 	}
 
-	interface XULCommandEvent extends Event {
+	interface XULCommandEvent extends KeyboardEvent {
 		target: XULElement;
+
+        initCommandEvent: (
+            type: string,
+            canBubble: boolean,
+            cancelable: boolean,
+            view: Window,
+            detail: number,
+            ctrlKey: boolean,
+            altKey: boolean,
+            shiftKey: boolean,
+            metaKey: boolean,
+            button: number,
+            sourceEvent: Event,
+            inputSource: number
+        ) => void;
 	}
 
 	interface XULElementWithCommandHandler {
