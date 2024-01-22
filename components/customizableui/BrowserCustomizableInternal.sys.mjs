@@ -127,7 +127,15 @@ BrowserCustomizableInternal.prototype = {
 		for (const [key, value] of Object.entries(processedAttributes)) {
 			const attributeValue = (value ?? "").toString();
 
-			element.setAttribute(key, attributeValue);
+			if (key in element) {
+				try {
+					element[key] = attributeValue;
+				} catch (e) {
+					element.setAttribute(key, attributeValue);
+				}
+			} else {
+				element.setAttribute(key, attributeValue);
+			}
 		}
 
 		return element;
