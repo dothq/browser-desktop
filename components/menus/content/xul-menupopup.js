@@ -110,6 +110,7 @@ class MozMenuPopup extends BrowserCustomizableContextMixin(
 		this.removeAttribute("open");
 
 		if (this.getAttribute("animate") !== "false") {
+			this.setAttribute("animate", "true");
 			this.removeAttribute("animating");
 		}
 	}
