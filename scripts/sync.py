@@ -41,9 +41,12 @@ def main():
     try:
         run_cmd(["git", "remote", "set-url", "origin", upstream_uri], topsrcdir)
         fetch("gecko-dev", topsrcdir)
-        # We will most likely have a .gitignore change, from when patch rejection files are ignored
         try:
+            # Revert any changes to .gitignore and mach
+            # These will typically include auto-generated text
+            # that will get rejected during sync merge
             run_cmd(["git", "restore", ".gitignore"], topsrcdir)
+            run_cmd(["git", "restore", "mach"], topsrcdir)
         except Exception as e:
             pass
         run_cmd(["git", "merge", revision], topsrcdir)
