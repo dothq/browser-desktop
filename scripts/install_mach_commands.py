@@ -16,7 +16,7 @@ with open(os.path.join(topsrcdir, "mach"), "r") as mach_script:
 
     if "comm/build/mach_initialize.py" not in data and "dot/build/mach_initialize.py" not in data:
         raise Exception("Unable to locate instance of comm mach_initialize.py in mach. This error should be reported.")
-    elif "dot/build/mach_initialize.py" in data and "comm/build/mach_initialize.py" not in data:
+    elif "dot/build/mach_initialize.py" in data:
         raise Exception("Mach commands for Dot Browser has already been installed.")
 
     data = data.replace("comm/build/mach_initialize.py", "dot/build/mach_initialize.py")
