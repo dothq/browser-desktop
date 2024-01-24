@@ -1,0 +1,8 @@
+# This file provides the canonical name and email of contributors 
+# when their name is not always written in the same way or they 
+# author commits under different email addresses.
+
+# See more: https://git-scm.com/docs/gitmailmap
+
+Kieran Drewett <kieran@dothq.org>
+Kieran Drewett <me@kierand.dev>
