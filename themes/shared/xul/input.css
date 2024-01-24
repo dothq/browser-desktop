@@ -43,7 +43,7 @@ select,
 html|select {
     padding: 6px 14px;
 
-    background-image: url(chrome://dot/skin/chevron-down.svg);
+    background-image: url(chrome://dot/skin/icons/chevron-down.svg);
     background-repeat: no-repeat;
     background-position: calc(100% - 10px) center;
     -moz-context-properties: fill;

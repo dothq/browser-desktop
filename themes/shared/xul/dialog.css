@@ -19,20 +19,20 @@
 
 /* Icons */
 .message-icon {
-    list-style-image: url("chrome://dot/skin/info.svg");
+    list-style-image: url("chrome://dot/skin/icons/info.svg");
 }
 
 .alert-dialog #infoIcon,
 .alert-icon {
-    list-style-image: url("chrome://dot/skin/warning.svg");
+    list-style-image: url("chrome://dot/skin/icons/warning.svg");
 }
 
 .error-icon {
-    list-style-image: url("chrome://dot/skin/error.svg");
+    list-style-image: url("chrome://dot/skin/icons/error.svg");
 }
 
 .question-icon {
-    list-style-image: url("chrome://dot/skin/question.svg");
+    list-style-image: url("chrome://dot/skin/icons/question.svg");
 }
 
 #dialogGrid {
