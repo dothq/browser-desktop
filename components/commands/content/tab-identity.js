@@ -68,10 +68,11 @@ export class TabIdentityCommand extends TabCommand {
 	/**
 	 * Handles incoming tab identity changes
 	 *
-	 * @param {object} data
-	 * @param {BrowserTab} data.tab
+	 * @param {CustomEvent<{ tab: BrowserTab; }>} event
 	 */
-	onTabIdentityChanged({ tab }) {
+	onTabIdentityChanged(event) {
+		const { tab } = event.detail;
+
 		if (this.context.tab !== tab) return;
 
 		this._update(tab);
