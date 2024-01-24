@@ -59,8 +59,7 @@ namespace dot {
                 nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
                     nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
                     nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
-                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-                    nsIAboutModule::ALLOW_UNSANITIZED_CONTENT
+                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT
             },
             {
                 "newtab", 
@@ -68,8 +67,7 @@ namespace dot {
                 nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
                     nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
                     nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
-                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-                    nsIAboutModule::ALLOW_UNSANITIZED_CONTENT
+                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT
             },
             {
                 "rights", 
@@ -97,8 +95,7 @@ namespace dot {
                 nsIAboutModule::ALLOW_SCRIPT | nsIAboutModule::ENABLE_INDEXED_DB |
                     nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
                     nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
-                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-                    nsIAboutModule::ALLOW_UNSANITIZED_CONTENT
+                    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT
             }
         };
 
