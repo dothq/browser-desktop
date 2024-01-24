@@ -16,5 +16,3 @@ dot.jar:
 
     content/interstitials/interstitials.js                 (content/interstitials.js)
     content/interstitials/interstitials.css                (content/interstitials.css)
-
-% override chrome://global/content/aboutNetError.xhtml chrome://dot/content/interstitials/tab-error.html
