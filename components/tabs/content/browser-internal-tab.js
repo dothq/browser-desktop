@@ -301,11 +301,13 @@ class BrowserTab extends MozElements.MozTab {
 
 		window.removeEventListener("BrowserTabs::TabSelect", this);
 
-		this.webContents.removeEventListener("pagetitlechanged", this);
-		this.webContents.removeEventListener(
-			"BrowserTabs::BrowserStatusChange",
-			this
-		);
+		if (this.webContents) {
+			this.webContents.removeEventListener("pagetitlechanged", this);
+			this.webContents.removeEventListener(
+				"BrowserTabs::BrowserStatusChange",
+				this
+			);
+		}
 	}
 
 	/**
