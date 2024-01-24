@@ -536,8 +536,7 @@ BrowserTabs.prototype = {
 			tabEl.registerEventListeners();
 			this._setupTabDragListeners();
 		} catch (e) {
-			console.error("Error while creating tab!");
-			console.error(e);
+			console.error("Error while creating tab!", e);
 			tabEl?.remove();
 
 			if (tabEl?.linkedBrowser) {
@@ -821,7 +820,7 @@ BrowserTabs.prototype = {
 			});
 		}
 
-		if (!options.inBackground) {
+		if (initialTab && !options.inBackground) {
 			this.selectedTab = initialTab;
 		}
 	},
