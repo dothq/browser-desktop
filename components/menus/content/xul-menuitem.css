@@ -5,6 +5,7 @@
 @import url("chrome://dot/skin/input-base.css");
 
 menuitem,
+menucaption,
 menu {
     --menuitem-default-padding-x: 12px;
     --menuitem-default-padding-y: 8px;
@@ -20,16 +21,19 @@ menu {
 }
 
 menupopup>menuitem:not(:first-of-type),
+menupopup>menucaption:not(:first-of-type),
 menupopup>menu:not(:first-of-type) {
     margin-block-start: 1px;
 }
 
 menupopup>menuitem:not(:last-of-type),
+menupopup>menucaption:not(:last-of-type),
 menupopup>menu:not(:last-of-type) {
     margin-block-end: 1px;
 }
 
 :host(menuitem) .browser-menuitem-container,
+:host(menucaption) .browser-menuitem-container,
 :host(menu) .browser-menuitem-container {
     display: flex;
     align-items: center;
@@ -41,6 +45,7 @@ menupopup>menu:not(:last-of-type) {
 }
 
 :host(menuitem) .browser-menuitem-labels,
+:host(menucaption) .browser-menuitem-labels,
 :host(menu) .browser-menuitem-labels {
     display: flex;
     justify-content: space-between;
@@ -63,6 +68,10 @@ menupopup>menu:not(:last-of-type) {
 ::slotted(.browser-menuitem-label),
 ::slotted(.browser-menuitem-accelerator) {
     font: message-box;
+}
+
+:host(menucaption) ::slotted(.browser-menuitem-label) {
+    font-weight: bold;
 }
 
 ::slotted(.browser-menuitem-accelerator) {

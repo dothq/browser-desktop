@@ -8,6 +8,8 @@
 	);
 
 	class MozMenuItem extends MozMenuItemBaseMixin(MozXULElement) {}
-
 	customElements.define("menuitem", MozMenuItem);
+
+	class MozMenuCaption extends MozMenuItemBaseMixin(MozXULElement) {}
+	customElements.define("menucaption", MozMenuCaption);
 }
