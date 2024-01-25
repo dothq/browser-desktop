@@ -101,8 +101,6 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 	set initialMouseX(val) {
 		this._initialMouseX = val;
-
-		this._debugInitialMousePosition();
 	}
 
 	_initialMouseY = null;
@@ -112,36 +110,6 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 	set initialMouseY(val) {
 		this._initialMouseY = val;
-
-		this._debugInitialMousePosition();
-	}
-
-	_debugInitialMousePosition() {
-		let pointer = /** @type {HTMLDivElement} */ (
-			document.querySelector("#tab-initial-mouse")
-		);
-
-		if (!pointer) {
-			document.body.appendChild(
-				(pointer = /** @type {HTMLDivElement} */ (
-					html("div", { id: "tab-initial-mouse" })
-				))
-			);
-		}
-
-		// console.log(this.initialMouseX, this.initialMouseY);
-
-		Object.assign(pointer.style, {
-			left: `${this.initialMouseX}px`,
-			top: `${this.initialMouseY}px`,
-			position: "absolute",
-			width: "8px",
-			height: "8px",
-			background: "red",
-			borderRadius: "8px",
-			pointerEvents: "none",
-			opacity: "0.5"
-		});
 	}
 
 	/**
