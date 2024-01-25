@@ -67,4 +67,7 @@ menupopup[animating] {
     overflow: clip;
 
     gap: 2px;
+
+    max-width: calc(100% - var(--panel-shadow-margin) * 2);
+    max-height: calc(100% - var(--panel-shadow-margin) * 2);
 }
