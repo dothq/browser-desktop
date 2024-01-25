@@ -74,6 +74,10 @@ menupopup>menu:not(:last-of-type) {
     font-weight: bold;
 }
 
+:host(menuitem.contentSelectDropdown-ingroup) ::slotted(.browser-menuitem-label) {
+    padding-inline: 1.5em;
+}
+
 ::slotted(.browser-menuitem-accelerator) {
     opacity: 0.5;
 }

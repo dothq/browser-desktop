@@ -51,7 +51,7 @@ var MozMenuItemBaseMixin = (Base) => {
 				label: /** @type {HTMLSpanElement} */ (
 					this.querySelector(".browser-menuitem-label") ||
 						html("span", {
-							class: "browser-menuitem-label menu-iconic-text",
+							class: "browser-menuitem-label",
 							slot: "label"
 						})
 				),
