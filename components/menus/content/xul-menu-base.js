@@ -97,7 +97,7 @@ var MozMenuItemBaseMixin = (Base) => {
 					break;
 				case "icon":
 					// Terminology between XUL and our APIs differs
-					this.image = "chrome://dot/skin/" + value + ".svg";
+					this.image = "chrome://dot/skin/icons/" + value + ".svg";
 					break;
 				default:
 					this.setAttribute(attributeName, value);
@@ -249,14 +249,22 @@ var MozMenuItemBaseMixin = (Base) => {
 		}
 
 		attributeChangedCallback(attribute, oldValue, newValue) {
+			if (newValue == oldValue) return;
+
 			switch (attribute) {
 				case "label":
+					this.label = newValue;
+
 					if (this.hasAttribute("grouped")) {
 						this.setAttribute(
 							"tooltiptext",
 							this._tooltipText || this.label
 						);
 					}
+					break;
+				case "image":
+				case "acceltext":
+					this[attribute] = newValue;
 					break;
 				case "grouped":
 					if (this.hasAttribute("grouped")) {
