@@ -7,16 +7,11 @@ browser-tab-label {
     align-items: center;
     white-space: nowrap;
     overflow: hidden;
-}
-
-:host(:not(browser-tab)) browser-tab-label:not([customizablearg-fit="true"]) {
-    max-width: 180px;
-}
-
-:host(browser-tab) browser-tab-label,
-browser-tab-label:not([customizablearg-fit="true"]) {
     flex: 1;
+}
 
+:host(browser-tab) browser-tab-label[overflowing],
+browser-tab-label[overflowing] {
     &:-moz-locale-dir(ltr) {
         mask-image: linear-gradient(to left, transparent, black var(--tab-label-mask-size, 2em));
     }

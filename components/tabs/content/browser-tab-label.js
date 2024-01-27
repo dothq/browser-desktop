@@ -30,6 +30,10 @@ class BrowserTabLabel extends BrowserContextualMixin(HTMLElement) {
 				this.updateLabel();
 				break;
 			}
+			case "overflow":
+			case "underflow":
+				this.toggleAttribute("overflowing", event.type == "overflow");
+				break;
 		}
 	}
 
@@ -51,6 +55,9 @@ class BrowserTabLabel extends BrowserContextualMixin(HTMLElement) {
 		window.addEventListener("BrowserTabs::LocationChange", this);
 		window.addEventListener("BrowserTabs::BrowserTitleChanged", this);
 
+		this.addEventListener("overflow", this);
+		this.addEventListener("underflow", this);
+
 		if (this.hostContext.tab) {
 			this.updateLabel();
 		}
@@ -60,6 +67,9 @@ class BrowserTabLabel extends BrowserContextualMixin(HTMLElement) {
 		window.removeEventListener("BrowserTabs::TabSelect", this);
 		window.removeEventListener("BrowserTabs::LocationChange", this);
 		window.removeEventListener("BrowserTabs::BrowserTitleChanged", this);
+
+		this.removeEventListener("overflow", this);
+		this.removeEventListener("underflow", this);
 	}
 }
 
