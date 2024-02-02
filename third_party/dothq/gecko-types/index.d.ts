@@ -46,10 +46,22 @@ declare global {
 		 * Create a XUL element of a specific type. Right now this function
 		 * only refines iframes, but more tags could be added.
 		 */
-		createXULElement: ((type: "iframe", options?: ElementCreationOptions) => XULIframeElement) &
-			((type: "browser", options?: ElementCreationOptions) => Gecko.ChromeBrowser) &
-            ((type: "menupopup", options?: ElementCreationOptions) => Gecko.XULPopupElement) &
-			((type: string, options?: ElementCreationOptions) => XULElement);
+		createXULElement: ((
+			type: "iframe",
+			options?: ElementCreationOptions
+		) => XULIframeElement) &
+			((
+				type: "browser",
+				options?: ElementCreationOptions
+			) => Gecko.ChromeBrowser) &
+			((
+				type: "menupopup",
+				options?: ElementCreationOptions
+			) => Gecko.XULPopupElement) &
+			((
+				type: string,
+				options?: ElementCreationOptions
+			) => XULElement);
 
 		/**
 		 * Determines whether we have had a valid user gesture activation
@@ -58,9 +70,11 @@ declare global {
 
 		nodePrincipal: any;
 
-        ownerGlobal: Window;
+		ownerGlobal: Window;
 
-        createEvent(eventInterface: "xulcommandevent"): XULCommandEvent;
+		createEvent(
+			eventInterface: "xulcommandevent"
+		): XULCommandEvent;
 	}
 
 	/**
@@ -82,15 +96,25 @@ declare global {
 	interface ChromeWindow extends Window {
 		openWebLinkIn: (
 			url: string,
-			where: "current" | "tab" | "tabshifted" | "window" | "save",
+			where:
+				| "current"
+				| "tab"
+				| "tabshifted"
+				| "window"
+				| "save",
 			// TS-TODO
-			params?: unknown,
+			params?: unknown
 		) => void;
 		openTrustedLinkIn: (
 			url: string,
-			where: "current" | "tab" | "tabshifted" | "window" | "save",
+			where:
+				| "current"
+				| "tab"
+				| "tabshifted"
+				| "window"
+				| "save",
 			// TS-TODO
-			params?: unknown,
+			params?: unknown
 		) => void;
 		isChromeWindow: boolean;
 	}
@@ -105,32 +129,57 @@ declare global {
 	interface XULCommandEvent extends KeyboardEvent {
 		target: XULElement;
 
-        initCommandEvent: (
-            type: string,
-            canBubble: boolean,
-            cancelable: boolean,
-            view: Window,
-            detail: number,
-            ctrlKey: boolean,
-            altKey: boolean,
-            shiftKey: boolean,
-            metaKey: boolean,
-            button: number,
-            sourceEvent: Event,
-            inputSource: number
-        ) => void;
+		initCommandEvent: (
+			type: string,
+			canBubble: boolean,
+			cancelable: boolean,
+			view: Window,
+			detail: number,
+			ctrlKey: boolean,
+			altKey: boolean,
+			shiftKey: boolean,
+			metaKey: boolean,
+			button: number,
+			sourceEvent: Event,
+			inputSource: number
+		) => void;
+	}
+
+	interface MouseEvent {
+        inputSource: number;
+        pressure: number;
+
+		initNSMouseEvent: (
+			type: string,
+			canBubble: boolean,
+			cancelable: boolean,
+			view: Window,
+			detail: number,
+			screenX: number,
+			screenY: number,
+			clientX: number,
+			clientY: number,
+			ctrlKey: boolean,
+			altKey: boolean,
+			shiftKey: boolean,
+			metaKey: boolean,
+			button: number,
+			relatedTarget: EventTarget,
+			pressure: number,
+			inputSource: number
+		) => void;
 	}
 
 	interface XULElementWithCommandHandler {
 		addEventListener: (
 			type: "command",
 			handler: (event: XULCommandEvent) => void,
-			isCapture?: boolean,
+			isCapture?: boolean
 		) => void;
 		removeEventListener: (
 			type: "command",
 			handler: (event: XULCommandEvent) => void,
-			isCapture?: boolean,
+			isCapture?: boolean
 		) => void;
 	}
 
@@ -148,6 +197,9 @@ declare global {
 	}
 
 	interface CustomElementRegistry {
-		setElementCreationCallback(name: string, callback: () => void): void;
+		setElementCreationCallback(
+			name: string,
+			callback: () => void
+		): void;
 	}
 }
