@@ -38,6 +38,8 @@ export interface ServicesFocus {
 
 	activeWindow: ChromeWindow;
 
+    focusedWindow: ChromeWindow;
+
 	/**
 	 * Changes the focused element reference within the window containing
 	 * aElement to aElement or potentially redirects it to an anonymous
