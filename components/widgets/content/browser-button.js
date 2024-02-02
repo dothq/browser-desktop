@@ -29,29 +29,33 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * @typedef {Object} BrowserButtonElements
 	 * @property {HTMLSpanElement} label - The buttons's label
 	 * @property {BrowserIcon} icon - The button's icon
+	 * @property {BrowserTooltip} tooltip - The button's tooltip
 	 *
 	 * @returns {BrowserButtonElements}
 	 */
 	get elements() {
 		return {
-			label:
+			label: /** @type {HTMLSpanElement} */ (
 				this.querySelector(".browser-button-label") ||
-				/** @type {HTMLSpanElement} */ (
 					html(
 						"span",
 						{ class: "browser-button-label" },
 						this.getAttribute("label") || ""
 					)
-				),
-			icon:
-				this.querySelector(".browser-button-icon[active]") ||
-				/** @type {BrowserIcon} */ (
+			),
+			icon: /** @type {BrowserIcon} */ (
+				this.querySelector(".browser-button-icon") ||
 					html("browser-icon", {
 						class: "browser-button-icon",
-						name: this.getAttribute("icon") || "",
-						active: ""
+						name: this.getAttribute("icon") || ""
 					})
-				)
+			),
+			tooltip: /** @type {BrowserTooltip} */ (
+				this.querySelector("tooltip") ||
+					document.createXULElement("tooltip", {
+						is: "browser-tooltip"
+					})
+			)
 		};
 	}
 
@@ -101,27 +105,28 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	set label(newLabel) {
 		if (newLabel == this.label) return;
 
-		if (!this.elements.label.isConnected) {
-			this.setAttribute("label", newLabel);
-		}
-
+		this.setAttribute("label", newLabel);
 		this.elements.label.textContent = newLabel;
+
+		this._updateTooltipText();
 	}
 
 	/**
-	 * The auxilliary label of the browser button
+	 * The auxiliary label of the browser button
 	 */
-	get labelAuxilliary() {
-		return this.getAttribute("labelauxilliary");
+	get labelAuxiliary() {
+		return this.getAttribute("labelauxiliary");
 	}
 
 	/**
-	 * Updates the auxilliary label of the browser button
+	 * Updates the auxiliary label of the browser button
 	 */
-	set labelAuxilliary(newLabelAuxilliary) {
-		if (newLabelAuxilliary == this.labelAuxilliary) return;
+	set labelAuxiliary(newLabelAuxiliary) {
+		if (newLabelAuxiliary == this.labelAuxiliary) return;
 
-		this.setAttribute("labelauxilliary", newLabelAuxilliary);
+		this.setAttribute("labelauxiliary", newLabelAuxiliary);
+
+		this._updateTooltipText();
 	}
 
 	/**
@@ -204,6 +209,33 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		);
 	}
 
+	/**
+	 * Updates the button's tooltip text
+	 */
+	_updateTooltipText() {
+		if (!this.elements.tooltip.visible) return;
+
+		let tooltipText = "";
+
+		if (this.labelAuxiliary) {
+			tooltipText = this.labelAuxiliary;
+		} else if (this.label) {
+			tooltipText = this.label;
+		}
+
+		this.elements.tooltip.label = tooltipText;
+	}
+
+	/**
+	 * Fired when a popup starts showing in the button
+	 * @param {Event} event
+	 */
+	_onPopupShowing(event) {
+		if (event.target === this.elements.tooltip) {
+			this._updateTooltipText();
+		}
+	}
+
 	connectedCallback() {
 		this.classList.add("browser-button");
 		this.classList.toggle(
@@ -220,6 +252,9 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			)
 		);
 
+		this.setAttribute("tooltip", "_child");
+		this.appendChild(this.elements.tooltip);
+
 		this.addEventListener(
 			"mouseleave",
 			this._handleBrowserButtonEvent.bind(this)
@@ -228,6 +263,7 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			"focusout",
 			this._handleBrowserButtonEvent.bind(this)
 		);
+		this.addEventListener("popupshowing", this._onPopupShowing.bind(this));
 
 		this.resizeObserver.observe(this);
 	}
@@ -240,6 +276,10 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.removeEventListener(
 			"focusout",
 			this._handleBrowserButtonEvent.bind(this)
+		);
+		this.removeEventListener(
+			"popupshowing",
+			this._onPopupShowing.bind(this)
 		);
 
 		this.resizeObserver.disconnect();
