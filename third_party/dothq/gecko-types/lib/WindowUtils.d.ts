@@ -20,6 +20,17 @@ export interface WindowUtils {
 		height: number
 	): DOMRect;
 
+    /**
+     * Transform a rectangle given in coordinates relative to this document
+     * into CSS coordinates relative to the screen.
+     */
+    toScreenRectInCSSUnits(
+		x: number,
+		y: number,
+		width: number,
+		height: number
+	): DOMRect;
+
 	/**
 	 * Transform a rectangle given in coordinates relative to the top level
 	 * parent process widget to the local widget. This window should be in a
