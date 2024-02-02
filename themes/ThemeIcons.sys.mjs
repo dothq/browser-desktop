@@ -11,6 +11,8 @@ export const ThemeIcons = {
 	 * @param {string} iconName
 	 */
 	getURI(iconName) {
+		if (!iconName || !iconName.length) return "";
+
 		switch (iconName) {
 			case "brand16":
 			case "brand22":
