@@ -82,7 +82,7 @@ menupopup>menu:not(:last-of-type) {
     opacity: 0.5;
 }
 
-/* Auxilliary icons */
+/* Auxiliary icons */
 
 :host(menu) ::slotted(.browser-menuitem-image[slot=image-right]) {
     background-image: url(chrome://dot/skin/icons/chevron-right.svg);
