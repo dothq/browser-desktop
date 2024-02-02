@@ -40,3 +40,7 @@ dot.jar:
 
     content/widgets/browser-tabs-overflow-button.js     (content/browser-tabs-overflow-button.js)
     content/widgets/browser-tabs-overflow-button.css    (content/browser-tabs-overflow-button.css)
+
+    content/widgets/browser-tabs-tooltip.js             (content/browser-tabs-tooltip.js)
+    content/widgets/browser-tabs-tooltip.css            (content/browser-tabs-tooltip.css)
+

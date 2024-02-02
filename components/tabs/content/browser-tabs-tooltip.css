@@ -1,0 +1,62 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+tooltip[is=browser-tabs-tooltip] {
+    background-color: transparent;
+    border: none;
+
+    margin: -10px;
+    padding: 10px;
+
+    .tooltip-label {
+        display: none;
+    }
+
+    .tabs-tooltip-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        max-width: 300px;
+
+        border-radius: 10px;
+
+        background-color: var(--arrowpanel-background);
+        color: var(--arrowpanel-color);
+
+        outline: 1px solid var(--arrowpanel-border-color);
+        outline-offset: -1px;
+
+        padding: 12px;
+        margin-block-start: 21px;
+
+        box-shadow: 0 3.2px 7.2px 0 rgba(0, 0, 0, .132), 0 .6px 1.8px 0 rgba(0, 0, 0, .108);
+
+        .tabs-tooltip-title {
+            font-weight: bold;
+        }
+
+        .tabs-tooltip-uri {
+            color: color-mix(in srgb, currentColor 80%, transparent 100%);
+            overflow: clip;
+            white-space: nowrap;
+
+            &:-moz-locale-dir(ltr) {
+                mask-image: linear-gradient(to left, transparent, black 2em);
+            }
+
+            &:-moz-locale-dir(rtl) {
+                mask-image: linear-gradient(to right, transparent, black 2em);
+            }
+        }
+
+        .tabs-tooltip-canvas {
+            border: 1px solid var(--arrowpanel-border-color);
+
+            border-radius: 6px;
+
+            margin-block-start: 6px;
+        }
+    }
+}

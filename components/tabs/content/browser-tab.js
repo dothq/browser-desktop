@@ -493,6 +493,8 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 		});
 
 		this.hidden = true;
+		this.setAttribute("tooltip", "browser-tabs-tooltip");
+		this.setAttribute("tooltipanchor", "after_start");
 
 		this.shadowRoot.appendChild(html("slot", { name: "tab-internal" }));
 		this.appendChild(
@@ -583,18 +585,20 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 	internalTabAttributeChangedCallback(name, oldValue, newValue) {
 		if (!this.isConnectedAndReady) return;
 
-		const showAttribute = newValue !== null;
-
-		if (showAttribute) {
-			this.setAttribute(name, newValue);
-		} else {
-			this.removeAttribute(name);
-		}
-
 		switch (name) {
+			case "title":
+				break;
 			case "progresspercent":
 				this.style.setProperty("--tab-load-percent", newValue);
 				break;
+			default:
+				const showAttribute = newValue !== null;
+
+				if (showAttribute) {
+					this.setAttribute(name, newValue);
+				} else {
+					this.removeAttribute(name);
+				}
 		}
 	}
 }

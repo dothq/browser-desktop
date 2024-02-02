@@ -32,6 +32,8 @@
 @import url("chrome://dot/content/widgets/browser-debug-hologram.css");
 @import url("chrome://dot/content/widgets/browser-group.css");
 @import url("chrome://dot/content/widgets/browser-separator.css");
+@import url("chrome://dot/content/widgets/browser-tooltip.css");
+@import url("chrome://dot/content/widgets/browser-tabs-tooltip.css");
 
 /* XUL */
 @import url("chrome://dot/skin/input.css");

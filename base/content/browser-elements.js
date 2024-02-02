@@ -16,6 +16,7 @@ let elements = {
 	"browser-tabs": "chrome://dot/content/widgets/browser-tabs.js",
     "browser-tabs-overflow-button": "chrome://dot/content/widgets/browser-tabs-overflow-button.js",
 	"browser-tabs-collator": "chrome://dot/content/widgets/browser-tabs-collator.js",
+	"browser-tabs-tooltip": "chrome://dot/content/widgets/browser-tabs-tooltip.js",
 
     "browser-web-container": "chrome://dot/content/widgets/browser-web-container.js",
     "browser-web-frame": "chrome://dot/content/widgets/browser-web-frame.js",
@@ -30,6 +31,8 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-debug-hologram.js",
 
 	"chrome://dot/content/widgets/browser-a11y-ring.js",
+
+	"chrome://dot/content/widgets/browser-tooltip.js",
 
 	"chrome://dot/content/widgets/browser-customizable-context.js",
 	"chrome://dot/content/widgets/browser-customizable-area.js",
