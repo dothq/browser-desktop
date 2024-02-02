@@ -62,5 +62,44 @@ export const DOMUtils = {
 		}
 
 		return props;
+	},
+
+	/**
+	 * Returns the first (starting at element) inclusive ancestor that matches selectors, and null otherwise.
+	 * @param {Node} root
+	 * @param {string} selector
+	 * @returns {ReturnType<typeof Element.prototype.closest>}
+	 */
+	shadowClosest(root, selector) {
+		if (root.constructor.name == "ShadowRoot") {
+			root = /** @type {ShadowRoot} */ (root).host;
+		}
+
+		if (/** @type {Element} */ (root).closest) {
+			const result = /** @type {Element} */ (root).closest(selector);
+
+			if (result) {
+				return result;
+			} else {
+				/** @type {any} */
+				let parent = root.parentElement;
+
+				if (!parent) {
+					// Can't go any higher in the DOM than this,
+					// we've probably stopped on the Document.
+					if (!root.getRootNode()) {
+						return null;
+					}
+
+					parent = root.getRootNode();
+				}
+
+				// For some reason, the parentElement can be the root
+				// itself, so make sure we don't recurse and stop early.
+				if (parent == root) return null;
+
+				return DOMUtils.shadowClosest(parent, selector);
+			}
+		}
 	}
 };
