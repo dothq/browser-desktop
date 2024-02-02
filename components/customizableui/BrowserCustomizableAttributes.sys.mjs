@@ -38,6 +38,12 @@ class BrowserCustomizableAttributeProcessor {
 			caster = AttributePrimitives[caster](attributeName);
 		}
 
+		if (!caster || !caster.call) {
+			throw new Error(
+				`Attribute '${attributeName}' cannot be used on this component.`
+			);
+		}
+
 		if (typeof value == "string") {
 			value = value.trim();
 		}
