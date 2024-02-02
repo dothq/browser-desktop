@@ -29,6 +29,11 @@
 		this
 	);
 
+	Services.scriptloader.loadSubScript(
+		"chrome://dot/content/widgets/xul-menugroup.js",
+		this
+	);
+
 	class MozMenu extends MozMenuBaseMixin(
 		MozElements.MozElementMixin(XULMenuElement)
 	) {
