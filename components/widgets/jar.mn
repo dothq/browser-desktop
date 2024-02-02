@@ -25,3 +25,6 @@ dot.jar:
 
     content/widgets/browser-separator.js                 (content/browser-separator.js)
     content/widgets/browser-separator.css                (content/browser-separator.css)
+
+    content/widgets/browser-tooltip.js                   (content/browser-tooltip.js)
+    content/widgets/browser-tooltip.css                  (content/browser-tooltip.css)

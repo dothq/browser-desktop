@@ -1,0 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+tooltip.browser-tooltip {
+    opacity: 0;
+
+    &[animate="true"] {
+        transition: 0.15s opacity cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    &[showing] {
+        opacity: 1;
+    }
+}
