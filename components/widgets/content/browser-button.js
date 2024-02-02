@@ -106,21 +106,22 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		}
 
 		this.elements.label.textContent = newLabel;
-		this.title = newLabel;
 	}
 
 	/**
-	 * The tooltip of the browser button
+	 * The auxilliary label of the browser button
 	 */
-	get tooltip() {
-		return this.title;
+	get labelAuxilliary() {
+		return this.getAttribute("labelauxilliary");
 	}
 
 	/**
-	 * Updates the tooltip of the browser button
+	 * Updates the auxilliary label of the browser button
 	 */
-	set tooltip(newTooltip) {
-		this.title = newTooltip;
+	set labelAuxilliary(newLabelAuxilliary) {
+		if (newLabelAuxilliary == this.labelAuxilliary) return;
+
+		this.setAttribute("labelauxilliary", newLabelAuxilliary);
 	}
 
 	/**

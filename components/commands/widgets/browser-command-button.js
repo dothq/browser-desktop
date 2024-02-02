@@ -20,10 +20,8 @@ class BrowserCommandButton extends BrowserCommandElementMixin(BrowserButton) {
 	 */
 	_observeCommandMutation(audience, attributeName, value) {
 		switch (attributeName) {
-			case "labelAuxiliary":
-				this.tooltip = value;
-				break;
 			case "label":
+			case "labelAuxiliary":
 			case "icon":
 			case "disabled":
 			case "inert":
