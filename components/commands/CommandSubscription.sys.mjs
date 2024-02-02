@@ -56,31 +56,14 @@ export class CommandSubscription {
 	}
 
 	/**
-	 * Dispatches a invocation event to the subscription area
-	 *
-	 * @param {Record<string, any>} [args]
-	 */
-	dispatchInvocation(args) {
-		const evt = new CustomEvent("Commands::Invoke", {
-			detail: {
-				id: this.#commandId,
-				args: args || {}
-			}
-		});
-
-		this.#subscriber.host.dispatchEvent(evt);
-	}
-
-	/**
 	 * Invokes the command attached to this subscription
 	 *
-	 * @param {Record<string, any>} [args]
+	 * @param {XULCommandEvent} event
 	 */
-	invoke(args = {}) {
+	invoke(event) {
 		this.logger.debug("Invoking command");
 
-		this.command.run.call(this.command, args);
-		this.dispatchInvocation(args);
+		this.command.run.call(this.command, event);
 	}
 
 	/**
