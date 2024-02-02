@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { ThemeIcons } = ChromeUtils.importESModule(
+	"resource://gre/modules/ThemeIcons.sys.mjs"
+);
+
 /**
  * Creates a MozMenuItem element
  *
@@ -96,8 +100,7 @@ var MozMenuItemBaseMixin = (Base) => {
 					this.toggleAttribute(attributeName, !!value);
 					break;
 				case "icon":
-					// Terminology between XUL and our APIs differs
-					this.image = "chrome://dot/skin/icons/" + value + ".svg";
+					this.image = ThemeIcons.getURI(value);
 					break;
 				default:
 					this.setAttribute(attributeName, value);
@@ -187,14 +190,13 @@ var MozMenuItemBaseMixin = (Base) => {
 		 * The accelerator text of this menu item
 		 */
 		get acceltext() {
-			return this.elements.accelerator.textContent;
+			return this.getAttribute("acceltext");
 		}
 
 		set acceltext(newValue) {
-			if (this.acceltext == newValue) return;
+			this.setAttribute("acceltext", newValue);
 
 			this.elements.accelerator.textContent = newValue;
-			this.setAttribute("acceltext", newValue);
 		}
 
 		connectedCallback() {
@@ -220,7 +222,11 @@ var MozMenuItemBaseMixin = (Base) => {
 				html("slot")
 			);
 
-			this.append(this.elements.imageLeft, this.elements.label);
+			this.append(
+				this.elements.imageLeft,
+				this.elements.label,
+				this.elements.accelerator
+			);
 
 			if (this.getAttribute("label")) {
 				this.label = this.getAttribute("label");
@@ -231,7 +237,6 @@ var MozMenuItemBaseMixin = (Base) => {
 			}
 
 			if (this.getAttribute("acceltext")) {
-				this.append(this.elements.accelerator);
 				this.acceltext = this.getAttribute("acceltext");
 			}
 
@@ -253,28 +258,9 @@ var MozMenuItemBaseMixin = (Base) => {
 
 			switch (attribute) {
 				case "label":
-					this.label = newValue;
-
-					if (this.hasAttribute("grouped")) {
-						this.setAttribute(
-							"tooltiptext",
-							this._tooltipText || this.label
-						);
-					}
-					break;
 				case "image":
 				case "acceltext":
 					this[attribute] = newValue;
-					break;
-				case "grouped":
-					if (this.hasAttribute("grouped")) {
-						this.setAttribute(
-							"tooltiptext",
-							this._tooltipText || this.label
-						);
-					} else {
-						this.removeAttribute("tooltiptext");
-					}
 					break;
 			}
 		}
