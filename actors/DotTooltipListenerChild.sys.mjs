@@ -186,6 +186,8 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 	 * @param {Event} event
 	 */
 	getEventTarget(event) {
+		if (!event) return;
+
 		const { target } = event;
 
 		const composedTarget = /** @type {any} */ (event).composedTarget;
