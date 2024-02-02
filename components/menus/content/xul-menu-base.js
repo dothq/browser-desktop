@@ -28,12 +28,18 @@ var MozMenuItemBaseMixin = (Base) => {
 
 		/**
 		 * Creates a new menu item image
+		 * @param {string} slot
+		 * @param {string} [defaultImage]
 		 */
-		#createMenuItemImage(slot) {
+		#createMenuItemImage(slot, defaultImage) {
 			const image = document.createXULElement("image");
 
 			image.classList.add("browser-menuitem-image");
 			image.slot = slot;
+
+			if (defaultImage) {
+				/** @type {HTMLImageElement} */ (image).src = defaultImage;
+			}
 
 			return image;
 		}
@@ -54,14 +60,21 @@ var MozMenuItemBaseMixin = (Base) => {
 			return {
 				label: /** @type {HTMLSpanElement} */ (
 					this.querySelector(".browser-menuitem-label") ||
-						html("span", {
-							class: "browser-menuitem-label",
-							slot: "label"
-						})
+						html(
+							"span",
+							{
+								class: "browser-menuitem-label",
+								slot: "label"
+							},
+							this.getAttribute("label") || ""
+						)
 				),
 				imageLeft: /** @type {HTMLImageElement} */ (
 					this.querySelector("[slot=image-left]") ||
-						this.#createMenuItemImage("image-left")
+						this.#createMenuItemImage(
+							"image-left",
+							this.getAttribute("image") || ""
+						)
 				),
 				accelerator: /** @type {HTMLSpanElement} */ (
 					this.querySelector(".browser-menuitem-accelerator") ||
@@ -87,17 +100,11 @@ var MozMenuItemBaseMixin = (Base) => {
 		_observeCommandMutation(audience, attributeName, value) {
 			switch (attributeName) {
 				case "labelAuxiliary":
-					this._tooltipText = value;
-					break;
 				case "label":
-					this.label = value;
-					break;
 				case "disabled":
+				case "inert":
 				case "checked":
-					// This will set [disabled="true"] when disabled is true, and will
-					// will remove the attribute completely when it is false.
-					this.setAttribute(attributeName, value);
-					this.toggleAttribute(attributeName, !!value);
+					this[attributeName] = value;
 					break;
 				case "icon":
 					this.image = ThemeIcons.getURI(value);
@@ -162,7 +169,7 @@ var MozMenuItemBaseMixin = (Base) => {
 		 * The label of this menu item
 		 */
 		get label() {
-			return this.elements.label.textContent;
+			return this.getAttribute("label");
 		}
 
 		set label(newValue) {
@@ -173,10 +180,23 @@ var MozMenuItemBaseMixin = (Base) => {
 		}
 
 		/**
+		 * The auxiliary label of this menu item
+		 */
+		get labelAuxiliary() {
+			return this.getAttribute("labelauxiliary");
+		}
+
+		set labelAuxiliary(newValue) {
+			if (this.labelAuxiliary == newValue) return;
+
+			this.setAttribute("labelauxiliary", newValue);
+		}
+
+		/**
 		 * The image of this menu item
 		 */
 		get image() {
-			return this.elements.imageLeft.src;
+			return this.getAttribute("image");
 		}
 
 		set image(newValue) {
@@ -184,6 +204,30 @@ var MozMenuItemBaseMixin = (Base) => {
 
 			this.elements.imageLeft.src = newValue;
 			this.setAttribute("image", newValue);
+		}
+
+		/**
+		 * Determines whether the menu item is disabled or not
+		 */
+		get disabled() {
+			return this.getAttribute("disabled");
+		}
+
+		set disabled(newValue) {
+			this.setAttribute("disabled", newValue);
+			this.toggleAttribute("disabled", !!newValue);
+		}
+
+		/**
+		 * Determines whether the menu item is checked or not
+		 */
+		get checked() {
+			return this.getAttribute("checked");
+		}
+
+		set checked(newValue) {
+			this.setAttribute("checked", newValue);
+			this.toggleAttribute("checked", !!newValue);
 		}
 
 		/**
@@ -228,28 +272,12 @@ var MozMenuItemBaseMixin = (Base) => {
 				this.elements.accelerator
 			);
 
-			if (this.getAttribute("label")) {
-				this.label = this.getAttribute("label");
-			}
-
-			if (this.getAttribute("image")) {
-				this.image = this.getAttribute("image");
-			}
-
-			if (this.getAttribute("acceltext")) {
-				this.acceltext = this.getAttribute("acceltext");
-			}
-
 			if (
 				this.tagName == "menu" ||
 				this.type == "checkbox" ||
 				this.type == "radio"
 			) {
 				this.append(this.elements.imageRight);
-			}
-
-			if (this.closest("menugroup")) {
-				this.setAttribute("grouped", "");
 			}
 		}
 

@@ -107,12 +107,12 @@ menupopup>menu:not(:last-of-type) {
 
 /* Grouped menu items */
 
-:host(menuitem[grouped]) {
+:host(menuitem[in-group]) {
     --menuitem-padding-x: calc(var(--menuitem-default-padding-x) * 2);
     --menuitem-padding-y: calc(var(--menuitem-default-padding-y) * 1.25);
 }
 
-:host(menuitem[grouped]) .browser-menuitem-labels {
+:host(menuitem[in-group]) .browser-menuitem-labels {
     display: none;
 }
 

@@ -4,6 +4,14 @@
 
 {
 	class MozMenuGroup extends MozXULElement {
+		constructor() {
+			super();
+
+			this.mutationObserver = new MutationObserver(
+				this._onObserveMutation.bind(this)
+			);
+		}
+
 		/**
 		 * The menu group's tooltip element
 		 */
@@ -13,6 +21,16 @@
 					document.createXULElement("tooltip", {
 						is: "browser-tooltip"
 					})
+			);
+		}
+
+		/**
+		 * The menugroup's menuitems
+		 * @type {ReturnType<typeof MozMenuItemBaseMixin<Constructor<XULElement>>>["prototype"][]}
+		 */
+		get items() {
+			return Array.from(
+				/** @type {any} */ (this.querySelectorAll("menuitem"))
 			);
 		}
 
@@ -31,7 +49,17 @@
 			if (this.groupTooltip.state == "closed") return;
 
 			if (this.activeItem) {
-				this.groupTooltip.label = this.activeItem.label;
+				this.groupTooltip.label =
+					this.activeItem.labelAuxiliary || this.activeItem.label;
+			}
+		}
+
+		/**
+		 * Fires whenever a mutation occurs within the menugroup
+		 */
+		_onObserveMutation() {
+			for (const item of this.items) {
+				item.setAttribute("in-group", "");
 			}
 		}
 
@@ -44,6 +72,11 @@
 				"popupshowing",
 				this._updateTooltipText.bind(this)
 			);
+
+			this.mutationObserver.observe(this, {
+				subtree: true,
+				childList: true
+			});
 		}
 	}
 
