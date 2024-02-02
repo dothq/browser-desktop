@@ -17,7 +17,7 @@ export class ReloadTabCommand extends TabCommand {
 		this.label = "Reload";
 		this.icon = "reload";
 
-		this.shortcut = this.actions;
+		this._maybeAlreadyLoading();
 	}
 
 	_reloadTimer = null;
@@ -58,6 +58,20 @@ export class ReloadTabCommand extends TabCommand {
 	}
 
 	/**
+	 * Checks if our browser was loading as the command was initialised
+	 */
+	_maybeAlreadyLoading() {
+		if (this.isLoading !== undefined) return;
+
+		const { webProgress } = this.context.browser;
+
+		this.isLoading =
+			webProgress.isTopLevel && webProgress.isLoadingDocument;
+
+		this._update();
+	}
+
+	/**
 	 * Determines whether the time to load the page took long enough
 	 * that we can warrant making the reload button disabled after
 	 * loading.
@@ -66,6 +80,22 @@ export class ReloadTabCommand extends TabCommand {
 		return (
 			this.timeWhenSwitchedToStop &&
 			this.window.performance.now() - this.timeWhenSwitchedToStop > 150
+		);
+	}
+
+	/**
+	 * Determines whether a browser is loading from its state
+	 * @param {import("third_party/dothq/gecko-types/lib").nsIWebProgress} webProgress
+	 * @param {number} stateFlags
+	 * @returns {boolean}
+	 */
+	isStateLoading(webProgress, stateFlags) {
+		const { STATE_START, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
+
+		return Boolean(
+			webProgress.isTopLevel &&
+				stateFlags & STATE_START &&
+				stateFlags & STATE_IS_NETWORK
 		);
 	}
 
@@ -100,18 +130,12 @@ export class ReloadTabCommand extends TabCommand {
 	}) {
 		if (browser != this.context.browser) return;
 
-		const { STATE_START, STATE_IS_NETWORK, STATE_STOP } =
-			Ci.nsIWebProgressListener;
-
 		const shouldShowProgress = this._shouldShowProgress(request);
 
 		const wasLoading = this.isLoading;
 
 		this.isLoading =
-			webProgress.isTopLevel &&
-			stateFlags & STATE_START &&
-			stateFlags & STATE_IS_NETWORK &&
-			shouldShowProgress;
+			this.isStateLoading(webProgress, stateFlags) && shouldShowProgress;
 
 		// Switched from reload -> stop
 		if (!wasLoading && this.isLoading) {
