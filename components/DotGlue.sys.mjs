@@ -91,6 +91,18 @@ const JSWINDOWACTORS = {
 		allFrames: true
 	},
 
+	DotTooltipListener: {
+		child: {
+			esModuleURI: "resource:///actors/DotTooltipListenerChild.sys.mjs",
+
+			events: {
+				DOMContentLoaded: { capture: true }
+			}
+		},
+
+		includeChrome: true
+	},
+
 	DotUAStyles: {
 		child: {
 			esModuleURI: "resource:///actors/DotUAStylesChild.sys.mjs",
