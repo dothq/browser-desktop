@@ -63,14 +63,14 @@ const registry = {
 
 	BrowserSearch: "components/search/BrowserSearch.sys.mjs",
 
+	BrowserShortcuts: "components/shortcuts/BrowserShortcuts.sys.mjs",
+
 	BrowserStorage: "components/storage/BrowserStorage.sys.mjs",
 	Datastore: "components/storage/Datastore.sys.mjs",
 
 	NativeTitlebar: "components/csd/NativeTitlebar.sys.mjs",
 
 	NavigationHelper: "components/navigation/NavigationHelper.sys.mjs",
-
-	BrowserShortcuts: "components/shortcuts/BrowserShortcuts.sys.mjs",
 
 	StartPage: "components/startpage/StartPage.sys.mjs",
 
