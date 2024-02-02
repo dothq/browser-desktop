@@ -20,8 +20,8 @@ class BrowserCommandButton extends BrowserCommandElementMixin(BrowserButton) {
 	 */
 	_observeCommandMutation(audience, attributeName, value) {
 		switch (attributeName) {
-			case "label":
 			case "labelAuxiliary":
+			case "label":
 			case "icon":
 			case "disabled":
 			case "inert":
