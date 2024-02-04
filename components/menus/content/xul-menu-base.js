@@ -109,6 +109,9 @@ var MozMenuItemBaseMixin = (Base) => {
 				case "icon":
 					this.image = ThemeIcons.getURI(value);
 					break;
+				case "accelerator":
+					this.acceltext = value;
+					break;
 				default:
 					this.setAttribute(attributeName, value);
 					break;
@@ -173,8 +176,6 @@ var MozMenuItemBaseMixin = (Base) => {
 		}
 
 		set label(newValue) {
-			if (this.label == newValue) return;
-
 			this.elements.label.textContent = newValue;
 			this.setAttribute("label", newValue);
 		}
@@ -187,8 +188,6 @@ var MozMenuItemBaseMixin = (Base) => {
 		}
 
 		set labelAuxiliary(newValue) {
-			if (this.labelAuxiliary == newValue) return;
-
 			this.setAttribute("labelauxiliary", newValue);
 		}
 
@@ -200,8 +199,6 @@ var MozMenuItemBaseMixin = (Base) => {
 		}
 
 		set image(newValue) {
-			if (this.image == newValue) return;
-
 			this.elements.imageLeft.src = newValue;
 			this.setAttribute("image", newValue);
 		}
@@ -239,6 +236,7 @@ var MozMenuItemBaseMixin = (Base) => {
 
 		set acceltext(newValue) {
 			this.setAttribute("acceltext", newValue);
+			this.setAttribute("accelerator", newValue);
 
 			this.elements.accelerator.textContent = newValue;
 		}

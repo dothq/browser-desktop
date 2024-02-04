@@ -14,9 +14,6 @@ export class ReloadTabCommand extends TabCommand {
 	constructor(subscription, subscriber, area) {
 		super(subscription, subscriber, area);
 
-		this.label = "Reload";
-		this.icon = "reload";
-
 		this._maybeAlreadyLoading();
 	}
 
@@ -33,6 +30,7 @@ export class ReloadTabCommand extends TabCommand {
 				: "Reload this page"
 		};
 		this.icon = this.isLoading ? "close" : "reload";
+		this.accelerator = this.isLoading ? "Escape" : "Accel+R";
 	}
 
 	/**
@@ -61,7 +59,10 @@ export class ReloadTabCommand extends TabCommand {
 	 * Checks if our browser was loading as the command was initialised
 	 */
 	_maybeAlreadyLoading() {
-		if (this.isLoading !== undefined) return;
+		if (this.isLoading !== undefined) {
+			this._update();
+			return;
+		}
 
 		const { webProgress } = this.context.browser;
 

@@ -107,6 +107,7 @@ export class Command extends ActionsMessenger {
 		this._inert = this.createEmptyMap();
 		this._mode = this.createEmptyMap();
 		this._checked = this.createEmptyMap();
+		this._accelerator = this.createEmptyMap();
 
 		this._setupEventListeners();
 	}
@@ -195,11 +196,14 @@ export class Command extends ActionsMessenger {
 	/** @type {Map<string, boolean>} */
 	_inert = null;
 
-	/** @type {Map<string, boolean>} */
+	/** @type {Map<string, string>} */
 	_mode = null;
 
 	/** @type {Map<string, boolean>} */
 	_checked = null;
+
+	/** @type {Map<string, string>} */
+	_accelerator = null;
 
 	/**
 	 * Updates an attribute on the command
@@ -357,6 +361,20 @@ export class Command extends ActionsMessenger {
 	 */
 	set checked(newValue) {
 		this.setAttribute("checked", newValue);
+	}
+
+	/**
+	 * The accelerator text for this command
+	 */
+	get accelerator() {
+		return this._accelerator.get(CommandAudiences.DEFAULT);
+	}
+
+	/**
+	 * Updates the accelerator text of this command
+	 */
+	set accelerator(newValue) {
+		this.setAttribute("accelerator", newValue);
 	}
 
 	/**

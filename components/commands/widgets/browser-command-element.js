@@ -24,6 +24,18 @@ var BrowserCommandElementMixin = (Base) => {
 			};
 		}
 
+		/**
+		 * The tooltip element for this command element
+		 */
+		get tooltipEl() {
+			return /** @type {BrowserTooltip} */ (
+				this.querySelector("tooltip") ||
+					document.createXULElement("tooltip", {
+						is: "browser-tooltip"
+					})
+			);
+		}
+
 		static get observedAttributes() {
 			// prettier-ignore
 			return (/** @type {any} */ (Base).observedAttributes || []).concat(["commandid"]);
@@ -49,6 +61,29 @@ var BrowserCommandElementMixin = (Base) => {
 			} catch (e) {
 				return {};
 			}
+		}
+
+		/**
+		 * Computes the tooltip text for this command element
+		 */
+		getTooltipText() {
+			let tooltipText = "";
+
+			const label = this.getAttribute("label");
+			const labelAuxiliary = this.getAttribute("labelauxiliary");
+			const accelerator = this.getAttribute("accelerator");
+
+			if (labelAuxiliary) {
+				tooltipText = labelAuxiliary;
+			} else if (label) {
+				tooltipText = label;
+			}
+
+			if (accelerator) {
+				tooltipText += ` (${accelerator})`;
+			}
+
+			return tooltipText;
 		}
 
 		/**
@@ -163,6 +198,18 @@ var BrowserCommandElementMixin = (Base) => {
 			this.dispatchEvent(evt);
 		}
 
+		/**
+		 * Fired when a popup starts showing in the command element
+		 * @param {Event} event
+		 */
+		_onCommandElementPopupShowing(event) {
+			if (event.target === this.tooltipEl) {
+				if (this.tooltipEl.state == "closed") return;
+
+				this.tooltipEl.label = this.getTooltipText();
+			}
+		}
+
 		connectedCallback() {
 			if (super.connectedCallback) {
 				super.connectedCallback();
@@ -171,6 +218,14 @@ var BrowserCommandElementMixin = (Base) => {
 			if (this.commandId) {
 				this._initCommandSubscription();
 			}
+
+			this.setAttribute("tooltip", "_child");
+			this.prepend(this.tooltipEl);
+
+			this.addEventListener(
+				"popupshowing",
+				this._onCommandElementPopupShowing.bind(this)
+			);
 		}
 
 		attributeChangedCallback(attribute, oldValue, newValue) {
@@ -197,6 +252,11 @@ var BrowserCommandElementMixin = (Base) => {
 			}
 
 			this._destroyCommandSubscription();
+
+			this.removeEventListener(
+				"popupshowing",
+				this._onCommandElementPopupShowing.bind(this)
+			);
 		}
 	};
 

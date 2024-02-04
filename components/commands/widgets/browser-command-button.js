@@ -27,6 +27,7 @@ class BrowserCommandButton extends BrowserCommandElementMixin(BrowserButton) {
 			case "inert":
 			case "mode":
 			case "checked":
+			case "accelerator":
 				this[attributeName] = value;
 				break;
 			default:

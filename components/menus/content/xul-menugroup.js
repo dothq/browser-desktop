@@ -49,8 +49,7 @@
 			if (this.groupTooltip.state == "closed") return;
 
 			if (this.activeItem) {
-				this.groupTooltip.label =
-					this.activeItem.labelAuxiliary || this.activeItem.label;
+				this.groupTooltip.label = this.activeItem.getTooltipText();
 			}
 		}
 
