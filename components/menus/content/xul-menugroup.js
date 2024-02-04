@@ -13,18 +13,6 @@
 		}
 
 		/**
-		 * The menu group's tooltip element
-		 */
-		get groupTooltip() {
-			return /** @type {BrowserTooltip} */ (
-				this.querySelector("tooltip") ||
-					document.createXULElement("tooltip", {
-						is: "browser-tooltip"
-					})
-			);
-		}
-
-		/**
 		 * The menugroup's menuitems
 		 * @type {ReturnType<typeof MozMenuItemBaseMixin<Constructor<XULElement>>>["prototype"][]}
 		 */
@@ -43,17 +31,6 @@
 		}
 
 		/**
-		 * Updates the menugroup's tooltip text
-		 */
-		_updateTooltipText() {
-			if (this.groupTooltip.state == "closed") return;
-
-			if (this.activeItem) {
-				this.groupTooltip.label = this.activeItem.getTooltipText();
-			}
-		}
-
-		/**
 		 * Fires whenever a mutation occurs within the menugroup
 		 */
 		_onObserveMutation() {
@@ -63,15 +40,6 @@
 		}
 
 		connectedCallback() {
-			this.setAttribute("tooltip", "_child");
-
-			this.prepend(this.groupTooltip);
-
-			this.groupTooltip.addEventListener(
-				"popupshowing",
-				this._updateTooltipText.bind(this)
-			);
-
 			this.mutationObserver.observe(this, {
 				subtree: true,
 				childList: true

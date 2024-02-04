@@ -64,29 +64,6 @@ var BrowserCommandElementMixin = (Base) => {
 		}
 
 		/**
-		 * Computes the tooltip text for this command element
-		 */
-		getTooltipText() {
-			let tooltipText = "";
-
-			const label = this.getAttribute("label");
-			const labelAuxiliary = this.getAttribute("labelauxiliary");
-			const accelerator = this.getAttribute("accelerator");
-
-			if (labelAuxiliary) {
-				tooltipText = labelAuxiliary;
-			} else if (label) {
-				tooltipText = label;
-			}
-
-			if (accelerator) {
-				tooltipText += ` (${accelerator})`;
-			}
-
-			return tooltipText;
-		}
-
-		/**
 		 * Performs the command attached to the element
 		 * @param {Event} [originalEvent]
 		 */
@@ -198,18 +175,6 @@ var BrowserCommandElementMixin = (Base) => {
 			this.dispatchEvent(evt);
 		}
 
-		/**
-		 * Fired when a popup starts showing in the command element
-		 * @param {Event} event
-		 */
-		_onCommandElementPopupShowing(event) {
-			if (event.target === this.tooltipEl) {
-				if (this.tooltipEl.state == "closed") return;
-
-				this.tooltipEl.label = this.getTooltipText();
-			}
-		}
-
 		connectedCallback() {
 			if (super.connectedCallback) {
 				super.connectedCallback();
@@ -218,14 +183,6 @@ var BrowserCommandElementMixin = (Base) => {
 			if (this.commandId) {
 				this._initCommandSubscription();
 			}
-
-			this.setAttribute("tooltip", "_child");
-			this.prepend(this.tooltipEl);
-
-			this.addEventListener(
-				"popupshowing",
-				this._onCommandElementPopupShowing.bind(this)
-			);
 		}
 
 		attributeChangedCallback(attribute, oldValue, newValue) {
@@ -252,11 +209,6 @@ var BrowserCommandElementMixin = (Base) => {
 			}
 
 			this._destroyCommandSubscription();
-
-			this.removeEventListener(
-				"popupshowing",
-				this._onCommandElementPopupShowing.bind(this)
-			);
 		}
 	};
 

@@ -29,6 +29,7 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * @typedef {Object} BrowserButtonElements
 	 * @property {HTMLSpanElement} label - The buttons's label
 	 * @property {BrowserIcon} icon - The button's icon
+	 * @property {BrowserTooltip} tooltip - The button's tooltip
 	 *
 	 * @returns {BrowserButtonElements}
 	 */
@@ -47,6 +48,12 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 					html("browser-icon", {
 						class: "browser-button-icon",
 						name: this.getAttribute("icon") || ""
+					})
+			),
+			tooltip: /** @type {BrowserTooltip} */ (
+				this.querySelector("tooltip") ||
+					document.createXULElement("tooltip", {
+						is: "browser-tooltip"
 					})
 			)
 		};
@@ -100,6 +107,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 
 		this.setAttribute("label", newLabel);
 		this.elements.label.textContent = newLabel;
+
+		this._updateTooltipText();
 	}
 
 	/**
@@ -116,6 +125,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		if (newLabelAuxiliary == this.labelAuxiliary) return;
 
 		this.setAttribute("labelauxiliary", newLabelAuxiliary);
+
+		this._updateTooltipText();
 	}
 
 	/**
@@ -163,6 +174,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 */
 	set accelerator(newAccelerator) {
 		this.setAttribute("accelerator", newAccelerator);
+
+		this._updateTooltipText();
 	}
 
 	/**
@@ -212,12 +225,57 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		);
 	}
 
+	/**
+	 * Computes the tooltip text for this button
+	 */
+	getTooltipText() {
+		let tooltipText = "";
+
+		const label = this.getAttribute("label");
+		const labelAuxiliary = this.getAttribute("labelauxiliary");
+		const accelerator = this.getAttribute("accelerator");
+
+		if (labelAuxiliary) {
+			tooltipText = labelAuxiliary;
+		} else if (label) {
+			tooltipText = label;
+		}
+
+		if (accelerator) {
+			tooltipText += ` (${accelerator})`;
+		}
+
+		return tooltipText;
+	}
+
+	/**
+	 * Updates the button's tooltip text
+	 */
+	_updateTooltipText() {
+		if (this.elements.tooltip.state == "closed") return;
+
+		this.elements.tooltip.label = this.getTooltipText();
+	}
+
+	/**
+	 * Fired when a popup starts showing in the button
+	 * @param {Event} event
+	 */
+	_onPopupShowing(event) {
+		if (event.target === this.elements.tooltip) {
+			this._updateTooltipText();
+		}
+	}
+
 	connectedCallback() {
 		this.classList.add("browser-button");
 		this.classList.toggle(
 			/** @type {any} */ (this).buttonId,
 			"buttonId" in this
 		);
+
+		this.setAttribute("tooltip", "_child");
+		this.prepend(this.elements.tooltip);
 
 		this.appendChild(
 			html(
@@ -237,6 +295,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			this._handleBrowserButtonEvent.bind(this)
 		);
 
+		this.addEventListener("popupshowing", this._onPopupShowing.bind(this));
+
 		this.resizeObserver.observe(this);
 	}
 
@@ -248,6 +308,10 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.removeEventListener(
 			"focusout",
 			this._handleBrowserButtonEvent.bind(this)
+		);
+		this.removeEventListener(
+			"popupshowing",
+			this._onPopupShowing.bind(this)
 		);
 
 		this.resizeObserver.disconnect();
