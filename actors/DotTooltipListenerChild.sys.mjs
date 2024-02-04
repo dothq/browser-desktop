@@ -205,6 +205,16 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 	 * @param {MouseEvent} event
 	 */
 	showTooltip(event) {
+		// Check if event is still accessible, the node
+		// holding the tooltip may have been purged from
+		// the DOM, resulting in a "dead object" error on
+		// the event.
+		try {
+			event.target;
+		} catch (e) {
+			return;
+		}
+
 		const target = this.getEventTarget(event);
 
 		const tooltipTarget = DOMUtils.shadowClosest(target, "[tooltip]");
