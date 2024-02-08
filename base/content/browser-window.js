@@ -3,15 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * Trims a URL of its protocol
- * @param {string} url
- * @returns {string}
- */
-function trimURL(url) {
-	return url.replace(/^https?\:\/\//i, "");
-}
-
-/**
  * Handles communication between the engine to
  * receive events and pass them to their respective
  * locations.
@@ -57,13 +48,11 @@ class nsIXULBrowserWindow {
 	 * The remote browser tooltip element
 	 */
 	get tooltipElement() {
-		return /** @type {import("third_party/dothq/gecko-types/lib").XULPopupElement} */ (
-			document.documentElement.querySelector("#remoteBrowserTooltip") ||
-				(() => {
-					const tooltip = document.createXULElement("tooltip");
-					tooltip.id = "remoteBrowserTooltip";
-					return tooltip;
-				})()
+		return /** @type {BrowserRemoteTooltip} */ (
+			document.documentElement.querySelector("#browser-remote-tooltip") ||
+				document.createXULElement("tooltip", {
+					is: "browser-remote-tooltip"
+				})
 		);
 	}
 
@@ -81,34 +70,8 @@ class nsIXULBrowserWindow {
 	setOverLink(url) {
 		clearTimeout(this._overlinkInt);
 
-		let overURL = url;
-
-		if (url) {
-			overURL = Services.textToSubURI.unEscapeURIForUI(url);
-
-			// Encode bidirectional formatting characters.
-			// (RFC 3987 sections 3.2 and 4.1 paragraph 6)
-			overURL = overURL.replace(
-				/[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g,
-				encodeURIComponent
-			);
-
-			if (Services.prefs.getBoolPref("browser.urlbar.trimURLs", true)) {
-				overURL = trimURL(overURL);
-			}
-		}
-
 		this._overlinkInt = setTimeout(() => {
-			this.overLink = overURL;
-
-			const evt = new CustomEvent("BrowserTabs::BrowserStatusChange", {
-				detail: {
-					message: overURL,
-					type: "overLink"
-				}
-			});
-
-			gDot.tabs.hoveredBrowser?.dispatchEvent(evt);
+			gDot.status.setStatus("overLink", url);
 		}, 100);
 	}
 
