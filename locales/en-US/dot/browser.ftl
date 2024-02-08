@@ -45,5 +45,3 @@ browser-window-restore-button =
 
 browser-window-close-button =
     .title = Close
-
-browser-keybind-label = { $label } ({ $keybind })

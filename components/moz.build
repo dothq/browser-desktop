@@ -26,9 +26,11 @@ DIRS += [
     "settings",
     "shortcuts",
     "startpage",
+    "status",
     "storage",
     "tabs",
     "toolbar",
+    "tooltips",
     "widgets",
 ]
 

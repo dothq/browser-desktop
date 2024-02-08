@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var { TooltipLabelProvider } = ChromeUtils.importESModule(
+	"resource://gre/modules/TooltipLabelProvider.sys.mjs"
+);
+
 class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	constructor() {
 		super();
@@ -103,8 +107,6 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Updates the label of the browser button
 	 */
 	set label(newLabel) {
-		if (newLabel == this.label) return;
-
 		this.setAttribute("label", newLabel);
 		this.elements.label.textContent = newLabel;
 
@@ -122,8 +124,6 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Updates the auxiliary label of the browser button
 	 */
 	set labelAuxiliary(newLabelAuxiliary) {
-		if (newLabelAuxiliary == this.labelAuxiliary) return;
-
 		this.setAttribute("labelauxiliary", newLabelAuxiliary);
 
 		this._updateTooltipText();
@@ -229,31 +229,20 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Computes the tooltip text for this button
 	 */
 	getTooltipText() {
-		let tooltipText = "";
-
 		const label = this.getAttribute("label");
 		const labelAuxiliary = this.getAttribute("labelauxiliary");
 		const accelerator = this.getAttribute("accelerator");
 
-		if (labelAuxiliary) {
-			tooltipText = labelAuxiliary;
-		} else if (label) {
-			tooltipText = label;
-		}
-
-		if (accelerator) {
-			tooltipText += ` (${accelerator})`;
-		}
-
-		return tooltipText;
+		return TooltipLabelProvider.getTooltipText(
+			labelAuxiliary || label || "",
+			{ shortcut: accelerator }
+		);
 	}
 
 	/**
 	 * Updates the button's tooltip text
 	 */
 	_updateTooltipText() {
-		if (this.elements.tooltip.state == "closed") return;
-
 		this.elements.tooltip.label = this.getTooltipText();
 	}
 
