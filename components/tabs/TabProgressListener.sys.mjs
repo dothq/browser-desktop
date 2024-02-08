@@ -104,13 +104,7 @@ export class TabProgressListener {
 			incrementProgress(this.tab);
 		}
 
-		fireBrowserEvent("BrowserStatusChange", this.browser, {
-			webProgress,
-			request,
-			status,
-			message,
-			type: "busy"
-		});
+		this.tab.status.setStatus("busy", message);
 	}
 
 	/**
@@ -259,10 +253,7 @@ export class TabProgressListener {
 			this.tab.updateIcon(this.browser.mIconURL);
 
 			// Clear the status as we're done loading
-			fireBrowserEvent("BrowserStatusChange", this.browser, {
-				message: "",
-				type: "busy"
-			});
+			this.tab.status.setStatus("busy", null);
 
 			if (this.tab.selected) {
 				this.win.gDot.tabs.isBusy = false;

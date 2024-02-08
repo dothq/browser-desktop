@@ -64,8 +64,6 @@ BrowserTabs.prototype = {
 	EVENT_TAB_SELECT: "BrowserTabs::TabSelect",
 	EVENT_TAB_CREATE: "BrowserTabs::TabCreate",
 
-	EVENT_BROWSER_STATUS_CHANGE: "BrowserTabs::BrowserStatusChange",
-
 	/** @type {Window} */
 	_win: null,
 

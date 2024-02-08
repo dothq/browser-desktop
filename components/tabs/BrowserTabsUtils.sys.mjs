@@ -13,6 +13,33 @@ const { StartPage } = ChromeUtils.importESModule(
 const DEFAULT_TAB_ICON = "chrome://dot/skin/icons/globe.svg";
 const DEFAULT_TAB_LABEL = "Untitled";
 
+/**
+ * Trims a URL of its protocol
+ * @param {string} url
+ * @returns {string}
+ */
+function trimProtocol(url) {
+	return url.replace(/^https?\:\/\//i, "");
+}
+
+/**
+ * Trims a URL of the www. subdomain
+ * @param {string} url
+ * @returns {string}
+ */
+function trimWWWSubdomain(url) {
+	return url.replace(/:\/\/(www\.)/i, "://");
+}
+
+/**
+ * Trims a URL of any trailing slashes
+ * @param {string} url
+ * @returns {string}
+ */
+function trimTrailingSlash(url) {
+	return url.replace(/\/+$/, "");
+}
+
 export const BrowserTabsUtils = {
 	DEFAULT_TAB_ICON,
 	DEFAULT_TAB_LABEL,
@@ -78,5 +105,44 @@ export const BrowserTabsUtils = {
 			StartPage.getHomePage().includes(url) ||
 			url == "chrome://dot/content/startpage/blank.html"
 		);
+	},
+
+	/**
+	 * Formats a URI string into a UI-safe URI
+	 * @param {string} uri
+	 * @param {Object} [options]
+	 * @param {boolean} [options.trimURL]
+	 * @param {boolean} [options.trimProtocol]
+	 * @param {boolean} [options.trimTrailingSlash]
+	 * @param {boolean} [options.trimWWWSubdomain]
+	 */
+	formatURI(uri, options) {
+		uri = Services.textToSubURI.unEscapeURIForUI(uri);
+
+		// Encode bidirectional formatting characters.
+		// (RFC 3987 sections 3.2 and 4.1 paragraph 6)
+		uri = uri.replace(
+			/[\u200e\u200f\u202a\u202b\u202c\u202d\u202e]/g,
+			encodeURIComponent
+		);
+
+		if (
+			options.trimURL ||
+			Services.prefs.getBoolPref("browser.urlbar.trimURLs", true)
+		) {
+			if (options.trimWWWSubdomain) {
+				uri = trimWWWSubdomain(uri);
+			}
+
+			if (options.trimProtocol) {
+				uri = trimProtocol(uri);
+			}
+
+			if (options.trimTrailingSlash) {
+				uri = trimTrailingSlash(uri);
+			}
+		}
+
+		return uri;
 	}
 };

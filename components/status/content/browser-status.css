@@ -35,11 +35,15 @@ browser-status[inactive] {
         opacity: 0;
     }
 
-    &[statustype="overLink"] .browser-status-label {
+    &:not([inactive-instant]) .browser-status-label {
+        transition: 0.1s opacity ease-out, 0.1s visibility;
+    }
+
+    &:not([inactive-instant]):is([statustype="overLink"], [statustype="tooltip"]) .browser-status-label {
         transition: 0.1s opacity ease-out 0.4s, 0.1s visibility 0.4s;
     }
 
-    &[statustype="busy"] .browser-status-label {
+    &:not([inactive-instant])[statustype="busy"] .browser-status-label {
         transition: 0.25s opacity ease-out 0.4s, 0.25s visibility 0.4s;
     }
 }
@@ -50,12 +54,12 @@ browser-status:not([inactive]) {
         visibility: visible;
     }
 
-    &[statustype="overLink"] .browser-status-label {
+    &:not([inactive-instant]):not([statustype="busy"]) .browser-status-label {
         transition: 0.2s opacity ease-out, 0.2s visibility;
     }
 }
 
-browser-web-frame browser-status {
+:host(browser-web-contents) browser-status {
     position: absolute;
     bottom: 0;
     height: max-content;

@@ -16,9 +16,6 @@ dot.jar:
 
     content/widgets/browser-web-container.js            (content/browser-web-container.js)
 
-    content/widgets/browser-status.js                   (content/browser-status.js)
-    content/widgets/browser-status.css                  (content/browser-status.css)
-
     content/widgets/browser-tab-button.js               (content/browser-tab-button.js)
     content/widgets/browser-tab-button.css              (content/browser-tab-button.css)
 

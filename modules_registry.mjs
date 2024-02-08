@@ -65,6 +65,8 @@ const registry = {
 
 	BrowserShortcuts: "components/shortcuts/BrowserShortcuts.sys.mjs",
 
+	BrowserStatus: "components/status/BrowserStatus.sys.mjs",
+
 	BrowserStorage: "components/storage/BrowserStorage.sys.mjs",
 	Datastore: "components/storage/Datastore.sys.mjs",
 
@@ -74,10 +76,15 @@ const registry = {
 
 	StartPage: "components/startpage/StartPage.sys.mjs",
 
+	StatusManager: "components/status/StatusManager.sys.mjs",
+
 	TabIdentityHandler: "components/identity/TabIdentityHandler.sys.mjs",
 	TabProgressListener: "components/tabs/TabProgressListener.sys.mjs",
+	TabStatusManager: "components/status/TabStatusManager.sys.mjs",
 
-	ThemeIcons: "themes/ThemeIcons.sys.mjs"
+	ThemeIcons: "themes/ThemeIcons.sys.mjs",
+
+	TooltipLabelProvider: "components/tooltips/TooltipLabelProvider.sys.mjs"
 };
 
 export default registry;
