@@ -101,5 +101,17 @@ export const DOMUtils = {
 				return DOMUtils.shadowClosest(parent, selector);
 			}
 		}
+	},
+
+	/**
+	 * Returns true if other is an inclusive descendant of node, and false otherwise.
+	 * @param {Element} root
+	 * @param {Element} other
+	 */
+	shadowContains(root, other) {
+		return (
+			(root.shadowRoot && root.shadowRoot.contains(other)) ||
+			root.contains(other)
+		);
 	}
 };

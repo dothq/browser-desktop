@@ -34,6 +34,14 @@ const kTooltipMouseTopMargin = 21;
  * A partial implementation of nsXULTooltipListener
  */
 export class DotTooltipListenerChild extends JSWindowActorChild {
+	TOOLTIP_LOCATION_FLOATING = 0;
+	TOOLTIP_LOCATION_STATUS = 1;
+
+	TOOLTIP_LOCATION_NAMES = {
+		floating: this.TOOLTIP_LOCATION_FLOATING,
+		status: this.TOOLTIP_LOCATION_STATUS
+	};
+
 	/**
 	 * Determines whether can show tooltips in browser chrome
 	 */
@@ -52,6 +60,43 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 		return Services.prefs.getIntPref(
 			"browser.chrome.toolbar_tips.hide_on_keydown",
 			2
+		);
+	}
+
+	/**
+	 * Determines where the tooltip should be displayed
+	 * States:
+	 *   0: Show as a floating tip
+	 *   1: Show in the statusbar (if available)
+	 */
+	get tooltipDisplayLocation() {
+		switch (
+			Services.prefs.getIntPref("browser.chrome.toolbar_tips.location", 0)
+		) {
+			case 1:
+				return this.TOOLTIP_LOCATION_STATUS;
+			default:
+				return this.TOOLTIP_LOCATION_FLOATING;
+		}
+	}
+
+	/**
+	 * The delay before the floating tooltip is shown in ms
+	 */
+	get tooltipFloatingShowDelayMs() {
+		return Services.prefs.getIntPref(
+			"browser.chrome.toolbar_tips.floating.show_delay_ms",
+			500
+		);
+	}
+
+	/**
+	 * The delay before the status tooltip is shown in ms
+	 */
+	get tooltipStatusShowDelayMs() {
+		return Services.prefs.getIntPref(
+			"browser.chrome.toolbar_tips.status.show_delay_ms",
+			100
 		);
 	}
 
@@ -117,6 +162,7 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 			this.killTooltipTimer();
 
 			this._currentTooltip = null;
+			this._currentTriggerNode = null;
 		}
 	}
 
@@ -201,10 +247,11 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 	}
 
 	/**
-	 * Shows the tooltip
-	 * @param {MouseEvent} event
+	 * Obtains the tooltip nodes
+	 * @param {Event} event
+	 * @returns
 	 */
-	showTooltip(event) {
+	getTooltipNodes(event) {
 		// Check if event is still accessible, the node
 		// holding the tooltip may have been purged from
 		// the DOM, resulting in a "dead object" error on
@@ -212,23 +259,83 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 		try {
 			event.target;
 		} catch (e) {
-			return;
+			return {};
 		}
 
 		const target = this.getEventTarget(event);
 
 		const tooltipTarget = DOMUtils.shadowClosest(target, "[tooltip]");
-		if (!tooltipTarget) return;
+		if (!tooltipTarget) return {};
 
-		const tooltipNode = this.getTooltipFor(
+		const tooltip = this.getTooltipFor(
 			/** @type {Element} */ (tooltipTarget)
 		);
 
-		if (!tooltipNode || target == tooltipNode) {
-			return;
+		if (!tooltip || target == tooltip) {
+			return {};
 		}
 
-		const doc = tooltipNode.ownerDocument;
+		return {
+			tooltip,
+			tooltipTarget
+		};
+	}
+
+	/**
+	 * Determines how long we should take before showing the tooltip on-screen
+	 * @param {import("third_party/dothq/gecko-types/lib").XULPopupElement} tooltip
+	 */
+	getTooltipShowDelay(tooltip) {
+		let delay = 0;
+
+		let tooltipDisplayLocation = this.tooltipDisplayLocation;
+
+		// If the tooltip has requested a specific location,
+		// override the user preference here.
+		if (
+			tooltip.getAttribute("location") &&
+			this.TOOLTIP_LOCATION_NAMES[tooltip.getAttribute("location")]
+		) {
+			tooltipDisplayLocation =
+				this.TOOLTIP_LOCATION_NAMES[tooltip.getAttribute("location")];
+		}
+
+		switch (tooltipDisplayLocation) {
+			case this.TOOLTIP_LOCATION_STATUS:
+				delay = this.tooltipStatusShowDelayMs;
+				break;
+			default:
+				delay = this.tooltipFloatingShowDelayMs;
+				break;
+		}
+
+		return delay;
+	}
+
+	/**
+	 * Shows the tooltip
+	 * @param {MouseEvent} event
+	 */
+	showTooltip(event) {
+		const { tooltip, tooltipTarget } = this.getTooltipNodes(event);
+		if (!tooltip) return;
+
+		const tooltipShowDelayMs = this.getTooltipShowDelay(tooltip);
+
+		this._tooltipTimer = setTimeout(
+			this.launchTooltip.bind(this, event, tooltip, tooltipTarget),
+			tooltipShowDelayMs
+		);
+	}
+
+	/**
+	 * Launches the tooltip node
+	 * @param {MouseEvent} event
+	 * @param {import("third_party/dothq/gecko-types/lib").XULPopupElement} tooltip
+	 * @param {Element} [triggerNode]
+	 */
+	launchTooltip(event, tooltip, triggerNode) {
+		const doc = tooltip.ownerDocument;
 
 		const win = /** @type {ChromeWindow} */ (doc.ownerGlobal);
 
@@ -241,19 +348,10 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 			return;
 		}
 
-		this.launchTooltip(event, tooltipNode, tooltipTarget);
-	}
-
-	/**
-	 * Launches the tooltip node
-	 * @param {MouseEvent} event
-	 * @param {import("third_party/dothq/gecko-types/lib").XULPopupElement} tooltip
-	 * @param {EventTarget} [triggerNode]
-	 */
-	launchTooltip(event, tooltip, triggerNode) {
-		const doc = tooltip.ownerDocument;
-
 		this._currentTooltip = tooltip;
+		this._currentTriggerNode = /** @type {Element} */ (
+			triggerNode || event.target
+		);
 
 		Services.els.addSystemEventListener(
 			tooltip,
@@ -267,10 +365,6 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 		Services.els.addSystemEventListener(doc, "mouseup", this, true);
 		Services.els.addSystemEventListener(doc, "keydown", this, true);
 
-		const resolvedTriggerNode = /** @type {Element} */ (
-			triggerNode || event.target
-		);
-
 		Object.defineProperty(tooltip, "triggerNode", {
 			configurable: true,
 			get: () => {
@@ -278,16 +372,15 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 					return null;
 				}
 
-				return resolvedTriggerNode;
+				return this._currentTriggerNode;
 			}
 		});
 
-		const tooltipAnchor =
-			resolvedTriggerNode.getAttribute("tooltipanchor") || "";
+		const tooltipAnchor = triggerNode.getAttribute("tooltipanchor") || "";
 
 		if (tooltipAnchor) {
 			tooltip.openPopup(
-				resolvedTriggerNode,
+				this._currentTriggerNode,
 				tooltipAnchor,
 				0,
 				-kTooltipMouseTopMargin,
@@ -316,24 +409,52 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 
 		const target = this.getEventTarget(event);
 		if (!target) return;
+		const { tooltipTarget } = this.getTooltipNodes(event);
 
 		const newScreenX = event.screenX;
 		const newScreenY = event.screenY;
 
-		const isSameTarget =
-			this._previousMouseMoveTarget &&
-			this._previousMouseMoveTarget == target;
+		const isSameTarget = tooltipTarget == this._currentTriggerNode;
 
-		// Filter out slight mouse movements so
-		// light movements don't hide the tooltip
-		if (
+		const isNoAutoHide =
 			this._currentTooltip &&
-			isSameTarget &&
-			Math.abs(this._screenX - newScreenX) <=
-				kTooltipMouseMoveTolerance &&
-			Math.abs(this._screenY - newScreenY) <= kTooltipMouseMoveTolerance
+			this._currentTooltip.hasAttribute("noautohide");
+
+		if (this.tooltipDisplayLocation == this.TOOLTIP_LOCATION_FLOATING) {
+			const mouseMovedEnough =
+				Math.abs(this._screenX - newScreenX) <=
+					kTooltipMouseMoveTolerance &&
+				Math.abs(this._screenY - newScreenY) <=
+					kTooltipMouseMoveTolerance;
+
+			// Filter out slight mouse movements so
+			// light movements don't hide the tooltip
+			if (
+				this._currentTooltip &&
+				isSameTarget &&
+				(mouseMovedEnough || isNoAutoHide)
+			) {
+				return;
+			}
+		} else if (
+			isNoAutoHide ||
+			this.tooltipDisplayLocation == this.TOOLTIP_LOCATION_STATUS
 		) {
-			return;
+			// Filter out mouse events that occur within
+			// or outside the current target so the tooltip
+			// stays open, even after moving the mouse around
+			// the target bounds.
+			//
+			// If the tooltip supplies the `noautohide` attribute,
+			// ensure we opt-in to this behaviour.
+			if (
+				this._currentTooltip &&
+				this._currentTriggerNode &&
+				isSameTarget &&
+				DOMUtils.shadowContains(this._currentTriggerNode, target)
+			) {
+				return;
+			}
 		}
 
 		this._screenX = newScreenX;
@@ -352,10 +473,7 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 			!isSameTarget
 		) {
 			if (target) {
-				this._tooltipTimer = setTimeout(
-					this.showTooltip.bind(this, event),
-					500
-				);
+				this.showTooltip.call(this, event);
 			}
 			return;
 		}
