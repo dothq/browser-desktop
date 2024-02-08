@@ -71,16 +71,14 @@ export class AddTabCommand extends Command {
 	}
 
 	/**
-	 * Fired when the mouse is over the command subscriber
+	 * Fired when the mouse moves over the command subscriber
 	 * @param {MouseEvent} event
 	 */
-	on_mouseover(event) {
+	on_mousemove(event) {
 		const { commandArgs: args } = this.subscriber;
 
 		if (args && args.url) {
-			this.window.XULBrowserWindow.setOverLink(
-				this._formatURIs(args.url)
-			);
+			this.window.gDot.status.setStatus("overLink", args.url);
 		}
 	}
 
@@ -89,7 +87,7 @@ export class AddTabCommand extends Command {
 	 * @param {MouseEvent} event
 	 */
 	on_mouseleave(event) {
-		this.window.XULBrowserWindow.setOverLink("");
+		this.window.gDot.status.setStatus("overLink", null);
 	}
 
 	/**
