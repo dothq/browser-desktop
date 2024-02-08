@@ -9,11 +9,40 @@ tooltip,
 html|tooltip {
     appearance: none;
 
-    padding: 8px 10px;
+    /* Ensure we override any margin properties, as user agent margin-top can override this */
+    margin: -18px !important;
+    padding: 18px;
 
-    background-color: InfoBackground;
-    color: InfoText;
+    background-color: transparent;
+    border: none;
 
-    border-radius: 10px;
-    border: 1px solid color-mix(in srgb, currentColor 30%, transparent 100%);
+    border-radius: 0px;
+
+    & .tooltip-label {
+        padding: 8px 10px;
+
+        appearance: auto;
+        -moz-default-appearance: tooltip;
+
+        /* Use InfoBackground and InfoText for non-lwt themes */
+        background-color: InfoBackground;
+        color: InfoText;
+
+        /* Otherwise, use an appropriate color for our color scheme */
+        &:-moz-lwtheme {
+            appearance: none;
+
+            border-radius: 10px;
+
+            background-color: light-dark(rgba(255, 255, 255, 0.98), rgba(0, 0, 0, 0.92));
+            color: light-dark(black, white);
+
+            box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, .132),
+                0 1.2px 3.6px 0 rgba(0, 0, 0, .108);
+        }
+    }
+
+    &:not([position]) .tooltip-label {
+        margin-top: 21px;
+    }
 }

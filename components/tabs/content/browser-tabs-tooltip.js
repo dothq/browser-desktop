@@ -6,6 +6,10 @@ var { PageThumbs } = ChromeUtils.importESModule(
 	"resource://gre/modules/PageThumbs.sys.mjs"
 );
 
+var { BrowserTabsUtils } = ChromeUtils.importESModule(
+	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
+);
+
 class BrowserTabsTooltip extends BrowserTooltip {
 	/**
 	 * The tabs tooltip container
@@ -37,11 +41,33 @@ class BrowserTabsTooltip extends BrowserTooltip {
 		};
 	}
 
+	browserThumbnailInt = null;
+
+	/**
+	 * Determines how often the canvas preview should refresh
+	 */
+	get canvasRefreshInterval() {
+		return Services.prefs.getIntPref(
+			"dot.tabs.tooltip.canvas_refresh_interval_ms",
+			150
+		);
+	}
+
 	/**
 	 * The tabs tooltip canvas' 2D context
 	 */
 	get canvasCtx() {
 		return this.elements.canvas.getContext("2d");
+	}
+
+	/**
+	 * Takes a capture of the browser contents to a canvas
+	 * @param {ChromeBrowser} browser
+	 */
+	_captureToCanvas(browser) {
+		PageThumbs.captureToCanvas(browser, this.elements.canvas, {
+			fullViewport: true
+		});
 	}
 
 	/**
@@ -57,6 +83,7 @@ class BrowserTabsTooltip extends BrowserTooltip {
 			this.elements.canvas.width,
 			this.elements.canvas.height
 		);
+		clearTimeout(this.browserThumbnailTimeout);
 
 		if (!tab) {
 			return;
@@ -67,12 +94,23 @@ class BrowserTabsTooltip extends BrowserTooltip {
 		this.setAttribute("label", browser.contentTitle);
 
 		this.elements.title.textContent = browser.contentTitle;
-		this.elements.uri.textContent = browser.currentURI.spec.replace(
-			/^https?\:\/\//i,
-			""
+		this.elements.uri.textContent = BrowserTabsUtils.formatURI(
+			browser.currentURI.spec,
+			{
+				trimProtocol: true,
+				trimTrailingSlash: true,
+				trimWWWSubdomain: true
+			}
 		);
 
-		PageThumbs.captureToCanvas(browser, this.elements.canvas);
+		this._captureToCanvas(browser);
+
+		if (this.canvasRefreshInterval > 0) {
+			this.browserThumbnailTimeout = setInterval(
+				() => this._captureToCanvas(browser),
+				this.canvasRefreshInterval
+			);
+		}
 	}
 
 	/**
@@ -117,6 +155,8 @@ class BrowserTabsTooltip extends BrowserTooltip {
 		super.connectedCallback();
 
 		this.id = "browser-tabs-tooltip";
+		this.setAttribute("noautohide", "");
+		this.setAttribute("location", "floating");
 
 		this.addEventListener("popupshowing", this);
 		this.addEventListener("popuphidden", this);
