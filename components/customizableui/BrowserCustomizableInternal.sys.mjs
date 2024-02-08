@@ -229,6 +229,23 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
+	 * Determines whether we can append a child to a component
+	 * @param {Element} parentElement
+	 * @param {Element} child
+	 * @param {string} part
+	 */
+	canAppendChildTo(parentElement, child, part) {
+		if ("canAppendChild" in parentElement && parentElement.canAppendChild) {
+			return /** @type {any} */ (parentElement).canAppendChild(
+				child,
+				part
+			);
+		} else {
+			return true;
+		}
+	},
+
+	/**
 	 * Appends children to a component
 	 * @param {Element} parentElement
 	 * @param {CustomizableComponentDefinition[2]} children
@@ -294,12 +311,7 @@ BrowserCustomizableInternal.prototype = {
 				}
 
 				if (
-					"canAppendChild" in parentElement
-						? /** @type {any} */ (parentElement).canAppendChild(
-								childComponent,
-								internalPart
-						  )
-						: true
+					this.canAppendChildTo(parentElement, childComponent, part)
 				) {
 					const renderPart = this.getPartByName(
 						parentElement,
@@ -338,7 +350,9 @@ BrowserCustomizableInternal.prototype = {
 					this.dispatchMountEvent(childComponent);
 				} else {
 					throw new Error(
-						`Rendering of children to '${part}' was disallowed in '${parentElement.tagName}'.`
+						internalPart == "customizable"
+							? `Child '${childComponent.tagName}' is not allowed in '${parentElement.tagName}'.`
+							: `Child '${childComponent.tagName}' is not allowed in '${part}' for '${parentElement.tagName}'.`
 					);
 				}
 			}

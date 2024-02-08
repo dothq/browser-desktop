@@ -16,8 +16,6 @@ class BrowserWebFrame extends MozHTMLElement {
 
 		// Needed for compatibility with external modules like DevTools
 		this.classList.add("browserStack");
-
-		this.appendChild(html("browser-status"));
 	}
 
 	disconnectedCallback() {

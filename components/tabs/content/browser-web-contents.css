@@ -17,6 +17,14 @@ browser-web-contents .wc-container {
     overflow: clip;
     background-color: var(--chrome-content-separator-color);
     border-radius: max(calc(var(--radii-top-left, 0px) - 2px), 0px) max(calc(var(--radii-top-right, 0px) - 2px), 0px) max(calc(var(--radii-bottom-right, 0px) - 2px), 0px) max(calc(var(--radii-bottom-left, 0px) - 2px), 0px);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+:host(browser-web-contents) .customizable-container {
+    z-index: 5;
+    pointer-events: none;
 }
 
 browser-web-contents[borders~="top"] .wc-border-line.top {

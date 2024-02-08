@@ -2,7 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-class BrowserWebContents extends MozHTMLElement {
+class BrowserWebContents extends BrowserCustomizableArea {
+	constructor() {
+		super();
+	}
+
 	get elements() {
 		return {
 			topLine: html("div", {
@@ -17,15 +21,6 @@ class BrowserWebContents extends MozHTMLElement {
 			bottomLine: html("div", {
 				class: "wc-border-line bottom"
 			})
-		};
-	}
-
-	/**
-	 * The allowed customizable attributes for web contents
-	 */
-	static get customizableAttributes() {
-		return {
-			status: "boolean"
 		};
 	}
 
@@ -52,6 +47,15 @@ class BrowserWebContents extends MozHTMLElement {
 					html("slot", { name: "web-contents" })
 				)
 		);
+	}
+
+	/**
+	 * Determines if a node can be appended to this element
+	 * @param {Node} node
+	 * @param {string} part
+	 */
+	canAppendChild(node, part) {
+		return node instanceof BrowserStatusPanel;
 	}
 
 	/**
@@ -103,7 +107,7 @@ class BrowserWebContents extends MozHTMLElement {
 	}
 
 	connectedCallback() {
-		if (this.delayConnectedCallback()) return;
+		super.connect("web-contents", {});
 
 		this.updateBorders();
 
@@ -115,6 +119,8 @@ class BrowserWebContents extends MozHTMLElement {
 				this.slotContainerElement
 			)
 		);
+
+		this.shadowRoot.appendChild(html("slot"));
 
 		this.tabpanel.toggleAttribute("status", this.hasAttribute("status"));
 
