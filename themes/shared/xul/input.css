@@ -80,15 +80,15 @@ html|select:is(:focus-visible):is(:active, [active], [mouseactive]):not(:disable
     --button-background: var(--button-active-color);
 }
 
-button:disabled>*,
+button:disabled .browser-button-container,
 select:disabled,
-xul|button:disabled>*,
-html|button:disabled>*,
+xul|button:disabled .browser-button-container,
+html|button:disabled .browser-button-container,
 html|select:disabled,
-button[disabled],
+button[disabled] .browser-button-container,
 select[disabled],
-xul|button[disabled],
-html|button[disabled],
+xul|button[disabled] .browser-button-container,
+html|button[disabled] .browser-button-container,
 html|select[disabled] {
     filter: opacity(var(--button-disabled-opacity));
     pointer-events: none;
