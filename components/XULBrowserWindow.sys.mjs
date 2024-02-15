@@ -2,12 +2,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { setTimeout, clearTimeout } = ChromeUtils.importESModule(
+	"resource://gre/modules/Timer.sys.mjs"
+);
+
 /**
  * Handles communication between the engine to
  * receive events and pass them to their respective
  * locations.
  */
-class nsIXULBrowserWindow {
+export class XULBrowserWindow {
+	/** @type {Window} */
+	#win = null;
+
+	get #doc() {
+		return this.#win.document;
+	}
+
 	status = "";
 	defaultStatus = "";
 	overLink = "";
@@ -37,11 +48,11 @@ class nsIXULBrowserWindow {
 	// Stubbing stopCommand and reloadCommand so we can overlay our own
 	// reload/stop implementation
 	get stopCommand() {
-		return document.createElement("div");
+		return this.#doc.createElement("div");
 	}
 
 	get reloadCommand() {
-		return document.createElement("div");
+		return this.#doc.createElement("div");
 	}
 
 	/**
@@ -49,8 +60,10 @@ class nsIXULBrowserWindow {
 	 */
 	get tooltipElement() {
 		return /** @type {BrowserRemoteTooltip} */ (
-			document.documentElement.querySelector("#browser-remote-tooltip") ||
-				document.createXULElement("tooltip", {
+			this.#doc.documentElement.querySelector(
+				"#browser-remote-tooltip"
+			) ||
+				this.#doc.createXULElement("tooltip", {
 					is: "browser-remote-tooltip"
 				})
 		);
@@ -71,7 +84,8 @@ class nsIXULBrowserWindow {
 		clearTimeout(this._overlinkInt);
 
 		this._overlinkInt = setTimeout(() => {
-			gDot.status.setStatus("overLink", url);
+			console.log("todo: rewrite to use actor");
+			this.#win.gDot.status.setStatus("overLink", url);
 		}, 100);
 	}
 
@@ -93,15 +107,15 @@ class nsIXULBrowserWindow {
 			return;
 		}
 
-		if (!document.hasFocus()) return;
+		if (!this.#doc.hasFocus()) return;
 
-		document.documentElement.appendChild(this.tooltipElement);
+		this.#doc.documentElement.appendChild(this.tooltipElement);
 
 		this.tooltipElement.label = label;
 		this.tooltipElement.style.direction = direction;
 		this.tooltipElement.openPopupAtScreen(
-			x / window.devicePixelRatio,
-			y / window.devicePixelRatio,
+			x / this.#win.devicePixelRatio,
+			y / this.#win.devicePixelRatio,
 			false,
 			null
 		);
@@ -112,7 +126,7 @@ class nsIXULBrowserWindow {
 	}
 
 	getTabCount() {
-		return gDot.tabs.length;
+		return this.#win.gDot?.tabs.length || 0;
 	}
 
 	onProgressChange(...args) {
@@ -181,5 +195,12 @@ class nsIXULBrowserWindow {
 
 	onSecurityChange(...args) {
 		return;
+	}
+
+	/**
+	 * @param {Window} win
+	 */
+	constructor(win) {
+		this.#win = win;
 	}
 }

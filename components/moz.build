@@ -20,12 +20,12 @@ DIRS += [
     "menus",
     "navigation",
     "onboarding",
-    "panels",
     "prompts",
     "search",
     "settings",
     "shortcuts",
     "startpage",
+    "startup",
     "status",
     "storage",
     "tabs",
@@ -48,6 +48,7 @@ EXTRA_JS_MODULES += [
     "DotBrowserWindow.sys.mjs",
     "DotContentHandler.sys.mjs",
     "DotGlue.sys.mjs",
+    "XULBrowserWindow.sys.mjs",
 ]
 
 XPIDL_SOURCES += [

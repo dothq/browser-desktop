@@ -58,25 +58,8 @@
             }
 
             Services.scriptloader.loadSubScript("chrome://dot/content/browser-elements.js", this);
-            Services.scriptloader.loadSubScript("chrome://dot/content/browser-window.js", this);
             Services.scriptloader.loadSubScript("chrome://dot/content/browser.js", this);
-            Services.scriptloader.loadSubScript("chrome://dot/content/browser-init.js", this);
             Services.scriptloader.loadSubScript("resource://third-party/libs/anime.js", this);
-
-            window.addEventListener(
-                "MozBeforeInitialXULLayout",
-                gDotInit.onBeforeInitialXULLayout.bind(gDotInit),
-                { once: true }
-            );
-
-            window.addEventListener("DOMContentLoaded", gDotInit.onDOMContentLoaded.bind(gDotInit), {
-                once: true
-            });
-
-            /* Initialise events */
-            window.addEventListener("load", gDotInit.onLoad.bind(gDotInit));
-            window.addEventListener("unload", gDotInit.onUnload.bind(gDotInit));
-            window.addEventListener("close", gDotInit.onWindowClosing);
         </script>
     </head>
 

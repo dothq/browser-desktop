@@ -41,6 +41,27 @@ const PREF_PDFJS_ISDEFAULT_CACHE_STATE = "pdfjs.enabledCache.state";
 
 const JSPROCESSACTORS = {};
 const JSWINDOWACTORS = {
+	BrowserStartup: {
+		parent: {
+			esModuleURI: "resource:///actors/BrowserStartupParent.sys.mjs"
+		},
+
+		child: {
+			esModuleURI: "resource:///actors/BrowserStartupChild.sys.mjs",
+			events: {
+				MozBeforeInitialXULLayout: {},
+				DOMContentLoaded: {},
+				load: { mozSystemGroup: true, capture: true },
+				unload: { mozSystemGroup: true, capture: true },
+				close: { mozSystemGroup: true, capture: true }
+			}
+		},
+
+		allFrames: true,
+		includeChrome: true,
+		matches: ["chrome://dot/content/browser.xhtml"]
+	},
+
 	ClickHandler: {
 		parent: {
 			esModuleURI: "resource:///actors/ClickHandlerParent.sys.mjs"

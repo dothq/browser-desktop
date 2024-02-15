@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var { XPCOMUtils } = ChromeUtils.importESModule(
-	"resource://gre/modules/XPCOMUtils.sys.mjs"
+"resource://gre/modules/XPCOMUtils.sys.mjs"
 );
 
 var { AppConstants } = ChromeUtils.importESModule(
@@ -55,7 +55,7 @@ const {
 const { LOAD_FLAGS_NONE, LOAD_FLAGS_FROM_EXTERNAL, LOAD_FLAGS_FIRST_LOAD } =
 	Ci.nsIWebNavigation;
 
-export class nsBrowserAccess {
+export class DotBrowserWindow {
 	QueryInterface = ChromeUtils.generateQI(["nsIBrowserDOMWindow"]);
 
 	/** @type {Window} */
