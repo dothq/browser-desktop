@@ -18,6 +18,10 @@ const { BrowserTabsUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserTabsUtils.sys.mjs"
 );
 
+const { ProcessArguments } = ChromeUtils.importESModule(
+	"resource://gre/modules/ProcessArguments.sys.mjs"
+);
+
 /**
  * Clamps a number between a min and max value
  * @param {number} value
@@ -445,7 +449,7 @@ BrowserTabs.prototype = {
 	 * @param {boolean} [options.disableTRR] - Disables TRR for resolving host names
 	 * @param {boolean} [options.forceAllowDataURI] - Allows for data: URI navigation
 	 * @param {any} [options.postData] - The POST data to submit with the returned URI (see nsISearchSubmission).
-	 * @param {string} [options.initialBrowsingContextGroupId] - The initial browsing context group ID to use for the browser.
+	 * @param {number} [options.initialBrowsingContextGroupId] - The initial browsing context group ID to use for the browser.
 	 */
 	createTab(options) {
 		if (!options.triggeringPrincipal) {
@@ -929,6 +933,26 @@ BrowserTabs.prototype = {
 	},
 
 	/**
+	 * Obtains the tab to adopt
+	 * @returns {BrowserTab}
+	 */
+	getTabToAdopt() {
+		const { tabToAdopt } = ProcessArguments.getArguments(this._win);
+
+		return tabToAdopt;
+	},
+
+	/**
+	 * Obtains the URI or URIs to load
+	 * @returns {string | string[]}
+	 */
+	getURIToLoad() {
+		const { uriToLoad } = ProcessArguments.getArguments(this._win);
+
+		return uriToLoad;
+	},
+
+	/**
 	 * Creates a browser for the initial load
 	 *
 	 * We need a tab to exist right as we boot the browser so we can adopt
@@ -950,7 +974,7 @@ BrowserTabs.prototype = {
 		}
 
 		// If we are providing a tab for adoption, make sure this is used
-		const adoptedTab = this._win.gDotInit.getTabToAdopt();
+		const adoptedTab = this.getTabToAdopt();
 
 		// If the adopted tab has a userContextId, we can use that instead
 		if (adoptedTab && adoptedTab.hasAttribute("usercontextid")) {
@@ -984,7 +1008,7 @@ BrowserTabs.prototype = {
 				remoteType = E10SUtils.NOT_REMOTE;
 			}
 		} else {
-			let uriToLoad = this._win.gDotInit.uriToLoadPromise;
+			let uriToLoad = this.getURIToLoad();
 			// If we have a URI to load, we only need the first item
 			if (uriToLoad && Array.isArray(uriToLoad)) {
 				uriToLoad = uriToLoad[0];
