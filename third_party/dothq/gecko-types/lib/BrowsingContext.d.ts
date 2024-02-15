@@ -10,6 +10,12 @@ export interface BrowsingContextGlobal {
     getFromWindow(win: Window): BrowsingContext;
 }
 
+export interface BrowsingContextGroup {
+    getToplevels(): BrowsingContext[];
+
+    readonly id: number;
+}
+
 export interface BrowsingContext {
     /**
      * A unique identifier for the browser element that is hosting this
@@ -42,4 +48,6 @@ export interface BrowsingContext {
     secureBrowserUI: nsISecureBrowserUI;
 
     currentWindowGlobal: WindowGlobalParent;
+
+    group: BrowsingContextGroup;
 }
