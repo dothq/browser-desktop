@@ -107,6 +107,8 @@ export interface MozElementMixinStatic {
 	 *        Array of interface names.
 	 */
 	implementCustomInterface(cls: any, ifaces: string[]): void;
+
+    isInstance: (el: MozElementMixin) => boolean;
 }
 
 export interface MozElementMixin {
