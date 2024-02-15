@@ -22,12 +22,6 @@
 @import url("chrome://dot/content/widgets/browser-web-contents.css");
 @import url("chrome://dot/content/widgets/browser-customizable-template.css");
 @import url("chrome://dot/content/widgets/browser-customizable-area-empty.css");
-@import url("chrome://dot/content/widgets/browser-panel.css");
-@import url("chrome://dot/content/widgets/browser-panel-area.css");
-@import url("chrome://dot/content/widgets/browser-multipanel-area.css");
-@import url("chrome://dot/content/widgets/browser-panel-menu.css");
-@import url("chrome://dot/content/widgets/browser-panel-menuitem.css");
-@import url("chrome://dot/content/widgets/browser-identity-panel.css");
 @import url("chrome://dot/content/widgets/browser-context-menu.css");
 @import url("chrome://dot/content/widgets/browser-debug-hologram.css");
 @import url("chrome://dot/content/widgets/browser-group.css");
