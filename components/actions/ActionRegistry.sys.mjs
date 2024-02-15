@@ -14,9 +14,6 @@ const ALL_ACTIONS = [
 	// browser.developer
 	"browser.developer.inspect",
 
-	// browser.panels
-	"browser.panels.open",
-
 	// browser.tabs
 	"browser.tabs.close_tab",
 	"browser.tabs.go_back",

@@ -101,12 +101,7 @@ export class TabIdentityCommand extends TabCommand {
 	 * @param {Event} event
 	 */
 	_openPanel(event) {
-		this.actions.run("browser.panels.open", {
-			id: "identity-panel",
-
-			opener: event.target,
-			anchor: "before after"
-		});
+		console.log("_openPanel");
 	}
 
 	/**

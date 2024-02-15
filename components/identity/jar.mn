@@ -6,5 +6,3 @@
 
 dot.jar:
 % content dot %content/ contentaccessible=yes
-    content/widgets/browser-identity-panel.js              (content/browser-identity-panel.js)
-    content/widgets/browser-identity-panel.css             (content/browser-identity-panel.css)

@@ -34,10 +34,6 @@ var { BrowserActions } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserActions.sys.mjs"
 );
 
-var { BrowserPanels } = ChromeUtils.importESModule(
-	"resource:///modules/BrowserPanels.sys.mjs"
-);
-
 var { BrowserStorage } = ChromeUtils.importESModule(
 	"resource:///modules/BrowserStorage.sys.mjs"
 );
@@ -94,9 +90,6 @@ class BrowserApplication extends BrowserCustomizableArea {
 
 	/** @type {typeof BrowserActions.prototype} */
 	actions = null;
-
-	/** @type {typeof BrowserPanels.prototype} */
-	panels = null;
 
 	/** @type {typeof BrowserStorage.prototype} */
 	storage = null;
@@ -249,7 +242,6 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.shortcuts = new BrowserShortcuts();
 		this.commands = new BrowserCommands(window);
 		this.actions = new BrowserActions(this);
-		this.panels = new BrowserPanels(window);
 		this.accessibility = new BrowserAccessibility(window);
 		this.prompts = new BrowserPrompts(window);
 		this.status = new BrowserStatus(window);

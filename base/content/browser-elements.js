@@ -42,14 +42,6 @@ let noCallbackElements = [
 
 	"chrome://dot/content/widgets/browser-command-element.js",
 
-	"chrome://dot/content/widgets/browser-panel.js",
-	"chrome://dot/content/widgets/browser-panel-area.js",
-	"chrome://dot/content/widgets/browser-multipanel-area.js",
-	"chrome://dot/content/widgets/browser-panel-menu.js",
-	"chrome://dot/content/widgets/browser-panel-menuitem.js",
-
-	"chrome://dot/content/widgets/browser-customizable-area-overflow-menu.js",
-
 	"chrome://dot/content/widgets/browser-group.js",
 	"chrome://dot/content/widgets/browser-separator.js",
 
@@ -58,7 +50,6 @@ let noCallbackElements = [
 	"chrome://dot/content/widgets/browser-toolbar-button.js",
 	"chrome://dot/content/widgets/browser-tab-button.js",
 	"chrome://dot/content/widgets/browser-urlbar-button.js",
-	"chrome://dot/content/widgets/browser-panel-button.js",
 
 	"chrome://dot/content/widgets/browser-urlbar-input.js",
 
@@ -72,8 +63,6 @@ let noCallbackElements = [
 
 	"chrome://dot/content/widgets/browser-customizable-area-empty.js",
 	"chrome://dot/content/widgets/browser-customizable-template.js",
-
-	"chrome://dot/content/widgets/browser-identity-panel.js",
 
 	"chrome://dot/content/widgets/browser-tab.js",
 	"chrome://dot/content/widgets/browser-tab-icon.js",
