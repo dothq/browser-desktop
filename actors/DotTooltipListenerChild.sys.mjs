@@ -154,10 +154,19 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 
 			Services.els.removeSystemEventListener(
 				this._currentTooltip,
+				"popupshowing",
+				this,
+				false
+			);
+
+			Services.els.removeSystemEventListener(
+				this._currentTooltip,
 				"popuphiding",
 				this,
 				false
 			);
+
+			this._currentTriggerNode.removeAttribute("tooltipopen");
 
 			this.killTooltipTimer();
 
@@ -355,6 +364,13 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 
 		Services.els.addSystemEventListener(
 			tooltip,
+			"popupshowing",
+			this,
+			false
+		);
+
+		Services.els.addSystemEventListener(
+			tooltip,
 			"popuphiding",
 			this,
 			false
@@ -383,7 +399,7 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 				this._currentTriggerNode,
 				tooltipAnchor,
 				0,
-				-kTooltipMouseTopMargin,
+				0,
 				false,
 				false,
 				event
@@ -508,6 +524,18 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 	}
 
 	/**
+	 * Fired when the tooltip starts showing
+	 */
+	onTooltipShowing() {
+		if (!this._currentTooltip) return;
+
+		this._currentTriggerNode.setAttribute(
+			"tooltipopen",
+			this._currentTooltip.id || ""
+		);
+	}
+
+	/**
 	 * Adds tooltip support to a node
 	 * @param {Node} node
 	 */
@@ -546,6 +574,11 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 			) {
 				this.hideTooltip();
 			}
+			return;
+		}
+
+		if (event.type == "popupshowing") {
+			this.onTooltipShowing();
 			return;
 		}
 
