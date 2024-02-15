@@ -54,6 +54,16 @@ class BrowserStatusPanel extends BrowserContextualMixin(MozHTMLElement) {
 	 */
 	getStatus() {
 		for (const statusType of this.STATUS_HIERARCHY) {
+			// Special case for busy statuses:
+			// Ensure the document is actually loading,
+			// otherwise we just skip it.
+			if (
+				statusType == "busy" &&
+				!this.hostContext.browser.webProgress.isLoadingDocument
+			) {
+				continue;
+			}
+
 			const statusValue =
 				this.status.getStatus(statusType) ||
 				this.status.getTabStatus(this.hostContext.tab, statusType);
@@ -86,13 +96,8 @@ class BrowserStatusPanel extends BrowserContextualMixin(MozHTMLElement) {
 			this.setAttribute("statustype", type);
 		}
 
-		const isActive =
-			type == "busy"
-				? this.hostContext.browser.webProgress.isLoadingDocument
-				: type;
-
 		this.removeAttribute("inactive-instant");
-		this.toggleAttribute("inactive", !isActive);
+		this.toggleAttribute("inactive", !type);
 	}
 
 	/**
@@ -113,11 +118,10 @@ class BrowserStatusPanel extends BrowserContextualMixin(MozHTMLElement) {
 
 	/**
 	 * Fired when the active tab is changed
-	 * @param {CustomEvent<{ tab: BrowserTab; }>} event
+	 * @param {CustomEvent<BrowserTab>} event
 	 */
 	onTabChanged(event) {
-		const { tab } = event.detail;
-
+		const tab = event.detail;
 		if (tab !== this.hostContext.tab) return;
 
 		this._update();
