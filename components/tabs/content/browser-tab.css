@@ -66,7 +66,8 @@ browser-tab:hover {
     --tab-label-mask-size: 1em;
 }
 
-browser-tab[selected] {
+browser-tab[selected],
+browser-tab[tooltipopen="browser-tabs-tooltip"] {
     --tab-background: var(--toolbar-bgcolor);
 }
 

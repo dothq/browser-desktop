@@ -10,47 +10,42 @@ tooltip[is=browser-tabs-tooltip] {
     .tabs-tooltip-container {
         display: flex;
         flex-direction: column;
-        gap: 2px;
 
-        max-width: 300px;
+        max-width: var(--tabs-tooltip-width);
+        max-height: calc(150px + var(--tabs-tooltip-height));
+        border-radius: 8px;
 
-        border-radius: 10px;
+        overflow: clip;
 
-        background-color: var(--arrowpanel-background);
-        color: var(--arrowpanel-color);
-
+        box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, .132), 0 1.2px 3.6px 0 rgba(0, 0, 0, .108);
         outline: 1px solid var(--arrowpanel-border-color);
-        outline-offset: -1px;
 
-        padding: 12px;
-        margin-block-start: 21px;
+        padding-block-start: var(--tabs-tooltip-height);
 
-        box-shadow: 0 3.2px 7.2px 0 rgba(0, 0, 0, .132), 0 .6px 1.8px 0 rgba(0, 0, 0, .108);
+        transition: 0.3s background-color;
 
-        .tabs-tooltip-title {
-            font-weight: bold;
-        }
+        .tabs-tooltip-preview-container {
+            display: flex;
+            flex-direction: column;
 
-        .tabs-tooltip-uri {
-            color: color-mix(in srgb, currentColor 80%, transparent 100%);
+            background-color: var(--tabs-tooltip-background, var(--toolbar-bgcolor));
+
+            width: calc(100% - 4px * 2);
+            max-height: var(--tabs-tooltip-preview-height);
+
+            --tabs-tooltip-preview-padding: 4px;
+
             overflow: clip;
-            white-space: nowrap;
 
-            &:-moz-locale-dir(ltr) {
-                mask-image: linear-gradient(to left, transparent, black 2em);
+            padding-inline: var(--tabs-tooltip-preview-padding);
+
+            transition: 0.1s max-height cubic-bezier(0.77, 0, 0.18, 1), 0.3s background-color;
+
+            .tabs-tooltip-preview-canvas {
+                border-radius: 6px;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                margin-block-end: var(--tabs-tooltip-preview-padding);
             }
-
-            &:-moz-locale-dir(rtl) {
-                mask-image: linear-gradient(to right, transparent, black 2em);
-            }
-        }
-
-        .tabs-tooltip-canvas {
-            border: 1px solid var(--arrowpanel-border-color);
-
-            border-radius: 6px;
-
-            margin-block-start: 6px;
         }
     }
 }

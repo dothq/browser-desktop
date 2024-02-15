@@ -12,12 +12,22 @@ var { BrowserTabsUtils } = ChromeUtils.importESModule(
 
 class BrowserTabsTooltip extends BrowserTooltip {
 	/**
-	 * The tabs tooltip container
+	 * The tabs tooltip tab container
 	 */
-	get container() {
-		return (
-			this.querySelector(".tabs-tooltip-container") ||
-			html("div", { class: "tabs-tooltip-container" })
+	get tabContainer() {
+		return /** @type {HTMLDivElement} */ (
+			this.querySelector(".tabs-tooltip-tab-container") ||
+				html("div", { class: "tabs-tooltip-tab-container" })
+		);
+	}
+
+	/**
+	 * The tabs tooltip preview container
+	 */
+	get previewContainer() {
+		return /** @type {HTMLDivElement} */ (
+			this.querySelector(".tabs-tooltip-preview-container") ||
+				html("div", { class: "tabs-tooltip-preview-container" })
 		);
 	}
 
@@ -26,17 +36,13 @@ class BrowserTabsTooltip extends BrowserTooltip {
 	 */
 	get elements() {
 		return {
-			title: /** @type {HTMLSpanElement} */ (
-				this.querySelector(".tabs-tooltip-title") ||
-					html("span", { class: "tabs-tooltip-title" })
-			),
-			uri: /** @type {HTMLSpanElement} */ (
-				this.querySelector(".tabs-tooltip-uri") ||
-					html("span", { class: "tabs-tooltip-uri" })
-			),
-			canvas: /** @type {HTMLCanvasElement} */ (
-				this.querySelector(".tabs-tooltip-canvas") ||
-					html("canvas", { class: "tabs-tooltip-canvas" })
+			previewCanvas: /** @type {HTMLCanvasElement} */ (
+				this.querySelector(".tabs-tooltip-preview-canvas") ||
+					html("canvas", {
+						class: "tabs-tooltip-preview-canvas",
+						width: 300,
+						height: 150
+					})
 			)
 		};
 	}
@@ -54,60 +60,58 @@ class BrowserTabsTooltip extends BrowserTooltip {
 	}
 
 	/**
-	 * The tabs tooltip canvas' 2D context
+	 * The tabs tooltip preview canvas' 2D context
 	 */
-	get canvasCtx() {
-		return this.elements.canvas.getContext("2d");
+	get previewCanvasCtx() {
+		return this.elements.previewCanvas.getContext("2d");
 	}
 
 	/**
-	 * Takes a capture of the browser contents to a canvas
-	 * @param {ChromeBrowser} browser
+	 * Takes a capture of the tab to a canvas
+	 * @param {BrowserRenderedTab} tab
 	 */
-	_captureToCanvas(browser) {
-		PageThumbs.captureToCanvas(browser, this.elements.canvas, {
-			fullViewport: true
-		});
+	async _captureToCanvas(tab) {
+		PageThumbs.captureToCanvas(
+			tab.linkedTab.linkedBrowser,
+			this.elements.previewCanvas,
+			{
+				targetWidth: 1000
+			}
+		);
 	}
 
 	/**
 	 * Updates the tooltip with information about a tab
-	 * @param {BrowserTab} tab
+	 * @param {BrowserRenderedTab} tab
 	 */
 	setTooltipTab(tab) {
-		this.elements.title.textContent = "";
-		this.elements.uri.textContent = "";
-		this.canvasCtx.clearRect(
+		this.previewCanvasCtx.clearRect(
 			0,
 			0,
-			this.elements.canvas.width,
-			this.elements.canvas.height
+			this.elements.previewCanvas.width,
+			this.elements.previewCanvas.height
 		);
+
 		clearTimeout(this.browserThumbnailTimeout);
 
 		if (!tab) {
 			return;
 		}
 
-		const browser = tab.linkedBrowser;
+		const browser = tab.linkedTab.linkedBrowser;
 
 		this.setAttribute("label", browser.contentTitle);
 
-		this.elements.title.textContent = browser.contentTitle;
-		this.elements.uri.textContent = BrowserTabsUtils.formatURI(
-			browser.currentURI.spec,
-			{
-				trimProtocol: true,
-				trimTrailingSlash: true,
-				trimWWWSubdomain: true
-			}
-		);
+		const bounds = tab.getBoundingClientRect();
 
-		this._captureToCanvas(browser);
+		this.style.setProperty("--tabs-tooltip-width", bounds.width + "px");
+		this.style.setProperty("--tabs-tooltip-height", bounds.height + "px");
+
+		this._captureToCanvas(tab);
 
 		if (this.canvasRefreshInterval > 0) {
 			this.browserThumbnailTimeout = setInterval(
-				() => this._captureToCanvas(browser),
+				() => this._captureToCanvas(tab),
 				this.canvasRefreshInterval
 			);
 		}
@@ -122,9 +126,7 @@ class BrowserTabsTooltip extends BrowserTooltip {
 			this.triggerNode &&
 			this.triggerNode instanceof BrowserRenderedTab
 		) {
-			const tab = this.triggerNode.linkedTab;
-
-			this.setTooltipTab(tab);
+			this.setTooltipTab(this.triggerNode);
 		}
 	}
 
@@ -161,13 +163,15 @@ class BrowserTabsTooltip extends BrowserTooltip {
 		this.addEventListener("popupshowing", this);
 		this.addEventListener("popuphidden", this);
 
-		this.appendChild(this.container);
-
-		this.container.append(
-			this.elements.title,
-			this.elements.uri,
-			this.elements.canvas
+		this.appendChild(
+			html(
+				"div",
+				{ class: "tabs-tooltip-container" },
+				this.previewContainer
+			)
 		);
+
+		this.previewContainer.appendChild(this.elements.previewCanvas);
 	}
 
 	disconnectedCallback() {

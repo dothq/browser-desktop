@@ -494,7 +494,7 @@ class BrowserRenderedTab extends BrowserCustomizableArea {
 
 		this.hidden = true;
 		this.setAttribute("tooltip", "browser-tabs-tooltip");
-		this.setAttribute("tooltipanchor", "after_start");
+		this.setAttribute("tooltipanchor", "overlap");
 
 		this.shadowRoot.appendChild(html("slot", { name: "tab-internal" }));
 		this.appendChild(
