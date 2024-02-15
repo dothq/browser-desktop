@@ -2,10 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import type { nsBrowserAccess } from "components/DotBrowserWindow.sys.mjs";
+import type { XULBrowserWindow } from "components/XULBrowserWindow.sys.mjs";
 import "./mozbuild";
 import "./third_party/dothq/gecko-types";
 import * as Gecko from "./third_party/dothq/gecko-types/lib";
+import type { DotBrowserWindow } from "components/DotBrowserWindow.sys.mjs";
 
 type MozXULElement = {
 	prototype: Gecko.MozXULElement;
@@ -30,8 +31,8 @@ declare global {
 
 	var gDot: BrowserApplication;
 	var gDotInit: typeof gDotInit;
-	var XULBrowserWindow: nsIXULBrowserWindow;
-	var browserDOMWindow: nsBrowserAccess;
+	var XULBrowserWindow: XULBrowserWindow;
+	var browserDOMWindow: DotBrowserWindow;
 
 	var XULElement: Gecko.XULElement;
 	var XULFrameElement: Gecko.XULElement;
@@ -97,7 +98,8 @@ declare global {
 		windowRoot: Gecko.WindowRoot;
         browsingContext: Gecko.BrowsingContext;
         promiseDocumentFlushed: (callback: Function) => Promise<any>
-        XULBrowserWindow: nsIXULBrowserWindow;
+        XULBrowserWindow: XULBrowserWindow;
+        browserDOMWindow: DotBrowserWindow;
 	}
 
 	interface Document {
