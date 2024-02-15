@@ -21,10 +21,6 @@ menupopup:not([animate="open"]):not([animate="false"]) {
     transition: 0.1s opacity cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-menupopup[animating] {
-    pointer-events: none;
-}
-
 :host(menupopup) arrowscrollbox::part(scrollbutton-up),
 :host(menupopup) arrowscrollbox::part(scrollbutton-down),
 :host(menupopup) arrowscrollbox::part(overflow-start-indicator),
