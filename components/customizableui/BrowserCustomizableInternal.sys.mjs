@@ -16,6 +16,10 @@ const { BrowserCustomizableAttributes: Attributes } =
 		"resource://gre/modules/BrowserCustomizableAttributes.sys.mjs"
 	);
 
+const { BrowserCustomizableComponent: Component } = ChromeUtils.importESModule(
+	"resource://gre/modules/BrowserCustomizableComponent.sys.mjs"
+);
+
 const { JsonSchema } = ChromeUtils.importESModule(
 	"resource://gre/modules/JsonSchema.sys.mjs"
 );
@@ -43,10 +47,10 @@ BrowserCustomizableInternal.prototype = {
 	stateSchema: null,
 
 	/**
-	 * A map of reusable templates
-	 * @type {Map<string, (area: BrowserCustomizableArea) => DocumentFragment>}
+	 * THe customizable components instance
+	 * @type {typeof Components["prototype"]}
 	 */
-	templates: new Map(),
+	components: null,
 
 	/**
 	 * Fetches the customizable state schema
@@ -155,26 +159,11 @@ BrowserCustomizableInternal.prototype = {
 
 		let element;
 
-		if (type.toString().charAt(0) == "@") {
-			if (!options.area) {
-				throw new Error(
-					`Cannot render template '${type}' outside of an area!`
-				);
-			}
-
-			const templatedComponent = this.createTemplateFragment(
-				options.area,
-				type.substring(1)
-			);
-
-			return /** @type {any} */ (templatedComponent);
-		}
-
-		element = Components.createWidget(doc, type, attributes, options);
+		element = this.components.createWidget(doc, type, attributes, options);
 
 		// If we couldn't make a widget, try making this as an area instead
 		if (!element) {
-			element = Components.createArea(doc, type, attributes);
+			element = this.components.createArea(doc, type, attributes);
 		}
 
 		Shared.logger.debug(`Created new component '${type}'.`, element);
@@ -192,7 +181,7 @@ BrowserCustomizableInternal.prototype = {
 	 * @param {Element} parentElement
 	 */
 	isChildCapable(parentElement) {
-		return !!Components.childCapableElements
+		return !!this.components.childCapableElements
 			.map((tag) => parentElement.ownerGlobal.customElements.get(tag))
 			.find((i) => parentElement instanceof i);
 	},
@@ -459,95 +448,52 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
-	 * Renders a registered template
-	 * @param {BrowserCustomizableArea} area
-	 * @param {string} templateId
-	 * @returns {Element | DocumentFragment}
+	 * Initialises the customizable components singleton
 	 */
-	createTemplateFragment(area, templateId) {
-		if (!this.templates.has(templateId)) {
-			return document.createDocumentFragment();
-		}
-
-		const templateRenderer = this.templates.get(templateId);
-
-		try {
-			const fragment = templateRenderer.call(this, area);
-
-			return fragment;
-		} catch (e) {
-			throw new Error(
-				`Failed to render template with name '${templateId}':\n` +
-					e.toString().replace(/^Error: /, "") +
-					"\n\n" +
-					e.stack || ""
-			);
-		}
+	initComponents() {
+		this.components = new Components();
 	},
 
 	/**
-	 * Creates a new template renderer from its component definition
-	 * @param {CustomizableComponentDefinition | CustomizableComponentDefinition[]} template
-	 */
-	createTemplateRenderer(template) {
-		/** @param {BrowserCustomizableArea} area */
-		return (area) => {
-			const templateRoot =
-				area.ownerGlobal.document.createDocumentFragment();
-
-			if (Array.isArray(template)) {
-				templateRoot.replaceChildren(
-					...template.map((child) =>
-						this.createComponentFromDefinition(child, { area })
-					)
-				);
-			} else {
-				templateRoot.appendChild(
-					this.createComponentFromDefinition(template, { area })
-				);
-			}
-
-			return templateRoot;
-		};
-	},
-
-	/**
-	 * Registers a new reusable template
+	 * Registers a new user-defined custom component
 	 * @param {BrowserCustomizableArea} parent
-	 * @param {string} name
-	 * @param {CustomizableComponentDefinition | CustomizableComponentDefinition[]} template
+	 * @param {string} id
+	 * @param {{ name: string; extends: string; attributes?: Record<string, any>; children: CustomizableComponentDefinition[] }} component
 	 */
-	registerTemplate(parent, name, template) {
-		if (this.templates.has(name)) {
-			throw new Error(`Template with name '${name}' already exists!`);
-		}
+	registerCustomComponent(parent, id, component) {
+		const extendsArea = this.components.getComponentInstance(
+			Component.TYPE_AREA,
+			component.extends
+		);
 
-		const renderer = this.createTemplateRenderer(template);
-
-		try {
-			renderer.call(this, parent);
-		} catch (e) {
+		if (!extendsArea) {
 			throw new Error(
-				`Failed to create template with name '${name}':\n` +
-					e.toString().replace(/^Error: /, "") +
-					"\n\n" +
-					e.stack || ""
+				`No area with ID '${component.extends}' to extend!`
 			);
 		}
 
-		this.templates.set(name, renderer);
+		const render = () =>
+			this.createComponent(
+				component.extends,
+				component.attributes || {},
+				component.children
+			);
+
+		this.components.registerComponent(
+			Component.TYPE_AREA,
+			id,
+			render.bind(this)
+		);
 	},
 
 	/**
-	 * Registers templates using a KV map
+	 * Registers user-defined custom components
 	 * @param {BrowserCustomizableArea} parent
-	 * @param {Record<string, CustomizableComponentDefinition>} templates
+	 * @param {Record<string, { name: string; extends: string; attributes?: Record<string, any>; children: CustomizableComponentDefinition[] }>} components
 	 */
-	registerNamedTemplates(parent, templates) {
-		this.templates.clear();
-
-		for (const [name, template] of Object.entries(templates)) {
-			this.registerTemplate(parent, name, template);
+	registerCustomComponents(parent, components) {
+		for (const [id, component] of Object.entries(components)) {
+			this.registerCustomComponent(parent, id, component);
 		}
 	},
 

@@ -7,6 +7,9 @@
         "version": {
             "type": "integer"
         },
+        "components": {
+            "$ref": "#/$defs/custom-components-object"
+        },
         "templates": {
             "type": "object",
             "patternProperties": {
@@ -66,6 +69,35 @@
             "patternProperties": {
                 "^.*$": {
                     "$ref": "#/$defs/components-array"
+                }
+            }
+        },
+        "custom-component": {
+            "type": "object",
+            "required": [
+                "name",
+                "extends"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "extends": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "type": "object"
+                },
+                "children": {
+                    "$ref": "#/$defs/components-array"
+                }
+            }
+        },
+        "custom-components-object": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "$ref": "#/$defs/custom-component"
                 }
             }
         }

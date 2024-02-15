@@ -39,6 +39,8 @@ const registry = {
 		"components/customizableui/BrowserCustomizableAttributePrimitives.sys.mjs",
 	BrowserCustomizableAttributes:
 		"components/customizableui/BrowserCustomizableAttributes.sys.mjs",
+	BrowserCustomizableComponent:
+		"components/customizableui/BrowserCustomizableComponent.sys.mjs",
 	BrowserCustomizableComponents:
 		"components/customizableui/BrowserCustomizableComponents.sys.mjs",
 	BrowserCustomizableInternal:
@@ -56,8 +58,6 @@ const registry = {
 	BrowserMenu: "components/menus/BrowserMenu.sys.mjs",
 	BrowserMenuItem: "components/menus/BrowserMenuItem.sys.mjs",
 	BrowserMenuItemGroup: "components/menus/BrowserMenuItemGroup.sys.mjs",
-
-	BrowserPanels: "components/panels/BrowserPanels.sys.mjs",
 
 	BrowserPrompts: "components/prompts/BrowserPrompts.sys.mjs",
 

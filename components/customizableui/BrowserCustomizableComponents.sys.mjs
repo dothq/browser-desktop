@@ -6,32 +6,39 @@ const { BrowserCustomizableShared: Shared } = ChromeUtils.importESModule(
 	"resource://gre/modules/BrowserCustomizableShared.sys.mjs"
 );
 
-export const BrowserCustomizableComponents = {
+const { BrowserCustomizableComponent: Component } = ChromeUtils.importESModule(
+	"resource://gre/modules/BrowserCustomizableComponent.sys.mjs"
+);
+
+export class BrowserCustomizableComponents {
+	/** @type {Map<number, Map<string, typeof Component["prototype"]>>} */
+	components = new Map();
+
 	/**
 	 * A list of all elements that can have children
 	 */
 	get childCapableElements() {
-		return ["browser-customizable-area", "browser-panel-menuitem"];
-	},
+		return ["browser-customizable-area"];
+	}
 
 	/**
 	 * Creates a new area using its area ID and optional arguments
 	 * @param {Document} doc
 	 * @param {string} areaId
-	 * @param {Record<string, any>} [args]
+	 * @param {Record<string, any>} [attributes]
 	 */
-	createArea(doc, areaId, args) {
-		const win = doc.ownerGlobal;
-		const { html } = win;
+	createArea(doc, areaId, attributes) {
+		const component = this.getComponentInstance(
+			Component.TYPE_AREA,
+			areaId
+		);
 
-		const elementMapping = {
-			toolbar: () => html("browser-toolbar"),
-			urlbar: () => html("browser-urlbar"),
-			tabs: () => html("browser-tabs")
-		};
-
-		return areaId in elementMapping ? elementMapping[areaId]() : null;
-	},
+		if (component) {
+			return component.render(doc, attributes);
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * Creates a new widget using the area's own component suite
@@ -54,51 +61,154 @@ export const BrowserCustomizableComponents = {
 		} else {
 			return null;
 		}
-	},
+	}
+
+	/**
+	 * Registers a new component to the registry
+	 * @param {number} componentType
+	 * @param {string} componentId
+	 * @param {({
+	 *      doc,
+	 *      attributes,
+	 *      html
+	 * }: {
+	 *      doc: Document,
+	 *      attributes?: Record<string, any>,
+	 *      html: typeof globalThis["html"]
+	 * }) => Element | HTMLElement | DocumentFragment} componentRender
+	 */
+	registerComponent(componentType, componentId, componentRender) {
+		if (!this.components.get(componentType)) {
+			this.components.set(componentType, new Map());
+		}
+
+		if (this.components.get(componentType).has(componentId)) {
+			throw new Error(
+				`Component with ID '${componentId}' already exists!`
+			);
+		}
+
+		try {
+			const component = new Component(
+				componentType,
+				componentId,
+				componentRender
+			);
+
+			this.components.get(componentType).set(componentId, component);
+		} catch (e) {
+			throw new Error(
+				`Failed to register component with ID '${componentId}':\n` +
+					e.toString().replace(/^Error: /, "") +
+					"\n" +
+					e.stack || ""
+			);
+		}
+	}
+
+	/**
+	 * Obtains a component instance by its type and ID
+	 * @param {number} componentType
+	 * @param {string} componentId
+	 */
+	getComponentInstance(componentType, componentId) {
+		if (this.components.get(componentType).has(componentId)) {
+			const component = this.components
+				.get(componentType)
+				.get(componentId);
+
+			return component;
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * Creates a new widget using its widget ID and optional arguments
 	 * @param {Document} doc
 	 * @param {string} widgetId
-	 * @param {Record<string, any>} [args]
+	 * @param {Record<string, any>} [attributes]
 	 * @param {object} [options]
 	 * @param {boolean} [options.allowInternal]
 	 * @param {BrowserCustomizableArea} [options.area]
 	 */
-	createWidget(doc, widgetId, args, options) {
-		const win = doc.ownerGlobal;
-		const { html } = win;
+	createWidget(doc, widgetId, attributes, options) {
+		const component = this.getComponentInstance(
+			Component.TYPE_WIDGET,
+			widgetId
+		);
 
-		switch (widgetId) {
-			case "web-contents":
-				return html("browser-web-contents");
-			case "tab-status":
-				return html("browser-status");
-			case "tab-icon":
-				return html("browser-tab-icon");
-			case "tab-label":
-			case "tab-title":
-				return html("browser-tab-label");
-			case "spacer":
-			case "spring":
-				return html("browser-spring");
-			case "menuitem":
-				return html("browser-panel-menuitem");
-			case "separator":
-				return html("browser-separator");
-			case "":
-				return doc.createDocumentFragment();
-			default:
-				if (options && options.area) {
-					const areaComponent = this.createWidgetFromAreaComponents(
-						options.area,
-						widgetId
-					);
-
-					if (areaComponent) return areaComponent;
-				}
-
-				return null;
+		if (component) {
+			return component.render(doc, attributes);
 		}
+
+		if (options && options.area) {
+			const areaComponent = this.createWidgetFromAreaComponents(
+				options.area,
+				widgetId
+			);
+
+			if (areaComponent) return areaComponent;
+		}
+
+		return null;
 	}
-};
+
+	/**
+	 * Registers all built-in browser areas
+	 */
+	#registerAreas() {
+		this.registerComponent(Component.TYPE_AREA, "toolbar", ({ html }) =>
+			html("browser-toolbar")
+		);
+
+		this.registerComponent(Component.TYPE_AREA, "tabs", ({ html }) =>
+			html("browser-tabs")
+		);
+
+		this.registerComponent(Component.TYPE_AREA, "urlbar", ({ html }) =>
+			html("browser-urlbar")
+		);
+	}
+
+	/**
+	 * Registers all built-in browser widgets
+	 */
+	#registerWidgets() {
+		this.registerComponent(
+			Component.TYPE_WIDGET,
+			"web-contents",
+			({ html }) => html("browser-web-contents")
+		);
+
+		this.registerComponent(
+			Component.TYPE_WIDGET,
+			"tab-status",
+			({ html }) => html("browser-status")
+		);
+
+		this.registerComponent(Component.TYPE_WIDGET, "tab-icon", ({ html }) =>
+			html("browser-tab-icon")
+		);
+
+		this.registerComponent(Component.TYPE_WIDGET, "tab-label", ({ html }) =>
+			html("browser-tab-label")
+		);
+
+		this.registerComponent(Component.TYPE_WIDGET, "spring", ({ html }) =>
+			html("browser-spring")
+		);
+
+		this.registerComponent(Component.TYPE_WIDGET, "separator", ({ html }) =>
+			html("browser-separator")
+		);
+	}
+
+	constructor() {
+		/** Areas */
+		this.#registerAreas();
+
+		/** Widgets */
+		this.#registerWidgets();
+	}
+}

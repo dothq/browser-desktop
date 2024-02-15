@@ -139,7 +139,7 @@ var BrowserCommandElementMixin = (Base) => {
 				);
 			} catch (e) {
 				throw new Error(
-					`${this.constructor.name} (${this.tagName}): Failure initializing CommandSubscription for '${this.commandId}'.:\n` +
+					`${this.constructor.name} (${this.tagName}): Failure initializing CommandSubscription for '${this.commandId}':\n` +
 						e.toString().replace(/^Error: /, "") +
 						"\n\n" +
 						e.stack || ""

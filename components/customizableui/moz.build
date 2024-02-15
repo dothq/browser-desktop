@@ -10,6 +10,7 @@ EXTRA_JS_MODULES += [
     "BrowserCustomizable.sys.mjs",
     "BrowserCustomizableAttributePrimitives.sys.mjs",
     "BrowserCustomizableAttributes.sys.mjs",
+    "BrowserCustomizableComponent.sys.mjs",
     "BrowserCustomizableComponents.sys.mjs",
     "BrowserCustomizableInternal.sys.mjs",
     "BrowserCustomizableShared.sys.mjs",

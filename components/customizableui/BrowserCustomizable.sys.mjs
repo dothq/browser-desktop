@@ -98,16 +98,19 @@ BrowserCustomizable.prototype = {
 	 * Repaints the whole browser interface
 	 */
 	async _paint() {
-		const templates = this.state.templates || {};
+		// Re-init the components singleton
+		this.internal.initComponents();
+
+		const components = this.state.components || {};
 
 		Shared.logger.log(
-			`Registering ${Object.keys(templates).length} templates...`
+			`Registering ${Object.keys(components).length} components...`
 		);
 		try {
-			this.internal.registerNamedTemplates(this.renderRoot, templates);
+			this.internal.registerCustomComponents(this.renderRoot, components);
 		} catch (e) {
 			throw new Error(
-				"Failure registering template components:\n" +
+				"Failure registering custom components:\n" +
 					e.toString().replace(/^Error: /, "") +
 					"\n" +
 					e.stack || ""
@@ -115,12 +118,25 @@ BrowserCustomizable.prototype = {
 		}
 
 		Shared.logger.log("Registering root component...");
+		let rootElement = null;
+
 		try {
-			const rootElement = this.internal.createComponentFragment(
+			rootElement = this.internal.createComponentFragment(
 				this.state.state,
 				{ area: this.renderRoot }
 			);
+		} catch (e) {
+			throw new Error(
+				"Failure registering root component:\n" +
+					e.toString().replace(/^Error: /, "") +
+					"\n" +
+					e.stack || ""
+			);
+		}
 
+		const oldRoot = this._root?.cloneNode(true);
+
+		try {
 			this.renderRoot.shadowRoot
 				.querySelector(`[part="customizable"]`)
 				.replaceChildren();
@@ -130,16 +146,34 @@ BrowserCustomizable.prototype = {
 			this.renderRoot.shadowRoot
 				.querySelector(`[part="customizable"]`)
 				.append(this._root);
-
-			this.internal.dispatchMountEvent(this.renderRoot);
 		} catch (e) {
+			// If we encounter an error while rendering,
+			// attempt to recover by loading the old root
+			// into the render root.
+			//
+			// If this also fails, we can ignore it, as it's
+			// probably related to the current error.
+			try {
+				this.renderRoot.shadowRoot
+					.querySelector(`[part="customizable"]`)
+					.replaceChildren();
+
+				this._root = /** @type {DocumentFragment} */ (oldRoot);
+
+				this.renderRoot.shadowRoot
+					.querySelector(`[part="customizable"]`)
+					.append(oldRoot);
+			} catch (e) {}
+
 			throw new Error(
-				"Failure registering root component:\n" +
+				"Failure mounting root component:\n" +
 					e.toString().replace(/^Error: /, "") +
 					"\n" +
 					e.stack || ""
 			);
 		}
+
+		this.internal.dispatchMountEvent(this.renderRoot);
 	},
 
 	/**
@@ -172,15 +206,6 @@ BrowserCustomizable.prototype = {
 			Shared.customizableStatePref,
 			(() => this._update()).bind(this)
 		);
-	},
-
-	/**
-	 * Renders a template with customizable area context
-	 * @param {BrowserCustomizableArea} area
-	 * @param {string} templateId
-	 */
-	createTemplateFragment(area, templateId) {
-		return this.internal.createTemplateFragment(area, templateId);
 	},
 
 	/**
