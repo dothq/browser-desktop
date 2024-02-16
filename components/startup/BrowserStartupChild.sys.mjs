@@ -80,6 +80,11 @@ export class BrowserStartupChild extends JSWindowActorChild {
 	onLoad(event) {
 		console.log("onLoad");
 
+		Services.obs.notifyObservers(
+			this.contentWindow,
+			"browser-window-ready"
+		);
+
 		this.sendAsyncMessage("Startup::WindowLoaded");
 	}
 
