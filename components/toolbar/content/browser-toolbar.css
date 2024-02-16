@@ -65,7 +65,6 @@
     width: 0px;
     gap: 4px;
     overflow: hidden;
-    min-width: fit-content;
 }
 
 :host(browser-toolbar[orientation=horizontal])>* {
