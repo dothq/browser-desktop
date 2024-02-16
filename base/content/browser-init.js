@@ -1,19 +1,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+// @ts-ignore
+// @ts-nocheck
 
 var { XPCOMUtils } = ChromeUtils.importESModule(
 	"resource://gre/modules/XPCOMUtils.sys.mjs"
 );
 
 ChromeUtils.defineESModuleGetters(globalThis, {
-	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs",
-	SessionStartup: "resource:///modules/sessionstore/SessionStartup.sys.mjs",
-	SessionStore: "resource:///modules/sessionstore/SessionStore.sys.mjs"
-});
-
-XPCOMUtils.defineLazyModuleGetters(globalThis, {
-	AddonManager: "resource://gre/modules/AddonManager.jsm"
+	AddonManager: "resource://gre/modules/AddonManager.sys.mjs",
+	DevToolsShim: "chrome://devtools-startup/content/DevToolsShim.sys.mjs"
 });
 
 XPCOMUtils.defineLazyServiceGetters(globalThis, {
@@ -63,15 +60,6 @@ var { AccentColorManager } = ChromeUtils.importESModule(
 var { AccessibilityFocus } = ChromeUtils.importESModule(
 	"resource://gre/modules/AccessibilityFocus.sys.mjs"
 );
-
-/**
- * This is used to delay the startup of the browser
- * until we have completed the delayed startup.
- */
-globalThis.delayedStartupPromise = new Promise((resolve) => {
-	// We are assuming this is already defined by chrome://browser/content/browser.js
-	globalThis._resolveDelayedStartup = resolve;
-});
 
 if (AppConstants.ENABLE_WEBDRIVER) {
 	XPCOMUtils.defineLazyServiceGetter(
@@ -246,53 +234,42 @@ var gDotInit = {
 		return this._tabToAdopt;
 	},
 
-	_uriToLoadPromise: null,
-	get uriToLoadPromise() {
-		// Delete the existing promise if it exists
-		delete this._uriToLoadPromise;
+	get uriToLoad() {
+		// The first argument is going to be the URI to load
+		// This can be in a few different formats, so we need to handle them all
+		const uri = window.arguments?.[0];
 
-		// Create a new promise for us to use once
-		return (this._uriToLoadPromise = (() => {
-			// The first argument is going to be the URI to load
-			// This can be in a few different formats, so we need to handle them all
-			const uri = window.arguments?.[0];
+		// If it is a XULElement, we don't want to load it as it is a tab
+		// Tab adoption is handled in getTabToAdopt()
+		if (!uri || window.XULElement.isInstance(uri)) {
+			return null;
+		}
 
-			// If it is a XULElement, we don't want to load it as it is a tab
-			// Tab adoption is handled in getTabToAdopt()
-			if (!uri || window.XULElement.isInstance(uri)) {
-				return null;
-			}
+		// Get the default arguments of the browser
+		// This is going to be the homepage most of the time
+		const defaultArgs = globalThis.BrowserHandler.defaultArgs;
 
-			// Get the default arguments of the browser
-			// This is going to be the homepage most of the time
-			const defaultArgs = globalThis.BrowserHandler.defaultArgs;
+		if (uri != defaultArgs) {
+			// If the argument passed url is not the same as the one
+			// in the default arguments, we want to load it.
 
-			if (uri != defaultArgs) {
-				// If the argument passed url is not the same as the one
-				// in the default arguments, we want to load it.
-
-				if (uri instanceof Ci.nsIArray) {
-					// Transform the nsIArray of nsISupportsString's into a JS Array of
-					// JS strings.
-					return Array.from(
-						/** @type {any} */ (uri).enumerate(
-							Ci.nsISupportsString
-						),
-						(supportStr) => supportStr.data
-					);
-				} else if (uri instanceof Ci.nsISupportsString) {
-					return uri.data;
-				} else if (defaultArgs.includes("|")) {
-					return Array.from(
-						new Set([...defaultArgs.split("|"), uri])
-					);
-				}
-
-				return uri;
+			if (uri instanceof Ci.nsIArray) {
+				// Transform the nsIArray of nsISupportsString's into a JS Array of
+				// JS strings.
+				return Array.from(
+					/** @type {any} */ (uri).enumerate(Ci.nsISupportsString),
+					(supportStr) => supportStr.data
+				);
+			} else if (uri instanceof Ci.nsISupportsString) {
+				return uri.data;
+			} else if (defaultArgs.includes("|")) {
+				return Array.from(new Set([...defaultArgs.split("|"), uri]));
 			}
 
 			return uri;
-		})());
+		}
+
+		return uri;
 	},
 
 	/**
@@ -461,7 +438,7 @@ var gDotInit = {
 		Services.obs.addObserver(gRemoteControl, "remote-listening");
 
 		this.delayedStartupFinished = true;
-		globalThis._resolveDelayedStartup();
+
 		Services.obs.notifyObservers(
 			window,
 			"browser-delayed-startup-finished"
@@ -471,11 +448,12 @@ var gDotInit = {
 	onLoad() {
 		console.time("onLoad");
 
-		Services.obs.notifyObservers(window, "browser-window-ready");
+		Services.obs.notifyObservers(window, "browser-window-before-show");
 
 		// @todo: make the url bar disabled if the toolbar is not visible
 		// i.e in a popup window
 		if (!window.toolbar.visible) {
+			console.log("todo: toolbar should not be visible");
 		}
 
 		// Ensure we update the remote control visual cue

@@ -9,6 +9,7 @@ var lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
 	ActorManagerParent: "resource://gre/modules/ActorManagerParent.sys.mjs",
+	AddonManager: "resource://gre/modules/AddonManager.sys.mjs",
 	BuiltInThemes: "resource:///modules/BuiltInThemes.sys.mjs",
 	ContextualIdentityService:
 		"resource://gre/modules/ContextualIdentityService.sys.mjs",
@@ -18,7 +19,6 @@ ChromeUtils.defineESModuleGetters(lazy, {
 });
 
 XPCOMUtils.defineLazyModuleGetters(lazy, {
-	AddonManager: "resource://gre/modules/AddonManager.jsm",
 	Blocklist: "resource://gre/modules/Blocklist.jsm",
 	FeatureGate: "resource://featuregates/FeatureGate.jsm",
 	PdfJs: "resource://pdf.js/PdfJs.jsm",
@@ -521,7 +521,7 @@ export class DotGlue {
 			"nsIUserIdleService"
 		);
 
-		XPCOMUtils.defineLazyGetter(
+		ChromeUtils.defineLazyGetter(
 			this,
 			"distributionCustomizer",
 			function () {
