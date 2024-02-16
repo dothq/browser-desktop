@@ -23,7 +23,8 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			mode: "mode",
 
 			label: "string",
-			icon: "string"
+			icon: "string",
+			labelAuxiliary: "string"
 		};
 	}
 
