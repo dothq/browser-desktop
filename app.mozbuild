@@ -11,7 +11,6 @@ DIRS += [
     "/browser/actors",
     "/browser/base",
     "/browser/modules",
-    "/browser/locales",
 
     # Minimum amount of components needed to boot browser
     "/browser/components/build",
