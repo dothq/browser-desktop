@@ -28,6 +28,11 @@ html|tooltip {
         background-color: InfoBackground;
         color: InfoText;
 
+        /* Prevent overflow wrapping of the label */
+        white-space: pre;
+
+        text-align: start;
+
         /* Otherwise, use an appropriate color for our color scheme */
         &:-moz-lwtheme {
             appearance: none;
