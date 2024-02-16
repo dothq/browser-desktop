@@ -101,4 +101,9 @@ export interface ChromeUtils {
 	) => undefined;
     getClassName(object: object): string;
     requestProcInfo(): Promise<Process>;
+	defineLazyGetter: (
+		aObject: object,
+		aName: string,
+		aLambda: Function
+	) => any; 
 }

@@ -2,10 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var { XPCOMUtils } = ChromeUtils.importESModule(
-"resource://gre/modules/XPCOMUtils.sys.mjs"
-);
-
 var { AppConstants } = ChromeUtils.importESModule(
 	"resource://gre/modules/AppConstants.sys.mjs"
 );
@@ -27,7 +23,7 @@ const lazy = {
 	ReferrerInfo: {}
 };
 
-XPCOMUtils.defineLazyGetter(lazy, "ReferrerInfo", () =>
+ChromeUtils.defineLazyGetter(lazy, "ReferrerInfo", () =>
 	Components.Constructor(
 		"@mozilla.org/referrer-info;1",
 		"nsIReferrerInfo",

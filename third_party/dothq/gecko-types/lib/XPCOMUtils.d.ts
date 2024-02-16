@@ -8,6 +8,7 @@ export interface XPCOMUtils {
 	/**
 	 * Defines a getter on a specified object that will be created upon first use.
 	 *
+     * @deprecated Use ChromeUtils.defineLazyGetter instead
 	 * @param aObject
 	 *        The object to define the lazy getter on.
 	 * @param aName
