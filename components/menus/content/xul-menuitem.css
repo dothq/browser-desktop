@@ -68,6 +68,10 @@ menupopup>menu:not(:last-of-type) {
 ::slotted(.browser-menuitem-label),
 ::slotted(.browser-menuitem-accelerator) {
     font: message-box;
+    max-width: 80%;
+    overflow: clip;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 :host(menucaption) ::slotted(.browser-menuitem-label) {
