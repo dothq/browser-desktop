@@ -55,10 +55,6 @@ const registry = {
 	BrowserTabs: "components/tabs/BrowserTabs.sys.mjs",
 	BrowserTabsUtils: "components/tabs/BrowserTabsUtils.sys.mjs",
 
-	BrowserMenu: "components/menus/BrowserMenu.sys.mjs",
-	BrowserMenuItem: "components/menus/BrowserMenuItem.sys.mjs",
-	BrowserMenuItemGroup: "components/menus/BrowserMenuItemGroup.sys.mjs",
-
 	BrowserPrompts: "components/prompts/BrowserPrompts.sys.mjs",
 
 	BrowserSearch: "components/search/BrowserSearch.sys.mjs",
