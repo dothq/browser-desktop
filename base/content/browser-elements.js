@@ -53,7 +53,7 @@ let noCallbackElements = [
 
 	"chrome://dot/content/widgets/browser-urlbar-input.js",
 
-	"chrome://dot/content/widgets/browser-context-menu.js",
+	"chrome://dot/content/widgets/browser-contextual-menu.js",
 
 	"chrome://dot/content/widgets/browser-urlbar-root.js",
 	"chrome://dot/content/widgets/browser-urlbar.js",
