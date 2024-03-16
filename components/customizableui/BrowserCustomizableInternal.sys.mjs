@@ -42,9 +42,10 @@ BrowserCustomizableInternal.prototype = {
 	state: null,
 
 	/**
-	 * The customizable state JSON schema object
+	 * The customizable schema objects
+	 * @type {Record<string, object>}
 	 */
-	stateSchema: null,
+	schemas: null,
 
 	/**
 	 * THe customizable components instance
@@ -53,14 +54,18 @@ BrowserCustomizableInternal.prototype = {
 	components: null,
 
 	/**
-	 * Fetches the customizable state schema
+	 * Fetches the customizable schema
 	 */
-	async ensureStateSchema() {
-		if (this.stateSchema) return;
+	async ensureSchemas() {
+		if (this.schemas) return;
 
-		this.stateSchema = await fetch(Shared.customizableStateSchemaURI).then(
-			(r) => r.json()
-		);
+		this.schemas = /** @type {any} */ ({});
+
+		for await (const [name, uri] of Object.entries(
+			Shared.customizableSchemas
+		)) {
+			this.schemas[name] = await fetch(uri).then((r) => r.json());
+		}
 	},
 
 	/**
@@ -68,8 +73,10 @@ BrowserCustomizableInternal.prototype = {
 	 * @param {object} schema
 	 * @param {any} data
 	 */
-	_validate(schema, data) {
+	async _validate(schema, data) {
 		const validator = new JsonSchema.Validator(schema);
+
+		validator.addSchema(this.schemas.defs);
 
 		const { valid, errors } = validator.validate(data);
 
@@ -90,8 +97,8 @@ BrowserCustomizableInternal.prototype = {
 	 * @returns {Promise<object>}
 	 */
 	async parseConfig(config) {
-		return this.ensureStateSchema().then((_) => {
-			return this._validate(this.stateSchema, config);
+		return this.ensureSchemas().then((_) => {
+			return this._validate(this.schemas.state, config);
 		});
 	},
 
@@ -101,7 +108,7 @@ BrowserCustomizableInternal.prototype = {
 	async resetConfig() {
 		Shared.logger.warn("Resetting customizable state to default!");
 
-		Services.prefs.setStringPref(Shared.customizableStatePref, "{}");
+		Shared.customizablePrefs.setStringPref("state", "{}");
 	},
 
 	/**
@@ -166,12 +173,12 @@ BrowserCustomizableInternal.prototype = {
 			element = this.components.createArea(doc, type, attributes);
 		}
 
-		Shared.logger.debug(`Created new component '${type}'.`, element);
-
 		// Otherwise, this is an unknown type, we can stop here
 		if (!element) {
 			throw new Error(`Unknown component type '${type}'.`);
 		}
+
+		Shared.logger.debug(`Created new component '${type}'.`, element);
 
 		return /** @type {Element} */ (element);
 	},
@@ -183,6 +190,7 @@ BrowserCustomizableInternal.prototype = {
 	isChildCapable(parentElement) {
 		return !!this.components.childCapableElements
 			.map((tag) => parentElement.ownerGlobal.customElements.get(tag))
+			.filter(Boolean)
 			.find((i) => parentElement instanceof i);
 	},
 
@@ -201,6 +209,16 @@ BrowserCustomizableInternal.prototype = {
 		);
 
 		if (parentElement instanceof CustomizableArea) {
+			return /** @type {BrowserCustomizableArea} */ (parentElement);
+		}
+
+		// Edge case for when a parent somewhat implements the area
+		// without actually extending the customizable area class.
+		// prettier-ignore
+		const implementsContext = 
+			"CUSTOMIZABLE_AREA_IMPL" in /** @type {BrowserCustomizableContext} */ (parentElement);
+
+		if (implementsContext) {
 			return /** @type {BrowserCustomizableArea} */ (parentElement);
 		}
 
@@ -225,10 +243,11 @@ BrowserCustomizableInternal.prototype = {
 	 */
 	canAppendChildTo(parentElement, child, part) {
 		if ("canAppendChild" in parentElement && parentElement.canAppendChild) {
-			return /** @type {any} */ (parentElement).canAppendChild(
-				child,
-				part
-			);
+			const rules = /** @type {BrowserCustomizableArea} */ (
+				parentElement
+			).canAppendChild();
+
+			return rules[part] ? rules[part](child) : false;
 		} else {
 			return true;
 		}
@@ -264,23 +283,14 @@ BrowserCustomizableInternal.prototype = {
 				let childComponent = null;
 
 				try {
-					const nearestArea = this.getNearestArea(
-						parentElement,
-						options?.areaForParent
-					);
-
-					if (!nearestArea) {
-						throw new Error(
-							`Unable to locate suitable area for '${parentElement.tagName}'.`
-						);
-					}
-
 					Shared.logger.debug(
-						`Creating child '${child[0]}' using '${nearestArea.tagName}' as the area.`
+						`Creating child '${child[0]}' using '${parentElement.tagName}' as the area.`
 					);
 
 					childComponent = this.createComponentFromDefinition(child, {
-						area: nearestArea
+						area: /** @type {BrowserCustomizableArea} */ (
+							parentElement
+						)
 					});
 				} catch (e) {
 					throw new Error(
@@ -302,13 +312,8 @@ BrowserCustomizableInternal.prototype = {
 				if (
 					this.canAppendChildTo(parentElement, childComponent, part)
 				) {
-					const renderPart = this.getPartByName(
-						parentElement,
-						internalPart
-					);
-
-					let renderContainer = renderPart
-						? renderPart
+					let renderContainer = parentElement.shadowRoot
+						? this.getPartByName(parentElement, internalPart)
 						: parentElement;
 
 					if (
@@ -438,6 +443,58 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
+	 * Registers all registered custom components
+	 */
+	async registerCustomComponents() {
+		const componentPrefIds =
+			Shared.customizablePrefs.getChildList("components.");
+
+		for (const prefId of componentPrefIds) {
+			const componentId = prefId.split("components.")[1];
+
+			// Skip the registration of any components with disallowed characters
+			if (!Shared.customizableComponentTagRegex.test(componentId)) {
+				continue;
+			}
+
+			Shared.logger.debug(
+				`Registering custom component with ID '${componentId}'.`
+			);
+
+			try {
+				const serializedComponent =
+					Shared.customizablePrefs.getStringPref(prefId, "{}");
+
+				let component = {};
+
+				try {
+					component = JSON.parse(serializedComponent);
+				} catch (e) {
+					throw new Error("Failed to parse custom component.");
+				}
+
+				component = await this._validate(
+					this.schemas.custom_component,
+					component
+				);
+
+				if (!component) {
+					throw new Error("Failed to parse custom component.");
+				}
+
+				this.components.registerCustomComponent(component);
+			} catch (e) {
+				throw new Error(
+					`Failure registering custom component with ID '${componentId}':\n` +
+						e.toString().replace(/^Error: /, "") +
+						"\n\n" +
+						e.stack || ""
+				);
+			}
+		}
+	},
+
+	/**
 	 * Dispatches the customizable UI mount event to the element
 	 * @param {Element} component
 	 */
@@ -450,92 +507,9 @@ BrowserCustomizableInternal.prototype = {
 	/**
 	 * Initialises the customizable components singleton
 	 */
-	initComponents() {
+	async initComponents() {
 		this.components = new Components();
-	},
 
-	/**
-	 * Registers a new user-defined custom component
-	 * @param {BrowserCustomizableArea} parent
-	 * @param {string} id
-	 * @param {{ name: string; extends: string; attributes?: Record<string, any>; children: CustomizableComponentDefinition[] }} component
-	 */
-	registerCustomComponent(parent, id, component) {
-		const extendsArea = this.components.getComponentInstance(
-			Component.TYPE_AREA,
-			component.extends
-		);
-
-		if (!extendsArea) {
-			throw new Error(
-				`No area with ID '${component.extends}' to extend!`
-			);
-		}
-
-		const render = () =>
-			this.createComponent(
-				component.extends,
-				component.attributes || {},
-				component.children
-			);
-
-		this.components.registerComponent(
-			Component.TYPE_AREA,
-			id,
-			render.bind(this)
-		);
-	},
-
-	/**
-	 * Registers user-defined custom components
-	 * @param {BrowserCustomizableArea} parent
-	 * @param {Record<string, { name: string; extends: string; attributes?: Record<string, any>; children: CustomizableComponentDefinition[] }>} components
-	 */
-	registerCustomComponents(parent, components) {
-		for (const [id, component] of Object.entries(components)) {
-			this.registerCustomComponent(parent, id, component);
-		}
-	},
-
-	/**
-	 * Creates a slot element with a name
-	 * @param {string} name
-	 */
-	createSlot(name) {
-		const slot = this.win.document.createElement("slot");
-		slot.setAttribute("name", name);
-
-		return slot;
-	},
-
-	/**
-	 * Loads a customizable component into the window
-	 * @param {string} name
-	 */
-	_loadCustomizableComponent(name) {
-		if (this.win.customElements.get(name)) return;
-
-		Services.scriptloader.loadSubScript(
-			`chrome://dot/content/customizableui/components/${name}.js`,
-			this.win
-		);
-	},
-
-	/**
-	 * Ensures the customizable components are loaded
-	 */
-	ensureCustomizableComponents() {
-		["customizable-root", "customizable-web-contents"].forEach(
-			(component) => {
-				if (this.win.customElements.get(component)) return;
-
-				this.win.customElements.setElementCreationCallback(
-					component,
-					() => {
-						this._loadCustomizableComponent(component);
-					}
-				);
-			}
-		);
+		await this.registerCustomComponents();
 	}
 };

@@ -61,8 +61,8 @@ BrowserCustomizable.prototype = {
 		this.state = data;
 
 		if (permanent) {
-			Services.prefs.setStringPref(
-				Shared.customizableStatePref,
+			Shared.customizablePrefs.setStringPref(
+				"state",
 				JSON.stringify(data)
 			);
 		}
@@ -74,8 +74,8 @@ BrowserCustomizable.prototype = {
 	 * Refetches and validates the customizable state
 	 */
 	async _updateState() {
-		const serialized = Services.prefs.getStringPref(
-			Shared.customizableStatePref,
+		const serialized = Shared.customizablePrefs.getStringPref(
+			"state",
 			"{}"
 		);
 
@@ -99,23 +99,7 @@ BrowserCustomizable.prototype = {
 	 */
 	async _paint() {
 		// Re-init the components singleton
-		this.internal.initComponents();
-
-		const components = this.state.components || {};
-
-		Shared.logger.log(
-			`Registering ${Object.keys(components).length} components...`
-		);
-		try {
-			this.internal.registerCustomComponents(this.renderRoot, components);
-		} catch (e) {
-			throw new Error(
-				"Failure registering custom components:\n" +
-					e.toString().replace(/^Error: /, "") +
-					"\n" +
-					e.stack || ""
-			);
-		}
+		await this.internal.initComponents();
 
 		Shared.logger.log("Registering root component...");
 		let rootElement = null;
@@ -202,8 +186,13 @@ BrowserCustomizable.prototype = {
 	 * Initialises any observers needed for BrowserCustomizable
 	 */
 	_initObservers() {
-		Services.prefs.addObserver(
-			Shared.customizableStatePref,
+		Shared.customizablePrefs.addObserver(
+			"state",
+			(() => this._update()).bind(this)
+		);
+
+		Shared.customizablePrefs.addObserver(
+			"components.",
 			(() => this._update()).bind(this)
 		);
 	},
@@ -221,7 +210,6 @@ BrowserCustomizable.prototype = {
 		this.win = this.renderRoot.ownerGlobal;
 
 		this.internal = new BrowserCustomizableInternal(this.win);
-		this.internal.ensureCustomizableComponents();
 
 		this._initObservers();
 

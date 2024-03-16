@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "chrome://dot/content/customizableui/schemas/customizable_custom_component.schema.json",
+    "title": "Customizable Custom Component",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "name"
+    ]
+}

@@ -175,11 +175,12 @@ class BrowserCustomizableArea extends BrowserCustomizableContextMixin(
 
 	/**
 	 * Determines whether a child can be appended to this customizable area
-	 * @param {Element} node
-	 * @param {string} part
+	 * @returns {Record<string, (node: Element) => boolean>}
 	 */
-	canAppendChild(node, part) {
-		return !!this.shadowRoot;
+	canAppendChild() {
+		return {
+			content: () => !!this.shadowRoot
+		};
 	}
 
 	/**

@@ -11,14 +11,14 @@ const { BrowserCustomizableComponent: Component } = ChromeUtils.importESModule(
 );
 
 export class BrowserCustomizableComponents {
-	/** @type {Map<number, Map<string, typeof Component["prototype"]>>} */
+	/** @type {Map<symbol, Map<string, typeof Component["prototype"]>>} */
 	components = new Map();
 
 	/**
 	 * A list of all elements that can have children
 	 */
 	get childCapableElements() {
-		return ["browser-customizable-area"];
+		return ["browser-customizable-area", "menupopup"];
 	}
 
 	/**
@@ -34,7 +34,9 @@ export class BrowserCustomizableComponents {
 		);
 
 		if (component) {
-			return component.render(doc, attributes);
+			const element = component.render(doc, attributes);
+
+			return element;
 		} else {
 			return null;
 		}
@@ -65,7 +67,7 @@ export class BrowserCustomizableComponents {
 
 	/**
 	 * Registers a new component to the registry
-	 * @param {number} componentType
+	 * @param {symbol} componentType
 	 * @param {string} componentId
 	 * @param {({
 	 *      doc,
@@ -108,10 +110,16 @@ export class BrowserCustomizableComponents {
 
 	/**
 	 * Obtains a component instance by its type and ID
-	 * @param {number} componentType
+	 * @param {symbol} componentType
 	 * @param {string} componentId
 	 */
 	getComponentInstance(componentType, componentId) {
+		if (!Shared.customizableComponentTagRegex.test(componentId)) {
+			throw new Error(
+				`Disallowed characters in component ID '${componentId}'.`
+			);
+		}
+
 		if (this.components.get(componentType).has(componentId)) {
 			const component = this.components
 				.get(componentType)
@@ -155,6 +163,12 @@ export class BrowserCustomizableComponents {
 	}
 
 	/**
+	 * Registers a custom component
+	 * @param {object} componentDeclaration
+	 */
+	registerCustomComponent(componentDeclaration) {}
+
+	/**
 	 * Registers all built-in browser areas
 	 */
 	#registerAreas() {
@@ -168,6 +182,10 @@ export class BrowserCustomizableComponents {
 
 		this.registerComponent(Component.TYPE_AREA, "urlbar", ({ html }) =>
 			html("browser-urlbar")
+		);
+
+		this.registerComponent(Component.TYPE_AREA, "menu", ({ doc }) =>
+			doc.createXULElement("menupopup")
 		);
 	}
 

@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 export class BrowserCustomizableComponent {
-	static TYPE_WIDGET = 0;
-	static TYPE_AREA = 1;
+	static TYPE_WIDGET = Symbol("TYPE_WIDGET");
+	static TYPE_AREA = Symbol("TYPE_AREA");
 
 	/**
 	 * The ID or type of this customizable component
@@ -15,7 +15,7 @@ export class BrowserCustomizableComponent {
 
 	/**
 	 * The type of this component
-	 * @type {number}
+	 * @type {symbol}
 	 */
 	type = null;
 
@@ -39,7 +39,7 @@ export class BrowserCustomizableComponent {
 	}
 
 	/**
-	 * @param {number} type
+	 * @param {symbol} type
 	 * @param {string} id
 	 * @param {({
 	 *      doc,

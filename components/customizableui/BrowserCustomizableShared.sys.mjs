@@ -20,17 +20,24 @@ export const BrowserCustomizableShared = {
 	customizableVersion: 1,
 
 	/**
-	 * The customizable state preference ID
+	 * The customizable preferences instance
 	 */
-	customizableStatePref: "dot.customizable.state",
+	customizablePrefs: Services.prefs.getBranch("dot.customizable."),
 
 	/**
 	 * The customizable state schema URI
 	 */
-	customizableStateSchemaURI:
-		"chrome://dot/content/customizableui/schemas/customizable_state.schema.json",
+	customizableSchemas: {
+		defs: "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json",
+		state: "chrome://dot/content/customizableui/schemas/customizable_state.schema.json",
+		custom_component:
+			"chrome://dot/content/customizableui/schemas/customizable_custom_component.schema.json"
+	},
 
-	customizableComponentKeyRegex: /^@[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$/,
+	/**
+	 * The regex used to validate component tag names
+	 */
+	customizableComponentTagRegex: /^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$/,
 
 	/**
 	 * The global customizable logger object

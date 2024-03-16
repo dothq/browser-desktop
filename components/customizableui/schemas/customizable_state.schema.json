@@ -7,99 +7,12 @@
         "version": {
             "type": "integer"
         },
-        "components": {
-            "$ref": "#/$defs/custom-components-object"
-        },
-        "templates": {
-            "type": "object",
-            "patternProperties": {
-                "^.*$": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/component"
-                        },
-                        {
-                            "$ref": "#/$defs/components-array"
-                        }
-                    ]
-                }
-            }
-        },
         "state": {
-            "$ref": "#/$defs/components-array"
+            "$ref": "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json#/$defs/components-array"
         }
     },
     "required": [
         "version",
         "state"
-    ],
-    "$defs": {
-        "component": {
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 3,
-            "items": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "object"
-                },
-                {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/components-object"
-                        },
-                        {
-                            "$ref": "#/$defs/components-array"
-                        }
-                    ]
-                }
-            ],
-            "additionalItems": false
-        },
-        "components-array": {
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/component"
-            }
-        },
-        "components-object": {
-            "type": "object",
-            "patternProperties": {
-                "^.*$": {
-                    "$ref": "#/$defs/components-array"
-                }
-            }
-        },
-        "custom-component": {
-            "type": "object",
-            "required": [
-                "name",
-                "extends"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "extends": {
-                    "type": "string"
-                },
-                "attributes": {
-                    "type": "object"
-                },
-                "children": {
-                    "$ref": "#/$defs/components-array"
-                }
-            }
-        },
-        "custom-components-object": {
-            "type": "object",
-            "patternProperties": {
-                "^.*$": {
-                    "$ref": "#/$defs/custom-component"
-                }
-            }
-        }
-    }
+    ]
 }

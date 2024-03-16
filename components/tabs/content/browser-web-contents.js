@@ -7,6 +7,15 @@ class BrowserWebContents extends BrowserCustomizableArea {
 		super();
 	}
 
+	/**
+	 * The allowed customizable attributes for the web contents
+	 */
+	static get customizableAttributes() {
+		return {
+			menu: "component"
+		};
+	}
+
 	get elements() {
 		return {
 			topLine: html("div", {
@@ -51,11 +60,11 @@ class BrowserWebContents extends BrowserCustomizableArea {
 
 	/**
 	 * Determines if a node can be appended to this element
-	 * @param {Node} node
-	 * @param {string} part
 	 */
-	canAppendChild(node, part) {
-		return node instanceof BrowserStatusPanel;
+	canAppendChild() {
+		return {
+			content: (node) => node instanceof BrowserStatusPanel
+		};
 	}
 
 	/**

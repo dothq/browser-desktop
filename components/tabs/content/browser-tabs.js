@@ -310,9 +310,14 @@ class BrowserTabsElement extends BrowserCustomizableArea {
 		}
 	}
 
-	canAppendChild(node, part) {
+	/**
+	 * Determines if a node can be appended to this element
+	 */
+	canAppendChild() {
 		// We want to prevent nodes being appended to anything but the tab part
-		return part === "tab";
+		return {
+			tab: () => true
+		};
 	}
 
 	_init() {

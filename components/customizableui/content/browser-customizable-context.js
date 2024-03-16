@@ -16,6 +16,8 @@ var { ActionsReceiver } = ChromeUtils.importESModule(
  */
 var BrowserCustomizableContextMixin = (Base) => {
 	const BrowserCustomizableContext = class extends Base {
+		CUSTOMIZABLE_AREA_IMPL = Symbol("CUSTOMIZABLE_AREA_IMPL");
+
 		/**
 		 * The actions receiver instance
 		 * @type {typeof ActionsReceiver.prototype}

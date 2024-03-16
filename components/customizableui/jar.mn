@@ -22,4 +22,4 @@ dot.jar:
 
     content/customizableui/components/                                       (components/*.*)
 
-    content/customizableui/schemas/customizable_state.schema.json            (schemas/customizable_state.schema.json)
+    content/customizableui/schemas/                                          (schemas/*.schema.json)

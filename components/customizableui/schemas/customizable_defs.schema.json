@@ -1,0 +1,54 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json",
+    "title": "Customizable Definitions",
+    "$defs": {
+        "components-array": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "file:///components-array.schema.json",
+            "title": "Customizable Components Array",
+            "type": "array",
+            "items": {
+                "$ref": "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json#/$defs/component"
+            }
+        },
+        "components-object": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "file:///components-object.schema.json",
+            "title": "Customizable Components Object",
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "$ref": "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json#/$defs/components-array"
+                }
+            }
+        },
+        "component": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "file:///component.schema.json",
+            "title": "Customizable Component",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "$ref": "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json#/$defs/components-object"
+                        },
+                        {
+                            "$ref": "chrome://dot/content/customizableui/schemas/customizable_defs.schema.json#/$defs/components-array"
+                        }
+                    ]
+                }
+            ],
+            "additionalItems": false
+        }
+    }
+}
