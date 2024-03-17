@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { BrowsingContext } from "./BrowsingContext";
 import { FrameLoader } from "./FrameLoader";
 import { JSWindowActorParent } from "./JSWindowActorParent";
 import { WindowGlobalChild } from "./WindowGlobalChild";
@@ -16,6 +17,8 @@ export interface WindowGlobalParentInstance {
 	readonly isInitialDocument: boolean;
 	readonly rootFrameLoader?: FrameLoader;
 	readonly childActor?: WindowGlobalChild;
+
+    readonly browsingContext: BrowsingContext;
 
 	/**
 	 * Checks for any WindowContexts with "beforeunload" listeners in this

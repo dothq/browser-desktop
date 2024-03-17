@@ -178,6 +178,22 @@ const JSWINDOWACTORS = {
 		messageManagerGroups: ["browsers"]
 	},
 
+	LinkStatus: {
+		parent: {
+			esModuleURI: "resource:///actors/DotLinkStatusParent.sys.mjs"
+		},
+
+		child: {
+			esModuleURI: "resource:///actors/DotLinkStatusChild.sys.mjs",
+			events: {
+				mousemove: { capture: true, mozSystemGroup: true },
+				mouseout: { capture: true, mozSystemGroup: true }
+			}
+		},
+
+		allFrames: true
+	},
+
 	PageInfo: {
 		child: {
 			esModuleURI: "resource:///actors/PageInfoChild.sys.mjs"

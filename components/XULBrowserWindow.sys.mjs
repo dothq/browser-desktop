@@ -21,11 +21,9 @@ export class XULBrowserWindow {
 
 	status = "";
 	defaultStatus = "";
-	overLink = "";
 	startTime = 0;
 	isBusy = false;
 	busyUI = false;
-	hideOverLinkImmediately = false;
 
 	_state = null;
 	_lastLocation = null;
@@ -35,8 +33,6 @@ export class XULBrowserWindow {
 	// error pages that intercept certain loads. For example this happens sometimes
 	// with the the HTTPS-Only Mode error page (more details in bug 1656027)
 	_isSecureContext = null;
-
-	_overlinkInt;
 
 	QueryInterface = ChromeUtils.generateQI([
 		"nsIWebProgressListener",
@@ -81,12 +77,7 @@ export class XULBrowserWindow {
 	 * @param {string} url
 	 */
 	setOverLink(url) {
-		clearTimeout(this._overlinkInt);
-
-		this._overlinkInt = setTimeout(() => {
-			console.log("todo: rewrite to use actor");
-			this.#win.gDot.status.setStatus("overLink", url);
-		}, 100);
+		// noop: Handled by LinkStatus actor
 	}
 
 	/**
