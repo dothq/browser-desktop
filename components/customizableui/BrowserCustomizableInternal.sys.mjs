@@ -341,7 +341,10 @@ BrowserCustomizableInternal.prototype = {
 
 					renderContainer.appendChild(childComponent);
 
-					this.dispatchMountEvent(childComponent);
+					this.dispatchEvent(
+						childComponent,
+						Shared.customizableDidMountEvent
+					);
 				} else {
 					throw new Error(
 						internalPart == "customizable"
@@ -495,11 +498,12 @@ BrowserCustomizableInternal.prototype = {
 	},
 
 	/**
-	 * Dispatches the customizable UI mount event to the element
+	 * Dispatches a customizable UI event to an element
 	 * @param {Element} component
+	 * @param {string} event
 	 */
-	dispatchMountEvent(component) {
-		const evt = new CustomEvent("CustomizableUI::DidMount");
+	dispatchEvent(component, event) {
+		const evt = new CustomEvent(`CustomizableUI::${event}`);
 
 		component.dispatchEvent(evt);
 	},

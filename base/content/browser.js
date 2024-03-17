@@ -69,9 +69,25 @@ class BrowserApplication extends BrowserCustomizableArea {
 		this.toolbarMutationObserver = new MutationObserver(
 			this.maybePromoteToolbars.bind(this)
 		);
+
+		this.ready = false;
 	}
 
-	_done = false;
+	_done = null;
+
+	/**
+	 * Determines if the browser is ready to be visible
+	 */
+	get ready() {
+		return this._done;
+	}
+
+	set ready(newReady) {
+		window.docShell.treeOwner.QueryInterface(Ci.nsIBaseWindow).visibility =
+			newReady;
+
+		this._done = newReady;
+	}
 
 	/** @type {typeof BrowserCustomizable.prototype} */
 	customizable = null;
@@ -195,6 +211,8 @@ class BrowserApplication extends BrowserCustomizableArea {
 	 */
 	didMount() {
 		this.maybePromoteToolbars();
+
+		this.ready = true;
 	}
 
 	/**
@@ -231,12 +249,11 @@ class BrowserApplication extends BrowserCustomizableArea {
 	 * Initialises the browser and its components
 	 */
 	init() {
-		if (this._done) {
+		if (this.ready) {
 			throw new Error("Browser cannot be initialized twice!");
 		}
 
 		this.storage = new BrowserStorage(window);
-		this.customizable = new BrowserCustomizable(this);
 		this.tabs = new BrowserTabs(window);
 		this.search = new BrowserSearch(window);
 		this.shortcuts = new BrowserShortcuts();
@@ -258,7 +275,7 @@ class BrowserApplication extends BrowserCustomizableArea {
 				);
 			});
 
-		this._done = true;
+		this.customizable = new BrowserCustomizable(this);
 	}
 }
 

@@ -155,9 +155,17 @@ BrowserCustomizable.prototype = {
 					"\n" +
 					e.stack || ""
 			);
+		} finally {
+			this.internal.dispatchEvent(
+				this.renderRoot,
+				Shared.customizablePaintEvent
+			);
 		}
 
-		this.internal.dispatchMountEvent(this.renderRoot);
+		this.internal.dispatchEvent(
+			this.renderRoot,
+			Shared.customizableDidMountEvent
+		);
 	},
 
 	/**
@@ -206,6 +214,7 @@ BrowserCustomizable.prototype = {
 			throw new Error(
 				"BrowserCustomizable cannot be initialised more than once!"
 			);
+
 		this.renderRoot = renderRoot;
 		this.win = this.renderRoot.ownerGlobal;
 

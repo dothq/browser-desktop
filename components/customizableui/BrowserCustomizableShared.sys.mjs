@@ -40,6 +40,16 @@ export const BrowserCustomizableShared = {
 	customizableComponentTagRegex: /^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$/,
 
 	/**
+	 * The customizable UI did mount event type
+	 */
+	customizableDidMountEvent: "DidMount",
+
+	/**
+	 * The customizable UI paint event type
+	 */
+	customizablePaintEvent: "Paint",
+
+	/**
 	 * The global customizable logger object
 	 * @type {Console}
 	 */
