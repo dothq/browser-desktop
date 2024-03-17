@@ -150,6 +150,31 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	}
 
 	/**
+	 * The computed mode state of the browser button
+	 *
+	 * Sometimes the mode will differ from what is
+	 * actually used by the button:
+	 *
+	 * An example of this happening is if the area requests
+	 * the "icons" mode for all buttons, and a button has
+	 * explicitly specified "text" mode.
+	 */
+	get computedMode() {
+		const iconVisible = this.elements.icon.checkVisibility();
+		const labelVisible = this.elements.label.checkVisibility();
+
+		if (iconVisible && !labelVisible) {
+			return "icons";
+		}
+
+		if (labelVisible && !iconVisible) {
+			return "text";
+		}
+
+		return "icons_text";
+	}
+
+	/**
 	 * The checked/toggled state of the browser button
 	 */
 	get checked() {
@@ -177,6 +202,32 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 		this.setAttribute("accelerator", newAccelerator);
 
 		this._updateTooltipText();
+	}
+
+	/**
+	 * Determines whether we should show the tooltip
+	 * depending on the conditions of the button.
+	 */
+	get shouldShowTooltip() {
+		const mode = this.computedMode;
+		const tooltipText = this.getTooltipText();
+
+		// Always show the tooltip under the icons mode,
+		// as the label is never shown to the user.
+		if (mode == "icons") {
+			return true;
+		}
+
+		// If the label text is overflowing on-screen,
+		// make sure we always show the tooltip.
+		if (this.elements.label.offsetWidth < this.elements.label.scrollWidth) {
+			return true;
+		}
+
+		// If the label is the same as the tooltip text,
+		// skip showing it, as we already have all the
+		// information already available on-screen.
+		return this.label !== tooltipText;
 	}
 
 	/**
@@ -224,6 +275,10 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 			"--button-physical-height",
 			+height.toFixed(2) + "px"
 		);
+
+		// Recompute the tooltip text as important
+		// attributes may have changed
+		this._updateTooltipText();
 	}
 
 	/**
@@ -244,6 +299,7 @@ class BrowserButton extends BrowserContextualMixin(HTMLButtonElement) {
 	 * Updates the button's tooltip text
 	 */
 	_updateTooltipText() {
+		this.elements.tooltip.hidden = !this.shouldShowTooltip;
 		this.elements.tooltip.label = this.getTooltipText();
 	}
 
