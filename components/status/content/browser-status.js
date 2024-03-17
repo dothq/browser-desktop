@@ -53,13 +53,17 @@ class BrowserStatusPanel extends BrowserContextualMixin(MozHTMLElement) {
 	 * Obtains the current status value
 	 */
 	getStatus() {
+		// Check if we have a contextual tab or browser
+		// before computing the status text.
+		if (!this.hostContext.tab || !this.hostContext.browser) return;
+
 		for (const statusType of this.STATUS_HIERARCHY) {
 			// Special case for busy statuses:
 			// Ensure the document is actually loading,
 			// otherwise we just skip it.
 			if (
 				statusType == "busy" &&
-				!this.hostContext.browser.webProgress.isLoadingDocument
+				!this.hostContext.browser.webProgress?.isLoadingDocument
 			) {
 				continue;
 			}

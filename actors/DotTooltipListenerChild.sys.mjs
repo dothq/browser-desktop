@@ -351,7 +351,7 @@ export class DotTooltipListenerChild extends JSWindowActorChild {
 		// Check if we're in an active chrome window
 		if (
 			!doc ||
-			doc.ownerGlobal.browsingContext.isContent ||
+			doc?.ownerGlobal.browsingContext.isContent ||
 			Services.focus.focusedWindow != win.top
 		) {
 			return;
