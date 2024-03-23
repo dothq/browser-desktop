@@ -1,4 +1,4 @@
 # This list contains all the users that will be assigned to the "merge day" pull request in dothq/gecko-dev
 # When prefixed with !!!, it promotes the user to a pull request reviewer.
 
-!!!EnderDev
+!!!kierandrewett
